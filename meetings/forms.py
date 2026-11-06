@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries
+from django.contrib.auth import get_user_model
+from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment
 
 class UsernameLoginForm(AuthenticationForm):
     username = forms.CharField(label="Benutzername", max_length=150)
@@ -9,11 +10,26 @@ class UsernameLoginForm(AuthenticationForm):
 class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
-        fields = ["title", "description", "due_date", "status", "series"]
+        fields = ["title", "description", "due_date", "status", "series", "assigned_to"]
         widgets = {
             "due_date": forms.DateInput(attrs={"type": "date"}),
             "description": forms.Textarea(attrs={"rows": 5}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        User = get_user_model()
+        self.fields["assigned_to"].queryset = User.objects.filter(is_active=True).order_by("username")
+        self.fields["assigned_to"].required = False
+        self.fields["assigned_to"].empty_label = "Nicht zugewiesen"
+
+
+class TopicCommentForm(forms.ModelForm):
+    class Meta:
+        model = TopicComment
+        fields = ["body"]
+        widgets = {"body": forms.Textarea(attrs={"rows": 3, "placeholder": "Kommentar oder nächste Schritte …"})}
+
 
 class AgendaTextForm(forms.ModelForm):
     class Meta:
