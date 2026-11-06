@@ -176,3 +176,46 @@ class MyTasksViewTests(TestCase):
         response = self.client.get(reverse("my_tasks"))
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response.url)
+
+
+class DashboardTopicFilterTests(TestCase):
+    def setUp(self):
+        from datetime import timedelta
+        from django.utils import timezone
+
+        self.user = User.objects.create_user(username="filter-user", password="strong-test-password")
+        self.other_user = User.objects.create_user(username="other-filter-user", password="strong-test-password")
+        self.series_a = MeetingSeries.objects.create(name="Betrieb")
+        self.series_b = MeetingSeries.objects.create(name="Personal")
+        today = timezone.localdate()
+        self.topic = Topic.objects.create(
+            title="Serverwartung", description="Festplatten prüfen", series=self.series_a,
+            assigned_to=self.user, due_date=today + timedelta(days=2),
+        )
+        Topic.objects.create(title="Urlaubsplanung", series=self.series_b, assigned_to=self.other_user)
+        Topic.objects.create(title="Nicht zugewiesen", series=self.series_a)
+
+    def test_search_matches_title_description_series_and_assignee(self):
+        self.client.force_login(self.user)
+        for term in ["Serverwartung", "Festplatten", "Betrieb", "filter-user"]:
+            response = self.client.get(reverse("dashboard"), {"q": term})
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Serverwartung")
+            self.assertEqual(list(response.context["topics"]), [self.topic])
+
+    def test_filters_can_be_combined(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("dashboard"), {
+            "status": "open", "series": self.series_a.pk,
+            "assigned_to": self.user.pk, "due": "future",
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["topics"]), [self.topic])
+
+    def test_status_and_unassigned_filters(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("dashboard"), {"status": "all", "assigned_to": "unassigned"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["topics"]), [
+            Topic.objects.get(title="Nicht zugewiesen")
+        ])

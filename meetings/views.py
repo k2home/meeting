@@ -1,8 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Q
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -31,6 +31,9 @@ def logout_view(request):
     logout(request)
     return redirect("login")
 
+UserModel = get_user_model()
+
+
 def admin_only(user):
     return user.is_authenticated and user.is_staff
 
@@ -38,10 +41,54 @@ def admin_only(user):
 def dashboard(request):
     today = timezone.localdate()
     meetings = Meeting.objects.filter(date__gte=today).select_related("series").order_by("date")[:20]
-    topics = Topic.objects.filter(status="open").select_related("series")
-    overdue_count = topics.filter(due_date__lt=today).count()
+    topics = Topic.objects.select_related("series", "assigned_to")
+    query = request.GET.get("q", "").strip()
+    selected_status = request.GET.get("status", "open")
+    selected_series = request.GET.get("series", "")
+    selected_assignee = request.GET.get("assigned_to", "")
+    selected_due = request.GET.get("due", "")
+
+    if selected_status in {"open", "done", "archived"}:
+        topics = topics.filter(status=selected_status)
+    elif selected_status != "all":
+        selected_status = "open"
+
+    if query:
+        topics = topics.filter(
+            Q(title__icontains=query)
+            | Q(description__icontains=query)
+            | Q(series__name__icontains=query)
+            | Q(assigned_to__username__icontains=query)
+            | Q(assigned_to__first_name__icontains=query)
+            | Q(assigned_to__last_name__icontains=query)
+        )
+    if selected_series.isdigit():
+        topics = topics.filter(series_id=int(selected_series))
+    else:
+        selected_series = ""
+    if selected_assignee == "unassigned":
+        topics = topics.filter(assigned_to__isnull=True)
+    elif selected_assignee.isdigit():
+        topics = topics.filter(assigned_to_id=int(selected_assignee))
+    else:
+        selected_assignee = ""
+    if selected_due == "overdue":
+        topics = topics.filter(due_date__lt=today, status="open")
+    elif selected_due == "today":
+        topics = topics.filter(due_date=today)
+    elif selected_due == "without_date":
+        topics = topics.filter(due_date__isnull=True)
+    elif selected_due == "future":
+        topics = topics.filter(due_date__gt=today)
+
+    overdue_count = Topic.objects.filter(status="open", due_date__lt=today).count()
     return render(request, "meetings/dashboard.html", {
         "meetings": meetings, "topics": topics, "overdue_count": overdue_count, "today": today,
+        "query": query, "selected_status": selected_status, "selected_series": selected_series,
+        "selected_assignee": selected_assignee, "selected_due": selected_due,
+        "series_options": MeetingSeries.objects.order_by("name"),
+        "assignee_options": UserModel.objects.filter(is_active=True).order_by("username"),
+        "result_count": topics.count(),
     })
 
 @login_required
