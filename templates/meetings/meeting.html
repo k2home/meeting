@@ -1,6 +1,6 @@
 {% extends "meetings/base.html" %}
 {% block content %}
-<h1>{{ meeting.series.name }} – {{ meeting.date|date:"d.m.Y" }}</h1>
+<h1>{{ meeting.series.name|default:'Gelöschte Besprechungsreihe' }} – {{ meeting.date|date:"d.m.Y" }}</h1>
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 <section class="card">
   <div class="topline">
