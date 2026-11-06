@@ -520,7 +520,7 @@ class MeetingSeriesManagementTests(TestCase):
         self.meeting.save(update_fields=["finalized_at"])
         response = self.client.post(
             reverse("meeting_edit", args=[self.meeting.pk]),
-            {"date": (self.today + timezone.timedelta(days=30)).isoformat()},
+            {"date": (self.today + timedelta(days=30)).isoformat()},
         )
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         self.client.post(reverse("meeting_delete", args=[self.meeting.pk]))
