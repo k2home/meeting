@@ -1,0 +1,12 @@
+{% extends "meetings/base.html" %}
+{% block title %}{{ heading }} – Meeting Manager{% endblock %}
+{% block content %}
+<div class="topline"><h1>{{ heading }}</h1><a class="btn secondary" href="{% url 'user_list' %}">Zurück zur Benutzerliste</a></div>
+<section class="card">
+<form method="post">{% csrf_token %}
+{{ form.as_p }}
+<div class="actions"><button type="submit">Speichern</button><a class="btn secondary" href="{% url 'user_list' %}">Abbrechen</a></div>
+</form>
+</section>
+{% if target %}<p class="muted">Das Passwort wird separat über „Passwort setzen“ geändert.</p>{% endif %}
+{% endblock %}
