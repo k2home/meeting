@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 if [[ "$EUID" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo bash deploy/install-debian.sh"
   exit 1
 fi
-
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_DIR="/opt/meeting-manager"
 DB_NAME="meeting_manager"
@@ -15,7 +13,7 @@ echo "==> Installiere Systempakete"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3 python3-venv python3-dev build-essential libpq-dev \
-  postgresql postgresql-contrib git
+  postgresql postgresql-contrib nginx git openssl
 
 echo "==> Richte Dienstkonto und Verzeichnisse ein"
 if ! id meetingapp >/dev/null 2>&1; then
@@ -44,7 +42,7 @@ runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install --upgrade pip
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt"
 
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist (z.B. 192.168.1.50): " SITE_HOST
-SITE_HOST="${SITE_HOST:-localhost,127.0.0.1}"
+SITE_HOST="${SITE_HOST:-localhost}"
 SECRET_KEY="$(openssl rand -hex 48)"
 umask 077
 cat > /etc/meeting-manager.env <<EOF
@@ -64,16 +62,22 @@ echo "==> Erzeuge Datenbanktabellen und statische Dateien"
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --run-syncdb --noinput
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
 
-echo "==> Installiere systemd-Dienst"
+echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
+install -m 0644 "$APP_DIR/deploy/nginx-meeting-manager.conf" /etc/nginx/sites-available/meeting-manager
+ln -sfn /etc/nginx/sites-available/meeting-manager /etc/nginx/sites-enabled/meeting-manager
+rm -f /etc/nginx/sites-enabled/default
+nginx -t
 systemctl daemon-reload
 systemctl enable --now meeting-manager
+systemctl enable --now nginx
+systemctl reload nginx
 
 echo
 echo "Installation abgeschlossen."
-echo "Status: systemctl status meeting-manager"
-echo "Logs:   journalctl -u meeting-manager -f"
-echo "Admin:  sudo -u meetingapp $APP_DIR/.venv/bin/python $APP_DIR/manage.py createsuperuser"
-echo "URL:    http://$SITE_HOST:8000"
+echo "Website: http://$SITE_HOST/"
+echo "Status:  systemctl status meeting-manager"
+echo "Logs:    journalctl -u meeting-manager -f"
+echo "Admin:   sudo -u meetingapp $APP_DIR/.venv/bin/python $APP_DIR/manage.py createsuperuser"
 echo
-echo "WICHTIG: Port 8000 nur im internen LAN freigeben. Benutzername-ohne-Passwort-Login ist nicht sicher."
+echo "WICHTIG: HTTP nur im internen LAN freigeben. Benutzername-ohne-Passwort-Login ist nicht sicher."
