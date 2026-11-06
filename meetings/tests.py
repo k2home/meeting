@@ -440,3 +440,89 @@ class DashboardUpcomingMeetingsTests(TestCase):
         response = self.client.get(reverse("dashboard"))
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response.url)
+
+
+class MeetingSeriesManagementTests(TestCase):
+    def setUp(self):
+        from datetime import timedelta
+        from django.utils import timezone
+
+        self.admin = User.objects.create_user(
+            username="series-admin", password="strong-test-password", is_staff=True
+        )
+        self.client.force_login(self.admin)
+        self.today = timezone.localdate()
+        self.series = MeetingSeries.objects.create(
+            name="Planungsreihe", recurrence="weekly", weekday=0,
+            start_date=self.today,
+        )
+        self.meeting = Meeting.objects.create(
+            series=self.series, date=self.today + timedelta(days=14)
+        )
+
+    def series_payload(self, **overrides):
+        data = {
+            "name": self.series.name,
+            "description": self.series.description,
+            "active": "on",
+            "recurrence": self.series.recurrence,
+            "weekday": "2",
+            "start_date": self.series.start_date.isoformat(),
+            "end_date": "",
+        }
+        data.update(overrides)
+        return data
+
+    def test_changing_series_weekday_moves_future_unfinalized_meetings(self):
+        from datetime import timedelta
+
+        response = self.client.post(
+            reverse("series_edit", args=[self.series.pk]), self.series_payload()
+        )
+        self.assertRedirects(response, reverse("series_admin"))
+        self.meeting.refresh_from_db()
+        self.series.refresh_from_db()
+        self.assertEqual(self.meeting.date, self.today + timedelta(days=16))
+        self.assertEqual(self.series.weekday, 2)
+
+    def test_individual_meeting_can_be_moved_without_moving_other_dates(self):
+        from datetime import timedelta
+
+        other = Meeting.objects.create(
+            series=self.series, date=self.today + timedelta(days=21)
+        )
+        new_date = self.today + timedelta(days=18)
+        response = self.client.post(
+            reverse("meeting_edit", args=[self.meeting.pk]),
+            {"date": new_date.isoformat()},
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.meeting.refresh_from_db()
+        other.refresh_from_db()
+        self.assertEqual(self.meeting.date, new_date)
+        self.assertEqual(other.date, self.today + timedelta(days=21))
+
+    def test_individual_meeting_delete_keeps_series(self):
+        response = self.client.post(reverse("meeting_delete", args=[self.meeting.pk]))
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
+        self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+
+    def test_series_delete_is_blocked_while_meetings_exist(self):
+        response = self.client.post(reverse("series_delete", args=[self.series.pk]))
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+
+    def test_finalized_meeting_cannot_be_moved_or_deleted(self):
+        from django.utils import timezone
+
+        self.meeting.finalized_at = timezone.now()
+        self.meeting.save(update_fields=["finalized_at"])
+        response = self.client.post(
+            reverse("meeting_edit", args=[self.meeting.pk]),
+            {"date": (self.today + timezone.timedelta(days=30)).isoformat()},
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.client.post(reverse("meeting_delete", args=[self.meeting.pk]))
+        self.assertTrue(Meeting.objects.filter(pk=self.meeting.pk).exists())
+
