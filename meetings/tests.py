@@ -513,6 +513,29 @@ class MeetingSeriesManagementTests(TestCase):
         self.assertRedirects(response, reverse("series_admin"))
         self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
 
+    def test_next_meeting_can_be_deleted_from_series_overview(self):
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Termin löschen")
+
+        response = self.client.post(reverse("meeting_delete", args=[self.meeting.pk]))
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
+        self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+
+    def test_empty_series_can_be_deleted(self):
+        self.meeting.delete()
+        response = self.client.post(reverse("series_delete", args=[self.series.pk]))
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertFalse(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+
+    def test_non_admin_cannot_manage_series(self):
+        member = User.objects.create_user(username="series-member", password="strong-test-password")
+        self.client.force_login(member)
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+
     def test_series_overview_shows_next_appointment_and_collapses_the_rest(self):
         from datetime import timedelta
 
