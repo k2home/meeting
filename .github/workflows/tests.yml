@@ -6,6 +6,7 @@ on:
       - main
       - feature/native-linux-deployment
       - feature/usability-and-core-workflows
+      - chat
   pull_request:
 
 jobs:

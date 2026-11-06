@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 
@@ -107,6 +107,35 @@ def my_tasks(request):
         "due_today_count": topics.filter(due_date=today).count(),
         "without_due_date_count": topics.filter(due_date__isnull=True).count(),
     })
+
+
+@login_required
+def agenda_reorder(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    meeting = get_object_or_404(Meeting, pk=pk)
+    if meeting.finalized_at:
+        messages.error(request, "Die Tagesordnung einer abgeschlossenen Besprechung kann nicht mehr geändert werden.")
+        return redirect("meeting", pk=pk)
+    current_ids = list(meeting.agenda_items.order_by("position", "id").values_list("id", flat=True))
+    submitted_ids = request.POST.getlist("item_ids")
+    try:
+        ordered_ids = [int(value) for value in submitted_ids]
+    except (TypeError, ValueError):
+        ordered_ids = []
+    if len(ordered_ids) != len(current_ids) or set(ordered_ids) != set(current_ids):
+        messages.error(request, "Die Reihenfolge konnte nicht gespeichert werden. Bitte Seite neu laden.")
+        return redirect("meeting", pk=pk)
+    items_by_id = {item.pk: item for item in AgendaItem.objects.filter(meeting=meeting, pk__in=ordered_ids)}
+    ordered_items = []
+    for position, item_id in enumerate(ordered_ids):
+        item = items_by_id[item_id]
+        item.position = position
+        ordered_items.append(item)
+    with transaction.atomic():
+        AgendaItem.objects.bulk_update(ordered_items, ["position"])
+    messages.success(request, "Reihenfolge der Tagesordnung gespeichert.")
+    return redirect("meeting", pk=pk)
 
 
 @login_required

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from .models import MeetingSeries, Topic, TopicTransferHistory
+from .models import Meeting, MeetingSeries, Topic, TopicTransferHistory, AgendaItem
 
 User = get_user_model()
 
@@ -201,7 +201,12 @@ class DashboardTopicFilterTests(TestCase):
             response = self.client.get(reverse("dashboard"), {"q": term})
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Serverwartung")
-            self.assertEqual(list(response.context["topics"]), [self.topic])
+            expected = [self.topic]
+            if term == "Betrieb":
+                expected.append(Topic.objects.get(title="Nicht zugewiesen"))
+            elif term == "filter-user":
+                expected.append(Topic.objects.get(title="Urlaubsplanung"))
+            self.assertEqual(list(response.context["topics"]), expected)
 
     def test_filters_can_be_combined(self):
         self.client.force_login(self.user)
@@ -219,3 +224,51 @@ class DashboardTopicFilterTests(TestCase):
         self.assertEqual(list(response.context["topics"]), [
             Topic.objects.get(title="Nicht zugewiesen")
         ])
+
+
+
+class AgendaReorderingTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="agenda-user", password="strong-test-password")
+        self.client.force_login(self.user)
+        self.series = MeetingSeries.objects.create(name="Agenda-Reihe")
+        self.meeting = Meeting.objects.create(series=self.series, date="2026-11-10")
+        self.first_topic = Topic.objects.create(title="Erster Punkt", series=self.series)
+        self.second_topic = Topic.objects.create(title="Zweiter Punkt", series=self.series)
+        self.third_topic = Topic.objects.create(title="Dritter Punkt", series=self.series)
+        self.first = AgendaItem.objects.create(meeting=self.meeting, topic=self.first_topic, position=0)
+        self.second = AgendaItem.objects.create(meeting=self.meeting, topic=self.second_topic, position=1)
+        self.third = AgendaItem.objects.create(meeting=self.meeting, topic=self.third_topic, position=2)
+
+    def test_user_can_reorder_agenda_items(self):
+        response = self.client.post(reverse("agenda_reorder", args=[self.meeting.pk]), {
+            "item_ids": [self.third.pk, self.first.pk, self.second.pk],
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(
+            list(self.meeting.agenda_items.values_list("id", flat=True)),
+            [self.third.pk, self.first.pk, self.second.pk],
+        )
+
+    def test_reorder_rejects_missing_agenda_items(self):
+        response = self.client.post(reverse("agenda_reorder", args=[self.meeting.pk]), {
+            "item_ids": [self.first.pk, self.second.pk],
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(
+            list(self.meeting.agenda_items.values_list("id", flat=True)),
+            [self.first.pk, self.second.pk, self.third.pk],
+        )
+
+    def test_finalized_meeting_cannot_be_reordered(self):
+        from django.utils import timezone
+        self.meeting.finalized_at = timezone.now()
+        self.meeting.save(update_fields=["finalized_at"])
+        response = self.client.post(reverse("agenda_reorder", args=[self.meeting.pk]), {
+            "item_ids": [self.third.pk, self.second.pk, self.first.pk],
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(
+            list(self.meeting.agenda_items.values_list("id", flat=True)),
+            [self.first.pk, self.second.pk, self.third.pk],
+        )
