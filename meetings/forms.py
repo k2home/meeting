@@ -64,3 +64,10 @@ class MeetingParticipantsForm(forms.ModelForm):
         self.fields["participants"].queryset = User.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
         self.fields["participants"].required = False
         self.fields["participants"].label = "Teilnehmer auswählen"
+
+
+class MeetingDateForm(forms.ModelForm):
+    class Meta:
+        model = Meeting
+        fields = ["date"]
+        widgets = {"date": forms.DateInput(attrs={"type": "date"})}
