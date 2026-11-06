@@ -1,11 +1,16 @@
+from io import BytesIO
+from pathlib import Path
+from xml.sax.saxutils import escape
+
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
 from django.db.models import F, Q
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
@@ -286,6 +291,148 @@ def attachment_add(request, pk):
         messages.success(request, "Anlage hinzugefügt.")
         return redirect("topic_edit", pk=pk)
     return render(request, "meetings/attachment_form.html", {"form": form, "topic": topic})
+
+def _protocol_entries(meeting):
+    """Return the immutable snapshot for finalized meetings or the live draft."""
+    if meeting.finalized_at:
+        return [
+            {
+                "title": snapshot.topic_title,
+                "text": snapshot.text,
+                "status": dict(Topic.STATUS).get(snapshot.status, snapshot.status),
+            }
+            for snapshot in meeting.snapshots.all()
+        ]
+    return [
+        {
+            "title": item.topic.title,
+            "text": item.working_text,
+            "status": item.topic.get_status_display(),
+        }
+        for item in ensure_agenda(meeting)
+    ]
+
+
+def _protocol_filename(meeting, extension):
+    series = slugify(meeting.series.name) or "besprechung"
+    return f"protokoll-{series}-{meeting.date:%Y-%m-%d}.{extension}"
+
+
+@login_required
+def protocol_pdf(request, pk):
+    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    entries = _protocol_entries(meeting)
+
+    from reportlab.lib import colors
+    from reportlab.lib.enums import TA_CENTER
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import mm
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether
+
+    buffer = BytesIO()
+    document = SimpleDocTemplate(
+        buffer, pagesize=A4, rightMargin=20 * mm, leftMargin=20 * mm,
+        topMargin=20 * mm, bottomMargin=18 * mm,
+        title=f"Protokoll – {meeting.series.name}",
+        author="Meeting Manager",
+    )
+    styles = getSampleStyleSheet()
+    regular_font = "Helvetica"
+    bold_font = "Helvetica-Bold"
+    font_path = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
+    bold_path = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
+    if font_path.exists() and bold_path.exists():
+        if "MeetingDejaVu" not in pdfmetrics.getRegisteredFontNames():
+            pdfmetrics.registerFont(TTFont("MeetingDejaVu", str(font_path)))
+            pdfmetrics.registerFont(TTFont("MeetingDejaVu-Bold", str(bold_path)))
+        regular_font, bold_font = "MeetingDejaVu", "MeetingDejaVu-Bold"
+
+    styles.add(ParagraphStyle(
+        name="ProtocolTitle", parent=styles["Title"], fontName=bold_font,
+        alignment=TA_CENTER, fontSize=19, leading=24, spaceAfter=8 * mm,
+    ))
+    styles.add(ParagraphStyle(
+        name="ProtocolTopic", parent=styles["Heading2"], fontName=bold_font,
+        fontSize=12, leading=16, spaceBefore=5 * mm, spaceAfter=2 * mm,
+        keepWithNext=True,
+    ))
+    styles["Normal"].fontName = regular_font
+    styles["Normal"].leading = 14
+
+    story = [
+        Paragraph("Protokoll", styles["ProtocolTitle"]),
+        Paragraph(escape(meeting.series.name), styles["Heading2"]),
+        Paragraph(f"Datum: {meeting.date:%d.%m.%Y}", styles["Normal"]),
+        Paragraph(
+            "Gesicherter Stand" if meeting.finalized_at else "Entwurf – nicht abgeschlossen",
+            styles["Normal"],
+        ),
+        Spacer(1, 5 * mm),
+    ]
+    for entry in entries:
+        safe_text = escape(entry["text"] or "—").replace("\n", "<br/>")
+        story.append(KeepTogether([
+            Paragraph(escape(entry["title"]), styles["ProtocolTopic"]),
+            Paragraph(safe_text, styles["Normal"]),
+            Paragraph(f"<i>Status: {escape(entry['status'])}</i>", styles["Normal"]),
+        ]))
+    if not entries:
+        story.append(Paragraph("Keine Tagesordnungspunkte.", styles["Normal"]))
+
+    def add_page_number(canvas, doc):
+        canvas.saveState()
+        canvas.setFont(regular_font, 8)
+        canvas.setFillColor(colors.grey)
+        canvas.drawRightString(A4[0] - 20 * mm, 10 * mm, f"Seite {doc.page}")
+        canvas.restoreState()
+
+    document.build(story, onFirstPage=add_page_number, onLaterPages=add_page_number)
+    response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
+    return response
+
+
+@login_required
+def protocol_docx(request, pk):
+    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    entries = _protocol_entries(meeting)
+
+    from docx import Document
+    from docx.shared import Pt, RGBColor
+
+    document = Document()
+    document.core_properties.title = f"Protokoll – {meeting.series.name}"
+    document.core_properties.subject = f"Besprechung vom {meeting.date:%d.%m.%Y}"
+    document.add_heading("Protokoll", 0)
+    document.add_heading(meeting.series.name, level=1)
+    document.add_paragraph(f"Datum: {meeting.date:%d.%m.%Y}")
+    document.add_paragraph(
+        f"Gesicherter Stand: {meeting.finalized_at:%d.%m.%Y %H:%M}"
+        if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
+    )
+    for entry in entries:
+        document.add_heading(entry["title"], level=2)
+        document.add_paragraph(entry["text"] or "—")
+        status = document.add_paragraph()
+        run = status.add_run(f"Status: {entry['status']}")
+        run.italic = True
+        run.font.size = Pt(9)
+        run.font.color.rgb = RGBColor(100, 100, 100)
+    if not entries:
+        document.add_paragraph("Keine Tagesordnungspunkte.")
+
+    buffer = BytesIO()
+    document.save(buffer)
+    response = HttpResponse(
+        buffer.getvalue(),
+        content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    )
+    response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "docx")}"'
+    return response
+
 
 @login_required
 def protocol(request, pk):

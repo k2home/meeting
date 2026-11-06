@@ -272,3 +272,68 @@ class AgendaReorderingTests(TestCase):
             list(self.meeting.agenda_items.values_list("id", flat=True)),
             [self.first.pk, self.second.pk, self.third.pk],
         )
+
+
+class ProtocolExportTests(TestCase):
+    def setUp(self):
+        from .models import TopicSnapshot
+
+        self.user = User.objects.create_user(username="protocol-user", password="strong-test-password")
+        self.client.force_login(self.user)
+        self.series = MeetingSeries.objects.create(name="Team & Betrieb")
+        self.meeting = Meeting.objects.create(series=self.series, date="2026-11-06")
+        self.topic = Topic.objects.create(title="Serverwartung", series=self.series)
+        self.item = AgendaItem.objects.create(
+            meeting=self.meeting,
+            topic=self.topic,
+            working_text="Wartungsfenster abstimmen.\nRückmeldung vom Team einholen.",
+        )
+        self.TopicSnapshot = TopicSnapshot
+
+    def test_pdf_export_returns_pdf_attachment(self):
+        response = self.client.get(reverse("protocol_pdf", args=[self.meeting.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/pdf")
+        self.assertTrue(response.content.startswith(b"%PDF"))
+        self.assertIn("attachment;", response["Content-Disposition"])
+
+    def test_word_export_returns_docx_attachment(self):
+        response = self.client.get(reverse("protocol_docx", args=[self.meeting.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response["Content-Type"],
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+        self.assertTrue(response.content.startswith(b"PK"))
+        self.assertIn(".docx", response["Content-Disposition"])
+
+    def test_finalized_export_uses_immutable_snapshot(self):
+        from django.utils import timezone
+        import zipfile
+        from io import BytesIO
+
+        self.TopicSnapshot.objects.create(
+            meeting=self.meeting,
+            topic_title="Historischer Titel",
+            text="Gesicherter Protokolltext",
+            status="open",
+            topic_id=self.topic.pk,
+        )
+        self.meeting.finalized_at = timezone.now()
+        self.meeting.save(update_fields=["finalized_at"])
+        self.item.working_text = "Später geänderter Entwurf"
+        self.item.save(update_fields=["working_text"])
+
+        response = self.client.get(reverse("protocol_docx", args=[self.meeting.pk]))
+        with zipfile.ZipFile(BytesIO(response.content)) as archive:
+            document_xml = archive.read("word/document.xml").decode("utf-8")
+        self.assertIn("Historischer Titel", document_xml)
+        self.assertIn("Gesicherter Protokolltext", document_xml)
+        self.assertNotIn("Später geänderter Entwurf", document_xml)
+
+    def test_protocol_exports_require_login(self):
+        self.client.logout()
+        for route in ("protocol_pdf", "protocol_docx"):
+            response = self.client.get(reverse(route, args=[self.meeting.pk]))
+            self.assertEqual(response.status_code, 302)
+            self.assertIn(reverse("login"), response.url)

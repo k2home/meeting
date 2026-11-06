@@ -1,1 +1,33 @@
-{% extends "meetings/base.html" %}{% block content %}<div class="no-print"><button onclick="window.print()">Protokoll drucken</button> <a href="/meeting/{{meeting.id}}/">Zur Besprechung</a></div><h1>Protokoll</h1><p>{{meeting.series.name}} · {{meeting.date|date:"d.m.Y"}}</p>{% if meeting.finalized_at %}<p class="muted">Gesicherter Stand vom {{meeting.finalized_at|date:"d.m.Y H:i"}}</p>{% else %}<p class="muted">Entwurf – noch nicht abgeschlossen. Der endgültige Stand wird beim Abschluss unveränderlich gesichert.</p>{% endif %}{% for s in snapshots %}<article class="card"><h2>{{s.topic_title}}</h2><p>{{s.text|linebreaksbr}}</p><small>Status: {{s.status}}</small></article>{% empty %}{% for item in meeting.agenda_items.all %}<article class="card"><h2>{{item.topic.title}}</h2><p>{{item.working_text|linebreaksbr}}</p></article>{% empty %}<p>Keine Tagesordnungspunkte.</p>{% endfor %}{% endfor %}{% endblock %}
+{% extends "meetings/base.html" %}
+{% block content %}
+<div class="no-print actions">
+  <button onclick="window.print()">Protokoll drucken</button>
+  <a class="btn" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
+  <a class="btn secondary" href="{% url 'protocol_docx' meeting.id %}">Word herunterladen</a>
+  <a href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
+</div>
+<h1>Protokoll</h1>
+<p>{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</p>
+{% if meeting.finalized_at %}
+<p class="muted">Gesicherter Stand vom {{ meeting.finalized_at|date:"d.m.Y H:i" }}</p>
+{% else %}
+<p class="muted">Entwurf – noch nicht abgeschlossen. Der endgültige Stand wird beim Abschluss unveränderlich gesichert.</p>
+{% endif %}
+{% for s in snapshots %}
+<article class="card">
+  <h2>{{ s.topic_title }}</h2>
+  <p>{{ s.text|linebreaksbr }}</p>
+  <small>Status: {{ s.get_status_display|default:s.status }}</small>
+</article>
+{% empty %}
+  {% for item in meeting.agenda_items.all %}
+  <article class="card">
+    <h2>{{ item.topic.title }}</h2>
+    <p>{{ item.working_text|linebreaksbr }}</p>
+    <small>Status: {{ item.topic.get_status_display }}</small>
+  </article>
+  {% empty %}
+  <p>Keine Tagesordnungspunkte.</p>
+  {% endfor %}
+{% endfor %}
+{% endblock %}
