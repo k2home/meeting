@@ -204,6 +204,8 @@ class DashboardTopicFilterTests(TestCase):
             expected = [self.topic]
             if term == "Betrieb":
                 expected.append(Topic.objects.get(title="Nicht zugewiesen"))
+            elif term == "filter-user":
+                expected.append(Topic.objects.get(title="Urlaubsplanung"))
             self.assertEqual(list(response.context["topics"]), expected)
 
     def test_filters_can_be_combined(self):
