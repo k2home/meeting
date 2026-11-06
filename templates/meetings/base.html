@@ -14,7 +14,7 @@
 <a class="brand" href="/">Meeting Manager</a>
 {% if user.is_authenticated %}
 <a href="/">Übersicht</a><a href="/calendar/">Kalender</a><a href="/topics/new/">+ Thema</a><a href="/archive/">Archiv</a>
-{% if user.is_staff %}<a href="/admin/series/">Besprechungsreihen</a><a href="/django-admin/">Verwaltung</a>{% endif %}
+{% if user.is_staff %}<a href="/admin/series/">Besprechungsreihen</a><a href="/admin/users/">Benutzer</a><a href="/django-admin/">Django-Admin</a>{% endif %}
 <span style="margin-left:auto">{{ user.username }}</span>
 <form method="post" action="/logout/" style="margin:0">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
 {% endif %}
