@@ -67,6 +67,7 @@ sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 - Themen können archiviert und wieder geöffnet werden.
 - Themen können in eine andere Besprechungsreihe übertragen werden; die Übertragung wird mit Zeit, Benutzer und optionaler Notiz protokolliert.
 - Änderungsverlauf für Themen, Statuswechsel, Fälligkeiten, Anlagen, Agendatexte und abgeschlossene Besprechungen; Einträge zeigen Benutzer, Zeitpunkt und vorherige/neue Werte.
+- Themen können einer verantwortlichen Person zugewiesen werden. Kommentare und nächste Schritte werden chronologisch am Thema gesammelt und ebenfalls im Änderungsverlauf erfasst.
 - Der Änderungsverlauf ist für angemeldete Benutzer einsehbar, nach Thema filterbar und im Django-Admin schreibgeschützt.
 - Anmeldung mit Benutzername und Passwort; Benutzerkonten werden nicht mehr automatisch angelegt.
 
