@@ -54,11 +54,13 @@ def meeting_detail(request, pk):
             item = get_object_or_404(AgendaItem, pk=item_id, meeting=meeting)
             form = AgendaTextForm(request.POST, instance=item)
             if form.is_valid():
+                old_text = item.working_text
                 saved = form.save()
-                record_event(actor=request.user, action="agenda_edited",
-                    summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
-                    topic=item.topic, meeting=meeting,
-                    changes={"Text": {"vorher": item.working_text, "nachher": saved.working_text}})
+                if old_text != saved.working_text:
+                    record_event(actor=request.user, action="agenda_edited",
+                        summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                        topic=item.topic, meeting=meeting,
+                        changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
                 messages.success(request, "Agendatext gespeichert.")
         return redirect("meeting", pk=pk)
     return render(request, "meetings/meeting.html", {"meeting": meeting, "items": items})
