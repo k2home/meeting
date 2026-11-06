@@ -59,6 +59,7 @@ sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 ## Aktueller Funktionsumfang
 
 - Besprechungsreihen und automatische Terminserien (wöchentlich, 14-tägig, monatlich); Verwaltung nur für Staff/Admin.
+- Gemeinsamer Terminkalender für alle Nutzer; Administratoren können einzelne Termine hinzufügen, verschieben, löschen und zukünftige Serientermine ergänzen.
 - Themen mit Fälligkeitsdatum, Status und Zuordnung zu einer Reihe.
 - Fällige Themen werden beim Öffnen eines Meetings in die Tagesordnung übernommen; offene Themen aus dem letzten abgeschlossenen Meeting werden weitergeführt.
 - Tagesordnungstext kann pro Meeting bearbeitet werden.
