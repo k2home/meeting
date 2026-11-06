@@ -31,5 +31,16 @@
 <div class="card"><h2>Anlagen und Netzwerkpfade</h2><p><a class="btn" href="{% url 'attachment_add' topic.id %}">Anlage hinzufügen</a></p>
 {% for a in topic.attachments.all %}<p><strong>{{ a.label }}</strong> — {% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %} {{ a.network_path }}</p>{% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
 <p class="muted">Netzwerkfreigaben müssen auf dem Server eingebunden sein. Hier werden die für alle Benutzer gültigen Pfade hinterlegt.</p></div>
+<div class="card">
+  <div class="topline"><h2>Änderungsverlauf dieses Themas</h2><a href="{% url 'audit_history' %}?topic={{ topic.pk }}">Alle Einträge anzeigen</a></div>
+  {% for event in topic.audit_events.all|slice:":8" %}
+    <div style="padding:.65rem 0;border-bottom:1px solid #e5e7eb">
+      <strong>{{ event.get_action_display }}</strong> · {{ event.created_at|date:"d.m.Y H:i" }}
+      <p>{{ event.summary }}</p>
+      <small>Von {% if event.actor %}{{ event.actor.get_full_name|default:event.actor.username }}{% else %}System / gelöschtem Benutzer{% endif %}</small>
+      {% if event.changes %}<details><summary>Details</summary><pre style="white-space:pre-wrap;font:inherit">{{ event.changes }}</pre></details>{% endif %}
+    </div>
+  {% empty %}<p class="muted">Für dieses Thema gibt es noch keine protokollierten Änderungen.</p>{% endfor %}
+</div>
 {% endif %}
 {% endblock %}
