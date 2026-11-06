@@ -96,3 +96,32 @@ class TopicAttachment(models.Model):
 
     def __str__(self):
         return self.label
+
+
+class AuditEvent(models.Model):
+    """Unveränderlicher Eintrag für wichtige Änderungen in der Anwendung."""
+    ACTIONS = [
+        ("created", "Angelegt"),
+        ("updated", "Geändert"),
+        ("archived", "Archiviert"),
+        ("reopened", "Wieder geöffnet"),
+        ("transferred", "Übertragen"),
+        ("attachment_added", "Anlage hinzugefügt"),
+        ("agenda_edited", "Agendatext geändert"),
+        ("finalized", "Besprechung abgeschlossen"),
+    ]
+    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
+    meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="meeting_audit_events")
+    action = models.CharField("Aktion", max_length=24, choices=ACTIONS)
+    summary = models.CharField("Beschreibung", max_length=500)
+    changes = models.JSONField("Änderungen", default=dict, blank=True)
+    created_at = models.DateTimeField("Zeitpunkt", auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
+        verbose_name = "Änderungsverlauf"
+        verbose_name_plural = "Änderungsverläufe"
+
+    def __str__(self):
+        return f"{self.get_action_display()}: {self.summary}"
