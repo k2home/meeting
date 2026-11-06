@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
+from django.db.models import F
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -42,6 +43,24 @@ def dashboard(request):
     return render(request, "meetings/dashboard.html", {
         "meetings": meetings, "topics": topics, "overdue_count": overdue_count, "today": today,
     })
+
+@login_required
+def my_tasks(request):
+    """Show the signed-in user's open topics, with overdue work first."""
+    today = timezone.localdate()
+    topics = (
+        Topic.objects.filter(assigned_to=request.user, status="open")
+        .select_related("series")
+        .order_by(F("due_date").asc(nulls_last=True), "title")
+    )
+    return render(request, "meetings/my_tasks.html", {
+        "topics": topics,
+        "today": today,
+        "overdue_count": topics.filter(due_date__lt=today).count(),
+        "due_today_count": topics.filter(due_date=today).count(),
+        "without_due_date_count": topics.filter(due_date__isnull=True).count(),
+    })
+
 
 @login_required
 def meeting_detail(request, pk):
