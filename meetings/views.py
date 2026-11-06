@@ -6,7 +6,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import UsernameLoginForm, TopicForm, AgendaTextForm, AttachmentForm, SeriesForm
+from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
@@ -73,14 +73,17 @@ def topic_edit(request, pk):
         old_series = topic.series
         before = {"title": topic.title, "description": topic.description,
                   "due_date": topic.due_date.isoformat() if topic.due_date else None,
-                  "status": topic.status, "series": str(topic.series) if topic.series else None}
+                  "status": topic.status, "series": str(topic.series) if topic.series else None,
+                  "assigned_to": str(topic.assigned_to) if topic.assigned_to else None}
         updated_topic = form.save(commit=False)
         new_series = updated_topic.series
         after = {"title": updated_topic.title, "description": updated_topic.description,
                  "due_date": updated_topic.due_date.isoformat() if updated_topic.due_date else None,
-                 "status": updated_topic.status, "series": str(new_series) if new_series else None}
+                 "status": updated_topic.status, "series": str(new_series) if new_series else None,
+                 "assigned_to": str(updated_topic.assigned_to) if updated_topic.assigned_to else None}
         labels = {"title": "Titel", "description": "Beschreibung",
-                  "due_date": "Fälligkeitsdatum", "status": "Status", "series": "Besprechungsreihe"}
+                  "due_date": "Fälligkeitsdatum", "status": "Status", "series": "Besprechungsreihe",
+                  "assigned_to": "Verantwortlich"}
         changes = {
             labels[field]: {"vorher": before[field], "nachher": after[field]}
             for field in form.changed_data if field in labels
@@ -91,8 +94,11 @@ def topic_edit(request, pk):
                     transferred_by=request.user, note="Zuordnung im Themenformular geändert")
             updated_topic.save()
             if changes:
+                summary = (f"Zuständigkeit für „{updated_topic.title}“ geändert"
+                           if "assigned_to" in form.changed_data and len(form.changed_data) == 1
+                           else f"Thema „{updated_topic.title}“ geändert")
                 record_event(actor=request.user, action="updated",
-                    summary=f"Thema „{updated_topic.title}“ geändert", topic=updated_topic, changes=changes)
+                    summary=summary, topic=updated_topic, changes=changes)
         messages.success(request, "Thema gespeichert.")
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
@@ -227,3 +233,23 @@ def audit_history(request):
         "events": events[:250], "selected_topic": topic_id,
         "topics": Topic.objects.order_by("title"),
     })
+
+
+@login_required
+def topic_comment_add(request, pk):
+    topic = get_object_or_404(Topic, pk=pk)
+    if request.method != "POST":
+        return redirect("topic_edit", pk=pk)
+    form = TopicCommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.topic = topic
+        comment.author = request.user
+        comment.save()
+        record_event(actor=request.user, action="comment_added",
+            summary=f"Kommentar zu „{topic.title}“ hinzugefügt", topic=topic,
+            changes={"Kommentar": comment.body[:500]})
+        messages.success(request, "Kommentar hinzugefügt.")
+    else:
+        messages.error(request, "Bitte gib einen Kommentar ein (maximal 5.000 Zeichen).")
+    return redirect("topic_edit", pk=pk)
