@@ -557,7 +557,7 @@ def topic_comment_add(request, pk):
         messages.success(request, "Kommentar hinzugefügt.")
     else:
         messages.error(request, "Bitte gib einen Kommentar ein (maximal 5.000 Zeichen).")
-    return redirect("topic_edit", pk=pk)def series_edit(request, pk):
+    return redirect("topic_edit", pk=pk)\n\n\n@login_required\n@user_passes_test(admin_only)\ndef series_edit(request, pk):
     series = get_object_or_404(MeetingSeries, pk=pk)
     old_weekday = series.weekday
     form = SeriesForm(request.POST or None, instance=series)
