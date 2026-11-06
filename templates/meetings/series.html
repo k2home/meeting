@@ -12,7 +12,7 @@
       <div class="topline">
         <div>
           <h3>{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% endif %}</h3>
-          <p class="muted">{{ s.get_recurrence_display }} · {{ s.weekday_label }} · {{ s.meetings.count }} Termine</p>
+          <p class="muted">{{ s.get_recurrence_display }} · {{ s.weekday_label }} · {{ s.meeting_count }} Termine</p>
         </div>
         <div class="actions">
           <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Reihe bearbeiten</a>
@@ -21,25 +21,46 @@
           </form>
         </div>
       </div>
-      {% if s.meetings.all %}
-        <div style="overflow-x:auto">
-          <table><thead><tr><th>Einzeltermin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
-          {% for m in s.meetings.all %}
-            <tr>
-              <td>{{ m.date|date:"D, d.m.Y" }}</td>
-              <td>{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</td>
-              <td><div class="actions">
-                {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
-                {% if not m.finalized_at and not m.agenda_items.exists and not m.participants.exists %}
-                  <form method="post" action="{% url 'meeting_delete' m.pk %}" onsubmit="return confirm('Diesen einzelnen Termin wirklich löschen?');">
-                    {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
-                  </form>
-                {% endif %}
-              </div></td>
-            </tr>
-          {% empty %}<tr><td colspan="3" class="muted">Noch keine Termine erzeugt.</td></tr>{% endfor %}
-          </tbody></table>
+
+      {% if s.next_meeting %}
+        <div style="margin-top:.75rem;padding:.75rem;background:#f8fafc;border-radius:.5rem">
+          <strong>Nächster Termin:</strong> {{ s.next_meeting.date|date:"D, d.m.Y" }}
+          {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
+          <div class="actions" style="margin-top:.5rem">
+            <a class="btn secondary" href="{% url 'meeting' s.next_meeting.pk %}">Termin öffnen</a>
+            {% if not s.next_meeting.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>{% endif %}
+          </div>
         </div>
+      {% endif %}
+
+      {% if s.other_meetings %}
+        <details style="margin-top:.75rem">
+          <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">
+            Alle weiteren Termine anzeigen ({{ s.other_meetings|length }})
+          </summary>
+          <div style="overflow-x:auto;margin-top:.5rem">
+            <table><thead><tr><th>Einzeltermin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
+            {% for m in s.other_meetings %}
+              <tr>
+                <td>{{ m.date|date:"D, d.m.Y" }}</td>
+                <td>{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</td>
+                <td><div class="actions">
+                  <a class="btn secondary" href="{% url 'meeting' m.pk %}">Öffnen</a>
+                  {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
+                  {% if not m.finalized_at and not m.agenda_items.exists and not m.participants.exists %}
+                    <form method="post" action="{% url 'meeting_delete' m.pk %}" onsubmit="return confirm('Diesen einzelnen Termin wirklich löschen?');">
+                      {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
+                    </form>
+                  {% endif %}
+                </div></td>
+              </tr>
+            {% endfor %}
+            </tbody></table>
+          </div>
+        </details>
+      {% endif %}
+      {% if not s.next_meeting and not s.other_meetings %}
+        <p class="muted" style="margin-top:.75rem">Noch keine Termine vorhanden.</p>
       {% endif %}
     </section>
   {% empty %}<p class="muted">Noch keine Besprechungsreihen angelegt.</p>{% endfor %}

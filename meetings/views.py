@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
-from django.db.models import F, Q, Window
+from django.db.models import F, Q, Window, Prefetch
 from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
@@ -505,14 +505,34 @@ def protocol(request, pk):
 @login_required
 @user_passes_test(admin_only)
 def series_admin(request):
-    series = MeetingSeries.objects.all()
+    today = timezone.localdate()
+    series = MeetingSeries.objects.prefetch_related(
+        Prefetch(
+            "meetings",
+            queryset=Meeting.objects.order_by("date", "pk"),
+            to_attr="ordered_meetings",
+        )
+    ).order_by("name")
+    for item in series:
+        upcoming = next(
+            (meeting for meeting in item.ordered_meetings if meeting.date >= today),
+            None,
+        )
+        item.next_meeting = upcoming
+        item.other_meetings = [
+            meeting for meeting in item.ordered_meetings
+            if upcoming is None or meeting.pk != upcoming.pk
+        ]
+        item.meeting_count = len(item.ordered_meetings)
     form = SeriesForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         item = form.save()
         generate_meetings(item)
         messages.success(request, "Besprechungsreihe und Termine angelegt.")
         return redirect("series_admin")
-    return render(request, "meetings/series.html", {"series": series, "form": form})
+    return render(request, "meetings/series.html", {
+        "series": series, "form": form, "today": today,
+    })
 
 
 @login_required

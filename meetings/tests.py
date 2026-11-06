@@ -513,6 +513,31 @@ class MeetingSeriesManagementTests(TestCase):
         self.assertRedirects(response, reverse("series_admin"))
         self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
 
+    def test_series_overview_shows_next_appointment_and_collapses_the_rest(self):
+        from datetime import timedelta
+
+        next_date = self.today + timedelta(days=14)
+        later_date = self.today + timedelta(days=28)
+        later = Meeting.objects.create(series=self.series, date=later_date)
+
+        response = self.client.get(reverse("series_admin"))
+
+        self.assertEqual(response.status_code, 200)
+        series_in_context = response.context["series"][0]
+        self.assertEqual(series_in_context.next_meeting.pk, self.meeting.pk)
+        self.assertEqual([item.pk for item in series_in_context.other_meetings], [later.pk])
+        self.assertContains(response, "Nächster Termin:")
+        self.assertContains(response, "Alle weiteren Termine anzeigen (1)")
+        self.assertContains(response, "<details")
+        self.assertContains(response, next_date.strftime("%d.%m.%Y"))
+
+    def test_series_overview_shows_meeting_today_as_the_primary_appointment(self):
+        today_meeting = Meeting.objects.create(series=self.series, date=self.today)
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        series_in_context = response.context["series"][0]
+        self.assertEqual(series_in_context.next_meeting.pk, today_meeting.pk)
+
     def test_finalized_meeting_cannot_be_moved_or_deleted(self):
         from datetime import timedelta
         from django.utils import timezone
