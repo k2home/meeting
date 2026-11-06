@@ -1,0 +1,57 @@
+{% extends "meetings/base.html" %}
+{% block title %}Terminkalender · Meeting Manager{% endblock %}
+{% block content %}
+<div class="topline">
+  <div><p class="muted">Alle Besprechungsreihen</p><h1>Terminkalender</h1><p class="muted">Hier siehst du die nächsten geplanten Besprechungen. Terminänderungen sind Administratoren vorbehalten.</p></div>
+  {% if user.is_staff %}<a class="btn secondary" href="{% url 'series_admin' %}">Besprechungsreihen verwalten</a>{% endif %}
+</div>
+
+{% if user.is_staff %}
+<section class="card">
+  <h2>Einzelnen Termin hinzufügen</h2>
+  <p class="muted">Zum Beispiel für einen zusätzlichen Termin oder eine einmalige Verschiebung. Bestehende Termine bleiben unverändert.</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="create">
+    {{ form.as_p }}
+    <button>Termin hinzufügen</button>
+  </form>
+</section>
+<section class="card">
+  <h2>Termine automatisch ergänzen</h2>
+  <p class="muted">Erzeugt für die gewählte Reihe die nächsten 24 zukünftigen Termine. Bereits vorhandene Termine werden nicht doppelt angelegt.</p>
+  {% for s in series %}
+    <form method="post" class="actions" style="padding:.45rem 0;border-top:1px solid #e5e7eb">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="generate">
+      <input type="hidden" name="series" value="{{ s.id }}">
+      <strong style="flex:1">{{ s.name }}</strong>
+      <span class="muted">{{ s.get_recurrence_display }}</span>
+      <button class="secondary">Nächste Termine erzeugen</button>
+    </form>
+  {% empty %}<p class="muted">Lege zuerst eine Besprechungsreihe an.</p>{% endfor %}
+</section>
+{% endif %}
+
+<section class="card">
+  <div class="topline"><h2>Kommende Termine</h2><span class="pill">{{ meetings|length }} angezeigt</span></div>
+  {% if meetings %}
+  <div style="overflow-x:auto"><table>
+    <thead><tr><th>Datum</th><th>Besprechung</th><th>Status</th>{% if user.is_staff %}<th>Aktionen</th>{% endif %}</tr></thead>
+    <tbody>{% for m in meetings %}
+      <tr>
+        <td><strong>{{ m.date|date:"D, d.m.Y" }}</strong></td>
+        <td><a href="{% url 'meeting' m.id %}">{{ m.series.name }}</a>{% if m.title %}<br><span class="muted">{{ m.title }}</span>{% endif %}</td>
+        <td>{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</td>
+        {% if user.is_staff %}<td><div class="actions">
+          {% if not m.finalized_at %}
+            <a class="btn secondary" href="{% url 'meeting_date_edit' m.id %}">Bearbeiten</a>
+            <form method="post" action="{% url 'meeting_delete' m.id %}" onsubmit="return confirm('Diesen Termin wirklich löschen?');">{% csrf_token %}<button class="danger">Löschen</button></form>
+          {% else %}<a href="{% url 'protocol' m.id %}">Protokoll</a>{% endif %}
+        </div></td>{% endif %}
+      </tr>
+    {% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="muted">Noch keine zukünftigen Termine vorhanden.{% if user.is_staff %} Füge oben einen Termin hinzu oder erzeuge Termine aus einer Besprechungsreihe.{% endif %}</p>{% endif %}
+</section>
+{% endblock %}
