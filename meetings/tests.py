@@ -46,10 +46,10 @@ class TopicWorkflowTests(TestCase):
         self.assertEqual(history.note, "Zuständigkeit")
 
 
-from datetime import timedelta
+from datetime import date, timedelta
 from django.utils import timezone
 from .models import Meeting
-from .services import generate_meetings
+from .services import generate_meetings, _next_occurrence
 
 
 class MeetingCalendarTests(TestCase):
@@ -131,15 +131,8 @@ class MeetingCalendarTests(TestCase):
         )
 
     def test_monthly_generation_keeps_end_of_month_anchor(self):
-        series = MeetingSeries.objects.create(
-            name="Monatsreihe 31",
-            recurrence="monthly",
-            start_date=timezone.localdate().replace(day=31)
-            if timezone.localdate().day == 31
-            else timezone.localdate().replace(day=1) + timedelta(days=30),
-        )
-        created = generate_meetings(series, count=3)
-        self.assertEqual(len(created), 3)
-        self.assertEqual(created[0].date.day, series.start_date.day)
-        if created[0].date.month == 1:
-            self.assertEqual(created[1].date.day, 28 if not created[1].date.year % 4 else 28)
+        january = date(2027, 1, 31)
+        february = _next_occurrence(january, "monthly", monthly_day=31)
+        march = _next_occurrence(february, "monthly", monthly_day=31)
+        self.assertEqual(february, date(2027, 2, 28))
+        self.assertEqual(march, date(2027, 3, 31))
