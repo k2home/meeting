@@ -1,0 +1,7 @@
+{% extends "meetings/base.html" %}
+{% block content %}
+<div class="topline"><div><h1>Besprechungsreihe bearbeiten</h1><p class="muted">{{ series.name }}</p></div><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div>
+<div class="card">
+  <form method="post">{% csrf_token %}{{ form.as_p }}<p class="muted">Eine Änderung des Wochentags verschiebt alle noch nicht abgeschlossenen zukünftigen Termine entsprechend. Abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich unabhängig davon verschieben.</p><div class="actions"><button type="submit">Änderungen speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div></form>
+</div>
+{% endblock %}
