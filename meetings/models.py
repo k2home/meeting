@@ -16,6 +16,10 @@ class MeetingSeries(models.Model):
         verbose_name = "Besprechungsreihe"
         verbose_name_plural = "Besprechungsreihen"
 
+    @property
+    def weekday_label(self):
+        return ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"][self.weekday]
+
     def __str__(self):
         return self.name
 

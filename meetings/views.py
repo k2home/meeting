@@ -1,3 +1,4 @@
+from datetime import timedelta
 from io import BytesIO
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -13,7 +14,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm
+from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
@@ -512,6 +513,99 @@ def series_admin(request):
         messages.success(request, "Besprechungsreihe und Termine angelegt.")
         return redirect("series_admin")
     return render(request, "meetings/series.html", {"series": series, "form": form})
+
+
+@login_required
+@user_passes_test(admin_only)
+def series_edit(request, pk):
+    series = get_object_or_404(MeetingSeries, pk=pk)
+    old_weekday = series.weekday
+    form = SeriesForm(request.POST or None, instance=series)
+    if request.method == "POST" and form.is_valid():
+        weekday_delta = (form.cleaned_data["weekday"] - old_weekday) % 7
+        today = timezone.localdate()
+        future = list(Meeting.objects.filter(
+            series=series, date__gte=today, finalized_at__isnull=True
+        ).order_by("date", "pk")) if weekday_delta else []
+        target_dates = [meeting.date + timedelta(days=weekday_delta) for meeting in future]
+        future_ids = [meeting.pk for meeting in future]
+        conflicts = Meeting.objects.filter(series=series, date__in=target_dates).exclude(pk__in=future_ids)
+        if conflicts.exists():
+            form.add_error("weekday", "Die Verschiebung würde mit einem bereits abgeschlossenen oder anderweitig bestehenden Termin kollidieren.")
+        else:
+            with transaction.atomic():
+                updated = form.save()
+                if weekday_delta:
+                    for meeting in future:
+                        meeting.date = meeting.date + timedelta(days=36500)
+                        meeting.save(update_fields=["date"])
+                    for meeting in future:
+                        meeting.date = meeting.date - timedelta(days=36500 - weekday_delta)
+                        meeting.save(update_fields=["date"])
+                    if "start_date" not in form.changed_data:
+                        updated.start_date = updated.start_date + timedelta(days=weekday_delta)
+                        updated.save(update_fields=["start_date"])
+                generate_meetings(updated)
+            messages.success(request, "Besprechungsreihe gespeichert. Noch nicht abgeschlossene zukünftige Termine wurden auf den neuen Wochentag verschoben.")
+            return redirect("series_admin")
+    return render(request, "meetings/series_edit.html", {"form": form, "series": series})
+
+
+@login_required
+@user_passes_test(admin_only)
+def series_delete(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    series = get_object_or_404(MeetingSeries, pk=pk)
+    if series.meetings.exists() or series.topics.exists():
+        messages.error(request, "Die Reihe kann nicht gelöscht werden, solange Termine oder Themen zugeordnet sind. Du kannst sie stattdessen deaktivieren.")
+        return redirect("series_admin")
+    name = series.name
+    series.delete()
+    messages.success(request, f"Die leere Besprechungsreihe „{name}“ wurde gelöscht.")
+    return redirect("series_admin")
+
+
+@login_required
+@user_passes_test(admin_only)
+def meeting_edit(request, pk):
+    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    if meeting.finalized_at:
+        messages.error(request, "Abgeschlossene Besprechungen können nicht verschoben werden.")
+        return redirect("meeting", pk=pk)
+    form = MeetingDateForm(request.POST or None, instance=meeting)
+    if request.method == "POST" and form.is_valid():
+        old_date = meeting.date
+        updated = form.save(commit=False)
+        if Meeting.objects.filter(series=meeting.series, date=updated.date).exclude(pk=meeting.pk).exists():
+            form.add_error("date", "Für diese Besprechungsreihe gibt es an diesem Tag bereits einen Termin.")
+        else:
+            updated.save()
+            if old_date != updated.date:
+                record_event(
+                    actor=request.user, action="updated",
+                    summary=f"Termin von „{meeting.series.name}“ verschoben",
+                    meeting=updated,
+                    changes={"Datum": {"vorher": old_date.isoformat(), "nachher": updated.date.isoformat()}},
+                )
+            messages.success(request, "Einzelner Termin wurde verschoben. Der Rhythmus der Reihe bleibt unverändert.")
+            return redirect("meeting", pk=updated.pk)
+    return render(request, "meetings/meeting_date_form.html", {"form": form, "meeting": meeting})
+
+
+@login_required
+@user_passes_test(admin_only)
+def meeting_delete(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    if meeting.finalized_at or meeting.snapshots.exists() or meeting.agenda_items.exists() or meeting.participants.exists():
+        messages.error(request, "Dieser Termin kann nicht gelöscht werden, weil er abgeschlossen ist oder bereits Tagesordnungspunkte bzw. Teilnehmer enthält.")
+        return redirect("meeting", pk=pk)
+    meeting.delete()
+    messages.success(request, "Der einzelne Termin wurde gelöscht. Die Besprechungsreihe bleibt bestehen.")
+    return redirect("series_admin")
+
 
 @login_required
 @user_passes_test(admin_only)

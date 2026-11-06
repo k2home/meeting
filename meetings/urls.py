@@ -22,4 +22,8 @@ urlpatterns = [
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
     path("admin/series/", views.series_admin, name="series_admin"),
+    path("admin/series/<int:pk>/edit/", views.series_edit, name="series_edit"),
+    path("admin/series/<int:pk>/delete/", views.series_delete, name="series_delete"),
+    path("admin/meeting/<int:pk>/edit/", views.meeting_edit, name="meeting_edit"),
+    path("admin/meeting/<int:pk>/delete/", views.meeting_delete, name="meeting_delete"),
 ]

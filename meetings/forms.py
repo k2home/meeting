@@ -43,6 +43,12 @@ class AttachmentForm(forms.ModelForm):
         fields = ["label", "uploaded_file", "network_path"]
 
 class SeriesForm(forms.ModelForm):
+    weekday = forms.TypedChoiceField(
+        label="Wochentag", choices=[(0, "Montag"), (1, "Dienstag"), (2, "Mittwoch"),
+                                  (3, "Donnerstag"), (4, "Freitag"), (5, "Samstag"), (6, "Sonntag")],
+        coerce=int,
+    )
+
     class Meta:
         model = MeetingSeries
         fields = ["name", "description", "active", "recurrence", "weekday", "start_date", "end_date"]
@@ -64,3 +70,10 @@ class MeetingParticipantsForm(forms.ModelForm):
         self.fields["participants"].queryset = User.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
         self.fields["participants"].required = False
         self.fields["participants"].label = "Teilnehmer auswählen"
+
+
+class MeetingDateForm(forms.ModelForm):
+    class Meta:
+        model = Meeting
+        fields = ["date"]
+        widgets = {"date": forms.DateInput(attrs={"type": "date"})}

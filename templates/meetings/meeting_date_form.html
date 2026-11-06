@@ -1,0 +1,7 @@
+{% extends "meetings/base.html" %}
+{% block content %}
+<div class="topline"><div><h1>Einzeltermin verschieben</h1><p class="muted">{{ meeting.series.name }} · bisher {{ meeting.date|date:"d.m.Y" }}</p></div><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div>
+<div class="card">
+  <form method="post">{% csrf_token %}{{ form.as_p }}<p class="muted">Nur dieser Termin wird verschoben. Der Wiederholungsrhythmus und die übrigen Termine der Reihe bleiben unverändert.</p><div class="actions"><button type="submit">Neues Datum speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div></form>
+</div>
+{% endblock %}
