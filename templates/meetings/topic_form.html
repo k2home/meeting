@@ -1,7 +1,7 @@
 {% extends "meetings/base.html" %}
 {% block content %}
 <div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</p><h1>{% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
-<div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Änderungen speichern</button></form></div>
+<div class="card"><p class="muted">Lege hier fest, wer das Thema federführend bearbeitet. Die Zuständigkeit kann jederzeit geändert oder aufgehoben werden.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Änderungen speichern</button></form></div>
 {% if topic %}
 <div class="card">
 <h2>Weitere Aktionen</h2>
@@ -31,6 +31,22 @@
 <div class="card"><h2>Anlagen und Netzwerkpfade</h2><p><a class="btn" href="{% url 'attachment_add' topic.id %}">Anlage hinzufügen</a></p>
 {% for a in topic.attachments.all %}<p><strong>{{ a.label }}</strong> — {% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %} {{ a.network_path }}</p>{% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
 <p class="muted">Netzwerkfreigaben müssen auf dem Server eingebunden sein. Hier werden die für alle Benutzer gültigen Pfade hinterlegt.</p></div>
+<div class="card">
+  <div class="topline"><h2>Kommentare und nächste Schritte</h2><span class="pill">{{ topic.comments.count }} Kommentare</span></div>
+  <form method="post" action="{% url 'topic_comment_add' topic.pk %}">
+    {% csrf_token %}
+    <label for="comment-body">Neuen Kommentar hinzufügen</label>
+    <textarea id="comment-body" name="body" rows="3" maxlength="5000" required placeholder="Besprechungsergebnis, Rückfrage oder nächster Schritt …"></textarea>
+    <button type="submit">Kommentar speichern</button>
+  </form>
+  <hr>
+  {% for comment in topic.comments.all %}
+    <article style="padding:.7rem 0;border-bottom:1px solid #e5e7eb">
+      <div class="topline"><strong>{{ comment.author.get_full_name|default:comment.author.username|default:"Gelöschter Benutzer" }}</strong><small>{{ comment.created_at|date:"d.m.Y H:i" }}</small></div>
+      <p>{{ comment.body|linebreaksbr }}</p>
+    </article>
+  {% empty %}<p class="muted">Noch keine Kommentare. Halte hier Absprachen und nächste Schritte fest.</p>{% endfor %}
+</div>
 <div class="card">
   <div class="topline"><h2>Änderungsverlauf dieses Themas</h2><a href="{% url 'audit_history' %}?topic={{ topic.pk }}">Alle Einträge anzeigen</a></div>
   {% for event in topic.audit_events.all|slice:":8" %}
