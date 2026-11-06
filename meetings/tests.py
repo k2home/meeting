@@ -397,3 +397,46 @@ class MeetingParticipantTests(TestCase):
         with zipfile.ZipFile(BytesIO(response.content)) as archive:
             document_xml = archive.read("word/document.xml").decode("utf-8")
         self.assertIn("Anna Beispiel", document_xml)
+
+
+class DashboardUpcomingMeetingsTests(TestCase):
+    def setUp(self):
+        from datetime import timedelta
+        from django.utils import timezone
+
+        self.user = User.objects.create_user(username="dashboard-user", password="strong-test-password")
+        self.client.force_login(self.user)
+        self.series_a = MeetingSeries.objects.create(name="Reihe Alpha")
+        self.series_b = MeetingSeries.objects.create(name="Reihe Beta")
+        today = timezone.localdate()
+        self.a_dates = [today + timedelta(days=offset) for offset in (1, 3, 5)]
+        self.b_dates = [today + timedelta(days=offset) for offset in (2, 4, 6)]
+        for date in self.a_dates:
+            Meeting.objects.create(series=self.series_a, date=date)
+        for date in self.b_dates:
+            Meeting.objects.create(series=self.series_b, date=date)
+        Meeting.objects.create(series=self.series_a, date=today - timedelta(days=1))
+
+    def test_dashboard_shows_only_two_nearest_future_meetings_per_series(self):
+        response = self.client.get(reverse("dashboard"))
+
+        self.assertEqual(response.status_code, 200)
+        meetings = list(response.context["meetings"])
+        self.assertEqual(len(meetings), 4)
+        self.assertEqual(
+            [(meeting.series_id, meeting.date) for meeting in meetings],
+            [
+                (self.series_a.pk, self.a_dates[0]),
+                (self.series_b.pk, self.b_dates[0]),
+                (self.series_a.pk, self.a_dates[1]),
+                (self.series_b.pk, self.b_dates[1]),
+            ],
+        )
+        self.assertNotIn(self.a_dates[2], [meeting.date for meeting in meetings])
+        self.assertNotIn(self.b_dates[2], [meeting.date for meeting in meetings])
+
+    def test_dashboard_upcoming_meetings_requires_login(self):
+        self.client.logout()
+        response = self.client.get(reverse("dashboard"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response.url)

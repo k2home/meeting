@@ -6,7 +6,8 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
-from django.db.models import F, Q
+from django.db.models import F, Q, Window
+from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -45,7 +46,17 @@ def admin_only(user):
 @login_required
 def dashboard(request):
     today = timezone.localdate()
-    meetings = Meeting.objects.filter(date__gte=today).select_related("series").order_by("date")[:20]
+    meetings = (
+        Meeting.objects.filter(date__gte=today)
+        .annotate(series_position=Window(
+            expression=RowNumber(),
+            partition_by=[F("series_id")],
+            order_by=[F("date").asc(), F("pk").asc()],
+        ))
+        .filter(series_position__lte=2)
+        .select_related("series")
+        .order_by("date", "series__name", "pk")
+    )
     topics = Topic.objects.select_related("series", "assigned_to")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "open")
