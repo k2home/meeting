@@ -201,7 +201,10 @@ class DashboardTopicFilterTests(TestCase):
             response = self.client.get(reverse("dashboard"), {"q": term})
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Serverwartung")
-            self.assertEqual(list(response.context["topics"]), [self.topic])
+            expected = [self.topic]
+            if term == "Betrieb":
+                expected.append(Topic.objects.get(title="Nicht zugewiesen"))
+            self.assertEqual(list(response.context["topics"]), expected)
 
     def test_filters_can_be_combined(self):
         self.client.force_login(self.user)
