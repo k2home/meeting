@@ -533,6 +533,11 @@ class MeetingSeriesManagementTests(TestCase):
         self.assertIsNone(completed.series_id)
         self.assertTrue(completed.snapshots.filter(pk=snapshot.pk).exists())
         self.assertIsNone(topic.series_id)
+        protocol_response = self.client.get(reverse("protocol", args=[completed.pk]))
+        self.assertEqual(protocol_response.status_code, 200)
+        self.assertContains(protocol_response, "Gelöschte Besprechungsreihe")
+        meeting_response = self.client.get(reverse("meeting", args=[completed.pk]))
+        self.assertEqual(meeting_response.status_code, 200)
 
     def test_series_delete_can_also_remove_completed_meetings_when_selected(self):
         from datetime import timedelta
