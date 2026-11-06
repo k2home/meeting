@@ -46,7 +46,17 @@ def admin_only(user):
 @login_required
 def dashboard(request):
     today = timezone.localdate()
-    meetings = (\n        Meeting.objects.filter(date__gte=today)\n        .annotate(series_position=Window(\n            expression=RowNumber(),\n            partition_by=[F("series_id")],\n            order_by=[F("date").asc(), F("pk").asc()],\n        ))\n        .filter(series_position__lte=2)\n        .select_related("series")\n        .order_by("date", "series__name", "pk")\n    )
+    meetings = (
+        Meeting.objects.filter(date__gte=today)
+        .annotate(series_position=Window(
+            expression=RowNumber(),
+            partition_by=[F("series_id")],
+            order_by=[F("date").asc(), F("pk").asc()],
+        ))
+        .filter(series_position__lte=2)
+        .select_related("series")
+        .order_by("date", "series__name", "pk")
+    )
     topics = Topic.objects.select_related("series", "assigned_to")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "open")
