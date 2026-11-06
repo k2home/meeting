@@ -41,7 +41,7 @@ class Topic(models.Model):
     description = models.TextField("Aktueller Stand", blank=True)
     due_date = models.DateField("Fällig am", null=True, blank=True)
     status = models.CharField("Status", max_length=12, choices=STATUS, default="open")
-    series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="topics")
+    series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="topics", verbose_name="Besprechungsreihe")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

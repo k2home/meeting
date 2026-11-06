@@ -65,7 +65,7 @@ chmod 640 /etc/meeting-manager.env
 
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
 runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
-  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --run-syncdb --noinput
+  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
 runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
 
@@ -85,6 +85,6 @@ echo "Installation abgeschlossen."
 echo "Website: http://$SITE_HOST/"
 echo "Status:  systemctl status meeting-manager"
 echo "Logs:    journalctl -u meeting-manager -f"
-echo "Admin:   sudo -u meetingapp $APP_DIR/.venv/bin/python $APP_DIR/manage.py createsuperuser"
+echo "Admin:   sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'"
 echo
-echo "WICHTIG: HTTP nur im internen LAN freigeben. Benutzername-ohne-Passwort-Login ist nicht sicher."
+echo "WICHTIG: HTTP nur im internen LAN freigeben. Benutzerkonten mit Passwort verwenden."
