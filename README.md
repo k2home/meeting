@@ -42,7 +42,7 @@ sudo /opt/meeting-manager/deploy/update.sh
 
 ### Benutzerkonten
 
-Die Anmeldung erfolgt mit persönlichem Benutzernamen und Passwort. Unbekannte Benutzernamen werden nicht automatisch angelegt. Ein Administrator legt Konten im Bereich „Verwaltung“ an und vergibt dort Passwörter. Der erste Administrator wird mit `createsuperuser` eingerichtet.
+Die Anmeldung erfolgt mit persönlichem Benutzernamen und Passwort. Unbekannte Benutzernamen werden nicht automatisch angelegt. Administratoren legen Konten im Menüpunkt „Benutzer“ an, aktivieren/deaktivieren sie, vergeben Administratorrechte und setzen Passwörter zurück. Der erste Administrator wird mit `createsuperuser` eingerichtet. Superuser-Konten bleiben zusätzlich geschützt.
 
 ### Netzwerkdateien / NAS
 
@@ -67,13 +67,13 @@ sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 - Uploads und mehrere Netzwerkpfad-/Link-Referenzen pro Thema.
 - Themen können archiviert und wieder geöffnet werden.
 - Themen können in eine andere Besprechungsreihe übertragen werden; die Übertragung wird mit Zeit, Benutzer und optionaler Notiz protokolliert.
-- Anmeldung mit Benutzername und Passwort; Benutzerkonten werden nicht mehr automatisch angelegt.
+- Anmeldung mit Benutzername und Passwort; Benutzerkonten werden nicht automatisch angelegt.\n- Benutzerverwaltung für Administratoren: Konten anlegen, bearbeiten, deaktivieren/reaktivieren, Adminrechte vergeben und Passwörter zurücksetzen. Normale Benutzer haben keinen Zugriff auf diese Funktionen.
 
 ## Sicherheit und Grenzen
 
 **Die Anwendung ist weiterhin ein MVP und noch nicht produktionsreif.** Vor produktivem Einsatz bitte HTTPS und Firewall einsetzen, Backups einrichten, die Benutzerverwaltung testen und automatisierte Tests ausführen. Port 80 nur im internen Netz freigeben. Hochgeladene Dateien werden derzeit über Nginx direkt aus dem Media-Verzeichnis ausgeliefert und sollten daher keine vertraulichen Inhalte enthalten. Passwörter werden von Django gehasht gespeichert.
 
-Weitere Ausbauschritte: eigenständige Benutzerverwaltung, sichere Downloadberechtigungen für vertrauliche Uploads, durchgängige Audit-Historie und erweiterte automatisierte CI-Tests.
+Weitere Ausbauschritte: sichere Downloadberechtigungen für vertrauliche Uploads, durchgängige Audit-Historie und erweiterte automatisierte CI-Tests.
 
 ## Datenbankschema
 
