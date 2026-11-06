@@ -136,3 +136,86 @@ class MeetingCalendarTests(TestCase):
         march = _next_occurrence(february, "monthly", monthly_day=31)
         self.assertEqual(february, date(2027, 2, 28))
         self.assertEqual(march, date(2027, 3, 31))
+
+
+class UserManagementTests(TestCase):
+    def setUp(self):
+        self.admin = User.objects.create_user(
+            username="manager", password="strong-test-password", is_staff=True
+        )
+        self.member = User.objects.create_user(
+            username="ordinary", password="strong-test-password"
+        )
+
+    def test_regular_user_cannot_open_user_management(self):
+        self.client.force_login(self.member)
+        response = self.client.get(reverse("user_list"))
+        self.assertEqual(response.status_code, 302)
+
+    def test_admin_can_create_user_and_grant_admin_role(self):
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("user_create"), {
+            "username": "new-admin",
+            "first_name": "Mara",
+            "last_name": "Muster",
+            "email": "mara@example.invalid",
+            "is_staff": "on",
+            "password1": "Sicheres-Testpasswort-2026!",
+            "password2": "Sicheres-Testpasswort-2026!",
+        })
+        self.assertRedirects(response, reverse("user_list"))
+        created = User.objects.get(username="new-admin")
+        self.assertTrue(created.is_staff)
+        self.assertTrue(created.check_password("Sicheres-Testpasswort-2026!"))
+
+    def test_admin_can_deactivate_user(self):
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("user_edit", args=[self.member.pk]), {
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_active": "",
+            "is_staff": "",
+        })
+        self.assertRedirects(response, reverse("user_list"))
+        self.member.refresh_from_db()
+        self.assertFalse(self.member.is_active)
+
+    def test_admin_can_reset_password(self):
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("user_password", args=[self.member.pk]), {
+            "new_password1": "Neues-Testpasswort-2026!",
+            "new_password2": "Neues-Testpasswort-2026!",
+        })
+        self.assertRedirects(response, reverse("user_list"))
+        self.member.refresh_from_db()
+        self.assertTrue(self.member.check_password("Neues-Testpasswort-2026!"))
+
+    def test_admin_cannot_remove_own_admin_access(self):
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("user_edit", args=[self.admin.pk]), {
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_active": "on",
+            "is_staff": "",
+        })
+        self.assertEqual(response.status_code, 200)
+        self.admin.refresh_from_db()
+        self.assertTrue(self.admin.is_staff)
+
+    def test_last_active_admin_cannot_be_deactivated(self):
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("user_edit", args=[self.admin.pk + 100]), {})
+        self.assertEqual(response.status_code, 404)
+        response = self.client.post(reverse("user_edit", args=[self.admin.pk]), {
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_active": "",
+            "is_staff": "",
+        })
+        self.assertEqual(response.status_code, 200)
+        self.admin.refresh_from_db()
+        self.assertTrue(self.admin.is_active)
+        self.assertTrue(self.admin.is_staff)
