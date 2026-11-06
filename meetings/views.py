@@ -68,13 +68,15 @@ def meeting_detail(request, pk):
 @login_required
 def topic_edit(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
+    original_topic = Topic.objects.select_related("series", "assigned_to").get(pk=pk)
     form = TopicForm(request.POST or None, instance=topic)
     if request.method == "POST" and form.is_valid():
-        old_series = topic.series
-        before = {"title": topic.title, "description": topic.description,
-                  "due_date": topic.due_date.isoformat() if topic.due_date else None,
-                  "status": topic.status, "series": str(topic.series) if topic.series else None,
-                  "assigned_to": str(topic.assigned_to) if topic.assigned_to else None}
+        old_series = original_topic.series
+        before = {"title": original_topic.title, "description": original_topic.description,
+                  "due_date": original_topic.due_date.isoformat() if original_topic.due_date else None,
+                  "status": original_topic.status,
+                  "series": str(original_topic.series) if original_topic.series else None,
+                  "assigned_to": str(original_topic.assigned_to) if original_topic.assigned_to else None}
         updated_topic = form.save(commit=False)
         new_series = updated_topic.series
         after = {"title": updated_topic.title, "description": updated_topic.description,
