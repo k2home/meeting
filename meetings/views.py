@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicForm, AgendaTextForm, AttachmentForm, SeriesForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent
-from .audit import record_event, changed_fields
+from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 
 def login_view(request):
@@ -79,8 +79,12 @@ def topic_edit(request, pk):
         after = {"title": updated_topic.title, "description": updated_topic.description,
                  "due_date": updated_topic.due_date.isoformat() if updated_topic.due_date else None,
                  "status": updated_topic.status, "series": str(new_series) if new_series else None}
-        changes = changed_fields(before, after, {"title": "Titel", "description": "Beschreibung",
-            "due_date": "Fälligkeitsdatum", "status": "Status", "series": "Besprechungsreihe"})
+        labels = {"title": "Titel", "description": "Beschreibung",
+                  "due_date": "Fälligkeitsdatum", "status": "Status", "series": "Besprechungsreihe"}
+        changes = {
+            labels[field]: {"vorher": before[field], "nachher": after[field]}
+            for field in form.changed_data if field in labels
+        }
         with transaction.atomic():
             if old_series != new_series:
                 TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=new_series,
