@@ -48,7 +48,7 @@ def admin_only(user):
 def dashboard(request):
     today = timezone.localdate()
     meetings = (
-        Meeting.objects.filter(date__gte=today)
+        Meeting.objects.filter(date__gte=today, series__isnull=False)
         .annotate(series_position=Window(
             expression=RowNumber(),
             partition_by=[F("series_id")],
