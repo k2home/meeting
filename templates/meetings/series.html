@@ -12,7 +12,7 @@
       <div class="topline">
         <div>
           <h3>{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% endif %}</h3>
-          <p class="muted">{{ s.get_recurrence_display }} · Wochentag {{ s.weekday }} (0 = Mo) · {{ s.meetings.count }} Termine</p>
+          <p class="muted">{{ s.get_recurrence_display }} · {{ s.weekday_label }} · {{ s.meetings.count }} Termine</p>
         </div>
         <div class="actions">
           <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Reihe bearbeiten</a>
