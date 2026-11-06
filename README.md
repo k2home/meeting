@@ -72,8 +72,8 @@ sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 
 **Die Anwendung ist weiterhin ein MVP und noch nicht produktionsreif.** Vor produktivem Einsatz bitte HTTPS und Firewall einsetzen, Backups einrichten, die Benutzerverwaltung testen und automatisierte Tests ausführen. Port 80 nur im internen Netz freigeben. Hochgeladene Dateien werden derzeit über Nginx direkt aus dem Media-Verzeichnis ausgeliefert und sollten daher keine vertraulichen Inhalte enthalten. Passwörter werden von Django gehasht gespeichert.
 
-Weitere Ausbauschritte: komfortable Terminänderung und -vorschau, eigenständige Benutzerverwaltung, sichere Downloadberechtigungen für vertrauliche Uploads, durchgängige Audit-Historie und automatisierte CI-Tests.
+Weitere Ausbauschritte: eigenständige Benutzerverwaltung, sichere Downloadberechtigungen für vertrauliche Uploads, durchgängige Audit-Historie und erweiterte automatisierte CI-Tests.
 
-## Hinweis zum Datenbankschema
+## Datenbankschema
 
-Die Anwendung verwendet derzeit noch keine regulären Django-Migrationsdateien. Neue Tabellen werden bei der Installation/Aktualisierung über `migrate` angelegt. Vor produktiver Nutzung sollte auf reguläre, versionierte Migrationen umgestellt werden.
+Die Anwendung verwendet versionierte Django-Migrationsdateien. Bei bestehenden Installationen übernimmt `migrate --fake-initial` vorhandene Tabellen, während neue Migrationen fehlende Tabellen ergänzen. Vor jedem Update sollte trotzdem ein PostgreSQL-Backup erstellt werden.
