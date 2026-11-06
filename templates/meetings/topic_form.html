@@ -1,1 +1,35 @@
-{% extends "meetings/base.html" %}{% block content %}<h1>{% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1><div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<button>Speichern</button></form></div>{% if topic %}<div class="card"><h2>Anlagen und Netzlaufwerkpfade</h2><p><a class="btn" href="/topics/{{topic.id}}/attachments/add/">Anlage hinzufügen</a></p>{% for a in topic.attachments.all %}<p>{{a.label}} — {% if a.uploaded_file %}<a href="{{a.uploaded_file.url}}">Datei öffnen</a>{% endif %} {{a.network_path }}</p>{% empty %}<p>Keine Anlagen.</p>{% endfor %}<p class="muted">Netzwerkpfade müssen im Container unter /network-files eingebunden sein. SMB-Pfade werden als Text gespeichert; Browser öffnen SMB-Links nicht zuverlässig.</p></div>{% endif %}{% endblock %}
+{% extends "meetings/base.html" %}
+{% block content %}
+<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</p><h1>{% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
+<div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Änderungen speichern</button></form></div>
+{% if topic %}
+<div class="card">
+<h2>Weitere Aktionen</h2>
+<div class="actions">
+{% if topic.status == "archived" %}
+<form method="post" action="{% url 'topic_reopen' topic.pk %}">{% csrf_token %}<button type="submit">Thema wieder öffnen</button></form>
+{% else %}
+<form method="post" action="{% url 'topic_archive' topic.pk %}">{% csrf_token %}<button class="secondary" type="submit">Thema archivieren</button></form>
+{% endif %}
+</div>
+{% if transfer_series %}
+<hr><h3>In eine andere Besprechungsreihe übertragen</h3>
+<p class="muted">Das Thema wird ab jetzt in der ausgewählten Reihe weitergeführt. Frühere Zuordnungen bleiben in der Transferhistorie erhalten.</p>
+<form method="post" action="{% url 'topic_transfer' topic.pk %}">
+{% csrf_token %}
+<label for="transfer-series">Zielreihe</label>
+<select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select>
+<label for="transfer-note">Notiz zur Übertragung (optional)</label><input id="transfer-note" name="note" maxlength="500" placeholder="z. B. Zuständigkeit wurde verlagert">
+<button type="submit">Thema übertragen</button>
+</form>
+{% endif %}
+{% if topic.transfer_history.exists %}
+<hr><h3>Transferhistorie</h3>
+<ul>{% for transfer in topic.transfer_history.all %}<li>{{ transfer.transferred_at|date:"d.m.Y H:i" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</li>{% endfor %}</ul>
+{% endif %}
+</div>
+<div class="card"><h2>Anlagen und Netzwerkpfade</h2><p><a class="btn" href="{% url 'attachment_add' topic.id %}">Anlage hinzufügen</a></p>
+{% for a in topic.attachments.all %}<p><strong>{{ a.label }}</strong> — {% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %} {{ a.network_path }}</p>{% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
+<p class="muted">Netzwerkfreigaben müssen auf dem Server eingebunden sein. Hier werden die für alle Benutzer gültigen Pfade hinterlegt.</p></div>
+{% endif %}
+{% endblock %}

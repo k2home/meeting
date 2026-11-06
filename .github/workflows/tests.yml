@@ -1,0 +1,51 @@
+name: Django tests
+
+on:
+  push:
+    branches:
+      - main
+      - feature/native-linux-deployment
+      - feature/usability-and-core-workflows
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: meeting_manager
+          POSTGRES_USER: meetingapp
+          POSTGRES_PASSWORD: test-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U meetingapp -d meeting_manager"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Django checks
+        env:
+          SECRET_KEY: ci-only-secret-key
+          DEBUG: "0"
+          ALLOWED_HOSTS: localhost,127.0.0.1
+          POSTGRES_DB: meeting_manager
+          POSTGRES_USER: meetingapp
+          POSTGRES_PASSWORD: test-password
+          POSTGRES_HOST: 127.0.0.1
+          POSTGRES_PORT: "5432"
+        run: |
+          python manage.py check
+          python manage.py migrate --run-syncdb --noinput
+          python manage.py test meetings
