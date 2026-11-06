@@ -63,7 +63,7 @@ sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 - Fällige Themen werden beim Öffnen eines Meetings in die Tagesordnung übernommen; offene Themen aus dem letzten abgeschlossenen Meeting werden weitergeführt.
 - Tagesordnungstext kann pro Meeting bearbeitet werden; Tagesordnungspunkte lassen sich per Drag-and-drop sowie über zugängliche Hoch-/Runter-Schaltflächen sortieren.
 - Die Themenübersicht bietet Suche über Titel, Beschreibung, Besprechungsreihe und verantwortliche Person sowie kombinierbare Filter für Status, Reihe, Zuständigkeit und Fälligkeit.
-- Beim administrativen Abschluss wird ein Protokoll-Snapshot gespeichert; Protokolle können alle angemeldeten Benutzer drucken.
+- Beim administrativen Abschluss wird ein unveränderlicher Protokoll-Snapshot gespeichert; alle angemeldeten Benutzer können Protokolle drucken oder als PDF bzw. Word-Dokument herunterladen. Exporte abgeschlossener Besprechungen verwenden ausschließlich den gesicherten Snapshot.
 - Uploads und mehrere Netzwerkpfad-/Link-Referenzen pro Thema.
 - Themen können archiviert und wieder geöffnet werden.
 - Themen können in eine andere Besprechungsreihe übertragen werden; die Übertragung wird mit Zeit, Benutzer und optionaler Notiz protokolliert.
