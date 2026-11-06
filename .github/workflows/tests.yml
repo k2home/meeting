@@ -47,5 +47,5 @@ jobs:
           POSTGRES_PORT: "5432"
         run: |
           python manage.py check
-          python manage.py migrate --run-syncdb --noinput
+          python manage.py migrate --noinput
           python manage.py test meetings
