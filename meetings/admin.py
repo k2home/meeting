@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory, AuditEvent
+from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory, AuditEvent, TopicComment
 
 class MeetingInline(admin.TabularInline):
     model = Meeting
@@ -17,7 +17,7 @@ class MeetingAdmin(admin.ModelAdmin):
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ("title", "series", "due_date", "status")
+    list_display = ("title", "series", "due_date", "assigned_to", "status")
     list_filter = ("series", "status")
     search_fields = ("title", "description")
 
@@ -42,6 +42,22 @@ class AuditEventAdmin(admin.ModelAdmin):
 
     def has_view_permission(self, request, obj=None):
         return request.user.is_active and request.user.is_staff
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(TopicComment)
+class TopicCommentAdmin(admin.ModelAdmin):
+    list_display = ("topic", "author", "created_at")
+    search_fields = ("topic__title", "body", "author__username")
+    readonly_fields = ("topic", "author", "body", "created_at")
 
     def has_add_permission(self, request):
         return False
