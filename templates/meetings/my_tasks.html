@@ -1,0 +1,49 @@
+{% extends "meetings/base.html" %}
+{% block title %}Meine Aufgaben – Meeting Manager{% endblock %}
+{% block content %}
+<div class="topline">
+  <div>
+    <p class="muted"><a href="{% url 'dashboard' %}">Übersicht</a> / Persönliche Aufgaben</p>
+    <h1>Meine Aufgaben</h1>
+    <p class="muted">Hier findest du alle offenen Themen, für die du verantwortlich bist.</p>
+  </div>
+  <a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a>
+</div>
+<div class="card">
+  <div class="topline">
+    <strong>{{ topics|length }} offene {% if topics|length == 1 %}Aufgabe{% else %}Aufgaben{% endif %}</strong>
+    <div class="actions">
+      {% if overdue_count %}<span class="pill overdue">{{ overdue_count }} überfällig</span>{% endif %}
+      {% if due_today_count %}<span class="pill">{{ due_today_count }} heute fällig</span>{% endif %}
+      {% if without_due_date_count %}<span class="pill">{{ without_due_date_count }} ohne Termin</span>{% endif %}
+    </div>
+  </div>
+  {% if topics %}
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Aufgabe</th><th>Besprechungsreihe</th><th>Fälligkeit</th><th>Letzter Stand</th><th></th></tr></thead>
+        <tbody>
+          {% for topic in topics %}
+            <tr>
+              <td><a href="{% url 'topic_edit' topic.pk %}"><strong>{{ topic.title }}</strong></a></td>
+              <td>{{ topic.series|default:"—" }}</td>
+              <td>
+                {% if topic.due_date %}
+                  {% if topic.due_date < today %}<span class="overdue">Überfällig · {{ topic.due_date|date:"d.m.Y" }}</span>
+                  {% elif topic.due_date == today %}<strong>Heute · {{ topic.due_date|date:"d.m.Y" }}</strong>
+                  {% else %}{{ topic.due_date|date:"d.m.Y" }}{% endif %}
+                {% else %}<span class="muted">Kein Termin</span>{% endif %}
+              </td>
+              <td>{{ topic.description|default:"—"|truncatechars:100 }}</td>
+              <td><a class="btn secondary" href="{% url 'topic_edit' topic.pk %}">Öffnen</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>Du hast aktuell keine offenen Themen, die dir zugewiesen sind.</p>
+    <p class="muted">Wenn dir ein Thema zugewiesen wird, erscheint es automatisch hier.</p>
+  {% endif %}
+</div>
+{% endblock %}
