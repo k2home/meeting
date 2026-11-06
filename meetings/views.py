@@ -172,7 +172,7 @@ def meeting_detail(request, pk):
                 if before != after:
                     record_event(
                         actor=request.user, action="updated",
-                        summary=f"Teilnehmerliste für „{meeting.series.name}“ am {meeting.date:%d.%m.%Y} geändert",
+                        summary=f"Teilnehmerliste für „{_meeting_series_name(meeting)}“ am {meeting.date:%d.%m.%Y} geändert",
                         meeting=meeting,
                         changes={"Teilnehmer": {"vorher": before, "nachher": after}},
                     )
@@ -357,8 +357,12 @@ def _meeting_participant_names(meeting):
     ]
 
 
+def _meeting_series_name(meeting):
+    return _meeting_series_name(meeting) if meeting.series_id else "Gelöschte Besprechungsreihe"
+
+
 def _protocol_filename(meeting, extension):
-    series = slugify(meeting.series.name) or "besprechung"
+    series = slugify(_meeting_series_name(meeting)) or "besprechung"
     return f"protokoll-{series}-{meeting.date:%Y-%m-%d}.{extension}"
 
 
@@ -380,7 +384,7 @@ def protocol_pdf(request, pk):
     document = SimpleDocTemplate(
         buffer, pagesize=A4, rightMargin=20 * mm, leftMargin=20 * mm,
         topMargin=20 * mm, bottomMargin=18 * mm,
-        title=f"Protokoll – {meeting.series.name}",
+        title=f"Protokoll – {_meeting_series_name(meeting)}",
         author="Meeting Manager",
     )
     styles = getSampleStyleSheet()
@@ -408,7 +412,7 @@ def protocol_pdf(request, pk):
 
     story = [
         Paragraph("Protokoll", styles["ProtocolTitle"]),
-        Paragraph(escape(meeting.series.name), styles["Heading2"]),
+        Paragraph(escape(_meeting_series_name(meeting)), styles["Heading2"]),
         Paragraph(f"Datum: {meeting.date:%d.%m.%Y}", styles["Normal"]),
         Paragraph(
             "Gesicherter Stand" if meeting.finalized_at else "Entwurf – nicht abgeschlossen",
@@ -455,10 +459,10 @@ def protocol_docx(request, pk):
     from docx.shared import Pt, RGBColor
 
     document = Document()
-    document.core_properties.title = f"Protokoll – {meeting.series.name}"
+    document.core_properties.title = f"Protokoll – {_meeting_series_name(meeting)}"
     document.core_properties.subject = f"Besprechung vom {meeting.date:%d.%m.%Y}"
     document.add_heading("Protokoll", 0)
-    document.add_heading(meeting.series.name, level=1)
+    document.add_heading(_meeting_series_name(meeting), level=1)
     document.add_paragraph(f"Datum: {meeting.date:%d.%m.%Y}")
     document.add_paragraph(
         f"Gesicherter Stand: {meeting.finalized_at:%d.%m.%Y %H:%M}"
@@ -577,12 +581,26 @@ def series_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
     series = get_object_or_404(MeetingSeries, pk=pk)
-    if series.meetings.exists() or series.topics.exists():
-        messages.error(request, "Die Reihe kann nicht gelöscht werden, solange Termine oder Themen zugeordnet sind. Du kannst sie stattdessen deaktivieren.")
-        return redirect("series_admin")
     name = series.name
-    series.delete()
-    messages.success(request, f"Die leere Besprechungsreihe „{name}“ wurde gelöscht.")
+    today = timezone.localdate()
+    delete_completed = request.POST.get("delete_completed") == "on"
+    with transaction.atomic():
+        # Future drafts are removed. Completed meetings are kept by default,
+        # together with their immutable protocol snapshots and audit links.
+        Meeting.objects.filter(
+            series=series, date__gte=today, finalized_at__isnull=True
+        ).delete()
+        if delete_completed:
+            Meeting.objects.filter(series=series, finalized_at__isnull=False).delete()
+        # Preserve all remaining historical meetings independently of the series.
+        Meeting.objects.filter(series=series).update(series=None)
+        series.delete()
+    messages.success(
+        request,
+        f"Die Besprechungsreihe „{name}“ wurde gelöscht. "
+        + ("Abgeschlossene Besprechungen wurden ebenfalls entfernt." if delete_completed
+           else "Abgeschlossene und sonstige verbleibende Besprechungen samt Protokollen bleiben erhalten.")
+    )
     return redirect("series_admin")
 
 
@@ -604,7 +622,7 @@ def meeting_edit(request, pk):
             if old_date != updated.date:
                 record_event(
                     actor=request.user, action="updated",
-                    summary=f"Termin von „{meeting.series.name}“ verschoben",
+                    summary=f"Termin von „{_meeting_series_name(meeting)}“ verschoben",
                     meeting=updated,
                     changes={"Datum": {"vorher": old_date.isoformat(), "nachher": updated.date.isoformat()}},
                 )
@@ -635,7 +653,7 @@ def finalize(request, pk):
     meeting = get_object_or_404(Meeting, pk=pk)
     finalize_meeting(meeting)
     record_event(actor=request.user, action="finalized",
-                 summary=f"Besprechung „{meeting.series.name}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
+                 summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
                  meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
     messages.success(request, "Besprechung abgeschlossen; Protokoll-Snapshot gespeichert.")
     return redirect("protocol", pk=pk)
