@@ -24,7 +24,7 @@ class MeetingSeries(models.Model):
         return self.name
 
 class Meeting(models.Model):
-    series = models.ForeignKey(MeetingSeries, on_delete=models.CASCADE, related_name="meetings")
+    series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="meetings")
     date = models.DateField("Termin")
     title = models.CharField("Titel", max_length=180, blank=True)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="meeting_participations", verbose_name="Teilnehmer")
@@ -38,7 +38,7 @@ class Meeting(models.Model):
         verbose_name_plural = "Besprechungen"
 
     def __str__(self):
-        return self.title or f"{self.series} – {self.date:%d.%m.%Y}"
+        return self.title or f"{self.series or 'Gelöschte Besprechungsreihe'} – {self.date:%d.%m.%Y}"
 
 class Topic(models.Model):
     STATUS = [("open", "Offen"), ("done", "Erledigt"), ("archived", "Archiviert")]

@@ -25,7 +25,7 @@
     <p>{{ event.summary }}</p>
     <p class="muted">Von {% if event.actor %}{{ event.actor.get_full_name|default:event.actor.username }}{% else %}System / gelöschtem Benutzer{% endif %}
       {% if event.topic %} · <a href="{% url 'topic_edit' event.topic.pk %}">{{ event.topic.title }}</a>{% endif %}
-      {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{{ event.meeting.series.name }} am {{ event.meeting.date|date:"d.m.Y" }}</a>{% endif %}
+      {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{{ event.meeting.series.name|default:'Gelöschte Besprechungsreihe' }} am {{ event.meeting.date|date:"d.m.Y" }}</a>{% endif %}
     </p>
     {% if event.changes %}
       <details><summary>Details anzeigen</summary>

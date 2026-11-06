@@ -3,6 +3,8 @@ from django.utils import timezone
 from .models import Meeting, AgendaItem, Topic, TopicSnapshot
 
 def ensure_agenda(meeting):
+    if meeting.series_id is None:
+        return meeting.agenda_items.select_related("topic").all()
     due = Topic.objects.filter(series=meeting.series, status="open", due_date__lte=meeting.date)
     previous = Meeting.objects.filter(series=meeting.series, date__lt=meeting.date, finalized_at__isnull=False).order_by("-date").first()
     carried_ids = []
