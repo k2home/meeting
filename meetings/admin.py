@@ -40,6 +40,9 @@ class AuditEventAdmin(admin.ModelAdmin):
     search_fields = ("summary", "topic__title", "actor__username")
     readonly_fields = ("created_at", "action", "summary", "actor", "topic", "meeting", "changes")
 
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_active and request.user.is_staff
+
     def has_add_permission(self, request):
         return False
 
