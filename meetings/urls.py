@@ -5,6 +5,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("", views.dashboard, name="dashboard"),
+    path("my-tasks/", views.my_tasks, name="my_tasks"),
     path("meeting/<int:pk>/", views.meeting_detail, name="meeting"),
     path("meeting/<int:pk>/protocol/", views.protocol, name="protocol"),
     path("meeting/<int:pk>/finalize/", views.finalize, name="finalize"),

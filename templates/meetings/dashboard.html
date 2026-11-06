@@ -1,6 +1,6 @@
 {% extends "meetings/base.html" %}
 {% block content %}
-<div class="topline"><div><p class="muted">Willkommen, {{ user.username }}</p><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle offenen Themen auf einen Blick.</p></div><a class="btn" href="{% url 'topic_new' %}">+ Neues Thema</a></div>
+<div class="topline"><div><p class="muted">Willkommen, {{ user.username }}</p><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle offenen Themen auf einen Blick.</p></div><div class="actions"><a class="btn secondary" href="{% url 'my_tasks' %}">Meine Aufgaben</a><a class="btn" href="{% url 'topic_new' %}">+ Neues Thema</a></div></div>
 {% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }} überfällige {% if overdue_count == 1 %}Thema{% else %}Themen{% endif %}</strong><span> — bitte Fälligkeiten prüfen.</span></div>{% endif %}
 <section class="card"><h2>Nächste Besprechungen</h2>
 {% for m in meetings %}<p><a href="{% url 'meeting' m.id %}"><strong>{{ m.series.name }}</strong> · {{ m.date|date:"D, d.m.Y" }}</a> {% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</p>

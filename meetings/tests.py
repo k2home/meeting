@@ -130,3 +130,49 @@ class TopicTaskManagementTests(TestCase):
     def test_comment_endpoint_requires_login(self):
         response = self.client.post(reverse("topic_comment_add", args=[self.topic.pk]), {"body": "Test"})
         self.assertEqual(response.status_code, 302)
+
+
+class MyTasksViewTests(TestCase):
+    def setUp(self):
+        from datetime import timedelta
+        from django.utils import timezone
+
+        self.user = User.objects.create_user(username="task-owner", password="strong-test-password")
+        self.other_user = User.objects.create_user(username="other-owner", password="strong-test-password")
+        self.series = MeetingSeries.objects.create(name="Meine-Aufgaben-Reihe")
+        today = timezone.localdate()
+        self.overdue = Topic.objects.create(
+            title="Überfällige Aufgabe", series=self.series, assigned_to=self.user,
+            due_date=today - timedelta(days=2),
+        )
+        self.due_today = Topic.objects.create(
+            title="Heute fällig", series=self.series, assigned_to=self.user, due_date=today,
+        )
+        self.no_due_date = Topic.objects.create(
+            title="Ohne Fälligkeit", series=self.series, assigned_to=self.user,
+        )
+        Topic.objects.create(title="Aufgabe anderer Person", series=self.series, assigned_to=self.other_user)
+        Topic.objects.create(title="Nicht zugewiesen", series=self.series)
+        Topic.objects.create(title="Erledigt", series=self.series, assigned_to=self.user, status="done")
+        Topic.objects.create(title="Archiviert", series=self.series, assigned_to=self.user, status="archived")
+
+    def test_my_tasks_shows_only_my_open_topics_and_overdue_summary(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("my_tasks"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.no_due_date])
+        self.assertEqual(response.context["overdue_count"], 1)
+        self.assertEqual(response.context["due_today_count"], 1)
+        self.assertEqual(response.context["without_due_date_count"], 1)
+        self.assertContains(response, "Überfällig")
+        self.assertContains(response, "Heute fällig")
+        self.assertNotContains(response, "Aufgabe anderer Person")
+        self.assertNotContains(response, "Nicht zugewiesen")
+        self.assertNotContains(response, "Erledigt")
+        self.assertNotContains(response, "Archiviert")
+
+    def test_my_tasks_requires_login(self):
+        response = self.client.get(reverse("my_tasks"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response.url)
