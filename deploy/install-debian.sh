@@ -61,8 +61,12 @@ EOF
 chmod 600 /etc/meeting-manager.env
 
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --run-syncdb --noinput
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
+# Load the same settings for one-off management commands that systemd loads
+# for the long-running service. Keep the env file out of the root shell.
+runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --run-syncdb --noinput
+runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
