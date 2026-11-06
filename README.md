@@ -4,7 +4,7 @@ Django-Anwendung für wiederkehrende Besprechungen, Themenlisten und druckbare P
 
 ## Installation ohne Docker (Debian/Ubuntu-VM auf Proxmox)
 
-Die Anwendung läuft direkt auf Linux: Python-Virtualenv + Gunicorn + PostgreSQL + systemd. Es werden weder Docker noch Docker Compose benötigt.
+Die Anwendung läuft direkt auf Linux: Python-Virtualenv + Gunicorn + PostgreSQL + systemd + Nginx. Es werden weder Docker noch Docker Compose benötigt.
 
 ### Schnellinstallation
 
@@ -16,14 +16,14 @@ Die Anwendung läuft direkt auf Linux: Python-Virtualenv + Gunicorn + PostgreSQL
    cd meeting
    sudo bash deploy/install-debian.sh
    ```
-4. Im Skript die angezeigte Server-IP/den Hostnamen als `ALLOWED_HOSTS` eintragen, falls danach gefragt.
+4. Beim Installieren die IP-Adresse oder den DNS-Namen der VM angeben.
 5. Administratorkonto erstellen:
    ```bash
    sudo -u meetingapp /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser
    ```
-6. Im Browser `http://SERVER-IP:8000` öffnen.
+6. Im Browser `http://SERVER-IP/` öffnen (Nginx auf Port 80).
 
-Das Installationsskript installiert PostgreSQL und Python-Abhängigkeiten, richtet eine lokale Datenbank und den Systemdienst `meeting-manager` ein und startet die Anwendung automatisch nach dem Booten.
+Das Installationsskript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, richtet eine lokale Datenbank sowie den systemd-Dienst `meeting-manager` ein und startet beide Dienste automatisch nach dem Booten. Gunicorn lauscht nur lokal auf Port 8000; Nginx nimmt Verbindungen aus dem LAN auf Port 80 entgegen und liefert statische Dateien aus.
 
 ### Dienst verwalten
 
@@ -31,6 +31,7 @@ Das Installationsskript installiert PostgreSQL und Python-Abhängigkeiten, richt
 sudo systemctl status meeting-manager
 sudo systemctl restart meeting-manager
 sudo journalctl -u meeting-manager -f
+sudo systemctl status nginx
 ```
 
 Updates nach dem Merge neuer Änderungen:
@@ -41,7 +42,7 @@ sudo /opt/meeting-manager/deploy/update.sh
 
 ### Netzwerkdateien / NAS
 
-Netzwerkfreigaben werden auf dem **Linux-Host/der VM** gemountet, nicht in einem Container. Beispiel: NAS-Freigabe nach `/mnt/meeting-share` mounten und diesen Pfad in den Themen als Netzwerkpfad hinterlegen. Falls die Anwendung später Dateien direkt ausliefern soll, muss der Pfad zusätzlich mit passenden Leserechten für den Dienstbenutzer eingebunden werden. Browser öffnen SMB-Pfade nicht zuverlässig direkt.
+Netzwerkfreigaben werden auf der **VM selbst** gemountet, nicht in einem Container. Beispiel: NAS-Freigabe nach `/mnt/meeting-share` mounten und diesen Pfad in den Themen als Netzwerkpfad hinterlegen. SMB-Pfade werden als Referenz gespeichert; Browser öffnen SMB-Pfade nicht zuverlässig direkt. Uploads liegen unter `/opt/meeting-manager/media`.
 
 ### Backups
 
@@ -62,7 +63,7 @@ sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 
 ## Sicherheit und Grenzen
 
-**Dies ist ein MVP und noch nicht produktionsreif.** Die aktuelle Anmeldung akzeptiert nur einen Benutzernamen und legt unbekannte Namen automatisch an. Das ist keine belastbare Identitätsprüfung und erlaubt Identitätsübernahme im LAN. Vor produktivem Einsatz bitte Passwort-/SSO-Login aktivieren, HTTPS und Firewall einsetzen, Backups einrichten und Tests ergänzen. Port 8000 nur im internen Netz freigeben.
+**Dies ist ein MVP und noch nicht produktionsreif.** Die aktuelle Anmeldung akzeptiert nur einen Benutzernamen und legt unbekannte Namen automatisch an. Das ist keine belastbare Identitätsprüfung und erlaubt Identitätsübernahme im LAN. Vor produktivem Einsatz bitte Passwort-/SSO-Login aktivieren, HTTPS und Firewall einsetzen, Backups einrichten und Tests ergänzen. Port 80 nur im internen Netz freigeben. Hochgeladene Dateien werden derzeit über Nginx direkt aus dem Media-Verzeichnis ausgeliefert und sollten daher keine vertraulichen Inhalte enthalten.
 
 Weitere geplante Ausbauschritte: komfortable Terminänderung und -vorschau, expliziter Themen-Transfer mit Historie zwischen Reihen, Themenarchiv/Wiedereröffnung, Benutzerverwaltung in der Oberfläche, Berechtigungs-/Audit-Tests und automatisierte CI-Tests.
 
