@@ -337,3 +337,63 @@ class ProtocolExportTests(TestCase):
             response = self.client.get(reverse(route, args=[self.meeting.pk]))
             self.assertEqual(response.status_code, 302)
             self.assertIn(reverse("login"), response.url)
+
+
+class MeetingParticipantTests(TestCase):
+    def setUp(self):
+        self.organizer = User.objects.create_user(username="organizer", password="strong-test-password")
+        self.first = User.objects.create_user(
+            username="first-attendee", first_name="Anna", last_name="Beispiel",
+            password="strong-test-password",
+        )
+        self.second = User.objects.create_user(
+            username="second-attendee", first_name="Ben", last_name="Muster",
+            password="strong-test-password",
+        )
+        self.series = MeetingSeries.objects.create(name="Teilnehmer-Reihe")
+        self.meeting = Meeting.objects.create(series=self.series, date="2026-11-06")
+        self.client.force_login(self.organizer)
+
+    def test_user_can_select_multiple_meeting_participants(self):
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {
+                "save_participants": "1",
+                "participants": [str(self.first.pk), str(self.second.pk)],
+            },
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertQuerySetEqual(
+            self.meeting.participants.order_by("pk"),
+            [self.first, self.second],
+        )
+
+    def test_finalized_meeting_participant_list_is_locked(self):
+        from django.utils import timezone
+
+        self.meeting.participants.add(self.first)
+        self.meeting.finalized_at = timezone.now()
+        self.meeting.save(update_fields=["finalized_at"])
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {"save_participants": "1", "participants": [str(self.second.pk)]},
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertQuerySetEqual(self.meeting.participants.all(), [self.first])
+
+    def test_participants_are_displayed_in_html_protocol(self):
+        self.meeting.participants.add(self.first, self.second)
+        response = self.client.get(reverse("protocol", args=[self.meeting.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Anna Beispiel")
+        self.assertContains(response, "Ben Muster")
+
+    def test_participants_are_included_in_word_export(self):
+        import zipfile
+        from io import BytesIO
+
+        self.meeting.participants.add(self.first)
+        response = self.client.get(reverse("protocol_docx", args=[self.meeting.pk]))
+        with zipfile.ZipFile(BytesIO(response.content)) as archive:
+            document_xml = archive.read("word/document.xml").decode("utf-8")
+        self.assertIn("Anna Beispiel", document_xml)

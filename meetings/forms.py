@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment
+from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting
 
 class UsernameLoginForm(AuthenticationForm):
     username = forms.CharField(label="Benutzername", max_length=150)
@@ -50,3 +50,17 @@ class SeriesForm(forms.ModelForm):
             "start_date": forms.DateInput(attrs={"type": "date"}),
             "end_date": forms.DateInput(attrs={"type": "date"}),
         }
+
+
+class MeetingParticipantsForm(forms.ModelForm):
+    class Meta:
+        model = Meeting
+        fields = ["participants"]
+        widgets = {"participants": forms.CheckboxSelectMultiple}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        User = get_user_model()
+        self.fields["participants"].queryset = User.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
+        self.fields["participants"].required = False
+        self.fields["participants"].label = "Teilnehmer auswählen"

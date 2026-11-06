@@ -14,6 +14,10 @@ class SeriesAdmin(admin.ModelAdmin):
 class MeetingAdmin(admin.ModelAdmin):
     list_display = ("series", "date", "finalized_at")
     list_filter = ("series", "finalized_at")
+    filter_horizontal = ("participants",)
+
+    def get_readonly_fields(self, request, obj=None):
+        return ("participants",) if obj and obj.finalized_at else ()
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
