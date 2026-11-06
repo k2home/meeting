@@ -7,7 +7,7 @@
   <a href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
 </div>
 <h1>Protokoll</h1>
-<p>{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</p>
+<p>{{ meeting.series.name|default:'Gelöschte Besprechungsreihe' }} · {{ meeting.date|date:"d.m.Y" }}</p>
 <section class="card">
   <h2>Teilnehmer</h2>
   {% for participant in participants %}
