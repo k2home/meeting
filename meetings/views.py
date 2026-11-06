@@ -169,6 +169,67 @@ def series_admin(request):
     return render(request, "meetings/series.html", {"series": series, "form": form})
 
 @login_required
+def calendar_view(request):
+    form = MeetingForm()
+    if request.method == "POST":
+        if not request.user.is_staff:
+            return HttpResponseForbidden("Nur Administratoren dürfen Termine ändern.")
+        action = request.POST.get("action")
+        if action == "create":
+            form = MeetingForm(request.POST)
+            if form.is_valid():
+                meeting = form.save()
+                messages.success(request, f"Termin am {meeting.date:%d.%m.%Y} wurde angelegt.")
+                return redirect("calendar")
+        elif action == "generate":
+            series = get_object_or_404(MeetingSeries, pk=request.POST.get("series"), active=True)
+            created = generate_meetings(series)
+            messages.success(request, f"{len(created)} neue zukünftige Termine für „{series.name}“ angelegt.")
+            return redirect("calendar")
+        else:
+            return HttpResponseForbidden("Ungültige Aktion.")
+
+    today = timezone.localdate()
+    meetings = Meeting.objects.filter(date__gte=today).select_related("series").order_by("date", "series__name")
+    series = MeetingSeries.objects.filter(active=True)
+    return render(request, "meetings/calendar.html", {
+        "meetings": meetings,
+        "series": series,
+        "form": form,
+        "today": today,
+    })
+
+
+@login_required
+@user_passes_test(admin_only)
+def meeting_date_edit(request, pk):
+    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    if meeting.finalized_at:
+        messages.error(request, "Abgeschlossene Besprechungen können nicht mehr verschoben werden.")
+        return redirect("protocol", pk=meeting.pk)
+    form = MeetingDateForm(request.POST or None, instance=meeting)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Termin wurde aktualisiert.")
+        return redirect("calendar")
+    return render(request, "meetings/meeting_date_form.html", {"meeting": meeting, "form": form})
+
+
+@login_required
+@user_passes_test(admin_only)
+def meeting_delete(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    meeting = get_object_or_404(Meeting, pk=pk)
+    if meeting.finalized_at:
+        messages.error(request, "Abgeschlossene Besprechungen können nicht gelöscht werden.")
+    else:
+        meeting.delete()
+        messages.success(request, "Termin wurde entfernt.")
+    return redirect("calendar")
+
+
+@login_required
 @user_passes_test(admin_only)
 def finalize(request, pk):
     if request.method != "POST":
