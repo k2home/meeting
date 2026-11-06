@@ -6,7 +6,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import UsernameLoginForm, TopicForm, AgendaTextForm, AttachmentForm, SeriesForm
+from .forms import UsernameLoginForm, TopicForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingForm, MeetingDateForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 
