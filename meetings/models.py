@@ -42,6 +42,8 @@ class Topic(models.Model):
     due_date = models.DateField("Fällig am", null=True, blank=True)
     status = models.CharField("Status", max_length=12, choices=STATUS, default="open")
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="topics")
+    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                    related_name="assigned_meeting_topics", verbose_name="Verantwortlich")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -109,6 +111,7 @@ class AuditEvent(models.Model):
         ("attachment_added", "Anlage hinzugefügt"),
         ("agenda_edited", "Agendatext geändert"),
         ("finalized", "Besprechung abgeschlossen"),
+        ("comment_added", "Kommentar hinzugefügt"),
     ]
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
@@ -125,3 +128,19 @@ class AuditEvent(models.Model):
 
     def __str__(self):
         return f"{self.get_action_display()}: {self.summary}"
+
+
+class TopicComment(models.Model):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                               related_name="meeting_topic_comments")
+    body = models.TextField("Kommentar", max_length=5000)
+    created_at = models.DateTimeField("Erstellt am", auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at", "pk"]
+        verbose_name = "Themenkommentar"
+        verbose_name_plural = "Themenkommentare"
+
+    def __str__(self):
+        return f"Kommentar zu {self.topic}"
