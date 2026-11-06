@@ -34,10 +34,13 @@ def admin_only(user):
 
 @login_required
 def dashboard(request):
-    meetings = Meeting.objects.filter(date__gte=timezone.localdate()).select_related("series").order_by("date")[:20]
+    today = timezone.localdate()
+    meetings = Meeting.objects.filter(date__gte=today).select_related("series").order_by("date")[:20]
     topics = Topic.objects.filter(status="open").select_related("series")
-    overdue_count = topics.filter(due_date__lt=timezone.localdate()).count()
-    return render(request, "meetings/dashboard.html", {"meetings": meetings, "topics": topics, "overdue_count": overdue_count})
+    overdue_count = topics.filter(due_date__lt=today).count()
+    return render(request, "meetings/dashboard.html", {
+        "meetings": meetings, "topics": topics, "overdue_count": overdue_count, "today": today,
+    })
 
 @login_required
 def meeting_detail(request, pk):
@@ -60,7 +63,16 @@ def topic_edit(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
     form = TopicForm(request.POST or None, instance=topic)
     if request.method == "POST" and form.is_valid():
-        form.save()
+        old_series = topic.series
+        updated_topic = form.save(commit=False)
+        new_series = updated_topic.series
+        with transaction.atomic():
+            if old_series != new_series:
+                TopicTransferHistory.objects.create(
+                    topic=topic, from_series=old_series, to_series=new_series,
+                    transferred_by=request.user, note="Zuordnung im Themenformular geändert",
+                )
+            updated_topic.save()
         messages.success(request, "Thema gespeichert.")
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
