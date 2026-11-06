@@ -1,0 +1,22 @@
+{% extends "meetings/base.html" %}
+{% block title %}Benutzerverwaltung – Meeting Manager{% endblock %}
+{% block content %}
+<div class="topline"><div><h1>Benutzerverwaltung</h1><p class="muted">Konten, Zugänge und Administratorrechte verwalten.</p></div><a class="btn" href="{% url 'user_create' %}">+ Benutzer anlegen</a></div>
+<section class="card">
+<form method="get" class="actions"><input name="q" value="{{ query }}" placeholder="Benutzer oder Name suchen" style="max-width:360px;margin:0"><button type="submit">Suchen</button>{% if query %}<a class="btn secondary" href="{% url 'user_list' %}">Zurücksetzen</a>{% endif %}</form>
+</section>
+<section class="card">
+{% if users %}
+<div style="overflow-x:auto"><table><thead><tr><th>Benutzer</th><th>E-Mail</th><th>Status</th><th>Rolle</th><th>Aktionen</th></tr></thead><tbody>
+{% for item in users %}<tr>
+<td><strong>{{ item.username }}</strong><br><span class="muted">{{ item.get_full_name|default:"—" }}</span></td>
+<td>{{ item.email|default:"—" }}</td>
+<td>{% if item.is_active %}<span class="pill">Aktiv</span>{% else %}<span class="pill">Deaktiviert</span>{% endif %}</td>
+<td>{% if item.is_superuser %}Superuser{% elif item.is_staff %}Administrator{% else %}Benutzer{% endif %}</td>
+<td><div class="actions"><a class="btn secondary" href="{% url 'user_edit' item.pk %}">Bearbeiten</a><a class="btn secondary" href="{% url 'user_password' item.pk %}">Passwort setzen</a></div></td>
+</tr>{% endfor %}
+</tbody></table></div>
+{% else %}<p>Keine Benutzer gefunden.</p>{% endif %}
+</section>
+<p class="muted">Deaktivierte Konten können sich nicht mehr anmelden. Bestehende Protokolle und Themen bleiben erhalten.</p>
+{% endblock %}
