@@ -23,6 +23,7 @@ class Meeting(models.Model):
     series = models.ForeignKey(MeetingSeries, on_delete=models.CASCADE, related_name="meetings")
     date = models.DateField("Termin")
     title = models.CharField("Titel", max_length=180, blank=True)
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="meeting_participations", verbose_name="Teilnehmer")
     finalized_at = models.DateTimeField("Abgeschlossen am", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
