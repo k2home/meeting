@@ -1,22 +1,39 @@
 from django.conf import settings
 from django.db import migrations, models
+from django.db.migrations.operations.base import Operation
 import django.db.models.deletion
 
 
-def create_transfer_history_if_missing(apps, schema_editor):
-    model = apps.get_model("meetings", "TopicTransferHistory")
-    table_name = model._meta.db_table
-    existing_tables = schema_editor.connection.introspection.table_names()
-    if table_name not in existing_tables:
-        schema_editor.create_model(model)
+class EnsureModelTable(Operation):
+    """Create a model table only when it is not already present."""
 
+    reduces_to_sql = True
+    reversible = True
 
-def drop_transfer_history_if_present(apps, schema_editor):
-    model = apps.get_model("meetings", "TopicTransferHistory")
-    table_name = model._meta.db_table
-    existing_tables = schema_editor.connection.introspection.table_names()
-    if table_name in existing_tables:
-        schema_editor.delete_model(model)
+    def __init__(self, model_name):
+        self.model_name = model_name
+
+    def state_forwards(self, app_label, state):
+        # The accompanying SeparateDatabaseAndState operation owns state changes.
+        pass
+
+    def database_forwards(self, app_label, schema_editor, from_state, to_state):
+        model = to_state.apps.get_model(app_label, self.model_name)
+        existing = schema_editor.connection.introspection.table_names()
+        if model._meta.db_table not in existing:
+            schema_editor.create_model(model)
+
+    def database_backwards(self, app_label, schema_editor, from_state, to_state):
+        model = from_state.apps.get_model(app_label, self.model_name)
+        existing = schema_editor.connection.introspection.table_names()
+        if model._meta.db_table in existing:
+            schema_editor.delete_model(model)
+
+    def describe(self):
+        return f"Create {self.model_name} table if it does not exist"
+
+    def deconstruct(self):
+        return (self.__class__.__name__, [self.model_name], {})
 
 
 class Migration(migrations.Migration):
@@ -28,10 +45,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.SeparateDatabaseAndState(
             database_operations=[
-                migrations.RunPython(
-                    create_transfer_history_if_missing,
-                    drop_transfer_history_if_present,
-                ),
+                EnsureModelTable("TopicTransferHistory"),
             ],
             state_operations=[
                 migrations.CreateModel(
