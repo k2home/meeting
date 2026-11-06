@@ -1,3 +1,4 @@
+from datetime import timedelta
 from io import BytesIO
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -556,4 +557,37 @@ def topic_comment_add(request, pk):
         messages.success(request, "Kommentar hinzugefügt.")
     else:
         messages.error(request, "Bitte gib einen Kommentar ein (maximal 5.000 Zeichen).")
-    return redirect("topic_edit", pk=pk)
+    return redirect("topic_edit", pk=pk)def series_edit(request, pk):
+    series = get_object_or_404(MeetingSeries, pk=pk)
+    old_weekday = series.weekday
+    form = SeriesForm(request.POST or None, instance=series)
+    if request.method == "POST" and form.is_valid():
+        weekday_delta = (form.cleaned_data["weekday"] - old_weekday) % 7
+        today = timezone.localdate()
+        future = list(Meeting.objects.filter(
+            series=series, date__gte=today, finalized_at__isnull=True
+        ).order_by("date", "pk")) if weekday_delta else []
+        target_dates = [meeting.date + timedelta(days=weekday_delta) for meeting in future]
+        future_ids = [meeting.pk for meeting in future]
+        conflicts = Meeting.objects.filter(
+            series=series, date__in=target_dates
+        ).exclude(pk__in=future_ids)
+        if conflicts.exists():
+            form.add_error("weekday", "Die Verschiebung würde mit einem bereits abgeschlossenen oder anderweitig bestehenden Termin kollidieren.")
+        else:
+            with transaction.atomic():
+                updated = form.save()
+                if weekday_delta:
+                    # Move dates temporarily to avoid collisions with the unique (series, date) constraint.
+                    for meeting in future:
+                        meeting.date = meeting.date + timedelta(days=36500)
+                        meeting.save(update_fields=["date"])
+                    for meeting in future:
+                        meeting.date = meeting.date - timedelta(days=36500 - weekday_delta)
+                        meeting.save(update_fields=["date"])
+                    updated.start_date = updated.start_date + timedelta(days=weekday_delta)
+                    updated.save(update_fields=["start_date"])
+                generate_meetings(updated)
+            messages.success(request, "Besprechungsreihe gespeichert. Noch nicht abgeschlossene zukünftige Termine wurden auf den neuen Wochentag verschoben.")
+            return redirect("series_admin")
+    return render(request, "meetings/series_edit.html", {"form": form, "series": series})
