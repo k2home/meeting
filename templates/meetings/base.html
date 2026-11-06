@@ -1,6 +1,27 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Meeting Manager</title>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Meeting Manager{% endblock %}</title>
 <style>
-:root{font-family:system-ui,sans-serif;color:#202735;background:#f3f5f8}body{margin:0}header{background:#182536;color:white;padding:1rem 5vw;display:flex;gap:1.5rem;align-items:center}header a{color:white;text-decoration:none}main{max-width:1100px;margin:2rem auto;padding:0 1rem}.card{background:white;border:1px solid #dfe4eb;border-radius:12px;padding:1.2rem;margin:1rem 0}a{color:#1759a6}input,textarea,select{box-sizing:border-box;width:100%;padding:.7rem;border:1px solid #bac4d1;border-radius:7px;margin:.25rem 0 1rem}button,.btn{background:#185da8;color:white;border:0;border-radius:7px;padding:.7rem 1rem;cursor:pointer;text-decoration:none;display:inline-block}small,.muted{color:#667085}.messages{background:#e9f5ed;padding:.8rem;border-radius:8px}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:.6rem;border-bottom:1px solid #e5e7eb}
-@media print{header,.no-print{display:none}body{background:white}.card{border:0}}
-</style></head><body><header><strong>Meeting Manager</strong><a href="/">Übersicht</a><a href="/topics/new/">Neues Thema</a>{% if user.is_staff %}<a href="/admin/series/">Besprechungsreihen</a><a href="/django-admin/">Verwaltung</a>{% endif %}<span style="margin-left:auto">{{ user.username }}</span><a href="/logout/">Abmelden</a></header><main>{% for message in messages %}<p class="messages">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}</main></body></html>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#202735;background:#f3f5f8}*{box-sizing:border-box}body{margin:0}header{background:#182536;color:white;padding:.9rem max(1rem,calc((100vw - 1100px)/2));display:flex;gap:1rem;align-items:center;flex-wrap:wrap}header a{color:white;text-decoration:none;padding:.35rem .45rem;border-radius:6px}header a:hover{background:#34465d}.brand{font-weight:750;letter-spacing:.01em;margin-right:.5rem}main{max-width:1100px;margin:1.5rem auto;padding:0 1rem}.card{background:white;border:1px solid #dfe4eb;border-radius:12px;padding:1.2rem;margin:1rem 0;box-shadow:0 1px 2px #15223808}a{color:#1759a6}input,textarea,select{box-sizing:border-box;width:100%;padding:.72rem;border:1px solid #bac4d1;border-radius:7px;margin:.25rem 0 1rem;font:inherit}input:focus,textarea:focus,select:focus{outline:3px solid #b7d6f5;border-color:#2875bd}label{font-weight:600}.field-help,.muted,small{color:#667085}.messages{background:#e9f5ed;padding:.8rem 1rem;border-radius:8px}.errorlist{color:#a12626;padding-left:1.2rem}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:.65rem;border-bottom:1px solid #e5e7eb;vertical-align:top}th{color:#4b5563;font-size:.9rem}.btn,button{background:#185da8;color:white;border:0;border-radius:7px;padding:.72rem 1rem;cursor:pointer;text-decoration:none;display:inline-block;font:inherit;font-weight:600}.btn.secondary,button.secondary{background:#e8edf3;color:#243247}.btn.danger,button.danger{background:#a63838}.btn:hover,button:hover{filter:brightness(.94)}.actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}.actions form{margin:0}.topline{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}.pill{display:inline-block;padding:.2rem .55rem;border-radius:999px;background:#eef2f6;color:#344054;font-size:.82rem}.overdue{color:#a12626;font-weight:700}
+@media(max-width:650px){header{gap:.4rem}header .brand{width:100%}main{margin:1rem auto}td,th{padding:.45rem;font-size:.92rem}.card{padding:1rem}}
+@media print{header,.no-print{display:none!important}body{background:white}.card{border:0;box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+<a class="brand" href="/">Meeting Manager</a>
+{% if user.is_authenticated %}
+<a href="/">Übersicht</a><a href="/topics/new/">+ Thema</a><a href="/archive/">Archiv</a>
+{% if user.is_staff %}<a href="/admin/series/">Besprechungsreihen</a><a href="/django-admin/">Verwaltung</a>{% endif %}
+<span style="margin-left:auto">{{ user.username }}</span>
+<form method="post" action="/logout/" style="margin:0">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
+{% endif %}
+</header>
+<main>
+{% for message in messages %}<p class="messages">{{ message }}</p>{% endfor %}
+{% block content %}{% endblock %}
+</main>
+</body>
+</html>

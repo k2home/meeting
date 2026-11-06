@@ -1,1 +1,14 @@
-{% extends "meetings/base.html" %}{% block content %}<h1>Übersicht</h1><section class="card"><h2>Nächste Besprechungen</h2>{% for m in meetings %}<p><a href="/meeting/{{m.id}}/">{{m.series.name}} – {{m.date|date:"d.m.Y"}}</a></p>{% empty %}<p>Keine Termine vorhanden.</p>{% endfor %}</section><section class="card"><h2>Offene Themen</h2><p><a class="btn" href="/topics/new/">Thema anlegen</a></p><table><tr><th>Thema</th><th>Reihe</th><th>Fällig</th><th>Status</th></tr>{% for t in topics %}<tr><td><a href="/topics/{{t.id}}/">{{t.title}}</a></td><td>{{t.series|default:"—"}}</td><td>{{t.due_date|date:"d.m.Y"|default:"—"}}</td><td>{{t.get_status_display}}</td></tr>{% empty %}<tr><td colspan="4">Keine offenen Themen.</td></tr>{% endfor %}</table></section>{% endblock %}
+{% extends "meetings/base.html" %}
+{% block content %}
+<div class="topline"><div><p class="muted">Willkommen, {{ user.username }}</p><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle offenen Themen auf einen Blick.</p></div><a class="btn" href="{% url 'topic_new' %}">+ Neues Thema</a></div>
+{% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }} überfällige {% if overdue_count == 1 %}Thema{% else %}Themen{% endif %}</strong><span> — bitte Fälligkeiten prüfen.</span></div>{% endif %}
+<section class="card"><h2>Nächste Besprechungen</h2>
+{% for m in meetings %}<p><a href="{% url 'meeting' m.id %}"><strong>{{ m.series.name }}</strong> · {{ m.date|date:"D, d.m.Y" }}</a> {% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</p>
+{% empty %}<p class="muted">Keine zukünftigen Termine vorhanden. {% if user.is_staff %}<a href="{% url 'series_admin' %}">Besprechungsreihe einrichten</a>{% endif %}</p>{% endfor %}
+</section>
+<section class="card"><div class="topline"><h2>Offene Themen</h2><a href="{% url 'archive' %}">Zum Archiv</a></div>
+{% if topics %}<div style="overflow-x:auto"><table><thead><tr><th>Thema</th><th>Besprechungsreihe</th><th>Fällig</th><th>Status</th></tr></thead><tbody>
+{% for t in topics %}<tr><td><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td><td>{{ t.series|default:"—" }}</td><td>{% if t.due_date and t.due_date < today %}<span class="overdue">{{ t.due_date|date:"d.m.Y" }}</span>{% else %}{{ t.due_date|date:"d.m.Y"|default:"—" }}{% endif %}</td><td>{{ t.get_status_display }}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<p class="muted">Keine offenen Themen. Lege ein neues Thema an, um loszulegen.</p>{% endif %}
+</section>
+{% endblock %}

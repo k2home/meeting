@@ -23,7 +23,6 @@ install -d -o meetingapp -g www-data "$APP_DIR" "$APP_DIR/media" "$APP_DIR/stati
 cp -a "$SOURCE_DIR/." "$APP_DIR/"
 chown -R root:www-data "$APP_DIR"
 chown -R meetingapp:www-data "$APP_DIR/media" "$APP_DIR/staticfiles"
-chmod -R g+rX "$APP_DIR"
 
 echo "==> Richte lokale PostgreSQL-Datenbank ein"
 DB_PASSWORD="$(openssl rand -hex 24)"
@@ -36,10 +35,13 @@ if ! runuser -u postgres -- psql -tAc "SELECT 1 FROM pg_database WHERE datname='
   runuser -u postgres -- createdb --owner="$DB_USER" "$DB_NAME"
 fi
 
-echo "==> Erzeuge Python-Umgebung"
-python3 -m venv "$APP_DIR/.venv"
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install --upgrade pip
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt"
+echo "==> Erzeuge Python-Umgebung mit korrekten Berechtigungen"
+# Remove an incomplete virtualenv from a previous failed installation.
+rm -rf "$APP_DIR/.venv"
+install -d -o meetingapp -g www-data "$APP_DIR/.venv"
+runuser -u meetingapp -- python3 -m venv "$APP_DIR/.venv"
+runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install --upgrade pip
+runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR/requirements.txt"
 
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist (z.B. 192.168.1.50): " SITE_HOST
 SITE_HOST="${SITE_HOST:-localhost}"
@@ -56,11 +58,16 @@ POSTGRES_HOST=127.0.0.1
 POSTGRES_PORT=5432
 TIME_ZONE=Europe/Berlin
 EOF
-chmod 600 /etc/meeting-manager.env
+# The service account belongs to www-data and must be able to source this file
+# for one-off Django management commands. Keep it non-readable by other users.
+chown root:www-data /etc/meeting-manager.env
+chmod 640 /etc/meeting-manager.env
 
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --run-syncdb --noinput
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
+runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
+runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
@@ -78,6 +85,6 @@ echo "Installation abgeschlossen."
 echo "Website: http://$SITE_HOST/"
 echo "Status:  systemctl status meeting-manager"
 echo "Logs:    journalctl -u meeting-manager -f"
-echo "Admin:   sudo -u meetingapp $APP_DIR/.venv/bin/python $APP_DIR/manage.py createsuperuser"
+echo "Admin:   sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'"
 echo
-echo "WICHTIG: HTTP nur im internen LAN freigeben. Benutzername-ohne-Passwort-Login ist nicht sicher."
+echo "WICHTIG: HTTP nur im internen LAN freigeben. Benutzerkonten mit Passwort verwenden."

@@ -9,7 +9,7 @@ Die Anwendung läuft direkt auf Linux: Python-Virtualenv + Gunicorn + PostgreSQL
 ### Schnellinstallation
 
 1. Eine Debian- oder Ubuntu-VM auf Proxmox bereitstellen und per SSH anmelden.
-2. Repository nach dem Merge dieses Pull Requests klonen:
+2. Repository klonen:
    `git clone https://github.com/k2home/meeting.git`
 3. In das Verzeichnis wechseln und Installationsskript ausführen:
    ```bash
@@ -19,7 +19,7 @@ Die Anwendung läuft direkt auf Linux: Python-Virtualenv + Gunicorn + PostgreSQL
 4. Beim Installieren die IP-Adresse oder den DNS-Namen der VM angeben.
 5. Administratorkonto erstellen:
    ```bash
-   sudo -u meetingapp /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser
+   sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'
    ```
 6. Im Browser `http://SERVER-IP/` öffnen (Nginx auf Port 80).
 
@@ -34,15 +34,19 @@ sudo journalctl -u meeting-manager -f
 sudo systemctl status nginx
 ```
 
-Updates nach dem Merge neuer Änderungen:
+Updates nach dem Abruf neuer Änderungen:
 
 ```bash
 sudo /opt/meeting-manager/deploy/update.sh
 ```
 
+### Benutzerkonten
+
+Die Anmeldung erfolgt mit persönlichem Benutzernamen und Passwort. Unbekannte Benutzernamen werden nicht automatisch angelegt. Ein Administrator legt Konten im Bereich „Verwaltung“ an und vergibt dort Passwörter. Der erste Administrator wird mit `createsuperuser` eingerichtet.
+
 ### Netzwerkdateien / NAS
 
-Netzwerkfreigaben werden auf der **VM selbst** gemountet, nicht in einem Container. Beispiel: NAS-Freigabe nach `/mnt/meeting-share` mounten und diesen Pfad in den Themen als Netzwerkpfad hinterlegen. SMB-Pfade werden als Referenz gespeichert; Browser öffnen SMB-Pfade nicht zuverlässig direkt. Uploads liegen unter `/opt/meeting-manager/media`.
+Netzwerkfreigaben werden auf der **VM selbst** gemountet. Beispiel: NAS-Freigabe nach `/mnt/meeting-share` mounten und diesen Pfad in den Themen als Netzwerkpfad hinterlegen. SMB-Pfade werden als Referenz gespeichert; Browser öffnen SMB-Pfade nicht zuverlässig direkt. Uploads liegen unter `/opt/meeting-manager/media`.
 
 ### Backups
 
@@ -52,21 +56,24 @@ Mindestens PostgreSQL und den Upload-Ordner `/opt/meeting-manager/media` regelm�
 sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 ```
 
-## Funktionsumfang dieses ersten MVP
+## Aktueller Funktionsumfang
 
 - Besprechungsreihen und automatische Terminserien (wöchentlich, 14-tägig, monatlich); Verwaltung nur für Staff/Admin.
 - Themen mit Fälligkeitsdatum, Status und Zuordnung zu einer Reihe.
-- Fällige Themen werden beim Öffnen eines Meetings in die Tagesordnung übernommen.
+- Fällige Themen werden beim Öffnen eines Meetings in die Tagesordnung übernommen; offene Themen aus dem letzten abgeschlossenen Meeting werden weitergeführt.
 - Tagesordnungstext kann pro Meeting bearbeitet werden.
 - Beim administrativen Abschluss wird ein Protokoll-Snapshot gespeichert; Protokolle können alle angemeldeten Benutzer drucken.
 - Uploads und mehrere Netzwerkpfad-/Link-Referenzen pro Thema.
+- Themen können archiviert und wieder geöffnet werden.
+- Themen können in eine andere Besprechungsreihe übertragen werden; die Übertragung wird mit Zeit, Benutzer und optionaler Notiz protokolliert.
+- Anmeldung mit Benutzername und Passwort; Benutzerkonten werden nicht mehr automatisch angelegt.
 
 ## Sicherheit und Grenzen
 
-**Dies ist ein MVP und noch nicht produktionsreif.** Die aktuelle Anmeldung akzeptiert nur einen Benutzernamen und legt unbekannte Namen automatisch an. Das ist keine belastbare Identitätsprüfung und erlaubt Identitätsübernahme im LAN. Vor produktivem Einsatz bitte Passwort-/SSO-Login aktivieren, HTTPS und Firewall einsetzen, Backups einrichten und Tests ergänzen. Port 80 nur im internen Netz freigeben. Hochgeladene Dateien werden derzeit über Nginx direkt aus dem Media-Verzeichnis ausgeliefert und sollten daher keine vertraulichen Inhalte enthalten.
+**Die Anwendung ist weiterhin ein MVP und noch nicht produktionsreif.** Vor produktivem Einsatz bitte HTTPS und Firewall einsetzen, Backups einrichten, die Benutzerverwaltung testen und automatisierte Tests ausführen. Port 80 nur im internen Netz freigeben. Hochgeladene Dateien werden derzeit über Nginx direkt aus dem Media-Verzeichnis ausgeliefert und sollten daher keine vertraulichen Inhalte enthalten. Passwörter werden von Django gehasht gespeichert.
 
-Weitere geplante Ausbauschritte: komfortable Terminänderung und -vorschau, expliziter Themen-Transfer mit Historie zwischen Reihen, Themenarchiv/Wiedereröffnung, Benutzerverwaltung in der Oberfläche, Berechtigungs-/Audit-Tests und automatisierte CI-Tests.
+Weitere Ausbauschritte: komfortable Terminänderung und -vorschau, eigenständige Benutzerverwaltung, sichere Downloadberechtigungen für vertrauliche Uploads, durchgängige Audit-Historie und automatisierte CI-Tests.
 
 ## Hinweis zum Datenbankschema
 
-Das Erstinstallationsskript erstellt die Tabellen für den aktuellen MVP-Stand. Für spätere Modelländerungen müssen reguläre Django-Migrationen erzeugt und mit dem Update ausgerollt werden.
+Die Anwendung verwendet derzeit noch keine regulären Django-Migrationsdateien. Neue Tabellen werden bei der Installation/Aktualisierung über `migrate` angelegt. Vor produktiver Nutzung sollte auf reguläre, versionierte Migrationen umgestellt werden.
