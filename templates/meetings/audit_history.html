@@ -1,0 +1,48 @@
+{% extends "meetings/base.html" %}
+{% block title %}Änderungsverlauf – Meeting Manager{% endblock %}
+{% block content %}
+<div class="topline">
+  <div><p class="muted"><a href="/">Übersicht</a> / Verlauf</p><h1>Änderungsverlauf</h1>
+  <p class="muted">Hier siehst du, wer wann welche Änderungen vorgenommen hat. Die Einträge werden automatisch erzeugt und können nicht über die Oberfläche bearbeitet werden.</p></div>
+</div>
+<div class="card no-print">
+  <form method="get">
+    <label for="topic-filter">Nach Thema filtern</label>
+    <select id="topic-filter" name="topic">
+      <option value="">Alle Änderungen</option>
+      {% for topic in topics %}<option value="{{ topic.pk }}" {% if selected_topic == topic.pk|stringformat:"s" %}selected{% endif %}>{{ topic.title }}</option>{% endfor %}
+    </select>
+    <button type="submit">Filtern</button>
+    {% if selected_topic %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
+  </form>
+</div>
+{% for event in events %}
+  <article class="card">
+    <div class="topline">
+      <strong>{{ event.get_action_display }}</strong>
+      <span class="muted">{{ event.created_at|date:"d.m.Y H:i" }}</span>
+    </div>
+    <p>{{ event.summary }}</p>
+    <p class="muted">Von {% if event.actor %}{{ event.actor.get_full_name|default:event.actor.username }}{% else %}System / gelöschtem Benutzer{% endif %}
+      {% if event.topic %} · <a href="{% url 'topic_edit' event.topic.pk %}">{{ event.topic.title }}</a>{% endif %}
+      {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{{ event.meeting.series.name }} am {{ event.meeting.date|date:"d.m.Y" }}</a>{% endif %}
+    </p>
+    {% if event.changes %}
+      <details><summary>Details anzeigen</summary>
+        <dl class="audit-changes">
+        {% for label, value in event.changes.items %}
+          <dt>{{ label }}</dt>
+          {% if value.vorher is not None or value.nachher is not None %}
+            <dd><span class="muted">Vorher:</span> {{ value.vorher|default:"—"|linebreaksbr }}</dd>
+            <dd><span class="muted">Nachher:</span> {{ value.nachher|default:"—"|linebreaksbr }}</dd>
+          {% else %}<dd>{{ value }}</dd>{% endif %}
+        {% endfor %}
+        </dl>
+      </details>
+    {% endif %}
+  </article>
+{% empty %}
+  <div class="card"><p>Noch keine Änderungen vorhanden.</p></div>
+{% endfor %}
+{% if events|length == 250 %}<p class="muted">Es werden höchstens 250 Einträge angezeigt. Nutze den Themenfilter, um ältere Einträge gezielt zu finden.</p>{% endif %}
+{% endblock %}
