@@ -20,7 +20,7 @@ if ! id meetingapp >/dev/null 2>&1; then
   useradd --system --home-dir "$APP_DIR" --shell /usr/sbin/nologin --gid www-data meetingapp
 fi
 install -d -o meetingapp -g www-data "$APP_DIR" "$APP_DIR/media" "$APP_DIR/staticfiles"
-cp -a "$SOURCE_DIR/. " "$APP_DIR/" 2>/dev/null || cp -a "$SOURCE_DIR/." "$APP_DIR/"
+cp -a "$SOURCE_DIR/." "$APP_DIR/"
 chown -R root:www-data "$APP_DIR"
 chown -R meetingapp:www-data "$APP_DIR/media" "$APP_DIR/staticfiles"
 
