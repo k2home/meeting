@@ -8,6 +8,14 @@
 </div>
 <h1>Protokoll</h1>
 <p>{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</p>
+<section class="card">
+  <h2>Teilnehmer</h2>
+  {% for participant in participants %}
+    <span class="pill">{{ participant.get_full_name|default:participant.username }}</span>
+  {% empty %}
+    <p>Keine Teilnehmer eingetragen.</p>
+  {% endfor %}
+</section>
 {% if meeting.finalized_at %}
 <p class="muted">Gesicherter Stand vom {{ meeting.finalized_at|date:"d.m.Y H:i" }}</p>
 {% else %}
