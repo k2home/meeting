@@ -1,1 +1,121 @@
-{% extends "meetings/base.html" %}{% block content %}<h1>{{meeting.series.name}} – {{meeting.date|date:"d.m.Y"}}</h1><p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p><div class="no-print"><a class="btn" href="/meeting/{{meeting.id}}/protocol/">Protokoll / Drucken</a></div>{% for item in items %}<div class="card"><h2>{{item.topic.title}}</h2><p class="muted">Fällig: {{item.topic.due_date|date:"d.m.Y"|default:"—"}} · {% if item.carried_forward %}Übernommen · {% endif %}{{item.topic.get_status_display}} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to.get_full_name|default:item.topic.assigned_to.username }}{% else %}Nicht zugewiesen{% endif %}</p>{% if not meeting.finalized_at %}<form method="post">{% csrf_token %}<input type="hidden" name="item_id" value="{{item.id}}"><label>Text für dieses Protokoll</label><textarea name="working_text" rows="6">{{item.working_text}}</textarea><button>Text speichern</button></form>{% else %}<p>{{item.working_text|linebreaksbr}}</p>{% endif %}</div>{% empty %}<div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>{% endfor %}{% if user.is_staff and not meeting.finalized_at %}<form class="no-print" method="post" action="/meeting/{{meeting.id}}/finalize/">{% csrf_token %}<button>Besprechung abschließen & Protokollstand sichern</button></form>{% endif %}{% endblock %}
+{% extends "meetings/base.html" %}
+{% block content %}
+<h1>{{ meeting.series.name }} – {{ meeting.date|date:"d.m.Y" }}</h1>
+<p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
+<div class="no-print actions">
+  <a class="btn" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
+  {% if not meeting.finalized_at %}<span class="muted">Tagesordnung: Elemente per Ziehen verschieben oder mit den Pfeilen sortieren.</span>{% endif %}
+</div>
+{% if not meeting.finalized_at and items %}
+<form id="agenda-reorder-form" class="card no-print" method="post" action="{% url 'agenda_reorder' meeting.id %}">
+  {% csrf_token %}
+  <div id="agenda-order-inputs"></div>
+  <button type="submit">Reihenfolge speichern</button>
+</form>
+{% endif %}
+<div id="agenda-list">
+{% for item in items %}
+  <div class="card agenda-item" data-agenda-item="{{ item.id }}" {% if not meeting.finalized_at %}draggable="true"{% endif %}>
+    <div class="topline">
+      <h2>{{ item.topic.title }}</h2>
+      {% if not meeting.finalized_at %}
+      <div class="no-print actions">
+        <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
+        <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
+        <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
+      </div>
+      {% endif %}
+    </div>
+    <p class="muted">Fällig: {{ item.topic.due_date|date:"d.m.Y"|default:"—" }} · {% if item.carried_forward %}Übernommen · {% endif %}{{ item.topic.get_status_display }} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to.get_full_name|default:item.topic.assigned_to.username }}{% else %}Nicht zugewiesen{% endif %}</p>
+    {% if not meeting.finalized_at %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="item_id" value="{{ item.id }}">
+      <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
+      <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
+      <button type="submit">Text speichern</button>
+    </form>
+    {% else %}
+    <p>{{ item.working_text|linebreaksbr }}</p>
+    {% endif %}
+  </div>
+{% empty %}
+  <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
+{% endfor %}
+</div>
+{% if user.is_staff and not meeting.finalized_at %}
+<form class="no-print" method="post" action="{% url 'finalize' meeting.id %}">
+  {% csrf_token %}
+  <button>Besprechung abschließen &amp; Protokollstand sichern</button>
+</form>
+{% endif %}
+{% if not meeting.finalized_at and items %}
+<script>
+(function () {
+  const list = document.getElementById("agenda-list");
+  const orderForm = document.getElementById("agenda-reorder-form");
+  const inputContainer = document.getElementById("agenda-order-inputs");
+  if (!list || !orderForm || !inputContainer) return;
+
+  let dragged = null;
+  const cards = () => Array.from(list.querySelectorAll(":scope > .agenda-item"));
+
+  function syncOrder() {
+    inputContainer.replaceChildren();
+    cards().forEach((card) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = "item_ids";
+      input.value = card.dataset.agendaItem;
+      inputContainer.appendChild(input);
+    });
+  }
+
+  list.addEventListener("dragstart", (event) => {
+    const card = event.target.closest(".agenda-item");
+    if (!card) return;
+    dragged = card;
+    card.classList.add("dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", card.dataset.agendaItem);
+  });
+
+  list.addEventListener("dragover", (event) => {
+    if (!dragged) return;
+    event.preventDefault();
+    const target = event.target.closest(".agenda-item");
+    if (!target || target === dragged) return;
+    const bounds = target.getBoundingClientRect();
+    const after = event.clientY > bounds.top + bounds.height / 2;
+    list.insertBefore(dragged, after ? target.nextSibling : target);
+  });
+
+  list.addEventListener("drop", (event) => {
+    if (!dragged) return;
+    event.preventDefault();
+    syncOrder();
+  });
+
+  list.addEventListener("dragend", () => {
+    if (dragged) dragged.classList.remove("dragging");
+    dragged = null;
+    syncOrder();
+  });
+
+  list.addEventListener("click", (event) => {
+    const button = event.target.closest(".move-up, .move-down");
+    if (!button) return;
+    const card = button.closest(".agenda-item");
+    if (button.classList.contains("move-up") && card.previousElementSibling) {
+      list.insertBefore(card, card.previousElementSibling);
+    } else if (button.classList.contains("move-down") && card.nextElementSibling) {
+      list.insertBefore(card.nextElementSibling, card);
+    }
+    syncOrder();
+  });
+
+  syncOrder();
+})();
+</script>
+{% endif %}
+{% endblock %}
