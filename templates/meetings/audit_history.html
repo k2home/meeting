@@ -32,7 +32,16 @@
         <dl class="audit-changes">
         {% for label, value in event.changes.items %}
           <dt>{{ label }}</dt>
-          {% if value.vorher is not None or value.nachher is not None %}
+          {% if label == "Gesicherter Protokollstand" %}
+            <dd><ul>
+              {% for snapshot in value %}
+              <li><strong>{{ snapshot.topic_title }}</strong>
+                <p>{{ snapshot.text|linebreaksbr|default:"—" }}</p>
+                <small>Status: {{ snapshot.status }}</small>
+              </li>
+              {% endfor %}
+            </ul></dd>
+          {% elif value.vorher is not None or value.nachher is not None %}
             <dd><span class="muted">Vorher:</span> {{ value.vorher|default:"—"|linebreaksbr }}</dd>
             <dd><span class="muted">Nachher:</span> {{ value.nachher|default:"—"|linebreaksbr }}</dd>
           {% else %}<dd>{{ value }}</dd>{% endif %}

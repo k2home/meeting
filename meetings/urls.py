@@ -12,6 +12,7 @@ urlpatterns = [
     path("meeting/<int:pk>/protocol/pdf/", views.protocol_pdf, name="protocol_pdf"),
     path("meeting/<int:pk>/protocol/word/", views.protocol_docx, name="protocol_docx"),
     path("meeting/<int:pk>/finalize/", views.finalize, name="finalize"),
+    path("meeting/<int:pk>/reopen/", views.meeting_reopen, name="meeting_reopen"),
     path("topics/new/", views.topic_new, name="topic_new"),
     path("topics/<int:pk>/", views.topic_edit, name="topic_edit"),
     path("topics/<int:pk>/comments/add/", views.topic_comment_add, name="topic_comment_add"),

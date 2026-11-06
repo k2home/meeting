@@ -339,6 +339,76 @@ class ProtocolExportTests(TestCase):
             self.assertIn(reverse("login"), response.url)
 
 
+class MeetingReopenTests(TestCase):
+    def setUp(self):
+        from django.utils import timezone
+        from .models import TopicSnapshot
+
+        self.admin = User.objects.create_user(
+            username="meeting-admin", password="strong-test-password", is_staff=True
+        )
+        self.client.force_login(self.admin)
+        self.series = MeetingSeries.objects.create(name="Wiederöffnungs-Reihe")
+        self.meeting = Meeting.objects.create(
+            series=self.series, date="2026-11-06", finalized_at=timezone.now()
+        )
+        self.topic = Topic.objects.create(title="Wartungsplanung", series=self.series)
+        self.item = AgendaItem.objects.create(
+            meeting=self.meeting, topic=self.topic, working_text="Ursprünglicher Stand"
+        )
+        self.snapshot = TopicSnapshot.objects.create(
+            meeting=self.meeting, topic_title="Wartungsplanung",
+            text="Gesicherter Stand", status="open", topic_id=self.topic.pk,
+        )
+
+    def test_admin_can_reopen_meeting_and_previous_snapshot_is_audited(self):
+        from .models import AuditEvent
+
+        response = self.client.post(reverse("meeting_reopen", args=[self.meeting.pk]))
+
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.meeting.refresh_from_db()
+        self.assertIsNone(self.meeting.finalized_at)
+        self.assertFalse(self.meeting.snapshots.exists())
+        event = AuditEvent.objects.get(meeting=self.meeting, action="reopened")
+        self.assertEqual(event.actor, self.admin)
+        self.assertEqual(
+            event.changes["Gesicherter Protokollstand"][0]["text"],
+            "Gesicherter Stand",
+        )
+        self.assertEqual(event.changes["Abgeschlossen am"]["nachher"], None)
+
+    def test_reopened_meeting_can_be_completed_again_with_a_new_snapshot(self):
+        self.client.post(reverse("meeting_reopen", args=[self.meeting.pk]))
+        self.item.working_text = "Überarbeiteter Stand"
+        self.item.save(update_fields=["working_text"])
+
+        response = self.client.post(reverse("finalize", args=[self.meeting.pk]))
+
+        self.assertRedirects(response, reverse("protocol", args=[self.meeting.pk]))
+        self.meeting.refresh_from_db()
+        self.assertIsNotNone(self.meeting.finalized_at)
+        self.assertEqual(self.meeting.snapshots.count(), 1)
+        self.assertEqual(self.meeting.snapshots.get().text, "Überarbeiteter Stand")
+
+    def test_non_staff_user_cannot_reopen_meeting(self):
+        member = User.objects.create_user(username="meeting-member", password="strong-test-password")
+        self.client.force_login(member)
+
+        response = self.client.post(reverse("meeting_reopen", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response.url)
+        self.meeting.refresh_from_db()
+        self.assertIsNotNone(self.meeting.finalized_at)
+
+    def test_get_request_cannot_reopen_meeting(self):
+        response = self.client.get(reverse("meeting_reopen", args=[self.meeting.pk]))
+        self.assertEqual(response.status_code, 403)
+        self.meeting.refresh_from_db()
+        self.assertIsNotNone(self.meeting.finalized_at)
+
+
 class MeetingParticipantTests(TestCase):
     def setUp(self):
         self.organizer = User.objects.create_user(username="organizer", password="strong-test-password")
