@@ -5,6 +5,12 @@
   <a class="btn" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
   <a class="btn secondary" href="{% url 'protocol_docx' meeting.id %}">Word herunterladen</a>
   <a href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
+  {% if meeting.finalized_at and user.is_staff %}
+  <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
+    {% csrf_token %}
+    <button type="submit" class="secondary">Besprechung wieder öffnen</button>
+  </form>
+  {% endif %}
 </div>
 <h1>Protokoll</h1>
 <p>{{ meeting.series.name|default:'Gelöschte Besprechungsreihe' }} · {{ meeting.date|date:"d.m.Y" }}</p>

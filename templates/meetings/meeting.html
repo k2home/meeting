@@ -28,7 +28,14 @@
 </section>
 <div class="no-print actions">
   <a class="btn" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if not meeting.finalized_at %}<span class="muted">Tagesordnung: Elemente per Ziehen verschieben oder mit den Pfeilen sortieren.</span>{% endif %}
+  {% if meeting.finalized_at and user.is_staff %}
+  <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
+    {% csrf_token %}
+    <button type="submit" class="secondary">Besprechung wieder öffnen</button>
+  </form>
+  {% elif not meeting.finalized_at %}
+  <span class="muted">Tagesordnung: Elemente per Ziehen verschieben oder mit den Pfeilen sortieren.</span>
+  {% endif %}
 </div>
 {% if not meeting.finalized_at and items %}
 <form id="agenda-reorder-form" class="card no-print" method="post" action="{% url 'agenda_reorder' meeting.id %}">

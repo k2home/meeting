@@ -651,12 +651,52 @@ def finalize(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
     meeting = get_object_or_404(Meeting, pk=pk)
+    if meeting.finalized_at:
+        messages.info(request, "Diese Besprechung ist bereits abgeschlossen.")
+        return redirect("protocol", pk=pk)
     finalize_meeting(meeting)
     record_event(actor=request.user, action="finalized",
                  summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
                  meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
     messages.success(request, "Besprechung abgeschlossen; Protokoll-Snapshot gespeichert.")
     return redirect("protocol", pk=pk)
+
+
+@login_required
+@user_passes_test(admin_only)
+def meeting_reopen(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    meeting = get_object_or_404(Meeting, pk=pk)
+    if not meeting.finalized_at:
+        messages.info(request, "Diese Besprechung ist bereits geöffnet.")
+        return redirect("meeting", pk=pk)
+
+    with transaction.atomic():
+        previous_finalized_at = meeting.finalized_at
+        previous_snapshot = list(meeting.snapshots.values(
+            "topic_title", "text", "status", "topic_id"
+        ))
+        # Keep the previous immutable protocol in the append-only audit event.
+        # Remove active snapshots so a later completion can create a fresh version.
+        meeting.snapshots.all().delete()
+        meeting.finalized_at = None
+        meeting.save(update_fields=["finalized_at"])
+        record_event(
+            actor=request.user,
+            action="reopened",
+            summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} wieder geöffnet",
+            meeting=meeting,
+            changes={
+                "Abgeschlossen am": {
+                    "vorher": previous_finalized_at.isoformat(),
+                    "nachher": None,
+                },
+                "Gesicherter Protokollstand": previous_snapshot,
+            },
+        )
+    messages.success(request, "Besprechung wurde wieder geöffnet. Der vorherige Protokollstand bleibt im Änderungsverlauf erhalten.")
+    return redirect("meeting", pk=pk)
 
 
 @login_required
