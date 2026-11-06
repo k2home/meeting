@@ -20,7 +20,7 @@ if ! id meetingapp >/dev/null 2>&1; then
   useradd --system --home-dir "$APP_DIR" --shell /usr/sbin/nologin --gid www-data meetingapp
 fi
 install -d -o meetingapp -g www-data "$APP_DIR" "$APP_DIR/media" "$APP_DIR/staticfiles"
-cp -a "$SOURCE_DIR/." "$APP_DIR/"
+cp -a "$SOURCE_DIR/. " "$APP_DIR/" 2>/dev/null || cp -a "$SOURCE_DIR/." "$APP_DIR/"
 chown -R root:www-data "$APP_DIR"
 chown -R meetingapp:www-data "$APP_DIR/media" "$APP_DIR/staticfiles"
 
@@ -58,11 +58,12 @@ POSTGRES_HOST=127.0.0.1
 POSTGRES_PORT=5432
 TIME_ZONE=Europe/Berlin
 EOF
-chmod 600 /etc/meeting-manager.env
+# The service account belongs to www-data and must be able to source this file
+# for one-off Django management commands. Keep it non-readable by other users.
+chown root:www-data /etc/meeting-manager.env
+chmod 640 /etc/meeting-manager.env
 
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
-# Load the same settings for one-off management commands that systemd loads
-# for the long-running service. Keep the env file out of the root shell.
 runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --run-syncdb --noinput
 runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
