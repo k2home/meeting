@@ -8,7 +8,7 @@
 </section>
 <section class="card"><div class="topline"><h2>Offene Themen</h2><a href="{% url 'archive' %}">Zum Archiv</a></div>
 {% if topics %}<div style="overflow-x:auto"><table><thead><tr><th>Thema</th><th>Besprechungsreihe</th><th>Fällig</th><th>Verantwortlich</th><th>Status</th></tr></thead><tbody>
-{% for t in topics %}<tr><td><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td><td>{{ t.series|default:"—" }}</td><td>{% if t.due_date and t.due_date < today %}<span class="overdue">{{ t.due_date|date:"d.m.Y" }}</span>{% else %}{{ t.due_date|date:"d.m.Y"|default:"—" }}{% endif %}</td><td>{% if t.assigned_to %}{{ t.assigned_to.get_full_name|default:t.assigned_to.username }}{% else %}<span class="muted">Nicht zugewiesen</span>{% endif %}</td><td>{% if t.assigned_to %}{{ t.assigned_to.get_full_name|default:t.assigned_to.username }}{% else %}<span class="muted">Nicht zugewiesen</span>{% endif %}</td><td>{{ t.get_status_display }}</td></tr>{% endfor %}
+{% for t in topics %}<tr><td><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td><td>{{ t.series|default:"—" }}</td><td>{% if t.due_date and t.due_date < today %}<span class="overdue">{{ t.due_date|date:"d.m.Y" }}</span>{% else %}{{ t.due_date|date:"d.m.Y"|default:"—" }}{% endif %}</td><td>{% if t.assigned_to %}{{ t.assigned_to.get_full_name|default:t.assigned_to.username }}{% else %}<span class="muted">Nicht zugewiesen</span>{% endif %}</td><td>{{ t.get_status_display }}</td></tr>{% endfor %}
 </tbody></table></div>{% else %}<p class="muted">Keine offenen Themen. Lege ein neues Thema an, um loszulegen.</p>{% endif %}
 </section>
 {% endblock %}
