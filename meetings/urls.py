@@ -18,5 +18,9 @@ urlpatterns = [
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("archive/", views.archive, name="archive"),
-    path("admin/series/", views.series_admin, name="series_admin"),\n    path("admin/users/", user_views.user_list, name="user_list"),\n    path("admin/users/new/", user_views.user_create, name="user_create"),\n    path("admin/users/<int:pk>/edit/", user_views.user_edit, name="user_edit"),\n    path("admin/users/<int:pk>/password/", user_views.user_password, name="user_password"),
+    path("admin/series/", views.series_admin, name="series_admin"),
+    path("admin/users/", user_views.user_list, name="user_list"),
+    path("admin/users/new/", user_views.user_create, name="user_create"),
+    path("admin/users/<int:pk>/edit/", user_views.user_edit, name="user_edit"),
+    path("admin/users/<int:pk>/password/", user_views.user_password, name="user_password"),
 ]
