@@ -10,10 +10,12 @@ urlpatterns = [
     path("meeting/<int:pk>/finalize/", views.finalize, name="finalize"),
     path("topics/new/", views.topic_new, name="topic_new"),
     path("topics/<int:pk>/", views.topic_edit, name="topic_edit"),
+    path("topics/<int:pk>/comments/add/", views.topic_comment_add, name="topic_comment_add"),
     path("topics/<int:pk>/archive/", views.topic_archive, name="topic_archive"),
     path("topics/<int:pk>/reopen/", views.topic_reopen, name="topic_reopen"),
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("archive/", views.archive, name="archive"),
+    path("history/", views.audit_history, name="audit_history"),
     path("admin/series/", views.series_admin, name="series_admin"),
 ]

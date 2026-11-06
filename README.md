@@ -66,13 +66,16 @@ sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
 - Uploads und mehrere Netzwerkpfad-/Link-Referenzen pro Thema.
 - Themen können archiviert und wieder geöffnet werden.
 - Themen können in eine andere Besprechungsreihe übertragen werden; die Übertragung wird mit Zeit, Benutzer und optionaler Notiz protokolliert.
+- Änderungsverlauf für Themen, Statuswechsel, Fälligkeiten, Anlagen, Agendatexte und abgeschlossene Besprechungen; Einträge zeigen Benutzer, Zeitpunkt und vorherige/neue Werte.
+- Themen können einer verantwortlichen Person zugewiesen werden. Kommentare und nächste Schritte werden chronologisch am Thema gesammelt und ebenfalls im Änderungsverlauf erfasst.
+- Der Änderungsverlauf ist für angemeldete Benutzer einsehbar, nach Thema filterbar und im Django-Admin schreibgeschützt.
 - Anmeldung mit Benutzername und Passwort; Benutzerkonten werden nicht mehr automatisch angelegt.
 
 ## Sicherheit und Grenzen
 
 **Die Anwendung ist weiterhin ein MVP und noch nicht produktionsreif.** Vor produktivem Einsatz bitte HTTPS und Firewall einsetzen, Backups einrichten, die Benutzerverwaltung testen und automatisierte Tests ausführen. Port 80 nur im internen Netz freigeben. Hochgeladene Dateien werden derzeit über Nginx direkt aus dem Media-Verzeichnis ausgeliefert und sollten daher keine vertraulichen Inhalte enthalten. Passwörter werden von Django gehasht gespeichert.
 
-Weitere Ausbauschritte: komfortable Terminänderung und -vorschau, eigenständige Benutzerverwaltung, sichere Downloadberechtigungen für vertrauliche Uploads, durchgängige Audit-Historie und automatisierte CI-Tests.
+Weitere Ausbauschritte: komfortable Terminänderung und -vorschau, sichere Downloadberechtigungen für vertrauliche Uploads, erweiterte Audit-Abdeckung für Termin- und Benutzerverwaltung sowie automatisierte CI-Tests.
 
 ## Hinweis zum Datenbankschema
 

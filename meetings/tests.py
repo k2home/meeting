@@ -44,3 +44,89 @@ class TopicWorkflowTests(TestCase):
         self.assertEqual(history.to_series, self.series_b)
         self.assertEqual(history.transferred_by, self.user)
         self.assertEqual(history.note, "Zuständigkeit")
+
+
+class AuditHistoryTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="auditor", password="strong-test-password")
+        self.series = MeetingSeries.objects.create(name="Audit-Reihe")
+        self.topic = Topic.objects.create(title="Audit-Thema", series=self.series)
+
+    def test_topic_edit_records_field_changes_and_actor(self):
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
+            "title": "Neuer Titel",
+            "description": "Neue Beschreibung",
+            "due_date": "2026-12-01",
+            "status": "open",
+            "series": self.series.pk,
+        })
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(topic=self.topic, action="updated")
+        self.assertEqual(event.actor, self.user)
+        self.assertEqual(event.changes["Titel"]["vorher"], "Audit-Thema")
+        self.assertEqual(event.changes["Titel"]["nachher"], "Neuer Titel")
+        self.assertEqual(event.changes["Beschreibung"]["nachher"], "Neue Beschreibung")
+
+    def test_archive_and_reopen_are_logged(self):
+        self.client.force_login(self.user)
+        self.client.post(reverse("topic_archive", args=[self.topic.pk]))
+        self.client.post(reverse("topic_reopen", args=[self.topic.pk]))
+        from .models import AuditEvent
+        actions = list(AuditEvent.objects.filter(topic=self.topic).order_by("created_at").values_list("action", flat=True))
+        self.assertEqual(actions, ["archived", "reopened"])
+
+    def test_history_page_requires_login_and_displays_entries(self):
+        from .models import AuditEvent
+        AuditEvent.objects.create(topic=self.topic, actor=self.user, action="created", summary="Testeintrag")
+        response = self.client.get(reverse("audit_history"))
+        self.assertEqual(response.status_code, 302)
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("audit_history"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Testeintrag")
+
+
+class TopicTaskManagementTests(TestCase):
+    def setUp(self):
+        self.owner = User.objects.create_user(username="owner", password="strong-test-password")
+        self.member = User.objects.create_user(username="member", password="strong-test-password")
+        self.series = MeetingSeries.objects.create(name="Aufgaben-Reihe")
+        self.topic = Topic.objects.create(title="Aufgabe", series=self.series)
+
+    def test_topic_can_be_assigned_and_assignment_is_audited(self):
+        self.client.force_login(self.member)
+        response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
+            "title": self.topic.title,
+            "description": self.topic.description,
+            "due_date": "",
+            "status": "open",
+            "series": self.series.pk,
+            "assigned_to": self.owner.pk,
+        })
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.assigned_to, self.owner)
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(topic=self.topic, action="updated")
+        self.assertEqual(event.changes["Verantwortlich"]["vorher"], None)
+        self.assertEqual(event.changes["Verantwortlich"]["nachher"], "owner")
+
+    def test_user_can_add_comment_and_comment_is_audited(self):
+        self.client.force_login(self.member)
+        response = self.client.post(reverse("topic_comment_add", args=[self.topic.pk]), {
+            "body": "Rückmeldung: Angebot wird bis Freitag eingeholt."
+        })
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        from .models import AuditEvent, TopicComment
+        comment = TopicComment.objects.get(topic=self.topic)
+        self.assertEqual(comment.author, self.member)
+        self.assertEqual(comment.body, "Rückmeldung: Angebot wird bis Freitag eingeholt.")
+        self.assertTrue(AuditEvent.objects.filter(
+            topic=self.topic, actor=self.member, action="comment_added"
+        ).exists())
+
+    def test_comment_endpoint_requires_login(self):
+        response = self.client.post(reverse("topic_comment_add", args=[self.topic.pk]), {"body": "Test"})
+        self.assertEqual(response.status_code, 302)
