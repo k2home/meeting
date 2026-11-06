@@ -33,7 +33,7 @@ class EnsureModelTable(Operation):
         return f"Create {self.model_name} table if it does not exist"
 
     def deconstruct(self):
-        return (self.__class__.__name__, [self.model_name], {})
+        return ("meetings.migrations.0002_topic_transfer_history.EnsureModelTable", [self.model_name], {})
 
 
 class Migration(migrations.Migration):
