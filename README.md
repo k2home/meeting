@@ -76,4 +76,4 @@ Weitere Ausbauschritte: komfortable Terminänderung und -vorschau, eigenständig
 
 ## Hinweis zum Datenbankschema
 
-Die Anwendung verwendet derzeit noch keine regulären Django-Migrationsdateien. Neue Tabellen werden bei der Installation/Aktualisierung über `migrate --run-syncdb` angelegt. Vor produktiver Nutzung sollte auf reguläre, versionierte Migrationen umgestellt werden.
+Die Anwendung verwendet derzeit noch keine regulären Django-Migrationsdateien. Neue Tabellen werden bei der Installation/Aktualisierung über `migrate` angelegt. Vor produktiver Nutzung sollte auf reguläre, versionierte Migrationen umgestellt werden.
