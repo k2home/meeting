@@ -1,0 +1,13 @@
+{% extends "meetings/base.html" %}
+{% block content %}
+<p class="muted"><a href="/">Übersicht</a> / Archiv</p>
+<div class="topline"><div><h1>Themenarchiv</h1><p class="muted">Archivierte Themen bleiben erhalten und können jederzeit wieder geöffnet werden.</p></div></div>
+<section class="card">
+{% for topic in topics %}
+<article style="padding:.8rem 0;border-bottom:1px solid #e5e7eb">
+<div class="topline"><div><h2 style="margin:.2rem 0"><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h2><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · zuletzt geändert {{ topic.updated_at|date:"d.m.Y" }}</p></div>
+<form method="post" action="{% url 'topic_reopen' topic.pk %}">{% csrf_token %}<button type="submit">Wieder öffnen</button></form></div>
+</article>
+{% empty %}<p class="muted">Das Archiv ist leer.</p>{% endfor %}
+</section>
+{% endblock %}
