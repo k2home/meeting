@@ -7,7 +7,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicForm, AgendaTextForm, AttachmentForm, SeriesForm
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent
+from .audit import record_event, changed_fields
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 
 def login_view(request):
@@ -53,7 +54,11 @@ def meeting_detail(request, pk):
             item = get_object_or_404(AgendaItem, pk=item_id, meeting=meeting)
             form = AgendaTextForm(request.POST, instance=item)
             if form.is_valid():
-                form.save()
+                saved = form.save()
+                record_event(actor=request.user, action="agenda_edited",
+                    summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                    topic=item.topic, meeting=meeting,
+                    changes={"Text": {"vorher": item.working_text, "nachher": saved.working_text}})
                 messages.success(request, "Agendatext gespeichert.")
         return redirect("meeting", pk=pk)
     return render(request, "meetings/meeting.html", {"meeting": meeting, "items": items})
@@ -64,15 +69,24 @@ def topic_edit(request, pk):
     form = TopicForm(request.POST or None, instance=topic)
     if request.method == "POST" and form.is_valid():
         old_series = topic.series
+        before = {"title": topic.title, "description": topic.description,
+                  "due_date": topic.due_date.isoformat() if topic.due_date else None,
+                  "status": topic.status, "series": str(topic.series) if topic.series else None}
         updated_topic = form.save(commit=False)
         new_series = updated_topic.series
+        after = {"title": updated_topic.title, "description": updated_topic.description,
+                 "due_date": updated_topic.due_date.isoformat() if updated_topic.due_date else None,
+                 "status": updated_topic.status, "series": str(new_series) if new_series else None}
+        changes = changed_fields(before, after, {"title": "Titel", "description": "Beschreibung",
+            "due_date": "Fälligkeitsdatum", "status": "Status", "series": "Besprechungsreihe"})
         with transaction.atomic():
             if old_series != new_series:
-                TopicTransferHistory.objects.create(
-                    topic=topic, from_series=old_series, to_series=new_series,
-                    transferred_by=request.user, note="Zuordnung im Themenformular geändert",
-                )
+                TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=new_series,
+                    transferred_by=request.user, note="Zuordnung im Themenformular geändert")
             updated_topic.save()
+            if changes:
+                record_event(actor=request.user, action="updated",
+                    summary=f"Thema „{updated_topic.title}“ geändert", topic=updated_topic, changes=changes)
         messages.success(request, "Thema gespeichert.")
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
@@ -85,6 +99,8 @@ def topic_new(request):
     form = TopicForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         topic = form.save()
+        record_event(actor=request.user, action="created", summary=f"Thema „{topic.title}“ angelegt",
+                     topic=topic, changes={"Titel": {"vorher": None, "nachher": topic.title}})
         messages.success(request, "Thema angelegt.")
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {"form": form})
@@ -99,6 +115,8 @@ def topic_archive(request, pk):
     else:
         topic.status = "archived"
         topic.save(update_fields=["status", "updated_at"])
+        record_event(actor=request.user, action="archived", summary=f"Thema „{topic.title}“ archiviert",
+                     topic=topic, changes={"Status": {"vorher": "Offen", "nachher": "Archiviert"}})
         messages.success(request, "Thema wurde archiviert.")
     return redirect("archive")
 
@@ -109,6 +127,8 @@ def topic_reopen(request, pk):
     topic = get_object_or_404(Topic, pk=pk, status="archived")
     topic.status = "open"
     topic.save(update_fields=["status", "updated_at"])
+    record_event(actor=request.user, action="reopened", summary=f"Thema „{topic.title}“ wieder geöffnet",
+                 topic=topic, changes={"Status": {"vorher": "Archiviert", "nachher": "Offen"}})
     messages.success(request, "Thema wurde wieder geöffnet.")
     return redirect("topic_edit", pk=topic.pk)
 
@@ -127,8 +147,13 @@ def topic_transfer(request, pk):
             topic=topic, from_series=topic.series, to_series=target,
             transferred_by=request.user, note=note,
         )
+        old_series_name = str(topic.series) if topic.series else "Ohne Reihe"
         topic.series = target
         topic.save(update_fields=["series", "updated_at"])
+        record_event(actor=request.user, action="transferred",
+                     summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen", topic=topic,
+                     changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
+                              "Notiz": note})
     messages.success(request, f"Thema wurde nach „{target.name}“ übertragen. Die bisherige Zuordnung bleibt in der Historie erhalten.")
     return redirect("topic_edit", pk=topic.pk)
 
@@ -145,6 +170,10 @@ def attachment_add(request, pk):
         obj = form.save(commit=False)
         obj.topic = topic
         obj.save()
+        record_event(actor=request.user, action="attachment_added",
+                     summary=f"Anlage „{obj.label}“ zu „{topic.title}“ hinzugefügt", topic=topic,
+                     changes={"Bezeichnung": obj.label, "Datei": obj.uploaded_file.name if obj.uploaded_file else None,
+                              "Netzwerkpfad": obj.network_path or None})
         messages.success(request, "Anlage hinzugefügt.")
         return redirect("topic_edit", pk=pk)
     return render(request, "meetings/attachment_form.html", {"form": form, "topic": topic})
@@ -175,5 +204,20 @@ def finalize(request, pk):
         return HttpResponseForbidden()
     meeting = get_object_or_404(Meeting, pk=pk)
     finalize_meeting(meeting)
+    record_event(actor=request.user, action="finalized",
+                 summary=f"Besprechung „{meeting.series.name}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
+                 meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
     messages.success(request, "Besprechung abgeschlossen; Protokoll-Snapshot gespeichert.")
     return redirect("protocol", pk=pk)
+
+
+@login_required
+def audit_history(request):
+    events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
+    topic_id = request.GET.get("topic")
+    if topic_id:
+        events = events.filter(topic_id=topic_id)
+    return render(request, "meetings/audit_history.html", {
+        "events": events[:250], "selected_topic": topic_id,
+        "topics": Topic.objects.order_by("title"),
+    })
