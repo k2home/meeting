@@ -66,3 +66,35 @@ class MeetingDateForm(forms.ModelForm):
             "date": forms.DateInput(attrs={"type": "date"}),
             "title": forms.TextInput(attrs={"placeholder": "Optionaler Titel"}),
         }
+
+
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
+
+
+User = get_user_model()
+
+
+class ManagedUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "email", "is_staff")
+
+
+class ManagedUserChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "is_active", "is_staff")
+        labels = {
+            "first_name": "Vorname",
+            "last_name": "Nachname",
+            "email": "E-Mail-Adresse",
+            "is_active": "Konto aktiv",
+            "is_staff": "Administratorrechte",
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["first_name"].required = False
+        self.fields["last_name"].required = False
+        self.fields["email"].required = False
