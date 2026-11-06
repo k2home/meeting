@@ -358,7 +358,7 @@ def _meeting_participant_names(meeting):
 
 
 def _meeting_series_name(meeting):
-    return _meeting_series_name(meeting) if meeting.series_id else "Gelöschte Besprechungsreihe"
+    return meeting.series.name if meeting.series_id else "Gelöschte Besprechungsreihe"
 
 
 def _protocol_filename(meeting, extension):
