@@ -508,10 +508,56 @@ class MeetingSeriesManagementTests(TestCase):
         self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
         self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
 
-    def test_series_delete_is_blocked_while_meetings_exist(self):
+    def test_series_delete_removes_future_drafts_but_preserves_completed_protocols(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from .models import TopicSnapshot
+
+        completed = Meeting.objects.create(
+            series=self.series, date=self.today - timedelta(days=7),
+            finalized_at=timezone.now(),
+        )
+        snapshot = TopicSnapshot.objects.create(
+            meeting=completed, topic_title="Historischer Punkt",
+            text="Gesicherter Protokolltext", status="open", topic_id=999,
+        )
+        topic = Topic.objects.create(title="Bleibt erhalten", series=self.series)
+
         response = self.client.post(reverse("series_delete", args=[self.series.pk]))
+
         self.assertRedirects(response, reverse("series_admin"))
-        self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+        self.assertFalse(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+        self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
+        completed.refresh_from_db()
+        topic.refresh_from_db()
+        self.assertIsNone(completed.series_id)
+        self.assertTrue(completed.snapshots.filter(pk=snapshot.pk).exists())
+        self.assertIsNone(topic.series_id)
+
+    def test_series_delete_can_also_remove_completed_meetings_when_selected(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from .models import TopicSnapshot
+
+        completed = Meeting.objects.create(
+            series=self.series, date=self.today - timedelta(days=7),
+            finalized_at=timezone.now(),
+        )
+        snapshot = TopicSnapshot.objects.create(
+            meeting=completed, topic_title="Historischer Punkt",
+            text="Gesicherter Protokolltext", status="open", topic_id=999,
+        )
+
+        response = self.client.post(
+            reverse("series_delete", args=[self.series.pk]),
+            {"delete_completed": "on"},
+        )
+
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertFalse(MeetingSeries.objects.filter(pk=self.series.pk).exists())
+        self.assertFalse(Meeting.objects.filter(pk=completed.pk).exists())
+        self.assertFalse(TopicSnapshot.objects.filter(pk=snapshot.pk).exists())
+        self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
 
     def test_next_meeting_can_be_deleted_from_series_overview(self):
         response = self.client.get(reverse("series_admin"))
