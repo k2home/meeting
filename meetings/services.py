@@ -31,7 +31,7 @@ def ensure_agenda(meeting):
     return meeting.agenda_items.select_related("topic").all()
 
 
-def _next_occurrence(cursor, recurrence):
+def _next_occurrence(cursor, recurrence, monthly_day=None):
     if recurrence == "weekly":
         return cursor + timedelta(days=7)
     if recurrence == "biweekly":
@@ -43,7 +43,7 @@ def _next_occurrence(cursor, recurrence):
     return cursor.replace(
         year=year,
         month=month,
-        day=min(cursor.day, calendar.monthrange(year, month)[1]),
+        day=min(monthly_day or cursor.day, calendar.monthrange(year, month)[1]),
     )
 
 
@@ -52,10 +52,11 @@ def generate_meetings(series, count=24):
     cursor = series.start_date
     today = timezone.localdate()
     created = []
+    monthly_day = series.start_date.day
 
     # Fast-forward old recurrence dates instead of wasting the generation limit.
     while cursor < today and (not series.end_date or cursor <= series.end_date):
-        cursor = _next_occurrence(cursor, series.recurrence)
+        cursor = _next_occurrence(cursor, series.recurrence, monthly_day)
 
     generated = 0
     while generated < count and (not series.end_date or cursor <= series.end_date):
