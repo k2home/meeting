@@ -8,7 +8,9 @@ fi
 
 git -C "$APP_DIR" pull --ff-only
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt"
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --run-syncdb --noinput
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
+runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
+runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+  "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
 systemctl restart meeting-manager
 systemctl --no-pager --full status meeting-manager
