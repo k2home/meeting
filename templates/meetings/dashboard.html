@@ -6,9 +6,20 @@
 {% for m in meetings %}<p><a href="{% url 'meeting' m.id %}"><strong>{{ m.series.name }}</strong> · {{ m.date|date:"D, d.m.Y" }}</a> {% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</p>
 {% empty %}<p class="muted">Keine zukünftigen Termine vorhanden. {% if user.is_staff %}<a href="{% url 'series_admin' %}">Besprechungsreihe einrichten</a>{% endif %}</p>{% endfor %}
 </section>
-<section class="card"><div class="topline"><h2>Offene Themen</h2><a href="{% url 'archive' %}">Zum Archiv</a></div>
+<section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><a href="{% url 'archive' %}">Zum Archiv</a></div>
+<form method="get" class="card" style="background:#f8fafc;margin:.8rem 0">
+<label for="topic-search">Thema suchen</label>
+<input id="topic-search" type="search" name="q" value="{{ query }}" placeholder="Titel, Beschreibung, Reihe oder Verantwortliche …">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem">
+<div><label for="filter-status">Status</label><select id="filter-status" name="status"><option value="open" {% if selected_status == "open" %}selected{% endif %}>Offen</option><option value="done" {% if selected_status == "done" %}selected{% endif %}>Erledigt</option><option value="archived" {% if selected_status == "archived" %}selected{% endif %}>Archiviert</option><option value="all" {% if selected_status == "all" %}selected{% endif %}>Alle</option></select></div>
+<div><label for="filter-series">Besprechungsreihe</label><select id="filter-series" name="series"><option value="">Alle Reihen</option>{% for item in series_options %}<option value="{{ item.pk }}" {% if selected_series == item.pk|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></div>
+<div><label for="filter-assignee">Verantwortlich</label><select id="filter-assignee" name="assigned_to"><option value="">Alle Personen</option><option value="unassigned" {% if selected_assignee == "unassigned" %}selected{% endif %}>Nicht zugewiesen</option>{% for person in assignee_options %}<option value="{{ person.pk }}" {% if selected_assignee == person.pk|stringformat:"s" %}selected{% endif %}>{{ person.get_full_name|default:person.username }}</option>{% endfor %}</select></div>
+<div><label for="filter-due">Fälligkeit</label><select id="filter-due" name="due"><option value="">Alle Termine</option><option value="overdue" {% if selected_due == "overdue" %}selected{% endif %}>Überfällig</option><option value="today" {% if selected_due == "today" %}selected{% endif %}>Heute fällig</option><option value="future" {% if selected_due == "future" %}selected{% endif %}>Künftig fällig</option><option value="without_date" {% if selected_due == "without_date" %}selected{% endif %}>Ohne Fälligkeit</option></select></div>
+</div>
+<div class="actions"><button type="submit">Suchen / filtern</button><a class="btn secondary" href="{% url 'dashboard' %}">Zurücksetzen</a></div>
+</form>
 {% if topics %}<div style="overflow-x:auto"><table><thead><tr><th>Thema</th><th>Besprechungsreihe</th><th>Fällig</th><th>Verantwortlich</th><th>Status</th></tr></thead><tbody>
 {% for t in topics %}<tr><td><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td><td>{{ t.series|default:"—" }}</td><td>{% if t.due_date and t.due_date < today %}<span class="overdue">{{ t.due_date|date:"d.m.Y" }}</span>{% else %}{{ t.due_date|date:"d.m.Y"|default:"—" }}{% endif %}</td><td>{% if t.assigned_to %}{{ t.assigned_to.get_full_name|default:t.assigned_to.username }}{% else %}<span class="muted">Nicht zugewiesen</span>{% endif %}</td><td>{{ t.get_status_display }}</td></tr>{% endfor %}
-</tbody></table></div>{% else %}<p class="muted">Keine offenen Themen. Lege ein neues Thema an, um loszulegen.</p>{% endif %}
+</tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
 </section>
 {% endblock %}
