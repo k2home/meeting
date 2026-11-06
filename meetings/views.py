@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm
+from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
@@ -147,23 +147,48 @@ def agenda_reorder(request, pk):
 def meeting_detail(request, pk):
     meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
     items = ensure_agenda(meeting)
-    if request.method == "POST" and not meeting.finalized_at:
-        item_id = request.POST.get("item_id")
-        if item_id:
-            from .models import AgendaItem
-            item = get_object_or_404(AgendaItem, pk=item_id, meeting=meeting)
-            form = AgendaTextForm(request.POST, instance=item)
-            if form.is_valid():
-                old_text = item.working_text
-                saved = form.save()
-                if old_text != saved.working_text:
-                    record_event(actor=request.user, action="agenda_edited",
-                        summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
-                        topic=item.topic, meeting=meeting,
-                        changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
-                messages.success(request, "Agendatext gespeichert.")
+    if request.method == "POST":
+        if meeting.finalized_at:
+            messages.error(request, "Eine abgeschlossene Besprechung kann nicht mehr geändert werden.")
+            return redirect("meeting", pk=pk)
+        if request.POST.get("save_participants"):
+            before = [u.get_full_name().strip() or u.username for u in meeting.participants.all()]
+            participant_form = MeetingParticipantsForm(request.POST, instance=meeting)
+            if participant_form.is_valid():
+                participant_form.save()
+                after = [u.get_full_name().strip() or u.username for u in meeting.participants.all()]
+                if before != after:
+                    record_event(
+                        actor=request.user, action="updated",
+                        summary=f"Teilnehmerliste für „{meeting.series.name}“ am {meeting.date:%d.%m.%Y} geändert",
+                        meeting=meeting,
+                        changes={"Teilnehmer": {"vorher": before, "nachher": after}},
+                    )
+                messages.success(request, "Teilnehmerliste gespeichert.")
+            else:
+                messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
+                return render(request, "meetings/meeting.html", {
+                    "meeting": meeting, "items": items, "participant_form": participant_form,
+                })
+        else:
+            item_id = request.POST.get("item_id")
+            if item_id:
+                item = get_object_or_404(AgendaItem, pk=item_id, meeting=meeting)
+                form = AgendaTextForm(request.POST, instance=item)
+                if form.is_valid():
+                    old_text = item.working_text
+                    saved = form.save()
+                    if old_text != saved.working_text:
+                        record_event(actor=request.user, action="agenda_edited",
+                            summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                            topic=item.topic, meeting=meeting,
+                            changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
+                    messages.success(request, "Agendatext gespeichert.")
         return redirect("meeting", pk=pk)
-    return render(request, "meetings/meeting.html", {"meeting": meeting, "items": items})
+    participant_form = MeetingParticipantsForm(instance=meeting)
+    return render(request, "meetings/meeting.html", {
+        "meeting": meeting, "items": items, "participant_form": participant_form,
+    })
 
 @login_required
 def topic_edit(request, pk):
@@ -313,6 +338,13 @@ def _protocol_entries(meeting):
     ]
 
 
+def _meeting_participant_names(meeting):
+    return [
+        user.get_full_name().strip() or user.username
+        for user in meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
+    ]
+
+
 def _protocol_filename(meeting, extension):
     series = slugify(meeting.series.name) or "besprechung"
     return f"protokoll-{series}-{meeting.date:%Y-%m-%d}.{extension}"
@@ -370,8 +402,15 @@ def protocol_pdf(request, pk):
             "Gesicherter Stand" if meeting.finalized_at else "Entwurf – nicht abgeschlossen",
             styles["Normal"],
         ),
-        Spacer(1, 5 * mm),
     ]
+    participant_names = _meeting_participant_names(meeting)
+    story.append(Paragraph("Teilnehmer", styles["Heading2"]))
+    if participant_names:
+        for name in participant_names:
+            story.append(Paragraph(escape(name), styles["Normal"]))
+    else:
+        story.append(Paragraph("Keine Teilnehmer eingetragen.", styles["Normal"]))
+    story.append(Spacer(1, 5 * mm))
     for entry in entries:
         safe_text = escape(entry["text"] or "—").replace("\n", "<br/>")
         story.append(KeepTogether([
@@ -413,6 +452,13 @@ def protocol_docx(request, pk):
         f"Gesicherter Stand: {meeting.finalized_at:%d.%m.%Y %H:%M}"
         if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
     )
+    document.add_heading("Teilnehmer", level=2)
+    participant_names = _meeting_participant_names(meeting)
+    if participant_names:
+        for name in participant_names:
+            document.add_paragraph(name, style="List Bullet")
+    else:
+        document.add_paragraph("Keine Teilnehmer eingetragen.")
     for entry in entries:
         document.add_heading(entry["title"], level=2)
         document.add_paragraph(entry["text"] or "—")
@@ -439,7 +485,10 @@ def protocol(request, pk):
     meeting = get_object_or_404(Meeting, pk=pk)
     ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
-    return render(request, "meetings/protocol.html", {"meeting": meeting, "snapshots": snapshots})
+    participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
+    return render(request, "meetings/protocol.html", {
+        "meeting": meeting, "snapshots": snapshots, "participants": participants,
+    })
 
 @login_required
 @user_passes_test(admin_only)
