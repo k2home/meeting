@@ -28,7 +28,14 @@
           {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
           <div class="actions" style="margin-top:.5rem">
             <a class="btn secondary" href="{% url 'meeting' s.next_meeting.pk %}">Termin öffnen</a>
-            {% if not s.next_meeting.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>{% endif %}
+            {% if not s.next_meeting.finalized_at %}
+              <a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>
+            {% endif %}
+            {% if not s.next_meeting.finalized_at and not s.next_meeting.agenda_items.exists and not s.next_meeting.participants.exists and not s.next_meeting.snapshots.exists %}
+              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" onsubmit="return confirm('Diesen einzelnen Termin wirklich löschen?');">
+                {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
+              </form>
+            {% endif %}
           </div>
         </div>
       {% endif %}
