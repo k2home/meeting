@@ -1,1 +1,47 @@
-{% extends "meetings/base.html" %}{% block content %}<h1>Besprechungsreihen</h1><div class="card"><h2>Neue Reihe und Termine erzeugen</h2><form method="post">{% csrf_token %}{{form.as_p}}<button>Anlegen</button></form></div><div class="card"><h2>Vorhandene Reihen</h2>{% for s in series %}<p>{{s.name}} · {{s.get_recurrence_display}} · {{s.meetings.count}} Termine</p>{% endfor %}</div>{% endblock %}
+{% extends "meetings/base.html" %}
+{% block content %}
+<h1>Besprechungsreihen</h1>
+<div class="card">
+  <h2>Neue Reihe und Termine erzeugen</h2>
+  <form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Anlegen</button></form>
+</div>
+<div class="card">
+  <h2>Vorhandene Reihen</h2>
+  {% for s in series %}
+    <section style="border-bottom:1px solid #e2e8f0;padding:1rem 0">
+      <div class="topline">
+        <div>
+          <h3>{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% endif %}</h3>
+          <p class="muted">{{ s.get_recurrence_display }} · {{ s.get_weekday_display }} · {{ s.meetings.count }} Termine</p>
+        </div>
+        <div class="actions">
+          <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Reihe bearbeiten</a>
+          <form method="post" action="{% url 'series_delete' s.pk %}" onsubmit="return confirm('Diese leere Besprechungsreihe wirklich löschen?');">
+            {% csrf_token %}<button class="danger" type="submit" {% if s.meetings.exists or s.topics.exists %}disabled title="Reihe enthält noch Termine oder Themen"{% endif %}>Reihe löschen</button>
+          </form>
+        </div>
+      </div>
+      {% if s.meetings.all %}
+        <div style="overflow-x:auto">
+          <table><thead><tr><th>Einzeltermin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
+          {% for m in s.meetings.all %}
+            <tr>
+              <td>{{ m.date|date:"D, d.m.Y" }}</td>
+              <td>{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</td>
+              <td><div class="actions">
+                {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
+                {% if not m.finalized_at and not m.agenda_items.exists and not m.participants.exists %}
+                  <form method="post" action="{% url 'meeting_delete' m.pk %}" onsubmit="return confirm('Diesen einzelnen Termin wirklich löschen?');">
+                    {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
+                  </form>
+                {% endif %}
+              </div></td>
+            </tr>
+          {% empty %}<tr><td colspan="3" class="muted">Noch keine Termine erzeugt.</td></tr>{% endfor %}
+          </tbody></table>
+        </div>
+      {% endif %}
+    </section>
+  {% empty %}<p class="muted">Noch keine Besprechungsreihen angelegt.</p>{% endfor %}
+</div>
+{% endblock %}
