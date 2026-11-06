@@ -23,7 +23,6 @@ install -d -o meetingapp -g www-data "$APP_DIR" "$APP_DIR/media" "$APP_DIR/stati
 cp -a "$SOURCE_DIR/." "$APP_DIR/"
 chown -R root:www-data "$APP_DIR"
 chown -R meetingapp:www-data "$APP_DIR/media" "$APP_DIR/staticfiles"
-chmod -R g+rX "$APP_DIR"
 
 echo "==> Richte lokale PostgreSQL-Datenbank ein"
 DB_PASSWORD="$(openssl rand -hex 24)"
@@ -36,10 +35,13 @@ if ! runuser -u postgres -- psql -tAc "SELECT 1 FROM pg_database WHERE datname='
   runuser -u postgres -- createdb --owner="$DB_USER" "$DB_NAME"
 fi
 
-echo "==> Erzeuge Python-Umgebung"
-python3 -m venv "$APP_DIR/.venv"
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install --upgrade pip
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt"
+echo "==> Erzeuge Python-Umgebung mit korrekten Berechtigungen"
+# Remove an incomplete virtualenv from a previous failed installation.
+rm -rf "$APP_DIR/.venv"
+install -d -o meetingapp -g www-data "$APP_DIR/.venv"
+runuser -u meetingapp -- python3 -m venv "$APP_DIR/.venv"
+runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install --upgrade pip
+runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR/requirements.txt"
 
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist (z.B. 192.168.1.50): " SITE_HOST
 SITE_HOST="${SITE_HOST:-localhost}"
