@@ -1,0 +1,14 @@
+{% extends "meetings/base.html" %}
+{% block title %}Termin bearbeiten · Meeting Manager{% endblock %}
+{% block content %}
+<p><a href="{% url 'calendar' %}">← Zurück zum Kalender</a></p>
+<div class="card">
+  <h1>Termin bearbeiten</h1>
+  <p class="muted">{{ meeting.series.name }}</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions"><button>Änderungen speichern</button><a class="btn secondary" href="{% url 'calendar' %}">Abbrechen</a></div>
+  </form>
+</div>
+{% endblock %}
