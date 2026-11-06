@@ -16,8 +16,10 @@
         </div>
         <div class="actions">
           <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Reihe bearbeiten</a>
-          <form method="post" action="{% url 'series_delete' s.pk %}" onsubmit="return confirm('Diese leere Besprechungsreihe wirklich löschen?');">
-            {% csrf_token %}<button class="danger" type="submit" {% if s.meetings.exists or s.topics.exists %}disabled title="Reihe enthält noch Termine oder Themen"{% endif %}>Reihe löschen</button>
+          <form method="post" action="{% url 'series_delete' s.pk %}" onsubmit="return confirm('Besprechungsreihe löschen? Zukünftige, noch nicht abgeschlossene Termine werden entfernt. Abgeschlossene Besprechungen bleiben standardmäßig samt Protokollen erhalten.');">
+            {% csrf_token %}
+            <label style="display:block;font-size:.85rem;margin-bottom:.35rem"><input type="checkbox" name="delete_completed"> Abgeschlossene Besprechungen samt Protokollen ebenfalls löschen</label>
+            <button class="danger" type="submit">Reihe löschen</button>
           </form>
         </div>
       </div>
