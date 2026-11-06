@@ -31,3 +31,20 @@ class TopicTransferHistoryAdmin(admin.ModelAdmin):
 admin.site.register(AgendaItem)
 admin.site.register(TopicSnapshot)
 admin.site.register(TopicAttachment)
+
+
+@admin.register(AuditEvent)
+class AuditEventAdmin(admin.ModelAdmin):
+    list_display = ("created_at", "action", "summary", "actor", "topic", "meeting")
+    list_filter = ("action", "created_at")
+    search_fields = ("summary", "topic__title", "actor__username")
+    readonly_fields = ("created_at", "action", "summary", "actor", "topic", "meeting", "changes")
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
