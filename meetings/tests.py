@@ -514,6 +514,7 @@ class MeetingSeriesManagementTests(TestCase):
         self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
 
     def test_finalized_meeting_cannot_be_moved_or_deleted(self):
+        from datetime import timedelta
         from django.utils import timezone
 
         self.meeting.finalized_at = timezone.now()
