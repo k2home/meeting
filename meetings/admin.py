@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory
+from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory, AuditEvent
 
 class MeetingInline(admin.TabularInline):
     model = Meeting
