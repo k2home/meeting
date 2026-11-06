@@ -64,7 +64,7 @@ def generate_meetings(series, count=24):
         if made:
             created.append(meeting)
         generated += 1
-        cursor = _next_occurrence(cursor, series.recurrence)
+        cursor = _next_occurrence(cursor, series.recurrence, monthly_day)
 
     return created
 
