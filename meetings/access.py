@@ -40,3 +40,8 @@ def accessible_meetings(user):
 
 def can_reopen_meeting(user):
     return is_moderator(user)
+
+def role_flags(request):
+    if not request.user.is_authenticated:
+        return {"is_admin": False, "is_moderator": False}
+    return {"is_admin": is_admin(request.user), "is_moderator": is_moderator(request.user)}
