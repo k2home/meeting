@@ -4,15 +4,38 @@
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 
 <nav class="meeting-action-menu no-print" aria-label="Aktionen für diese Besprechung">
-  <a class="meeting-menu-link" href="#participants">Teilnehmerliste <span class="menu-count">{{ meeting.participants.count }}</span></a>
+  <details class="meeting-menu-participants">
+  <summary class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ meeting.participants.count }}</span></summary>
+  <div class="participant-menu-panel">
+    <div class="participant-summary">
+      {% for participant in meeting.participants.all %}
+        <span class="pill">{{ participant.get_full_name|default:participant.username }}</span>
+      {% empty %}
+        <span class="muted">Noch keine Teilnehmer eingetragen.</span>
+      {% endfor %}
+    </div>
+    {% if not meeting.finalized_at %}
+    <form method="post" class="participant-form">
+      {% csrf_token %}
+      <input type="hidden" name="save_participants" value="1">
+      <p class="muted">Serienmitglieder sind vorausgewählt. Weitere aktive Nutzer können ergänzt oder abgewählt werden.</p>
+      {{ participant_form.participants }}
+      {{ participant_form.participants.errors }}
+      <button type="submit">Teilnehmer speichern</button>
+    </form>
+    {% else %}
+      <p class="muted">Die Teilnehmerliste ist mit dem Abschluss gesperrt.</p>
+    {% endif %}
+  </div>
+</details>
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
   {% if not meeting.finalized_at and items %}
     <button class="meeting-menu-button secondary" type="submit" form="agenda-reorder-form">Reihenfolge speichern</button>
   {% endif %}
   {% if not meeting.finalized_at %}
-    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung abschließen und den Protokollstand sichern?');">
+    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">
       {% csrf_token %}
-      <button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen &amp; Protokollstand sichern</button>
+      <button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button>
     </form>
   {% elif is_moderator %}
     <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
@@ -22,31 +45,7 @@
   {% endif %}
 </nav>
 
-<section class="card participant-card" id="participants">
-  <div class="topline">
-    <h2>Teilnehmer</h2>
-    <span class="muted">{{ meeting.participants.count }} ausgewählt</span>
-  </div>
-  <div class="participant-summary">
-    {% for participant in meeting.participants.all %}
-      <span class="pill">{{ participant.get_full_name|default:participant.username }}</span>
-    {% empty %}
-      <span class="muted">Noch keine Teilnehmer eingetragen.</span>
-    {% endfor %}
-  </div>
-  {% if not meeting.finalized_at %}
-  <form method="post" class="no-print participant-form">
-    {% csrf_token %}
-    <input type="hidden" name="save_participants" value="1">
-    <p class="muted">Serienmitglieder sind vorausgewählt. Weitere aktive Nutzer können jederzeit ergänzt oder abgewählt werden.</p>
-    {{ participant_form.participants }}
-    {{ participant_form.participants.errors }}
-    <button type="submit">Teilnehmer speichern</button>
-  </form>
-  {% else %}
-    <p class="muted">Die Teilnehmerliste ist mit dem Abschluss gesperrt.</p>
-  {% endif %}
-</section>
+
 
 {% if not meeting.finalized_at and items %}
 <form id="agenda-reorder-form" class="visually-hidden-form" method="post" action="{% url 'agenda_reorder' meeting.id %}">

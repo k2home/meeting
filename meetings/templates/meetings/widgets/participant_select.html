@@ -1,6 +1,4 @@
-<details class="participant-picker">
-  <summary>Teilnehmer anpassen</summary>
-  <div class="participant-options" role="group" aria-label="Teilnehmer auswählen">
+<div class="participant-options" role="group" aria-label="Teilnehmer auswählen">
     {% for group, options, index in widget.optgroups %}
       {% for option in options %}
         <label>
@@ -10,4 +8,3 @@
       {% endfor %}
     {% endfor %}
   </div>
-</details>
