@@ -4,18 +4,18 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{% block title %}Meeting Manager{% endblock %}</title>
 <style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#202735;background:#f3f5f8;color-scheme:light;--nav-bg:#182536;--nav-hover:#293b52;--nav-muted:#b9c5d3;--nav-width:258px}
+:root{font-family:system-ui,-apple-system,sans-serif;color:#202735;background:#f3f5f8;color-scheme:light;--nav-bg:#182536;--nav-hover:#293b52;--nav-muted:#b9c5d3;--nav-width:258px;--nav-rail:68px}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh}
 a{color:#1759a6}
 .app-layout{min-height:100vh;display:flex}
-.sidebar{width:var(--nav-width);flex:0 0 var(--nav-width);height:100vh;position:sticky;top:0;background:var(--nav-bg);color:#fff;display:flex;flex-direction:column;padding:1.25rem 1rem;z-index:30}
-.brand{display:flex;align-items:center;min-height:48px;padding:.45rem .65rem;margin:0 0 1.5rem;color:#fff;text-decoration:none;font-size:1.12rem;font-weight:750;letter-spacing:.01em}
+.sidebar{width:var(--nav-rail);flex:0 0 var(--nav-rail);height:100vh;position:sticky;top:0;background:var(--nav-bg);color:#fff;display:flex;flex-direction:column;padding:1.25rem .65rem;z-index:30;overflow-x:hidden;transition:width .22s ease,flex-basis .22s ease;white-space:nowrap}.sidebar:hover,.sidebar:focus-within{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}
+.brand{display:flex;align-items:center;min-height:48px;padding:.45rem .65rem;margin:0 0 1.5rem;color:#fff;text-decoration:none;font-size:1.12rem;font-weight:750;letter-spacing:.01em;overflow:hidden}.sidebar:not(:hover):not(:focus-within) .brand{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(:hover):not(:focus-within) .brand::before{content:'M';font-size:1.25rem;font-weight:800}
 .nav-links{display:flex;flex-direction:column;gap:.3rem}
-.nav-links a{display:flex;align-items:center;min-height:43px;padding:.65rem .75rem;border-radius:8px;color:#e5ebf2;text-decoration:none;font-weight:550}
+.nav-links a{display:flex;align-items:center;min-height:43px;padding:.65rem .75rem;border-radius:8px;color:#e5ebf2;text-decoration:none;font-weight:550;overflow:hidden}.nav-links a::before{display:none;flex:0 0 30px;text-align:center;font-size:1.05rem}.nav-links a:nth-child(1)::before{content:'⌂'}.nav-links a:nth-child(2)::before{content:'✓'}.nav-links a:nth-child(3)::before{content:'+'}.nav-links a:nth-child(4)::before{content:'▤'}.nav-links a:nth-child(5)::before{content:'↶'}.nav-links a:nth-child(6)::before{content:'▦'}.nav-links a:nth-child(7)::before{content:'⚙'}.sidebar:not(:hover):not(:focus-within) .nav-links a{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(:hover):not(:focus-within) .nav-links a::before{display:block}
 .nav-links a:hover,.nav-links a:focus-visible{background:var(--nav-hover);color:#fff;outline:none}
 .sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid #ffffff20;display:grid;gap:.7rem}
-.username{padding:0 .65rem;color:var(--nav-muted);font-size:.9rem;overflow-wrap:anywhere}
+.username{padding:0 .65rem;color:var(--nav-muted);font-size:.9rem;overflow-wrap:anywhere}.sidebar:not(:hover):not(:focus-within) .username{font-size:0;padding:0}.sidebar:not(:hover):not(:focus-within) .logout-form button{font-size:0;text-align:center;padding:.72rem 0}.sidebar:not(:hover):not(:focus-within) .logout-form button::before{content:'↪';font-size:1.1rem}
 .logout-form{margin:0}
 .logout-form button{width:100%;text-align:left}
 .main-column{min-width:0;flex:1}
@@ -50,7 +50,7 @@ th{color:#4b5563;font-size:.9rem}
   .app-layout{display:block}
   .mobile-header{height:64px;position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:.85rem;padding:0 1rem;background:var(--nav-bg);color:white;box-shadow:0 2px 8px #15223820}
   .mobile-header .brand{margin:0;padding:0;font-size:1.05rem}
-  .sidebar{position:fixed;top:64px;bottom:0;left:0;width:min(300px,85vw);height:auto;overflow-y:auto;transform:translateX(-105%);transition:transform .22s ease;box-shadow:4px 0 18px #10182830}
+  .sidebar,.sidebar:hover,.sidebar:focus-within{position:fixed;top:64px;bottom:0;left:0;width:min(300px,85vw);flex-basis:auto;height:auto;overflow-y:auto;overflow-x:hidden;transform:translateX(-105%);transition:transform .22s ease;box-shadow:4px 0 18px #10182830;padding:1.25rem 1rem}.sidebar .brand,.sidebar:not(:hover):not(:focus-within) .brand{font-size:1.12rem;justify-content:flex-start;padding:.45rem .65rem}.sidebar .brand::before{display:none}.sidebar .nav-links a,.sidebar:not(:hover):not(:focus-within) .nav-links a{font-size:inherit;justify-content:flex-start;padding:.65rem .75rem}.sidebar .nav-links a::before{display:none}.sidebar .username,.sidebar:not(:hover):not(:focus-within) .username{font-size:.9rem;padding:0 .65rem}.sidebar .logout-form button,.sidebar:not(:hover):not(:focus-within) .logout-form button{font-size:inherit;text-align:left;padding:.72rem 1rem}
   body.menu-open .sidebar{transform:translateX(0)}
   .menu-backdrop{position:fixed;inset:64px 0 0;background:#10182870;z-index:20}
   body.menu-open .menu-backdrop{display:block}
@@ -58,7 +58,7 @@ th{color:#4b5563;font-size:.9rem}
   td,th{padding:.45rem;font-size:.92rem}
   .card{padding:1rem}
 }
-@media(prefers-reduced-motion:reduce){.sidebar{transition:none}}
+@media(hover:none) and (min-width:761px){.sidebar{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}.sidebar .brand{font-size:1.12rem;justify-content:flex-start;padding:.45rem .65rem}.sidebar .brand::before{display:none}.sidebar .nav-links a{font-size:inherit;justify-content:flex-start;padding:.65rem .75rem}.sidebar .nav-links a::before{display:none}.sidebar .username{font-size:.9rem;padding:0 .65rem}.sidebar .logout-form button{font-size:inherit;text-align:left;padding:.72rem 1rem}}\n@media(prefers-reduced-motion:reduce){.sidebar{transition:none}}
 @media print{.sidebar,.mobile-header,.menu-backdrop,.no-print{display:none!important}body{background:white}.app-layout{display:block}.main-column{width:100%}main{max-width:none;margin:0;padding:0}.card{border:0;box-shadow:none}}
 </style>
 </head>
