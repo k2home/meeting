@@ -177,7 +177,7 @@ def meeting_detail(request, pk):
         if not meeting.participants.exists() and meeting.series_id:
             default_participants = SeriesAccess.objects.filter(
                 series=meeting.series, user__is_active=True
-            ).values_list("user_id", flat=True)
+            ).exclude(user__groups__name="Leser*in").values_list("user_id", flat=True)
             meeting.participants.set(default_participants)
         meeting.participants_initialized = True
         meeting.save(update_fields=["participants_initialized"])
@@ -387,7 +387,7 @@ def _protocol_entries(meeting):
 def _meeting_participant_names(meeting):
     return [
         user_display_name(user)
-        for user in meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
+        for user in meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
     ]
 
 
