@@ -1059,6 +1059,9 @@ class MeetingAgendaEnhancementTests(TestCase):
         target_response = self.client.get(reverse("meeting", args=[self.target_meeting.pk]))
         self.assertEqual(target_response.status_code, 200)
         self.assertContains(target_response, "Zu übertragendes Thema")
+        from .services import ensure_agenda
+        later_source_meeting = Meeting.objects.create(series=self.series_a, date="2027-02-01")
+        self.assertFalse(ensure_agenda(later_source_meeting).filter(topic=topic).exists())
 
     def test_schedule_rejects_meeting_from_a_different_series(self):
         topic = Topic.objects.create(title="Falsche Zuordnung", series=self.series_a)
