@@ -1,9 +1,6 @@
 from .models import Meeting, MeetingSeries, SeriesAccess, Topic
 
 ADMIN_GROUP = "Admin"
-MODERATOR_GROUP = "Moderator*in"
-USER_GROUP = "Nutzer*in"
-READER_GROUP = "Leser*in"
 
 
 def is_admin(user):
@@ -12,21 +9,36 @@ def is_admin(user):
     ))
 
 
-def is_moderator(user):
-    return bool(user.is_authenticated and (
-        is_admin(user) or user.groups.filter(name=MODERATOR_GROUP).exists()
-    ))
+def role_for_series(user, series):
+    if not user.is_authenticated or series is None:
+        return None
+    return SeriesAccess.objects.filter(user=user, series=series).values_list("role", flat=True).first()
 
 
-def is_reader(user):
-    return bool(user.is_authenticated and user.groups.filter(name=READER_GROUP).exists())
+def is_moderator(user, series=None):
+    if not user.is_authenticated:
+        return False
+    if is_admin(user):
+        return True
+    assignments = SeriesAccess.objects.filter(user=user, role=SeriesAccess.ROLE_MODERATOR)
+    return assignments.filter(series=series).exists() if series is not None else assignments.exists()
+
+
+def is_reader(user, series=None):
+    if not user.is_authenticated or is_admin(user):
+        return False
+    assignments = SeriesAccess.objects.filter(user=user, role=SeriesAccess.ROLE_READER)
+    return assignments.filter(series=series).exists() if series is not None else assignments.exists()
+
+
+def has_writable_series(user):
+    if is_admin(user):
+        return True
+    return SeriesAccess.objects.filter(user=user).exclude(role=SeriesAccess.ROLE_READER).exists()
 
 
 def accessible_series(user):
     if is_admin(user):
-        return MeetingSeries.objects.all()
-    # Compatibility for installations/tests with no assignments yet.
-    if not user.groups.exists() and not SeriesAccess.objects.exists():
         return MeetingSeries.objects.all()
     return MeetingSeries.objects.filter(user_access__user=user)
 
@@ -43,10 +55,15 @@ def accessible_meetings(user):
     return Meeting.objects.filter(series__in=accessible_series(user))
 
 
-def can_reopen_meeting(user):
-    return is_moderator(user)
+def can_reopen_meeting(user, meeting=None):
+    return is_moderator(user, meeting.series if meeting else None)
+
 
 def role_flags(request):
     if not request.user.is_authenticated:
         return {"is_admin": False, "is_moderator": False, "is_reader": False}
-    return {"is_admin": is_admin(request.user), "is_moderator": is_moderator(request.user), "is_reader": is_reader(request.user)}
+    return {
+        "is_admin": is_admin(request.user),
+        "is_moderator": is_moderator(request.user),
+        "is_reader": is_reader(request.user),
+    }
