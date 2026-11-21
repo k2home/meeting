@@ -7,12 +7,15 @@ from django.contrib.auth.admin import (
     UserChangeForm as DjangoUserChangeForm,
 )
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
+from django.urls import path
 
 from .models import (
     MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
     TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile,
 )
 from .user_display import user_display_name
+from .user_csv import export_users_csv, import_users_csv
 
 User = get_user_model()
 
@@ -150,6 +153,27 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
         self.fields.pop("user_permissions", None)
 
 class MeetingUserAdmin(DjangoUserAdmin):
+    change_list_template = "admin/auth/user/change_list.html"
+
+    def get_urls(self):
+        custom_urls = [
+            path("csv-export/", self.admin_site.admin_view(self.csv_export_view), name="auth_user_csv_export"),
+            path("csv-import/", self.admin_site.admin_view(self.csv_import_view), name="auth_user_csv_import"),
+        ]
+        return custom_urls + super().get_urls()
+
+    def _check_csv_permission(self, request):
+        if not self.has_change_permission(request):
+            raise PermissionDenied
+
+    def csv_export_view(self, request):
+        self._check_csv_permission(request)
+        return export_users_csv(request)
+
+    def csv_import_view(self, request):
+        self._check_csv_permission(request)
+        return import_users_csv(request)
+
     form = MeetingUserChangeForm
     inlines = [SeriesAccessInline]
     change_form_template = "admin/auth/user/change_form.html"
