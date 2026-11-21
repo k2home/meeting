@@ -291,7 +291,7 @@ class AgendaReorderingTests(TestCase):
             f"working_text_{self.second.pk}": "Zweiter neuer Stand",
             f"working_text_{self.third.pk}": "",
         })
-        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]) + f"#agenda-item-{self.first.pk}")
         self.first.refresh_from_db()
         self.second.refresh_from_db()
         self.assertEqual(self.first.working_text, "Erster neuer Stand")
