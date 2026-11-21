@@ -92,7 +92,7 @@ class SeriesRolePermissionTests(TestCase):
     def test_moderator_can_manage_assigned_series_but_user_cannot(self):
         self.client.force_login(self.user)
         denied = self.client.get(reverse("series_admin"))
-        self.assertEqual(denied.status_code, 302)
+        self.assertEqual(denied.status_code, 403)
 
         self.client.force_login(self.moderator)
         allowed = self.client.get(reverse("series_admin"))
