@@ -457,6 +457,54 @@ def meeting_detail(request, pk):
                     changes={"Text": {"vorher": old_text, "nachher": new_text}},
                 )
                 changed_count += 1
+            if request.POST.get("schedule_item"):
+                scheduled_item = get_object_or_404(
+                    AgendaItem.objects.select_related("topic", "topic__series"),
+                    pk=request.POST.get("schedule_item"), meeting=meeting,
+                )
+                schedule_form = AgendaScheduleForm(
+                    request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
+                )
+                if schedule_form.is_valid():
+                    topic = scheduled_item.topic
+                    old_series = topic.series
+                    old_due_date = topic.due_date
+                    target_series = schedule_form.cleaned_data["target_series"]
+                    target_meeting = schedule_form.cleaned_data["target_meeting"]
+                    topic.series = target_series
+                    topic.due_date = target_meeting.date
+                    topic.save(update_fields=["series", "due_date", "updated_at"])
+                    next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
+                    target_item, created = AgendaItem.objects.get_or_create(
+                        meeting=target_meeting, topic=topic,
+                        defaults={"working_text": "", "position": next_position},
+                    )
+                    if not created and target_item.working_text:
+                        target_item.working_text = ""
+                        target_item.save(update_fields=["working_text"])
+                    if old_series != target_series:
+                        TopicTransferHistory.objects.create(
+                            topic=topic, from_series=old_series, to_series=target_series,
+                            transferred_by=request.user,
+                            note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt",
+                        )
+                    record_event(
+                        actor=request.user, action="transferred" if old_series != target_series else "updated",
+                        summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
+                        topic=topic, meeting=meeting,
+                        changes={
+                            "Fälligkeit": {
+                                "vorher": old_due_date.isoformat() if old_due_date else None,
+                                "nachher": target_meeting.date.isoformat(),
+                            },
+                            "Besprechungsserie": {
+                                "vorher": old_series.name if old_series else None,
+                                "nachher": target_series.name,
+                            },
+                        },
+                    )
+                else:
+                    messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen Termin.")
             messages.success(request, f"{changed_count} geänderte Tagesordnungspunkte gespeichert.")
         else:
             item_id = request.POST.get("item_id")
