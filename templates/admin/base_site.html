@@ -8,6 +8,7 @@
 {% endblock %}
 {% block extrastyle %}
 {{ block.super }}
+<script>try{const savedTheme=localStorage.getItem("meeting-theme");if(savedTheme==="dark"||savedTheme==="light")document.documentElement.dataset.theme=savedTheme;}catch(e){}</script>
 <style>
 :root {
   --hagen-blue: #00549f;
