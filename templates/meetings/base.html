@@ -165,22 +165,6 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   const syncThemeButton = () => { if (!themeButton) return; const dark = root.dataset.theme === 'dark'; themeButton.textContent = dark ? '☀ Hellmodus' : '☾ Dunkelmodus'; themeButton.setAttribute('aria-pressed', String(dark)); };
   syncThemeButton();
   themeButton?.addEventListener('click', () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('meeting-theme', root.dataset.theme); syncThemeButton(); });
-  const hoverSidebar = document.getElementById('main-navigation');
-  let collapseTimer = null;
-  if (hoverSidebar && window.matchMedia('(hover: hover) and (min-width: 761px)').matches) {
-    hoverSidebar.addEventListener('mouseenter', () => {
-      if (collapseTimer) window.clearTimeout(collapseTimer);
-      collapseTimer = null;
-      hoverSidebar.classList.add('is-expanded');
-    });
-    hoverSidebar.addEventListener('mouseleave', () => {
-      if (collapseTimer) window.clearTimeout(collapseTimer);
-      collapseTimer = window.setTimeout(() => {
-        hoverSidebar.classList.remove('is-expanded');
-        collapseTimer = null;
-      }, 400);
-    });
-  }
   const sidebar = document.getElementById('main-navigation');
   const desktopToggle = document.getElementById('desktop-menu-toggle');
   if (desktopToggle && sidebar) {
