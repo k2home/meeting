@@ -68,6 +68,22 @@ th{color:#4b5563;font-size:.9rem}
 .brand{border-left:4px solid var(--hagen-yellow)}
 .nav-links a:hover,.nav-links a:focus-visible{box-shadow:inset 4px 0 0 var(--hagen-yellow)}
 .nav-links a[aria-current=page]{background:var(--hagen-blue);box-shadow:inset 4px 0 0 var(--hagen-yellow)}
+
+/* Einheitliches Erscheinungsbild auf sämtlichen Anwendungsseiten. */
+:root{--hagen-blue:#00549f;--hagen-blue-dark:#003d73;--hagen-yellow:#ffcc00;--hagen-pale:#e7eef6;--hagen-border:#cfd9e4}
+body{background:#f4f6f9}
+h1,h2,h3{color:var(--hagen-blue-dark)}
+h1{border-bottom:3px solid var(--hagen-yellow);padding-bottom:.45rem}
+.card,.participant-menu-panel,.participant-options,.meeting-action-menu{border-color:var(--hagen-border);border-radius:5px}
+.card{border-top:3px solid var(--hagen-yellow);box-shadow:0 2px 8px #1522380d}
+th{background:var(--hagen-pale);color:var(--hagen-blue-dark)}
+tr:hover td{background:#f7f9fc}
+.messages{background:#edf4fa;border-left:4px solid var(--hagen-blue);border-radius:3px}
+.errorlist,.errornote{background:#fff0f0;border-left:4px solid #a12626;padding:.65rem .9rem}
+.btn.secondary,button.secondary,.meeting-menu-link{background:var(--hagen-pale);color:var(--hagen-blue-dark)}
+.btn.secondary:hover,button.secondary:hover,.meeting-menu-link:hover{background:#d5e4f1}
+button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid var(--hagen-yellow);outline-offset:2px}
+hr{border:0;border-top:1px solid var(--hagen-border)}
 </style>
 </head>
 <body>
