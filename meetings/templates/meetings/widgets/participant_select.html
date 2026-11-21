@@ -13,18 +13,23 @@
     {% endfor %}
   </section>
   <section class="participant-group participant-reader-group">
-    <h3>Leser*innen (nur Lesezugriff)</h3>
-    {% for reader in widget.reader_users %}
-      <span class="pill">{{ reader }}</span>
-    {% empty %}
-      <span class="muted">Keine Leser*innen dieser Besprechungsreihe zugeordnet.</span>
+    <h3>Leser*innen (optional als Teilnehmer)</h3>
+    {% for group, options, index in widget.optgroups %}
+      {% for option in options %}
+        {% if " (Leser*in)" in option.label %}
+          <label>
+            {% include "django/forms/widgets/input.html" with widget=option %}
+            <span>{{ option.label|cut:" (Leser*in)" }}</span>
+          </label>
+        {% endif %}
+      {% endfor %}
     {% endfor %}
   </section>
   <section class="participant-group">
     <h3>Weitere Nutzer</h3>
     {% for group, options, index in widget.optgroups %}
       {% for option in options %}
-        {% if " (Besprechungsserie)" not in option.label %}
+        {% if " (Besprechungsserie)" not in option.label and " (Leser*in)" not in option.label %}
           <label>
             {% include "django/forms/widgets/input.html" with widget=option %}
             <span>{{ option.label }}</span>

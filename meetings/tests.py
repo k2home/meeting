@@ -788,13 +788,36 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         content = response.content.decode()
         series_section = content.index("Der Besprechungsserie zugeordnet")
-        reader_section = content.index("Leser*innen (nur Lesezugriff)")
+        reader_section = content.index("Leser*innen (optional als Teilnehmer)")
         other_section = content.index("Weitere Nutzer")
         self.assertLess(series_section, reader_section)
         self.assertLess(reader_section, other_section)
         self.assertIn("Lese Person", content)
-        self.assertNotIn(f'value="{reader.pk}"', content)
+        self.assertIn(f'value="{reader.pk}"', content)
+        self.assertNotRegex(content, rf'value="{reader.pk}"[^>]*checked')
         self.assertFalse(self.meeting.participants.filter(pk=reader.pk).exists())
+
+    def test_reader_can_be_selected_as_an_optional_meeting_participant(self):
+        from django.contrib.auth.models import Group
+
+        reader_group, _ = Group.objects.get_or_create(name="Leser*in")
+        reader = User.objects.create_user(
+            username="optional-reader", first_name="Optionale", last_name="Leserin",
+            password="strong-test-password",
+        )
+        reader.groups.add(reader_group)
+        SeriesAccess.objects.create(user=reader, series=self.series)
+
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {"save_participants": "1", "participants": [str(reader.pk)]},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.meeting.refresh_from_db()
+        self.assertTrue(self.meeting.participants.filter(pk=reader.pk).exists())
+        meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertRegex(meeting_response.content.decode(), rf'value="{reader.pk}"[^>]*checked')
 
     def test_series_members_are_listed_before_other_active_users(self):
         response = self.client.get(reverse("meeting", args=[self.meeting.pk]))

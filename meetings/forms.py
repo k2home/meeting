@@ -82,7 +82,9 @@ class CompactParticipantSelect(forms.CheckboxSelectMultiple):
 class ParticipantMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         label = user_display_name(obj)
-        if getattr(obj, "is_series_member", False):
+        if getattr(obj, "is_reader", False):
+            label += " (Leser*in)"
+        elif getattr(obj, "is_series_member", False):
             label += " (Besprechungsserie)"
         return label
 
@@ -104,19 +106,19 @@ class MeetingParticipantsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         User = get_user_model()
         series_id = getattr(self.instance, "series_id", None)
-        reader_memberships = SeriesAccess.objects.filter(
-            series_id=series_id, user__is_active=True, user__groups__name="Leser*in"
-        ).select_related("user")
-        self.fields["participants"].widget.reader_users = [
-            user_display_name(access.user) for access in reader_memberships
-        ]
         membership = SeriesAccess.objects.filter(
             series_id=series_id, user_id=OuterRef("pk")
         )
+        reader_membership = User.objects.filter(
+            pk=OuterRef("pk"), groups__name="Leser*in"
+        )
         self.fields["participants"].queryset = (
-            User.objects.filter(is_active=True).exclude(groups__name="Leser*in")
-            .annotate(is_series_member=Exists(membership))
-            .order_by("-is_series_member", "last_name", "first_name", "username")
+            User.objects.filter(is_active=True)
+            .annotate(
+                is_series_member=Exists(membership),
+                is_reader=Exists(reader_membership),
+            )
+            .order_by("-is_series_member", "-is_reader", "last_name", "first_name", "username")
         )
 
 

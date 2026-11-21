@@ -191,7 +191,7 @@ def meeting_detail(request, pk):
         meeting.participants_initialized = True
         meeting.save(update_fields=["participants_initialized"])
     items = ensure_agenda(meeting)
-    participants = meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
+    participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     if request.method == "POST":
         if meeting.finalized_at:
             messages.error(request, "Eine abgeschlossene Besprechung kann nicht mehr geändert werden.")
@@ -397,7 +397,7 @@ def _protocol_entries(meeting):
 def _meeting_participant_names(meeting):
     return [
         user_display_name(user)
-        for user in meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
+        for user in meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     ]
 
 
@@ -545,7 +545,7 @@ def protocol(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
     ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
-    participants = meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
+    participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
     })
