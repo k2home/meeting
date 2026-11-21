@@ -1,7 +1,6 @@
 from datetime import date
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from django.test import TestCase
 from django.urls import reverse
 
@@ -12,16 +11,12 @@ User = get_user_model()
 
 class SeriesRolePermissionTests(TestCase):
     def setUp(self):
-        self.user_group, _ = Group.objects.get_or_create(name="Nutzer*in")
-        self.moderator_group, _ = Group.objects.get_or_create(name="Moderator*in")
-        self.user = User.objects.create_user(username="assigned-user", password="test-password")
-        self.user.groups.add(self.user_group)
-        self.moderator = User.objects.create_user(username="assigned-moderator", password="test-password")
-        self.moderator.groups.add(self.moderator_group)
         self.series_a = MeetingSeries.objects.create(name="Zugewiesene Reihe")
         self.series_b = MeetingSeries.objects.create(name="Nicht zugewiesene Reihe")
-        SeriesAccess.objects.create(user=self.user, series=self.series_a)
-        SeriesAccess.objects.create(user=self.moderator, series=self.series_a)
+        self.user = User.objects.create_user(username="assigned-user", password="test-password")
+        self.moderator = User.objects.create_user(username="assigned-moderator", password="test-password")
+        SeriesAccess.objects.create(user=self.user, series=self.series_a, role=SeriesAccess.ROLE_PARTICIPANT)
+        SeriesAccess.objects.create(user=self.moderator, series=self.series_a, role=SeriesAccess.ROLE_MODERATOR)
         self.meeting = Meeting.objects.create(series=self.series_a, date=date(2026, 12, 1))
         self.other_meeting = Meeting.objects.create(series=self.series_b, date=date(2026, 12, 2))
         self.topic = Topic.objects.create(title="Zugewiesenes Thema", series=self.series_a)
@@ -29,12 +24,9 @@ class SeriesRolePermissionTests(TestCase):
 
 
     def test_reader_can_read_assigned_content_but_cannot_change_it_or_be_a_participant(self):
-        from django.contrib.auth.models import Group
-        reader_group, _ = Group.objects.get_or_create(name="Leser*in")
         reader = User.objects.create_user(username="series-reader", password="test-password")
-        SeriesAccess.objects.create(user=reader, series=self.series_a)
+        SeriesAccess.objects.create(user=reader, series=self.series_a, role=SeriesAccess.ROLE_READER)
         self.meeting.participants.add(reader)
-        reader.groups.add(reader_group)
 
         self.client.force_login(reader)
         meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
