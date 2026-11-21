@@ -184,6 +184,9 @@ class MeetingUserAdmin(DjangoUserAdmin):
         ("Berechtigungen", {
             "fields": ("is_active", "groups", "is_superuser"),
         }),
+        ("Serienberechtigungen", {
+            "fields": ("series_access",),
+        }),
         ("Wichtige Daten", {
             "fields": ("last_login", "date_joined"),
         }),
