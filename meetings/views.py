@@ -255,7 +255,10 @@ def meeting_detail(request, pk):
 def topic_edit(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     original_topic = Topic.objects.select_related("series", "assigned_to").get(pk=pk)
-    form = TopicForm(request.POST or None, instance=topic, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
+    writable_series = accessible_series(request.user)
+    if not is_admin(request.user):
+        writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    form = TopicForm(request.POST or None, instance=topic, series_queryset=writable_series, series_required=not is_admin(request.user))
     if is_reader(request.user, topic.series):
         for field in form.fields.values():
             field.disabled = True
@@ -294,7 +297,7 @@ def topic_edit(request, pk):
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
         "form": form, "topic": topic, "is_reader": is_reader(request.user, topic.series),
-        "transfer_series": accessible_series(request.user).filter(active=True).exclude(pk=topic.series_id),
+        "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
     })
 
 @login_required
