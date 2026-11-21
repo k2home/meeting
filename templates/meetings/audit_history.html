@@ -17,7 +17,7 @@
     {% if selected_topic %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
   </form>
 </div>
-{% for event in events %}
+{% if not has_history_permission %}\n  <div class="card"><p>Für deinen Zugang sind keine Einträge im Änderungsverlauf freigegeben.</p></div>\n{% else %}\n{% for event in events %}
   <article class="card">
     <div class="topline">
       <strong>{{ event.get_action_display }}</strong>
