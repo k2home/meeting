@@ -140,6 +140,8 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
         self.fields["is_superuser"].label = "Django-Superuser"
         if "groups" in self.fields:
             self.fields["groups"].queryset = Group.objects.filter(name="Admin")
+            self.fields["groups"].label = "Globale Berechtigung"
+            self.fields["groups"].help_text = "Nur Admin ist global. Leser-, Teilnehmer- und Moderatorrollen werden je Besprechungsreihe vergeben."
 
 class MeetingUserAdmin(DjangoUserAdmin):
     form = MeetingUserChangeForm
