@@ -9,6 +9,7 @@ def record_event(*, actor, action, summary, topic=None, meeting=None, changes=No
         summary=summary[:500],
         topic=topic,
         meeting=meeting,
+        series=(meeting.series if meeting is not None and meeting.series_id else (topic.series if topic is not None else None)),
         changes=changes or {},
     )
 

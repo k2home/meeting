@@ -1268,20 +1268,24 @@ def audit_history(request):
     selected_series = request.GET.get("series", "")
 
     if has_history_permission:
-        events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
+        events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
         if not admin_access:
-            # The topic is the primary context of a topic-related audit event.
-            # A linked meeting may belong to another series (for example after
-            # a topic was moved); that must not hide changes to a moderated topic.
-            # Use the meeting's series only for events without a series-bound topic.
+            # Prefer the immutable event context. Legacy rows without it use
+            # the former topic-first relation-based fallback.
             events = events.filter(
-                Q(topic__series__in=series)
-                | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
+                Q(series__in=series)
+                | (Q(series__isnull=True) & (
+                    Q(topic__series__in=series)
+                    | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
+                ))
             )
         if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
             events = events.filter(
-                Q(topic__series_id=int(selected_series))
-                | Q(meeting__series_id=int(selected_series))
+                Q(series_id=int(selected_series))
+                | (Q(series__isnull=True) & (
+                    Q(topic__series_id=int(selected_series))
+                    | Q(meeting__series_id=int(selected_series))
+                ))
             )
             topics = topics.filter(series_id=int(selected_series))
         else:
