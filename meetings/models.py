@@ -196,3 +196,34 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user} – {self.short_description}" if self.short_description else str(self.user)
+
+
+class OrganizationSettings(models.Model):
+    """Globale Bezeichnung der Organisationseinheit für den Meeting Manager."""
+
+    name = models.CharField(
+        "Organisationseinheit", max_length=160, blank=True,
+        help_text='Zum Beispiel „Fachbereich 20“. Die Angabe erscheint in der Anwendungs-Kopfzeile und in Protokollen.',
+    )
+
+    class Meta:
+        verbose_name = "Organisationseinstellung"
+        verbose_name_plural = "Organisationseinstellungen"
+
+    def save(self, *args, **kwargs):
+        # Es gibt genau einen globalen Konfigurationsdatensatz.
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Den Datensatz nicht entfernen, sondern die Bezeichnung leeren.
+        self.name = ""
+        self.save(update_fields=["name"])
+
+    @classmethod
+    def current_name(cls):
+        settings = cls.objects.filter(pk=1).only("name").first()
+        return settings.name.strip() if settings and settings.name else ""
+
+    def __str__(self):
+        return self.name or "Organisationseinheit (nicht festgelegt)"
