@@ -782,7 +782,7 @@ class MeetingParticipantDefaultsTests(TestCase):
             content.index("unassigned"),
         )
         self.assertContains(response, 'type="checkbox"')
-        self.assertNotContains(response, "<details class=\"participant-picker\"")
+        self.assertContains(response, '<details class="participant-picker"')
 
 
     def test_meeting_actions_are_grouped_in_top_menu_and_participants_use_dropdown(self):
@@ -798,7 +798,7 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertIn('form="agenda-reorder-form"', content)
         self.assertIn("Besprechung abschließen", content)
         self.assertIn("<details class=\"participant-picker\">", content)
-        self.assertIn("Teilnehmer auswählen oder ändern", content)
+        self.assertIn("Teilnehmer anpassen", content)
         self.assertIn('type="checkbox"', content)
 
     def test_finalized_meeting_hides_editing_and_completion_actions(self):
