@@ -772,6 +772,30 @@ class MeetingParticipantDefaultsTests(TestCase):
             [self.unassigned.pk],
         )
 
+    def test_readers_are_displayed_in_the_middle_as_non_participants(self):
+        from django.contrib.auth.models import Group
+
+        reader_group, _ = Group.objects.get_or_create(name="Leser*in")
+        reader = User.objects.create_user(
+            username="series-reader", first_name="Lese", last_name="Person",
+            password="strong-test-password",
+        )
+        reader.groups.add(reader_group)
+        SeriesAccess.objects.create(user=reader, series=self.series)
+
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        series_section = content.index("Der Besprechungsserie zugeordnet")
+        reader_section = content.index("Leser*innen (nur Lesezugriff)")
+        other_section = content.index("Weitere Nutzer")
+        self.assertLess(series_section, reader_section)
+        self.assertLess(reader_section, other_section)
+        self.assertIn("Lese Person", content)
+        self.assertNotIn(f'value="{reader.pk}"', content)
+        self.assertFalse(self.meeting.participants.filter(pk=reader.pk).exists())
+
     def test_series_members_are_listed_before_other_active_users(self):
         response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
 
