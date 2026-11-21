@@ -3,7 +3,7 @@
 {% block content %}
 <div class="no-print meeting-action-menu" aria-label="Protokollaktionen">
   {% if protocol_mail_recipients %}
-  <a class="meeting-menu-button" href="{{ protocol_mailto }}">Protokoll verschicken</a>
+  <a class="btn meeting-menu-button" href="{{ protocol_mailto }}">Protokoll verschicken</a>
   {% else %}
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
@@ -13,7 +13,7 @@
   {% if meeting.finalized_at and user.is_staff %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
     {% csrf_token %}
-    <button type="submit" class="meeting-menu-button">Besprechung wieder öffnen</button>
+    <button type="submit" class="meeting-menu-button secondary">Besprechung wieder öffnen</button>
   </form>
   {% endif %}
 </div>
