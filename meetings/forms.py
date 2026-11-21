@@ -3,12 +3,20 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef
 from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
+from .user_display import user_display_name
 
 class UsernameLoginForm(AuthenticationForm):
     username = forms.CharField(label="Benutzername", max_length=150)
     password = forms.CharField(label="Passwort", strip=False, widget=forms.PasswordInput)
 
+class UserDisplayModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return user_display_name(obj)
+
+
 class TopicForm(forms.ModelForm):
+    assigned_to = UserDisplayModelChoiceField(queryset=get_user_model().objects.none(), required=False, label="Verantwortlich")
+
     class Meta:
         model = Topic
         fields = ["title", "description", "due_date", "status", "series", "assigned_to"]
@@ -68,7 +76,7 @@ class CompactParticipantSelect(forms.CheckboxSelectMultiple):
 
 class ParticipantMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
-        label = obj.get_full_name().strip() or obj.username
+        label = user_display_name(obj)
         if getattr(obj, "is_series_member", False):
             label += " (Besprechungsserie)"
         return label

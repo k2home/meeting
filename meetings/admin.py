@@ -3,9 +3,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import GroupAdmin as DjangoGroupAdmin, UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import Group
 
+from .user_display import user_display_name
 from .models import (
     MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
-    TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess,
+    TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile,
 )
 
 admin.site.site_header = "Meeting Manager – Verwaltung"
@@ -21,6 +22,14 @@ class MeetingInline(admin.TabularInline):
 class SeriesAccessInline(admin.TabularInline):
     model = SeriesAccess
     extra = 1
+
+
+class UserProfileInline(admin.StackedInline):
+    model = UserProfile
+    extra = 1
+    max_num = 1
+    can_delete = False
+    fields = ("short_description",)
 
 
 @admin.register(MeetingSeries)
@@ -97,13 +106,28 @@ class TopicCommentAdmin(admin.ModelAdmin):
 
 @admin.register(SeriesAccess)
 class SeriesAccessAdmin(admin.ModelAdmin):
-    list_display = ("user", "series")
+    list_display = ("display_user", "series")
     list_filter = ("series",)
     search_fields = ("user__username", "user__first_name", "user__last_name", "series__name")
 
+    @admin.display(description="Benutzer", ordering="user__username")
+    def display_user(self, obj):
+        return user_display_name(obj.user)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        field = super().formfield_for_foreignkey(db_field, request, **kwargs)
+        if db_field.name == "user":
+            field.label_from_instance = user_display_name
+        return field
+
 
 class MeetingUserAdmin(DjangoUserAdmin):
-    inlines = [SeriesAccessInline]
+    inlines = [UserProfileInline, SeriesAccessInline]
+    list_display = ("username", "display_name", "email", "is_staff", "is_active")
+
+    @admin.display(description="Anzeigename")
+    def display_name(self, obj):
+        return user_display_name(obj)
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)

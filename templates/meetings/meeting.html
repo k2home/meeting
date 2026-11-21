@@ -1,4 +1,5 @@
 {% extends "meetings/base.html" %}
+{% load meeting_user_tags %}
 {% block content %}
 <h1>{{ meeting.series.name|default:'Gelöschte Besprechungsreihe' }} – {{ meeting.date|date:"d.m.Y" }}</h1>
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
@@ -9,7 +10,7 @@
   <div class="participant-menu-panel">
     <div class="participant-summary">
       {% for participant in meeting.participants.all %}
-        <span class="pill">{{ participant.get_full_name|default:participant.username }}</span>
+        <span class="pill">{{ participant|user_display }}</span>
       {% empty %}
         <span class="muted">Noch keine Teilnehmer eingetragen.</span>
       {% endfor %}
@@ -67,7 +68,7 @@
       </div>
       {% endif %}
     </div>
-    <p class="muted">Fällig: {{ item.topic.due_date|date:"d.m.Y"|default:"—" }} · {% if item.carried_forward %}Übernommen · {% endif %}{{ item.topic.get_status_display }} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to.get_full_name|default:item.topic.assigned_to.username }}{% else %}Nicht zugewiesen{% endif %}</p>
+    <p class="muted">Fällig: {{ item.topic.due_date|date:"d.m.Y"|default:"—" }} · {% if item.carried_forward %}Übernommen · {% endif %}{{ item.topic.get_status_display }} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     {% if not meeting.finalized_at %}
     <form method="post">
       {% csrf_token %}

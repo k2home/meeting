@@ -20,6 +20,7 @@ from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, can_reopen_meeting, is_admin, is_moderator
 from .models import SeriesAccess
+from .user_display import user_display_name
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -174,13 +175,13 @@ def meeting_detail(request, pk):
             messages.error(request, "Eine abgeschlossene Besprechung kann nicht mehr geändert werden.")
             return redirect("meeting", pk=pk)
         if request.POST.get("save_participants"):
-            before = [u.get_full_name().strip() or u.username for u in meeting.participants.all()]
+            before = [user_display_name(u) for u in meeting.participants.all()]
             participant_form = MeetingParticipantsForm(request.POST, instance=meeting)
             if participant_form.is_valid():
                 participant_form.save()
                 meeting.participants_initialized = True
                 meeting.save(update_fields=["participants_initialized"])
-                after = [u.get_full_name().strip() or u.username for u in meeting.participants.all()]
+                after = [user_display_name(u) for u in meeting.participants.all()]
                 if before != after:
                     record_event(
                         actor=request.user, action="updated",
@@ -364,7 +365,7 @@ def _protocol_entries(meeting):
 
 def _meeting_participant_names(meeting):
     return [
-        user.get_full_name().strip() or user.username
+        user_display_name(user)
         for user in meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     ]
 
