@@ -1004,3 +1004,89 @@ class ProtocolEmailTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "keine E-Mail-Adressen hinterlegt")
         self.assertEqual(response.context["protocol_mail_recipients"], [])
+
+
+class MeetingAgendaEnhancementTests(TestCase):
+    def setUp(self):
+        from datetime import date
+        self.user = User.objects.create_user(username="agenda-editor", password="strong-test-password")
+        self.series_a = MeetingSeries.objects.create(name="Gremium A")
+        self.series_b = MeetingSeries.objects.create(name="Gremium B")
+        SeriesAccess.objects.create(user=self.user, series=self.series_a)
+        SeriesAccess.objects.create(user=self.user, series=self.series_b)
+        self.meeting = Meeting.objects.create(series=self.series_a, date=date(2026, 12, 1))
+        self.target_meeting = Meeting.objects.create(series=self.series_b, date=date(2027, 1, 12))
+        self.client.force_login(self.user)
+
+    def test_new_agenda_topic_can_be_created_from_meeting_page(self):
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {"add_agenda_topic": "1", "title": "Neuer Tagesordnungspunkt", "working_text": "Ein erster Sachstand"},
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        topic = Topic.objects.get(title="Neuer Tagesordnungspunkt")
+        self.assertEqual(topic.series, self.series_a)
+        self.assertEqual(topic.due_date, self.meeting.date)
+        item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
+        self.assertEqual(item.working_text, "Ein erster Sachstand")
+
+    def test_topic_suggestions_return_matching_accessible_topics(self):
+        Topic.objects.create(title="Digitalisierung Haushalt", series=self.series_a)
+        Topic.objects.create(title="Digitalisierung Schule", series=self.series_b)
+        response = self.client.get(reverse("topic_suggestions"), {"q": "Digitalisierung"})
+        self.assertEqual(response.status_code, 200)
+        titles = [entry["title"] for entry in response.json()["results"]]
+        self.assertEqual(titles, ["Digitalisierung Haushalt", "Digitalisierung Schule"])
+
+    def test_agenda_item_can_be_scheduled_for_selected_committee_meeting(self):
+        topic = Topic.objects.create(title="Zu übertragendes Thema", series=self.series_a)
+        item = AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Bitte erneut beraten")
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {
+                "schedule_item": str(item.pk),
+                "target_series": str(self.series_b.pk),
+                "target_meeting": str(self.target_meeting.pk),
+            },
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        topic.refresh_from_db()
+        self.assertEqual(topic.series, self.series_b)
+        self.assertEqual(topic.due_date, self.target_meeting.date)
+        transfer = TopicTransferHistory.objects.get(topic=topic)
+        self.assertEqual(transfer.from_series, self.series_a)
+        self.assertEqual(transfer.to_series, self.series_b)
+        target_response = self.client.get(reverse("meeting", args=[self.target_meeting.pk]))
+        self.assertEqual(target_response.status_code, 200)
+        self.assertContains(target_response, "Zu übertragendes Thema")
+
+    def test_schedule_rejects_meeting_from_a_different_series(self):
+        topic = Topic.objects.create(title="Falsche Zuordnung", series=self.series_a)
+        item = AgendaItem.objects.create(meeting=self.meeting, topic=topic)
+        self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {
+                "schedule_item": str(item.pk),
+                "target_series": str(self.series_a.pk),
+                "target_meeting": str(self.target_meeting.pk),
+            },
+        )
+        topic.refresh_from_db()
+        self.assertEqual(topic.series, self.series_a)
+        self.assertIsNone(topic.due_date)
+        self.assertFalse(TopicTransferHistory.objects.filter(topic=topic).exists())
+
+    def test_history_lists_meetings_series_dates_and_text(self):
+        topic = Topic.objects.create(title="Historienthema", series=self.series_a)
+        AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Erster Beratungsstand")
+        previous = Meeting.objects.create(series=self.series_a, date="2026-11-01")
+        AgendaItem.objects.create(meeting=previous, topic=topic, working_text="Vorheriger Beratungsstand")
+        page = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertContains(page, "Historie")
+        response = self.client.get(reverse("agenda_topic_history", args=[self.meeting.pk, topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Gremium A")
+        self.assertContains(response, "01.12.2026")
+        self.assertContains(response, "01.11.2026")
+        self.assertContains(response, "Erster Beratungsstand")
+        self.assertContains(response, "Vorheriger Beratungsstand")
