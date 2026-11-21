@@ -108,10 +108,13 @@ class MeetingUserAdmin(DjangoUserAdmin):
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         user = form.instance
-        if user.groups.filter(name="Admin").exists() and not user.is_staff:
-            user.is_staff = True
+        should_be_staff = user.is_superuser or user.groups.filter(name="Admin").exists()
+        if user.is_staff != should_be_staff:
+            user.is_staff = should_be_staff
             user.save(update_fields=["is_staff"])
 
 
+admin.site.unregister(get_user_model())
+admin.site.unregister(Group)
 admin.site.register(get_user_model(), MeetingUserAdmin)
 admin.site.register(Group, DjangoGroupAdmin)
