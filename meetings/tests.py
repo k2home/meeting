@@ -931,3 +931,68 @@ class UserShortDescriptionTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Kurzbeschreibung")
         self.assertContains(response, "01/22")
+
+
+
+class ProtocolEmailTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="protocol-owner",
+            first_name="Protokoll",
+            last_name="Nutzer",
+            email="protokoll@example.com",
+            password="strong-test-password",
+        )
+        self.series = MeetingSeries.objects.create(name="Strategierunde")
+        self.meeting = Meeting.objects.create(series=self.series, date="2026-12-20")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
+        self.client.force_login(self.user)
+
+    def test_protocol_email_is_prefilled_for_all_series_assignees(self):
+        from urllib.parse import parse_qs, urlsplit
+
+        second_user = User.objects.create_user(
+            username="second-series-user",
+            email="zweite-person@example.com",
+            password="strong-test-password",
+        )
+        SeriesAccess.objects.create(user=second_user, series=self.series)
+        # A series assignment without an email address cannot be added to a mail draft.
+        User.objects.create_user(
+            username="no-email-user",
+            password="strong-test-password",
+        )
+        response = self.client.get(reverse("protocol", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Protokoll verschicken")
+        self.assertContains(response, "meeting-action-menu")
+        self.assertContains(response, "meeting-menu-link")
+        self.assertContains(response, "meeting-menu-button")
+        mailto = response.context["protocol_mailto"]
+        parsed = urlsplit(mailto)
+        self.assertEqual(parsed.scheme, "mailto")
+        self.assertEqual(
+            parsed.path,
+            "protokoll@example.com,zweite-person@example.com",
+        )
+        query = parse_qs(parsed.query)
+        self.assertEqual(
+            query["subject"][0],
+            "Protokoll (Strategierunde) (20.12.2026)",
+        )
+        self.assertEqual(
+            query["body"][0],
+            "Hallo zusammen,\\n\\n"
+            "das Protokoll für die Sitzung Strategierunde am 20.12.2026 "
+            f"ist unter {self.client.get(reverse('protocol', args=[self.meeting.pk])).wsgi_request.build_absolute_uri(reverse('protocol', args=[self.meeting.pk]))} verfügbar.\\n",
+        )
+
+    def test_protocol_email_button_is_unavailable_without_series_recipients(self):
+        self.meeting.series = None
+        self.meeting.save(update_fields=["series"])
+        response = self.client.get(reverse("protocol", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "keine E-Mail-Adressen hinterlegt")
+        self.assertEqual(response.context["protocol_mail_recipients"], [])
