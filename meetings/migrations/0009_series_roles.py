@@ -1,9 +1,11 @@
+from django.conf import settings
 from django.db import migrations, models
 
 
 def migrate_global_roles_to_series(apps, schema_editor):
     Group = apps.get_model("auth", "Group")
     SeriesAccess = apps.get_model("meetings", "SeriesAccess")
+    User = apps.get_model(*settings.AUTH_USER_MODEL.split("."))
     db = schema_editor.connection.alias
 
     role_groups = {
@@ -12,7 +14,7 @@ def migrate_global_roles_to_series(apps, schema_editor):
             name__in=["Leser*in", "Moderator*in", "Nutzer*in", "Teilnehmer*in"]
         )
     }
-    through = apps.get_model("auth", "User_groups")
+    through = User._meta.get_field("groups").remote_field.through
     memberships = set(
         through.objects.using(db).filter(
             group_id__in=role_groups.values()
@@ -38,6 +40,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("meetings", "0008_userprofile"),
         ("auth", "0012_alter_user_first_name_max_length"),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
