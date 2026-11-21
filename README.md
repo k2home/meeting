@@ -62,7 +62,7 @@ Die Anwendung verwendet vier Django-Gruppen. Die Gruppe eines Kontos bestimmt di
 
 ### Berechtigungsmatrix
 
-| Funktion | Leser*in | Nutzer*in | Moderator*in | Admin |
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|
 | Zugewiesene Besprechungsreihen und deren Inhalte ansehen | Ja | Ja | Ja | Alle Reihen |
 | Protokolle und Änderungsverlauf ansehen | Ja | Ja | Ja | Alle Reihen |
@@ -88,7 +88,7 @@ Die Anwendung verwendet vier Django-Gruppen. Die Gruppe eines Kontos bestimmt di
 - Ist kein Besprechungsteilnehmer und erscheint nicht in Teilnehmerlisten oder Protokoll-Teilnehmerangaben.
 - Hat ausschließlich Leserechte: keine Kommentare, Änderungen, Anlagen, Tagesordnungsaktionen, Abschlüsse oder Verwaltungsfunktionen.
 
-**Nutzer*in**
+**Teilnehmer*in**
 
 - Sieht ausschließlich die ausdrücklich zugewiesenen Besprechungsreihen.
 - Kann innerhalb dieser Reihen Themen anlegen und bearbeiten, Themen archivieren oder übertragen, Kommentare schreiben und Tagesordnungen sowie Teilnehmer verwalten.
@@ -97,7 +97,7 @@ Die Anwendung verwendet vier Django-Gruppen. Die Gruppe eines Kontos bestimmt di
 
 **Moderator*in**
 
-- Hat innerhalb der eigenen zugewiesenen Reihen dieselben fachlichen Rechte wie Nutzer*innen.
+- Hat innerhalb der eigenen zugewiesenen Reihen dieselben fachlichen Rechte wie Teilnehmer*innen.
 - Kann zusätzlich abgeschlossene Besprechungen wieder öffnen.
 - Kann eigene zugewiesene Besprechungsreihen anlegen, ändern und löschen sowie deren Termine verwalten.
 - Kann nicht auf fremde, nicht zugewiesene Reihen zugreifen und keine Benutzerrollen oder Serienzuweisungen anderer Konten verwalten.
@@ -109,14 +109,16 @@ Die Anwendung verwendet vier Django-Gruppen. Die Gruppe eines Kontos bestimmt di
 - Kann alle Besprechungen abschließen und wieder öffnen.
 - Die Admin-Rolle wird über die Gruppe **Admin** vergeben. Django-Superuser haben ebenfalls globalen Zugriff.
 
-### Wichtig: Rolle und Serienzuweisung sind zwei getrennte Dinge
+### Rollen gelten je Besprechungsreihe
 
-Eine Rolle allein gewährt Nutzer*innen und Moderator*innen keinen Zugriff auf sämtliche Reihen. Der Zugriff wird zusätzlich pro Benutzerkonto und Besprechungsreihe eingetragen. Dadurch können Personen derselben Rolle unterschiedliche Reihen sehen.
+Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden direkt an der jeweiligen Benutzer-/Besprechungsreihen-Zuordnung vergeben. Ein Konto kann deshalb in einer Reihe Leser*in, in einer zweiten Teilnehmer*in und in einer dritten Moderator*in sein. Die Rolle gilt ausschließlich für die zugeordnete Reihe.
+
+**Admin** bleibt eine globale Berechtigung und wird weiterhin über die Gruppe **Admin** oder den Django-Superuser vergeben.
 
 Bei der Einführung der Serienberechtigungen werden bestehende Konten automatisch zugeordnet:
 
 - Bisherige Staff-Konten erhalten die Gruppe **Admin**.
-- Andere bestehende Konten erhalten die Gruppe **Nutzer*in**.
+- Bestehende Rollen werden bei der Migration auf die jeweiligen Serienzuordnungen übertragen. Konten ohne bisherige Moderator- oder Leserrolle erhalten dort **Teilnehmer*in**.
 - Bestehende Nicht-Admin-Konten erhalten zunächst Zugriff auf alle zu diesem Zeitpunkt vorhandenen Besprechungsreihen. So bleibt der bisherige Zugriff nach dem Update erhalten. Diese Zuweisungen können anschließend auf die tatsächlich benötigten Reihen eingeschränkt werden.
 
 Neue Benutzerkonten benötigen eine Rolle und – sofern sie kein Admin sind – mindestens eine Serienzuweisung.
@@ -127,13 +129,13 @@ Die Verwaltung befindet sich unter `/django-admin/` und ist nur für Admins bzw.
 
 1. Mit einem Admin-Konto anmelden und **Verwaltung** öffnen.
 2. Unter **Benutzer** ein neues Konto anlegen oder ein vorhandenes Konto öffnen.
-3. Im Bereich **Gruppen** genau die gewünschte Rolle auswählen: **Leser*in**, **Nutzer*in**, **Moderator*in** oder **Admin**.
-4. Im Inline-Bereich **Serienberechtigungen** die Besprechungsreihen hinzufügen, die das Konto sehen und bearbeiten darf.
+3. Im Inline-Bereich **Serienberechtigungen** jede Besprechungsreihe hinzufügen und dort die passende Rolle **Leser*in**, **Teilnehmer*in** oder **Moderator*in** festlegen.
+4. Die globale Gruppe **Admin** wird nur für Konten vergeben, die alle Reihen verwalten sollen.
 5. Änderungen speichern.
 
 Die Serienzuweisungen können alternativ direkt an einer Besprechungsreihe im Bereich **Besprechungsreihen** gepflegt werden. Beide Ansichten bearbeiten dieselben Zuordnungen.
 
-**Empfehlung:** Admin nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten Nutzer*in oder Moderator*in auswählen und den Zugriff auf die benötigten Reihen begrenzen.
+**Empfehlung:** Admin nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten die Rolle je Besprechungsreihe passend festlegen und nur die benötigten Reihen zuweisen.
 
 ## Installation
 
@@ -330,6 +332,6 @@ Die Berechtigungstests liegen in `meetings/test_permissions.py`; weitere Anwendu
 
 Das Datenbankschema wird mit versionierten Django-Migrationen verwaltet. Neue Migrationen liegen unter `meetings/migrations/` und werden beim regulären Update automatisch mit `manage.py migrate` angewendet.
 
-Die Migration `0006_series_access_and_roles` ergänzt die expliziten Serienzuweisungen und richtet die drei Rollen-Gruppen ein. Sie erhält den bisherigen Zugriff bestehender Konten, indem Nicht-Admin-Konten zunächst allen bereits vorhandenen Reihen zugeordnet werden. Die Zuordnungen können danach durch Admins eingeschränkt werden.
+Die Migration `0006_series_access_and_roles` ergänzt die Serienzuweisungen. Die Migration `0009_series_roles` überführt die bisherigen globalen Rollen in Rollen je Serienzuordnung und entfernt die nicht mehr benötigten globalen Gruppen. Admin bleibt global.
 
 Migrationen nicht manuell aus der Datenbank löschen und nicht mit `migrate --fake` überspringen, außer wenn ein bewusst geplanter und geprüfter Reparaturvorgang dies erfordert.
