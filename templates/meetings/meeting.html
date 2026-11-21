@@ -90,7 +90,7 @@
   </div>
 </details>{% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button agenda-create-button" type="button" id="open-new-agenda-topic">+ Neuer Tagesordnungspunkt</button><button class="meeting-menu-button secondary" type="button" id="toggle-agenda-reorder" aria-pressed="false">Reihenfolge ändern</button><button class="meeting-menu-button agenda-create-button" type="button" id="save-agenda-order">Speichern</button>{% endif %}
+  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button secondary" type="button" id="toggle-agenda-reorder" aria-pressed="false">Reihenfolge ändern</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
