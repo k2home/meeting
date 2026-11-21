@@ -7,7 +7,7 @@ from xml.sax.saxutils import escape
 
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch
 from django.db.models.functions import RowNumber
@@ -21,7 +21,7 @@ from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextFor
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
-from .access import accessible_meetings, accessible_series, accessible_topics, can_reopen_meeting, has_writable_series, is_admin, is_moderator, is_reader
+from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
 from .models import SeriesAccess
 from .user_display import user_display_name
 
@@ -369,7 +369,10 @@ def topic_transfer(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    target = get_object_or_404(accessible_series(request.user), pk=request.POST.get("series"), active=True)
+    transfer_targets = accessible_series(request.user)
+    if not is_admin(request.user):
+        transfer_targets = transfer_targets.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    target = get_object_or_404(transfer_targets, pk=request.POST.get("series"), active=True)
     if topic.series_id == target.pk:
         messages.info(request, "Das Thema ist bereits dieser Besprechungsreihe zugeordnet.")
         return redirect("topic_edit", pk=topic.pk)
