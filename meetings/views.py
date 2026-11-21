@@ -317,6 +317,22 @@ def meeting_detail(request, pk):
                 messages.success(request, "Themenstatus gespeichert.")
             else:
                 messages.info(request, "Der Themenstatus ist unverändert.")
+        elif request.POST.get("add_existing_topic"):
+            topic = get_object_or_404(accessible_topics(request.user), pk=request.POST.get("add_existing_topic"))
+            if meeting.agenda_items.filter(topic=topic).exists():
+                messages.info(request, f"„{topic.title}“ steht bereits auf dieser Tagesordnung.")
+            else:
+                AgendaItem.objects.create(
+                    meeting=meeting, topic=topic, working_text=topic.description,
+                    position=(meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if meeting.agenda_items.exists() else -1) + 1,
+                )
+                record_event(
+                    actor=request.user, action="created",
+                    summary=f"Vorhandenes Thema „{topic.title}“ in die Tagesordnung am {meeting.date:%d.%m.%Y} übernommen",
+                    topic=topic, meeting=meeting,
+                    changes={"Tagesordnung": {"vorher": None, "nachher": meeting.date.isoformat()}},
+                )
+                messages.success(request, f"„{topic.title}“ wurde in diese Tagesordnung übernommen. Terminserie und Wiedervorlage des Themas bleiben unverändert.")
         elif request.POST.get("add_agenda_topic"):
             create_form = AgendaItemCreateForm(request.POST)
             if create_form.is_valid():
@@ -374,7 +390,7 @@ def topic_suggestions(request):
     if len(query) >= 2:
         topics = accessible_topics(request.user).filter(title__icontains=query).select_related("series").order_by("title")[:8]
         results = [
-            {"title": topic.title, "series": topic.series.name if topic.series else "Ohne Besprechungsreihe"}
+            {"id": topic.pk, "title": topic.title, "series": topic.series.name if topic.series else "Ohne Besprechungsreihe"}
             for topic in topics
         ]
     return JsonResponse({"results": results})
