@@ -2,6 +2,7 @@ from datetime import timedelta
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
+from urllib.parse import quote, urlencode
 from xml.sax.saxutils import escape
 
 from django.contrib import messages
@@ -12,6 +13,7 @@ from django.db.models import F, Q, Window, Prefetch
 from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -546,8 +548,28 @@ def protocol(request, pk):
     ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
+    series_name = meeting.series.name if meeting.series_id else "Gelöschte Besprechungsreihe"
+    recipient_emails = []
+    if meeting.series_id:
+        recipient_emails = list(
+            SeriesAccess.objects.filter(
+                series_id=meeting.series_id, user__is_active=True
+            ).exclude(user__email="").values_list("user__email", flat=True).distinct()
+        )
+    protocol_url = request.build_absolute_uri(reverse("protocol", args=[meeting.pk]))
+    subject = f"Protokoll ({series_name}) ({meeting.date:%d.%m.%Y})"
+    body = (
+        "Hallo zusammen,\n\n"
+        f"das Protokoll für die Sitzung {series_name} am {meeting.date:%d.%m.%Y} "
+        f"ist unter {protocol_url} verfügbar.\n"
+    )
+    mailto_url = (
+        f"mailto:{quote(','.join(recipient_emails), safe='@,.-_+')}"
+        f"?{urlencode({'subject': subject, 'body': body})}"
+    )
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
+        "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
     })
 
 @login_required
