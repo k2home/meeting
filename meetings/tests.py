@@ -152,6 +152,42 @@ class AuditHistoryTests(TestCase):
         self.assertContains(response, "Änderung am moderierten Thema mit fremder Besprechung")
 
 
+    def test_new_events_are_scoped_to_their_meeting_or_topic_series(self):
+        from .models import AuditEvent
+        from .audit import record_event
+
+        moderator_series = MeetingSeries.objects.create(name="Moderierte Reihe")
+        foreign_series = MeetingSeries.objects.create(name="Fremde Reihe")
+        SeriesAccess.objects.create(
+            user=self.user, series=moderator_series, role=SeriesAccess.ROLE_MODERATOR
+        )
+        meeting = Meeting.objects.create(series=moderator_series, date="2026-12-15")
+        foreign_topic = Topic.objects.create(title="Thema aus fremder Reihe", series=foreign_series)
+
+        meeting_event = record_event(
+            actor=self.user, action="updated", summary="Änderung an Besprechung",
+            topic=foreign_topic, meeting=meeting,
+        )
+        topic_event = record_event(
+            actor=self.user, action="updated", summary="Eigenständige Themenänderung",
+            topic=Topic.objects.create(title="Thema der moderierten Reihe", series=moderator_series),
+        )
+        unrelated_event = record_event(
+            actor=self.user, action="updated", summary="Änderung aus fremder Reihe",
+            topic=foreign_topic,
+        )
+
+        self.assertEqual(meeting_event.series, moderator_series)
+        self.assertEqual(topic_event.series, moderator_series)
+        self.assertEqual(unrelated_event.series, foreign_series)
+
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("audit_history"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Änderung an Besprechung")
+        self.assertContains(response, "Eigenständige Themenänderung")
+        self.assertNotContains(response, "Änderung aus fremder Reihe")
+
     def test_history_renders_escaped_newlines_as_line_breaks(self):
         from .models import AuditEvent
 
