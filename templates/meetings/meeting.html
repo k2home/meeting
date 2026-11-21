@@ -14,6 +14,16 @@
 .agenda-history-dialog{width:min(720px,calc(100% - 2rem));max-height:80vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
 .agenda-history-dialog::backdrop{background:#0009}
 .agenda-history-dialog h2{margin-top:0}
+.agenda-topic-meta{margin:.5rem 0;color:var(--muted)}
+.agenda-topic-status{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;margin:.35rem 0 .8rem}
+.agenda-status-form{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.agenda-status-form select{width:auto;min-width:150px}
+.agenda-status-form button{padding:.4rem .7rem}
+.agenda-tools{display:flex;justify-content:flex-start;margin:.75rem 0}
+#new-agenda-topic-dialog form{margin-top:.75rem}
+#new-agenda-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
+#new-agenda-topic-dialog input,#new-agenda-topic-dialog textarea{width:100%}
+
 .agenda-history-entry{padding:.75rem 0;border-bottom:1px solid var(--border)}
 .agenda-history-entry:last-child{border-bottom:0}
 </style>
@@ -47,20 +57,21 @@
 </nav>
 
 {% if not is_reader and not meeting.finalized_at %}
-<section class="agenda-tools no-print">
-  <div class="card">
-    <h2>Neuen Tagesordnungspunkt anlegen</h2>
-    <form method="post" id="new-agenda-topic-form">
-      {% csrf_token %}<input type="hidden" name="add_agenda_topic" value="1">
-      <label for="new-topic-title">Thema</label>
-      <input id="new-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
-      <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"></div>
-      <label for="new-topic-text">Text für dieses Protokoll</label>
-      <textarea id="new-topic-text" name="working_text" rows="4"></textarea>
-      <button type="submit">Thema anlegen und zur Tagesordnung hinzufügen</button>
-    </form>
-  </div>
-</section>
+<div class="agenda-tools no-print">
+  <button type="button" id="open-new-agenda-topic" aria-label="Neuen Tagesordnungspunkt anlegen">+ Neuen Tagesordnungspunkt</button>
+</div>
+<dialog id="new-agenda-topic-dialog" class="agenda-history-dialog" aria-labelledby="new-agenda-topic-title">
+  <div class="topline"><h2 id="new-agenda-topic-title">Neuen Tagesordnungspunkt anlegen</h2><button type="button" class="secondary" id="close-new-agenda-topic">Schließen</button></div>
+  <form method="post" id="new-agenda-topic-form">
+    {% csrf_token %}<input type="hidden" name="add_agenda_topic" value="1">
+    <label for="new-topic-title">Thema</label>
+    <input id="new-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
+    <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"></div>
+    <label for="new-topic-text">Text für dieses Protokoll</label>
+    <textarea id="new-topic-text" name="working_text" rows="4"></textarea>
+    <div class="agenda-item-tools"><button type="submit">Thema anlegen und hinzufügen</button></div>
+  </form>
+</dialog>
 {% endif %}
 
 {% if not is_reader and not meeting.finalized_at and items %}
@@ -81,7 +92,20 @@
         {% endif %}
       </div>
     </div>
-    <p class="muted">Fällig: {{ item.topic.due_date|date:"d.m.Y"|default:"—" }} · {% if item.carried_forward %}Übernommen · {% endif %}{{ item.topic.get_status_display }} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
+    <p class="agenda-topic-meta"><strong>Fälligkeit / Wiedervorlage:</strong> {{ item.topic.due_date|date:"d.m.Y"|default:"—" }}{% if item.carried_forward %} · Übernommen{% endif %} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
+    <div class="agenda-topic-status">
+      <strong>Status:</strong> <span class="pill">{{ item.topic.get_status_display }}</span>
+      {% if not meeting.finalized_at and not is_reader %}
+      <form method="post" class="agenda-status-form">
+        {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
+        <label class="visually-hidden" for="topic-status-{{ item.id }}">Status von {{ item.topic.title }}</label>
+        <select id="topic-status-{{ item.id }}" name="status" aria-label="Status von {{ item.topic.title }}">
+          {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+        <button type="submit" class="secondary">Status speichern</button>
+      </form>
+      {% endif %}
+    </div>
     {% if not meeting.finalized_at and not is_reader %}
     <form method="post">
       {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
@@ -90,7 +114,7 @@
       <button type="submit">Text speichern</button>
     </form>
     <details class="no-print" style="margin-top:.8rem">
-      <summary>Fälligkeit / Wiedervorlage einstellen</summary>
+      <summary>Besprechungsserie und Wiedervorlage ändern</summary>
       <form method="post" class="agenda-schedule-form" style="margin-top:.7rem">
         {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
         <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
@@ -178,6 +202,17 @@
     series.addEventListener("change", filterMeetings);
     filterMeetings();
   });
+
+  const createDialog = document.getElementById("new-agenda-topic-dialog");
+  const openCreateButton = document.getElementById("open-new-agenda-topic");
+  if (createDialog && openCreateButton) {
+    openCreateButton.addEventListener("click", () => {
+      createDialog.showModal();
+      document.getElementById("new-topic-title").focus();
+    });
+    document.getElementById("close-new-agenda-topic").addEventListener("click", () => createDialog.close());
+    createDialog.addEventListener("click", (event) => { if (event.target === createDialog) createDialog.close(); });
+  }
 
   const titleInput = document.getElementById("new-topic-title");
   const suggestions = document.getElementById("topic-suggestions");

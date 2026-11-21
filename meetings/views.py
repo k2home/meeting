@@ -298,6 +298,25 @@ def meeting_detail(request, pk):
                 messages.success(request, f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen Termin.")
+        elif request.POST.get("update_topic_status"):
+            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_topic_status"), meeting=meeting)
+            new_status = request.POST.get("status")
+            valid_statuses = dict(Topic.STATUS)
+            if new_status not in valid_statuses:
+                messages.error(request, "Bitte wähle einen gültigen Themenstatus.")
+            elif item.topic.status != new_status:
+                old_status = item.topic.get_status_display()
+                item.topic.status = new_status
+                item.topic.save(update_fields=["status", "updated_at"])
+                record_event(
+                    actor=request.user, action="updated",
+                    summary=f"Status für „{item.topic.title}“ auf {valid_statuses[new_status]} gesetzt",
+                    topic=item.topic, meeting=meeting,
+                    changes={"Status": {"vorher": old_status, "nachher": valid_statuses[new_status]}},
+                )
+                messages.success(request, "Themenstatus gespeichert.")
+            else:
+                messages.info(request, "Der Themenstatus ist unverändert.")
         elif request.POST.get("add_agenda_topic"):
             create_form = AgendaItemCreateForm(request.POST)
             if create_form.is_valid():
