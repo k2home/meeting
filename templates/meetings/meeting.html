@@ -85,11 +85,11 @@
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 
 <nav class="meeting-action-menu no-print" aria-label="Aktionen für diese Besprechung">
-  {% if is_reader %}<div class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ participants.count }}</span><div class="participant-summary">{% for participant in participants %}<span class="pill">{{ participant|user_display }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}</div></div>{% else %}<details class="meeting-menu-participants">
+  {% if is_reader %}<div class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ participants.count }}</span><div class="participant-summary">{% for participant in participants %}<span class="pill">{{ participant|user_display_context }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}</div></div>{% else %}<details class="meeting-menu-participants">
   <summary class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ meeting.participants.count }}</span></summary>
   <div class="participant-menu-panel">
     <div class="participant-summary">
-      {% for participant in participants %}<span class="pill">{{ participant|user_display }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}
+      {% for participant in participants %}<span class="pill">{{ participant|user_display_context }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}
     </div>
     {% if not meeting.finalized_at %}
     <form method="post" class="participant-form">
@@ -153,9 +153,9 @@
             </form>
             <select id="topic-assignee-{{ item.id }}" name="assigned_to" form="topic-assignee-form-{{ item.id }}" aria-label="Zuständigkeit für {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-assignee-form-{{ item.id }}&quot;).requestSubmit()">
               <option value="">Nicht zugewiesen</option>
-              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.topic.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
+              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.topic.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_context }}</option>{% endfor %}
             </select>
-            {% else %}{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>
