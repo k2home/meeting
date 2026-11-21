@@ -942,7 +942,8 @@ class UserShortDescriptionTests(TestCase):
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.username, "display-user")
-        self.assertEqual(user_display_name(self.user), "Name (01/22)")
+        self.assertEqual(user_display_name(self.user), "Name")
+        self.assertEqual(user_display_name(self.user, include_short_description=True), "Name (01/22)")
 
     def test_short_description_appears_in_participant_dropdown_and_protocol(self):
         from .models import UserProfile
@@ -969,7 +970,24 @@ class UserShortDescriptionTests(TestCase):
             document_xml = archive.read("word/document.xml").decode("utf-8")
         self.assertIn("Name (01/22)", document_xml)
 
-    def test_user_admin_exposes_editable_short_description(self):
+    def test_dashboard_greeting_and_sidebar_use_full_name(self):
+        self.user.last_name = "Mustermann"
+        self.user.save(update_fields=["last_name"])
+        response = self.client.get(reverse("dashboard"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Willkommen, Name Mustermann")
+        self.assertContains(response, '<span class="username">Name Mustermann</span>', html=True)
+        self.assertNotContains(response, "Willkommen, display-user")
+
+    def test_user_display_falls_back_to_username_when_name_is_missing(self):
+        from .user_display import user_display_name, user_display_name_with_login
+        self.assertEqual(user_display_name(self.user), "Name")
+        self.user.first_name = ""
+        self.user.save(update_fields=["first_name"])
+        self.assertEqual(user_display_name(self.user), "display-user")
+        self.assertEqual(user_display_name_with_login(self.user), "display-user")
+
+    def test_user_admin_exposes_editable_short_description_and_login_identifier(self):
         from .models import UserProfile
 
         UserProfile.objects.create(user=self.user, short_description="01/22")
@@ -982,6 +1000,8 @@ class UserShortDescriptionTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Kurzbeschreibung")
         self.assertContains(response, "01/22")
+        self.assertContains(response, "Name (display-user)")
+        self.assertNotContains(response, "ada@example.com")
 
 
 
