@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import (
     GroupAdmin as DjangoGroupAdmin,
@@ -8,6 +8,8 @@ from django.contrib.auth.admin import (
 )
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
+from django.template.response import TemplateResponse
 from django.urls import path
 
 from .models import (
@@ -32,6 +34,7 @@ class MeetingInline(admin.TabularInline):
 class SeriesAccessInline(admin.TabularInline):
     model = SeriesAccess
     extra = 1
+
     def get_fields(self, request, obj=None):
         return ("user", "role") if self.parent_model == MeetingSeries else ("series", "role")
 
@@ -125,6 +128,81 @@ class SeriesAccessAdmin(admin.ModelAdmin):
         return field
 
 
+class MeetingGroupAdmin(DjangoGroupAdmin):
+    """Die Admin-Seite „Gruppen“ verwaltet die Mitgliedschaften je Besprechungsreihe."""
+
+    change_list_template = "admin/auth/group/change_list.html"
+
+    def changelist_view(self, request, extra_context=None):
+        if not self.has_view_or_change_permission(request):
+            raise PermissionDenied
+
+        if request.method == "POST":
+            if not self.has_change_permission(request):
+                raise PermissionDenied
+            action = request.POST.get("action")
+            try:
+                with transaction.atomic():
+                    if action == "add":
+                        series = MeetingSeries.objects.get(pk=request.POST.get("series_id"))
+                        user = User.objects.get(pk=request.POST.get("user_id"))
+                        role = request.POST.get("role")
+                        if role not in dict(SeriesAccess.ROLE_CHOICES):
+                            raise ValueError("Bitte eine gültige Serienberechtigung auswählen.")
+                        access, created = SeriesAccess.objects.get_or_create(
+                            series=series, user=user, defaults={"role": role}
+                        )
+                        if not created:
+                            access.role = role
+                            access.save(update_fields=["role"])
+                        messages.success(request, f"{user_display_name(user)} wurde der Gruppe „{series.name}“ zugeordnet.")
+                    elif action == "update":
+                        access = SeriesAccess.objects.select_related("series", "user").get(
+                            pk=request.POST.get("access_id")
+                        )
+                        role = request.POST.get("role")
+                        if role not in dict(SeriesAccess.ROLE_CHOICES):
+                            raise ValueError("Bitte eine gültige Serienberechtigung auswählen.")
+                        access.role = role
+                        access.save(update_fields=["role"])
+                        messages.success(request, f"Berechtigung für {user_display_name(access.user)} in „{access.series.name}“ aktualisiert.")
+                    elif action == "remove":
+                        access = SeriesAccess.objects.select_related("series", "user").get(
+                            pk=request.POST.get("access_id")
+                        )
+                        label = f"{user_display_name(access.user)} aus „{access.series.name}“"
+                        access.delete()
+                        messages.success(request, f"{label} entfernt.")
+                    else:
+                        raise ValueError("Unbekannte Aktion.")
+            except (MeetingSeries.DoesNotExist, User.DoesNotExist, SeriesAccess.DoesNotExist):
+                messages.error(request, "Die ausgewählte Serie, Person oder Zuordnung wurde nicht gefunden.")
+            except ValueError as exc:
+                messages.error(request, str(exc))
+            from django.shortcuts import redirect
+            return redirect("admin:auth_group_changelist")
+
+        series_rows = []
+        for series in MeetingSeries.objects.prefetch_related("user_access__user").all():
+            series_rows.append({
+                "series": series,
+                "members": list(series.user_access.select_related("user").all()),
+            })
+
+        context = {
+            **self.admin_site.each_context(request),
+            "title": "Gruppen – Serien und Berechtigungen",
+            "opts": self.model._meta,
+            "series_rows": series_rows,
+            "available_users": User.objects.all().order_by("username"),
+            "role_choices": SeriesAccess.ROLE_CHOICES,
+            "has_add_permission": self.has_change_permission(request),
+            "has_change_permission": self.has_change_permission(request),
+        }
+        context.update(extra_context or {})
+        return TemplateResponse(request, self.change_list_template, context)
+
+
 class MeetingUserChangeForm(DjangoUserChangeForm):
     short_description = forms.CharField(
         label="Kurzbeschreibung", required=False, max_length=80,
@@ -133,6 +211,7 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
         label="Administrator", required=False,
         help_text="Gewährt globale Administratorrechte für alle Besprechungsreihen.",
     )
+
     class Meta(DjangoUserChangeForm.Meta):
         model = User
         fields = "__all__"
@@ -151,6 +230,7 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
         )
         self.fields.pop("groups", None)
         self.fields.pop("user_permissions", None)
+
 
 class MeetingUserAdmin(DjangoUserAdmin):
     change_list_template = "admin/auth/user/change_list.html"
@@ -217,4 +297,4 @@ class MeetingUserAdmin(DjangoUserAdmin):
 admin.site.unregister(User)
 admin.site.unregister(Group)
 admin.site.register(User, MeetingUserAdmin)
-admin.site.register(Group, DjangoGroupAdmin)
+admin.site.register(Group, MeetingGroupAdmin)
