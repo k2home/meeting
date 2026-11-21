@@ -1,4 +1,5 @@
 from datetime import timedelta
+from functools import wraps
 from io import BytesIO
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -18,7 +19,7 @@ from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextFor
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
-from .access import accessible_meetings, accessible_series, accessible_topics, can_reopen_meeting, is_admin, is_moderator
+from .access import accessible_meetings, accessible_series, accessible_topics, can_reopen_meeting, is_admin, is_moderator, is_reader
 from .models import SeriesAccess
 from .user_display import user_display_name
 
@@ -42,6 +43,24 @@ def logout_view(request):
     return redirect("login")
 
 UserModel = get_user_model()
+
+
+def reader_readonly(view):
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        if is_reader(request.user) and request.method == "POST":
+            return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
+        return view(request, *args, **kwargs)
+    return wrapped
+
+
+def reader_no_access(view):
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        if is_reader(request.user):
+            return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
+        return view(request, *args, **kwargs)
+    return wrapped
 
 
 def admin_only(user):
@@ -130,6 +149,7 @@ def my_tasks(request):
 
 
 @login_required
+@reader_readonly
 def agenda_reorder(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -159,17 +179,19 @@ def agenda_reorder(request, pk):
 
 
 @login_required
+@reader_readonly
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if not meeting.participants_initialized:
         if not meeting.participants.exists() and meeting.series_id:
             default_participants = SeriesAccess.objects.filter(
                 series=meeting.series, user__is_active=True
-            ).values_list("user_id", flat=True)
+            ).exclude(user__groups__name="Leser*in").values_list("user_id", flat=True)
             meeting.participants.set(default_participants)
         meeting.participants_initialized = True
         meeting.save(update_fields=["participants_initialized"])
     items = ensure_agenda(meeting)
+    participants = meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
     if request.method == "POST":
         if meeting.finalized_at:
             messages.error(request, "Eine abgeschlossene Besprechung kann nicht mehr geändert werden.")
@@ -193,7 +215,7 @@ def meeting_detail(request, pk):
             else:
                 messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
                 return render(request, "meetings/meeting.html", {
-                    "meeting": meeting, "items": items, "participant_form": participant_form,
+                    "meeting": meeting, "items": items, "participant_form": participant_form, "participants": participants, "is_reader": is_reader(request.user),
                 })
         else:
             item_id = request.POST.get("item_id")
@@ -212,14 +234,18 @@ def meeting_detail(request, pk):
         return redirect("meeting", pk=pk)
     participant_form = MeetingParticipantsForm(instance=meeting)
     return render(request, "meetings/meeting.html", {
-        "meeting": meeting, "items": items, "participant_form": participant_form,
+        "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user),
     })
 
 @login_required
+@reader_readonly
 def topic_edit(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     original_topic = Topic.objects.select_related("series", "assigned_to").get(pk=pk)
     form = TopicForm(request.POST or None, instance=topic, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
+    if is_reader(request.user):
+        for field in form.fields.values():
+            field.disabled = True
     if request.method == "POST" and form.is_valid():
         old_series = original_topic.series
         before = {"title": original_topic.title, "description": original_topic.description,
@@ -254,11 +280,12 @@ def topic_edit(request, pk):
         messages.success(request, "Thema gespeichert.")
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
-        "form": form, "topic": topic,
+        "form": form, "topic": topic, "is_reader": is_reader(request.user),
         "transfer_series": accessible_series(request.user).filter(active=True).exclude(pk=topic.series_id),
     })
 
 @login_required
+@reader_no_access
 def topic_new(request):
     form = TopicForm(request.POST or None, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
     if request.method == "POST" and form.is_valid():
@@ -267,9 +294,10 @@ def topic_new(request):
                      topic=topic, changes={"Titel": {"vorher": None, "nachher": topic.title}})
         messages.success(request, "Thema angelegt.")
         return redirect("topic_edit", pk=topic.pk)
-    return render(request, "meetings/topic_form.html", {"form": form})
+    return render(request, "meetings/topic_form.html", {"form": form, "is_reader": is_reader(request.user)})
 
 @login_required
+@reader_readonly
 def topic_archive(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -285,6 +313,7 @@ def topic_archive(request, pk):
     return redirect("archive")
 
 @login_required
+@reader_readonly
 def topic_reopen(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -297,6 +326,7 @@ def topic_reopen(request, pk):
     return redirect("topic_edit", pk=topic.pk)
 
 @login_required
+@reader_readonly
 def topic_transfer(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -327,6 +357,7 @@ def archive(request):
     return render(request, "meetings/archive.html", {"topics": topics})
 
 @login_required
+@reader_no_access
 def attachment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     form = AttachmentForm(request.POST or None, request.FILES or None)
@@ -366,7 +397,7 @@ def _protocol_entries(meeting):
 def _meeting_participant_names(meeting):
     return [
         user_display_name(user)
-        for user in meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
+        for user in meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
     ]
 
 
@@ -514,7 +545,7 @@ def protocol(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
     ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
-    participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
+    participants = meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
     })
@@ -661,6 +692,7 @@ def meeting_delete(request, pk):
 
 
 @login_required
+@reader_readonly
 def finalize(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -729,6 +761,7 @@ def audit_history(request):
 
 
 @login_required
+@reader_readonly
 def topic_comment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     if request.method != "POST":

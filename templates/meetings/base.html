@@ -75,8 +75,8 @@ th{color:#4b5563;font-size:.9rem}
 <a class="brand" href="/">Meeting Manager</a>
 <nav class="nav-links">
 <a href="/">Übersicht</a>
-<a href="{% url 'my_tasks' %}">Meine Aufgaben</a>
-<a href="/topics/new/">+ Thema</a>
+{% if not is_reader %}<a href="{% url 'my_tasks' %}">Meine Aufgaben</a>
+<a href="/topics/new/">+ Thema</a>{% endif %}
 <a href="/archive/">Archiv</a>
 <a href="/history/">Änderungsverlauf</a>
 {% if is_moderator %}<a href="/admin/series/">Besprechungsreihen</a>{% endif %}{% if is_admin %}<a href="/django-admin/">Verwaltung</a>{% endif %}

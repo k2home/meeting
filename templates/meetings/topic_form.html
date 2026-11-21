@@ -1,10 +1,10 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
-<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</p><h1>{% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
-<div class="card"><p class="muted">Lege hier fest, wer das Thema federführend bearbeitet. Die Zuständigkeit kann jederzeit geändert oder aufgehoben werden.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Änderungen speichern</button></form></div>
+<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</p><h1>{% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
+<div class="card">{% if not is_reader %}<p class="muted">Lege hier fest, wer das Thema federführend bearbeitet. Die Zuständigkeit kann jederzeit geändert oder aufgehoben werden.</p>{% endif %}<form method="post">{% csrf_token %}{{ form.as_p }}{% if not is_reader %}<button type="submit">Änderungen speichern</button>{% endif %}</form></div>
 {% if topic %}
-<div class="card">
+{% if not is_reader %}<div class="card">
 <h2>Weitere Aktionen</h2>
 <div class="actions">
 {% if topic.status == "archived" %}
@@ -28,18 +28,18 @@
 <hr><h3>Transferhistorie</h3>
 <ul>{% for transfer in topic.transfer_history.all %}<li>{{ transfer.transferred_at|date:"d.m.Y H:i" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</li>{% endfor %}</ul>
 {% endif %}
-</div>
-<div class="card"><h2>Anlagen und Netzwerkpfade</h2><p><a class="btn" href="{% url 'attachment_add' topic.id %}">Anlage hinzufügen</a></p>
+</div>{% endif %}
+<div class="card"><h2>Anlagen und Netzwerkpfade</h2>{% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.id %}">Anlage hinzufügen</a></p>{% endif %}
 {% for a in topic.attachments.all %}<p><strong>{{ a.label }}</strong> — {% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %} {{ a.network_path }}</p>{% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
 <p class="muted">Netzwerkfreigaben müssen auf dem Server eingebunden sein. Hier werden die für alle Benutzer gültigen Pfade hinterlegt.</p></div>
 <div class="card">
   <div class="topline"><h2>Kommentare und nächste Schritte</h2><span class="pill">{{ topic.comments.count }} Kommentare</span></div>
-  <form method="post" action="{% url 'topic_comment_add' topic.pk %}">
+  {% if not is_reader %}<form method="post" action="{% url 'topic_comment_add' topic.pk %}">
     {% csrf_token %}
     <label for="comment-body">Neuen Kommentar hinzufügen</label>
     <textarea id="comment-body" name="body" rows="3" maxlength="5000" required placeholder="Besprechungsergebnis, Rückfrage oder nächster Schritt …"></textarea>
     <button type="submit">Kommentar speichern</button>
-  </form>
+  </form>{% endif %}
   <hr>
   {% for comment in topic.comments.all %}
     <article style="padding:.7rem 0;border-bottom:1px solid #e5e7eb">

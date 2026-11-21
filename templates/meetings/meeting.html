@@ -5,11 +5,11 @@
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 
 <nav class="meeting-action-menu no-print" aria-label="Aktionen für diese Besprechung">
-  <details class="meeting-menu-participants">
+  {% if is_reader %}<div class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ participants.count }}</span><div class="participant-summary">{% for participant in participants %}<span class="pill">{{ participant|user_display }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}</div></div>{% else %}<details class="meeting-menu-participants">
   <summary class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ meeting.participants.count }}</span></summary>
   <div class="participant-menu-panel">
     <div class="participant-summary">
-      {% for participant in meeting.participants.all %}
+      {% for participant in participants %}
         <span class="pill">{{ participant|user_display }}</span>
       {% empty %}
         <span class="muted">Noch keine Teilnehmer eingetragen.</span>
@@ -28,12 +28,12 @@
       <p class="muted">Die Teilnehmerliste ist mit dem Abschluss gesperrt.</p>
     {% endif %}
   </div>
-</details>
+</details>{% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if not meeting.finalized_at and items %}
+  {% if not is_reader and not meeting.finalized_at and items %}
     <button class="meeting-menu-button secondary" type="submit" form="agenda-reorder-form">Reihenfolge speichern</button>
   {% endif %}
-  {% if not meeting.finalized_at %}
+  {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">
       {% csrf_token %}
       <button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button>
@@ -48,7 +48,7 @@
 
 
 
-{% if not meeting.finalized_at and items %}
+{% if not is_reader and not meeting.finalized_at and items %}
 <form id="agenda-reorder-form" class="visually-hidden-form" method="post" action="{% url 'agenda_reorder' meeting.id %}">
   {% csrf_token %}
   <div id="agenda-order-inputs"></div>
@@ -57,10 +57,10 @@
 
 <div id="agenda-list">
 {% for item in items %}
-  <div class="card agenda-item" data-agenda-item="{{ item.id }}" {% if not meeting.finalized_at %}draggable="true"{% endif %}>
+  <div class="card agenda-item" data-agenda-item="{{ item.id }}" {% if not meeting.finalized_at and not is_reader %}draggable="true"{% endif %}>
     <div class="topline">
       <h2>{{ item.topic.title }}</h2>
-      {% if not meeting.finalized_at %}
+      {% if not meeting.finalized_at and not is_reader %}
       <div class="no-print actions">
         <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
         <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
@@ -69,7 +69,7 @@
       {% endif %}
     </div>
     <p class="muted">Fällig: {{ item.topic.due_date|date:"d.m.Y"|default:"—" }} · {% if item.carried_forward %}Übernommen · {% endif %}{{ item.topic.get_status_display }} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
-    {% if not meeting.finalized_at %}
+    {% if not meeting.finalized_at and not is_reader %}
     <form method="post">
       {% csrf_token %}
       <input type="hidden" name="item_id" value="{{ item.id }}">
@@ -85,7 +85,7 @@
   <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
 {% endfor %}
 </div>
-{% if not meeting.finalized_at and items %}
+{% if not is_reader and not meeting.finalized_at and items %}
 <script>
 (function () {
   const list = document.getElementById("agenda-list");

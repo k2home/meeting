@@ -3,6 +3,7 @@ from .models import Meeting, MeetingSeries, SeriesAccess, Topic
 ADMIN_GROUP = "Admin"
 MODERATOR_GROUP = "Moderator*in"
 USER_GROUP = "Nutzer*in"
+READER_GROUP = "Leser*in"
 
 
 def is_admin(user):
@@ -15,6 +16,10 @@ def is_moderator(user):
     return bool(user.is_authenticated and (
         is_admin(user) or user.groups.filter(name=MODERATOR_GROUP).exists()
     ))
+
+
+def is_reader(user):
+    return bool(user.is_authenticated and user.groups.filter(name=READER_GROUP).exists())
 
 
 def accessible_series(user):
@@ -43,5 +48,5 @@ def can_reopen_meeting(user):
 
 def role_flags(request):
     if not request.user.is_authenticated:
-        return {"is_admin": False, "is_moderator": False}
-    return {"is_admin": is_admin(request.user), "is_moderator": is_moderator(request.user)}
+        return {"is_admin": False, "is_moderator": False, "is_reader": False}
+    return {"is_admin": is_admin(request.user), "is_moderator": is_moderator(request.user), "is_reader": is_reader(request.user)}
