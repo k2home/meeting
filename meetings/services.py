@@ -9,7 +9,7 @@ def ensure_agenda(meeting):
     previous = Meeting.objects.filter(series=meeting.series, date__lt=meeting.date, finalized_at__isnull=False).order_by("-date").first()
     carried_ids = []
     if previous:
-        carried_ids = list(previous.agenda_items.filter(topic__status="open").values_list("topic_id", flat=True))
+        carried_ids = list(previous.agenda_items.filter(topic__status="open", topic__series=meeting.series).values_list("topic_id", flat=True))
     candidates = (due | Topic.objects.filter(id__in=carried_ids)).distinct()
     for topic in candidates:
         AgendaItem.objects.get_or_create(meeting=meeting, topic=topic, defaults={"working_text": topic.description, "carried_forward": topic.id in carried_ids})
