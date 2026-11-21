@@ -408,8 +408,7 @@ class MeetingReopenTests(TestCase):
 
         response = self.client.post(reverse("meeting_reopen", args=[self.meeting.pk]))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertIn(reverse("login"), response.url)
+        self.assertEqual(response.status_code, 403)
         self.meeting.refresh_from_db()
         self.assertIsNotNone(self.meeting.finalized_at)
 
@@ -670,7 +669,7 @@ class MeetingSeriesManagementTests(TestCase):
         member = User.objects.create_user(username="series-member", password="strong-test-password")
         self.client.force_login(member)
         response = self.client.get(reverse("series_admin"))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
         self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
 
     def test_series_overview_shows_next_appointment_and_collapses_the_rest(self):
