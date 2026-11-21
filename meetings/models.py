@@ -169,3 +169,21 @@ class SeriesAccess(models.Model):
 
     def __str__(self):
         return f"{self.user} – {self.series}"
+
+
+class UserProfile(models.Model):
+    """Additional display information for an existing Django user account."""
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="meeting_profile",
+        verbose_name="Benutzer",
+    )
+    short_description = models.CharField("Kurzbeschreibung", max_length=80, blank=True)
+
+    class Meta:
+        verbose_name = "Benutzerprofil"
+        verbose_name_plural = "Benutzerprofile"
+
+    def __str__(self):
+        return f"{self.user} – {self.short_description}" if self.short_description else str(self.user)
