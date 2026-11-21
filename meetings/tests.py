@@ -1291,7 +1291,15 @@ class OpenTopicsViewTests(TestCase):
         response = self.client.get(reverse("dashboard"))
         self.assertContains(response, "Offene Punkte")
         self.assertNotContains(response, "Änderungsverlauf")
-        self.assertEqual(self.client.get(reverse("audit_history")).status_code, 403)
+        history = self.client.get(reverse("audit_history"))
+        self.assertEqual(history.status_code, 200)
+        self.assertContains(history, "Änderungsverlauf")
+        self.assertContains(history, "Für deinen Zugang sind keine Einträge")
+        self.assertNotContains(history, "Testeintrag")
+
+    def test_mobile_navigation_keeps_menu_labels_visible(self):
+        response = self.client.get(reverse("dashboard"))
+        self.assertContains(response, ".sidebar:not(:hover):not(:focus-within):not(.is-expanded) .nav-links a{font-size:inherit")
 
     def test_moderator_sees_both_menu_items_and_can_open_history(self):
         SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_MODERATOR)
