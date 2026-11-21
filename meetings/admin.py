@@ -26,7 +26,7 @@ class SeriesAccessInline(admin.TabularInline):
 
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
-    extra = 0
+    extra = 1
     max_num = 1
     can_delete = False
     fields = ("short_description",)
