@@ -25,11 +25,19 @@
 .topic-suggestions li{margin:.25rem 0}
 .topic-suggestion-link{border:0;background:none;color:var(--link);padding:0;text-decoration:underline;cursor:pointer;font:inherit;text-align:left}
 .agenda-item-tools{justify-content:flex-end}
-.agenda-title-assignee{display:inline;font-size:.9rem;font-weight:400;color:var(--muted)}
-.agenda-status-form select{min-width:125px}
-.agenda-schedule-form{margin:0;padding:0;background:transparent;display:inline-flex;align-items:center;gap:.35rem}
+.agenda-item-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:.35rem;min-width:0}
+.agenda-item-heading h2{margin:0;font-size:1.25rem;line-height:1.35}
+.agenda-title-assignee{display:inline;color:var(--muted);font-size:inherit;font-weight:400;line-height:inherit}
+.agenda-title-status{display:inline-flex;align-items:baseline;vertical-align:baseline;font-size:inherit;line-height:inherit}
+.agenda-title-status select{font:inherit;line-height:inherit;color:inherit;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0 .25rem;min-width:0;max-width:100%;vertical-align:baseline}
+.agenda-title-status .pill{font:inherit;line-height:inherit}
+.agenda-status-form{display:none}
+.agenda-schedule-row{display:flex;justify-content:flex-end;margin:.45rem 0 .65rem}
+.agenda-schedule-form{margin:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:flex-end;gap:.4rem;flex-wrap:wrap}
 .agenda-schedule-form label{display:none}
-.agenda-schedule-form select{min-width:130px;width:auto;font-size:.85rem;padding:.3rem}
+.agenda-schedule-form select{min-width:130px;width:auto;font:inherit;font-size:.9rem;padding:.3rem .4rem}
+.agenda-schedule-form button{font-size:.9rem;padding:.3rem .55rem}
+@media(max-width:760px){.agenda-schedule-row{justify-content:flex-start}.agenda-schedule-form{justify-content:flex-start}.agenda-item-heading h2{font-size:1.15rem}}
 #new-agenda-topic-dialog form{margin-top:.75rem}
 #new-agenda-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 #new-agenda-topic-dialog input,#new-agenda-topic-dialog textarea{width:100%}
@@ -89,8 +97,19 @@
 {% for item in items %}
   <div class="card agenda-item" data-agenda-item="{{ item.id }}" {% if not meeting.finalized_at and not is_reader %}draggable="true"{% endif %}>
     <div class="topline">
-      <div>
-        <h2>{{ item.topic.title }} <span class="agenda-title-assignee">· {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span></h2>
+      <div class="agenda-item-heading">
+        <h2>{{ item.topic.title }} <span class="agenda-title-assignee">· {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span>
+          <span class="agenda-title-status">
+            {% if not meeting.finalized_at and not is_reader %}
+            <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
+              {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
+            </form>
+            <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
+              {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+            </select>
+            {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
+          </span>
+        </h2>
       </div>
       <div class="agenda-item-tools no-print">
         <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
@@ -98,32 +117,25 @@
         <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
         <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
         <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
-        <form method="post" class="agenda-schedule-form no-print">
-          {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
-          <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
-          <select id="target-series-{{ item.id }}" name="target_series" required aria-label="Besprechungsserie für Wiedervorlage">
-            {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
-          </select>
-          <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage</label>
-          <select id="target-meeting-{{ item.id }}" name="target_meeting" required aria-label="Termin der Wiedervorlage">
-            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
-          </select>
-          <button type="submit" aria-label="Wiedervorlage speichern">Speichern</button>
-        </form>
         {% endif %}
       </div>
     </div>
-    <div class="agenda-topic-status">
-      {% if not meeting.finalized_at and not is_reader %}
-      <form method="post" class="agenda-status-form">
-        {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
-        <label class="visually-hidden" for="topic-status-{{ item.id }}">Status von {{ item.topic.title }}</label>
-        <select id="topic-status-{{ item.id }}" name="status" aria-label="Status von {{ item.topic.title }}" onchange="this.form.requestSubmit()">
-          {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    {% if not meeting.finalized_at and not is_reader %}
+    <div class="agenda-schedule-row no-print">
+      <form method="post" class="agenda-schedule-form">
+        {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
+        <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
+        <select id="target-series-{{ item.id }}" name="target_series" required aria-label="Besprechungsserie für Wiedervorlage">
+          {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
         </select>
+        <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage</label>
+        <select id="target-meeting-{{ item.id }}" name="target_meeting" required aria-label="Termin der Wiedervorlage">
+          {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+        </select>
+        <button type="submit" aria-label="Wiedervorlage speichern">Speichern</button>
       </form>
-      {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
     </div>
+    {% endif %}
     {% if not meeting.finalized_at and not is_reader %}
     <form method="post">
       {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
