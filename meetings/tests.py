@@ -782,4 +782,34 @@ class MeetingParticipantDefaultsTests(TestCase):
             content.index("unassigned"),
         )
         self.assertContains(response, 'type="checkbox"')
-        self.assertNotContains(response, "<details class=\"participant-picker\"")
+        self.assertContains(response, '<details class="participant-picker"')
+
+
+    def test_meeting_actions_are_grouped_in_top_menu_and_participants_use_dropdown(self):
+        topic = Topic.objects.create(title="Menütest", series=self.series)
+        AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Text")
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        self.assertIn('aria-label="Aktionen für diese Besprechung"', content)
+        self.assertIn("Teilnehmer", content)
+        self.assertIn("Protokoll / Drucken", content)
+        self.assertIn('form="agenda-reorder-form"', content)
+        self.assertIn("Besprechung abschließen", content)
+        self.assertIn("<details class=\"participant-picker\">", content)
+        self.assertIn("Teilnehmer anpassen", content)
+        self.assertIn('type="checkbox"', content)
+
+    def test_finalized_meeting_hides_editing_and_completion_actions(self):
+        from django.utils import timezone
+
+        self.meeting.finalized_at = timezone.now()
+        self.meeting.save(update_fields=["finalized_at"])
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Teilnehmer auswählen oder ändern")
+        self.assertNotContains(response, "Reihenfolge speichern")
+        self.assertNotContains(response, "Besprechung abschließen")
+        self.assertContains(response, "Protokoll / Drucken")
