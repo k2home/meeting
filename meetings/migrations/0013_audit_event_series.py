@@ -9,7 +9,7 @@ def backfill_audit_event_series(apps, schema_editor):
         series_id = None
         if event.meeting_id:
             series_id = event.meeting.series_id
-        elif event.topic_id:
+        if not series_id and event.topic_id:
             series_id = event.topic.series_id
         if series_id:
             AuditEvent.objects.using(db_alias).filter(pk=event.pk).update(series_id=series_id)
