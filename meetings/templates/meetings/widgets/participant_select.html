@@ -1,10 +1,7 @@
-<details class="participant-picker">
-  <summary>Teilnehmer auswählen oder ändern</summary>
-  <div class="participant-options">
-    {% for group, options, index in widget.optgroups %}
-      {% for option in options %}
-        <label>{{ option.tag }} <span>{{ option.label }}</span></label>
-      {% endfor %}
+<div class="participant-options" role="group" aria-label="Teilnehmer auswählen">
+  {% for group, options, index in widget.optgroups %}
+    {% for option in options %}
+      <label>{{ option.tag }} <span>{{ option.label }}</span></label>
     {% endfor %}
-  </div>
-</details>
+  {% endfor %}
+</div>
