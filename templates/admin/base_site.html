@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block title %}{{ title }} | Meeting Manager{% endblock %}
+{% block usertools %}{{ block.super }}<button type="button" id="admin-theme-toggle" style="margin-left:1rem;padding:.4rem .7rem;border:1px solid #ffcc00;border-radius:4px;background:transparent;color:#fff;cursor:pointer">☾ Dunkelmodus</button>{% endblock %}
 {% block branding %}
 <div id="site-name"><a href="{% url 'admin:index' %}">Meeting Manager – Verwaltung</a></div>
 {% endblock %}
@@ -41,5 +42,33 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 .object-tools a:link, .object-tools a:visited { background: var(--hagen-blue); border-radius: 4px; }
 .object-tools a:hover { background: var(--hagen-blue-dark); }
 .messagelist li.success { border-left: 4px solid var(--hagen-yellow); }
+
+:root{--admin-bg:#f4f6f9;--admin-surface:#fff;--admin-text:#202735;--admin-muted:#667085;--admin-border:#cfd9e4}
+:root[data-theme="dark"]{color-scheme:dark;--admin-bg:#111923;--admin-surface:#1b2735;--admin-text:#e8edf3;--admin-muted:#aab7c6;--admin-border:#39495b}
+:root[data-theme="dark"] body,:root[data-theme="dark"] #container,:root[data-theme="dark"] #content,:root[data-theme="dark"] .main,:root[data-theme="dark"] #changelist{background:var(--admin-bg);color:var(--admin-text)}
+:root[data-theme="dark"] .module,:root[data-theme="dark"] .inline-group,:root[data-theme="dark"] .results,:root[data-theme="dark"] #changelist-form,:root[data-theme="dark"] .form-row,:root[data-theme="dark"] .submit-row{background:var(--admin-surface);color:var(--admin-text);border-color:var(--admin-border)}
+:root[data-theme="dark"] table,:root[data-theme="dark"] td,:root[data-theme="dark"] th,:root[data-theme="dark"] fieldset{border-color:var(--admin-border);color:var(--admin-text)}
+:root[data-theme="dark"] #changelist table thead th,:root[data-theme="dark"] #changelist .paginator,:root[data-theme="dark"] .paginator{background:#26384b;color:#e8edf3}
+:root[data-theme="dark"] input,:root[data-theme="dark"] select,:root[data-theme="dark"] textarea{background:#152130;color:var(--admin-text);border-color:var(--admin-border)}
+:root[data-theme="dark"] .help,:root[data-theme="dark"] p.help,:root[data-theme="dark"] .quiet,:root[data-theme="dark"] .timezonewarning{color:var(--admin-muted)}
+:root[data-theme="dark"] .row1{background:#1b2735}:root[data-theme="dark"] .row2{background:#202e3e}
+:root[data-theme="dark"] #changelist-filter,:root[data-theme="dark"] #changelist-filter h2{background:#1b2735;color:var(--admin-text);border-color:var(--admin-border)}
+:root[data-theme="dark"] div.breadcrumbs{background:#26384b;color:#e8edf3;border-color:var(--admin-border)}
+:root[data-theme="dark"] a:link,:root[data-theme="dark"] a:visited{color:#8fc5ff}
+:root[data-theme="dark"] .messagelist li{background:#193447;color:#e3f2ff}
 </style>
+{% endblock %}
+
+{% block footer %}{{ block.super }}
+<script>
+(() => {
+  const root = document.documentElement;
+  const button = document.getElementById('admin-theme-toggle');
+  const saved = localStorage.getItem('meeting-theme');
+  if (saved === 'dark' || saved === 'light') root.dataset.theme = saved;
+  const sync = () => { if (!button) return; const dark = root.dataset.theme === 'dark'; button.textContent = dark ? '☀ Hellmodus' : '☾ Dunkelmodus'; button.setAttribute('aria-pressed', String(dark)); };
+  sync();
+  button?.addEventListener('click', () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('meeting-theme', root.dataset.theme); sync(); });
+})();
+</script>
 {% endblock %}
