@@ -2,11 +2,7 @@
 {% load meeting_user_tags %}
 {% block content %}
 <style>
-.agenda-tools{display:grid;gap:.8rem;margin:1rem 0}
-.agenda-tools details,.agenda-tools .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem}
-.agenda-tools summary{cursor:pointer;font-weight:650}
-.agenda-tools label{display:block;margin:.55rem 0 .25rem}
-.agenda-tools input,.agenda-tools select,.agenda-tools textarea{width:100%}
+.agenda-tools{display:flex;gap:.8rem;margin:0}
 .topic-suggestions{margin:.45rem 0 0;padding:.65rem .8rem;border:1px solid var(--border);border-radius:6px;background:var(--soft-bg);color:var(--text)}
 .topic-suggestions:empty{display:none}
 .topic-suggestions ul{margin:.35rem 0 0;padding-left:1.2rem}
@@ -14,12 +10,16 @@
 .agenda-history-dialog{width:min(720px,calc(100% - 2rem));max-height:80vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
 .agenda-history-dialog::backdrop{background:#0009}
 .agenda-history-dialog h2{margin-top:0}
-.agenda-topic-meta{margin:.5rem 0;color:var(--muted)}
-.agenda-topic-status{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;margin:.35rem 0 .8rem}
-.agenda-status-form{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
-.agenda-status-form select{width:auto;min-width:150px}
-.agenda-status-form button{padding:.4rem .7rem}
-.agenda-tools{display:flex;justify-content:flex-start;margin:.75rem 0}
+.agenda-topic-meta{margin:.35rem 0;color:var(--muted)}
+.agenda-schedule-form{display:flex;align-items:end;gap:.55rem;flex-wrap:wrap;margin:.35rem 0 .8rem;padding:.55rem .65rem;background:var(--soft-bg);border-radius:7px}
+.agenda-schedule-form label{display:flex;flex-direction:column;gap:.2rem;font-size:.88rem;color:var(--muted)}
+.agenda-schedule-form select{min-width:180px;max-width:100%}
+.agenda-schedule-form button{padding:.4rem .7rem}
+.agenda-topic-status{display:flex;align-items:center;gap:.4rem;margin:.25rem 0 .65rem}
+.agenda-status-form{display:inline-flex;align-items:center;gap:.35rem;margin:0}
+.agenda-status-form select{width:auto;min-width:125px;padding:.3rem .45rem}
+
+.agenda-tools{display:flex;justify-content:flex-start;margin:0}
 #new-agenda-topic-dialog form{margin-top:.75rem}
 #new-agenda-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 #new-agenda-topic-dialog input,#new-agenda-topic-dialog textarea{width:100%}
@@ -48,7 +48,7 @@
   </div>
 </details>{% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if not is_reader and not meeting.finalized_at and items %}<button class="meeting-menu-button secondary" type="submit" form="agenda-reorder-form">Reihenfolge speichern</button>{% endif %}
+  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button secondary" type="button" id="open-new-agenda-topic">+ Neuer Tagesordnungspunkt</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
@@ -57,9 +57,6 @@
 </nav>
 
 {% if not is_reader and not meeting.finalized_at %}
-<div class="agenda-tools no-print">
-  <button type="button" id="open-new-agenda-topic" aria-label="Neuen Tagesordnungspunkt anlegen">+ Neuen Tagesordnungspunkt</button>
-</div>
 <dialog id="new-agenda-topic-dialog" class="agenda-history-dialog" aria-labelledby="new-agenda-topic-title">
   <div class="topline"><h2 id="new-agenda-topic-title">Neuen Tagesordnungspunkt anlegen</h2><button type="button" class="secondary" id="close-new-agenda-topic">Schließen</button></div>
   <form method="post" id="new-agenda-topic-form">
@@ -94,17 +91,16 @@
     </div>
     <p class="agenda-topic-meta"><strong>Fälligkeit / Wiedervorlage:</strong> {{ item.topic.due_date|date:"d.m.Y"|default:"—" }}{% if item.carried_forward %} · Übernommen{% endif %} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     <div class="agenda-topic-status">
-      <strong>Status:</strong> <span class="pill">{{ item.topic.get_status_display }}</span>
+      <strong>Status:</strong>
       {% if not meeting.finalized_at and not is_reader %}
       <form method="post" class="agenda-status-form">
         {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
         <label class="visually-hidden" for="topic-status-{{ item.id }}">Status von {{ item.topic.title }}</label>
-        <select id="topic-status-{{ item.id }}" name="status" aria-label="Status von {{ item.topic.title }}">
+        <select id="topic-status-{{ item.id }}" name="status" aria-label="Status von {{ item.topic.title }}" onchange="this.form.requestSubmit()">
           {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
         </select>
-        <button type="submit" class="secondary">Status speichern</button>
       </form>
-      {% endif %}
+      {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
     </div>
     {% if not meeting.finalized_at and not is_reader %}
     <form method="post">
@@ -113,9 +109,7 @@
       <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
       <button type="submit">Text speichern</button>
     </form>
-    <details class="no-print" style="margin-top:.8rem">
-      <summary>Besprechungsserie und Wiedervorlage ändern</summary>
-      <form method="post" class="agenda-schedule-form" style="margin-top:.7rem">
+    <form method="post" class="agenda-schedule-form no-print">
         {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
         <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
         <select id="target-series-{{ item.id }}" name="target_series" required>
@@ -128,8 +122,7 @@
           {% endfor %}
         </select>
         <button type="submit">Wiedervorlage speichern</button>
-      </form>
-    </details>
+    </form>
     {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
   </div>
 {% empty %}
@@ -149,7 +142,17 @@
   const inputContainer = document.getElementById("agenda-order-inputs");
   if (list && orderForm && inputContainer) {
     let dragged = null;
+    let orderBeforeDrag = "";
+    let savePending = false;
     const cards = () => Array.from(list.querySelectorAll(":scope > .agenda-item"));
+    const currentOrder = () => cards().map(card => card.dataset.agendaItem).join(",");
+    function saveOrderIfChanged(previousOrder) {
+      syncOrder();
+      if (previousOrder !== currentOrder() && !savePending) {
+        savePending = true;
+        orderForm.requestSubmit();
+      }
+    }
     function syncOrder() {
       inputContainer.replaceChildren();
       cards().forEach((card) => {
@@ -161,7 +164,7 @@
     list.addEventListener("dragstart", (event) => {
       const card = event.target.closest(".agenda-item");
       if (!card) return;
-      dragged = card; card.classList.add("dragging");
+      dragged = card; orderBeforeDrag = currentOrder(); card.classList.add("dragging");
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("text/plain", card.dataset.agendaItem);
     });
@@ -173,15 +176,21 @@
       const bounds = target.getBoundingClientRect();
       list.insertBefore(dragged, event.clientY > bounds.top + bounds.height / 2 ? target.nextSibling : target);
     });
-    list.addEventListener("drop", (event) => { if (dragged) { event.preventDefault(); syncOrder(); } });
-    list.addEventListener("dragend", () => { if (dragged) dragged.classList.remove("dragging"); dragged = null; syncOrder(); });
+    list.addEventListener("drop", (event) => { if (dragged) event.preventDefault(); });
+    list.addEventListener("dragend", () => {
+      if (dragged) dragged.classList.remove("dragging");
+      const previousOrder = orderBeforeDrag;
+      dragged = null;
+      saveOrderIfChanged(previousOrder);
+    });
     list.addEventListener("click", (event) => {
       const button = event.target.closest(".move-up, .move-down");
       if (!button) return;
+      const before = currentOrder();
       const card = button.closest(".agenda-item");
       if (button.classList.contains("move-up") && card.previousElementSibling) list.insertBefore(card, card.previousElementSibling);
       else if (button.classList.contains("move-down") && card.nextElementSibling) list.insertBefore(card.nextElementSibling, card);
-      syncOrder();
+      saveOrderIfChanged(before);
     });
     syncOrder();
   }

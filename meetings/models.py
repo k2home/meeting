@@ -42,7 +42,7 @@ class Meeting(models.Model):
         return self.title or f"{self.series or 'Gelöschte Besprechungsreihe'} – {self.date:%d.%m.%Y}"
 
 class Topic(models.Model):
-    STATUS = [("open", "Offen"), ("done", "Erledigt"), ("archived", "Archiviert")]
+    STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt"), ("archived", "Archiviert")]
     title = models.CharField("Thema", max_length=240)
     description = models.TextField("Aktueller Stand", blank=True)
     due_date = models.DateField("Fällig am", null=True, blank=True)
