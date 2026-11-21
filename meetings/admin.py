@@ -126,6 +126,10 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
     short_description = forms.CharField(
         label="Kurzbeschreibung", required=False, max_length=80,
     )
+    is_administrator = forms.BooleanField(
+        label="Administrator", required=False,
+        help_text="Gewährt globale Administratorrechte für alle Besprechungsreihen.",
+    )
     class Meta(DjangoUserChangeForm.Meta):
         model = User
         fields = "__all__"
@@ -138,21 +142,24 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
                 profile.short_description if profile else ""
             )
         self.fields["is_superuser"].label = "Django-Superuser"
-        if "groups" in self.fields:
-            self.fields["groups"].queryset = Group.objects.filter(name="Admin")
-            self.fields["groups"].label = "Globale Berechtigung"
-            self.fields["groups"].help_text = "Nur Admin ist global. Leser-, Teilnehmer- und Moderatorrollen werden je Besprechungsreihe vergeben."
+        self.fields["is_administrator"].initial = (
+            self.instance.groups.filter(name="Admin").exists()
+            if self.instance and self.instance.pk else False
+        )
+        self.fields.pop("groups", None)
+        self.fields.pop("user_permissions", None)
 
 class MeetingUserAdmin(DjangoUserAdmin):
     form = MeetingUserChangeForm
     inlines = [SeriesAccessInline]
+    change_form_template = "admin/auth/user/change_form.html"
     list_display = ("username", "display_name", "email", "is_staff", "is_active")
     fieldsets = (
         ("Persönliche Informationen", {
             "fields": ("username", "first_name", "last_name", "email", "short_description"),
         }),
         ("Berechtigungen", {
-            "fields": ("is_active", "groups", "is_superuser"),
+            "fields": ("is_active", "is_administrator", "is_superuser"),
         }),
         ("Wichtige Daten", {
             "fields": ("last_login", "date_joined"),
@@ -172,6 +179,11 @@ class MeetingUserAdmin(DjangoUserAdmin):
             user=user,
             defaults={"short_description": form.cleaned_data.get("short_description", "")},
         )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        if form.cleaned_data.get("is_administrator", False):
+            user.groups.add(admin_group)
+        else:
+            user.groups.remove(admin_group)
         should_be_staff = user.is_superuser or user.groups.filter(name="Admin").exists()
         if user.is_staff != should_be_staff:
             user.is_staff = should_be_staff
