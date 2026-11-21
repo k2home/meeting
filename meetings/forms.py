@@ -75,13 +75,7 @@ class CompactParticipantSelect(forms.CheckboxSelectMultiple):
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        User = get_user_model()
-        context["widget"]["reader_users"] = [
-            user_display_name(user)
-            for user in User.objects.filter(
-                is_active=True, groups__name="Leser*in"
-            ).distinct().order_by("last_name", "first_name", "username")
-        ]
+        context["widget"]["reader_users"] = getattr(self, "reader_users", [])
         return context
 
 
@@ -110,6 +104,12 @@ class MeetingParticipantsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         User = get_user_model()
         series_id = getattr(self.instance, "series_id", None)
+        reader_memberships = SeriesAccess.objects.filter(
+            series_id=series_id, user__is_active=True, user__groups__name="Leser*in"
+        ).select_related("user")
+        self.fields["participants"].widget.reader_users = [
+            user_display_name(access.user) for access in reader_memberships
+        ]
         membership = SeriesAccess.objects.filter(
             series_id=series_id, user_id=OuterRef("pk")
         )
