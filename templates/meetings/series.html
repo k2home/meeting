@@ -39,7 +39,7 @@
       {% if s.next_meeting %}
         <div class="series-next-meeting">
           <div class="topline" style="align-items:center">
-            <div><span class="muted">Nächster Termin</span><br><strong>{{ s.next_meeting.date|date:"D, d.m.Y" }}</strong></div>
+            <div><span class="muted">Nächster Termin:</span><br><strong>{{ s.next_meeting.date|date:"D, d.m.Y" }}</strong></div>
             {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
           </div>
           <div class="actions" style="margin-top:.65rem">
