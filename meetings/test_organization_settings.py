@@ -15,6 +15,19 @@ class OrganizationSettingsTests(TestCase):
         self.assertEqual(second.pk, 1)
         self.assertEqual(OrganizationSettings.objects.count(), 1)
         self.assertEqual(OrganizationSettings.current_name(), "Fachbereich 30")
+        self.assertEqual(OrganizationSettings.current_short_name(), "MM")
+
+    def test_short_label_is_visible_in_collapsed_navigation(self):
+        OrganizationSettings.objects.create(name="Fachbereich 20", short_name="FB20")
+        user = get_user_model().objects.create_user(
+            username="short-branding-user", password="strong-test-password"
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("dashboard"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="brand-short">FB20</span>')
 
     def test_organization_unit_is_visible_on_login_page(self):
         OrganizationSettings.objects.create(name="Fachbereich 20")

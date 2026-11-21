@@ -303,7 +303,7 @@ admin.site.register(Group, MeetingGroupAdmin)
 @admin.register(OrganizationSettings)
 class OrganizationSettingsAdmin(admin.ModelAdmin):
     list_display = ("name",)
-    fields = ("name",)
+    fields = ("name", "short_name")
 
     def has_add_permission(self, request):
         return super().has_add_permission(request) and not OrganizationSettings.objects.exists()

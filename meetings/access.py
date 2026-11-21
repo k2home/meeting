@@ -73,4 +73,7 @@ def organization_branding(request):
     """Stellt die zentrale Organisationseinheit in allen Templates bereit."""
     from .models import OrganizationSettings
 
-    return {"organization_unit_name": OrganizationSettings.current_name()}
+    return {
+        "organization_unit_name": OrganizationSettings.current_name(),
+        "organization_unit_short_name": OrganizationSettings.current_short_name(),
+    }
