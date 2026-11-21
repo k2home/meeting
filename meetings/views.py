@@ -227,9 +227,9 @@ def meeting_detail(request, pk):
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
-    writable_series = writable_series.order_by("name")
+    writable_series = writable_series.filter(active=True).order_by("name")
     target_meetings = accessible_meetings(request.user).filter(
-        series__in=writable_series, date__gte=meeting.date
+        series__in=writable_series, date__gte=meeting.date, finalized_at__isnull=True
     ).select_related("series").order_by("series__name", "date")
 
     if request.method == "POST":
