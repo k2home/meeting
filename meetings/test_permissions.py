@@ -30,8 +30,6 @@ class SeriesRolePermissionTests(TestCase):
 
     def test_reader_can_read_assigned_content_but_cannot_change_it_or_be_a_participant(self):
         from django.contrib.auth.models import Group
-        from django.utils import timezone
-
         reader_group, _ = Group.objects.get_or_create(name="Leser*in")
         reader = User.objects.create_user(username="series-reader", password="test-password")
         reader.groups.add(reader_group)
@@ -64,6 +62,9 @@ class SeriesRolePermissionTests(TestCase):
         self.assertIsNone(self.meeting.finalized_at)
 
         self.assertEqual(self.client.get(reverse("topic_edit", args=[self.other_topic.pk])).status_code, 404)
+        self.assertEqual(self.client.get(reverse("topic_new")).status_code, 403)
+        from .models import TopicAttachment
+        self.assertEqual(self.client.get(reverse("attachment_add", args=[self.topic.pk])).status_code, 403)
 
     def test_user_cannot_access_unassigned_series_content(self):
         self.client.force_login(self.user)
