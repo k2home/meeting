@@ -314,7 +314,7 @@ def meeting_detail(request, pk):
                     messages.success(request, f"„{topic.title}“ wurde aus dieser Tagesordnung entfernt und auf den {target_meeting.date:%d.%m.%Y} verschoben.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen späteren Termin.")
-        elif request.POST.get("schedule_item"):
+        elif request.POST.get("schedule_item") and not request.POST.get("item_id"):
             item = get_object_or_404(AgendaItem, pk=request.POST.get("schedule_item"), meeting=meeting)
             schedule_form = AgendaScheduleForm(
                 request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
@@ -328,6 +328,14 @@ def meeting_detail(request, pk):
                 topic.series = target_series
                 topic.due_date = target_meeting.date
                 topic.save(update_fields=["series", "due_date", "updated_at"])
+                next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
+                target_item, created = AgendaItem.objects.get_or_create(
+                    meeting=target_meeting, topic=topic,
+                    defaults={"working_text": "", "position": next_position},
+                )
+                if not created and target_item.working_text:
+                    target_item.working_text = ""
+                    target_item.save(update_fields=["working_text"])
                 if old_series != target_series:
                     TopicTransferHistory.objects.create(
                         topic=topic, from_series=old_series, to_series=target_series,
@@ -453,17 +461,63 @@ def meeting_detail(request, pk):
         else:
             item_id = request.POST.get("item_id")
             if item_id:
-                item = get_object_or_404(AgendaItem, pk=item_id, meeting=meeting)
+                item = get_object_or_404(AgendaItem.objects.select_related("topic", "topic__series"), pk=item_id, meeting=meeting)
                 form = AgendaTextForm(request.POST, instance=item)
-                if form.is_valid():
+                schedule_form = None
+                if request.POST.get("schedule_item") == str(item.pk):
+                    schedule_form = AgendaScheduleForm(
+                        request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
+                    )
+                if form.is_valid() and (schedule_form is None or schedule_form.is_valid()):
                     old_text = item.working_text
-                    saved = form.save()
-                    if old_text != saved.working_text:
-                        record_event(actor=request.user, action="agenda_edited",
-                            summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
-                            topic=item.topic, meeting=meeting,
-                            changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
-                    messages.success(request, "Agendatext gespeichert.")
+                    with transaction.atomic():
+                        saved = form.save()
+                        if old_text != saved.working_text:
+                            record_event(actor=request.user, action="agenda_edited",
+                                summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                                topic=item.topic, meeting=meeting,
+                                changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
+                        if schedule_form is not None:
+                            topic = item.topic
+                            old_series = topic.series
+                            old_due_date = topic.due_date
+                            target_series = schedule_form.cleaned_data["target_series"]
+                            target_meeting = schedule_form.cleaned_data["target_meeting"]
+                            topic.series = target_series
+                            topic.due_date = target_meeting.date
+                            topic.save(update_fields=["series", "due_date", "updated_at"])
+                            next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
+                            target_item, created = AgendaItem.objects.get_or_create(
+                                meeting=target_meeting, topic=topic,
+                                defaults={"working_text": "", "position": next_position},
+                            )
+                            if not created and target_item.working_text:
+                                target_item.working_text = ""
+                                target_item.save(update_fields=["working_text"])
+                            if old_series != target_series:
+                                TopicTransferHistory.objects.create(
+                                    topic=topic, from_series=old_series, to_series=target_series,
+                                    transferred_by=request.user,
+                                    note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt",
+                                )
+                            record_event(
+                                actor=request.user, action="transferred" if old_series != target_series else "updated",
+                                summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
+                                topic=topic, meeting=meeting,
+                                changes={
+                                    "Fälligkeit": {
+                                        "vorher": old_due_date.isoformat() if old_due_date else None,
+                                        "nachher": target_meeting.date.isoformat(),
+                                    },
+                                    "Besprechungsserie": {
+                                        "vorher": old_series.name if old_series else None,
+                                        "nachher": target_series.name,
+                                    },
+                                },
+                            )
+                    messages.success(request, "Agendatext und Wiedervorlage gespeichert." if schedule_form is not None else "Agendatext gespeichert.")
+                else:
+                    messages.error(request, "Bitte prüfe den Text und die ausgewählte Wiedervorlage.")
         return redirect("meeting", pk=pk)
 
     participant_form = MeetingParticipantsForm(instance=meeting)
@@ -512,6 +566,18 @@ def agenda_topic_history(request, pk, topic_pk):
             "date": snapshot.meeting.date,
             "text": snapshot.text,
         }
+    # Include a planned follow-up meeting even if its agenda item has not
+    # yet been materialized by opening that meeting's agenda.
+    if item.topic.series_id and item.topic.due_date:
+        planned_meeting = visible_meetings.filter(
+            series_id=item.topic.series_id, date=item.topic.due_date
+        ).select_related("series").first()
+        if planned_meeting and planned_meeting.pk not in history:
+            history[planned_meeting.pk] = {
+                "series": planned_meeting.series.name if planned_meeting.series else "Gelöschte Besprechungsreihe",
+                "date": planned_meeting.date,
+                "text": "",
+            }
     entries = sorted(history.values(), key=lambda row: (row["date"], row["series"]), reverse=True)
     return render(request, "meetings/agenda_topic_history.html", {
         "topic": item.topic, "history_entries": entries,
