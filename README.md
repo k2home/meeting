@@ -58,29 +58,35 @@ Wichtige Änderungen an Themen, Status, Fälligkeiten, Anlagen, Kommentaren, Tag
 
 ## Rollen und Berechtigungen
 
-Die Anwendung verwendet drei Django-Gruppen. Die Gruppe eines Kontos bestimmt die Rolle; zusätzlich wird jeder regulären Benutzerin bzw. jedem regulären Benutzer ausdrücklich zugewiesen, auf welche Besprechungsreihen sie oder er zugreifen darf.
+Die Anwendung verwendet vier Django-Gruppen. Die Gruppe eines Kontos bestimmt die Rolle; zusätzlich wird jeder regulären Benutzerin bzw. jedem regulären Benutzer ausdrücklich zugewiesen, auf welche Besprechungsreihen sie oder er zugreifen darf.
 
 ### Berechtigungsmatrix
 
-| Funktion | Nutzer*in | Moderator*in | Admin |
+| Funktion | Leser*in | Nutzer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|
-| Zugewiesene Besprechungsreihen und deren Inhalte ansehen | Ja | Ja | Alle Reihen |
-| Protokolle und Änderungsverlauf ansehen | Ja | Ja | Alle Reihen |
-| Kommentare schreiben | Ja | Ja | Ja |
-| Themen anlegen und bearbeiten | Ja | Ja | Ja |
-| Themen archivieren und wieder öffnen | Ja | Ja | Ja |
-| Themen zwischen zugänglichen Reihen übertragen | Ja | Ja | Ja |
-| Tagesordnung und Teilnehmer verwalten | Ja | Ja | Ja |
-| Besprechungen abschließen | Ja | Ja | Ja |
-| Abgeschlossene Besprechungen wieder öffnen | Nein | Ja | Ja |
-| Besprechungstermine verschieben oder löschen | Nein | Ja | Ja |
-| Besprechungsreihen anlegen, ändern und löschen | Nein | Ja* | Ja |
-| Benutzer, Gruppen und Serienzuweisungen verwalten | Nein | Nein | Ja |
-| Globaler Zugriff auf alle Besprechungsreihen | Nein | Nein | Ja |
+| Zugewiesene Besprechungsreihen und deren Inhalte ansehen | Ja | Ja | Ja | Alle Reihen |
+| Protokolle und Änderungsverlauf ansehen | Ja | Ja | Ja | Alle Reihen |
+| Kommentare schreiben | Nein | Ja | Ja | Ja |
+| Themen anlegen und bearbeiten | Nein | Ja | Ja | Ja |
+| Themen archivieren und wieder öffnen | Nein | Ja | Ja | Ja |
+| Themen zwischen zugänglichen Reihen übertragen | Nein | Ja | Ja | Ja |
+| Tagesordnung und Teilnehmer verwalten | Nein | Ja | Ja | Ja |
+| Besprechungen abschließen | Nein | Ja | Ja | Ja |
+| Abgeschlossene Besprechungen wieder öffnen | Nein | Nein | Ja | Ja |
+| Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja |
+| Besprechungsreihen anlegen, ändern und löschen | Nein | Nein | Ja* | Ja |
+| Benutzer, Gruppen und Serienzuweisungen verwalten | Nein | Nein | Nein | Ja |
+| Globaler Zugriff auf alle Besprechungsreihen | Nein | Nein | Nein | Ja |
 
 \* Moderator*innen dürfen nur die ihnen zugewiesenen Reihen verwalten. Eine von einer Moderatorin oder einem Moderator neu angelegte Reihe wird dieser Person automatisch zugewiesen.
 
 ### Was die Rollen im Alltag bedeuten
+
+**Leser*in**
+
+- Sieht alle Themen, Besprechungstermine, Protokolle und Änderungsverläufe der ausdrücklich zugewiesenen Besprechungsreihen.
+- Ist kein Besprechungsteilnehmer und erscheint nicht in Teilnehmerlisten oder Protokoll-Teilnehmerangaben.
+- Hat ausschließlich Leserechte: keine Kommentare, Änderungen, Anlagen, Tagesordnungsaktionen, Abschlüsse oder Verwaltungsfunktionen.
 
 **Nutzer*in**
 
@@ -121,7 +127,7 @@ Die Verwaltung befindet sich unter `/django-admin/` und ist nur für Admins bzw.
 
 1. Mit einem Admin-Konto anmelden und **Verwaltung** öffnen.
 2. Unter **Benutzer** ein neues Konto anlegen oder ein vorhandenes Konto öffnen.
-3. Im Bereich **Gruppen** genau die gewünschte Rolle auswählen: **Nutzer*in**, **Moderator*in** oder **Admin**.
+3. Im Bereich **Gruppen** genau die gewünschte Rolle auswählen: **Leser*in**, **Nutzer*in**, **Moderator*in** oder **Admin**.
 4. Im Inline-Bereich **Serienberechtigungen** die Besprechungsreihen hinzufügen, die das Konto sehen und bearbeiten darf.
 5. Änderungen speichern.
 
