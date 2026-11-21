@@ -347,6 +347,8 @@ class MeetingReopenTests(TestCase):
         self.admin = User.objects.create_user(
             username="meeting-admin", password="strong-test-password", is_staff=True
         )
+        from django.contrib.auth.models import Group
+        self.admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
         self.client.force_login(self.admin)
         self.series = MeetingSeries.objects.create(name="Wiederöffnungs-Reihe")
         self.meeting = Meeting.objects.create(
@@ -520,6 +522,8 @@ class MeetingSeriesManagementTests(TestCase):
         self.admin = User.objects.create_user(
             username="series-admin", password="strong-test-password", is_staff=True
         )
+        from django.contrib.auth.models import Group
+        self.admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
         self.client.force_login(self.admin)
         self.today = timezone.localdate()
         self.series = MeetingSeries.objects.create(
