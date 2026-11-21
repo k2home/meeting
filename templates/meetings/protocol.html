@@ -22,7 +22,7 @@
 <section class="card">
   <h2>Teilnehmer</h2>
   {% for participant in participants %}
-    <span class="pill">{{ participant|user_display }}</span>
+    <span class="pill">{{ participant|user_display_context }}</span>
   {% empty %}
     <p>Keine Teilnehmer eingetragen.</p>
   {% endfor %}

@@ -865,7 +865,7 @@ def _protocol_entries(meeting):
 
 def _meeting_participant_names(meeting):
     return [
-        user_display_name(user)
+        user_display_name(user, include_short_description=True)
         for user in meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     ]
 

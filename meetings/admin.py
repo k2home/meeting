@@ -16,7 +16,7 @@ from .models import (
     MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
     TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile, OrganizationSettings,
 )
-from .user_display import user_display_name
+from .user_display import user_display_name, user_display_name_with_login
 from .user_csv import export_users_csv, import_users_csv
 
 User = get_user_model()
@@ -119,12 +119,12 @@ class SeriesAccessAdmin(admin.ModelAdmin):
 
     @admin.display(description="Benutzer", ordering="user__username")
     def display_user(self, obj):
-        return user_display_name(obj.user)
+        return user_display_name_with_login(obj.user)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         field = super().formfield_for_foreignkey(db_field, request, **kwargs)
         if db_field.name == "user":
-            field.label_from_instance = user_display_name
+            field.label_from_instance = user_display_name_with_login
         return field
 
 
@@ -257,7 +257,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
     form = MeetingUserChangeForm
     inlines = [SeriesAccessInline]
     change_form_template = "admin/auth/user/change_form.html"
-    list_display = ("username", "display_name", "email", "is_staff", "is_active")
+    list_display = ("display_name_with_login", "is_staff", "is_active")
     fieldsets = (
         ("Persönliche Informationen", {
             "fields": ("username", "first_name", "last_name", "email", "short_description"),
@@ -272,9 +272,9 @@ class MeetingUserAdmin(DjangoUserAdmin):
     readonly_fields = ("last_login", "date_joined")
     filter_horizontal = ("groups",)
 
-    @admin.display(description="Anzeigename")
-    def display_name(self, obj):
-        return user_display_name(obj)
+    @admin.display(description="Person (Anmeldename)")
+    def display_name_with_login(self, obj):
+        return user_display_name_with_login(obj)
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
