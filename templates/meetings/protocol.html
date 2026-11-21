@@ -13,7 +13,7 @@
   {% if meeting.finalized_at and user.is_staff %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
     {% csrf_token %}
-    <button type="submit" class="meeting-menu-button secondary">Besprechung wieder öffnen</button>
+    <button type="submit" class="meeting-menu-button">Besprechung wieder öffnen</button>
   </form>
   {% endif %}
 </div>
