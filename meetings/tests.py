@@ -822,3 +822,65 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertNotContains(response, "Reihenfolge speichern")
         self.assertNotContains(response, "Besprechung abschließen")
         self.assertContains(response, "Protokoll / Drucken")
+
+
+class UserShortDescriptionTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="display-user",
+            first_name="Name",
+            password="strong-test-password",
+        )
+        self.series = MeetingSeries.objects.create(name="Kurzbeschreibung-Reihe")
+        self.meeting = Meeting.objects.create(series=self.series, date="2026-12-20")
+        self.meeting.participants.add(self.user)
+        self.client.force_login(self.user)
+
+    def test_short_description_does_not_change_account_name(self):
+        from .models import UserProfile
+        from .user_display import user_display_name
+
+        UserProfile.objects.create(user=self.user, short_description="01/22")
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.username, "display-user")
+        self.assertEqual(user_display_name(self.user), "Name (01/22)")
+
+    def test_short_description_appears_in_participant_dropdown_and_protocol(self):
+        from .models import UserProfile
+
+        UserProfile.objects.create(user=self.user, short_description="01/22")
+
+        meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(meeting_response.status_code, 200)
+        self.assertContains(meeting_response, "Name (01/22)")
+
+        protocol_response = self.client.get(reverse("protocol", args=[self.meeting.pk]))
+        self.assertEqual(protocol_response.status_code, 200)
+        self.assertContains(protocol_response, "Name (01/22)")
+
+    def test_short_description_appears_in_word_protocol_export(self):
+        import zipfile
+        from io import BytesIO
+        from .models import UserProfile
+
+        UserProfile.objects.create(user=self.user, short_description="01/22")
+        response = self.client.get(reverse("protocol_docx", args=[self.meeting.pk]))
+
+        with zipfile.ZipFile(BytesIO(response.content)) as archive:
+            document_xml = archive.read("word/document.xml").decode("utf-8")
+        self.assertIn("Name (01/22)", document_xml)
+
+    def test_user_admin_exposes_editable_short_description(self):
+        from .models import UserProfile
+
+        UserProfile.objects.create(user=self.user, short_description="01/22")
+        admin_user = User.objects.create_superuser(
+            username="profile-admin", password="strong-test-password", email="admin@example.com"
+        )
+        self.client.force_login(admin_user)
+        response = self.client.get(reverse("admin:auth_user_change", args=[self.user.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Kurzbeschreibung")
+        self.assertContains(response, "01/22")
