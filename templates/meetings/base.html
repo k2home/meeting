@@ -181,6 +181,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
       }, 400);
     });
   }
+  const sidebar = document.getElementById('main-navigation');
   const desktopToggle = document.getElementById('desktop-menu-toggle');
   if (desktopToggle && sidebar) {
     desktopToggle.addEventListener('click', () => {
@@ -190,7 +191,6 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
     });
   }
   const toggle = document.getElementById('menu-toggle');
-  const sidebar = document.getElementById('main-navigation');
   const backdrop = document.getElementById('menu-backdrop');
   if (!toggle || !sidebar || !backdrop) return;
   const closeMenu = () => {
