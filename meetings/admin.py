@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory, AuditEvent, TopicComment
+from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess
 
 admin.site.site_header = "Meeting Manager – Verwaltung"
 admin.site.site_title = "Meeting Manager"
@@ -75,3 +75,11 @@ class TopicCommentAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(SeriesAccess)
+class SeriesAccessAdmin(admin.ModelAdmin):
+    list_display = ("user", "series")
+    list_filter = ("series",)
+    search_fields = ("user__username", "user__first_name", "user__last_name", "series__name")
+    autocomplete_fields = ("user", "series")
