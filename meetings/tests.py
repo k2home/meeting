@@ -108,6 +108,62 @@ class AuditHistoryTests(TestCase):
         self.assertNotContains(response, "Eintrag aus weiterer Reihe")
         self.assertContains(response, "Weitere Audit-Reihe")
 
+    def test_history_only_shows_series_where_user_is_moderator(self):
+        from .models import AuditEvent
+
+        self.series.name = "JF HH"
+        self.series.save(update_fields=["name"])
+        moderator_series = MeetingSeries.objects.create(name="JF VB 2")
+        SeriesAccess.objects.create(
+            user=self.user, series=moderator_series, role=SeriesAccess.ROLE_MODERATOR
+        )
+        moderator_topic = Topic.objects.create(title="Moderator-Thema", series=moderator_series)
+        AuditEvent.objects.create(
+            topic=self.topic, actor=self.user, action="updated", summary="Änderung aus JF HH"
+        )
+        AuditEvent.objects.create(
+            topic=moderator_topic, actor=self.user, action="updated", summary="Änderung aus JF VB 2"
+        )
+        foreign_topic_meeting = Meeting.objects.create(series=moderator_series, date="2026-12-01")
+        AuditEvent.objects.create(
+            topic=self.topic, meeting=foreign_topic_meeting, actor=self.user,
+            action="updated", summary="Serienübergreifender Eintrag mit JF HH-Thema",
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("audit_history"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Änderung aus JF VB 2")
+        self.assertNotContains(response, "Änderung aus JF HH")
+        self.assertNotContains(response, "Serienübergreifender Eintrag mit JF HH-Thema")
+        self.assertNotContains(response, "JF HH")
+        self.assertContains(response, "JF VB 2")
+        self.assertEqual(list(response.context["series"]), [moderator_series])
+        self.assertEqual(list(response.context["topics"]), [moderator_topic])
+
+    def test_history_renders_escaped_newlines_as_line_breaks(self):
+        from .models import AuditEvent
+
+        SeriesAccess.objects.filter(user=self.user, series=self.series).update(
+            role=SeriesAccess.ROLE_MODERATOR
+        )
+        AuditEvent.objects.create(
+            topic=self.topic,
+            actor=self.user,
+            action="updated",
+            summary="Erste Zeile\\nZweite Zeile",
+            changes={"Beschreibung": {"vorher": "Vorher\\nText", "nachher": "Nachher\\nText"}},
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("audit_history"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<p>Erste Zeile<br>Zweite Zeile</p>", html=True)
+        self.assertContains(response, "Vorher<br>Text")
+        self.assertNotContains(response, "\\n")
+
 
 class TopicTaskManagementTests(TestCase):
     def setUp(self):
@@ -1316,7 +1372,9 @@ class OpenTopicsViewTests(TestCase):
 
     def test_mobile_navigation_keeps_menu_labels_visible(self):
         response = self.client.get(reverse("dashboard"))
-        self.assertContains(response, ".sidebar .nav-links a{font-size:inherit")
+        self.assertContains(response, "@media(min-width:1050px)")
+        self.assertContains(response, ".sidebar:not(.is-expanded) .nav-links a{font-size:inherit")
+        self.assertContains(response, "desktop-menu-toggle")
 
     def test_moderator_sees_both_menu_items_and_can_open_history(self):
         SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_MODERATOR)

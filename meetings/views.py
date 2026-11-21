@@ -1247,34 +1247,53 @@ def meeting_reopen(request, pk):
 
 @login_required
 def audit_history(request):
-    has_history_permission = is_admin(request.user) or is_moderator(request.user)
+    admin_access = is_admin(request.user)
+    # Änderungsverläufe sind ausschließlich für Serien mit Moderatorrolle sichtbar.
+    # Eine Teilnehmerrolle in einer anderen Serie darf die Ansicht nicht erweitern.
+    series = (
+        MeetingSeries.objects.all()
+        if admin_access else
+        MeetingSeries.objects.filter(
+            user_access__user=request.user,
+            user_access__role=SeriesAccess.ROLE_MODERATOR,
+        ).distinct()
+    )
+    has_history_permission = admin_access or series.exists()
+    series = series.order_by("name") if has_history_permission else MeetingSeries.objects.none()
+    topics = (
+        Topic.objects.all() if admin_access else Topic.objects.filter(series__in=series)
+    ).order_by("title") if has_history_permission else Topic.objects.none()
     events = AuditEvent.objects.none()
-    topics = Topic.objects.none()
-    series = MeetingSeries.objects.none()
-    topic_id = request.GET.get("topic")
+    topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
+
     if has_history_permission:
-        series = accessible_series(request.user).order_by("name")
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
-        if not is_admin(request.user):
-            allowed_series = accessible_series(request.user)
-            events = events.filter(Q(topic__series__in=allowed_series) | Q(meeting__series__in=allowed_series))
+        if not admin_access:
+            # If an event references both a topic and a meeting, both associated
+            # series must be within the moderator's scope. This prevents a
+            # cross-series event from leaking participant-only series data.
+            events = events.filter(
+                (Q(topic__series__isnull=True) | Q(topic__series__in=series))
+                & (Q(meeting__series__isnull=True) | Q(meeting__series__in=series))
+                & (Q(topic__series__in=series) | Q(meeting__series__in=series))
+            )
         if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
             events = events.filter(
                 Q(topic__series_id=int(selected_series))
                 | Q(meeting__series_id=int(selected_series))
             )
-            topics = accessible_topics(request.user).filter(series_id=int(selected_series)).order_by("title")
+            topics = topics.filter(series_id=int(selected_series))
         else:
             selected_series = ""
-            topics = accessible_topics(request.user).order_by("title")
         if topic_id and topics.filter(pk=topic_id).exists():
             events = events.filter(topic_id=topic_id)
         else:
             topic_id = ""
     else:
-        topic_id = None
+        topic_id = ""
         selected_series = ""
+
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
