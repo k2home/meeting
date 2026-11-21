@@ -51,6 +51,10 @@
 #agenda-list.reorder-mode .agenda-item .topline{align-items:center}
 #save-agenda-order{display:none}
 #save-agenda-order.is-visible{display:inline-flex}
+.agenda-order-save-row{display:flex;justify-content:flex-end;margin:1rem 0 1.5rem}
+#open-new-agenda-topic{margin-left:auto}
+.agenda-title-assignee,.agenda-title-status{align-self:center;box-sizing:border-box;height:1.25em;line-height:1.25em;padding-left:.55rem;border-left:1px solid color-mix(in srgb,var(--muted) 30%,transparent)}
+.agenda-history-footer{display:flex;justify-content:flex-end;margin-top:.85rem}
 .agenda-save-dialog{width:min(440px,calc(100% - 2rem));background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem;box-shadow:0 18px 55px #0004}
 .agenda-save-dialog::backdrop{background:#0008}
 .agenda-save-dialog p{margin:.35rem 0 1rem}
@@ -92,6 +96,7 @@
   {% elif is_moderator %}
     <form method="post" action="{% url 'meeting_reopen' meeting.id %}">{% csrf_token %}<button class="meeting-menu-button secondary" type="submit">Besprechung wieder öffnen</button></form>
   {% endif %}
+  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button agenda-create-button" type="button" id="open-new-agenda-topic">+ Neu</button>{% endif %}
 </nav>
 
 {% if not is_reader and not meeting.finalized_at %}
@@ -125,30 +130,6 @@
 <div id="agenda-list">
 {% for item in items %}
   <div class="card agenda-item" data-agenda-item="{{ item.id }}">
-    <div class="topline">
-      <div class="agenda-item-heading">
-        <h2><span class="agenda-item-number">{{ forloop.counter }}.</span><span class="agenda-item-title">{{ item.topic.title }}</span><span class="agenda-title-assignee">{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span>
-          <span class="agenda-title-status">
-            {% if not meeting.finalized_at and not is_reader %}
-            <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
-              {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
-            </form>
-            <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
-              {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
-            </select>
-            {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
-          </span>
-        </h2>
-      </div>
-      <div class="agenda-item-tools no-print">
-        <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
-        {% if not meeting.finalized_at and not is_reader %}
-        <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
-        <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
-        <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
-        {% endif %}
-      </div>
-    </div>
     {% if not meeting.finalized_at and not is_reader %}
     <div class="agenda-schedule-row no-print">
       <form method="post" class="agenda-schedule-form">
@@ -165,6 +146,29 @@
       </form>
     </div>
     {% endif %}
+    <div class="topline">
+      <div class="agenda-item-heading">
+        <h2><span class="agenda-item-number">{{ forloop.counter }}.</span><span class="agenda-item-title">{{ item.topic.title }}</span><span class="agenda-title-assignee">{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span>
+          <span class="agenda-title-status">
+            {% if not meeting.finalized_at and not is_reader %}
+            <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
+              {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
+            </form>
+            <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
+              {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+            </select>
+            {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
+          </span>
+        </h2>
+      </div>
+      <div class="agenda-item-tools no-print">
+        {% if not meeting.finalized_at and not is_reader %}
+        <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
+        <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
+        <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
+        {% endif %}
+      </div>
+    </div>
     {% if not meeting.finalized_at and not is_reader %}
     <form method="post" class="agenda-text-form" data-item-id="{{ item.id }}">
       {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
@@ -173,11 +177,13 @@
       <button type="submit">Text speichern</button>
     </form>
     {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
+    <div class="agenda-history-footer no-print"><button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button></div>
   </div>
 {% empty %}
   <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
 {% endfor %}
 </div>
+{% if not is_reader and not meeting.finalized_at and items %}<div class="agenda-order-save-row no-print"><button class="meeting-menu-button agenda-create-button" type="button" id="save-agenda-order">Speichern</button></div>{% endif %}
 
 <dialog id="agenda-history-dialog" class="agenda-history-dialog" aria-labelledby="agenda-history-title">
   <div class="topline"><h2 id="agenda-history-title">Themenhistorie</h2><button type="button" class="secondary" id="close-agenda-history">Schließen</button></div>
