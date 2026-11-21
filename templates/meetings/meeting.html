@@ -5,7 +5,7 @@
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 
 <nav class="meeting-action-menu no-print" aria-label="Aktionen für diese Besprechung">
-  {% if is_reader %}<span class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ participants.count }}</span></span>{% else %}<details class="meeting-menu-participants">
+  {% if is_reader %}<div class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ participants.count }}</span><div class="participant-summary">{% for participant in participants %}<span class="pill">{{ participant|user_display }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}</div></div>{% else %}<details class="meeting-menu-participants">
   <summary class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ meeting.participants.count }}</span></summary>
   <div class="participant-menu-panel">
     <div class="participant-summary">
@@ -48,7 +48,7 @@
 
 
 
-{% if not meeting.finalized_at and items %}
+{% if not is_reader and not meeting.finalized_at and items %}
 <form id="agenda-reorder-form" class="visually-hidden-form" method="post" action="{% url 'agenda_reorder' meeting.id %}">
   {% csrf_token %}
   <div id="agenda-order-inputs"></div>
