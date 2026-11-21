@@ -104,3 +104,22 @@ class SeriesRolePermissionTests(TestCase):
         self.client.force_login(self.moderator)
         response = self.client.get(reverse("series_edit", args=[self.series_b.pk]))
         self.assertEqual(response.status_code, 404)
+
+    def test_roles_are_independent_for_each_series(self):
+        SeriesAccess.objects.create(
+            user=self.user, series=self.series_b, role=SeriesAccess.ROLE_READER
+        )
+
+        self.client.force_login(self.user)
+        self.assertEqual(self.client.get(reverse("topic_edit", args=[self.topic.pk])).status_code, 200)
+        self.assertEqual(
+            self.client.post(reverse("topic_edit", args=[self.other_topic.pk]), {
+                "title": "Darf nicht geändert werden", "description": "", "status": "open",
+                "series": self.series_b.pk,
+            }).status_code,
+            403,
+        )
+        self.topic.refresh_from_db()
+        self.other_topic.refresh_from_db()
+        self.assertEqual(self.topic.title, "Zugewiesenes Thema")
+        self.assertEqual(self.other_topic.title, "Fremdes Thema")
