@@ -728,7 +728,10 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.meeting.refresh_from_db()
         self.assertTrue(self.meeting.participants_initialized)
         self.assertContains(response, "Teilnehmer auswählen oder ändern")
-        self.assertNotContains(response, "unassigned")
+        self.assertEqual(
+            list(response.context["participant_form"]["participants"].value()),
+            [str(self.assigned.pk)],
+        )
 
     def test_manually_cleared_participant_list_stays_empty(self):
         self.client.get(reverse("meeting", args=[self.meeting.pk]))
