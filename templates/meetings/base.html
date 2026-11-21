@@ -4,9 +4,9 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{% block title %}Meeting Manager{% endblock %}</title>
 <style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#202735;background:#f4f6f9;color-scheme:light;--hagen-blue:#00549f;--hagen-blue-dark:#003d73;--hagen-yellow:#ffcc00;--nav-bg:#003d73;--nav-hover:#00549f;--nav-muted:#d6e2ee;--nav-width:258px;--nav-rail:68px}
+:root{font-family:system-ui,-apple-system,sans-serif;color:var(--text);background:var(--page-bg);color-scheme:light;--hagen-blue:#00549f;--hagen-blue-dark:#003d73;--hagen-yellow:#ffcc00;--nav-bg:#003d73;--nav-hover:#00549f;--nav-muted:#d6e2ee;--nav-width:258px;--nav-rail:68px;--page-bg:#f4f6f9;--surface:#fff;--text:#202735;--muted:#667085;--border:#cfd9e4;--table-head:#e7eef6;--hover-bg:#f7f9fc;--input-bg:#fff;--soft-bg:#e7eef6}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh}
+body{margin:0;min-height:100vh;background:var(--page-bg);color:var(--text)}
 a{color:var(--hagen-blue)}a:hover{color:var(--hagen-blue-dark)}
 .app-layout{min-height:100vh;display:flex}
 .sidebar{width:var(--nav-rail);flex:0 0 var(--nav-rail);height:100vh;position:sticky;top:0;background:var(--nav-bg);color:#fff;display:flex;flex-direction:column;padding:1.25rem .65rem;z-index:30;overflow-x:hidden;transition:width .22s ease,flex-basis .22s ease;white-space:nowrap}.sidebar:hover,.sidebar:focus-within{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}
@@ -14,22 +14,22 @@ a{color:var(--hagen-blue)}a:hover{color:var(--hagen-blue-dark)}
 .nav-links{display:flex;flex-direction:column;gap:.3rem}
 .nav-links a{display:flex;align-items:center;min-height:43px;padding:.65rem .75rem;border-radius:5px;color:#e5ebf2;text-decoration:none;font-weight:550;overflow:hidden}.nav-links a::before{display:none;flex:0 0 30px;text-align:center;font-size:1.05rem}.nav-links a:nth-child(1)::before{content:'⌂'}.nav-links a:nth-child(2)::before{content:'✓'}.nav-links a:nth-child(3)::before{content:'+'}.nav-links a:nth-child(4)::before{content:'▤'}.nav-links a:nth-child(5)::before{content:'↶'}.nav-links a:nth-child(6)::before{content:'▦'}.nav-links a:nth-child(7)::before{content:'⚙'}.sidebar:not(:hover):not(:focus-within) .nav-links a{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(:hover):not(:focus-within) .nav-links a::before{display:block}
 .nav-links a:hover,.nav-links a:focus-visible{background:var(--nav-hover);color:#fff;outline:none}
-.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid #ffffff20;display:grid;gap:.7rem}
+ .theme-toggle{width:100%;text-align:left;background:transparent;border:1px solid #ffffff55;color:#fff;padding:.6rem .7rem}.theme-toggle:hover{background:#ffffff18;filter:none}.sidebar:not(:hover):not(:focus-within) .theme-toggle{font-size:0;text-align:center;padding:.6rem 0}.sidebar:not(:hover):not(:focus-within) .theme-toggle::before{content:'◐';font-size:1.1rem}.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid #ffffff20;display:grid;gap:.7rem}
 .username{padding:0 .65rem;color:var(--nav-muted);font-size:.9rem;overflow-wrap:anywhere}.sidebar:not(:hover):not(:focus-within) .username{font-size:0;padding:0}.sidebar:not(:hover):not(:focus-within) .logout-form button{font-size:0;text-align:center;padding:.72rem 0}.sidebar:not(:hover):not(:focus-within) .logout-form button::before{content:'↪';font-size:1.1rem}
 .logout-form{margin:0}
 .logout-form button{width:100%;text-align:left}
 .main-column{min-width:0;flex:1}
 .mobile-header{display:none}
 main{width:min(1100px,100%);margin:1.5rem auto;padding:0 1.5rem}
-.card{background:white;border:1px solid #dfe4eb;border-radius:12px;padding:1.2rem;margin:1rem 0;box-shadow:0 1px 2px #15223808}
-input,textarea,select{box-sizing:border-box;width:100%;padding:.72rem;border:1px solid #bac4d1;border-radius:4px;margin:.25rem 0 1rem;font:inherit}
+.card{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.2rem;margin:1rem 0;box-shadow:0 1px 2px #15223808}
+input,textarea,select{box-sizing:border-box;width:100%;padding:.72rem;border:1px solid var(--border);background:var(--input-bg);color:var(--text);border-radius:4px;margin:.25rem 0 1rem;font:inherit}
 input:focus,textarea:focus,select:focus{outline:3px solid #d9e9f7;border-color:var(--hagen-blue)}
 label{font-weight:600}
-.field-help,.muted,small{color:#667085}
+.field-help,.muted,small{color:var(--muted)}
 .messages{background:#e9f5ed;padding:.8rem 1rem;border-radius:8px}
 .errorlist{color:#a12626;padding-left:1.2rem}
 table{width:100%;border-collapse:collapse}
-td,th{text-align:left;padding:.65rem;border-bottom:1px solid #e5e7eb;vertical-align:top}
+td,th{text-align:left;padding:.65rem;border-bottom:1px solid var(--border);vertical-align:top}
 th{color:#4b5563;font-size:.9rem}
 .btn,button{background:var(--hagen-blue);color:white;border:0;border-radius:4px;padding:.72rem 1rem;cursor:pointer;text-decoration:none;display:inline-block;font:inherit;font-weight:600}
 .btn.secondary,button.secondary{background:#fff3bf;color:#243247}
@@ -84,6 +84,25 @@ tr:hover td{background:#f7f9fc}
 .btn.secondary:hover,button.secondary:hover,.meeting-menu-link:hover{background:#d5e4f1}
 button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid var(--hagen-yellow);outline-offset:2px}
 hr{border:0;border-top:1px solid var(--hagen-border)}
+
+:root[data-theme="dark"]{color-scheme:dark;--page-bg:#111923;--surface:#1b2735;--text:#e8edf3;--muted:#aab7c6;--border:#39495b;--table-head:#26384b;--hover-bg:#223246;--input-bg:#152130;--soft-bg:#2a3c50;--nav-bg:#101d2b;--nav-hover:#174f7e}
+:root[data-theme="dark"] body{background:var(--page-bg);color:var(--text)}
+:root[data-theme="dark"] h1,:root[data-theme="dark"] h2,:root[data-theme="dark"] h3{color:#d8eaff}
+:root[data-theme="dark"] .card,:root[data-theme="dark"] .participant-menu-panel,:root[data-theme="dark"] .participant-options,:root[data-theme="dark"] .participant-picker summary,:root[data-theme="dark"] .meeting-action-menu{background:var(--surface);color:var(--text);border-color:var(--border)}
+:root[data-theme="dark"] th{background:var(--table-head);color:#d8eaff}
+:root[data-theme="dark"] td{border-color:var(--border)}
+:root[data-theme="dark"] tr:hover td{background:var(--hover-bg)}
+:root[data-theme="dark"] input,:root[data-theme="dark"] textarea,:root[data-theme="dark"] select{background:var(--input-bg);color:var(--text);border-color:var(--border)}
+:root[data-theme="dark"] input::placeholder,:root[data-theme="dark"] textarea::placeholder{color:#91a1b3}
+:root[data-theme="dark"] .field-help,:root[data-theme="dark"] .muted,:root[data-theme="dark"] small{color:var(--muted)}
+:root[data-theme="dark"] .messages{background:#193447;color:#e3f2ff}
+:root[data-theme="dark"] .errorlist,:root[data-theme="dark"] .errornote{background:#43272b;color:#ffd9dc}
+:root[data-theme="dark"] .pill,:root[data-theme="dark"] .menu-count{background:#29435c;color:#dceeff}
+:root[data-theme="dark"] .btn.secondary,:root[data-theme="dark"] button.secondary,:root[data-theme="dark"] .meeting-menu-link{background:#2a3c50;color:#e8edf3}
+:root[data-theme="dark"] .participant-group+.participant-group,:root[data-theme="dark"] .participant-group h3{border-color:var(--border)}
+:root[data-theme="dark"] .participant-picker summary:after{color:var(--muted)}
+:root[data-theme="dark"] a{color:#8fc5ff}:root[data-theme="dark"] a:hover{color:#c3e0ff}
+:root[data-theme="dark"] .overdue{color:#ff9999}
 </style>
 </head>
 <body>
@@ -104,6 +123,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if is_moderator %}<a href="/admin/series/">Besprechungsreihen</a>{% endif %}{% if is_admin %}<a href="/django-admin/">Verwaltung</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
+<button class="theme-toggle" type="button" id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
 <span class="username">{{ user.username }}</span>
 <form class="logout-form" method="post" action="/logout/">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
 </div>
@@ -120,6 +140,13 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if user.is_authenticated %}
 <script>
 (() => {
+  const themeButton = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('meeting-theme');
+  if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+  const syncThemeButton = () => { if (!themeButton) return; const dark = root.dataset.theme === 'dark'; themeButton.textContent = dark ? '☀ Hellmodus' : '☾ Dunkelmodus'; themeButton.setAttribute('aria-pressed', String(dark)); };
+  syncThemeButton();
+  themeButton?.addEventListener('click', () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('meeting-theme', root.dataset.theme); syncThemeButton(); });
   const toggle = document.getElementById('menu-toggle');
   const sidebar = document.getElementById('main-navigation');
   const backdrop = document.getElementById('menu-backdrop');
