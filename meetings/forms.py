@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
-from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting
+from django.db.models import Exists, OuterRef
+from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
 
 class UsernameLoginForm(AuthenticationForm):
     username = forms.CharField(label="Benutzername", max_length=150)
@@ -65,7 +66,22 @@ class CompactParticipantSelect(forms.CheckboxSelectMultiple):
     template_name = "meetings/widgets/participant_select.html"
 
 
+class ParticipantMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        label = obj.get_full_name().strip() or obj.username
+        if getattr(obj, "is_series_member", False):
+            label += " (Besprechungsserie)"
+        return label
+
+
 class MeetingParticipantsForm(forms.ModelForm):
+    participants = ParticipantMultipleChoiceField(
+        queryset=get_user_model().objects.none(),
+        required=False,
+        widget=CompactParticipantSelect,
+        label="Teilnehmer",
+    )
+
     class Meta:
         model = Meeting
         fields = ["participants"]
@@ -74,9 +90,15 @@ class MeetingParticipantsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         User = get_user_model()
-        self.fields["participants"].queryset = User.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
-        self.fields["participants"].required = False
-        self.fields["participants"].label = "Teilnehmer auswählen"
+        series_id = getattr(self.instance, "series_id", None)
+        membership = SeriesAccess.objects.filter(
+            series_id=series_id, user_id=OuterRef("pk")
+        )
+        self.fields["participants"].queryset = (
+            User.objects.filter(is_active=True)
+            .annotate(is_series_member=Exists(membership))
+            .order_by("-is_series_member", "last_name", "first_name", "username")
+        )
 
 
 class MeetingDateForm(forms.ModelForm):
