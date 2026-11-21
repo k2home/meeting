@@ -282,6 +282,42 @@ class AgendaReorderingTests(TestCase):
         )
 
 
+    def test_save_all_agenda_texts_updates_multiple_items(self):
+        response = self.client.post(reverse("meeting", args=[self.meeting.pk]), {
+            "item_id": self.first.pk,
+            "save_all_working_texts": "1",
+            f"working_text_{self.first.pk}": "Erster neuer Stand",
+            f"working_text_{self.second.pk}": "Zweiter neuer Stand",
+            f"working_text_{self.third.pk}": "",
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.first.refresh_from_db()
+        self.second.refresh_from_db()
+        self.assertEqual(self.first.working_text, "Erster neuer Stand")
+        self.assertEqual(self.second.working_text, "Zweiter neuer Stand")
+
+    def test_save_single_agenda_text_leaves_other_items_unchanged(self):
+        self.second.working_text = "Bisheriger Text"
+        self.second.save(update_fields=["working_text"])
+        response = self.client.post(reverse("meeting", args=[self.meeting.pk]), {
+            "item_id": self.first.pk,
+            "working_text": "Nur erster Punkt geändert",
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.first.refresh_from_db()
+        self.second.refresh_from_db()
+        self.assertEqual(self.first.working_text, "Nur erster Punkt geändert")
+        self.assertEqual(self.second.working_text, "Bisheriger Text")
+
+    def test_meeting_page_renders_numbered_topics_and_reorder_mode_control(self):
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="toggle-agenda-reorder"')
+        self.assertContains(response, 'class="agenda-item-number">1.')
+        self.assertContains(response, 'class="agenda-item-number">2.')
+        self.assertContains(response, "Reihenfolge ändern")
+
+
 class ProtocolExportTests(TestCase):
     def setUp(self):
         from .models import TopicSnapshot
