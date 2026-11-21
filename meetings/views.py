@@ -181,7 +181,7 @@ def meeting_detail(request, pk):
                 participant_form.save()
                 meeting.participants_initialized = True
                 meeting.save(update_fields=["participants_initialized"])
-                after = [u.get_full_name().strip() or u.username for u in meeting.participants.all()]
+                after = [user_display_name(u) for u in meeting.participants.all()]
                 if before != after:
                     record_event(
                         actor=request.user, action="updated",
