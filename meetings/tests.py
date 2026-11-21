@@ -1000,8 +1000,10 @@ class UserShortDescriptionTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Kurzbeschreibung")
         self.assertContains(response, "01/22")
-        self.assertContains(response, "Name (display-user)")
-        self.assertNotContains(response, "ada@example.com")
+        changelist = self.client.get(reverse("admin:auth_user_changelist"))
+        self.assertEqual(changelist.status_code, 200)
+        self.assertContains(changelist, "Name (display-user)")
+        self.assertNotContains(changelist, "ada@example.com")
 
 
 
