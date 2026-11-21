@@ -989,7 +989,7 @@ class ProtocolEmailTests(TestCase):
             query["body"][0],
             "Hallo zusammen,\n\n"
             "das Protokoll für die Sitzung Strategierunde am 20.12.2026 "
-            f"ist unter {protocol_url} verfügbar.\n",
+            f"ist unter {protocol_url} verfügbar.\n\n",
         )
 
     def test_protocol_email_button_is_unavailable_without_series_recipients(self):
