@@ -112,7 +112,7 @@ class CompactParticipantSelect(forms.CheckboxSelectMultiple):
 
 class ParticipantMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
-        label = user_display_name(obj)
+        label = user_display_name(obj, include_short_description=True)
         if getattr(obj, "is_reader", False):
             label += " (Leser*in)"
         elif getattr(obj, "is_series_member", False):
