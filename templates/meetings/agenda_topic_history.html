@@ -1,0 +1,12 @@
+<h3>{{ topic.title }}</h3>
+{% if history_entries %}
+  <p class="muted">{{ history_entries|length }} Besprechung(en) mit diesem Thema</p>
+  {% for entry in history_entries %}
+    <article class="agenda-history-entry">
+      <strong>{{ entry.series }}</strong> · {{ entry.date|date:"d.m.Y" }}
+      <p>{{ entry.text|default:"Kein Protokolltext hinterlegt."|linebreaksbr }}</p>
+    </article>
+  {% endfor %}
+{% else %}
+  <p class="muted">Zu diesem Thema sind noch keine weiteren Besprechungen dokumentiert.</p>
+{% endif %}
