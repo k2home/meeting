@@ -60,9 +60,8 @@
 .agenda-move-form label{display:flex;flex-direction:column;gap:.3rem;color:var(--text);font-size:.95rem}
 .agenda-move-form select{width:100%;min-width:0;padding:.55rem .65rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px}
 .agenda-move-form .agenda-dialog-actions{margin-top:.35rem}
-.agenda-item{cursor:pointer}
-.agenda-item :is(button,a,input,select,textarea,label,form,[contenteditable="true"]){cursor:auto}
-.agenda-item .agenda-item-toggle,.agenda-item button{cursor:pointer}
+.agenda-item-summary{cursor:pointer}
+.agenda-item-summary :is(button,a){cursor:pointer}
 #agenda-list.reorder-mode .agenda-item{cursor:grab}
 .agenda-history-footer{display:flex;justify-content:flex-end;margin-top:.85rem}
 .agenda-save-dialog{width:min(440px,calc(100% - 2rem));background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem;box-shadow:0 18px 55px #0004}
@@ -192,10 +191,10 @@
     </div>
       {% if not meeting.finalized_at and not is_reader %}
       <dialog id="agenda-move-dialog-{{ item.id }}" class="agenda-history-dialog agenda-move-dialog" aria-labelledby="agenda-move-title-{{ item.id }}">
-        <div class="topline"><h2 id="agenda-move-title-{{ item.id }}">Thema auf Wiedervorlage setzen</h2><button type="button" class="secondary agenda-move-close">Schließen</button></div>
-        <p>Wähle die Besprechungsserie und den Termin, an dem dieses Thema erneut auf die Tagesordnung gesetzt werden soll.</p>
+        <div class="topline"><h2 id="agenda-move-title-{{ item.id }}">Thema verschieben</h2><button type="button" class="secondary agenda-move-close">Schließen</button></div>
+        <p>Wähle die Besprechungsserie und den späteren Termin. Das Thema wird aus der aktuellen Tagesordnung entfernt und auf den neuen Termin verschoben, ohne es als besprochen zu behandeln.</p>
         <form method="post" class="agenda-schedule-form agenda-move-form">
-          {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
+          {% csrf_token %}<input type="hidden" name="shift_item" value="{{ item.id }}">
           <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium
             <select id="target-series-{{ item.id }}" name="target_series" required>
               {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
@@ -333,7 +332,9 @@
   document.querySelectorAll(".agenda-item").forEach((card) => {
     card.addEventListener("click", (event) => {
       if (list && list.classList.contains("reorder-mode")) return;
-      if (event.target.closest("button, a, input, select, textarea, label, dialog, [contenteditable='true'], .drag-handle")) return;
+      const header = event.target.closest(".agenda-item-summary");
+      if (!header || !card.contains(header)) return;
+      if (event.target.closest("button, a, input, select, textarea, label, [contenteditable='true'], .drag-handle")) return;
       const toggle = card.querySelector(".agenda-item-toggle");
       if (!toggle) return;
       setAgendaItemExpanded(card, toggle.getAttribute("aria-expanded") !== "true");
