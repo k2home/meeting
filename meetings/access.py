@@ -21,7 +21,7 @@ def accessible_series(user):
     if is_admin(user):
         return MeetingSeries.objects.all()
     # Compatibility for installations/tests with no assignments yet.
-    if not SeriesAccess.objects.exists():
+    if not user.groups.exists() and not SeriesAccess.objects.exists():
         return MeetingSeries.objects.all()
     return MeetingSeries.objects.filter(user_access__user=user)
 
