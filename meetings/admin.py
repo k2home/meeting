@@ -1,6 +1,10 @@
 from django.contrib import admin
 from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory, AuditEvent, TopicComment
 
+admin.site.site_header = "Meeting Manager – Verwaltung"
+admin.site.site_title = "Meeting Manager"
+admin.site.index_title = "Daten und Benutzer verwalten"
+
 class MeetingInline(admin.TabularInline):
     model = Meeting
     extra = 0
