@@ -993,8 +993,8 @@ class ProtocolEmailTests(TestCase):
         )
 
     def test_protocol_email_button_is_unavailable_without_series_recipients(self):
-        self.meeting.series = None
-        self.meeting.save(update_fields=["series"])
+        self.user.email = ""
+        self.user.save(update_fields=["email"])
         response = self.client.get(reverse("protocol", args=[self.meeting.pk]))
 
         self.assertEqual(response.status_code, 200)
