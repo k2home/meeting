@@ -6,13 +6,10 @@ from collections import OrderedDict
 from django import forms
 from django.contrib import admin, messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.crypto import get_random_string
-from django.utils.timezone import is_aware
-from django.utils import timezone
 
 from .models import MeetingSeries, SeriesAccess, UserProfile
 
@@ -95,8 +92,6 @@ def _find_existing_user(username, values):
         matches = User.objects.filter(email__iexact=email)
         if matches.count() == 1:
             return matches.first()
-        if matches.count() > 1:
-            return None
     return User.objects.filter(username=username).first()
 
 
@@ -137,6 +132,9 @@ def _parse_csv(text):
         "leser*in": SeriesAccess.ROLE_READER,
     }
     for row_number, raw in enumerate(reader, start=2):
+        if None in raw:
+            errors.append(f"Zeile {row_number}: Die Zeile enthält mehr Werte als die Kopfzeile.")
+            continue
         row = {key: (value or "").strip() for key, value in raw.items() if key}
         username = row.get("username", "")
         if not username:
@@ -169,6 +167,8 @@ def _parse_csv(text):
                         errors.append(f"Zeile {row_number}: Serienzuordnung „{series_name}“ für „{username}“ ist doppelt.")
                     else:
                         record["series"].append(assignment)
+    if not grouped:
+        errors.append("Die CSV-Datei enthält keine Benutzerdatensätze.")
     return list(grouped.items()), errors
 
 
