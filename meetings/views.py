@@ -275,10 +275,17 @@ def meeting_detail(request, pk):
                 if target_meeting.pk == meeting.pk:
                     messages.error(request, "Bitte wähle einen anderen, späteren Besprechungstermin.")
                 else:
-                    next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
-                    item.meeting = target_meeting
-                    item.position = next_position
-                    item.save(update_fields=["meeting", "position"])
+                    target_item = AgendaItem.objects.filter(meeting=target_meeting, topic=topic).first()
+                    if target_item:
+                        target_item.working_text = item.working_text
+                        target_item.position = (target_meeting.agenda_items.exclude(pk=target_item.pk).order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exclude(pk=target_item.pk).exists() else -1) + 1
+                        target_item.save(update_fields=["working_text", "position"])
+                        item.delete()
+                    else:
+                        next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
+                        item.meeting = target_meeting
+                        item.position = next_position
+                        item.save(update_fields=["meeting", "position"])
                     topic.series = target_series
                     topic.due_date = target_meeting.date
                     topic.save(update_fields=["series", "due_date", "updated_at"])
