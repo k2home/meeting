@@ -4,24 +4,125 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{% block title %}Meeting Manager{% endblock %}</title>
 <style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#202735;background:#f3f5f8}*{box-sizing:border-box}body{margin:0}header{background:#182536;color:white;padding:.9rem max(1rem,calc((100vw - 1100px)/2));display:flex;gap:1rem;align-items:center;flex-wrap:wrap}header a{color:white;text-decoration:none;padding:.35rem .45rem;border-radius:6px}header a:hover{background:#34465d}.brand{font-weight:750;letter-spacing:.01em;margin-right:.5rem}main{max-width:1100px;margin:1.5rem auto;padding:0 1rem}.card{background:white;border:1px solid #dfe4eb;border-radius:12px;padding:1.2rem;margin:1rem 0;box-shadow:0 1px 2px #15223808}a{color:#1759a6}input,textarea,select{box-sizing:border-box;width:100%;padding:.72rem;border:1px solid #bac4d1;border-radius:7px;margin:.25rem 0 1rem;font:inherit}input:focus,textarea:focus,select:focus{outline:3px solid #b7d6f5;border-color:#2875bd}label{font-weight:600}.field-help,.muted,small{color:#667085}.messages{background:#e9f5ed;padding:.8rem 1rem;border-radius:8px}.errorlist{color:#a12626;padding-left:1.2rem}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:.65rem;border-bottom:1px solid #e5e7eb;vertical-align:top}th{color:#4b5563;font-size:.9rem}.btn,button{background:#185da8;color:white;border:0;border-radius:7px;padding:.72rem 1rem;cursor:pointer;text-decoration:none;display:inline-block;font:inherit;font-weight:600}.btn.secondary,button.secondary{background:#e8edf3;color:#243247}.btn.danger,button.danger{background:#a63838}.btn:hover,button:hover{filter:brightness(.94)}.actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}.actions form{margin:0}.topline{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}.pill{display:inline-block;padding:.2rem .55rem;border-radius:999px;background:#eef2f6;color:#344054;font-size:.82rem}.overdue{color:#a12626;font-weight:700}.audit-changes{display:grid;grid-template-columns:minmax(110px,180px) 1fr;gap:.35rem .8rem}.audit-changes dt{font-weight:650}.audit-changes dd{margin:0 0 .35rem}
-@media(max-width:650px){header{gap:.4rem}header .brand{width:100%}main{margin:1rem auto}td,th{padding:.45rem;font-size:.92rem}.card{padding:1rem}}
-@media print{header,.no-print{display:none!important}body{background:white}.card{border:0;box-shadow:none}}
+:root{font-family:system-ui,-apple-system,sans-serif;color:#202735;background:#f3f5f8;color-scheme:light;--nav-bg:#182536;--nav-hover:#293b52;--nav-muted:#b9c5d3;--nav-width:258px}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh}
+a{color:#1759a6}
+.app-layout{min-height:100vh;display:flex}
+.sidebar{width:var(--nav-width);flex:0 0 var(--nav-width);height:100vh;position:sticky;top:0;background:var(--nav-bg);color:#fff;display:flex;flex-direction:column;padding:1.25rem 1rem;z-index:30}
+.brand{display:flex;align-items:center;min-height:48px;padding:.45rem .65rem;margin:0 0 1.5rem;color:#fff;text-decoration:none;font-size:1.12rem;font-weight:750;letter-spacing:.01em}
+.nav-links{display:flex;flex-direction:column;gap:.3rem}
+.nav-links a{display:flex;align-items:center;min-height:43px;padding:.65rem .75rem;border-radius:8px;color:#e5ebf2;text-decoration:none;font-weight:550}
+.nav-links a:hover,.nav-links a:focus-visible{background:var(--nav-hover);color:#fff;outline:none}
+.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid #ffffff20;display:grid;gap:.7rem}
+.username{padding:0 .65rem;color:var(--nav-muted);font-size:.9rem;overflow-wrap:anywhere}
+.logout-form{margin:0}
+.logout-form button{width:100%;text-align:left}
+.main-column{min-width:0;flex:1}
+.mobile-header{display:none}
+main{width:min(1100px,100%);margin:1.5rem auto;padding:0 1.5rem}
+.card{background:white;border:1px solid #dfe4eb;border-radius:12px;padding:1.2rem;margin:1rem 0;box-shadow:0 1px 2px #15223808}
+input,textarea,select{box-sizing:border-box;width:100%;padding:.72rem;border:1px solid #bac4d1;border-radius:7px;margin:.25rem 0 1rem;font:inherit}
+input:focus,textarea:focus,select:focus{outline:3px solid #b7d6f5;border-color:#2875bd}
+label{font-weight:600}
+.field-help,.muted,small{color:#667085}
+.messages{background:#e9f5ed;padding:.8rem 1rem;border-radius:8px}
+.errorlist{color:#a12626;padding-left:1.2rem}
+table{width:100%;border-collapse:collapse}
+td,th{text-align:left;padding:.65rem;border-bottom:1px solid #e5e7eb;vertical-align:top}
+th{color:#4b5563;font-size:.9rem}
+.btn,button{background:#185da8;color:white;border:0;border-radius:7px;padding:.72rem 1rem;cursor:pointer;text-decoration:none;display:inline-block;font:inherit;font-weight:600}
+.btn.secondary,button.secondary{background:#e8edf3;color:#243247}
+.btn.danger,button.danger{background:#a63838}
+.btn:hover,button:hover{filter:brightness(.94)}
+.actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.actions form{margin:0}
+.topline{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}
+.pill{display:inline-block;padding:.2rem .55rem;border-radius:999px;background:#eef2f6;color:#344054;font-size:.82rem}
+.overdue{color:#a12626;font-weight:700}
+.audit-changes{display:grid;grid-template-columns:minmax(110px,180px) 1fr;gap:.35rem .8rem}
+.audit-changes dt{font-weight:650}
+.audit-changes dd{margin:0 0 .35rem}
+.menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;background:transparent;color:inherit;border:1px solid currentColor;border-radius:8px;font-size:1.35rem}
+.menu-toggle:hover{filter:none;background:#ffffff18}
+.menu-backdrop{display:none}
+@media(max-width:760px){
+  .app-layout{display:block}
+  .mobile-header{height:64px;position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:.85rem;padding:0 1rem;background:var(--nav-bg);color:white;box-shadow:0 2px 8px #15223820}
+  .mobile-header .brand{margin:0;padding:0;font-size:1.05rem}
+  .sidebar{position:fixed;top:64px;bottom:0;left:0;width:min(300px,85vw);height:auto;overflow-y:auto;transform:translateX(-105%);transition:transform .22s ease;box-shadow:4px 0 18px #10182830}
+  body.menu-open .sidebar{transform:translateX(0)}
+  .menu-backdrop{position:fixed;inset:64px 0 0;background:#10182870;z-index:20}
+  body.menu-open .menu-backdrop{display:block}
+  main{margin:1rem auto;padding:0 1rem}
+  td,th{padding:.45rem;font-size:.92rem}
+  .card{padding:1rem}
+}
+@media(prefers-reduced-motion:reduce){.sidebar{transition:none}}
+@media print{.sidebar,.mobile-header,.menu-backdrop,.no-print{display:none!important}body{background:white}.app-layout{display:block}.main-column{width:100%}main{max-width:none;margin:0;padding:0}.card{border:0;box-shadow:none}}
 </style>
 </head>
 <body>
-<header>
-<a class="brand" href="/">Meeting Manager</a>
+<div class="app-layout">
 {% if user.is_authenticated %}
-<a href="/">Übersicht</a><a href="{% url 'my_tasks' %}">Meine Aufgaben</a><a href="/topics/new/">+ Thema</a><a href="/archive/">Archiv</a><a href="/history/">Änderungsverlauf</a>
+<div class="mobile-header">
+<button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
+<a class="brand" href="/">Meeting Manager</a>
+</div>
+<aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
+<a class="brand" href="/">Meeting Manager</a>
+<nav class="nav-links">
+<a href="/">Übersicht</a>
+<a href="{% url 'my_tasks' %}">Meine Aufgaben</a>
+<a href="/topics/new/">+ Thema</a>
+<a href="/archive/">Archiv</a>
+<a href="/history/">Änderungsverlauf</a>
 {% if user.is_staff %}<a href="/admin/series/">Besprechungsreihen</a><a href="/django-admin/">Verwaltung</a>{% endif %}
-<span style="margin-left:auto">{{ user.username }}</span>
-<form method="post" action="/logout/" style="margin:0">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
+</nav>
+<div class="sidebar-footer">
+<span class="username">{{ user.username }}</span>
+<form class="logout-form" method="post" action="/logout/">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
+</div>
+</aside>
+<div class="menu-backdrop" id="menu-backdrop" aria-hidden="true"></div>
 {% endif %}
-</header>
+<div class="main-column">
 <main>
 {% for message in messages %}<p class="messages">{{ message }}</p>{% endfor %}
 {% block content %}{% endblock %}
 </main>
+</div>
+</div>
+{% if user.is_authenticated %}
+<script>
+(() => {
+  const toggle = document.getElementById('menu-toggle');
+  const sidebar = document.getElementById('main-navigation');
+  const backdrop = document.getElementById('menu-backdrop');
+  if (!toggle || !sidebar || !backdrop) return;
+  const closeMenu = () => {
+    document.body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Menü öffnen');
+  };
+  const openMenu = () => {
+    document.body.classList.add('menu-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Menü schließen');
+  };
+  toggle.addEventListener('click', () => {
+    document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
+  });
+  backdrop.addEventListener('click', closeMenu);
+  sidebar.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760) closeMenu();
+  });
+})();
+</script>
+{% endif %}
 </body>
 </html>
