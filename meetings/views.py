@@ -554,7 +554,7 @@ def protocol_docx(request, pk):
     document.add_heading(_meeting_series_name(meeting), level=1)
     if organization_name:
         document.add_paragraph(organization_name)
-    document.add_paragraph(f"Datum: {meeting.date:%d.%m.%Y")
+    document.add_paragraph(f"Datum: {meeting.date:%d.%m.%Y}")
     document.add_paragraph(
         f"Gesicherter Stand: {meeting.finalized_at:%d.%m.%Y %H:%M}"
         if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
