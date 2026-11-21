@@ -1,7 +1,7 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
-<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</p><h1>{% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
+<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</p><h1>{% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
 <div class="card">{% if not is_reader %}<p class="muted">Lege hier fest, wer das Thema federführend bearbeitet. Die Zuständigkeit kann jederzeit geändert oder aufgehoben werden.</p>{% endif %}<form method="post">{% csrf_token %}{{ form.as_p }}{% if not is_reader %}<button type="submit">Änderungen speichern</button>{% endif %}</form></div>
 {% if topic %}
 {% if not is_reader %}<div class="card">
