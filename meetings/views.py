@@ -416,7 +416,7 @@ def meeting_detail(request, pk):
     participant_form = MeetingParticipantsForm(instance=meeting)
     return render(request, "meetings/meeting.html", {
         "meeting": meeting, "items": items, "participant_form": participant_form,
-        "participants": participants, "is_reader": is_reader(request.user, meeting.series),
+        "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series),
         "is_moderator": is_moderator(request.user, meeting.series),
         "writable_series": writable_series, "target_meetings": target_meetings,
     })
