@@ -108,6 +108,8 @@ class MeetingUserAdmin(DjangoUserAdmin):
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         user = form.instance
+        if not user.is_superuser and not user.groups.exists():
+            user.groups.add(Group.objects.get(name="Nutzer*in"))
         should_be_staff = user.is_superuser or user.groups.filter(name="Admin").exists()
         if user.is_staff != should_be_staff:
             user.is_staff = should_be_staff
