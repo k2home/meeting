@@ -268,6 +268,7 @@ def meeting_detail(request, pk):
             if schedule_form.is_valid():
                 topic = item.topic
                 old_series = topic.series
+                old_due_date = topic.due_date
                 target_series = schedule_form.cleaned_data["target_series"]
                 target_meeting = schedule_form.cleaned_data["target_meeting"]
                 topic.series = target_series
@@ -284,7 +285,10 @@ def meeting_detail(request, pk):
                     summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
                     topic=topic, meeting=meeting,
                     changes={
-                        "Fälligkeit": {"vorher": None, "nachher": target_meeting.date.isoformat()},
+                        "Fälligkeit": {
+                            "vorher": old_due_date.isoformat() if old_due_date else None,
+                            "nachher": target_meeting.date.isoformat(),
+                        },
                         "Besprechungsserie": {
                             "vorher": old_series.name if old_series else None,
                             "nachher": target_series.name,
