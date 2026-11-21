@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 
 from .models import (
     MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
-    TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess,
+    TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile,
 )
 
 admin.site.site_header = "Meeting Manager – Verwaltung"
@@ -21,6 +21,14 @@ class MeetingInline(admin.TabularInline):
 class SeriesAccessInline(admin.TabularInline):
     model = SeriesAccess
     extra = 1
+
+
+class UserProfileInline(admin.StackedInline):
+    model = UserProfile
+    extra = 0
+    max_num = 1
+    can_delete = False
+    fields = ("short_description",)
 
 
 @admin.register(MeetingSeries)
@@ -103,7 +111,7 @@ class SeriesAccessAdmin(admin.ModelAdmin):
 
 
 class MeetingUserAdmin(DjangoUserAdmin):
-    inlines = [SeriesAccessInline]
+    inlines = [UserProfileInline, SeriesAccessInline]
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
