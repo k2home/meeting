@@ -10,7 +10,7 @@
 {% if topic.status == "archived" %}
 <form method="post" action="{% url 'topic_reopen' topic.pk %}">{% csrf_token %}<button type="submit">Thema wieder öffnen</button></form>
 {% else %}
-<form method="post" action="{% url 'topic_archive' topic.pk %}">{% csrf_token %}<button class="secondary" type="submit">Thema archivieren</button></form>
+<form method="post" action="{% url 'topic_archive' topic.pk %}">{% csrf_token %}<button type="submit">Thema archivieren</button></form>
 {% endif %}
 </div>
 {% if transfer_series %}
