@@ -121,7 +121,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 <div class="app-layout">
 {% if user.is_authenticated %}
 <div class="mobile-header">
-<button class="menu-toggle secondary" type="button aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
+<button class="menu-toggle secondary" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
 <a class="brand" href="/">Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
@@ -135,7 +135,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if is_moderator %}<a href="/admin/series/">Besprechungsreihen</a>{% endif %}{% if is_admin %}<a href="/django-admin/">Verwaltung</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
-<button class="theme-toggle secondary" type="button id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
+<button class="theme-toggle secondary" type="button" id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
 <span class="username">{{ user.username }}</span>
 <form class="logout-form" method="post" action="/logout/">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
 </div>
