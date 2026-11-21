@@ -308,7 +308,7 @@ def meeting_detail(request, pk):
                     )
                     AgendaItem.objects.create(
                         meeting=meeting, topic=topic, working_text=working_text,
-                        position=(meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() or 0) + 1,
+                        position=(meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if meeting.agenda_items.exists() else -1) + 1,
                     )
                     record_event(
                         actor=request.user, action="created",
@@ -372,8 +372,6 @@ def agenda_topic_history(request, pk, topic_pk):
             "date": entry.meeting.date,
             "text": entry.working_text,
         }
-    for snapshot in item.topic.__class__.objects.none():
-        pass
     from .models import TopicSnapshot
     for snapshot in TopicSnapshot.objects.filter(
         topic_id=item.topic_id, meeting__in=visible_meetings
