@@ -1270,13 +1270,13 @@ def audit_history(request):
     if has_history_permission:
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
         if not admin_access:
-            # If an event references both a topic and a meeting, both associated
-            # series must be within the moderator's scope. This prevents a
-            # cross-series event from leaking participant-only series data.
+            # The topic is the primary context of a topic-related audit event.
+            # A linked meeting may belong to another series (for example after
+            # a topic was moved); that must not hide changes to a moderated topic.
+            # Use the meeting's series only for events without a series-bound topic.
             events = events.filter(
-                (Q(topic__series__isnull=True) | Q(topic__series__in=series))
-                & (Q(meeting__series__isnull=True) | Q(meeting__series__in=series))
-                & (Q(topic__series__in=series) | Q(meeting__series__in=series))
+                Q(topic__series__in=series)
+                | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
             )
         if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
             events = events.filter(

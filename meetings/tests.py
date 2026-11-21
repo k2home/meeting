@@ -141,6 +141,16 @@ class AuditHistoryTests(TestCase):
         self.assertContains(response, "JF VB 2")
         self.assertEqual(list(response.context["series"]), [moderator_series])
         self.assertEqual(list(response.context["topics"]), [moderator_topic])
+        # A moderator must still see changes to their topic even when the
+        # linked meeting belongs to a series where they are only a participant.
+        participant_meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
+        AuditEvent.objects.create(
+            topic=moderator_topic, meeting=participant_meeting, actor=self.user,
+            action="updated", summary="Änderung am moderierten Thema mit fremder Besprechung",
+        )
+        response = self.client.get(reverse("audit_history"))
+        self.assertContains(response, "Änderung am moderierten Thema mit fremder Besprechung")
+
 
     def test_history_renders_escaped_newlines_as_line_breaks(self):
         from .models import AuditEvent
