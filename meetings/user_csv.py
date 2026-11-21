@@ -23,6 +23,7 @@ IMPORT_FIELDS = (
     "username", "first_name", "last_name", "email", "short_description",
     "is_active", "series", "series_role",
 )
+ACCEPTED_FIELDS = IMPORT_FIELDS + ("is_administrator", "date_joined", "last_login")
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
 SESSION_IMPORT_KEY = "pending_user_csv_import"
 
@@ -111,7 +112,7 @@ def _parse_csv(text):
     headers = reader.fieldnames or []
     if not headers:
         return [], ["Die CSV-Datei enthält keine Kopfzeile."]
-    unknown = [name for name in headers if name not in IMPORT_FIELDS]
+    unknown = [name for name in headers if name not in ACCEPTED_FIELDS]
     if unknown:
         errors.append("Unbekannte CSV-Spalten: " + ", ".join(unknown))
     if "username" not in headers:
