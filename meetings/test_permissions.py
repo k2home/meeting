@@ -32,13 +32,15 @@ class SeriesRolePermissionTests(TestCase):
         from django.contrib.auth.models import Group
         reader_group, _ = Group.objects.get_or_create(name="Leser*in")
         reader = User.objects.create_user(username="series-reader", password="test-password")
-        reader.groups.add(reader_group)
         SeriesAccess.objects.create(user=reader, series=self.series_a)
+        self.meeting.participants.add(reader)
+        reader.groups.add(reader_group)
 
         self.client.force_login(reader)
         meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
         self.assertEqual(meeting_response.status_code, 200)
-        self.assertContains(meeting_response, self.topic.title)
+        dashboard_response = self.client.get(reverse("dashboard"))
+        self.assertContains(dashboard_response, self.topic.title)
         self.meeting.refresh_from_db()
         self.assertFalse(self.meeting.participants.filter(pk=reader.pk).exists())
 

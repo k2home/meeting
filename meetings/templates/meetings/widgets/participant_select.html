@@ -12,6 +12,14 @@
       {% endfor %}
     {% endfor %}
   </section>
+  <section class="participant-group participant-reader-group">
+    <h3>Leser*innen (nur Lesezugriff)</h3>
+    {% for reader in widget.reader_users %}
+      <span class="pill">{{ reader }}</span>
+    {% empty %}
+      <span class="muted">Keine Leser*innen dieser Besprechungsreihe zugeordnet.</span>
+    {% endfor %}
+  </section>
   <section class="participant-group">
     <h3>Weitere Nutzer</h3>
     {% for group, options, index in widget.optgroups %}

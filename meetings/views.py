@@ -82,7 +82,7 @@ def dashboard(request):
     )
     topics = accessible_topics(request.user).select_related("series", "assigned_to")
     query = request.GET.get("q", "").strip()
-    selected_status = request.GET.get("status", "open")
+    selected_status = request.GET.get("status", "all" if is_reader(request.user) else "open")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "")
     selected_due = request.GET.get("due", "")
