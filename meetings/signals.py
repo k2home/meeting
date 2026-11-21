@@ -11,3 +11,4 @@ def grant_admin_role_permissions(sender, **kwargs):
     admin_group.permissions.set(Permission.objects.all())
     Group.objects.get_or_create(name="Nutzer*in")
     Group.objects.get_or_create(name="Moderator*in")
+    Group.objects.get_or_create(name="Leser*in")
