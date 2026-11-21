@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | Meeting Manager{% endblock %}
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">Meeting Manager – Verwaltung</a></div>
+{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+<style>
+:root {
+  --hagen-blue: #00549f;
+  --hagen-blue-dark: #003d73;
+  --hagen-yellow: #ffcc00;
+  --hagen-surface: #f4f6f9;
+}
+body, #container { background: var(--hagen-surface); }
+#header { background: var(--hagen-blue-dark); color: #fff; border-bottom: 4px solid var(--hagen-yellow); }
+#branding h1, #branding h1 a:link, #branding h1 a:visited, #user-tools, #user-tools a { color: #fff; }
+a:link, a:visited { color: var(--hagen-blue); }
+a:hover { color: var(--hagen-blue-dark); }
+.module h2, .module caption, .inline-group h2 { background: var(--hagen-blue); color: #fff; }
+div.breadcrumbs { background: #e7eef6; color: #17436c; border-bottom: 1px solid #cfdae6; }
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+  background: var(--hagen-blue);
+  border: 1px solid var(--hagen-blue);
+  border-radius: 4px;
+}
+.button.default, input[type=submit].default, .submit-row input.default {
+  background: var(--hagen-blue-dark);
+  border-color: var(--hagen-yellow);
+  box-shadow: inset 0 -3px 0 var(--hagen-yellow);
+}
+.button:hover, input[type=submit]:hover, input[type=button]:hover { background: var(--hagen-blue-dark); }
+.button.default:hover, input[type=submit].default:hover { background: var(--hagen-blue); }
+.selector-chosen h2 { background: var(--hagen-blue-dark); }
+#changelist-filter h2 { background: var(--hagen-blue); }
+#changelist-filter li.selected a { color: var(--hagen-blue-dark); font-weight: 700; }
+.form-row, .module { border-radius: 4px; }
+input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); outline: 2px solid #c7def1; }
+.object-tools a:link, .object-tools a:visited { background: var(--hagen-blue); border-radius: 4px; }
+.object-tools a:hover { background: var(--hagen-blue-dark); }
+.messagelist li.success { border-left: 4px solid var(--hagen-yellow); }
+</style>
+{% endblock %}
