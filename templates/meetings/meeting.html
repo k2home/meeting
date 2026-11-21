@@ -25,6 +25,7 @@
 .topic-suggestions li{margin:.25rem 0}
 .topic-suggestion-link{border:0;background:none;color:var(--link);padding:0;text-decoration:underline;cursor:pointer;font:inherit;text-align:left}
 .agenda-item-tools{justify-content:flex-end}
+.agenda-item .topline{align-items:flex-start;gap:.75rem}
 .agenda-item-heading{display:flex;align-items:baseline;min-width:0;flex:1 1 auto}
 .agenda-item-heading h2{display:flex;align-items:baseline;flex-wrap:nowrap;gap:.5rem;min-width:0;width:100%;margin:0;font-size:1.25rem;line-height:1.35;white-space:nowrap}
 .agenda-item-number{flex:0 0 auto;color:var(--muted);font-weight:600}
@@ -35,7 +36,7 @@
 .agenda-title-status select{font:inherit;line-height:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0 .25rem;min-width:0;max-width:100%;vertical-align:baseline}
 .agenda-title-status .pill{font:inherit;line-height:inherit}
 .agenda-status-form{display:none}
-.agenda-schedule-row{display:flex;justify-content:flex-end;margin:.45rem 0 .65rem}
+.agenda-schedule-row{display:flex;justify-content:flex-end;align-self:flex-start;margin:0 0 0 auto;flex:0 0 auto}
 .agenda-schedule-form{margin:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:flex-end;gap:.4rem;flex-wrap:wrap}
 .agenda-schedule-form label{display:none}
 .agenda-schedule-form select{min-width:130px;width:auto;font:inherit;font-size:.9rem;padding:.3rem .4rem}
@@ -53,7 +54,7 @@
 #save-agenda-order.is-visible{display:inline-flex}
 .agenda-order-save-row{display:flex;justify-content:flex-end;margin:1rem 0 1.5rem}
 #open-new-agenda-topic{margin-left:auto}
-.agenda-title-assignee,.agenda-title-status{align-self:center;box-sizing:border-box;height:1.25em;line-height:1.25em;padding-left:.55rem;border-left:1px solid color-mix(in srgb,var(--muted) 30%,transparent)}
+.agenda-title-assignee,.agenda-title-status{display:inline-flex;align-self:center;align-items:center;box-sizing:border-box;height:1.1em;line-height:1.1em;padding-left:.55rem;border-left:1px solid color-mix(in srgb,var(--muted) 30%,transparent)}
 .agenda-history-footer{display:flex;justify-content:flex-end;margin-top:.85rem}
 .agenda-save-dialog{width:min(440px,calc(100% - 2rem));background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem;box-shadow:0 18px 55px #0004}
 .agenda-save-dialog::backdrop{background:#0008}
@@ -61,7 +62,7 @@
 .agenda-dialog-actions{display:flex;justify-content:flex-end;gap:.5rem;flex-wrap:wrap}
 .agenda-dialog-actions button{background:var(--soft-bg);color:var(--text);border:1px solid var(--border)}
 .agenda-dialog-actions button.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
-@media(max-width:760px){.agenda-schedule-row{justify-content:flex-start}.agenda-schedule-form{justify-content:flex-start}.agenda-item-heading h2{font-size:1.15rem}}
+@media(max-width:760px){.agenda-item .topline{flex-wrap:wrap}.agenda-schedule-row{justify-content:flex-start;margin:.35rem 0 0;width:100%}.agenda-schedule-form{justify-content:flex-start}.agenda-item-heading h2{font-size:1.15rem}}
 #new-agenda-topic-dialog form{margin-top:.75rem}
 #new-agenda-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 #new-agenda-topic-dialog input,#new-agenda-topic-dialog textarea{width:100%}
@@ -92,7 +93,7 @@
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
   {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button secondary" type="button" id="toggle-agenda-reorder" aria-pressed="false">Reihenfolge ändern</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
-    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button></form>
+    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button secondary finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
     <form method="post" action="{% url 'meeting_reopen' meeting.id %}">{% csrf_token %}<button class="meeting-menu-button secondary" type="submit">Besprechung wieder öffnen</button></form>
   {% endif %}
@@ -130,6 +131,21 @@
 <div id="agenda-list">
 {% for item in items %}
   <div class="card agenda-item" data-agenda-item="{{ item.id }}">
+    <div class="topline">
+      <div class="agenda-item-heading">
+        <h2><span class="agenda-item-number">{{ forloop.counter }}.</span><span class="agenda-item-title">{{ item.topic.title }}</span><span class="agenda-title-assignee">{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span>
+          <span class="agenda-title-status">
+            {% if not meeting.finalized_at and not is_reader %}
+            <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
+              {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
+            </form>
+            <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
+              {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+            </select>
+            {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
+          </span>
+        </h2>
+      </div>
     {% if not meeting.finalized_at and not is_reader %}
     <div class="agenda-schedule-row no-print">
       <form method="post" class="agenda-schedule-form">
@@ -146,21 +162,6 @@
       </form>
     </div>
     {% endif %}
-    <div class="topline">
-      <div class="agenda-item-heading">
-        <h2><span class="agenda-item-number">{{ forloop.counter }}.</span><span class="agenda-item-title">{{ item.topic.title }}</span><span class="agenda-title-assignee">{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span>
-          <span class="agenda-title-status">
-            {% if not meeting.finalized_at and not is_reader %}
-            <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
-              {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
-            </form>
-            <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
-              {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
-            </select>
-            {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
-          </span>
-        </h2>
-      </div>
       <div class="agenda-item-tools no-print">
         {% if not meeting.finalized_at and not is_reader %}
         <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
