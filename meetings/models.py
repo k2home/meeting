@@ -202,7 +202,7 @@ class OrganizationSettings(models.Model):
     """Globale Bezeichnung der Organisationseinheit für den Meeting Manager."""
 
     name = models.CharField(
-        "Organisationseinheit", max_length=160, blank=True,
+        "Organisationseinheit", max_length=160, blank=True, default="",
         help_text='Zum Beispiel „Fachbereich 20“. Die Angabe erscheint in der Anwendungs-Kopfzeile und in Protokollen.',
     )
 
