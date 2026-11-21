@@ -721,8 +721,9 @@ class MeetingParticipantDefaultsTests(TestCase):
         response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
 
         self.assertEqual(response.status_code, 200)
-        self.assertQuerySetEqual(
-            self.meeting.participants.all(), [self.assigned], ordered=False,
+        self.assertEqual(
+            list(self.meeting.participants.values_list("pk", flat=True)),
+            [self.assigned.pk],
         )
         self.meeting.refresh_from_db()
         self.assertTrue(self.meeting.participants_initialized)
@@ -748,6 +749,7 @@ class MeetingParticipantDefaultsTests(TestCase):
 
         self.client.get(reverse("meeting", args=[self.meeting.pk]))
 
-        self.assertQuerySetEqual(
-            self.meeting.participants.all(), [self.unassigned], ordered=False,
+        self.assertEqual(
+            list(self.meeting.participants.values_list("pk", flat=True)),
+            [self.unassigned.pk],
         )
