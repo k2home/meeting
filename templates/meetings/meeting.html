@@ -190,6 +190,8 @@
           <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
         </div>
       </form>
+      {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
+    </div>
       {% if not meeting.finalized_at and not is_reader %}
       <dialog id="agenda-move-dialog-{{ item.id }}" class="agenda-history-dialog agenda-move-dialog" aria-labelledby="agenda-move-title-{{ item.id }}">
         <div class="topline"><h2 id="agenda-move-title-{{ item.id }}">Thema auf Wiedervorlage setzen</h2><button type="button" class="secondary agenda-move-close">Schließen</button></div>
@@ -213,8 +215,6 @@
         </form>
       </dialog>
       {% endif %}
-      {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
-    </div>
   </div>
 {% empty %}
   <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
