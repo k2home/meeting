@@ -20,3 +20,11 @@ def user_display_context(user):
 def user_display_with_login(user):
     """Display a person's name and, for administration, their login identifier."""
     return user_display_name_with_login(user)
+
+
+@register.filter
+def audit_text(value):
+    """Render escaped newline sequences from legacy audit values as real line breaks."""
+    if not isinstance(value, str):
+        return value
+    return value.replace("\\r\\n", "\n").replace("\\n", "\n").replace("\\r", "\n")
