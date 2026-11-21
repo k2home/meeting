@@ -332,7 +332,8 @@
 
   document.querySelectorAll(".agenda-item").forEach((card) => {
     card.addEventListener("click", (event) => {
-      if (event.target.closest("button, a, input, select, textarea, label, form, dialog, [contenteditable='true'], .drag-handle")) return;
+      if (list && list.classList.contains("reorder-mode")) return;
+      if (event.target.closest("button, a, input, select, textarea, label, dialog, [contenteditable='true'], .drag-handle")) return;
       const toggle = card.querySelector(".agenda-item-toggle");
       if (!toggle) return;
       setAgendaItemExpanded(card, toggle.getAttribute("aria-expanded") !== "true");
