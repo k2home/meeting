@@ -73,6 +73,17 @@ class SeriesForm(forms.ModelForm):
 class CompactParticipantSelect(forms.CheckboxSelectMultiple):
     template_name = "meetings/widgets/participant_select.html"
 
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        User = get_user_model()
+        context["widget"]["reader_users"] = [
+            user_display_name(user)
+            for user in User.objects.filter(
+                is_active=True, groups__name="Leser*in"
+            ).distinct().order_by("last_name", "first_name", "username")
+        ]
+        return context
+
 
 class ParticipantMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
