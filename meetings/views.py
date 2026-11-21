@@ -162,6 +162,70 @@ def dashboard(request):
         "result_count": topics.count(),
     })
 
+
+@login_required
+def open_topics(request):
+    """List non-completed topics without a future agenda appointment."""
+    today = timezone.localdate()
+    if is_admin(request.user):
+        allowed_series = MeetingSeries.objects.all()
+    else:
+        allowed_series = MeetingSeries.objects.filter(
+            user_access__user=request.user,
+            user_access__role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR],
+        ).distinct()
+        if not allowed_series.exists():
+            return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
+
+    topics = (
+        Topic.objects.filter(series__in=allowed_series)
+        .exclude(status="done")
+        .exclude(agenda_items__meeting__date__gt=today)
+        .select_related("series", "assigned_to")
+        .distinct()
+        .order_by("series__name", "title")
+    )
+    if request.method == "POST":
+        topic = get_object_or_404(topics, pk=request.POST.get("schedule_topic"))
+        target_meeting = get_object_or_404(
+            Meeting.objects.filter(series=topic.series, date__gt=today, finalized_at__isnull=True),
+            pk=request.POST.get("target_meeting"),
+        )
+        with transaction.atomic():
+            next_position = (
+                target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first()
+                if target_meeting.agenda_items.exists() else -1
+            ) + 1
+            AgendaItem.objects.get_or_create(
+                meeting=target_meeting,
+                topic=topic,
+                defaults={"working_text": "", "position": next_position},
+            )
+            old_due_date = topic.due_date
+            topic.due_date = target_meeting.date
+            topic.save(update_fields=["due_date", "updated_at"])
+            record_event(
+                actor=request.user,
+                action="updated",
+                summary=f"„{topic.title}“ auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt",
+                topic=topic,
+                meeting=target_meeting,
+                changes={"Fälligkeit": {
+                    "vorher": old_due_date.isoformat() if old_due_date else None,
+                    "nachher": target_meeting.date.isoformat(),
+                }},
+            )
+        messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt.")
+        return redirect("open_topics")
+
+    rows = []
+    for topic in topics:
+        future_meetings = Meeting.objects.filter(
+            series=topic.series, date__gt=today, finalized_at__isnull=True
+        ).order_by("date")
+        rows.append({"topic": topic, "future_meetings": future_meetings})
+    return render(request, "meetings/open_topics.html", {"rows": rows, "today": today})
+
 @login_required
 def my_tasks(request):
     """Show the signed-in user's open topics, with overdue work first."""
@@ -566,6 +630,8 @@ def meeting_detail(request, pk):
                     messages.success(request, "Agendatext und Wiedervorlage gespeichert." if schedule_form is not None else "Agendatext gespeichert.")
                 else:
                     messages.error(request, "Bitte prüfe den Text und die ausgewählte Wiedervorlage.")
+        if request.POST.get("item_id") and not request.POST.get("save_all_working_texts"):
+            return redirect(reverse("meeting", args=[pk]) + f"#agenda-item-{request.POST.get('item_id')}")
         return redirect("meeting", pk=pk)
 
     participant_form = MeetingParticipantsForm(instance=meeting)
@@ -1180,6 +1246,7 @@ def meeting_reopen(request, pk):
 
 
 @login_required
+@moderator_required
 def audit_history(request):
     events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
     if not is_admin(request.user):

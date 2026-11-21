@@ -141,7 +141,7 @@
 
 <div id="agenda-list">
 {% for item in items %}
-  <div class="card agenda-item" data-agenda-item="{{ item.id }}">
+  <div class="card agenda-item" id="agenda-item-{{ item.id }}" data-agenda-item="{{ item.id }}">
     <div class="agenda-item-summary">
       <div class="agenda-item-heading">
         <button type="button" class="agenda-item-toggle secondary" aria-expanded="false" aria-controls="agenda-item-content-{{ item.id }}" aria-label="Thema aufklappen">▸</button>
@@ -342,6 +342,11 @@
     button.setAttribute("aria-label", expanded ? "Thema zuklappen" : "Thema aufklappen");
     button.textContent = expanded ? "▾" : "▸";
     content.hidden = !expanded;
+  }
+
+  if (window.location.hash.startsWith("#agenda-item-")) {
+    const card = document.getElementById(window.location.hash.slice(1));
+    if (card) setAgendaItemExpanded(card, true);
   }
 
   document.querySelectorAll(".agenda-item").forEach((card) => {

@@ -131,7 +131,8 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if not is_reader %}<a href="{% url 'my_tasks' %}">Meine Aufgaben</a>
 <a href="/topics/new/">+ Thema</a>{% endif %}
 <a href="/archive/">Archiv</a>
-<a href="/history/">Änderungsverlauf</a>
+{% if is_moderator or is_admin %}<a href="/history/">Änderungsverlauf</a>{% endif %}
+{% if can_view_open_topics %}<a href="{% url 'open_topics' %}">Offene Punkte</a>{% endif %}
 {% if is_moderator %}<a href="/admin/series/">Besprechungsreihen</a>{% endif %}{% if is_admin %}<a href="/django-admin/">Verwaltung</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
