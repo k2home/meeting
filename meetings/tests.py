@@ -727,7 +727,7 @@ class MeetingParticipantDefaultsTests(TestCase):
         )
         self.meeting.refresh_from_db()
         self.assertTrue(self.meeting.participants_initialized)
-        self.assertContains(response, "Teilnehmer anpassen")
+        self.assertContains(response, "participant-menu-panel")
         self.assertEqual(
             list(response.context["participant_form"]["participants"].value()),
             [self.assigned.pk],
@@ -801,7 +801,7 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertIn("meeting-menu-participants", content)
         self.assertIn("participant-menu-panel", content)
         self.assertNotIn('<section class="card participant-card"', content)
-        self.assertIn("Teilnehmer anpassen", content)
+        self.assertNotIn("Teilnehmer anpassen", content)
         self.assertIn('type="checkbox"', content)
 
     def test_finalized_meeting_hides_editing_and_completion_actions(self):
