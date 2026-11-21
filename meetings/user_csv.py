@@ -4,7 +4,7 @@ import secrets
 from collections import OrderedDict
 
 from django import forms
-from django.contrib import messages
+from django.contrib import admin, messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.db import transaction
@@ -87,6 +87,17 @@ def export_users_csv(request):
             }
             writer.writerow([_csv_value(values[field]) for field in headers])
     return response
+
+
+def _find_existing_user(username, values):
+    email = values.get("email", "")
+    if email:
+        matches = User.objects.filter(email__iexact=email)
+        if matches.count() == 1:
+            return matches.first()
+        if matches.count() > 1:
+            return None
+    return User.objects.filter(username=username).first()
 
 
 def _parse_bool(value, field, row_number, errors):
@@ -175,11 +186,10 @@ def import_users_csv(request):
         created = updated = 0
         with transaction.atomic():
             for username, record in grouped:
-                user, was_created = User.objects.get_or_create(
-                    username=username,
-                    defaults={"password": get_random_string(64)},
-                )
+                user = _find_existing_user(username, record["values"])
+                was_created = user is None
                 if was_created:
+                    user = User(username=username)
                     user.set_password(get_random_string(64))
                     created += 1
                 else:
@@ -221,11 +231,12 @@ def import_users_csv(request):
             preview = {
                 "token": token,
                 "users": len(grouped),
-                "new_users": sum(not User.objects.filter(username=username).exists() for username, _ in grouped),
-                "updated_users": sum(User.objects.filter(username=username).exists() for username, _ in grouped),
+                "new_users": sum(_find_existing_user(username, record["values"]) is None for username, record in grouped),
+                "updated_users": sum(_find_existing_user(username, record["values"]) is not None for username, record in grouped),
                 "assignments": sum(len(record["series"]) for _, record in grouped),
             }
     return render(request, "admin/auth/user/csv_import.html", {
+        **admin.site.each_context(request),
         "form": form, "preview": preview, "errors": errors,
         "title": "Benutzer per CSV importieren",
         "opts": User._meta,
