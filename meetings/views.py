@@ -262,7 +262,7 @@ def topic_new(request):
 def topic_archive(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
-    topic = get_object_or_404(Topic, pk=pk)
+    topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     if topic.status == "archived":
         messages.info(request, "Dieses Thema ist bereits archiviert.")
     else:
@@ -289,7 +289,7 @@ def topic_reopen(request, pk):
 def topic_transfer(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
-    topic = get_object_or_404(Topic, pk=pk)
+    topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     target = get_object_or_404(accessible_series(request.user), pk=request.POST.get("series"), active=True)
     if topic.series_id == target.pk:
         messages.info(request, "Das Thema ist bereits dieser Besprechungsreihe zugeordnet.")
@@ -317,7 +317,7 @@ def archive(request):
 
 @login_required
 def attachment_add(request, pk):
-    topic = get_object_or_404(Topic, pk=pk)
+    topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
         obj = form.save(commit=False)
@@ -370,7 +370,7 @@ def _protocol_filename(meeting, extension):
 
 @login_required
 def protocol_pdf(request, pk):
-    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     entries = _protocol_entries(meeting)
 
     from reportlab.lib import colors
@@ -454,7 +454,7 @@ def protocol_pdf(request, pk):
 
 @login_required
 def protocol_docx(request, pk):
-    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     entries = _protocol_entries(meeting)
 
     from docx import Document
@@ -500,7 +500,7 @@ def protocol_docx(request, pk):
 
 @login_required
 def protocol(request, pk):
-    meeting = get_object_or_404(Meeting, pk=pk)
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
     ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
@@ -584,7 +584,7 @@ def series_edit(request, pk):
 def series_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
-    series = get_object_or_404(MeetingSeries, pk=pk)
+    series = get_object_or_404(accessible_series(request.user), pk=pk)
     name = series.name
     today = timezone.localdate()
     delete_completed = request.POST.get("delete_completed") == "on"
@@ -611,7 +611,7 @@ def series_delete(request, pk):
 @login_required
 @user_passes_test(is_moderator)
 def meeting_edit(request, pk):
-    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if meeting.finalized_at:
         messages.error(request, "Abgeschlossene Besprechungen können nicht verschoben werden.")
         return redirect("meeting", pk=pk)
@@ -619,7 +619,7 @@ def meeting_edit(request, pk):
     if request.method == "POST" and form.is_valid():
         old_date = meeting.date
         updated = form.save(commit=False)
-        if Meeting.objects.filter(series=meeting.series, date=updated.date).exclude(pk=meeting.pk).exists():
+        if accessible_meetings(request.user).filter(series=meeting.series, date=updated.date).exclude(pk=meeting.pk).exists():
             form.add_error("date", "Für diese Besprechungsreihe gibt es an diesem Tag bereits einen Termin.")
         else:
             updated.save()
@@ -640,7 +640,7 @@ def meeting_edit(request, pk):
 def meeting_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
-    meeting = get_object_or_404(Meeting.objects.select_related("series"), pk=pk)
+    meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if meeting.finalized_at or meeting.snapshots.exists() or meeting.agenda_items.exists() or meeting.participants.exists():
         messages.error(request, "Dieser Termin kann nicht gelöscht werden, weil er abgeschlossen ist oder bereits Tagesordnungspunkte bzw. Teilnehmer enthält.")
         return redirect("meeting", pk=pk)
@@ -653,7 +653,7 @@ def meeting_delete(request, pk):
 def finalize(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
-    meeting = get_object_or_404(Meeting, pk=pk)
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
     if meeting.finalized_at:
         messages.info(request, "Diese Besprechung ist bereits abgeschlossen.")
         return redirect("protocol", pk=pk)
@@ -670,7 +670,7 @@ def finalize(request, pk):
 def meeting_reopen(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
-    meeting = get_object_or_404(Meeting, pk=pk)
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
     if not meeting.finalized_at:
         messages.info(request, "Diese Besprechung ist bereits geöffnet.")
         return redirect("meeting", pk=pk)
@@ -719,7 +719,7 @@ def audit_history(request):
 
 @login_required
 def topic_comment_add(request, pk):
-    topic = get_object_or_404(Topic, pk=pk)
+    topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     if request.method != "POST":
         return redirect("topic_edit", pk=pk)
     form = TopicCommentForm(request.POST)
