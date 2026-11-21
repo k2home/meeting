@@ -85,6 +85,7 @@ class AuditHistoryTests(TestCase):
         AuditEvent.objects.create(topic=self.topic, actor=self.user, action="created", summary="Testeintrag")
         response = self.client.get(reverse("audit_history"))
         self.assertEqual(response.status_code, 302)
+        SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_MODERATOR)
         self.client.force_login(self.user)
         response = self.client.get(reverse("audit_history"))
         self.assertEqual(response.status_code, 200)
@@ -1154,7 +1155,7 @@ class MeetingAgendaEnhancementTests(TestCase):
                 "target_meeting": str(self.target_meeting.pk),
             },
         )
-        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]) + f"#agenda-item-{item.pk}")
         topic.refresh_from_db()
         item.refresh_from_db()
         target_item = AgendaItem.objects.get(meeting=self.target_meeting, topic=topic)
@@ -1212,3 +1213,73 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertContains(response, "01.11.2026")
         self.assertContains(response, "Erster Beratungsstand")
         self.assertContains(response, "Vorheriger Beratungsstand")
+
+
+class OpenTopicsViewTests(TestCase):
+    def setUp(self):
+        from datetime import date
+        self.user = User.objects.create_user(username="open-topics-member", password="strong-test-password")
+        self.series = MeetingSeries.objects.create(name="Offene-Punkte-Reihe")
+        self.other_series = MeetingSeries.objects.create(name="Andere Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT)
+        self.future_meeting = Meeting.objects.create(series=self.series, date=date(2027, 1, 15))
+        self.client.force_login(self.user)
+
+    def test_lists_non_done_topics_but_excludes_topics_already_on_future_agenda(self):
+        Topic.objects.create(title="Noch offen", series=self.series, status="open")
+        Topic.objects.create(title="In Arbeit", series=self.series, status="in_progress")
+        Topic.objects.create(title="Erledigt", series=self.series, status="done")
+        already_scheduled = Topic.objects.create(title="Schon terminiert", series=self.series, status="open")
+        AgendaItem.objects.create(meeting=self.future_meeting, topic=already_scheduled)
+        Topic.objects.create(title="Fremde Reihe", series=self.other_series, status="open")
+
+        response = self.client.get(reverse("open_topics"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Noch offen")
+        self.assertContains(response, "In Arbeit")
+        self.assertNotContains(response, "Erledigt")
+        self.assertNotContains(response, "Schon terminiert")
+        self.assertNotContains(response, "Fremde Reihe")
+
+    def test_participant_can_schedule_open_topic_on_future_meeting_with_blank_text(self):
+        topic = Topic.objects.create(title="Auf Tagesordnung", series=self.series, status="open")
+        response = self.client.post(reverse("open_topics"), {
+            "schedule_topic": topic.pk,
+            "target_meeting": self.future_meeting.pk,
+        })
+        self.assertRedirects(response, reverse("open_topics"))
+        item = AgendaItem.objects.get(meeting=self.future_meeting, topic=topic)
+        self.assertEqual(item.working_text, "")
+        topic.refresh_from_db()
+        self.assertEqual(topic.due_date, self.future_meeting.date)
+
+    def test_reader_cannot_access_open_topics_and_does_not_see_menu_item(self):
+        reader = User.objects.create_user(username="open-topics-reader", password="strong-test-password")
+        SeriesAccess.objects.create(user=reader, series=self.series, role=SeriesAccess.ROLE_READER)
+        self.client.force_login(reader)
+        response = self.client.get(reverse("open_topics"))
+        self.assertEqual(response.status_code, 403)
+        dashboard = self.client.get(reverse("dashboard"))
+        self.assertNotContains(dashboard, "Offene Punkte")
+
+    def test_participant_sees_open_topics_but_not_global_change_history(self):
+        response = self.client.get(reverse("dashboard"))
+        self.assertContains(response, "Offene Punkte")
+        self.assertNotContains(response, "Änderungsverlauf")
+        self.assertEqual(self.client.get(reverse("audit_history")).status_code, 403)
+
+    def test_moderator_sees_both_menu_items_and_can_open_history(self):
+        SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_MODERATOR)
+        dashboard = self.client.get(reverse("dashboard"))
+        self.assertContains(dashboard, "Offene Punkte")
+        self.assertContains(dashboard, "Änderungsverlauf")
+        self.assertEqual(self.client.get(reverse("audit_history")).status_code, 200)
+
+    def test_no_future_meeting_shows_notice_without_creating_meeting(self):
+        self.future_meeting.delete()
+        Topic.objects.create(title="Ohne Termin", series=self.series, status="open")
+        response = self.client.get(reverse("open_topics"))
+        self.assertContains(response, "Kein zukünftiger Besprechungstermin")
+        self.assertEqual(Meeting.objects.filter(series=self.series).count(), 0)
+
