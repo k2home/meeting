@@ -1,10 +1,28 @@
 <div class="participant-options" role="group" aria-label="Teilnehmer auswählen">
+  <section class="participant-group">
+    <h3>Der Besprechungsserie zugeordnet</h3>
     {% for group, options, index in widget.optgroups %}
       {% for option in options %}
-        <label>
-          {% include "django/forms/widgets/input.html" with widget=option %}
-          <span>{{ option.label }}</span>
-        </label>
+        {% if " (Besprechungsserie)" in option.label %}
+          <label>
+            {% include "django/forms/widgets/input.html" with widget=option %}
+            <span>{{ option.label|cut:" (Besprechungsserie)" }}</span>
+          </label>
+        {% endif %}
       {% endfor %}
     {% endfor %}
-  </div>
+  </section>
+  <section class="participant-group">
+    <h3>Weitere Nutzer</h3>
+    {% for group, options, index in widget.optgroups %}
+      {% for option in options %}
+        {% if " (Besprechungsserie)" not in option.label %}
+          <label>
+            {% include "django/forms/widgets/input.html" with widget=option %}
+            <span>{{ option.label }}</span>
+          </label>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </section>
+</div>

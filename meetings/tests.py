@@ -778,11 +778,17 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         content = response.content.decode()
         self.assertLess(
-            content.index("Ada Lovelace (Besprechungsserie)"),
+            content.index("Der Besprechungsserie zugeordnet"),
+            content.index("Weitere Nutzer"),
+        )
+        self.assertLess(
+            content.index("Ada Lovelace</span>"),
             content.index("unassigned"),
         )
         self.assertContains(response, 'type="checkbox"')
         self.assertContains(response, "participant-menu-panel")
+        self.assertContains(response, "Der Besprechungsserie zugeordnet")
+        self.assertContains(response, "Weitere Nutzer")
 
 
     def test_meeting_actions_are_grouped_in_top_menu_and_participants_use_dropdown(self):
