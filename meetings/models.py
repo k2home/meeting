@@ -205,6 +205,10 @@ class OrganizationSettings(models.Model):
         "Organisationseinheit", max_length=160, blank=True, default="",
         help_text='Zum Beispiel „Fachbereich 20“. Die Angabe erscheint in der Anwendungs-Kopfzeile und in Protokollen.',
     )
+    short_name = models.CharField(
+        "Kurzbezeichnung", max_length=24, blank=True, default="MM",
+        help_text='Kompakte Anzeige im eingeklappten Seitenmenü, zum Beispiel „FB 20“ oder „FB20“.',
+    )
 
     class Meta:
         verbose_name = "Organisationseinstellung"
@@ -219,6 +223,11 @@ class OrganizationSettings(models.Model):
         # Den Datensatz nicht entfernen, sondern die Bezeichnung leeren.
         self.name = ""
         self.save(update_fields=["name"])
+
+    @classmethod
+    def current_short_name(cls):
+        settings = cls.objects.filter(pk=1).only("short_name").first()
+        return settings.short_name.strip() if settings and settings.short_name else "MM"
 
     @classmethod
     def current_name(cls):
