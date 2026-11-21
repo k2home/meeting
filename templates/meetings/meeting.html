@@ -24,9 +24,7 @@
 .topic-suggestions li{margin:.25rem 0}
 .topic-suggestion-link{border:0;background:none;color:var(--link);padding:0;text-decoration:underline;cursor:pointer;font:inherit;text-align:left}
 .agenda-item-tools{justify-content:flex-end}
-.agenda-item .topline{align-items:center;gap:.75rem}
-.agenda-item-heading{display:flex;align-items:center;min-width:0;flex:1 1 auto}
-.agenda-item-heading h2{display:flex;align-items:center;align-self:center;flex-wrap:nowrap;gap:.5rem;min-width:0;width:100%;margin:0;font-size:1.25rem;line-height:1.35;white-space:nowrap}
+.agenda-item-summary{display:flex;align-items:center;gap:.65rem;min-width:0}.agenda-item-heading{display:flex;align-items:center;min-width:0;flex:1 1 auto}.agenda-item-heading h2{display:flex;align-items:center;flex-wrap:nowrap;gap:.5rem;min-width:0;width:100%;margin:0;font-size:1.25rem;line-height:1.35;white-space:nowrap}.agenda-item-content{margin-top:.8rem}.agenda-item-expanded-row{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.65rem}.agenda-item-expanded-row .agenda-schedule-row{margin-left:auto}.agenda-item-toggle{flex:0 0 auto;padding:.25rem .5rem;min-width:2rem}.agenda-item .topline{align-items:center;gap:.75rem}
 .agenda-item-number{flex:0 0 auto;color:var(--muted);font-weight:600}
 .agenda-item-title{display:inline-block;flex:0 1 auto;min-width:2ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:inherit}
 .agenda-title-assignee,.agenda-title-status{display:inline-flex;align-items:center;align-self:center;flex:0 0 auto;color:var(--muted);font-size:.82em;font-weight:400;line-height:1.2;white-space:nowrap}
@@ -61,9 +59,8 @@
 .agenda-save-dialog::backdrop{background:#0008}
 .agenda-save-dialog p{margin:.35rem 0 1rem}
 .agenda-dialog-actions{display:flex;justify-content:flex-end;gap:.5rem;flex-wrap:wrap}
-.agenda-dialog-actions button{background:var(--soft-bg);color:var(--text);border:1px solid var(--border)}
-.agenda-dialog-actions button.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
-@media(max-width:760px){.agenda-item .topline{flex-wrap:wrap}.agenda-schedule-row{justify-content:flex-start;margin:.35rem 0 0;width:100%}.agenda-schedule-form{justify-content:flex-start}.agenda-item-heading h2{font-size:1.15rem}}
+.agenda-dialog-actions button{background:var(--surface);color:var(--text);border:1px solid var(--border)}.agenda-dialog-actions button.primary{background:#1d4ed8;color:#fff;border-color:#1d4ed8}.agenda-dialog-actions button:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+@media(max-width:760px){.agenda-item-expanded-row{align-items:flex-start;flex-direction:column}.agenda-item-expanded-row .agenda-schedule-row{justify-content:flex-start;margin:.35rem 0 0;width:100%}.agenda-schedule-form{justify-content:flex-start}.agenda-item-heading h2{font-size:1.15rem}}
 #new-agenda-topic-dialog form{margin-top:.75rem}
 #new-agenda-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 #new-agenda-topic-dialog input,#new-agenda-topic-dialog textarea{width:100%}
@@ -132,8 +129,9 @@
 <div id="agenda-list">
 {% for item in items %}
   <div class="card agenda-item" data-agenda-item="{{ item.id }}">
-    <div class="topline">
+    <div class="agenda-item-summary">
       <div class="agenda-item-heading">
+        <button type="button" class="agenda-item-toggle secondary" aria-expanded="false" aria-controls="agenda-item-content-{{ item.id }}" aria-label="Thema aufklappen">▸</button>
         <h2><span class="agenda-item-number">{{ forloop.counter }}.</span><span class="agenda-item-title">{{ item.topic.title }}</span>
           <span class="agenda-title-assignee">
             {% if not meeting.finalized_at and not is_reader %}
@@ -146,53 +144,57 @@
             </select>
             {% else %}{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
-          <span class="agenda-title-status">
-            {% if not meeting.finalized_at and not is_reader %}
-            <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
-              {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
-            </form>
-            <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
-              {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
-            </select>
-            {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
-          </span>
         </h2>
       </div>
-    {% if not meeting.finalized_at and not is_reader %}
-    <div class="agenda-schedule-row no-print">
-      <form method="post" class="agenda-schedule-form">
-        {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
-        <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
-        <select id="target-series-{{ item.id }}" name="target_series" required aria-label="Besprechungsserie für Wiedervorlage">
-          {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
-        </select>
-        <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage</label>
-        <select id="target-meeting-{{ item.id }}" name="target_meeting" required aria-label="Termin der Wiedervorlage">
-          {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
-        </select>
-        <button type="submit" aria-label="Wiedervorlage speichern">Speichern</button>
-      </form>
     </div>
-    {% endif %}
-      <div class="agenda-item-tools no-print">
+    <div id="agenda-item-content-{{ item.id }}" class="agenda-item-content" hidden>
+      <div class="agenda-item-expanded-row">
+        <span class="agenda-title-status">
+          {% if not meeting.finalized_at and not is_reader %}
+          <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
+            {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
+          </form>
+          <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
+            {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+          {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
+        </span>
         {% if not meeting.finalized_at and not is_reader %}
-        <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
-        <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
-        <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
+        <div class="agenda-schedule-row no-print">
+          <form method="post" class="agenda-schedule-form">
+            {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
+            <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
+            <select id="target-series-{{ item.id }}" name="target_series" required aria-label="Besprechungsserie für Wiedervorlage">
+              {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
+            </select>
+            <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage</label>
+            <select id="target-meeting-{{ item.id }}" name="target_meeting" required aria-label="Termin der Wiedervorlage">
+              {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+            </select>
+            <button type="submit" aria-label="Wiedervorlage speichern">Speichern</button>
+          </form>
+        </div>
         {% endif %}
+        <div class="agenda-item-tools no-print">
+          {% if not meeting.finalized_at and not is_reader %}
+          <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
+          <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
+          <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
+          {% endif %}
+        </div>
       </div>
+      {% if not meeting.finalized_at and not is_reader %}
+      <form method="post" class="agenda-text-form" data-item-id="{{ item.id }}">
+        {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
+        <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
+        <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
+        <div class="agenda-text-actions">
+          <button type="submit">Text speichern</button>
+          <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
+        </div>
+      </form>
+      {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
     </div>
-    {% if not meeting.finalized_at and not is_reader %}
-    <form method="post" class="agenda-text-form" data-item-id="{{ item.id }}">
-      {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
-      <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
-      <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
-      <div class="agenda-text-actions">
-        <button type="submit">Text speichern</button>
-        <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
-      </div>
-    </form>
-    {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
   </div>
 {% empty %}
   <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
@@ -300,14 +302,29 @@
     syncOrder();
   }
 
+  document.querySelectorAll(".agenda-item-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const content = document.getElementById(button.getAttribute("aria-controls"));
+      if (!content) return;
+      const expanded = button.getAttribute("aria-expanded") !== "true";
+      button.setAttribute("aria-expanded", String(expanded));
+      button.setAttribute("aria-label", expanded ? "Thema zuklappen" : "Thema aufklappen");
+      button.textContent = expanded ? "▾" : "▸";
+      content.hidden = !expanded;
+    });
+  });
+
   const saveChoiceDialog = document.getElementById("agenda-save-choice-dialog");
   let pendingTextForm = null;
   document.querySelectorAll(".agenda-text-form").forEach((form) => {
     form.addEventListener("submit", (event) => {
       if (form.dataset.confirmedSave === "true") return;
+      const hasOtherUnsavedChanges = Array.from(document.querySelectorAll(".agenda-text-form textarea[name='working_text']"))
+        .some((textarea) => textarea.form !== form && textarea.value !== textarea.defaultValue);
+      if (!hasOtherUnsavedChanges || !saveChoiceDialog) return;
       event.preventDefault();
       pendingTextForm = form;
-      if (saveChoiceDialog) saveChoiceDialog.showModal();
+      saveChoiceDialog.showModal();
     });
   });
   const cancelSaveButton = document.getElementById("cancel-agenda-save");
