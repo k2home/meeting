@@ -60,6 +60,13 @@
 .agenda-move-form label{display:flex;flex-direction:column;gap:.3rem;color:var(--text);font-size:.95rem}
 .agenda-move-form select{width:100%;min-width:0;padding:.55rem .65rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px}
 .agenda-move-form .agenda-dialog-actions{margin-top:.35rem}
+.agenda-followup-section{margin-top:1rem;padding:.85rem 1rem;background:var(--soft-bg);border:1px solid var(--border);border-radius:8px}
+.agenda-followup-section h3{margin:0 0 .35rem;font-size:1rem}
+.agenda-followup-section p{margin:.25rem 0 .7rem;color:var(--muted);font-size:.9rem}
+.agenda-followup-form{display:flex;align-items:end;justify-content:flex-start;gap:.65rem;flex-wrap:wrap;margin:0}
+.agenda-followup-form label{display:flex;flex-direction:column;gap:.25rem;color:var(--text);font-size:.9rem}
+.agenda-followup-form select{min-width:180px;width:auto;padding:.45rem .55rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px}
+.agenda-followup-form button{padding:.45rem .7rem}
 .agenda-item-summary{cursor:pointer}
 .agenda-item-summary :is(button,a){cursor:pointer}
 #agenda-list.reorder-mode .agenda-item{cursor:grab}
@@ -181,6 +188,24 @@
         {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
         <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
         <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
+        <section class="agenda-followup-section" aria-labelledby="agenda-followup-title-{{ item.id }}">
+          <h3 id="agenda-followup-title-{{ item.id }}">Wiedervorlage</h3>
+          <p>Wenn das Thema besprochen wurde, lege hier fest, wann es erneut auf die Tagesordnung kommen soll. Der Punkt bleibt in dieser Besprechung dokumentiert.</p>
+          <form method="post" class="agenda-schedule-form agenda-followup-form">
+            {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
+            <label for="followup-series-{{ item.id }}">Besprechungsserie / Gremium
+              <select id="followup-series-{{ item.id }}" name="target_series" required>
+                {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
+              </select>
+            </label>
+            <label for="followup-meeting-{{ item.id }}">Termin der Wiedervorlage
+              <select id="followup-meeting-{{ item.id }}" name="target_meeting" required>
+                {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+              </select>
+            </label>
+            <button type="submit">Wiedervorlage setzen</button>
+          </form>
+        </section>
         <div class="agenda-text-actions">
           <button type="submit">Text speichern</button>
           <button type="button" class="secondary agenda-move-button" data-move-dialog="agenda-move-dialog-{{ item.id }}">Schieben</button>
