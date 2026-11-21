@@ -9,13 +9,13 @@
 body{margin:0;min-height:100vh;background:var(--page-bg);color:var(--text)}
 a{color:var(--hagen-blue)}a:hover{color:var(--hagen-blue-dark)}
 .app-layout{min-height:100vh;display:flex}
-.sidebar{width:var(--nav-rail);flex:0 0 var(--nav-rail);height:100vh;position:sticky;top:0;background:var(--nav-bg);color:#fff;display:flex;flex-direction:column;padding:1.25rem .65rem;z-index:30;overflow-x:hidden;transition:width .22s ease,flex-basis .22s ease;white-space:nowrap}.sidebar:hover,.sidebar:focus-within{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}
-.brand{display:flex;align-items:center;min-height:48px;padding:.45rem .65rem;margin:0 0 1.5rem;color:#fff;text-decoration:none;font-size:1.12rem;font-weight:750;letter-spacing:.01em;overflow:hidden}.sidebar:not(:hover):not(:focus-within) .brand{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(:hover):not(:focus-within) .brand::before{content:'M';font-size:1.25rem;font-weight:800}
+.sidebar{width:var(--nav-rail);flex:0 0 var(--nav-rail);height:100vh;position:sticky;top:0;background:var(--nav-bg);color:#fff;display:flex;flex-direction:column;padding:1.25rem .65rem;z-index:30;overflow-x:hidden;transition:width .22s ease,flex-basis .22s ease;white-space:nowrap}.sidebar:hover,.sidebar:focus-within,.sidebar.is-expanded{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}
+.brand{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:.16rem;min-height:58px;padding:.45rem .65rem;margin:0 0 1.5rem;color:#fff;text-decoration:none;font-size:1.12rem;font-weight:750;letter-spacing:.01em;line-height:1.2;overflow:hidden;white-space:normal}.brand-organization{font-size:.82rem;font-weight:500;letter-spacing:0;color:#d6e2ee;max-width:100%;overflow-wrap:anywhere}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .brand{font-size:0;align-items:center;padding-left:0;padding-right:0}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .brand-organization{display:none}.sidebar:not(:hover):not(:focus-within) .brand::before{content:'M';font-size:1.25rem;font-weight:800}
 .nav-links{display:flex;flex-direction:column;gap:.3rem}
-.nav-links a{display:flex;align-items:center;min-height:43px;padding:.65rem .75rem;border-radius:5px;color:#e5ebf2;text-decoration:none;font-weight:550;overflow:hidden}.nav-links a::before{display:none;flex:0 0 30px;text-align:center;font-size:1.05rem}.nav-links a:nth-child(1)::before{content:'⌂'}.nav-links a:nth-child(2)::before{content:'✓'}.nav-links a:nth-child(3)::before{content:'+'}.nav-links a:nth-child(4)::before{content:'▤'}.nav-links a:nth-child(5)::before{content:'↶'}.nav-links a:nth-child(6)::before{content:'▦'}.nav-links a:nth-child(7)::before{content:'⚙'}.sidebar:not(:hover):not(:focus-within) .nav-links a{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(:hover):not(:focus-within) .nav-links a::before{display:block}
+.nav-links a{display:flex;align-items:center;min-height:43px;padding:.65rem .75rem;border-radius:5px;color:#e5ebf2;text-decoration:none;font-weight:550;overflow:hidden}.nav-links a::before{display:none;flex:0 0 30px;text-align:center;font-size:1.05rem}.nav-links a:nth-child(1)::before{content:'⌂'}.nav-links a:nth-child(2)::before{content:'✓'}.nav-links a:nth-child(3)::before{content:'+'}.nav-links a:nth-child(4)::before{content:'▤'}.nav-links a:nth-child(5)::before{content:'↶'}.nav-links a:nth-child(6)::before{content:'▦'}.nav-links a:nth-child(7)::before{content:'⚙'}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .nav-links a{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .nav-links a::before{display:block}
 .nav-links a:hover,.nav-links a:focus-visible{background:var(--nav-hover);color:#fff;outline:none}
- .theme-toggle{width:100%;text-align:left;background:transparent;border:1px solid #ffffff55;color:#fff;padding:.6rem .7rem}.theme-toggle:hover{background:#ffffff18;filter:none}.sidebar:not(:hover):not(:focus-within) .theme-toggle{font-size:0;text-align:center;padding:.6rem 0}.sidebar:not(:hover):not(:focus-within) .theme-toggle::before{content:'◐';font-size:1.1rem}.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid #ffffff20;display:grid;gap:.7rem}
-.username{padding:0 .65rem;color:var(--nav-muted);font-size:.9rem;overflow-wrap:anywhere}.sidebar:not(:hover):not(:focus-within) .username{font-size:0;padding:0}.sidebar:not(:hover):not(:focus-within) .logout-form button{font-size:0;text-align:center;padding:.72rem 0}.sidebar:not(:hover):not(:focus-within) .logout-form button::before{content:'↪';font-size:1.1rem}
+ .theme-toggle{width:100%;text-align:left;background:transparent;border:1px solid #ffffff55;color:#fff;padding:.6rem .7rem}.theme-toggle:hover{background:#ffffff18;filter:none}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .theme-toggle{font-size:0;text-align:center;padding:.6rem 0}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .theme-toggle::before{content:'◐';font-size:1.1rem}.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid #ffffff20;display:grid;gap:.7rem}
+.username{padding:0 .65rem;color:var(--nav-muted);font-size:.9rem;overflow-wrap:anywhere}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .username{font-size:0;padding:0}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .logout-form button{font-size:0;text-align:center;padding:.72rem 0}.sidebar:not(:hover):not(:focus-within):not(.is-expanded) .logout-form button::before{content:'↪';font-size:1.1rem}
 .logout-form{margin:0}
 .logout-form button{width:100%;text-align:left}
 .main-column{min-width:0;flex:1}
@@ -113,7 +113,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 <a class="brand" href="/">Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
-<a class="brand" href="/">Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a>
+<a class="brand" href="/"><span>Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span>{% endif %}</a>
 <nav class="nav-links">
 <a href="/">Übersicht</a>
 {% if not is_reader %}<a href="{% url 'my_tasks' %}">Meine Aufgaben</a>
@@ -147,6 +147,22 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   const syncThemeButton = () => { if (!themeButton) return; const dark = root.dataset.theme === 'dark'; themeButton.textContent = dark ? '☀ Hellmodus' : '☾ Dunkelmodus'; themeButton.setAttribute('aria-pressed', String(dark)); };
   syncThemeButton();
   themeButton?.addEventListener('click', () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('meeting-theme', root.dataset.theme); syncThemeButton(); });
+  const hoverSidebar = document.getElementById('main-navigation');
+  let collapseTimer = null;
+  if (hoverSidebar && window.matchMedia('(hover: hover) and (min-width: 761px)').matches) {
+    hoverSidebar.addEventListener('mouseenter', () => {
+      if (collapseTimer) window.clearTimeout(collapseTimer);
+      collapseTimer = null;
+      hoverSidebar.classList.add('is-expanded');
+    });
+    hoverSidebar.addEventListener('mouseleave', () => {
+      if (collapseTimer) window.clearTimeout(collapseTimer);
+      collapseTimer = window.setTimeout(() => {
+        hoverSidebar.classList.remove('is-expanded');
+        collapseTimer = null;
+      }, 400);
+    });
+  }
   const toggle = document.getElementById('menu-toggle');
   const sidebar = document.getElementById('main-navigation');
   const backdrop = document.getElementById('menu-backdrop');
