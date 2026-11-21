@@ -195,6 +195,9 @@ def import_users_csv(request):
                     created += 1
                 else:
                     updated += 1
+                # The email may identify an existing account whose username changed.
+                # Apply the CSV username after resolving the existing user.
+                user.username = username
                 for field, value in record["values"].items():
                     setattr(user, field, value)
                 user.save()
