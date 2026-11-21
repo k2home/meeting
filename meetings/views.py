@@ -230,7 +230,7 @@ def meeting_detail(request, pk):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
     writable_series = writable_series.filter(active=True).order_by("name")
     target_meetings = accessible_meetings(request.user).filter(
-        series__in=writable_series, date__gte=meeting.date, finalized_at__isnull=True
+        series__in=writable_series, date__gt=meeting.date, finalized_at__isnull=True
     ).select_related("series").order_by("series__name", "date")
 
     if request.method == "POST":
