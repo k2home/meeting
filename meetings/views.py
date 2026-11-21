@@ -1070,6 +1070,8 @@ def series_admin(request):
             if upcoming is None or meeting.pk != upcoming.pk
         ]
         item.meeting_count = len(item.ordered_meetings)
+        item.completed_count = sum(1 for meeting in item.ordered_meetings if meeting.finalized_at)
+        item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
     form = SeriesForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         item = form.save()
