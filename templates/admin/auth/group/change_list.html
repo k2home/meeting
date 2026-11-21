@@ -1,0 +1,90 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Startseite</a>
+  › Gruppen
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <p>Jede Besprechungsreihe ist eine Gruppe. Hier sehen Sie alle zugeordneten Personen und können ihre Serienberechtigung ändern oder weitere Personen hinzufügen.</p>
+
+  {% for row in series_rows %}
+    <div class="module" style="margin-bottom: 1.5em;">
+      <h2>{{ row.series.name }}</h2>
+      {% if row.members %}
+        <table>
+          <thead>
+            <tr><th>Benutzer</th><th>Berechtigung</th><th>Aktionen</th></tr>
+          </thead>
+          <tbody>
+            {% for access in row.members %}
+              <tr>
+                <td>{{ access.user.get_full_name|default:access.user.username }}</td>
+                <td>
+                  {% if has_change_permission %}
+                    <form method="post" style="display:flex; gap:.5em; align-items:center;">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="update">
+                      <input type="hidden" name="access_id" value="{{ access.pk }}">
+                      <select name="role">
+                        {% for value, label in role_choices %}
+                          <option value="{{ value }}" {% if access.role == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                      </select>
+                      <button type="submit" class="button">Speichern</button>
+                    </form>
+                  {% else %}
+                    {{ access.get_role_display }}
+                  {% endif %}
+                </td>
+                <td>
+                  {% if has_change_permission %}
+                    <form method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="remove">
+                      <input type="hidden" name="access_id" value="{{ access.pk }}">
+                      <button type="submit" class="button" onclick="return confirm('Diese Serienzuordnung wirklich entfernen?');">Entfernen</button>
+                    </form>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>Noch keine Personen zugeordnet.</p>
+      {% endif %}
+
+      {% if has_add_permission %}
+        <form method="post" style="display:flex; gap:.5em; align-items:center; flex-wrap:wrap; padding:1em;">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="add">
+          <input type="hidden" name="series_id" value="{{ row.series.pk }}">
+          <label>Person
+            <select name="user_id" required>
+              <option value="">Person auswählen …</option>
+              {% for user in available_users %}
+                <option value="{{ user.pk }}">{{ user.get_full_name|default:user.username }} ({{ user.username }})</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>Berechtigung
+            <select name="role">
+              {% for value, label in role_choices %}
+                <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <button type="submit" class="default">Person hinzufügen</button>
+        </form>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p>Es sind noch keine Besprechungsreihen angelegt.</p>
+  {% endfor %}
+</div>
+{% endblock %}
