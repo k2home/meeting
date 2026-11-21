@@ -13,7 +13,7 @@
       <option value="">Alle Änderungen</option>
       {% for topic in topics %}<option value="{{ topic.pk }}" {% if selected_topic == topic.pk|stringformat:"s" %}selected{% endif %}>{{ topic.title }}</option>{% endfor %}
     </select>
-    <button type="submit">Filtern</button>
+    <button type="submit" class="secondary">Filtern</button>
     {% if selected_topic %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
   </form>
 </div>

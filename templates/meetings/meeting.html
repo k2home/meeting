@@ -96,7 +96,7 @@
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button secondary finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
-    <form method="post" action="{% url 'meeting_reopen' meeting.id %}">{% csrf_token %}<button class="meeting-menu-button secondary" type="submit">Besprechung wieder öffnen</button></form>
+    <form method="post" action="{% url 'meeting_reopen' meeting.id %}">{% csrf_token %}<button class="meeting-menu-button" type="submit">Besprechung wieder öffnen</button></form>
   {% endif %}
   {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button" type="button" id="open-new-agenda-topic">+ Neu</button>{% endif %}
 </nav>
@@ -120,7 +120,7 @@
   <div class="agenda-dialog-actions">
     <button type="button" id="cancel-agenda-save">Abbrechen</button>
     <button type="button" id="save-all-agenda-texts" class="primary">Alle Änderungen speichern</button>
-    <button type="button" id="save-one-agenda-text">Nur diesen Punkt speichern</button>
+    <button type="button" class="secondary" id="save-one-agenda-text">Nur diesen Punkt speichern</button>
   </div>
 </dialog>
 {% endif %}
