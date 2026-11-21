@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{{ title }} | Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}{% endblock %}
-{% block usertools %}{{ block.super }}<button type="button" id="admin-theme-toggle" style="margin-left:1rem;padding:.4rem .7rem;border:1px solid #ffcc00;border-radius:4px;background:transparent;color:#fff;cursor:pointer">☾ Dunkelmodus</button>{% endblock %}
+{% block usertools %}{{ block.super }}<button type="button" id="admin-theme-toggle" class="button secondary" style="margin-left:1rem">☾ Dunkelmodus</button>{% endblock %}
 {% block branding %}
 <div id="site-name"><a href="{% url 'admin:index' %}">Meeting Manager – Verwaltung{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a></div>
 {% endblock %}
@@ -28,6 +28,8 @@ div.breadcrumbs { background: #e7eef6; color: #17436c; border-bottom: 1px solid 
   border: 1px solid var(--hagen-blue);
   border-radius: 4px;
 }
+.button.secondary, input[type=submit].secondary, .submit-row input.secondary, a.button.secondary { background:#e9edf2; border-color:#d0d5dd; color:#344054; box-shadow:none; }
+.button.secondary:hover, input[type=submit].secondary:hover, a.button.secondary:hover { background:#dfe4ea; }
 .button.default, input[type=submit].default, .submit-row input.default {
   background: var(--hagen-blue-dark);
   border-color: var(--hagen-yellow);
@@ -87,6 +89,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 :root[data-theme="dark"] .help,
 :root[data-theme="dark"] .deletelink-box,
 :root[data-theme="dark"] .quiet{color:var(--admin-muted)}
+:root[data-theme="dark"] .button.secondary,:root[data-theme="dark"] input[type=submit].secondary,:root[data-theme="dark"] a.button.secondary{background:#343d49;border-color:#475467;color:#e8edf3}
 :root[data-theme="dark"] .object-tools a:link,
 :root[data-theme="dark"] .object-tools a:visited{background:#174f7e;color:#fff}
 :root[data-theme="dark"] .object-tools a:hover{background:#23689f;color:#fff}
