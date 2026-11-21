@@ -1,0 +1,10 @@
+<details class="participant-picker">
+  <summary>Teilnehmer auswählen oder ändern</summary>
+  <div class="participant-options">
+    {% for group, options, index in widget.optgroups %}
+      {% for option in options %}
+        <label>{{ option.tag }} <span>{{ option.label }}</span></label>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</details>
