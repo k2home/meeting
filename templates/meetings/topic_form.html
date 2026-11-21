@@ -40,7 +40,7 @@
   </form>{% endif %}
   <hr>
   {% for comment in topic.comments.all %}
-    <article style="padding:.7rem 0;border-bottom:1px solid #e5e7eb">
+    <article class="content-divider">
       <div class="topline"><strong>{{ comment.author|user_display|default:"Gelöschter Benutzer" }}</strong><small>{{ comment.created_at|date:"d.m.Y H:i" }}</small></div>
       <p>{{ comment.body|linebreaksbr }}</p>
     </article>
@@ -49,7 +49,7 @@
 <div class="card">
   <div class="topline"><h2>Änderungsverlauf dieses Themas</h2><a href="{% url 'audit_history' %}?topic={{ topic.pk }}">Alle Einträge anzeigen</a></div>
   {% for event in topic.audit_events.all|slice:":8" %}
-    <div style="padding:.65rem 0;border-bottom:1px solid #e5e7eb">
+    <div class="content-divider">
       <strong>{{ event.get_action_display }}</strong> · {{ event.created_at|date:"d.m.Y H:i" }}
       <p>{{ event.summary }}</p>
       <small>Von {% if event.actor %}{{ event.actor|user_display }}{% else %}System / gelöschtem Benutzer{% endif %}</small>

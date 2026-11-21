@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{const savedTheme=localStorage.getItem("meeting-theme");if(savedTheme==="dark"||savedTheme==="light")document.documentElement.dataset.theme=savedTheme;}catch(e){}</script>
 <title>{% block title %}Meeting Manager{% endblock %}{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</title>
 <style>
 :root{font-family:system-ui,-apple-system,sans-serif;color:var(--text);background:var(--page-bg);color-scheme:light;--hagen-blue:#00549f;--hagen-blue-dark:#003d73;--hagen-yellow:#ffcc00;--nav-bg:#003d73;--nav-hover:#00549f;--nav-muted:#d6e2ee;--nav-width:258px;--nav-rail:68px;--page-bg:#f4f6f9;--surface:#fff;--text:#202735;--muted:#667085;--border:#cfd9e4;--table-head:#e7eef6;--hover-bg:#f7f9fc;--input-bg:#fff;--soft-bg:#e7eef6}
@@ -104,6 +105,16 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 :root[data-theme="dark"] .participant-picker summary:after{color:var(--muted)}
 :root[data-theme="dark"] a{color:#8fc5ff}:root[data-theme="dark"] a:hover{color:#c3e0ff}
 :root[data-theme="dark"] .overdue{color:#ff9999}
+
+/* Gemeinsame Flächen und Trennlinien für alle Anwendungsseiten. */
+.filter-panel,.series-next-meeting{background:var(--soft-bg);border:1px solid var(--border);border-radius:8px}
+.series-entry{border-bottom:1px solid var(--border);padding:1rem 0}
+.series-next-meeting{margin-top:.75rem;padding:.75rem}
+.content-divider{padding:.7rem 0;border-bottom:1px solid var(--border)}
+:root[data-theme="dark"] .filter-panel,:root[data-theme="dark"] .series-next-meeting{background:var(--soft-bg);border-color:var(--border)}
+:root[data-theme="dark"] .series-entry,:root[data-theme="dark"] .content-divider{border-color:var(--border)}
+:root[data-theme="dark"] details>summary{color:var(--text)}
+:root[data-theme="dark"] pre{color:var(--text)}
 </style>
 </head>
 <body>

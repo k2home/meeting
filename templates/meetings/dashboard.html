@@ -8,7 +8,7 @@
 {% empty %}<p class="muted">Keine zukünftigen Termine vorhanden. {% if is_moderator %}<a href="{% url 'series_admin' %}">Besprechungsreihe einrichten</a>{% endif %}</p>{% endfor %}
 </section>
 <section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><a href="{% url 'archive' %}">Zum Archiv</a></div>
-<form method="get" class="card" style="background:#f8fafc;margin:.8rem 0">
+<form method="get" class="card filter-panel" style="margin:.8rem 0">
 <label for="topic-search">Thema suchen</label>
 <input id="topic-search" type="search" name="q" value="{{ query }}" placeholder="Titel, Beschreibung, Reihe oder Verantwortliche …">
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem">

@@ -8,7 +8,7 @@
 <div class="card">
   <h2>Vorhandene Reihen</h2>
   {% for s in series %}
-    <section style="border-bottom:1px solid #e2e8f0;padding:1rem 0">
+    <section class="series-entry">
       <div class="topline">
         <div>
           <h3>{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% endif %}</h3>
@@ -25,7 +25,7 @@
       </div>
 
       {% if s.next_meeting %}
-        <div style="margin-top:.75rem;padding:.75rem;background:#f8fafc;border-radius:.5rem">
+        <div class="series-next-meeting">
           <strong>Nächster Termin:</strong> {{ s.next_meeting.date|date:"D, d.m.Y" }}
           {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
           <div class="actions" style="margin-top:.5rem">
