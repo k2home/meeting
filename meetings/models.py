@@ -28,6 +28,7 @@ class Meeting(models.Model):
     date = models.DateField("Termin")
     title = models.CharField("Titel", max_length=180, blank=True)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="meeting_participations", verbose_name="Teilnehmer")
+    participants_initialized = models.BooleanField("Teilnehmer-Voreinstellung angewendet", default=False)
     finalized_at = models.DateTimeField("Abgeschlossen am", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

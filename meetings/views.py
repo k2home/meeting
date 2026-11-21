@@ -160,6 +160,14 @@ def agenda_reorder(request, pk):
 @login_required
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
+    if not meeting.participants_initialized:
+        if not meeting.participants.exists() and meeting.series_id:
+            default_participants = SeriesAccess.objects.filter(
+                series=meeting.series, user__is_active=True
+            ).values_list("user_id", flat=True)
+            meeting.participants.set(default_participants)
+        meeting.participants_initialized = True
+        meeting.save(update_fields=["participants_initialized"])
     items = ensure_agenda(meeting)
     if request.method == "POST":
         if meeting.finalized_at:
@@ -170,6 +178,8 @@ def meeting_detail(request, pk):
             participant_form = MeetingParticipantsForm(request.POST, instance=meeting)
             if participant_form.is_valid():
                 participant_form.save()
+                meeting.participants_initialized = True
+                meeting.save(update_fields=["participants_initialized"])
                 after = [u.get_full_name().strip() or u.username for u in meeting.participants.all()]
                 if before != after:
                     record_event(

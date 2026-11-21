@@ -61,11 +61,15 @@ class SeriesForm(forms.ModelForm):
         }
 
 
+class CompactParticipantSelect(forms.CheckboxSelectMultiple):
+    template_name = "meetings/widgets/participant_select.html"
+
+
 class MeetingParticipantsForm(forms.ModelForm):
     class Meta:
         model = Meeting
         fields = ["participants"]
-        widgets = {"participants": forms.CheckboxSelectMultiple}
+        widgets = {"participants": CompactParticipantSelect}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
