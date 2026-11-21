@@ -123,3 +123,18 @@ class SeriesRolePermissionTests(TestCase):
         self.other_topic.refresh_from_db()
         self.assertEqual(self.topic.title, "Zugewiesenes Thema")
         self.assertEqual(self.other_topic.title, "Fremdes Thema")
+
+    def test_moderator_rights_do_not_apply_to_other_assigned_series(self):
+        SeriesAccess.objects.create(
+            user=self.moderator, series=self.series_b, role=SeriesAccess.ROLE_PARTICIPANT
+        )
+        self.client.force_login(self.moderator)
+
+        self.assertEqual(
+            self.client.get(reverse("meeting_edit", args=[self.other_meeting.pk])).status_code,
+            403,
+        )
+        self.assertEqual(
+            self.client.post(reverse("meeting_reopen", args=[self.other_meeting.pk])).status_code,
+            403,
+        )
