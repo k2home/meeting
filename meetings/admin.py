@@ -1,18 +1,33 @@
 from django.contrib import admin
-from .models import MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment, TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import GroupAdmin as DjangoGroupAdmin, UserAdmin as DjangoUserAdmin
+from django.contrib.auth.models import Group
+
+from .models import (
+    MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
+    TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess,
+)
 
 admin.site.site_header = "Meeting Manager – Verwaltung"
 admin.site.site_title = "Meeting Manager"
 admin.site.index_title = "Daten und Benutzer verwalten"
 
+
 class MeetingInline(admin.TabularInline):
     model = Meeting
     extra = 0
 
+
+class SeriesAccessInline(admin.TabularInline):
+    model = SeriesAccess
+    extra = 1
+
+
 @admin.register(MeetingSeries)
 class SeriesAdmin(admin.ModelAdmin):
     list_display = ("name", "recurrence", "active", "start_date", "end_date")
-    inlines = [MeetingInline]
+    inlines = [MeetingInline, SeriesAccessInline]
+
 
 @admin.register(Meeting)
 class MeetingAdmin(admin.ModelAdmin):
@@ -23,11 +38,13 @@ class MeetingAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         return ("participants",) if obj and obj.finalized_at else ()
 
+
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
     list_display = ("title", "series", "due_date", "assigned_to", "status")
     list_filter = ("series", "status")
     search_fields = ("title", "description")
+
 
 @admin.register(TopicTransferHistory)
 class TopicTransferHistoryAdmin(admin.ModelAdmin):
@@ -35,6 +52,7 @@ class TopicTransferHistoryAdmin(admin.ModelAdmin):
     list_filter = ("from_series", "to_series", "transferred_at")
     search_fields = ("topic__title", "note")
     readonly_fields = ("topic", "from_series", "to_series", "transferred_at", "transferred_by", "note")
+
 
 admin.site.register(AgendaItem)
 admin.site.register(TopicSnapshot)
@@ -82,4 +100,18 @@ class SeriesAccessAdmin(admin.ModelAdmin):
     list_display = ("user", "series")
     list_filter = ("series",)
     search_fields = ("user__username", "user__first_name", "user__last_name", "series__name")
-    autocomplete_fields = ("user", "series")
+
+
+class MeetingUserAdmin(DjangoUserAdmin):
+    inlines = [SeriesAccessInline]
+
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        user = form.instance
+        if user.groups.filter(name="Admin").exists() and not user.is_staff:
+            user.is_staff = True
+            user.save(update_fields=["is_staff"])
+
+
+admin.site.register(get_user_model(), MeetingUserAdmin)
+admin.site.register(Group, DjangoGroupAdmin)
