@@ -1250,20 +1250,35 @@ def audit_history(request):
     has_history_permission = is_admin(request.user) or is_moderator(request.user)
     events = AuditEvent.objects.none()
     topics = Topic.objects.none()
+    series = MeetingSeries.objects.none()
     topic_id = request.GET.get("topic")
+    selected_series = request.GET.get("series", "")
     if has_history_permission:
+        series = accessible_series(request.user).order_by("name")
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
         if not is_admin(request.user):
             allowed_series = accessible_series(request.user)
             events = events.filter(Q(topic__series__in=allowed_series) | Q(meeting__series__in=allowed_series))
-        if topic_id:
+        if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
+            events = events.filter(
+                Q(topic__series_id=int(selected_series))
+                | Q(meeting__series_id=int(selected_series))
+            )
+            topics = accessible_topics(request.user).filter(series_id=int(selected_series)).order_by("title")
+        else:
+            selected_series = ""
+            topics = accessible_topics(request.user).order_by("title")
+        if topic_id and topics.filter(pk=topic_id).exists():
             events = events.filter(topic_id=topic_id)
-        topics = accessible_topics(request.user).order_by("title")
+        else:
+            topic_id = ""
     else:
         topic_id = None
+        selected_series = ""
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
-        "topics": topics, "has_history_permission": has_history_permission,
+        "topics": topics, "series": series, "selected_series": selected_series,
+        "has_history_permission": has_history_permission,
     })
 
 
