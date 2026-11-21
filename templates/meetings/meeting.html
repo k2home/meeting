@@ -153,9 +153,9 @@
             </form>
             <select id="topic-assignee-{{ item.id }}" name="assigned_to" form="topic-assignee-form-{{ item.id }}" aria-label="Zuständigkeit für {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-assignee-form-{{ item.id }}&quot;).requestSubmit()">
               <option value="">Nicht zugewiesen</option>
-              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.topic.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_context }}</option>{% endfor %}
+              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.topic.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
             </select>
-            {% else %}{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>
