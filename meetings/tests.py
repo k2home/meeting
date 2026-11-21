@@ -730,7 +730,7 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertContains(response, "Teilnehmer auswählen oder ändern")
         self.assertEqual(
             list(response.context["participant_form"]["participants"].value()),
-            [str(self.assigned.pk)],
+            [self.assigned.pk],
         )
 
     def test_manually_cleared_participant_list_stays_empty(self):
