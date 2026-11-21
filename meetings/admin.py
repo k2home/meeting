@@ -14,7 +14,7 @@ from django.urls import path
 
 from .models import (
     MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
-    TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile,
+    TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile, OrganizationSettings,
 )
 from .user_display import user_display_name
 from .user_csv import export_users_csv, import_users_csv
@@ -298,3 +298,15 @@ admin.site.unregister(User)
 admin.site.unregister(Group)
 admin.site.register(User, MeetingUserAdmin)
 admin.site.register(Group, MeetingGroupAdmin)
+
+
+@admin.register(OrganizationSettings)
+class OrganizationSettingsAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    fields = ("name",)
+
+    def has_add_permission(self, request):
+        return super().has_add_permission(request) and not OrganizationSettings.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
