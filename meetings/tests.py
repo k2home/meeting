@@ -958,10 +958,11 @@ class ProtocolEmailTests(TestCase):
         )
         SeriesAccess.objects.create(user=second_user, series=self.series)
         # A series assignment without an email address cannot be added to a mail draft.
-        User.objects.create_user(
+        no_email_user = User.objects.create_user(
             username="no-email-user",
             password="strong-test-password",
         )
+        SeriesAccess.objects.create(user=no_email_user, series=self.series)
         response = self.client.get(reverse("protocol", args=[self.meeting.pk]))
 
         self.assertEqual(response.status_code, 200)
@@ -981,11 +982,14 @@ class ProtocolEmailTests(TestCase):
             query["subject"][0],
             "Protokoll (Strategierunde) (20.12.2026)",
         )
+        protocol_url = response.wsgi_request.build_absolute_uri(
+            reverse("protocol", args=[self.meeting.pk])
+        )
         self.assertEqual(
             query["body"][0],
-            "Hallo zusammen,\\n\\n"
+            "Hallo zusammen,\n\n"
             "das Protokoll für die Sitzung Strategierunde am 20.12.2026 "
-            f"ist unter {self.client.get(reverse('protocol', args=[self.meeting.pk])).wsgi_request.build_absolute_uri(reverse('protocol', args=[self.meeting.pk]))} verfügbar.\\n",
+            f"ist unter {protocol_url} verfügbar.\n",
         )
 
     def test_protocol_email_button_is_unavailable_without_series_recipients(self):
