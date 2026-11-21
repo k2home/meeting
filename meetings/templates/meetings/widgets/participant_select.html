@@ -1,7 +1,10 @@
 <div class="participant-options" role="group" aria-label="Teilnehmer auswählen">
   {% for group, options, index in widget.optgroups %}
     {% for option in options %}
-      <label>{{ option.tag }} <span>{{ option.label }}</span></label>
+      <label>
+        {% include "django/forms/widgets/input.html" with widget=option %}
+        <span>{{ option.label }}</span>
+      </label>
     {% endfor %}
   {% endfor %}
 </div>
