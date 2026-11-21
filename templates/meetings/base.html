@@ -82,8 +82,8 @@ th{background:var(--hagen-pale);color:var(--hagen-blue-dark)}
 tr:hover td{background:#f7f9fc}
 .messages{background:#edf4fa;border-left:4px solid var(--hagen-blue);border-radius:3px}
 .errorlist,.errornote{background:#fff0f0;border-left:4px solid #a12626;padding:.65rem .9rem}
-.btn.secondary,button.secondary,.meeting-menu-link{background:var(--hagen-pale);color:var(--hagen-blue-dark)}
-.btn.secondary:hover,button.secondary:hover,.meeting-menu-link:hover{background:#d5e4f1}
+.btn.secondary,button.secondary,.meeting-menu-link{background:#e9edf2;color:#344054}
+.btn.secondary:hover,button.secondary:hover,.meeting-menu-link:hover{background:#dfe4ea}
 button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid var(--hagen-yellow);outline-offset:2px}
 hr{border:0;border-top:1px solid var(--hagen-border)}
 
@@ -100,7 +100,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 :root[data-theme="dark"] .messages{background:#193447;color:#e3f2ff}
 :root[data-theme="dark"] .errorlist,:root[data-theme="dark"] .errornote{background:#43272b;color:#ffd9dc}
 :root[data-theme="dark"] .pill,:root[data-theme="dark"] .menu-count{background:#29435c;color:#dceeff}
-:root[data-theme="dark"] .btn.secondary,:root[data-theme="dark"] button.secondary,:root[data-theme="dark"] .meeting-menu-link{background:#2a3c50;color:#e8edf3}
+:root[data-theme="dark"] .btn.secondary,:root[data-theme="dark"] button.secondary,:root[data-theme="dark"] .meeting-menu-link{background:#343d49;color:#e8edf3}
 :root[data-theme="dark"] .participant-group+.participant-group,:root[data-theme="dark"] .participant-group h3{border-color:var(--border)}
 :root[data-theme="dark"] .participant-picker summary:after{color:var(--muted)}
 :root[data-theme="dark"] a{color:#8fc5ff}:root[data-theme="dark"] a:hover{color:#c3e0ff}
@@ -121,7 +121,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 <div class="app-layout">
 {% if user.is_authenticated %}
 <div class="mobile-header">
-<button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
+<button class="menu-toggle secondary" type="button aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
 <a class="brand" href="/">Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
@@ -135,7 +135,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if is_moderator %}<a href="/admin/series/">Besprechungsreihen</a>{% endif %}{% if is_admin %}<a href="/django-admin/">Verwaltung</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
-<button class="theme-toggle" type="button" id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
+<button class="theme-toggle secondary" type="button id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
 <span class="username">{{ user.username }}</span>
 <form class="logout-form" method="post" action="/logout/">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
 </div>
