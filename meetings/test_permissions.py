@@ -25,8 +25,8 @@ class SeriesRolePermissionTests(TestCase):
 
     def test_reader_can_read_assigned_content_but_cannot_change_it_or_be_a_participant(self):
         reader = User.objects.create_user(username="series-reader", password="test-password")
-        SeriesAccess.objects.create(user=reader, series=self.series_a, role=SeriesAccess.ROLE_READER)
         self.meeting.participants.add(reader)
+        SeriesAccess.objects.create(user=reader, series=self.series_a, role=SeriesAccess.ROLE_READER)
 
         self.client.force_login(reader)
         meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
