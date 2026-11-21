@@ -28,7 +28,7 @@
           <input type="hidden" name="token" value="{{ preview.token }}">
           <div class="submit-row">
             <input type="submit" value="Import jetzt durchführen" class="default">
-            <a href="{% url 'admin:auth_user_csv_import' %}" class="button cancel-link">Abbrechen</a>
+            <a href="{% url 'admin:auth_user_csv_import' %}" class="button secondary cancel-link">Abbrechen</a>
           </div>
         </form>
       </div>
@@ -40,7 +40,7 @@
         </fieldset>
         <div class="submit-row">
           <input type="submit" value="CSV prüfen" class="secondary">
-          <a href="{% url 'admin:auth_user_changelist' %}" class="button cancel-link">Zurück zur Benutzerverwaltung</a>
+          <a href="{% url 'admin:auth_user_changelist' %}" class="button secondary cancel-link">Zurück zur Benutzerverwaltung</a>
         </div>
       </form>
     {% endif %}
