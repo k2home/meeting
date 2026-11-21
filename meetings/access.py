@@ -67,3 +67,10 @@ def role_flags(request):
         "is_moderator": is_moderator(request.user),
         "is_reader": is_reader(request.user) and not has_writable_series(request.user),
     }
+
+
+def organization_branding(request):
+    """Stellt die zentrale Organisationseinheit in allen Templates bereit."""
+    from .models import OrganizationSettings
+
+    return {"organization_unit_name": OrganizationSettings.current_name()}
