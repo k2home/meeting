@@ -24,11 +24,9 @@
 <button type="submit">Thema übertragen</button>
 </form>
 {% endif %}
-{% if topic.transfer_history.exists %}
-<hr><h3>Transferhistorie</h3>
-<ul>{% for transfer in topic.transfer_history.all %}<li>{{ transfer.transferred_at|date:"d.m.Y H:i" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</li>{% endfor %}</ul>
-{% endif %}
+
 </div>{% endif %}
+{% if topic.transfer_history.exists %}<div class="card"><h2>Transferhistorie</h2><ul>{% for transfer in topic.transfer_history.all %}<li>{{ transfer.transferred_at|date:"d.m.Y H:i" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</li>{% endfor %}</ul></div>{% endif %}
 <div class="card"><h2>Anlagen und Netzwerkpfade</h2>{% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.id %}">Anlage hinzufügen</a></p>{% endif %}
 {% for a in topic.attachments.all %}<p><strong>{{ a.label }}</strong> — {% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %} {{ a.network_path }}</p>{% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
 <p class="muted">Netzwerkfreigaben müssen auf dem Server eingebunden sein. Hier werden die für alle Benutzer gültigen Pfade hinterlegt.</p></div>
