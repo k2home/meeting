@@ -266,7 +266,7 @@ def meeting_detail(request, pk):
         return redirect("meeting", pk=pk)
     participant_form = MeetingParticipantsForm(instance=meeting)
     return render(request, "meetings/meeting.html", {
-        "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user, meeting.series),
+        "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user, meeting.series), "is_moderator": is_moderator(request.user, meeting.series),
     })
 
 @login_required
@@ -647,7 +647,7 @@ def series_admin(request):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def series_edit(request, pk):
     series = get_object_or_404(accessible_series(request.user), pk=pk)
     if not is_moderator(request.user, series):
@@ -685,7 +685,7 @@ def series_edit(request, pk):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def series_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -714,7 +714,7 @@ def series_delete(request, pk):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def meeting_edit(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if meeting.finalized_at:
@@ -741,7 +741,7 @@ def meeting_edit(request, pk):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def meeting_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
