@@ -17,6 +17,8 @@ def user_display_name(user, include_short_description=False):
 
 def user_display_name_with_login(user):
     """Return the display name with the login name as an admin-only identifier."""
+    if user is None:
+        return ""
     name = user_display_name(user)
     if not name or name == user.get_username():
         return name
