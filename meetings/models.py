@@ -121,6 +121,7 @@ class AuditEvent(models.Model):
     ]
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
+    series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="meeting_audit_events")
     action = models.CharField("Aktion", max_length=24, choices=ACTIONS)
     summary = models.CharField("Beschreibung", max_length=500)
