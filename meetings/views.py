@@ -1246,18 +1246,24 @@ def meeting_reopen(request, pk):
 
 
 @login_required
-@moderator_required
 def audit_history(request):
-    events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
-    if not is_admin(request.user):
-        allowed_series = accessible_series(request.user)
-        events = events.filter(Q(topic__series__in=allowed_series) | Q(meeting__series__in=allowed_series))
+    has_history_permission = is_admin(request.user) or is_moderator(request.user)
+    events = AuditEvent.objects.none()
+    topics = Topic.objects.none()
     topic_id = request.GET.get("topic")
-    if topic_id:
-        events = events.filter(topic_id=topic_id)
+    if has_history_permission:
+        events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series")
+        if not is_admin(request.user):
+            allowed_series = accessible_series(request.user)
+            events = events.filter(Q(topic__series__in=allowed_series) | Q(meeting__series__in=allowed_series))
+        if topic_id:
+            events = events.filter(topic_id=topic_id)
+        topics = accessible_topics(request.user).order_by("title")
+    else:
+        topic_id = None
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
-        "topics": accessible_topics(request.user).order_by("title"),
+        "topics": topics, "has_history_permission": has_history_permission,
     })
 
 
