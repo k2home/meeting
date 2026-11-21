@@ -103,7 +103,7 @@ class MeetingParticipantsForm(forms.ModelForm):
             series_id=series_id, user_id=OuterRef("pk")
         )
         self.fields["participants"].queryset = (
-            User.objects.filter(is_active=True)
+            User.objects.filter(is_active=True).exclude(groups__name="Leser*in")
             .annotate(is_series_member=Exists(membership))
             .order_by("-is_series_member", "last_name", "first_name", "username")
         )
