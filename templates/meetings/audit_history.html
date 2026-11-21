@@ -7,17 +7,29 @@
   <p class="muted">Hier siehst du, wer wann welche Änderungen vorgenommen hat. Die Einträge werden automatisch erzeugt und können nicht über die Oberfläche bearbeitet werden.</p></div>
 </div>
 <div class="card no-print">
-  <form method="get">
-    <label for="topic-filter">Nach Thema filtern</label>
-    <select id="topic-filter" name="topic">
-      <option value="">Alle Änderungen</option>
-      {% for topic in topics %}<option value="{{ topic.pk }}" {% if selected_topic == topic.pk|stringformat:"s" %}selected{% endif %}>{{ topic.title }}</option>{% endfor %}
-    </select>
-    <button type="submit" class="secondary">Filtern</button>
-    {% if selected_topic %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
+  <form method="get" class="audit-filter-grid">
+    <div><label for="topic-filter">Nach Thema filtern</label>
+      <select id="topic-filter" name="topic">
+        <option value="">Alle Themen</option>
+        {% for topic in topics %}<option value="{{ topic.pk }}" {% if selected_topic == topic.pk|stringformat:"s" %}selected{% endif %}>{{ topic.title }}</option>{% endfor %}
+      </select>
+    </div>
+    <div><label for="series-filter">Nach Besprechungsreihe filtern</label>
+      <select id="series-filter" name="series">
+        <option value="">Alle Besprechungsreihen</option>
+        {% for item in series %}<option value="{{ item.pk }}" {% if selected_series == item.pk|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="audit-filter-actions">
+      <button type="submit" class="secondary">Filtern</button>
+      {% if selected_topic or selected_series %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
+    </div>
   </form>
 </div>
-{% if not has_history_permission %}\n  <div class="card"><p>Für deinen Zugang sind keine Einträge im Änderungsverlauf freigegeben.</p></div>\n{% else %}\n{% for event in events %}
+{% if not has_history_permission %}
+  <div class="card"><p>Für deinen Zugang sind keine Einträge im Änderungsverlauf freigegeben.</p></div>
+{% else %}
+{% for event in events %}
   <article class="card">
     <div class="topline">
       <strong>{{ event.get_action_display }}</strong>
