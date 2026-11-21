@@ -4,7 +4,7 @@
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 
 <nav class="meeting-action-menu no-print" aria-label="Aktionen für diese Besprechung">
-  <a class="meeting-menu-link" href="#participants">Teilnehmer <span class="menu-count">{{ meeting.participants.count }}</span></a>
+  <a class="meeting-menu-link" href="#participants">Teilnehmerliste <span class="menu-count">{{ meeting.participants.count }}</span></a>
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
   {% if not meeting.finalized_at and items %}
     <button class="meeting-menu-button secondary" type="submit" form="agenda-reorder-form">Reihenfolge speichern</button>
@@ -12,7 +12,7 @@
   {% if not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung abschließen und den Protokollstand sichern?');">
       {% csrf_token %}
-      <button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button>
+      <button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen &amp; Protokollstand sichern</button>
     </form>
   {% elif is_moderator %}
     <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
