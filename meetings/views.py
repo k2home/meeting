@@ -51,11 +51,27 @@ def _series_for_view(view, kwargs):
     pk = kwargs.get("pk")
     if not pk:
         return None
-    if view.__name__ in {"agenda_reorder", "meeting_detail"}:
+    if view.__name__ in {"agenda_reorder", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen"}:
         meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
         return meeting.series if meeting else None
+    if view.__name__ in {"series_edit", "series_delete"}:
+        return MeetingSeries.objects.filter(pk=pk).first()
     topic = Topic.objects.filter(pk=pk).select_related("series").first()
     return topic.series if topic else None
+
+
+def moderator_required(view):
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        series = _series_for_view(view, kwargs)
+        allowed = is_admin(request.user) or (
+            is_moderator(request.user, series) if series is not None
+            else is_moderator(request.user)
+        )
+        if not allowed:
+            return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+        return view(request, *args, **kwargs)
+    return wrapped
 
 
 def reader_readonly(view):
@@ -231,7 +247,7 @@ def meeting_detail(request, pk):
             else:
                 messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
                 return render(request, "meetings/meeting.html", {
-                    "meeting": meeting, "items": items, "participant_form": participant_form, "participants": participants, "is_reader": is_reader(request.user, meeting.series),
+                    "meeting": meeting, "items": items, "participant_form": participant_form, "participants": participants, "is_reader": is_reader(request.user, meeting.series), "is_moderator": is_moderator(request.user, meeting.series),
                 })
         else:
             item_id = request.POST.get("item_id")
@@ -593,7 +609,7 @@ def protocol(request, pk):
     })
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def series_admin(request):
     today = timezone.localdate()
     series_queryset = accessible_series(request.user)
@@ -756,7 +772,7 @@ def finalize(request, pk):
 
 
 @login_required
-@user_passes_test(can_reopen_meeting)
+@moderator_required
 def meeting_reopen(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
