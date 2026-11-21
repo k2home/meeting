@@ -199,6 +199,7 @@
       });
     }
     function saveOrderIfChanged(previousOrder) {
+      updateNumbers();
       syncOrder();
       if (previousOrder !== currentOrder() && !savePending) {
         savePending = true;
