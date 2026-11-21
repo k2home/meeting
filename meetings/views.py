@@ -358,6 +358,26 @@ def meeting_detail(request, pk):
                     messages.success(request, f"„{topic.title}“ wurde neu angelegt und zur Tagesordnung hinzugefügt.")
             else:
                 messages.error(request, "Bitte prüfe den Titel des neuen Themas.")
+        elif request.POST.get("save_all_working_texts"):
+            changed_count = 0
+            for agenda_item in items:
+                field_name = f"working_text_{agenda_item.pk}"
+                if field_name not in request.POST:
+                    continue
+                new_text = request.POST.get(field_name, "")
+                old_text = agenda_item.working_text
+                if old_text == new_text:
+                    continue
+                agenda_item.working_text = new_text
+                agenda_item.save(update_fields=["working_text"])
+                record_event(
+                    actor=request.user, action="agenda_edited",
+                    summary=f"Agendatext für „{agenda_item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                    topic=agenda_item.topic, meeting=meeting,
+                    changes={"Text": {"vorher": old_text, "nachher": new_text}},
+                )
+                changed_count += 1
+            messages.success(request, f"{changed_count} geänderte Tagesordnungspunkte gespeichert.")
         else:
             item_id = request.POST.get("item_id")
             if item_id:
