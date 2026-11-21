@@ -773,15 +773,11 @@ class MeetingParticipantDefaultsTests(TestCase):
         )
 
     def test_readers_are_displayed_in_the_middle_as_non_participants(self):
-        from django.contrib.auth.models import Group
-
-        reader_group, _ = Group.objects.get_or_create(name="Leser*in")
         reader = User.objects.create_user(
             username="series-reader", first_name="Lese", last_name="Person",
             password="strong-test-password",
         )
-        reader.groups.add(reader_group)
-        SeriesAccess.objects.create(user=reader, series=self.series)
+        SeriesAccess.objects.create(user=reader, series=self.series, role=SeriesAccess.ROLE_READER)
 
         response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
 
@@ -798,15 +794,11 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertFalse(self.meeting.participants.filter(pk=reader.pk).exists())
 
     def test_reader_can_be_selected_as_an_optional_meeting_participant(self):
-        from django.contrib.auth.models import Group
-
-        reader_group, _ = Group.objects.get_or_create(name="Leser*in")
         reader = User.objects.create_user(
             username="optional-reader", first_name="Optionale", last_name="Leserin",
             password="strong-test-password",
         )
-        reader.groups.add(reader_group)
-        SeriesAccess.objects.create(user=reader, series=self.series)
+        SeriesAccess.objects.create(user=reader, series=self.series, role=SeriesAccess.ROLE_READER)
 
         response = self.client.post(
             reverse("meeting", args=[self.meeting.pk]),
