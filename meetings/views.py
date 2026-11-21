@@ -70,8 +70,11 @@ def reader_readonly(view):
 def reader_no_access(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
-        if not has_writable_series(request.user):
-            return HttpResponseForbidden("Für die zugewiesenen Besprechungsreihen bestehen ausschließlich Leserechte.")
+        series = _series_for_view(view, kwargs)
+        if (series is not None and is_reader(request.user, series)) or (
+            series is None and not has_writable_series(request.user)
+        ):
+            return HttpResponseForbidden("Für diese Besprechungsreihe bestehen ausschließlich Leserechte.")
         return view(request, *args, **kwargs)
     return wrapped
 
