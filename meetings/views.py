@@ -565,7 +565,7 @@ def protocol(request, pk):
     )
     mailto_url = (
         f"mailto:{quote(','.join(recipient_emails), safe='@,.-_+')}"
-        f"?{urlencode({'subject': subject, 'body': body})}"
+        f"?{urlencode({'subject': subject, 'body': body + '\n'}, quote_via=quote)}"
     )
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
