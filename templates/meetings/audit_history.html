@@ -35,7 +35,7 @@
       <strong>{{ event.get_action_display }}</strong>
       <span class="muted">{{ event.created_at|date:"d.m.Y H:i" }}</span>
     </div>
-    <p>{{ event.summary }}</p>
+    <p>{{ event.summary|audit_text|linebreaksbr }}</p>
     <p class="muted">Von {% if event.actor %}{{ event.actor|user_display }}{% else %}System / gelöschtem Benutzer{% endif %}
       {% if event.topic %} · <a href="{% url 'topic_edit' event.topic.pk %}">{{ event.topic.title }}</a>{% endif %}
       {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{{ event.meeting.series.name|default:'Gelöschte Besprechungsreihe' }} am {{ event.meeting.date|date:"d.m.Y" }}</a>{% endif %}
@@ -49,15 +49,15 @@
             <dd><ul>
               {% for snapshot in value %}
               <li><strong>{{ snapshot.topic_title }}</strong>
-                <p>{{ snapshot.text|linebreaksbr|default:"—" }}</p>
+                <p>{{ snapshot.text|audit_text|linebreaksbr|default:"—" }}</p>
                 <small>Status: {{ snapshot.status }}</small>
               </li>
               {% endfor %}
             </ul></dd>
           {% elif value.vorher is not None or value.nachher is not None %}
-            <dd><span class="muted">Vorher:</span> {{ value.vorher|default:"—"|linebreaksbr }}</dd>
-            <dd><span class="muted">Nachher:</span> {{ value.nachher|default:"—"|linebreaksbr }}</dd>
-          {% else %}<dd>{{ value }}</dd>{% endif %}
+            <dd><span class="muted">Vorher:</span> {{ value.vorher|default:"—"|audit_text|linebreaksbr }}</dd>
+            <dd><span class="muted">Nachher:</span> {{ value.nachher|default:"—"|audit_text|linebreaksbr }}</dd>
+          {% else %}<dd>{{ value|audit_text|linebreaksbr }}</dd>{% endif %}
         {% endfor %}
         </dl>
       </details>
