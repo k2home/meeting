@@ -54,6 +54,15 @@ def reader_readonly(view):
     return wrapped
 
 
+def reader_no_access(view):
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        if is_reader(request.user):
+            return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
+        return view(request, *args, **kwargs)
+    return wrapped
+
+
 def admin_only(user):
     return is_admin(user)
 
@@ -276,7 +285,7 @@ def topic_edit(request, pk):
     })
 
 @login_required
-@reader_readonly
+@reader_no_access
 def topic_new(request):
     form = TopicForm(request.POST or None, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
     if request.method == "POST" and form.is_valid():
@@ -348,7 +357,7 @@ def archive(request):
     return render(request, "meetings/archive.html", {"topics": topics})
 
 @login_required
-@reader_readonly
+@reader_no_access
 def attachment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     form = AttachmentForm(request.POST or None, request.FILES or None)
