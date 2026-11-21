@@ -1260,7 +1260,9 @@ def audit_history(request):
     )
     has_history_permission = admin_access or series.exists()
     series = series.order_by("name") if has_history_permission else MeetingSeries.objects.none()
-    topics = (\n        Topic.objects.all() if admin_access else Topic.objects.filter(series__in=series)\n    ).order_by("title") if has_history_permission else Topic.objects.none()
+    topics = (
+        Topic.objects.all() if admin_access else Topic.objects.filter(series__in=series)
+    ).order_by("title") if has_history_permission else Topic.objects.none()
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
