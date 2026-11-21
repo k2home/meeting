@@ -298,6 +298,24 @@ def meeting_detail(request, pk):
                 messages.success(request, f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen Termin.")
+        elif request.POST.get("update_topic_assignee"):
+            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_topic_assignee"), meeting=meeting)
+            assignee_id = request.POST.get("assigned_to") or None
+            assignee = get_object_or_404(UserModel, pk=assignee_id, is_active=True) if assignee_id else None
+            if item.topic.assigned_to_id != (assignee.pk if assignee else None):
+                old_assignee = user_display_name(item.topic.assigned_to) if item.topic.assigned_to else "Nicht zugewiesen"
+                item.topic.assigned_to = assignee
+                item.topic.save(update_fields=["assigned_to", "updated_at"])
+                new_assignee = user_display_name(assignee) if assignee else "Nicht zugewiesen"
+                record_event(
+                    actor=request.user, action="updated",
+                    summary=f"Zuständigkeit für „{item.topic.title}“ auf {new_assignee} gesetzt",
+                    topic=item.topic, meeting=meeting,
+                    changes={"Zuständigkeit": {"vorher": old_assignee, "nachher": new_assignee}},
+                )
+                messages.success(request, "Zuständigkeit gespeichert.")
+            else:
+                messages.info(request, "Die Zuständigkeit ist unverändert.")
         elif request.POST.get("update_topic_status"):
             item = get_object_or_404(AgendaItem, pk=request.POST.get("update_topic_status"), meeting=meeting)
             new_status = request.POST.get("status")
