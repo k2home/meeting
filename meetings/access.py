@@ -7,7 +7,7 @@ USER_GROUP = "Nutzer*in"
 
 def is_admin(user):
     return bool(user.is_authenticated and (
-        user.is_superuser or user.is_staff or user.groups.filter(name=ADMIN_GROUP).exists()
+        user.is_superuser or user.groups.filter(name=ADMIN_GROUP).exists()
     ))
 
 
