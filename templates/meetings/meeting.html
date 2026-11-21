@@ -19,7 +19,18 @@
 .agenda-status-form{display:inline-flex;align-items:center;gap:.35rem;margin:0}
 .agenda-status-form select{width:auto;min-width:125px;padding:.3rem .45rem}
 
-.agenda-tools{display:flex;justify-content:flex-start;margin:0}
+.agenda-tools{display:flex;justify-content:flex-end;margin:0}
+.agenda-create-button{background:var(--primary);color:#fff;border-color:var(--primary)}
+.topic-suggestions{height:10rem;min-height:10rem;max-height:10rem;overflow-y:auto;box-sizing:border-box}
+.topic-suggestions ul{list-style:none;padding:0;margin:.4rem 0 0}
+.topic-suggestions li{margin:.25rem 0}
+.topic-suggestion-link{border:0;background:none;color:var(--link);padding:0;text-decoration:underline;cursor:pointer;font:inherit;text-align:left}
+.agenda-item-tools{justify-content:flex-end}
+.agenda-title-assignee{display:inline;font-size:.9rem;font-weight:400;color:var(--muted)}
+.agenda-status-form select{min-width:125px}
+.agenda-schedule-form{margin:0;padding:0;background:transparent;display:inline-flex;align-items:center;gap:.35rem}
+.agenda-schedule-form label{display:none}
+.agenda-schedule-form select{min-width:130px;width:auto;font-size:.85rem;padding:.3rem}
 #new-agenda-topic-dialog form{margin-top:.75rem}
 #new-agenda-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 #new-agenda-topic-dialog input,#new-agenda-topic-dialog textarea{width:100%}
@@ -48,7 +59,7 @@
   </div>
 </details>{% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button secondary" type="button" id="open-new-agenda-topic">+ Neuer Tagesordnungspunkt</button>{% endif %}
+  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button agenda-create-button" type="button" id="open-new-agenda-topic">+ Neuer Tagesordnungspunkt</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
@@ -63,7 +74,7 @@
     {% csrf_token %}<input type="hidden" name="add_agenda_topic" value="1">
     <label for="new-topic-title">Thema</label>
     <input id="new-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
-    <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"></div>
+    <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"><span class="muted">Gib mindestens zwei Zeichen ein, um vorhandene Themen zu finden.</span></div>
     <label for="new-topic-text">Text für dieses Protokoll</label>
     <textarea id="new-topic-text" name="working_text" rows="4"></textarea>
     <div class="agenda-item-tools"><button type="submit">Thema anlegen und hinzufügen</button></div>
@@ -79,19 +90,31 @@
 {% for item in items %}
   <div class="card agenda-item" data-agenda-item="{{ item.id }}" {% if not meeting.finalized_at and not is_reader %}draggable="true"{% endif %}>
     <div class="topline">
-      <h2>{{ item.topic.title }}</h2>
+      <div>
+        <h2>{{ item.topic.title }} <span class="agenda-title-assignee">· {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span></h2>
+      </div>
       <div class="agenda-item-tools no-print">
         <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
         {% if not meeting.finalized_at and not is_reader %}
         <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
         <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
         <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
+        <form method="post" class="agenda-schedule-form no-print">
+          {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
+          <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
+          <select id="target-series-{{ item.id }}" name="target_series" required aria-label="Besprechungsserie für Wiedervorlage">
+            {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
+          </select>
+          <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage</label>
+          <select id="target-meeting-{{ item.id }}" name="target_meeting" required aria-label="Termin der Wiedervorlage">
+            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+          </select>
+          <button type="submit" aria-label="Wiedervorlage speichern">Speichern</button>
+        </form>
         {% endif %}
       </div>
     </div>
-    <p class="agenda-topic-meta"><strong>Fälligkeit / Wiedervorlage:</strong> {{ item.topic.due_date|date:"d.m.Y"|default:"—" }}{% if item.carried_forward %} · Übernommen{% endif %} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     <div class="agenda-topic-status">
-      <strong>Status:</strong>
       {% if not meeting.finalized_at and not is_reader %}
       <form method="post" class="agenda-status-form">
         {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
@@ -108,20 +131,6 @@
       <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
       <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
       <button type="submit">Text speichern</button>
-    </form>
-    <form method="post" class="agenda-schedule-form no-print">
-        {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
-        <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
-        <select id="target-series-{{ item.id }}" name="target_series" required>
-          {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
-        </select>
-        <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage</label>
-        <select id="target-meeting-{{ item.id }}" name="target_meeting" required>
-          {% for target in target_meetings %}
-          <option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>
-          {% endfor %}
-        </select>
-        <button type="submit">Wiedervorlage speichern</button>
     </form>
     {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
   </div>
@@ -248,7 +257,18 @@
         const ul = document.createElement("ul");
         data.results.forEach((entry) => {
           const li = document.createElement("li");
-          li.textContent = entry.title + " – " + entry.series;
+          const form = document.createElement("form");
+          form.method = "post";
+          const csrf = document.createElement("input");
+          csrf.type = "hidden"; csrf.name = "csrfmiddlewaretoken";
+          csrf.value = document.querySelector('#new-agenda-topic-form [name="csrfmiddlewaretoken"]').value;
+          const topicId = document.createElement("input");
+          topicId.type = "hidden"; topicId.name = "add_existing_topic"; topicId.value = entry.id;
+          const button = document.createElement("button");
+          button.type = "submit"; button.className = "topic-suggestion-link";
+          button.textContent = "In aktuelle Tagesordnung übernehmen: " + entry.title + " – " + entry.series;
+          form.append(csrf, topicId, button);
+          li.appendChild(form);
           ul.appendChild(li);
         });
         suggestions.append(heading, ul);
