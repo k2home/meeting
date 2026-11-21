@@ -49,6 +49,37 @@ class AgendaTextForm(forms.ModelForm):
         fields = ["working_text"]
         widgets = {"working_text": forms.Textarea(attrs={"rows": 7})}
 
+
+class AgendaItemCreateForm(forms.Form):
+    title = forms.CharField(label="Neues Thema", max_length=240)
+    working_text = forms.CharField(
+        label="Text für dieses Protokoll", required=False,
+        widget=forms.Textarea(attrs={"rows": 4}),
+    )
+
+
+class AgendaScheduleForm(forms.Form):
+    target_series = forms.ModelChoiceField(
+        label="Besprechungsserie", queryset=MeetingSeries.objects.none(),
+    )
+    target_meeting = forms.ModelChoiceField(
+        label="Termin", queryset=Meeting.objects.none(),
+    )
+
+    def __init__(self, *args, series_queryset=None, meeting_queryset=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["target_series"].queryset = series_queryset or MeetingSeries.objects.none()
+        self.fields["target_meeting"].queryset = meeting_queryset or Meeting.objects.none()
+
+    def clean(self):
+        cleaned = super().clean()
+        series = cleaned.get("target_series")
+        meeting = cleaned.get("target_meeting")
+        if series and meeting and meeting.series_id != series.pk:
+            self.add_error("target_meeting", "Der Termin gehört nicht zur ausgewählten Besprechungsserie.")
+        return cleaned
+
+
 class AttachmentForm(forms.ModelForm):
     class Meta:
         model = TopicAttachment
