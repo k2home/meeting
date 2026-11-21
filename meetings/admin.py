@@ -29,8 +29,8 @@ class MeetingInline(admin.TabularInline):
 class SeriesAccessInline(admin.TabularInline):
     model = SeriesAccess
     extra = 1
-    fields = ("user", "series", "role")
-    autocomplete_fields = ("user", "series")
+    def get_fields(self, request, obj=None):
+        return ("user", "role") if self.parent_model == MeetingSeries else ("series", "role")
 
 
 @admin.register(MeetingSeries)
