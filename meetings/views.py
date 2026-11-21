@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
@@ -465,12 +465,13 @@ def protocol_pdf(request, pk):
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether
 
+    organization_name = OrganizationSettings.current_name()
     buffer = BytesIO()
     document = SimpleDocTemplate(
         buffer, pagesize=A4, rightMargin=20 * mm, leftMargin=20 * mm,
         topMargin=20 * mm, bottomMargin=18 * mm,
         title=f"Protokoll – {_meeting_series_name(meeting)}",
-        author="Meeting Manager",
+        author=f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager",
     )
     styles = getSampleStyleSheet()
     regular_font = "Helvetica"
@@ -498,6 +499,7 @@ def protocol_pdf(request, pk):
     story = [
         Paragraph("Protokoll", styles["ProtocolTitle"]),
         Paragraph(escape(_meeting_series_name(meeting)), styles["Heading2"]),
+        *([Paragraph(escape(organization_name), styles["Normal"])] if organization_name else []),
         Paragraph(f"Datum: {meeting.date:%d.%m.%Y}", styles["Normal"]),
         Paragraph(
             "Gesicherter Stand" if meeting.finalized_at else "Entwurf – nicht abgeschlossen",
@@ -543,12 +545,16 @@ def protocol_docx(request, pk):
     from docx import Document
     from docx.shared import Pt, RGBColor
 
+    organization_name = OrganizationSettings.current_name()
     document = Document()
     document.core_properties.title = f"Protokoll – {_meeting_series_name(meeting)}"
+    document.core_properties.author = f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager"
     document.core_properties.subject = f"Besprechung vom {meeting.date:%d.%m.%Y}"
     document.add_heading("Protokoll", 0)
     document.add_heading(_meeting_series_name(meeting), level=1)
-    document.add_paragraph(f"Datum: {meeting.date:%d.%m.%Y}")
+    if organization_name:
+        document.add_paragraph(organization_name)
+    document.add_paragraph(f"Datum: {meeting.date:%d.%m.%Y")
     document.add_paragraph(
         f"Gesicherter Stand: {meeting.finalized_at:%d.%m.%Y %H:%M}"
         if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
