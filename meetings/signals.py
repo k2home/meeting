@@ -1,7 +1,8 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
-from django.db.models.signals import m2m_changed, post_migrate
+from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
+
+from .models import SeriesAccess
 
 
 @receiver(post_migrate)
@@ -10,28 +11,12 @@ def grant_admin_role_permissions(sender, **kwargs):
         return
     admin_group, _ = Group.objects.get_or_create(name="Admin")
     admin_group.permissions.set(Permission.objects.all())
-    Group.objects.get_or_create(name="Nutzer*in")
-    Group.objects.get_or_create(name="Moderator*in")
-    Group.objects.get_or_create(name="Leser*in")
 
 
-
-@receiver(m2m_changed, sender=get_user_model().groups.through)
-def remove_readers_from_meeting_participants(sender, instance, action, reverse, pk_set, **kwargs):
-    """Remove users from meeting participant lists when they receive reader role."""
-    if action != "post_add":
+@receiver(post_save, sender=SeriesAccess)
+def remove_readers_from_series_participants(sender, instance, **kwargs):
+    if instance.role != SeriesAccess.ROLE_READER:
         return
-    reader_group = Group.objects.filter(name="Leser*in").first()
-    if reader_group is None:
-        return
-    if reverse:
-        if instance.pk != reader_group.pk:
-            return
-        user_ids = pk_set or ()
-    else:
-        if reader_group.pk not in (pk_set or ()):
-            return
-        user_ids = [instance.pk]
     from .models import Meeting
-    for meeting in Meeting.objects.filter(participants__id__in=user_ids).distinct().iterator():
-        meeting.participants.remove(*user_ids)
+    for meeting in Meeting.objects.filter(series=instance.series, participants=instance.user).iterator():
+        meeting.participants.remove(instance.user)

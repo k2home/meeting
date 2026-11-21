@@ -22,6 +22,8 @@ class TopicWorkflowTests(TestCase):
         self.client.force_login(self.user)
         self.series_a = MeetingSeries.objects.create(name="Reihe A")
         self.series_b = MeetingSeries.objects.create(name="Reihe B")
+        SeriesAccess.objects.create(user=self.user, series=self.series_a)
+        SeriesAccess.objects.create(user=self.user, series=self.series_b)
         self.topic = Topic.objects.create(title="Testthema", series=self.series_a)
 
     def test_archive_and_reopen_topic(self):
@@ -50,6 +52,7 @@ class AuditHistoryTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username="auditor", password="strong-test-password")
         self.series = MeetingSeries.objects.create(name="Audit-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
         self.topic = Topic.objects.create(title="Audit-Thema", series=self.series)
 
     def test_topic_edit_records_field_changes_and_actor(self):
@@ -93,6 +96,7 @@ class TopicTaskManagementTests(TestCase):
         self.owner = User.objects.create_user(username="owner", password="strong-test-password")
         self.member = User.objects.create_user(username="member", password="strong-test-password")
         self.series = MeetingSeries.objects.create(name="Aufgaben-Reihe")
+        SeriesAccess.objects.create(user=self.member, series=self.series)
         self.topic = Topic.objects.create(title="Aufgabe", series=self.series)
 
     def test_topic_can_be_assigned_and_assignment_is_audited(self):
@@ -140,6 +144,7 @@ class MyTasksViewTests(TestCase):
         self.user = User.objects.create_user(username="task-owner", password="strong-test-password")
         self.other_user = User.objects.create_user(username="other-owner", password="strong-test-password")
         self.series = MeetingSeries.objects.create(name="Meine-Aufgaben-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
         today = timezone.localdate()
         self.overdue = Topic.objects.create(
             title="Überfällige Aufgabe", series=self.series, assigned_to=self.user,
@@ -187,6 +192,8 @@ class DashboardTopicFilterTests(TestCase):
         self.other_user = User.objects.create_user(username="other-filter-user", password="strong-test-password")
         self.series_a = MeetingSeries.objects.create(name="Betrieb")
         self.series_b = MeetingSeries.objects.create(name="Personal")
+        SeriesAccess.objects.create(user=self.user, series=self.series_a)
+        SeriesAccess.objects.create(user=self.user, series=self.series_b)
         today = timezone.localdate()
         self.topic = Topic.objects.create(
             title="Serverwartung", description="Festplatten prüfen", series=self.series_a,
@@ -232,6 +239,7 @@ class AgendaReorderingTests(TestCase):
         self.user = User.objects.create_user(username="agenda-user", password="strong-test-password")
         self.client.force_login(self.user)
         self.series = MeetingSeries.objects.create(name="Agenda-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
         self.meeting = Meeting.objects.create(series=self.series, date="2026-11-10")
         self.first_topic = Topic.objects.create(title="Erster Punkt", series=self.series)
         self.second_topic = Topic.objects.create(title="Zweiter Punkt", series=self.series)
@@ -281,6 +289,7 @@ class ProtocolExportTests(TestCase):
         self.user = User.objects.create_user(username="protocol-user", password="strong-test-password")
         self.client.force_login(self.user)
         self.series = MeetingSeries.objects.create(name="Team & Betrieb")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
         self.meeting = Meeting.objects.create(series=self.series, date="2026-11-06")
         self.topic = Topic.objects.create(title="Serverwartung", series=self.series)
         self.item = AgendaItem.objects.create(
@@ -423,6 +432,7 @@ class MeetingParticipantTests(TestCase):
             password="strong-test-password",
         )
         self.series = MeetingSeries.objects.create(name="Teilnehmer-Reihe")
+        SeriesAccess.objects.create(user=self.organizer, series=self.series)
         self.meeting = Meeting.objects.create(series=self.series, date="2026-11-06")
         self.client.force_login(self.organizer)
 
@@ -480,6 +490,8 @@ class DashboardUpcomingMeetingsTests(TestCase):
         self.client.force_login(self.user)
         self.series_a = MeetingSeries.objects.create(name="Reihe Alpha")
         self.series_b = MeetingSeries.objects.create(name="Reihe Beta")
+        SeriesAccess.objects.create(user=self.user, series=self.series_a)
+        SeriesAccess.objects.create(user=self.user, series=self.series_b)
         today = timezone.localdate()
         self.a_dates = [today + timedelta(days=offset) for offset in (1, 3, 5)]
         self.b_dates = [today + timedelta(days=offset) for offset in (2, 4, 6)]
@@ -773,15 +785,11 @@ class MeetingParticipantDefaultsTests(TestCase):
         )
 
     def test_readers_are_displayed_in_the_middle_as_non_participants(self):
-        from django.contrib.auth.models import Group
-
-        reader_group, _ = Group.objects.get_or_create(name="Leser*in")
         reader = User.objects.create_user(
             username="series-reader", first_name="Lese", last_name="Person",
             password="strong-test-password",
         )
-        reader.groups.add(reader_group)
-        SeriesAccess.objects.create(user=reader, series=self.series)
+        SeriesAccess.objects.create(user=reader, series=self.series, role=SeriesAccess.ROLE_READER)
 
         response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
 
@@ -798,15 +806,11 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertFalse(self.meeting.participants.filter(pk=reader.pk).exists())
 
     def test_reader_can_be_selected_as_an_optional_meeting_participant(self):
-        from django.contrib.auth.models import Group
-
-        reader_group, _ = Group.objects.get_or_create(name="Leser*in")
         reader = User.objects.create_user(
             username="optional-reader", first_name="Optionale", last_name="Leserin",
             password="strong-test-password",
         )
-        reader.groups.add(reader_group)
-        SeriesAccess.objects.create(user=reader, series=self.series)
+        SeriesAccess.objects.create(user=reader, series=self.series, role=SeriesAccess.ROLE_READER)
 
         response = self.client.post(
             reverse("meeting", args=[self.meeting.pk]),
@@ -879,6 +883,7 @@ class UserShortDescriptionTests(TestCase):
             password="strong-test-password",
         )
         self.series = MeetingSeries.objects.create(name="Kurzbeschreibung-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
         self.meeting = Meeting.objects.create(series=self.series, date="2026-12-20")
         self.meeting.participants.add(self.user)
         self.client.force_login(self.user)

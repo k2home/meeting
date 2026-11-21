@@ -7,7 +7,7 @@ from xml.sax.saxutils import escape
 
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch
 from django.db.models.functions import RowNumber
@@ -21,7 +21,7 @@ from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextFor
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
-from .access import accessible_meetings, accessible_series, accessible_topics, can_reopen_meeting, is_admin, is_moderator, is_reader
+from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
 from .models import SeriesAccess
 from .user_display import user_display_name
 
@@ -47,10 +47,37 @@ def logout_view(request):
 UserModel = get_user_model()
 
 
+def _series_for_view(view, kwargs):
+    pk = kwargs.get("pk")
+    if not pk:
+        return None
+    if view.__name__ in {"agenda_reorder", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen"}:
+        meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
+        return meeting.series if meeting else None
+    if view.__name__ in {"series_edit", "series_delete"}:
+        return MeetingSeries.objects.filter(pk=pk).first()
+    topic = Topic.objects.filter(pk=pk).select_related("series").first()
+    return topic.series if topic else None
+
+
+def moderator_required(view):
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        series = _series_for_view(view, kwargs)
+        allowed = is_admin(request.user) or (
+            is_moderator(request.user, series) if series is not None
+            else is_moderator(request.user)
+        )
+        if not allowed:
+            return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+        return view(request, *args, **kwargs)
+    return wrapped
+
+
 def reader_readonly(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
-        if is_reader(request.user) and request.method == "POST":
+        if is_reader(request.user, _series_for_view(view, kwargs)) and request.method == "POST":
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
         return view(request, *args, **kwargs)
     return wrapped
@@ -59,8 +86,11 @@ def reader_readonly(view):
 def reader_no_access(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
-        if is_reader(request.user):
-            return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
+        series = _series_for_view(view, kwargs)
+        if (series is not None and is_reader(request.user, series)) or (
+            series is None and not has_writable_series(request.user)
+        ):
+            return HttpResponseForbidden("Für diese Besprechungsreihe bestehen ausschließlich Leserechte.")
         return view(request, *args, **kwargs)
     return wrapped
 
@@ -84,7 +114,7 @@ def dashboard(request):
     )
     topics = accessible_topics(request.user).select_related("series", "assigned_to")
     query = request.GET.get("q", "").strip()
-    selected_status = request.GET.get("status", "all" if is_reader(request.user) else "open")
+    selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "")
     selected_due = request.GET.get("due", "")
@@ -188,7 +218,7 @@ def meeting_detail(request, pk):
         if not meeting.participants.exists() and meeting.series_id:
             default_participants = SeriesAccess.objects.filter(
                 series=meeting.series, user__is_active=True
-            ).exclude(user__groups__name="Leser*in").values_list("user_id", flat=True)
+            ).exclude(role=SeriesAccess.ROLE_READER).values_list("user_id", flat=True)
             meeting.participants.set(default_participants)
         meeting.participants_initialized = True
         meeting.save(update_fields=["participants_initialized"])
@@ -217,7 +247,7 @@ def meeting_detail(request, pk):
             else:
                 messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
                 return render(request, "meetings/meeting.html", {
-                    "meeting": meeting, "items": items, "participant_form": participant_form, "participants": participants, "is_reader": is_reader(request.user),
+                    "meeting": meeting, "items": items, "participant_form": participant_form, "participants": participants, "is_reader": is_reader(request.user, meeting.series), "is_moderator": is_moderator(request.user, meeting.series),
                 })
         else:
             item_id = request.POST.get("item_id")
@@ -236,7 +266,7 @@ def meeting_detail(request, pk):
         return redirect("meeting", pk=pk)
     participant_form = MeetingParticipantsForm(instance=meeting)
     return render(request, "meetings/meeting.html", {
-        "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user),
+        "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user, meeting.series), "is_moderator": is_moderator(request.user, meeting.series),
     })
 
 @login_required
@@ -244,8 +274,11 @@ def meeting_detail(request, pk):
 def topic_edit(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     original_topic = Topic.objects.select_related("series", "assigned_to").get(pk=pk)
-    form = TopicForm(request.POST or None, instance=topic, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
-    if is_reader(request.user):
+    writable_series = accessible_series(request.user)
+    if not is_admin(request.user):
+        writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    form = TopicForm(request.POST or None, instance=topic, series_queryset=writable_series, series_required=not is_admin(request.user))
+    if is_reader(request.user, topic.series):
         for field in form.fields.values():
             field.disabled = True
     if request.method == "POST" and form.is_valid():
@@ -282,21 +315,24 @@ def topic_edit(request, pk):
         messages.success(request, "Thema gespeichert.")
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
-        "form": form, "topic": topic, "is_reader": is_reader(request.user),
-        "transfer_series": accessible_series(request.user).filter(active=True).exclude(pk=topic.series_id),
+        "form": form, "topic": topic, "is_reader": is_reader(request.user, topic.series),
+        "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
     })
 
 @login_required
 @reader_no_access
 def topic_new(request):
-    form = TopicForm(request.POST or None, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
+    writable_series = accessible_series(request.user)
+    if not is_admin(request.user):
+        writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    form = TopicForm(request.POST or None, series_queryset=writable_series, series_required=not is_admin(request.user))
     if request.method == "POST" and form.is_valid():
         topic = form.save()
         record_event(actor=request.user, action="created", summary=f"Thema „{topic.title}“ angelegt",
                      topic=topic, changes={"Titel": {"vorher": None, "nachher": topic.title}})
         messages.success(request, "Thema angelegt.")
         return redirect("topic_edit", pk=topic.pk)
-    return render(request, "meetings/topic_form.html", {"form": form, "is_reader": is_reader(request.user)})
+    return render(request, "meetings/topic_form.html", {"form": form, "is_reader": not has_writable_series(request.user)})
 
 @login_required
 @reader_readonly
@@ -333,7 +369,10 @@ def topic_transfer(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    target = get_object_or_404(accessible_series(request.user), pk=request.POST.get("series"), active=True)
+    transfer_targets = accessible_series(request.user)
+    if not is_admin(request.user):
+        transfer_targets = transfer_targets.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    target = get_object_or_404(transfer_targets, pk=request.POST.get("series"), active=True)
     if topic.series_id == target.pk:
         messages.info(request, "Das Thema ist bereits dieser Besprechungsreihe zugeordnet.")
         return redirect("topic_edit", pk=topic.pk)
@@ -573,10 +612,13 @@ def protocol(request, pk):
     })
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def series_admin(request):
     today = timezone.localdate()
-    series = accessible_series(request.user).prefetch_related(
+    series_queryset = accessible_series(request.user)
+    if not is_admin(request.user):
+        series_queryset = series_queryset.filter(user_access__role=SeriesAccess.ROLE_MODERATOR)
+    series = series_queryset.prefetch_related(
         Prefetch(
             "meetings",
             queryset=Meeting.objects.order_by("date", "pk"),
@@ -598,7 +640,7 @@ def series_admin(request):
     if request.method == "POST" and form.is_valid():
         item = form.save()
         if not is_admin(request.user):
-            SeriesAccess.objects.get_or_create(user=request.user, series=item)
+            SeriesAccess.objects.get_or_create(user=request.user, series=item, defaults={"role": SeriesAccess.ROLE_MODERATOR})
         generate_meetings(item)
         messages.success(request, "Besprechungsreihe und Termine angelegt.")
         return redirect("series_admin")
@@ -608,9 +650,11 @@ def series_admin(request):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def series_edit(request, pk):
     series = get_object_or_404(accessible_series(request.user), pk=pk)
+    if not is_moderator(request.user, series):
+        return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
     old_weekday = series.weekday
     form = SeriesForm(request.POST or None, instance=series)
     if request.method == "POST" and form.is_valid():
@@ -644,7 +688,7 @@ def series_edit(request, pk):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def series_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -673,7 +717,7 @@ def series_delete(request, pk):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def meeting_edit(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if meeting.finalized_at:
@@ -700,7 +744,7 @@ def meeting_edit(request, pk):
 
 
 @login_required
-@user_passes_test(is_moderator)
+@moderator_required
 def meeting_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -731,7 +775,7 @@ def finalize(request, pk):
 
 
 @login_required
-@user_passes_test(can_reopen_meeting)
+@moderator_required
 def meeting_reopen(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()

@@ -29,6 +29,8 @@ class MeetingInline(admin.TabularInline):
 class SeriesAccessInline(admin.TabularInline):
     model = SeriesAccess
     extra = 1
+    def get_fields(self, request, obj=None):
+        return ("user", "role") if self.parent_model == MeetingSeries else ("series", "role")
 
 
 @admin.register(MeetingSeries)
@@ -105,8 +107,8 @@ class TopicCommentAdmin(admin.ModelAdmin):
 
 @admin.register(SeriesAccess)
 class SeriesAccessAdmin(admin.ModelAdmin):
-    list_display = ("display_user", "series")
-    list_filter = ("series",)
+    list_display = ("display_user", "series", "role")
+    list_filter = ("series", "role")
     search_fields = ("user__username", "user__first_name", "user__last_name", "series__name")
 
     @admin.display(description="Benutzer", ordering="user__username")
@@ -124,13 +126,6 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
     short_description = forms.CharField(
         label="Kurzbeschreibung", required=False, max_length=80,
     )
-    series_access = forms.ModelMultipleChoiceField(
-        label="Serienberechtigungen",
-        queryset=MeetingSeries.objects.all(),
-        required=False,
-        widget=admin.widgets.FilteredSelectMultiple("Besprechungsreihen", is_stacked=False),
-    )
-
     class Meta(DjangoUserChangeForm.Meta):
         model = User
         fields = "__all__"
@@ -142,40 +137,15 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
             self.fields["short_description"].initial = (
                 profile.short_description if profile else ""
             )
-            self.fields["series_access"].initial = MeetingSeries.objects.filter(
-                user_access__user=self.instance
-            )
         self.fields["is_superuser"].label = "Django-Superuser"
-
-    def save(self, commit=True):
-        user = super().save(commit=commit)
-        if commit:
-            self.save_extra_fields()
-        return user
-
-    def save_extra_fields(self):
-        if not self.instance.pk:
-            return
-        UserProfile.objects.update_or_create(
-            user=self.instance,
-            defaults={"short_description": self.cleaned_data["short_description"]},
-        )
-        SeriesAccess.objects.filter(user=self.instance).exclude(
-            series__in=self.cleaned_data["series_access"]
-        ).delete()
-        existing_ids = set(
-            SeriesAccess.objects.filter(user=self.instance).values_list("series_id", flat=True)
-        )
-        SeriesAccess.objects.bulk_create([
-            SeriesAccess(user=self.instance, series=series)
-            for series in self.cleaned_data["series_access"]
-            if series.pk not in existing_ids
-        ])
-
+        if "groups" in self.fields:
+            self.fields["groups"].queryset = Group.objects.filter(name="Admin")
+            self.fields["groups"].label = "Globale Berechtigung"
+            self.fields["groups"].help_text = "Nur Admin ist global. Leser-, Teilnehmer- und Moderatorrollen werden je Besprechungsreihe vergeben."
 
 class MeetingUserAdmin(DjangoUserAdmin):
     form = MeetingUserChangeForm
-    inlines = []
+    inlines = [SeriesAccessInline]
     list_display = ("username", "display_name", "email", "is_staff", "is_active")
     fieldsets = (
         ("Persönliche Informationen", {
@@ -183,9 +153,6 @@ class MeetingUserAdmin(DjangoUserAdmin):
         }),
         ("Berechtigungen", {
             "fields": ("is_active", "groups", "is_superuser"),
-        }),
-        ("Serienberechtigungen", {
-            "fields": ("series_access",),
         }),
         ("Wichtige Daten", {
             "fields": ("last_login", "date_joined"),
@@ -200,10 +167,11 @@ class MeetingUserAdmin(DjangoUserAdmin):
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
-        form.save_extra_fields()
         user = form.instance
-        if not user.is_superuser and not user.groups.exists():
-            user.groups.add(Group.objects.get(name="Nutzer*in"))
+        UserProfile.objects.update_or_create(
+            user=user,
+            defaults={"short_description": form.cleaned_data.get("short_description", "")},
+        )
         should_be_staff = user.is_superuser or user.groups.filter(name="Admin").exists()
         if user.is_staff != should_be_staff:
             user.is_staff = should_be_staff

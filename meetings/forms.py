@@ -109,8 +109,8 @@ class MeetingParticipantsForm(forms.ModelForm):
         membership = SeriesAccess.objects.filter(
             series_id=series_id, user_id=OuterRef("pk")
         )
-        reader_membership = User.objects.filter(
-            pk=OuterRef("pk"), groups__name="Leser*in"
+        reader_membership = SeriesAccess.objects.filter(
+            series_id=series_id, user_id=OuterRef("pk"), role=SeriesAccess.ROLE_READER
         )
         self.fields["participants"].queryset = (
             User.objects.filter(is_active=True)

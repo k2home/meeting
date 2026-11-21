@@ -153,11 +153,20 @@ class TopicComment(models.Model):
 
 
 class SeriesAccess(models.Model):
-    """Explicit assignment of a user to a meeting series."""
+    """Role-based assignment of a user to a meeting series."""
+    ROLE_PARTICIPANT = "participant"
+    ROLE_MODERATOR = "moderator"
+    ROLE_READER = "reader"
+    ROLE_CHOICES = [
+        (ROLE_PARTICIPANT, "Teilnehmer*in"),
+        (ROLE_MODERATOR, "Moderator*in"),
+        (ROLE_READER, "Leser*in"),
+    ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name="meeting_series_access", verbose_name="Benutzer")
     series = models.ForeignKey(MeetingSeries, on_delete=models.CASCADE,
                                related_name="user_access", verbose_name="Besprechungsreihe")
+    role = models.CharField("Rolle", max_length=16, choices=ROLE_CHOICES, default=ROLE_PARTICIPANT)
 
     class Meta:
         ordering = ["series__name", "user__username"]
