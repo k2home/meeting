@@ -198,7 +198,7 @@ Das Skript:
 2. Installiert bzw. aktualisiert Python-Abhängigkeiten.
 3. Führt ausstehende Datenbankmigrationen aus.
 4. Sammelt statische Dateien für Nginx.
-5. Startet den Dienst `meeting-manager) neu und zeigt dessen Status an.
+5. Startet den Dienst `meeting-manager` neu und zeigt dessen Status an.
 
 Das Skript aktualisiert den Branch, der auf dem Server ausgecheckt ist. Für den regulären Betrieb sollte das der freigegebene Hauptbranch sein.
 
@@ -226,17 +226,10 @@ sudo nginx -t
 Für manuelle `manage.py`-Befehle müssen die Umgebungsvariablen aus der Konfigurationsdatei geladen werden:
 
 ```bash
-cd /opt/meeting-manager
-set -a
-source /etc/meeting-manager.env
-set +a
-source .venv/bin/activate
-
-# Beispiel:
-python manage.py showmigrations
+sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py showmigrations'
 ```
 
-Die Befehle mit dem Dienstkonto `meetingapp` und nicht als unprivilegierter SSH-Benutzer ausführen. Keine Zugangsdaten direkt in Befehlszeilen oder Tickets schreiben.
+Dasselbe Muster gilt für weitere `manage.py`-Befehle, zum Beispiel `check` oder `test`. So werden dieselben Umgebungsvariablen und Dateiberechtigungen wie beim Anwendungsdienst verwendet. Keine Zugangsdaten direkt in Befehlszeilen oder Tickets schreiben.
 
 ## Arbeitsabläufe in der Anwendung
 
@@ -321,9 +314,8 @@ Die Anwendung benötigt Python-Abhängigkeiten aus `requirements.txt` sowie eine
 Im aktivierten Virtualenv und mit geladener Konfiguration:
 
 ```bash
-python manage.py check
-python manage.py showmigrations
-python manage.py test
+sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py check'
+sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py test'
 ```
 
 Die Berechtigungstests liegen in `meetings/test_permissions.py`; weitere Anwendungstests liegen in `meetings/tests.py`.
