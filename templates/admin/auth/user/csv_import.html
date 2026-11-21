@@ -1,0 +1,48 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div id="content-main">
+    <p>CSV-Datei mit Semikolon als Trennzeichen und UTF-8-Kodierung hochladen. Mehrere Zeilen mit demselben Benutzernamen bilden einen Benutzer mit mehreren Serienzuordnungen.</p>
+    <p>Pflichtspalte: <code>username</code>. Für Serienzuordnungen werden <code>series</code> und <code>series_role</code> verwendet. Gültige Rollen: <code>participant</code>, <code>moderator</code>, <code>reader</code> (alternativ die deutschen Anzeigenamen).</p>
+
+    {% if errors %}
+      <div class="messagelist">
+        {% for error in errors %}<div class="error">{{ error }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    {% if preview %}
+      <div class="module">
+        <h2>Importvorschau</h2>
+        <p>{{ preview.users }} Benutzer insgesamt</p>
+        <ul>
+          <li>{{ preview.new_users }} neue Benutzer</li>
+          <li>{{ preview.updated_users }} bestehende Benutzer werden aktualisiert</li>
+          <li>{{ preview.assignments }} Serienzuordnungen</li>
+        </ul>
+        <p>Bestehende Serienzuordnungen der importierten Benutzer werden durch die Zuordnungen aus der CSV-Datei ersetzt.</p>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="confirm">
+          <input type="hidden" name="token" value="{{ preview.token }}">
+          <div class="submit-row">
+            <input type="submit" value="Import jetzt durchführen" class="default">
+            <a href="{% url 'admin:auth_user_csv_import' %}" class="button cancel-link">Abbrechen</a>
+          </div>
+        </form>
+      </div>
+    {% else %}
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <fieldset class="module aligned">
+          {{ form.as_p }}
+        </fieldset>
+        <div class="submit-row">
+          <input type="submit" value="CSV prüfen" class="default">
+          <a href="{% url 'admin:auth_user_changelist' %}" class="button cancel-link">Zurück zur Benutzerverwaltung</a>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
