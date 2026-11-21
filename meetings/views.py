@@ -208,7 +208,7 @@ def meeting_detail(request, pk):
 def topic_edit(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     original_topic = Topic.objects.select_related("series", "assigned_to").get(pk=pk)
-    form = TopicForm(request.POST or None, instance=topic, series_queryset=accessible_series(request.user))
+    form = TopicForm(request.POST or None, instance=topic, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
     if request.method == "POST" and form.is_valid():
         old_series = original_topic.series
         before = {"title": original_topic.title, "description": original_topic.description,
@@ -249,7 +249,7 @@ def topic_edit(request, pk):
 
 @login_required
 def topic_new(request):
-    form = TopicForm(request.POST or None, series_queryset=accessible_series(request.user))
+    form = TopicForm(request.POST or None, series_queryset=accessible_series(request.user), series_required=not is_admin(request.user))
     if request.method == "POST" and form.is_valid():
         topic = form.save()
         record_event(actor=request.user, action="created", summary=f"Thema „{topic.title}“ angelegt",
