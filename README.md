@@ -275,7 +275,7 @@ Mindestens die PostgreSQL-Datenbank und das gesamte Upload-Verzeichnis `/opt/mee
 ### Datenbank sichern
 
 ```bash
-sudo -u postgres pg_dump meeting_manager > meeting_manager-$(date +%F).sql
+sudo -u postgres pg_dump meeting_manager | sudo tee meeting_manager-$(date +%F).sql > /dev/null
 ```
 
 ### Uploads sichern
