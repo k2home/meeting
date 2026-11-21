@@ -49,7 +49,9 @@ th{color:#4b5563;font-size:.9rem}
 .menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;background:transparent;color:inherit;border:1px solid currentColor;border-radius:8px;font-size:1.35rem}
 .menu-toggle:hover{filter:none;background:#ffffff18}
 .menu-backdrop{display:none}
-@media(min-width:1024px){.sidebar{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}.main-column{margin-left:var(--nav-width)}.sidebar .brand{font-size:1.12rem;justify-content:flex-start;padding:.45rem .65rem}.sidebar .brand-title,.sidebar .brand-organization{display:block}.sidebar .brand-short{display:none}.sidebar .nav-links a{font-size:inherit;justify-content:flex-start;padding:.65rem .75rem}.sidebar .nav-links a::before{display:block}.sidebar .username{font-size:.9rem;padding:0 .65rem}.sidebar .logout-form button{font-size:inherit;text-align:left;padding:.72rem 1rem}.sidebar .theme-toggle{font-size:inherit;text-align:left;padding:.6rem .7rem}.sidebar .theme-toggle::before{content:none}}\n@media(min-width:761px) and (max-width:1023px){.desktop-menu-toggle{display:block}.sidebar:hover,.sidebar:focus-within{width:var(--nav-rail);flex-basis:var(--nav-rail);padding-left:.65rem;padding-right:.65rem}.sidebar.is-expanded{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}.sidebar.is-expanded .brand-title,.sidebar.is-expanded .brand-organization{display:block}.sidebar.is-expanded .brand-short{display:none}.sidebar.is-expanded .nav-links a{font-size:inherit;justify-content:flex-start;padding:.65rem .75rem}.sidebar.is-expanded .username{font-size:.9rem;padding:0 .65rem}.sidebar.is-expanded .logout-form button,.sidebar.is-expanded .theme-toggle{font-size:inherit;text-align:left;padding:.6rem .7rem}.sidebar.is-expanded .theme-toggle::before{content:none}.sidebar-management-label{display:none}.sidebar:not(.is-expanded) .sidebar-management a{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(.is-expanded) .sidebar-management a::before{display:block}}\n@media(max-width:760px){
+@media(min-width:1024px){.sidebar{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}.main-column{margin-left:var(--nav-width)}.sidebar .brand{font-size:1.12rem;justify-content:flex-start;padding:.45rem .65rem}.sidebar .brand-title,.sidebar .brand-organization{display:block}.sidebar .brand-short{display:none}.sidebar .nav-links a{font-size:inherit;justify-content:flex-start;padding:.65rem .75rem}.sidebar .nav-links a::before{display:block}.sidebar .username{font-size:.9rem;padding:0 .65rem}.sidebar .logout-form button{font-size:inherit;text-align:left;padding:.72rem 1rem}.sidebar .theme-toggle{font-size:inherit;text-align:left;padding:.6rem .7rem}.sidebar .theme-toggle::before{content:none}}
+@media(min-width:761px) and (max-width:1023px){.desktop-menu-toggle{display:block}.sidebar:hover,.sidebar:focus-within{width:var(--nav-rail);flex-basis:var(--nav-rail);padding-left:.65rem;padding-right:.65rem}.sidebar.is-expanded{width:var(--nav-width);flex-basis:var(--nav-width);padding-left:1rem;padding-right:1rem}.sidebar.is-expanded .brand-title,.sidebar.is-expanded .brand-organization{display:block}.sidebar.is-expanded .brand-short{display:none}.sidebar.is-expanded .nav-links a{font-size:inherit;justify-content:flex-start;padding:.65rem .75rem}.sidebar.is-expanded .username{font-size:.9rem;padding:0 .65rem}.sidebar.is-expanded .logout-form button,.sidebar.is-expanded .theme-toggle{font-size:inherit;text-align:left;padding:.6rem .7rem}.sidebar.is-expanded .theme-toggle::before{content:none}.sidebar-management-label{display:none}.sidebar:not(.is-expanded) .sidebar-management a{font-size:0;justify-content:center;padding-left:0;padding-right:0}.sidebar:not(.is-expanded) .sidebar-management a::before{display:block}}
+@media(max-width:760px){
   .app-layout{display:block}
   .main-column{margin-left:0}
   .mobile-header{height:64px;position:sticky;top:0;z-index:25;display:flex;align-items:center;gap:.85rem;padding:0 1rem;background:var(--nav-bg);color:white;box-shadow:0 2px 8px #15223820}
@@ -126,6 +128,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 <a class="brand" href="/">Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
+<button class="desktop-menu-toggle" type="button" id="desktop-menu-toggle" aria-expanded="false" aria-label="Navigation aufklappen">☰</button>
 <a class="brand" href="/"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span>{% endif %}<span class="brand-short">{{ organization_unit_short_name }}</span></a>
 <nav class="nav-links">
 <a href="/">Übersicht</a>
@@ -137,6 +140,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if is_moderator %}<a href="/admin/series/">Besprechungsreihen</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
+{% if is_admin %}<div class="sidebar-management"><span class="sidebar-management-label">Verwaltung</span><a href="/django-admin/">Verwaltung</a></div>{% endif %}
 <button class="theme-toggle secondary" type="button" id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
 <span class="username">{{ user|user_display }}</span>
 <form class="logout-form" method="post" action="/logout/">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
@@ -177,7 +181,15 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
       }, 400);
     });
   }
-  const desktopToggle = document.getElementById('desktop-menu-toggle');\n  if (desktopToggle && sidebar) {\n    desktopToggle.addEventListener('click', () => {\n      const expanded = sidebar.classList.toggle('is-expanded');\n      desktopToggle.setAttribute('aria-expanded', String(expanded));\n      desktopToggle.setAttribute('aria-label', expanded ? 'Navigation einklappen' : 'Navigation aufklappen');\n    });\n  }\n  const toggle = document.getElementById('menu-toggle');
+  const desktopToggle = document.getElementById('desktop-menu-toggle');
+  if (desktopToggle && sidebar) {
+    desktopToggle.addEventListener('click', () => {
+      const expanded = sidebar.classList.toggle('is-expanded');
+      desktopToggle.setAttribute('aria-expanded', String(expanded));
+      desktopToggle.setAttribute('aria-label', expanded ? 'Navigation einklappen' : 'Navigation aufklappen');
+    });
+  }
+  const toggle = document.getElementById('menu-toggle');
   const sidebar = document.getElementById('main-navigation');
   const backdrop = document.getElementById('menu-backdrop');
   if (!toggle || !sidebar || !backdrop) return;
