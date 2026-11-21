@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from .models import Meeting, MeetingSeries, Topic, TopicTransferHistory, AgendaItem
+from .models import Meeting, MeetingSeries, SeriesAccess, Topic, TopicTransferHistory, AgendaItem
 
 User = get_user_model()
 
@@ -700,3 +700,54 @@ class MeetingSeriesManagementTests(TestCase):
         self.client.post(reverse("meeting_delete", args=[self.meeting.pk]))
         self.assertTrue(Meeting.objects.filter(pk=self.meeting.pk).exists())
 
+
+
+
+class MeetingParticipantDefaultsTests(TestCase):
+    def setUp(self):
+        self.assigned = User.objects.create_user(
+            username="assigned", first_name="Ada", last_name="Lovelace",
+            password="strong-test-password",
+        )
+        self.unassigned = User.objects.create_user(
+            username="unassigned", password="strong-test-password",
+        )
+        self.series = MeetingSeries.objects.create(name="Teilnehmer-Reihe")
+        SeriesAccess.objects.create(user=self.assigned, series=self.series)
+        self.meeting = Meeting.objects.create(series=self.series, date="2026-12-15")
+        self.client.force_login(self.assigned)
+
+    def test_series_assignees_are_preselected_on_first_meeting_open(self):
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerySetEqual(
+            self.meeting.participants.all(), [self.assigned], ordered=False,
+        )
+        self.meeting.refresh_from_db()
+        self.assertTrue(self.meeting.participants_initialized)
+        self.assertContains(response, "Teilnehmer auswählen oder ändern")
+        self.assertNotContains(response, "unassigned")
+
+    def test_manually_cleared_participant_list_stays_empty(self):
+        self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {"save_participants": "1"},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.meeting.refresh_from_db()
+        self.assertTrue(self.meeting.participants_initialized)
+        self.assertFalse(self.meeting.participants.exists())
+        self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertFalse(self.meeting.participants.exists())
+
+    def test_existing_participants_are_not_overwritten_by_series_defaults(self):
+        self.meeting.participants.add(self.unassigned)
+
+        self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        self.assertQuerySetEqual(
+            self.meeting.participants.all(), [self.unassigned], ordered=False,
+        )
