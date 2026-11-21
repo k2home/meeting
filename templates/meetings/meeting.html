@@ -27,8 +27,12 @@
 .agenda-item-tools{justify-content:flex-end}
 .agenda-item-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:.35rem;min-width:0}
 .agenda-item-heading h2{margin:0;font-size:1.25rem;line-height:1.35}
-.agenda-title-assignee{display:inline;color:var(--muted);font-size:inherit;font-weight:400;line-height:inherit}
-.agenda-title-status{display:inline-flex;align-items:baseline;vertical-align:baseline;font-size:inherit;line-height:inherit}
+.agenda-item-number{display:inline-block;margin-right:.45rem;color:var(--muted);font-weight:600}
+.agenda-item-title{font:inherit}
+.agenda-title-assignee,.agenda-title-status{display:inline;color:var(--muted);font-size:.88em;font-weight:400;line-height:inherit}
+.agenda-title-assignee{padding-left:.55rem;border-left:1px solid var(--border)}
+.agenda-title-status{padding-left:.55rem;border-left:1px solid var(--border)}
+.agenda-title-status select{font-size:inherit}
 .agenda-title-status select{font:inherit;line-height:inherit;color:inherit;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0 .25rem;min-width:0;max-width:100%;vertical-align:baseline}
 .agenda-title-status .pill{font:inherit;line-height:inherit}
 .agenda-status-form{display:none}
@@ -37,6 +41,16 @@
 .agenda-schedule-form label{display:none}
 .agenda-schedule-form select{min-width:130px;width:auto;font:inherit;font-size:.9rem;padding:.3rem .4rem}
 .agenda-schedule-form button{font-size:.9rem;padding:.3rem .55rem}
+.move-up,.move-down,.drag-handle{display:none}
+#agenda-list.reorder-mode .move-up,#agenda-list.reorder-mode .move-down{display:inline-flex}
+#agenda-list.reorder-mode .drag-handle{display:inline}
+#agenda-list.reorder-mode .agenda-item{cursor:grab}
+#agenda-list.reorder-mode .agenda-item.dragging{opacity:.55;cursor:grabbing}
+#agenda-list.reorder-mode .agenda-item-heading h2{font-size:1.05rem}
+#agenda-list.reorder-mode .agenda-title-assignee,#agenda-list.reorder-mode .agenda-title-status,
+#agenda-list.reorder-mode .agenda-history-button,#agenda-list.reorder-mode .agenda-schedule-row,
+#agenda-list.reorder-mode .agenda-item>form{display:none!important}
+#agenda-list.reorder-mode .agenda-item .topline{align-items:center}
 @media(max-width:760px){.agenda-schedule-row{justify-content:flex-start}.agenda-schedule-form{justify-content:flex-start}.agenda-item-heading h2{font-size:1.15rem}}
 #new-agenda-topic-dialog form{margin-top:.75rem}
 #new-agenda-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
@@ -66,7 +80,7 @@
   </div>
 </details>{% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button agenda-create-button" type="button" id="open-new-agenda-topic">+ Neuer Tagesordnungspunkt</button>{% endif %}
+  {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button agenda-create-button" type="button" id="open-new-agenda-topic">+ Neuer Tagesordnungspunkt</button><button class="meeting-menu-button secondary" type="button" id="toggle-agenda-reorder" aria-pressed="false">Reihenfolge ändern</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
@@ -95,10 +109,10 @@
 
 <div id="agenda-list">
 {% for item in items %}
-  <div class="card agenda-item" data-agenda-item="{{ item.id }}" {% if not meeting.finalized_at and not is_reader %}draggable="true"{% endif %}>
+  <div class="card agenda-item" data-agenda-item="{{ item.id }}">
     <div class="topline">
       <div class="agenda-item-heading">
-        <h2>{{ item.topic.title }} <span class="agenda-title-assignee">· {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span>
+        <h2><span class="agenda-item-number">{{ forloop.counter }}.</span><span class="agenda-item-title">{{ item.topic.title }}</span><span class="agenda-title-assignee">{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</span>
           <span class="agenda-title-status">
             {% if not meeting.finalized_at and not is_reader %}
             <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
@@ -137,7 +151,7 @@
     </div>
     {% endif %}
     {% if not meeting.finalized_at and not is_reader %}
-    <form method="post">
+    <form method="post" class="agenda-text-form" data-item-id="{{ item.id }}">
       {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
       <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
       <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
@@ -160,13 +174,32 @@
   const list = document.getElementById("agenda-list");
   const orderForm = document.getElementById("agenda-reorder-form");
   const inputContainer = document.getElementById("agenda-order-inputs");
+  const reorderToggle = document.getElementById("toggle-agenda-reorder");
   if (list && orderForm && inputContainer) {
     let dragged = null;
     let orderBeforeDrag = "";
     let savePending = false;
     const cards = () => Array.from(list.querySelectorAll(":scope > .agenda-item"));
     const currentOrder = () => cards().map(card => card.dataset.agendaItem).join(",");
+    function updateNumbers() {
+      cards().forEach((card, index) => {
+        const number = card.querySelector(".agenda-item-number");
+        if (number) number.textContent = (index + 1) + ".";
+      });
+    }
+    if (reorderToggle) {
+      reorderToggle.addEventListener("click", () => {
+        const active = list.classList.toggle("reorder-mode");
+        reorderToggle.setAttribute("aria-pressed", String(active));
+        reorderToggle.textContent = active ? "Reihenfolge fertigstellen" : "Reihenfolge ändern";
+        cards().forEach(card => {
+          if (active) card.setAttribute("draggable", "true");
+          else card.removeAttribute("draggable");
+        });
+      });
+    }
     function saveOrderIfChanged(previousOrder) {
+      updateNumbers();
       syncOrder();
       if (previousOrder !== currentOrder() && !savePending) {
         savePending = true;
@@ -183,13 +216,13 @@
     }
     list.addEventListener("dragstart", (event) => {
       const card = event.target.closest(".agenda-item");
-      if (!card) return;
+      if (!card || !list.classList.contains("reorder-mode")) { event.preventDefault(); return; }
       dragged = card; orderBeforeDrag = currentOrder(); card.classList.add("dragging");
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("text/plain", card.dataset.agendaItem);
     });
     list.addEventListener("dragover", (event) => {
-      if (!dragged) return;
+      if (!dragged || !list.classList.contains("reorder-mode")) return;
       event.preventDefault();
       const target = event.target.closest(".agenda-item");
       if (!target || target === dragged) return;
@@ -205,15 +238,39 @@
     });
     list.addEventListener("click", (event) => {
       const button = event.target.closest(".move-up, .move-down");
-      if (!button) return;
+      if (!button || !list.classList.contains("reorder-mode")) return;
       const before = currentOrder();
       const card = button.closest(".agenda-item");
       if (button.classList.contains("move-up") && card.previousElementSibling) list.insertBefore(card, card.previousElementSibling);
       else if (button.classList.contains("move-down") && card.nextElementSibling) list.insertBefore(card.nextElementSibling, card);
       saveOrderIfChanged(before);
     });
+    updateNumbers();
     syncOrder();
   }
+
+  document.querySelectorAll(".agenda-text-form").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      if (form.dataset.saveAllPrepared === "true") return;
+      const saveOnlyThis = window.confirm(
+        "Nur diesen Tagesordnungspunkt speichern?\n\nOK: Nur diesen Punkt speichern.\nAbbrechen: Alle geänderten Tagesordnungspunkte speichern."
+      );
+      if (saveOnlyThis) return;
+      event.preventDefault();
+      document.querySelectorAll(".agenda-text-form textarea[name='working_text']").forEach((textarea) => {
+        const hidden = document.createElement("input");
+        hidden.type = "hidden";
+        hidden.name = "working_text_" + textarea.id.replace("working-text-", "");
+        hidden.value = textarea.value;
+        form.appendChild(hidden);
+      });
+      const allFlag = document.createElement("input");
+      allFlag.type = "hidden"; allFlag.name = "save_all_working_texts"; allFlag.value = "1";
+      form.appendChild(allFlag);
+      form.dataset.saveAllPrepared = "true";
+      form.submit();
+    });
+  });
 
   document.querySelectorAll(".agenda-schedule-form").forEach((form) => {
     const series = form.querySelector('[name="target_series"]');
