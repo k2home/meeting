@@ -20,6 +20,7 @@ class TopicForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if series_queryset is not None:
             self.fields["series"].queryset = series_queryset
+            self.fields["series"].required = True
         User = get_user_model()
         self.fields["assigned_to"].queryset = User.objects.filter(is_active=True).order_by("username")
         self.fields["assigned_to"].required = False
