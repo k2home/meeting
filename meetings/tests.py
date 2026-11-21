@@ -1040,8 +1040,40 @@ class MeetingAgendaEnhancementTests(TestCase):
         Topic.objects.create(title="Digitalisierung Schule", series=self.series_b)
         response = self.client.get(reverse("topic_suggestions"), {"q": "Digitalisierung"})
         self.assertEqual(response.status_code, 200)
-        titles = [entry["title"] for entry in response.json()["results"]]
+        results = response.json()["results"]
+        titles = [entry["title"] for entry in results]
         self.assertEqual(titles, ["Digitalisierung Haushalt", "Digitalisierung Schule"])
+        self.assertEqual(
+            {entry["id"] for entry in results},
+            set(Topic.objects.filter(title__startswith="Digitalisierung").values_list("pk", flat=True)),
+        )
+
+    def test_existing_topic_is_added_only_to_current_agenda_without_changing_series_or_due_date(self):
+        topic = Topic.objects.create(
+            title="Vorhandenes Thema", series=self.series_b,
+            due_date=self.target_meeting.date, description="Bisheriger Sachstand",
+        )
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {"add_existing_topic": str(topic.pk)},
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        topic.refresh_from_db()
+        self.assertEqual(topic.series, self.series_b)
+        self.assertEqual(topic.due_date, self.target_meeting.date)
+        item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
+        self.assertEqual(item.working_text, "Bisheriger Sachstand")
+        self.assertFalse(AgendaItem.objects.filter(meeting=self.target_meeting, topic=topic).exists())
+
+    def test_existing_topic_cannot_be_added_twice_to_same_agenda(self):
+        topic = Topic.objects.create(title="Bereits vorhanden", series=self.series_a)
+        AgendaItem.objects.create(meeting=self.meeting, topic=topic)
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {"add_existing_topic": str(topic.pk)},
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(AgendaItem.objects.filter(meeting=self.meeting, topic=topic).count(), 1)
 
     def test_agenda_item_can_be_scheduled_for_selected_committee_meeting(self):
         topic = Topic.objects.create(title="Zu übertragendes Thema", series=self.series_a)
