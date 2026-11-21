@@ -47,19 +47,21 @@ def logout_view(request):
 UserModel = get_user_model()
 
 
-def _series_for_view(kwargs):
+def _series_for_view(view, kwargs):
     pk = kwargs.get("pk")
-    meeting = Meeting.objects.filter(pk=pk).select_related("series").first() if pk else None
-    if meeting:
-        return meeting.series
-    topic = Topic.objects.filter(pk=pk).select_related("series").first() if pk else None
+    if not pk:
+        return None
+    if view.__name__ in {"agenda_reorder", "meeting_detail"}:
+        meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
+        return meeting.series if meeting else None
+    topic = Topic.objects.filter(pk=pk).select_related("series").first()
     return topic.series if topic else None
 
 
 def reader_readonly(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
-        if is_reader(request.user, _series_for_view(kwargs)) and request.method == "POST":
+        if is_reader(request.user, _series_for_view(view, kwargs)) and request.method == "POST":
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
         return view(request, *args, **kwargs)
     return wrapped
@@ -245,7 +247,7 @@ def meeting_detail(request, pk):
         return redirect("meeting", pk=pk)
     participant_form = MeetingParticipantsForm(instance=meeting)
     return render(request, "meetings/meeting.html", {
-        "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user),
+        "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user, meeting.series),
     })
 
 @login_required
@@ -613,7 +615,7 @@ def series_admin(request):
     if request.method == "POST" and form.is_valid():
         item = form.save()
         if not is_admin(request.user):
-            SeriesAccess.objects.get_or_create(user=request.user, series=item)
+            SeriesAccess.objects.get_or_create(user=request.user, series=item, defaults={"role": SeriesAccess.ROLE_MODERATOR})
         generate_meetings(item)
         messages.success(request, "Besprechungsreihe und Termine angelegt.")
         return redirect("series_admin")
