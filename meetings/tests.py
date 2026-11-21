@@ -991,6 +991,8 @@ class UserShortDescriptionTests(TestCase):
         from .models import UserProfile
 
         UserProfile.objects.create(user=self.user, short_description="01/22")
+        self.user.email = "private@example.com"
+        self.user.save(update_fields=["email"])
         admin_user = User.objects.create_superuser(
             username="profile-admin", password="strong-test-password", email="admin@example.com"
         )
@@ -1003,7 +1005,7 @@ class UserShortDescriptionTests(TestCase):
         changelist = self.client.get(reverse("admin:auth_user_changelist"))
         self.assertEqual(changelist.status_code, 200)
         self.assertContains(changelist, "Name (display-user)")
-        self.assertNotContains(changelist, "ada@example.com")
+        self.assertNotContains(changelist, "private@example.com")
 
 
 
