@@ -1,4 +1,5 @@
 {% extends "meetings/base.html" %}
+{% load meeting_user_tags %}
 {% block title %}Änderungsverlauf – Meeting Manager{% endblock %}
 {% block content %}
 <div class="topline">
@@ -23,7 +24,7 @@
       <span class="muted">{{ event.created_at|date:"d.m.Y H:i" }}</span>
     </div>
     <p>{{ event.summary }}</p>
-    <p class="muted">Von {% if event.actor %}{{ event.actor.get_full_name|default:event.actor.username }}{% else %}System / gelöschtem Benutzer{% endif %}
+    <p class="muted">Von {% if event.actor %}{{ event.actor|user_display }}{% else %}System / gelöschtem Benutzer{% endif %}
       {% if event.topic %} · <a href="{% url 'topic_edit' event.topic.pk %}">{{ event.topic.title }}</a>{% endif %}
       {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{{ event.meeting.series.name|default:'Gelöschte Besprechungsreihe' }} am {{ event.meeting.date|date:"d.m.Y" }}</a>{% endif %}
     </p>
