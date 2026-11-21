@@ -230,7 +230,7 @@ def meeting_detail(request, pk):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
     writable_series = writable_series.filter(active=True).order_by("name")
     target_meetings = accessible_meetings(request.user).filter(
-        series__in=writable_series, date__gte=meeting.date, finalized_at__isnull=True
+        series__in=writable_series, date__gt=meeting.date, finalized_at__isnull=True
     ).select_related("series").order_by("series__name", "date")
 
     if request.method == "POST":
@@ -261,6 +261,59 @@ def meeting_detail(request, pk):
                     "is_moderator": is_moderator(request.user, meeting.series),
                     "writable_series": writable_series, "target_meetings": target_meetings,
                 })
+        elif request.POST.get("shift_item"):
+            item = get_object_or_404(AgendaItem.objects.select_related("topic"), pk=request.POST.get("shift_item"), meeting=meeting)
+            schedule_form = AgendaScheduleForm(
+                request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
+            )
+            if schedule_form.is_valid():
+                topic = item.topic
+                old_series = topic.series
+                old_due_date = topic.due_date
+                target_series = schedule_form.cleaned_data["target_series"]
+                target_meeting = schedule_form.cleaned_data["target_meeting"]
+                if target_meeting.pk == meeting.pk:
+                    messages.error(request, "Bitte wähle einen anderen, späteren Besprechungstermin.")
+                else:
+                    target_item = AgendaItem.objects.filter(meeting=target_meeting, topic=topic).first()
+                    if target_item:
+                        target_item.working_text = item.working_text
+                        target_item.position = (target_meeting.agenda_items.exclude(pk=target_item.pk).order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exclude(pk=target_item.pk).exists() else -1) + 1
+                        target_item.save(update_fields=["working_text", "position"])
+                        item.delete()
+                    else:
+                        next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
+                        item.meeting = target_meeting
+                        item.position = next_position
+                        item.save(update_fields=["meeting", "position"])
+                    topic.series = target_series
+                    topic.due_date = target_meeting.date
+                    topic.save(update_fields=["series", "due_date", "updated_at"])
+                    if old_series != target_series:
+                        TopicTransferHistory.objects.create(
+                            topic=topic, from_series=old_series, to_series=target_series,
+                            transferred_by=request.user,
+                            note=f"Agenda-Punkt ohne Besprechung auf {target_meeting.date:%d.%m.%Y} verschoben",
+                        )
+                    record_event(
+                        actor=request.user, action="transferred" if old_series != target_series else "updated",
+                        summary=f"„{topic.title}“ ohne Besprechung von {meeting.date:%d.%m.%Y} auf {target_series.name} am {target_meeting.date:%d.%m.%Y} verschoben",
+                        topic=topic, meeting=meeting,
+                        changes={
+                            "Tagesordnung": {"vorher": meeting.date.isoformat(), "nachher": target_meeting.date.isoformat()},
+                            "Fälligkeit": {
+                                "vorher": old_due_date.isoformat() if old_due_date else None,
+                                "nachher": target_meeting.date.isoformat(),
+                            },
+                            "Besprechungsserie": {
+                                "vorher": old_series.name if old_series else None,
+                                "nachher": target_series.name,
+                            },
+                        },
+                    )
+                    messages.success(request, f"„{topic.title}“ wurde aus dieser Tagesordnung entfernt und auf den {target_meeting.date:%d.%m.%Y} verschoben.")
+            else:
+                messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen späteren Termin.")
         elif request.POST.get("schedule_item"):
             item = get_object_or_404(AgendaItem, pk=request.POST.get("schedule_item"), meeting=meeting)
             schedule_form = AgendaScheduleForm(
