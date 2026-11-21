@@ -182,6 +182,7 @@ def meeting_detail(request, pk):
         meeting.participants_initialized = True
         meeting.save(update_fields=["participants_initialized"])
     items = ensure_agenda(meeting)
+    participants = meeting.participants.filter(is_active=True).exclude(groups__name="Leser*in").order_by("last_name", "first_name", "username")
     if request.method == "POST":
         if meeting.finalized_at:
             messages.error(request, "Eine abgeschlossene Besprechung kann nicht mehr geändert werden.")
@@ -205,7 +206,7 @@ def meeting_detail(request, pk):
             else:
                 messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
                 return render(request, "meetings/meeting.html", {
-                    "meeting": meeting, "items": items, "participant_form": participant_form, "is_reader": is_reader(request.user),
+                    "meeting": meeting, "items": items, "participant_form": participant_form, "participants": participants, "is_reader": is_reader(request.user),
                 })
         else:
             item_id = request.POST.get("item_id")
