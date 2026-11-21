@@ -156,7 +156,7 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<p>Erste Zeile<br>Zweite Zeile</p>", html=True)
         self.assertContains(response, "Vorher<br>Text", html=True)
-        self.assertNotContains(response, "\\\\n")
+        self.assertNotContains(response, "\\n")
 
 
 class TopicTaskManagementTests(TestCase):
