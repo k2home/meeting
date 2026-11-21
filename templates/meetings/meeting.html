@@ -173,16 +173,15 @@
           {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
         </span>
         {% if not meeting.finalized_at and not is_reader %}
-        <form method="post" class="agenda-schedule-row agenda-schedule-form agenda-followup-form" aria-label="Wiedervorlage festlegen">
-          {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
+        <div class="agenda-schedule-row agenda-schedule-form agenda-followup-form agenda-followup-controls" data-form-id="agenda-text-form-{{ item.id }}">
           <span class="agenda-followup-label">Termin</span>
-          <select name="target_series" aria-label="Besprechungsserie" required>
+          <select name="target_series" form="agenda-text-form-{{ item.id }}" aria-label="Besprechungsserie">
             {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
           </select>
-          <select name="target_meeting" aria-label="Termin der Wiedervorlage" required onchange="this.form.requestSubmit()">
+          <select name="target_meeting" form="agenda-text-form-{{ item.id }}" aria-label="Termin der Wiedervorlage">
             {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
           </select>
-        </form>
+        </div>
         {% endif %}
         <div class="agenda-item-tools no-print">
           {% if not meeting.finalized_at and not is_reader %}
@@ -193,8 +192,8 @@
         </div>
       </div>
       {% if not meeting.finalized_at and not is_reader %}
-      <form method="post" class="agenda-text-form" data-item-id="{{ item.id }}">
-        {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
+      <form method="post" id="agenda-text-form-{{ item.id }}" class="agenda-text-form" data-item-id="{{ item.id }}">
+        {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}"><input type="hidden" name="schedule_item" value="{{ item.id }}" disabled>
         <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
         <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
         <div class="agenda-text-actions">
@@ -428,8 +427,15 @@
   });
 
   document.querySelectorAll(".agenda-schedule-form").forEach((form) => {
-    const series = form.querySelector('[name="target_series"]');
-    const meeting = form.querySelector('[name="target_meeting"]');
+    const formId = form.dataset.formId;
+    const series = form.querySelector('[name="target_series"]') || (formId ? document.querySelector('[form="' + formId + '"][name="target_series"]') : null);
+    const meeting = form.querySelector('[name="target_meeting"]') || (formId ? document.querySelector('[form="' + formId + '"][name="target_meeting"]') : null);
+    if (!series || !meeting) return;
+    const ownerForm = formId ? document.getElementById(formId) : form;
+    const scheduleFlag = ownerForm ? ownerForm.querySelector('[name="schedule_item"]') : null;
+    function markFollowupChanged() {
+      if (scheduleFlag) scheduleFlag.disabled = false;
+    }
     function filterMeetings() {
       let firstVisible = null;
       Array.from(meeting.options).forEach((option) => {
@@ -440,7 +446,11 @@
       });
       if (!meeting.selectedOptions.length || meeting.selectedOptions[0].disabled) meeting.value = firstVisible ? firstVisible.value : "";
     }
-    series.addEventListener("change", filterMeetings);
+    series.addEventListener("change", () => {
+      filterMeetings();
+      markFollowupChanged();
+    });
+    meeting.addEventListener("change", markFollowupChanged);
     filterMeetings();
   });
 

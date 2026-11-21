@@ -1141,6 +1141,47 @@ class MeetingAgendaEnhancementTests(TestCase):
         later_source_meeting = Meeting.objects.create(series=self.series_a, date="2027-02-01")
         self.assertFalse(ensure_agenda(later_source_meeting).filter(topic=topic).exists())
 
+    def test_followup_is_saved_only_with_agenda_text_and_creates_blank_target_item(self):
+        topic = Topic.objects.create(title="Wiedervorlage ohne Standardtext", series=self.series_a)
+        item = AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Besprochener Stand")
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {
+                "item_id": str(item.pk),
+                "schedule_item": str(item.pk),
+                "working_text": "Aktualisierter Protokolltext",
+                "target_series": str(self.series_b.pk),
+                "target_meeting": str(self.target_meeting.pk),
+            },
+        )
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        topic.refresh_from_db()
+        item.refresh_from_db()
+        target_item = AgendaItem.objects.get(meeting=self.target_meeting, topic=topic)
+        self.assertEqual(topic.series, self.series_b)
+        self.assertEqual(topic.due_date, self.target_meeting.date)
+        self.assertEqual(item.working_text, "Aktualisierter Protokolltext")
+        self.assertEqual(target_item.working_text, "")
+
+    def test_followup_dropdowns_are_associated_with_text_save_not_autosubmitted(self):
+        topic = Topic.objects.create(title="Auswahl bleibt offen", series=self.series_a)
+        AgendaItem.objects.create(meeting=self.meeting, topic=topic)
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        content = response.content.decode()
+        self.assertIn('form="agenda-text-form-', content)
+        self.assertIn('name="schedule_item"', content)
+        self.assertNotIn('onchange="this.form.requestSubmit()"', content)
+
+    def test_history_includes_planned_followup_meeting_without_agenda_item(self):
+        topic = Topic.objects.create(
+            title="Geplante Historie", series=self.series_b, due_date=self.target_meeting.date,
+        )
+        AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Besprochen")
+        response = self.client.get(reverse("agenda_topic_history", args=[self.meeting.pk, topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "12.01.2027")
+        self.assertContains(response, "Kein Protokolltext hinterlegt.")
+
     def test_schedule_rejects_meeting_from_a_different_series(self):
         topic = Topic.objects.create(title="Falsche Zuordnung", series=self.series_a)
         item = AgendaItem.objects.create(meeting=self.meeting, topic=topic)
