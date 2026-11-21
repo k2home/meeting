@@ -557,7 +557,7 @@ def protocol(request, pk):
             ).exclude(user__email="").values_list("user__email", flat=True).distinct()
         )
     protocol_url = request.build_absolute_uri(reverse("protocol", args=[meeting.pk]))
-    subject = f"Protokoll ({series_name}) ({meeting.date:%d.%m.%Y})"
+    subject = f"Protokoll {series_name} {meeting.date:%d.%m.%Y}"
     body = (
         "Hallo zusammen,\n\n"
         f"das Protokoll für die Sitzung {series_name} am {meeting.date:%d.%m.%Y} "
