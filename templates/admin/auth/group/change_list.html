@@ -1,5 +1,5 @@
 {% extends "admin/base_site.html" %}
-{% load i18n %}
+{% load i18n meeting_user_tags %}
 
 {% block breadcrumbs %}
 <div class="breadcrumbs">
@@ -23,7 +23,7 @@
           <tbody>
             {% for access in row.members %}
               <tr>
-                <td>{{ access.user.get_full_name|default:access.user.username }}</td>
+                <td>{{ access.user|user_display_with_login }}</td>
                 <td>
                   {% if has_change_permission %}
                     <form method="post" style="display:flex; gap:.5em; align-items:center;">
@@ -68,7 +68,7 @@
             <select name="user_id" required>
               <option value="">Person auswählen …</option>
               {% for user in available_users %}
-                <option value="{{ user.pk }}">{{ user.get_full_name|default:user.username }} ({{ user.username }})</option>
+                <option value="{{ user.pk }}">{{ user|user_display_with_login }}</option>
               {% endfor %}
             </select>
           </label>
