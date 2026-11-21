@@ -1,10 +1,6 @@
 {% extends "meetings/base.html" %}
 {% block content %}
-<h1>Besprechungsreihen</h1>
-<div class="card">
-  <h2>Neue Reihe und Termine erzeugen</h2>
-  <form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Anlegen</button></form>
-</div>
+<div class="topline"><h1>Besprechungsreihen</h1><button type="button" onclick="document.getElementById('new-series-dialog').showModal()">+ Neu</button></div>
 <div class="card">
   <h2>Vorhandene Reihen</h2>
   {% for s in series %}
@@ -74,4 +70,14 @@
     </section>
   {% empty %}<p class="muted">Noch keine Besprechungsreihen angelegt.</p>{% endfor %}
 </div>
+</div>
+<dialog id="new-series-dialog" class="card" style="width:min(92vw, 38rem);max-height:85vh;overflow-y:auto;border:0;border-radius:12px;padding:1.5rem;box-shadow:0 1rem 3rem #0004">
+  <div class="topline"><h2>Neue Besprechungsreihe</h2><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()" aria-label="Schließen">Schließen</button></div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions"><button type="submit">Reihe anlegen</button><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()">Abbrechen</button></div>
+  </form>
+</dialog>
+{% if form.errors %}<script>document.addEventListener('DOMContentLoaded',function(){document.getElementById('new-series-dialog').showModal();});</script>{% endif %}
 {% endblock %}
