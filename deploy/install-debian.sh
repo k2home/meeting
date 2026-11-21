@@ -66,8 +66,14 @@ chmod 640 /etc/meeting-manager.env
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
 runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
+# Nginx serves static files as www-data. Do not let the restrictive umask
+# used for the environment file make collected admin assets unreadable.
+umask 027
 runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
+chown -R meetingapp:www-data "$APP_DIR/staticfiles"
+find "$APP_DIR/staticfiles" -type d -exec chmod 750 {} +
+find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
