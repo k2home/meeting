@@ -1,13 +1,20 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import GroupAdmin as DjangoGroupAdmin, UserAdmin as DjangoUserAdmin
+from django.contrib.auth.admin import (
+    GroupAdmin as DjangoGroupAdmin,
+    UserAdmin as DjangoUserAdmin,
+    UserChangeForm as DjangoUserChangeForm,
+)
 from django.contrib.auth.models import Group
 
-from .user_display import user_display_name
 from .models import (
     MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
     TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile,
 )
+from .user_display import user_display_name
+
+User = get_user_model()
 
 admin.site.site_header = "Meeting Manager – Verwaltung"
 admin.site.site_title = "Meeting Manager"
@@ -22,14 +29,6 @@ class MeetingInline(admin.TabularInline):
 class SeriesAccessInline(admin.TabularInline):
     model = SeriesAccess
     extra = 1
-
-
-class UserProfileInline(admin.StackedInline):
-    model = UserProfile
-    extra = 1
-    max_num = 1
-    can_delete = False
-    fields = ("short_description",)
 
 
 @admin.register(MeetingSeries)
@@ -121,9 +120,79 @@ class SeriesAccessAdmin(admin.ModelAdmin):
         return field
 
 
+class MeetingUserChangeForm(DjangoUserChangeForm):
+    short_description = forms.CharField(
+        label="Kurzbeschreibung", required=False, max_length=80,
+    )
+    series_access = forms.ModelMultipleChoiceField(
+        label="Serienberechtigungen",
+        queryset=MeetingSeries.objects.all(),
+        required=False,
+        widget=admin.widgets.FilteredSelectMultiple("Besprechungsreihen", is_stacked=False),
+    )
+
+    class Meta(DjangoUserChangeForm.Meta):
+        model = User
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            profile = getattr(self.instance, "meeting_profile", None)
+            self.fields["short_description"].initial = (
+                profile.short_description if profile else ""
+            )
+            self.fields["series_access"].initial = MeetingSeries.objects.filter(
+                user_access__user=self.instance
+            )
+        self.fields["is_superuser"].label = "Django-Superuser"
+
+    def save(self, commit=True):
+        user = super().save(commit=commit)
+        if commit:
+            self.save_extra_fields()
+        return user
+
+    def save_extra_fields(self):
+        if not self.instance.pk:
+            return
+        UserProfile.objects.update_or_create(
+            user=self.instance,
+            defaults={"short_description": self.cleaned_data["short_description"]},
+        )
+        SeriesAccess.objects.filter(user=self.instance).exclude(
+            series__in=self.cleaned_data["series_access"]
+        ).delete()
+        existing_ids = set(
+            SeriesAccess.objects.filter(user=self.instance).values_list("series_id", flat=True)
+        )
+        SeriesAccess.objects.bulk_create([
+            SeriesAccess(user=self.instance, series=series)
+            for series in self.cleaned_data["series_access"]
+            if series.pk not in existing_ids
+        ])
+
+
 class MeetingUserAdmin(DjangoUserAdmin):
-    inlines = [UserProfileInline, SeriesAccessInline]
+    form = MeetingUserChangeForm
+    inlines = []
     list_display = ("username", "display_name", "email", "is_staff", "is_active")
+    fieldsets = (
+        ("Persönliche Informationen", {
+            "fields": ("username", "first_name", "last_name", "email", "short_description"),
+        }),
+        ("Berechtigungen", {
+            "fields": ("is_active", "groups", "is_superuser"),
+        }),
+        ("Serienberechtigungen", {
+            "fields": ("series_access",),
+        }),
+        ("Wichtige Daten", {
+            "fields": ("last_login", "date_joined"),
+        }),
+    )
+    readonly_fields = ("last_login", "date_joined")
+    filter_horizontal = ("groups",)
 
     @admin.display(description="Anzeigename")
     def display_name(self, obj):
@@ -131,6 +200,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
+        form.save_extra_fields()
         user = form.instance
         if not user.is_superuser and not user.groups.exists():
             user.groups.add(Group.objects.get(name="Nutzer*in"))
@@ -140,7 +210,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
             user.save(update_fields=["is_staff"])
 
 
-admin.site.unregister(get_user_model())
+admin.site.unregister(User)
 admin.site.unregister(Group)
-admin.site.register(get_user_model(), MeetingUserAdmin)
+admin.site.register(User, MeetingUserAdmin)
 admin.site.register(Group, DjangoGroupAdmin)
