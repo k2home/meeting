@@ -65,5 +65,5 @@ def role_flags(request):
     return {
         "is_admin": is_admin(request.user),
         "is_moderator": is_moderator(request.user),
-        "is_reader": is_reader(request.user),
+        "is_reader": is_reader(request.user) and not has_writable_series(request.user),
     }
