@@ -16,8 +16,10 @@ class TopicForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"rows": 5}),
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, series_queryset=None, **kwargs):
         super().__init__(*args, **kwargs)
+        if series_queryset is not None:
+            self.fields["series"].queryset = series_queryset
         User = get_user_model()
         self.fields["assigned_to"].queryset = User.objects.filter(is_active=True).order_by("username")
         self.fields["assigned_to"].required = False
