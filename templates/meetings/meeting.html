@@ -28,7 +28,7 @@
 </section>
 <div class="no-print actions">
   <a class="btn" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if meeting.finalized_at and user.is_staff %}
+  {% if meeting.finalized_at and is_moderator %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
     {% csrf_token %}
     <button type="submit" class="secondary">Besprechung wieder öffnen</button>
@@ -74,7 +74,7 @@
   <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
 {% endfor %}
 </div>
-{% if user.is_staff and not meeting.finalized_at %}
+{% if not meeting.finalized_at %}
 <form class="no-print" method="post" action="{% url 'finalize' meeting.id %}">
   {% csrf_token %}
   <button>Besprechung abschließen &amp; Protokollstand sichern</button>

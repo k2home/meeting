@@ -78,7 +78,7 @@ th{color:#4b5563;font-size:.9rem}
 <a href="/topics/new/">+ Thema</a>
 <a href="/archive/">Archiv</a>
 <a href="/history/">Änderungsverlauf</a>
-{% if user.is_staff %}<a href="/admin/series/">Besprechungsreihen</a><a href="/django-admin/">Verwaltung</a>{% endif %}
+{% if is_moderator %}<a href="/admin/series/">Besprechungsreihen</a>{% endif %}{% if is_admin %}<a href="/django-admin/">Verwaltung</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
 <span class="username">{{ user.username }}</span>

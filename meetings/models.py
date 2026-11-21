@@ -149,3 +149,22 @@ class TopicComment(models.Model):
 
     def __str__(self):
         return f"Kommentar zu {self.topic}"
+
+
+class SeriesAccess(models.Model):
+    """Explicit assignment of a user to a meeting series."""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                             related_name="meeting_series_access", verbose_name="Benutzer")
+    series = models.ForeignKey(MeetingSeries, on_delete=models.CASCADE,
+                               related_name="user_access", verbose_name="Besprechungsreihe")
+
+    class Meta:
+        ordering = ["series__name", "user__username"]
+        constraints = [
+            models.UniqueConstraint(fields=["user", "series"], name="unique_user_series_access")
+        ]
+        verbose_name = "Serienberechtigung"
+        verbose_name_plural = "Serienberechtigungen"
+
+    def __str__(self):
+        return f"{self.user} – {self.series}"
