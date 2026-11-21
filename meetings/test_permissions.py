@@ -79,7 +79,7 @@ class SeriesRolePermissionTests(TestCase):
 
         self.client.force_login(self.user)
         denied = self.client.post(reverse("meeting_reopen", args=[self.meeting.pk]))
-        self.assertEqual(denied.status_code, 302)
+        self.assertEqual(denied.status_code, 403)
         self.meeting.refresh_from_db()
         self.assertIsNotNone(self.meeting.finalized_at)
 
@@ -103,7 +103,7 @@ class SeriesRolePermissionTests(TestCase):
     def test_moderator_cannot_edit_unassigned_series(self):
         self.client.force_login(self.moderator)
         response = self.client.get(reverse("series_edit", args=[self.series_b.pk]))
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 403)
 
     def test_roles_are_independent_for_each_series(self):
         SeriesAccess.objects.create(
