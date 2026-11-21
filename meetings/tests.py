@@ -124,6 +124,11 @@ class AuditHistoryTests(TestCase):
         AuditEvent.objects.create(
             topic=moderator_topic, actor=self.user, action="updated", summary="Änderung aus JF VB 2"
         )
+        foreign_topic_meeting = Meeting.objects.create(series=moderator_series, date="2026-12-01")
+        AuditEvent.objects.create(
+            topic=self.topic, meeting=foreign_topic_meeting, actor=self.user,
+            action="updated", summary="Serienübergreifender Eintrag mit JF HH-Thema",
+        )
         self.client.force_login(self.user)
 
         response = self.client.get(reverse("audit_history"))
@@ -131,6 +136,7 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Änderung aus JF VB 2")
         self.assertNotContains(response, "Änderung aus JF HH")
+        self.assertNotContains(response, "Serienübergreifender Eintrag mit JF HH-Thema")
         self.assertNotContains(response, "JF HH")
         self.assertContains(response, "JF VB 2")
         self.assertEqual(list(response.context["series"]), [moderator_series])
