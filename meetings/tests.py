@@ -153,7 +153,6 @@ class AuditHistoryTests(TestCase):
 
 
     def test_new_events_are_scoped_to_their_meeting_or_topic_series(self):
-        from .models import AuditEvent
         from .audit import record_event
 
         moderator_series = MeetingSeries.objects.create(name="Moderierte Reihe")
