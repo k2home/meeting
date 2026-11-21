@@ -796,8 +796,11 @@ class MeetingParticipantDefaultsTests(TestCase):
         self.assertIn("Teilnehmer", content)
         self.assertIn("Protokoll / Drucken", content)
         self.assertIn('form="agenda-reorder-form"', content)
-        self.assertIn("Besprechung abschließen", content)
-        self.assertIn("<details class=\"participant-picker\">", content)
+        self.assertIn(">Besprechung abschließen</button>", content)
+        self.assertNotIn("Protokollstand sichern", content)
+        self.assertIn("meeting-menu-participants", content)
+        self.assertIn("participant-menu-panel", content)
+        self.assertNotIn('<section class="card participant-card"', content)
         self.assertIn("Teilnehmer anpassen", content)
         self.assertIn('type="checkbox"', content)
 
