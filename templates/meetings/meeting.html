@@ -1,6 +1,22 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
+<style>
+.agenda-tools{display:grid;gap:.8rem;margin:1rem 0}
+.agenda-tools details,.agenda-tools .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem}
+.agenda-tools summary{cursor:pointer;font-weight:650}
+.agenda-tools label{display:block;margin:.55rem 0 .25rem}
+.agenda-tools input,.agenda-tools select,.agenda-tools textarea{width:100%}
+.topic-suggestions{margin:.45rem 0 0;padding:.65rem .8rem;border:1px solid var(--border);border-radius:6px;background:var(--soft-bg);color:var(--text)}
+.topic-suggestions:empty{display:none}
+.topic-suggestions ul{margin:.35rem 0 0;padding-left:1.2rem}
+.agenda-item-tools{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.agenda-history-dialog{width:min(720px,calc(100% - 2rem));max-height:80vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.agenda-history-dialog::backdrop{background:#0009}
+.agenda-history-dialog h2{margin-top:0}
+.agenda-history-entry{padding:.75rem 0;border-bottom:1px solid var(--border)}
+.agenda-history-entry:last-child{border-bottom:0}
+</style>
 <h1>{{ meeting.series.name|default:'Gelöschte Besprechungsreihe' }} – {{ meeting.date|date:"d.m.Y" }}</h1>
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 
@@ -9,50 +25,46 @@
   <summary class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ meeting.participants.count }}</span></summary>
   <div class="participant-menu-panel">
     <div class="participant-summary">
-      {% for participant in participants %}
-        <span class="pill">{{ participant|user_display }}</span>
-      {% empty %}
-        <span class="muted">Noch keine Teilnehmer eingetragen.</span>
-      {% endfor %}
+      {% for participant in participants %}<span class="pill">{{ participant|user_display }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}
     </div>
     {% if not meeting.finalized_at %}
     <form method="post" class="participant-form">
-      {% csrf_token %}
-      <input type="hidden" name="save_participants" value="1">
+      {% csrf_token %}<input type="hidden" name="save_participants" value="1">
       <p class="muted">Serienmitglieder sind vorausgewählt. Weitere aktive Nutzer können ergänzt oder abgewählt werden.</p>
-      {{ participant_form.participants }}
-      {{ participant_form.participants.errors }}
+      {{ participant_form.participants }}{{ participant_form.participants.errors }}
       <button type="submit">Teilnehmer speichern</button>
     </form>
-    {% else %}
-      <p class="muted">Die Teilnehmerliste ist mit dem Abschluss gesperrt.</p>
-    {% endif %}
+    {% else %}<p class="muted">Die Teilnehmerliste ist mit dem Abschluss gesperrt.</p>{% endif %}
   </div>
 </details>{% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
-  {% if not is_reader and not meeting.finalized_at and items %}
-    <button class="meeting-menu-button secondary" type="submit" form="agenda-reorder-form">Reihenfolge speichern</button>
-  {% endif %}
+  {% if not is_reader and not meeting.finalized_at and items %}<button class="meeting-menu-button secondary" type="submit" form="agenda-reorder-form">Reihenfolge speichern</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
-    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">
-      {% csrf_token %}
-      <button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button>
-    </form>
+    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
-    <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
-      {% csrf_token %}
-      <button class="meeting-menu-button secondary" type="submit">Besprechung wieder öffnen</button>
-    </form>
+    <form method="post" action="{% url 'meeting_reopen' meeting.id %}">{% csrf_token %}<button class="meeting-menu-button secondary" type="submit">Besprechung wieder öffnen</button></form>
   {% endif %}
 </nav>
 
-
+{% if not is_reader and not meeting.finalized_at %}
+<section class="agenda-tools no-print">
+  <div class="card">
+    <h2>Neuen Tagesordnungspunkt anlegen</h2>
+    <form method="post" id="new-agenda-topic-form">
+      {% csrf_token %}<input type="hidden" name="add_agenda_topic" value="1">
+      <label for="new-topic-title">Thema</label>
+      <input id="new-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
+      <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"></div>
+      <label for="new-topic-text">Text für dieses Protokoll</label>
+      <textarea id="new-topic-text" name="working_text" rows="4"></textarea>
+      <button type="submit">Thema anlegen und zur Tagesordnung hinzufügen</button>
+    </form>
+  </div>
+</section>
+{% endif %}
 
 {% if not is_reader and not meeting.finalized_at and items %}
-<form id="agenda-reorder-form" class="visually-hidden-form" method="post" action="{% url 'agenda_reorder' meeting.id %}">
-  {% csrf_token %}
-  <div id="agenda-order-inputs"></div>
-</form>
+<form id="agenda-reorder-form" class="visually-hidden-form" method="post" action="{% url 'agenda_reorder' meeting.id %}">{% csrf_token %}<div id="agenda-order-inputs"></div></form>
 {% endif %}
 
 <div id="agenda-list">
@@ -60,98 +72,167 @@
   <div class="card agenda-item" data-agenda-item="{{ item.id }}" {% if not meeting.finalized_at and not is_reader %}draggable="true"{% endif %}>
     <div class="topline">
       <h2>{{ item.topic.title }}</h2>
-      {% if not meeting.finalized_at and not is_reader %}
-      <div class="no-print actions">
+      <div class="agenda-item-tools no-print">
+        <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
+        {% if not meeting.finalized_at and not is_reader %}
         <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
         <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
         <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
+        {% endif %}
       </div>
-      {% endif %}
     </div>
     <p class="muted">Fällig: {{ item.topic.due_date|date:"d.m.Y"|default:"—" }} · {% if item.carried_forward %}Übernommen · {% endif %}{{ item.topic.get_status_display }} · Verantwortlich: {% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     {% if not meeting.finalized_at and not is_reader %}
     <form method="post">
-      {% csrf_token %}
-      <input type="hidden" name="item_id" value="{{ item.id }}">
+      {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}">
       <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
       <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
       <button type="submit">Text speichern</button>
     </form>
-    {% else %}
-    <p>{{ item.working_text|linebreaksbr }}</p>
-    {% endif %}
+    <details class="no-print" style="margin-top:.8rem">
+      <summary>Fälligkeit / Wiedervorlage einstellen</summary>
+      <form method="post" class="agenda-schedule-form" style="margin-top:.7rem">
+        {% csrf_token %}<input type="hidden" name="schedule_item" value="{{ item.id }}">
+        <label for="target-series-{{ item.id }}">Besprechungsserie / Gremium</label>
+        <select id="target-series-{{ item.id }}" name="target_series" required>
+          {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
+        </select>
+        <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage</label>
+        <select id="target-meeting-{{ item.id }}" name="target_meeting" required>
+          {% for target in target_meetings %}
+          <option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Wiedervorlage speichern</button>
+      </form>
+    </details>
+    {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
   </div>
 {% empty %}
   <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
 {% endfor %}
 </div>
-{% if not is_reader and not meeting.finalized_at and items %}
+
+<dialog id="agenda-history-dialog" class="agenda-history-dialog" aria-labelledby="agenda-history-title">
+  <div class="topline"><h2 id="agenda-history-title">Themenhistorie</h2><button type="button" class="secondary" id="close-agenda-history">Schließen</button></div>
+  <div id="agenda-history-content"><p class="muted">Historie wird geladen …</p></div>
+</dialog>
+
 <script>
 (function () {
   const list = document.getElementById("agenda-list");
   const orderForm = document.getElementById("agenda-reorder-form");
   const inputContainer = document.getElementById("agenda-order-inputs");
-  if (!list || !orderForm || !inputContainer) return;
+  if (list && orderForm && inputContainer) {
+    let dragged = null;
+    const cards = () => Array.from(list.querySelectorAll(":scope > .agenda-item"));
+    function syncOrder() {
+      inputContainer.replaceChildren();
+      cards().forEach((card) => {
+        const input = document.createElement("input");
+        input.type = "hidden"; input.name = "item_ids"; input.value = card.dataset.agendaItem;
+        inputContainer.appendChild(input);
+      });
+    }
+    list.addEventListener("dragstart", (event) => {
+      const card = event.target.closest(".agenda-item");
+      if (!card) return;
+      dragged = card; card.classList.add("dragging");
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", card.dataset.agendaItem);
+    });
+    list.addEventListener("dragover", (event) => {
+      if (!dragged) return;
+      event.preventDefault();
+      const target = event.target.closest(".agenda-item");
+      if (!target || target === dragged) return;
+      const bounds = target.getBoundingClientRect();
+      list.insertBefore(dragged, event.clientY > bounds.top + bounds.height / 2 ? target.nextSibling : target);
+    });
+    list.addEventListener("drop", (event) => { if (dragged) { event.preventDefault(); syncOrder(); } });
+    list.addEventListener("dragend", () => { if (dragged) dragged.classList.remove("dragging"); dragged = null; syncOrder(); });
+    list.addEventListener("click", (event) => {
+      const button = event.target.closest(".move-up, .move-down");
+      if (!button) return;
+      const card = button.closest(".agenda-item");
+      if (button.classList.contains("move-up") && card.previousElementSibling) list.insertBefore(card, card.previousElementSibling);
+      else if (button.classList.contains("move-down") && card.nextElementSibling) list.insertBefore(card.nextElementSibling, card);
+      syncOrder();
+    });
+    syncOrder();
+  }
 
-  let dragged = null;
-  const cards = () => Array.from(list.querySelectorAll(":scope > .agenda-item"));
+  document.querySelectorAll(".agenda-schedule-form").forEach((form) => {
+    const series = form.querySelector('[name="target_series"]');
+    const meeting = form.querySelector('[name="target_meeting"]');
+    function filterMeetings() {
+      let firstVisible = null;
+      Array.from(meeting.options).forEach((option) => {
+        const visible = option.dataset.seriesId === series.value;
+        option.hidden = !visible;
+        option.disabled = !visible;
+        if (visible && !firstVisible) firstVisible = option;
+      });
+      if (!meeting.selectedOptions.length || meeting.selectedOptions[0].disabled) meeting.value = firstVisible ? firstVisible.value : "";
+    }
+    series.addEventListener("change", filterMeetings);
+    filterMeetings();
+  });
 
-  function syncOrder() {
-    inputContainer.replaceChildren();
-    cards().forEach((card) => {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = "item_ids";
-      input.value = card.dataset.agendaItem;
-      inputContainer.appendChild(input);
+  const titleInput = document.getElementById("new-topic-title");
+  const suggestions = document.getElementById("topic-suggestions");
+  if (titleInput && suggestions) {
+    let controller = null;
+    titleInput.addEventListener("input", async () => {
+      const query = titleInput.value.trim();
+      suggestions.replaceChildren();
+      if (query.length < 2) return;
+      if (controller) controller.abort();
+      controller = new AbortController();
+      try {
+        const response = await fetch("{% url 'topic_suggestions' %}?q=" + encodeURIComponent(query), {
+          headers: {"X-Requested-With": "XMLHttpRequest"}, signal: controller.signal
+        });
+        if (!response.ok) return;
+        const data = await response.json();
+        if (!data.results.length) {
+          suggestions.textContent = "Keine ähnlich benannten Themen gefunden.";
+          return;
+        }
+        const heading = document.createElement("strong");
+        heading.textContent = "Ähnliche oder bereits vorhandene Themen:";
+        const ul = document.createElement("ul");
+        data.results.forEach((entry) => {
+          const li = document.createElement("li");
+          li.textContent = entry.title + " – " + entry.series;
+          ul.appendChild(li);
+        });
+        suggestions.append(heading, ul);
+      } catch (error) {
+        if (error.name !== "AbortError") suggestions.textContent = "Themenhinweise konnten nicht geladen werden.";
+      }
     });
   }
 
-  list.addEventListener("dragstart", (event) => {
-    const card = event.target.closest(".agenda-item");
-    if (!card) return;
-    dragged = card;
-    card.classList.add("dragging");
-    event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text/plain", card.dataset.agendaItem);
-  });
-
-  list.addEventListener("dragover", (event) => {
-    if (!dragged) return;
-    event.preventDefault();
-    const target = event.target.closest(".agenda-item");
-    if (!target || target === dragged) return;
-    const bounds = target.getBoundingClientRect();
-    const after = event.clientY > bounds.top + bounds.height / 2;
-    list.insertBefore(dragged, after ? target.nextSibling : target);
-  });
-
-  list.addEventListener("drop", (event) => {
-    if (!dragged) return;
-    event.preventDefault();
-    syncOrder();
-  });
-
-  list.addEventListener("dragend", () => {
-    if (dragged) dragged.classList.remove("dragging");
-    dragged = null;
-    syncOrder();
-  });
-
-  list.addEventListener("click", (event) => {
-    const button = event.target.closest(".move-up, .move-down");
-    if (!button) return;
-    const card = button.closest(".agenda-item");
-    if (button.classList.contains("move-up") && card.previousElementSibling) {
-      list.insertBefore(card, card.previousElementSibling);
-    } else if (button.classList.contains("move-down") && card.nextElementSibling) {
-      list.insertBefore(card.nextElementSibling, card);
-    }
-    syncOrder();
-  });
-
-  syncOrder();
+  const dialog = document.getElementById("agenda-history-dialog");
+  const historyContent = document.getElementById("agenda-history-content");
+  if (dialog && historyContent) {
+    document.addEventListener("click", async (event) => {
+      const button = event.target.closest(".agenda-history-button");
+      if (!button) return;
+      dialog.showModal();
+      historyContent.textContent = "Historie wird geladen …";
+      try {
+        const response = await fetch(button.dataset.historyUrl, {headers: {"X-Requested-With": "XMLHttpRequest"}});
+        if (!response.ok) throw new Error("Historie nicht verfügbar");
+        historyContent.innerHTML = await response.text();
+      } catch (error) {
+        historyContent.textContent = "Die Themenhistorie konnte nicht geladen werden.";
+      }
+    });
+    document.getElementById("close-agenda-history").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+  }
 })();
 </script>
-{% endif %}
 {% endblock %}
