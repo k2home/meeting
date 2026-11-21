@@ -224,6 +224,7 @@ def meeting_detail(request, pk):
         meeting.save(update_fields=["participants_initialized"])
     items = ensure_agenda(meeting)
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
+    assignees = UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
@@ -256,7 +257,7 @@ def meeting_detail(request, pk):
                 messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
                 return render(request, "meetings/meeting.html", {
                     "meeting": meeting, "items": items, "participant_form": participant_form,
-                    "participants": participants, "is_reader": is_reader(request.user, meeting.series),
+                    "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series),
                     "is_moderator": is_moderator(request.user, meeting.series),
                     "writable_series": writable_series, "target_meetings": target_meetings,
                 })
