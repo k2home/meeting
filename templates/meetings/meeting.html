@@ -169,8 +169,6 @@
           </select>
           {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
         </span>
-        {% if not meeting.finalized_at and not is_reader %}
-        {% endif %}
         <div class="agenda-item-tools no-print">
           {% if not meeting.finalized_at and not is_reader %}
           <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
