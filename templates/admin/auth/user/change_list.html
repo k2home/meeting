@@ -1,0 +1,7 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools-items %}
+  <li><a href="{% url 'admin:auth_user_csv_export' %}">Benutzer als CSV exportieren</a></li>
+  <li><a href="{% url 'admin:auth_user_csv_import' %}">Benutzer per CSV importieren</a></li>
+  {{ block.super }}
+{% endblock %}
