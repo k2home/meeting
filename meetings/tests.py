@@ -91,6 +91,23 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Testeintrag")
 
+    def test_history_can_be_filtered_by_meeting_series(self):
+        from .models import AuditEvent
+        other_series = MeetingSeries.objects.create(name="Weitere Audit-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=other_series, role=SeriesAccess.ROLE_MODERATOR)
+        other_topic = Topic.objects.create(title="Anderes Audit-Thema", series=other_series)
+        AuditEvent.objects.create(topic=self.topic, actor=self.user, action="created", summary="Eintrag aus Audit-Reihe")
+        AuditEvent.objects.create(topic=other_topic, actor=self.user, action="created", summary="Eintrag aus weiterer Reihe")
+        SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_MODERATOR)
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("audit_history"), {"series": self.series.pk})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Eintrag aus Audit-Reihe")
+        self.assertNotContains(response, "Eintrag aus weiterer Reihe")
+        self.assertContains(response, "Weitere Audit-Reihe")
+
 
 class TopicTaskManagementTests(TestCase):
     def setUp(self):
@@ -1299,7 +1316,7 @@ class OpenTopicsViewTests(TestCase):
 
     def test_mobile_navigation_keeps_menu_labels_visible(self):
         response = self.client.get(reverse("dashboard"))
-        self.assertContains(response, ".sidebar:not(:hover):not(:focus-within):not(.is-expanded) .nav-links a{font-size:inherit")
+        self.assertContains(response, ".sidebar .nav-links a{font-size:inherit")
 
     def test_moderator_sees_both_menu_items_and_can_open_history(self):
         SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_MODERATOR)
