@@ -782,7 +782,7 @@ class MeetingParticipantDefaultsTests(TestCase):
             content.index("unassigned"),
         )
         self.assertContains(response, 'type="checkbox"')
-        self.assertContains(response, '<details class="participant-picker"')
+        self.assertContains(response, "participant-menu-panel")
 
 
     def test_meeting_actions_are_grouped_in_top_menu_and_participants_use_dropdown(self):
