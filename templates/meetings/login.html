@@ -1,8 +1,9 @@
 {% extends "meetings/base.html" %}
-{% block title %}Anmelden · Meeting Manager{% endblock %}
+{% block title %}Anmelden · Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}{% endblock %}
 {% block content %}
 <div class="card" style="max-width:440px;margin:4rem auto">
 <h1>Anmelden</h1>
+{% if organization_unit_name %}<p class="muted">{{ organization_unit_name }}</p>{% endif %}
 <p class="muted">Bitte mit deinem persönlichen Benutzerkonto anmelden.</p>
 <form method="post">
 {% csrf_token %}
