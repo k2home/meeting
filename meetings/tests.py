@@ -980,7 +980,7 @@ class ProtocolEmailTests(TestCase):
         query = parse_qs(parsed.query)
         self.assertEqual(
             query["subject"][0],
-            "Protokoll (Strategierunde) (20.12.2026)",
+            "Protokoll Strategierunde 20.12.2026",
         )
         protocol_url = response.wsgi_request.build_absolute_uri(
             reverse("protocol", args=[self.meeting.pk])
