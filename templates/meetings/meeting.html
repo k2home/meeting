@@ -33,7 +33,7 @@
     <button class="meeting-menu-button secondary" type="submit" form="agenda-reorder-form">Reihenfolge speichern</button>
   {% endif %}
   {% if not meeting.finalized_at %}
-    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung abschließen und den Protokollstand sichern?');">
+    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">
       {% csrf_token %}
       <button class="meeting-menu-button finish-button" type="submit">Besprechung abschließen</button>
     </form>
