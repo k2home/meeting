@@ -2,22 +2,24 @@
 {% block content %}
 <h1>{{ meeting.series.name|default:'Gelöschte Besprechungsreihe' }} – {{ meeting.date|date:"d.m.Y" }}</h1>
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
-<section class="card">
+<section class="card participant-card">
   <div class="topline">
     <h2>Teilnehmer</h2>
     <span class="muted">{{ meeting.participants.count }} ausgewählt</span>
   </div>
-  {% for participant in meeting.participants.all %}
-    <span class="pill">{{ participant.get_full_name|default:participant.username }}</span>
-  {% empty %}
-    <p class="muted">Noch keine Teilnehmer eingetragen.</p>
-  {% endfor %}
+  <div class="participant-summary">
+    {% for participant in meeting.participants.all %}
+      <span class="pill">{{ participant.get_full_name|default:participant.username }}</span>
+    {% empty %}
+      <span class="muted">Noch keine Teilnehmer eingetragen.</span>
+    {% endfor %}
+  </div>
   {% if not meeting.finalized_at %}
-  <form method="post" class="no-print">
+  <form method="post" class="no-print participant-form">
     {% csrf_token %}
     <input type="hidden" name="save_participants" value="1">
-    <label for="{{ participant_form.participants.id_for_label }}">Teilnehmer auswählen</label>
-    <p class="muted">Du kannst mehrere aktive Benutzer auswählen. Die Liste wird im Protokoll und in den PDF-/Word-Exporten angezeigt.</p>
+    <label for="{{ participant_form.participants.id_for_label }}">Teilnehmer anpassen</label>
+    <p class="muted">Die der Besprechungsreihe zugewiesenen Nutzer sind vorausgewählt. Weitere aktive Nutzer können ergänzt oder abgewählt werden.</p>
     {{ participant_form.participants }}
     {{ participant_form.participants.errors }}
     <button type="submit">Teilnehmer speichern</button>
