@@ -56,6 +56,56 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 :root[data-theme="dark"] div.breadcrumbs{background:#26384b;color:#e8edf3;border-color:var(--admin-border)}
 :root[data-theme="dark"] a:link,:root[data-theme="dark"] a:visited{color:#8fc5ff}
 :root[data-theme="dark"] .messagelist li{background:#193447;color:#e3f2ff}
+
+/* Vollständige dunkle Flächenabdeckung für Django-Admin-Seiten und Sonderansichten. */
+:root[data-theme="dark"] #nav-sidebar,
+:root[data-theme="dark"] #content-related,
+:root[data-theme="dark"] .dashboard .module,
+:root[data-theme="dark"] .selector,
+:root[data-theme="dark"] .selector-chosen,
+:root[data-theme="dark"] .calendarbox,
+:root[data-theme="dark"] .clockbox,
+:root[data-theme="dark"] .inline-related,
+:root[data-theme="dark"] .aligned .form-row,
+:root[data-theme="dark"] .module table,
+:root[data-theme="dark"] .module tbody,
+:root[data-theme="dark"] .module tr,
+:root[data-theme="dark"] .module td,
+:root[data-theme="dark"] .module th{background-color:var(--admin-surface);color:var(--admin-text);border-color:var(--admin-border)}
+:root[data-theme="dark"] #nav-sidebar .current-app .section,
+:root[data-theme="dark"] #nav-sidebar .current-model,
+:root[data-theme="dark"] #nav-sidebar .current-model a{background:#26384b;color:var(--admin-text)}
+:root[data-theme="dark"] .selector select,
+:root[data-theme="dark"] .selector-available,
+:root[data-theme="dark"] .selector-chosen,
+:root[data-theme="dark"] .selector-filter input{background:#152130;color:var(--admin-text);border-color:var(--admin-border)}
+:root[data-theme="dark"] .form-row p,
+:root[data-theme="dark"] .form-row label,
+:root[data-theme="dark"] .aligned label,
+:root[data-theme="dark"] .description,
+:root[data-theme="dark"] .help,
+:root[data-theme="dark"] .deletelink-box,
+:root[data-theme="dark"] .quiet{color:var(--admin-muted)}
+:root[data-theme="dark"] .object-tools a:link,
+:root[data-theme="dark"] .object-tools a:visited{background:#174f7e;color:#fff}
+:root[data-theme="dark"] .object-tools a:hover{background:#23689f;color:#fff}
+:root[data-theme="dark"] .submit-row{background:var(--admin-surface);border-color:var(--admin-border)}
+:root[data-theme="dark"] .submit-row a:link,
+:root[data-theme="dark"] .submit-row a:visited{color:#8fc5ff}
+:root[data-theme="dark"] .delete-confirmation form,
+:root[data-theme="dark"] .delete-confirmation ul{background:var(--admin-surface);color:var(--admin-text)}
+:root[data-theme="dark"] .calendar caption,
+:root[data-theme="dark"] .calendarbox .calendarnav-previous,
+:root[data-theme="dark"] .calendarbox .calendarnav-next{background:#26384b;color:var(--admin-text)}
+:root[data-theme="dark"] .calendar td a,
+:root[data-theme="dark"] .timelist a{color:#8fc5ff}
+:root[data-theme="dark"] .calendar td.today a{background:#174f7e;color:#fff}
+:root[data-theme="dark"] .errornote,
+:root[data-theme="dark"] .errorlist li{background:#43272b;color:#ffd9dc}
+:root[data-theme="dark"] input:focus,
+:root[data-theme="dark"] select:focus,
+:root[data-theme="dark"] textarea:focus{outline:2px solid #527fa8;border-color:#8fc5ff}
+:root[data-theme="dark"] ::selection{background:#315b80;color:#fff}
 </style>
 {% endblock %}
 
