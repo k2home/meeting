@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{% block title %}Meeting Manager{% endblock %}</title>
+<title>{% block title %}Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}{% endblock %}</title>
 <style>
 :root{font-family:system-ui,-apple-system,sans-serif;color:var(--text);background:var(--page-bg);color-scheme:light;--hagen-blue:#00549f;--hagen-blue-dark:#003d73;--hagen-yellow:#ffcc00;--nav-bg:#003d73;--nav-hover:#00549f;--nav-muted:#d6e2ee;--nav-width:258px;--nav-rail:68px;--page-bg:#f4f6f9;--surface:#fff;--text:#202735;--muted:#667085;--border:#cfd9e4;--table-head:#e7eef6;--hover-bg:#f7f9fc;--input-bg:#fff;--soft-bg:#e7eef6}
 *{box-sizing:border-box}
@@ -110,10 +110,10 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if user.is_authenticated %}
 <div class="mobile-header">
 <button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
-<a class="brand" href="/">Meeting Manager</a>
+<a class="brand" href="/">Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
-<a class="brand" href="/">Meeting Manager</a>
+<a class="brand" href="/">Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a>
 <nav class="nav-links">
 <a href="/">Übersicht</a>
 {% if not is_reader %}<a href="{% url 'my_tasks' %}">Meine Aufgaben</a>
