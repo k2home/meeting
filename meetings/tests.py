@@ -727,7 +727,7 @@ class MeetingParticipantDefaultsTests(TestCase):
         )
         self.meeting.refresh_from_db()
         self.assertTrue(self.meeting.participants_initialized)
-        self.assertContains(response, "Teilnehmer auswählen oder ändern")
+        self.assertContains(response, "Teilnehmer anpassen")
         self.assertEqual(
             list(response.context["participant_form"]["participants"].value()),
             [self.assigned.pk],
@@ -756,3 +756,30 @@ class MeetingParticipantDefaultsTests(TestCase):
             list(self.meeting.participants.values_list("pk", flat=True)),
             [self.unassigned.pk],
         )
+
+    def test_participant_list_can_add_non_series_user_and_remove_series_user(self):
+        self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        response = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]),
+            {"save_participants": "1", "participants": [str(self.unassigned.pk)]},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.meeting.refresh_from_db()
+        self.assertEqual(
+            list(self.meeting.participants.values_list("pk", flat=True)),
+            [self.unassigned.pk],
+        )
+
+    def test_series_members_are_listed_before_other_active_users(self):
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        self.assertLess(
+            content.index("Ada Lovelace (Besprechungsserie)"),
+            content.index("unassigned"),
+        )
+        self.assertContains(response, 'type="checkbox"')
+        self.assertNotContains(response, "<details class=\"participant-picker\"")
