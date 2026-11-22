@@ -30,7 +30,7 @@
 .agenda-title-assignee,.agenda-title-status{display:inline-flex;align-items:center;align-self:center;flex:0 0 auto;color:var(--muted);font-size:.82em;font-weight:400;line-height:1.2;white-space:nowrap}
 .agenda-title-assignee{padding-left:.55rem;border-left:1px solid color-mix(in srgb,var(--muted) 30%,transparent)}
 .agenda-title-status{padding-left:.55rem;border-left:1px solid color-mix(in srgb,var(--muted) 30%,transparent)}
-.agenda-title-assignee select,.agenda-title-status select{font:inherit;line-height:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0 .25rem;min-width:0;max-width:100%;vertical-align:baseline}
+.agenda-title-assignee select,.agenda-title-status select{font:inherit;line-height:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:0 .25rem;min-width:0;max-width:100%;vertical-align:baseline}.agenda-title-assignee select{width:9rem}
 .agenda-title-status .pill{font:inherit;line-height:inherit}
 .agenda-status-form{display:none}
 .agenda-schedule-row{display:flex;justify-content:flex-end;align-self:center;margin:0 0 0 auto;flex:0 0 auto}
@@ -156,10 +156,10 @@
               {% csrf_token %}<input type="hidden" name="update_agenda_assignee" value="{{ item.id }}">
             </form>
             <select id="topic-assignee-{{ item.id }}" name="assigned_to" form="topic-assignee-form-{{ item.id }}" aria-label="Zuständigkeit für {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-assignee-form-{{ item.id }}&quot;).requestSubmit()">
-              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Hauptverantwortliche Person{% if item.topic.assigned_to %} ({{ item.topic.assigned_to|user_display }}){% endif %}</option>
-              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
+              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}</option>
+              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_context }}</option>{% endfor %}
             </select>
-            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_context }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>
