@@ -105,6 +105,7 @@ def topic_archive_toggle(request, pk):
 
 
 @login_required
+@transaction.atomic
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     reader = is_reader(request.user, topic.series)
@@ -161,6 +162,7 @@ def topic_detail(request, pk):
 
 
 @login_required
+@transaction.atomic
 def edit_topic_agenda_item(request, pk, item_pk):
     if request.method != "POST":
         return HttpResponseForbidden()
