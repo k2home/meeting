@@ -1212,17 +1212,18 @@ class RepositoryAuditRegressionTests(TestCase):
         second = Topic.objects.create(title="Zweiter Snapshot", series=series)
         AgendaItem.objects.create(meeting=meeting, topic=first, working_text="Erster Text")
         AgendaItem.objects.create(meeting=meeting, topic=second, working_text="Zweiter Text")
-        original = TopicSnapshot.objects.get_or_create
+        manager_class = TopicSnapshot.objects.__class__
+        original = manager_class.get_or_create
         calls = 0
 
-        def fail_on_second_snapshot(*args, **kwargs):
+        def fail_on_second_snapshot(manager, *args, **kwargs):
             nonlocal calls
             calls += 1
             if calls == 2:
                 raise RuntimeError("Simulierter Snapshot-Fehler")
-            return original(*args, **kwargs)
+            return original(manager, *args, **kwargs)
 
-        with patch("meetings.services.TopicSnapshot.objects.get_or_create", side_effect=fail_on_second_snapshot):
+        with patch.object(manager_class, "get_or_create", new=fail_on_second_snapshot):
             with self.assertRaises(RuntimeError):
                 finalize_meeting(meeting)
 
