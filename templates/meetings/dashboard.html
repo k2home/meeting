@@ -4,7 +4,15 @@
 <div class="topline"><div><p class="muted">Willkommen, {{ user|user_display }}</p><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle Themen der zugewiesenen Besprechungsreihen auf einen Blick.</p></div>{% if not is_reader %}<div class="actions"><a class="btn secondary" href="{% url 'my_tasks' %}">Meine Aufgaben</a><a class="btn" href="{% url 'topic_new' %}">+ Neues Thema</a></div>{% endif %}</div>
 {% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }} überfällige {% if overdue_count == 1 %}Thema{% else %}Themen{% endif %}</strong><span> — bitte geplante Termine prüfen.</span></div>{% endif %}
 <section class="card"><h2>Nächste Besprechungen</h2>
-{% for m in meetings %}<p><a href="{% url 'meeting' m.id %}"><strong>{{ m.series.name|default:'Gelöschte Besprechungsreihe' }}</strong> · {{ m.date|date:"D, d.m.Y" }}</a> {% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</p>
+{% for group in meeting_groups %}
+  <div class="upcoming-series">
+    <h3>{{ group.series.name|default:'Gelöschte Besprechungsreihe' }}</h3>
+    <div class="upcoming-dates">
+      {% for m in group.meetings %}
+        <span><a href="{% url 'meeting' m.id %}">{{ m.date|date:"D, d.m.Y" }}</a> {% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</span>
+      {% endfor %}
+    </div>
+  </div>
 {% empty %}<p class="muted">Keine zukünftigen Termine vorhanden. {% if is_moderator %}<a href="{% url 'series_admin' %}">Besprechungsreihe einrichten</a>{% endif %}</p>{% endfor %}
 </section>
 <section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><a href="{% url 'archive' %}">Zum Archiv</a></div>
@@ -19,8 +27,57 @@
 </div>
 <div class="actions"><button type="submit" class="secondary">Suchen / filtern</button><a class="btn secondary" href="{% url 'dashboard' %}">Zurücksetzen</a></div>
 </form>
-{% if topics %}<div style="overflow-x:auto"><table><thead><tr><th>Thema</th><th>Besprechungsreihe</th><th>Nächste Besprechung</th><th>Verantwortlich</th><th>Status</th></tr></thead><tbody>
-{% for t in topics %}<tr><td><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td><td>{{ t.series|default:"—" }}</td><td>{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"d.m.Y" }}</span>{% else %}{{ t.next_meeting_date|date:"d.m.Y"|default:"—" }}{% endif %}</td><td>{% if t.assigned_to %}{{ t.assigned_to|user_display }}{% else %}<span class="muted">Nicht zugewiesen</span>{% endif %}</td><td>{{ t.get_status_display }}</td></tr>{% endfor %}
+{% if topics %}<div style="overflow-x:auto"><table id="dashboard-topics-table"><thead><tr>
+<th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="0" data-sort-type="text">Thema <span aria-hidden="true">↕</span></button></th>
+<th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="1" data-sort-type="text">Besprechungsreihe <span aria-hidden="true">↕</span></button></th>
+<th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="2" data-sort-type="date">Nächste Besprechung <span aria-hidden="true">↕</span></button></th>
+<th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="3" data-sort-type="text">Verantwortlich <span aria-hidden="true">↕</span></button></th>
+<th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="4" data-sort-type="text">Status <span aria-hidden="true">↕</span></button></th>
+</tr></thead><tbody>
+{% for t in topics %}<tr>
+<td data-sort-value="{{ t.title|lower }}"><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td>
+<td data-sort-value="{{ t.series.name|default:''|lower }}">{{ t.series|default:"—" }}</td>
+<td data-sort-value="{{ t.next_meeting_date|date:'Y-m-d' }}">{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"d.m.Y" }}</span>{% else %}{{ t.next_meeting_date|date:"d.m.Y"|default:"—" }}{% endif %}</td>
+<td data-sort-value="{% if t.assigned_to %}{{ t.assigned_to|user_display|lower }}{% else %}nicht zugewiesen{% endif %}">{% if t.assigned_to %}{{ t.assigned_to|user_display }}{% else %}<span class="muted">Nicht zugewiesen</span>{% endif %}</td>
+<td data-sort-value="{{ t.get_status_display|lower }}">{{ t.get_status_display }}</td>
+</tr>{% endfor %}
 </tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
 </section>
+<style>
+.upcoming-series{padding:.55rem 0 .75rem;border-bottom:1px solid var(--border)}
+.upcoming-series:last-child{border-bottom:0}
+.upcoming-series h3{font-size:.94rem;margin:.1rem 0 .4rem;color:var(--muted);font-weight:650}
+.upcoming-dates{display:flex;flex-wrap:wrap;gap:.5rem 1rem}
+.upcoming-dates>span{display:inline-flex;align-items:center;gap:.35rem}
+.table-sort{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem 0;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}
+.table-sort:hover,.table-sort:focus-visible{color:var(--hagen-blue);text-decoration:underline}
+.table-sort span{font-size:.8em;opacity:.7}
+</style>
+<script>
+(() => {
+  const table = document.getElementById("dashboard-topics-table");
+  if (!table) return;
+  const body = table.tBodies[0];
+  table.querySelectorAll("button[data-sort-column]").forEach(button => {
+    button.addEventListener("click", () => {
+      const column = Number(button.dataset.sortColumn);
+      const type = button.dataset.sortType;
+      const header = button.closest("th");
+      const ascending = header.getAttribute("aria-sort") !== "ascending";
+      const rows = Array.from(body.rows);
+      rows.sort((left, right) => {
+        const a = left.cells[column].dataset.sortValue || left.cells[column].textContent.trim();
+        const b = right.cells[column].dataset.sortValue || right.cells[column].textContent.trim();
+        const comparison = type === "date" ? a.localeCompare(b) : a.localeCompare(b, "de", { sensitivity: "base", numeric: true });
+        return (ascending ? 1 : -1) * comparison;
+      });
+      rows.forEach(row => body.appendChild(row));
+      table.querySelectorAll("thead th").forEach(th => th.setAttribute("aria-sort", "none"));
+      header.setAttribute("aria-sort", ascending ? "ascending" : "descending");
+      table.querySelectorAll("button[data-sort-column] span").forEach(icon => { icon.textContent = "↕"; });
+      button.querySelector("span").textContent = ascending ? "↑" : "↓";
+    });
+  });
+})();
+</script>
 {% endblock %}
