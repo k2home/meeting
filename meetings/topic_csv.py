@@ -389,11 +389,10 @@ def parse_topic_agenda_csv(text):
         if (effective_status == "archived" or (existing_topic and existing_topic.status == "archived")) and has_agenda_rows:
             errors.append(f"Zeile {record['row']}: Das archivierte Thema „{data['title']}“ muss zuerst über die Themenansicht wieder geöffnet werden, bevor Tagesordnungspunkte importiert werden können.")
         if effective_status == "archived" and existing_topic and existing_topic.agenda_items.filter(
-            meeting__date__gte=timezone.localdate(),
             meeting__finalized_at__isnull=True,
         ).exists():
             errors.append(
-                f"Zeile {record['row']}: Thema „{data['title']}“ kann nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht."
+                f"Zeile {record['row']}: Thema „{data['title']}“ kann nicht archiviert werden, solange es auf einer nicht abgeschlossenen Tagesordnung steht."
             )
     if errors:
         return [], errors
