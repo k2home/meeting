@@ -15,7 +15,7 @@ def move_topic_due_dates_to_agenda(apps, schema_editor):
         # authoritative appointment and must not be duplicated.
         existing_item = (
             AgendaItem.objects.using(db)
-            .filter(topic_id=topic.pk, meeting__date__gte=topic.due_date)
+            .filter(topic_id=topic.pk, meeting__series_id=topic.series_id, meeting__date__gte=topic.due_date)
             .order_by("meeting__date", "pk")
             .first()
         )
