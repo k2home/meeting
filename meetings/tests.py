@@ -1603,3 +1603,70 @@ class OpenTopicsViewTests(TestCase):
         self.assertContains(response, "Kein zukünftiger Besprechungstermin")
         self.assertEqual(Meeting.objects.filter(series=self.series).count(), 0)
 
+
+class TopicAgendaCsvImportTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth.models import Group
+        self.admin = User.objects.create_superuser(
+            username="csv-admin", email="csv-admin@example.com", password="strong-test-password"
+        )
+        self.series = MeetingSeries.objects.create(name="CSV-Reihe")
+        self.client.force_login(self.admin)
+
+    def _csv(self, rows):
+        import csv
+        from io import StringIO
+        output = StringIO()
+        writer = csv.writer(output, delimiter=";")
+        writer.writerow([
+            "series", "meeting_date", "meeting_title", "topic_key", "topic_id",
+            "topic_title", "topic_description", "topic_due_date", "topic_status",
+            "responsible_username", "agenda_text", "position", "carried_forward",
+        ])
+        for row in rows:
+            writer.writerow(["CSV-Reihe", *row])
+        return output.getvalue()
+
+    def test_admin_can_download_sample_and_open_import(self):
+        sample = self.client.get(reverse("admin:meetings_topic_csv_sample"))
+        self.assertEqual(sample.status_code, 200)
+        self.assertIn("muster_themen_und_punkte.csv", sample["Content-Disposition"])
+        page = self.client.get(reverse("admin:meetings_topic_csv_import"))
+        self.assertEqual(page.status_code, 200)
+        self.assertContains(page, "Muster-CSV herunterladen")
+
+    def test_import_creates_topic_meeting_and_agenda_item(self):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        text = self._csv([[
+            "2026-12-03", "Reguläre Sitzung", "CSV-1", "", "Neues Thema",
+            "Beschreibung", "2026-12-03", "open", "", "Beratungstext", "1", "false",
+        ]])
+        upload = SimpleUploadedFile("import.csv", text.encode("utf-8"), content_type="text/csv")
+        response = self.client.post(reverse("admin:meetings_topic_csv_import"), {"csv_file": upload})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Importvorschau")
+        token = response.context["preview"]["token"]
+        response = self.client.post(reverse("admin:meetings_topic_csv_import"), {
+            "action": "confirm", "token": token,
+        })
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Neues Thema")
+        meeting = Meeting.objects.get(series=self.series, date="2026-12-03")
+        item = AgendaItem.objects.get(meeting=meeting, topic=topic)
+        self.assertEqual(item.working_text, "Beratungstext")
+        self.assertEqual(item.position, 1)
+
+    def test_repeated_topic_key_creates_one_topic_and_multiple_agenda_items(self):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        text = self._csv([
+            ["2026-12-03", "", "CSV-1", "", "Mehrfachthema", "Beschreibung", "", "open", "", "Erster Stand", "1", "false"],
+            ["2027-01-14", "", "CSV-1", "", "Mehrfachthema", "Beschreibung", "", "open", "", "Zweiter Stand", "1", "true"],
+        ])
+        upload = SimpleUploadedFile("import.csv", text.encode("utf-8"), content_type="text/csv")
+        response = self.client.post(reverse("admin:meetings_topic_csv_import"), {"csv_file": upload})
+        self.assertEqual(response.status_code, 200)
+        token = response.context["preview"]["token"]
+        self.client.post(reverse("admin:meetings_topic_csv_import"), {"action": "confirm", "token": token})
+        topic = Topic.objects.get(title="Mehrfachthema")
+        self.assertEqual(AgendaItem.objects.filter(topic=topic).count(), 2)
+        self.assertEqual(Meeting.objects.filter(series=self.series).count(), 2)
