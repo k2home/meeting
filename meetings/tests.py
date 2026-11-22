@@ -1925,3 +1925,84 @@ class TopicAgendaCsvImportTests(TestCase):
             list(meeting.agenda_items.order_by("position").values_list("topic__title", flat=True)),
             ["Erstes Thema", "Zweites Thema"],
         )
+
+
+class OrganizationAccentColorTests(TestCase):
+    def setUp(self):
+        self.admin = User.objects.create_superuser(
+            username="accent-admin", email="accent-admin@example.com", password="strong-test-password"
+        )
+        self.client.force_login(self.admin)
+
+    def test_accent_color_defaults_and_optional_mode_overrides(self):
+        from .models import OrganizationSettings
+
+        settings = OrganizationSettings.objects.create(name="Test")
+        self.assertEqual(OrganizationSettings.current_accent_colors(), {
+            "accent_color": "#00549F",
+            "accent_color_light": "#00549F",
+            "accent_color_dark": "#00549F",
+        })
+
+        settings.accent_color = "#123456"
+        settings.accent_color_light = "#ABCDEF"
+        settings.save()
+        self.assertEqual(OrganizationSettings.current_accent_colors(), {
+            "accent_color": "#123456",
+            "accent_color_light": "#ABCDEF",
+            "accent_color_dark": "#123456",
+        })
+
+        settings.accent_color_dark = "#654321"
+        settings.save()
+        self.assertEqual(OrganizationSettings.current_accent_colors()["accent_color_dark"], "#654321")
+
+    def test_invalid_hex_values_are_rejected(self):
+        from django.core.exceptions import ValidationError
+        from .models import OrganizationSettings
+
+        settings = OrganizationSettings(accent_color="blue")
+        with self.assertRaises(ValidationError):
+            settings.full_clean()
+        settings.accent_color = "#12GG56"
+        with self.assertRaises(ValidationError):
+            settings.full_clean()
+        settings.accent_color = "#123456"
+        settings.accent_color_light = "123456"
+        with self.assertRaises(ValidationError):
+            settings.full_clean()
+        settings.accent_color_light = ""
+        settings.accent_color_dark = "#ABCDEF"
+        settings.full_clean()
+
+    def test_admin_can_edit_accent_colors_and_application_receives_them(self):
+        from .models import OrganizationSettings
+
+        settings = OrganizationSettings.objects.create(name="Test")
+        response = self.client.get(reverse("admin:meetings_organizationsettings_change", args=[settings.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Akzentfarbe")
+        self.assertContains(response, "Akzentfarbe – Hellmodus")
+        self.assertContains(response, "Akzentfarbe – Dunkelmodus")
+
+        response = self.client.post(reverse("admin:meetings_organizationsettings_change", args=[settings.pk]), {
+            "name": "Test",
+            "short_name": "MM",
+            "accent_color": "#123456",
+            "accent_color_light": "#ABCDEF",
+            "accent_color_dark": "",
+            "_save": "Speichern",
+        })
+        self.assertEqual(response.status_code, 302)
+        settings.refresh_from_db()
+        self.assertEqual(settings.accent_color, "#123456")
+        self.assertEqual(settings.accent_color_light, "#ABCDEF")
+        self.assertEqual(settings.accent_color_dark, "")
+
+        member = User.objects.create_user(username="accent-member", password="strong-test-password")
+        self.client.force_login(member)
+        page = self.client.get(reverse("login"))
+        self.assertEqual(page.status_code, 302)
+        self.client.force_login(self.admin)
+        page = self.client.get(reverse("admin:index"))
+        self.assertContains(page, "--hagen-blue")
