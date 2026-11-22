@@ -85,11 +85,12 @@ class AgendaOwnedTopicContentTests(TestCase):
         meeting = Meeting.objects.create(series=self.series, date="2026-12-15")
         AgendaItem.objects.create(
             meeting=meeting, topic=self.topic,
-            working_text="Einmaliger historischer Suchbegriff",
+            working_text="Einmaliger historischer Suchbegriff", assigned_to=self.user,
         )
         response = self.client.get(reverse("dashboard"), {"q": "historischer Suchbegriff"})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.topic.title)
+
     def test_finalized_meeting_text_is_read_only(self):
         meeting = Meeting.objects.create(
             series=self.series, date="2026-11-10", finalized_at="2026-11-10T10:00:00Z"
@@ -108,4 +109,5 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Erster Besprechungstermin")
         self.assertNotContains(response, "Aktueller Stand")
+        self.assertNotContains(response, "Beschreibung / Arbeitsauftrag")
         self.assertNotContains(response, "Status")
