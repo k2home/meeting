@@ -389,18 +389,49 @@ class DashboardTopicFilterTests(TestCase):
 
     def test_dashboard_new_topic_dialog_creates_topic(self):
         self.client.force_login(self.user)
+        from datetime import timedelta
+        from django.utils import timezone
+        meeting = Meeting.objects.create(
+            series=self.series_a, date=timezone.localdate() + timedelta(days=5),
+        )
         response = self.client.post(reverse("topic_new"), {
             "title": "Neues Dashboard-Thema",
             "description": "Aus dem Dashboard angelegt",
             "status": "open",
             "series": self.series_a.pk,
+            "meeting": meeting.pk,
             "assigned_to": self.user.pk,
         })
         topic = Topic.objects.get(title="Neues Dashboard-Thema")
         self.assertEqual(topic.series, self.series_a)
         self.assertEqual(topic.assigned_to, self.user)
         self.assertEqual(topic.description, "Aus dem Dashboard angelegt")
+        self.assertTrue(AgendaItem.objects.filter(meeting=meeting, topic=topic).exists())
         self.assertRedirects(response, reverse("topic_edit", args=[topic.pk]))
+
+    def test_new_topic_requires_a_future_meeting_in_selected_series(self):
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("topic_new"), {
+            "title": "Ohne Termin", "description": "", "status": "open",
+            "series": self.series_a.pk, "meeting": "",
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Topic.objects.filter(title="Ohne Termin").exists())
+        self.assertContains(response, "Bitte wähle einen zukünftigen, noch nicht abgeschlossenen Termin")
+
+    def test_new_topic_rejects_meeting_from_another_series(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        self.client.force_login(self.user)
+        foreign_meeting = Meeting.objects.create(
+            series=self.series_b, date=timezone.localdate() + timedelta(days=5),
+        )
+        response = self.client.post(reverse("topic_new"), {
+            "title": "Falsche Reihe", "description": "", "status": "open",
+            "series": self.series_a.pk, "meeting": foreign_meeting.pk,
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Topic.objects.filter(title="Falsche Reihe").exists())
 
     def test_filters_can_be_combined(self):
         self.client.force_login(self.user)
