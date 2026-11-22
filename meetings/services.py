@@ -31,12 +31,17 @@ def _monthly_weekday(year, month, weekday, occurrence):
 
 
 def generate_meetings(series):
+    from datetime import date
     created = []
     today = timezone.localdate()
+    end_date = series.end_date or date(today.year + 1, 12, 31)
+    if series.end_date is None:
+        series.end_date = end_date
+        series.save(update_fields=["end_date"])
     cursor = _next_weekday_on_or_after(series.start_date, series.weekday)
     interval = max(1, series.recurrence_interval or 1)
     occurrence = (cursor.day - 1) // 7 + 1
-    while not series.end_date or cursor <= series.end_date:
+    while cursor <= end_date:
         if cursor >= today:
             meeting, made = Meeting.objects.get_or_create(series=series, date=cursor)
             if made:
