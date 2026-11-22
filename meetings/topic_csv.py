@@ -115,7 +115,7 @@ def parse_topic_agenda_csv(text):
             errors.append(f"Zeile {row_number}: Verantwortliche Person „{username}“ existiert nicht.")
         if not meeting_date or not title:
             continue
-        topic_key = (series_id, title.casefold())
+        topic_key = f"{series_id}:{title.casefold()}"
         schedule_key = (series_id, meeting_date, topic_key)
         if schedule_key in seen:
             errors.append(f"Zeile {row_number}: Thema „{title}“ ist für diesen Termin mehrfach vorhanden.")
