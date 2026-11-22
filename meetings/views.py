@@ -19,7 +19,7 @@ from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
-from .audit import record_event
+from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
 from .models import SeriesAccess
@@ -431,7 +431,16 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
             AgendaItem.objects.create(meeting=target_meeting, topic=topic, working_text=item.working_text, assigned_to_id=item.assigned_to_id, status=item.status, position=next_position, carried_forward=True, followup_of=item)
         if old_series != target_series:
             TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=target_series, transferred_by=actor, note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt")
-        record_event(actor=actor, action="transferred" if old_series != target_series else "updated", summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt", topic=topic, meeting=item.meeting, changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}})
+        transfer_changes = {"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}}
+        transfer_summary = f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt"
+        if old_series != target_series:
+            record_transfer_events(
+                actor=actor, summary=transfer_summary, topic=topic,
+                from_series=old_series, to_series=target_series,
+                meeting=item.meeting, changes=transfer_changes,
+            )
+        else:
+            record_event(actor=actor, action="updated", summary=transfer_summary, topic=topic, meeting=item.meeting, changes=transfer_changes)
     return f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}."
 
 
@@ -905,11 +914,15 @@ def topic_transfer(request, pk):
             old_series_name = str(topic.series) if topic.series else "Ohne Reihe"
             topic.series = target
             topic.save(update_fields=["series", "updated_at"])
-            record_event(actor=request.user, action="transferred",
-                         summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen", topic=topic,
-                         changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
-                                  "Geplante Tagesordnungspunkte": {"übertragen": moved_agenda_items},
-                                  "Notiz": note})
+            record_transfer_events(
+                actor=request.user,
+                summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen",
+                topic=topic, from_series=topic.transfer_history.latest("transferred_at").from_series,
+                to_series=target,
+                changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
+                         "Geplante Tagesordnungspunkte": {"übertragen": moved_agenda_items},
+                         "Notiz": note},
+            )
     except ValueError as exc:
         messages.error(request, str(exc))
         return redirect("topic_edit", pk=topic.pk)
