@@ -1395,43 +1395,66 @@ def series_reset_meetings(request, pk):
 
     try:
         with transaction.atomic():
-            drafts = Meeting.objects.filter(series=series, finalized_at__isnull=True)
-            agenda_items = list(
-                AgendaItem.objects.filter(meeting__in=drafts)
-                .select_related("topic", "meeting")
-                .order_by("meeting__date", "pk")
-            )
-            carried_topics = {}
-            for agenda_item in agenda_items:
-                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position, agenda_item.assigned_to_id, agenda_item.status)
-    
+            drafts = Meeting.objects.filter(series=series, finalized_at__isnull=True, date__gte=today)
+            payload = []
+            for old_meeting in drafts.prefetch_related("participants"):
+                participants = list(old_meeting.participants.all())
+                for item in old_meeting.agenda_items.select_related("topic", "followup_of").order_by("position", "pk"):
+                    payload.append({
+                        "old_date": old_meeting.date, "topic": item.topic,
+                        "working_text": item.working_text, "position": item.position,
+                        "assigned_to_id": item.assigned_to_id, "status": item.status,
+                        "followup_of": item.followup_of,
+                    })
+                old_meeting._reset_participants = participants
+
+            participant_payload = [(m.date, list(m.participants.all())) for m in drafts.prefetch_related("participants")]
             drafts.delete()
-            new_meetings = generate_meetings(series)
-            next_meeting = (
-                Meeting.objects.filter(series=series, finalized_at__isnull=True, date__gte=today)
-                .order_by("date", "pk").first()
-            )
-            if next_meeting is None:
+            created = generate_meetings(series)
+            targets = list(Meeting.objects.filter(
+                series=series, date__gte=today, finalized_at__isnull=True
+            ).order_by("date", "pk"))
+            if not targets:
                 raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
-            for topic, working_text, position, assigned_to_id, status in carried_topics.values():
-                AgendaItem.objects.update_or_create(
-                    meeting=next_meeting,
-                    topic=topic,
-                    defaults={"working_text": working_text, "position": position, "carried_forward": True, "assigned_to_id": assigned_to_id, "status": status},
-                )
+
+            for old_date, participants in participant_payload:
+                target = min(targets, key=lambda m: (abs((m.date - old_date).days), m.date))
+                if participants:
+                    target.participants.add(*participants)
+
+            status_rank = {"open": 0, "in_progress": 1, "done": 2}
+            for saved in payload:
+                target = min(targets, key=lambda m: (abs((m.date - saved["old_date"]).days), m.date))
+                existing = target.agenda_items.filter(topic=saved["topic"]).first()
+                if existing:
+                    existing.working_text = "\n\n".join(dict.fromkeys(
+                        text for text in (existing.working_text, saved["working_text"]) if text
+                    ))
+                    if not existing.assigned_to_id and saved["assigned_to_id"]:
+                        existing.assigned_to_id = saved["assigned_to_id"]
+                    if status_rank.get(saved["status"], 0) > status_rank.get(existing.status, 0):
+                        existing.status = saved["status"]
+                    existing.carried_forward = True
+                    existing.save(update_fields=["working_text", "assigned_to", "status", "carried_forward"])
+                else:
+                    next_position = (target.agenda_items.order_by("-position").values_list("position", flat=True).first() if target.agenda_items.exists() else -1) + 1
+                    AgendaItem.objects.create(
+                        meeting=target, topic=saved["topic"], working_text=saved["working_text"],
+                        position=max(next_position, saved["position"]),
+                        assigned_to_id=saved["assigned_to_id"], status=saved["status"],
+                        carried_forward=True, followup_of=saved["followup_of"],
+                    )
     except ValueError as exc:
         messages.error(request, str(exc))
         return redirect("series_edit", pk=series.pk)
 
     messages.success(
         request,
-        f"Alle nicht abgeschlossenen Termine wurden neu erzeugt. "
-        f"{len(new_meetings)} Termine angelegt; vorhandene Tagesordnungspunkte "
-        f"liegen jetzt auf dem nächsten Termin ({next_meeting.date:%d.%m.%Y}). "
+        f"Alle zukünftigen Entwurfstermine wurden neu erzeugt. {len(created)} Termine neu angelegt; "
+        "Tagesordnungspunkte und Teilnehmende wurden jeweils dem zeitlich nächstgelegenen neuen Termin zugeordnet. "
         "Abgeschlossene Termine und Protokolle blieben erhalten."
     )
     return redirect("series_edit", pk=series.pk)
-
 
 @login_required
 @moderator_required
