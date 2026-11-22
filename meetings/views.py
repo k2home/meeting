@@ -156,6 +156,7 @@ def dashboard(request):
     elif selected_due == "future":
         topics = topics.filter(next_meeting_date__gt=today)
 
+    topics = topics.distinct()
     overdue_count = accessible_topics(request.user).filter(status="open", agenda_items__meeting__date__lt=today, agenda_items__meeting__finalized_at__isnull=True).distinct().count()
     return render(request, "meetings/dashboard.html", {
         "meetings": meetings, "topics": topics, "overdue_count": overdue_count, "today": today,
