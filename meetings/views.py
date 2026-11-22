@@ -1158,8 +1158,11 @@ def series_reset_meetings(request, pk):
         return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
 
     today = timezone.localdate()
-    if series.end_date and series.end_date < today:
-        messages.error(request, "Das Serienende liegt in der Vergangenheit. Bitte verlängere die Reihe zuerst.")
+    if series.end_date is None:
+        series.end_date = date(today.year + 1, 12, 31)
+        series.save(update_fields=["end_date"])
+    if series.end_date < today or series.start_date > series.end_date:
+        messages.error(request, "Im gewählten Serienzeitraum kann kein zukünftiger Termin erzeugt werden. Bitte prüfe Start- und Enddatum oder verlängere die Reihe.")
         return redirect("series_edit", pk=series.pk)
 
     with transaction.atomic():
