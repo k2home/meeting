@@ -420,6 +420,43 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(exported["series"], "CSV-Reihe")
         self.assertEqual(exported["topic_series"], "Themenreihe")
 
+    def test_import_without_optional_columns_preserves_existing_topic_and_agenda_values(self):
+        import csv
+        from io import StringIO
+        topic_owner = User.objects.create_user(username="preserved-topic-owner", password="strong-test-password")
+        agenda_owner = User.objects.create_user(username="preserved-agenda-owner", password="strong-test-password")
+        topic = Topic.objects.create(
+            title="Nur Pflichtspalten", series=self.series, status="archived", assigned_to=topic_owner,
+        )
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-03")
+        item = AgendaItem.objects.create(
+            meeting=meeting, topic=topic, working_text="Bestehender Text",
+            assigned_to=agenda_owner, status="in_progress",
+        )
+        output = StringIO()
+        writer = csv.writer(output, delimiter=";")
+        writer.writerow(["series", "meeting_date", "topic_title"])
+        writer.writerow(["CSV-Reihe", "2026-12-03", topic.title])
+        response = self._confirm_import(output.getvalue())
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic.refresh_from_db()
+        item.refresh_from_db()
+        self.assertEqual(topic.status, "archived")
+        self.assertEqual(topic.assigned_to, topic_owner)
+        self.assertEqual(item.working_text, "Bestehender Text")
+        self.assertEqual(item.assigned_to, agenda_owner)
+        self.assertEqual(item.status, "in_progress")
+
+    def test_import_rejects_conflicting_topic_fields_across_rows(self):
+        from .topic_csv import parse_topic_agenda_csv
+        text = self._modern_csv([
+            ["2026-12-03", "", "Widerspruch", "open", "open", "m.mustermann", "", "", "", "Text 1"],
+            ["2027-01-14", "", "Widerspruch", "done", "open", "a.beispiel", "", "", "", "Text 2"],
+        ])
+        rows, errors = parse_topic_agenda_csv(text)
+        self.assertEqual(rows, [])
+        self.assertTrue(any("widersprüchliche Werte" in error for error in errors))
+
     def test_admin_can_download_sample_and_open_import(self):
         sample = self.client.get(reverse("admin:meetings_topic_csv_sample"))
         self.assertEqual(sample.status_code, 200)
