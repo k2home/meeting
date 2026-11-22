@@ -38,7 +38,7 @@
     <p>{{ event.summary|audit_text|linebreaksbr }}</p>
     <p class="muted">Von {% if event.actor %}{{ event.actor|user_display }}{% else %}System / gelöschtem Benutzer{% endif %}
       {% if event.topic %} · <a href="{% url 'topic_edit' event.topic.pk %}">{{ event.topic.title }}</a>{% endif %}
-      {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{{ event.meeting.series.name|default:'Gelöschte Besprechungsreihe' }} am {{ event.meeting.date|date:"d.m.Y" }}</a>{% endif %}
+      {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{% if event.meeting.series_id %}{{ event.meeting.series.name }}{% else %}{{ event.meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} am {{ event.meeting.date|date:"d.m.Y" }}</a>{% endif %}
     </p>
     {% if event.changes %}
       <details><summary>Details anzeigen</summary>

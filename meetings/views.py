@@ -687,7 +687,9 @@ def meeting_detail(request, pk):
                 messages.info(request, "Der Bearbeitungsstand ist unverändert.")
         elif request.POST.get("add_existing_topic"):
             topic = get_object_or_404(accessible_topics(request.user), pk=request.POST.get("add_existing_topic"))
-            if meeting.agenda_items.filter(topic=topic).exists():
+            if topic.status == "archived":
+                messages.error(request, "Archivierte Themen können nicht auf eine Tagesordnung übernommen werden. Öffne das Thema zuerst im Archiv wieder.")
+            elif meeting.agenda_items.filter(topic=topic).exists():
                 messages.info(request, f"„{topic.title}“ steht bereits auf dieser Tagesordnung.")
             else:
                 AgendaItem.objects.create(
@@ -861,7 +863,7 @@ def agenda_topic_history(request, pk, topic_pk):
         topic=item.topic, meeting__in=visible_meetings
     ).select_related("meeting__series", "assigned_to"):
         history[entry.meeting_id] = {
-            "series": entry.meeting.series.name if entry.meeting.series else "Gelöschte Besprechungsreihe",
+            "series": _meeting_series_name(entry.meeting),
             "date": entry.meeting.date,
             "text": entry.working_text,
             "responsible": user_display_name(entry.assigned_to) if entry.assigned_to else "",
@@ -871,7 +873,7 @@ def agenda_topic_history(request, pk, topic_pk):
         topic_id=item.topic_id, meeting__in=visible_meetings
     ).select_related("meeting__series"):
         history[snapshot.meeting_id] = {
-            "series": snapshot.meeting.series.name if snapshot.meeting.series else "Gelöschte Besprechungsreihe",
+            "series": _meeting_series_name(snapshot.meeting),
             "date": snapshot.meeting.date,
             "text": snapshot.text,
             "responsible": snapshot.responsible_name,
@@ -1059,7 +1061,9 @@ def _meeting_participant_names(meeting):
 
 
 def _meeting_series_name(meeting):
-    return meeting.series.name if meeting.series_id else "Gelöschte Besprechungsreihe"
+    if meeting.series_id:
+        return meeting.series.name
+    return meeting.archived_series_name or "Gelöschte Besprechungsreihe"
 
 
 def _protocol_filename(meeting, extension):
@@ -1212,7 +1216,7 @@ def protocol(request, pk):
     ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
-    series_name = meeting.series.name if meeting.series_id else "Gelöschte Besprechungsreihe"
+    series_name = _meeting_series_name(meeting)
     recipient_emails = []
     if meeting.series_id:
         recipient_emails = list(
@@ -1227,9 +1231,13 @@ def protocol(request, pk):
         f"das Protokoll für die Sitzung {series_name} am {meeting.date:%d.%m.%Y} "
         f"ist unter {protocol_url} verfügbar.\n"
     )
+    mailto_query = urlencode(
+        {"subject": subject, "body": body + "\n"},
+        quote_via=quote,
+    )
     mailto_url = (
         f"mailto:{quote(','.join(recipient_emails), safe='@,.-_+')}"
-        f"?{urlencode({'subject': subject, 'body': body + '\n'}, quote_via=quote)}"
+        f"?{mailto_query}"
     )
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
@@ -1555,7 +1563,7 @@ def series_delete(request, pk):
             ],
             ignore_conflicts=True,
         )
-        Meeting.objects.filter(series=series).update(series=None)
+        Meeting.objects.filter(series=series).update(archived_series_name=name, series=None)
         # The series and its active assignments are removed; archive access
         # remains attached to each retained historical meeting.
         record_event(
@@ -1613,7 +1621,7 @@ def meeting_delete(request, pk):
         messages.error(request, "Abgeschlossene Besprechungen mit Protokoll können nicht gelöscht werden.")
         return redirect("meeting", pk=pk)
     if not meeting.series_id:
-        messages.error(request, "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht verschoben werden.")
+        messages.error(request, "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht gelöscht werden.")
         return redirect("meeting", pk=pk)
 
     with transaction.atomic():
@@ -1735,7 +1743,7 @@ def meeting_reopen(request, pk):
     with transaction.atomic():
         previous_finalized_at = meeting.finalized_at
         previous_snapshot = list(meeting.snapshots.values(
-            "topic_title", "text", "status", "topic_id"
+            "topic_title", "text", "status", "topic_id", "responsible_name"
         ))
         # Keep the previous immutable protocol in the append-only audit event.
         # Remove active snapshots so a later completion can create a fresh version.

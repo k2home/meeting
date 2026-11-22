@@ -89,13 +89,66 @@ def export_users_csv(request):
     return response
 
 
-def _find_existing_user(username, values):
-    email = values.get("email", "")
-    if email:
-        matches = User.objects.filter(email__iexact=email)
-        if matches.count() == 1:
-            return matches.first()
-    return User.objects.filter(username=username).first()
+def _resolve_existing_users(grouped):
+    """Resolve every CSV account once and reject ambiguous or colliding identities."""
+    resolved = {}
+    errors = []
+    seen_usernames = {}
+    seen_emails = {}
+    seen_user_ids = {}
+
+    for username, record in grouped:
+        normalized_username = username.casefold()
+        if normalized_username in seen_usernames and seen_usernames[normalized_username] != username:
+            errors.append(
+                f"Benutzernamen „{seen_usernames[normalized_username]}“ und „{username}“ "
+                "unterscheiden sich nur durch Groß-/Kleinschreibung."
+            )
+        else:
+            seen_usernames[normalized_username] = username
+
+        username_matches = list(User.objects.filter(username__iexact=username)[:2])
+        if len(username_matches) > 1:
+            errors.append(f"Der vorhandene Benutzername „{username}“ ist nicht eindeutig.")
+            continue
+        username_user = username_matches[0] if username_matches else None
+
+        email = (record["values"].get("email") or "").strip()
+        normalized_email = email.casefold()
+        if normalized_email and normalized_email in seen_emails and seen_emails[normalized_email] != username:
+            errors.append(
+                f"Die E-Mail-Adresse „{email}“ wird mehreren CSV-Benutzern zugeordnet."
+            )
+            continue
+        if normalized_email:
+            seen_emails[normalized_email] = username
+        email_matches = list(User.objects.filter(email__iexact=email)[:2]) if email else []
+        if len(email_matches) > 1:
+            errors.append(f"Die E-Mail-Adresse „{email}“ gehört zu mehreren vorhandenen Benutzerkonten.")
+            continue
+        email_user = email_matches[0] if email_matches else None
+
+        if username_user and email_user and username_user.pk != email_user.pk:
+            errors.append(
+                f"Benutzer „{username}“: Benutzername und E-Mail-Adresse gehören zu unterschiedlichen Konten."
+            )
+            continue
+
+        user = email_user or username_user
+        if user:
+            previous_username = seen_user_ids.get(user.pk)
+            if previous_username and previous_username != username:
+                errors.append(
+                    f"Die CSV-Datensätze „{previous_username}“ und „{username}“ würden dasselbe Benutzerkonto ändern."
+                )
+                continue
+            seen_user_ids[user.pk] = username
+            if User.objects.filter(username__iexact=username).exclude(pk=user.pk).exists():
+                errors.append(f"Der gewünschte Benutzername „{username}“ ist bereits durch ein anderes Konto belegt.")
+                continue
+        resolved[username] = user
+
+    return resolved, errors
 
 
 def _parse_bool(value, field, row_number, errors):
@@ -182,6 +235,8 @@ def import_users_csv(request):
             messages.error(request, "Die Importvorschau ist abgelaufen. Bitte lade die CSV-Datei erneut hoch.")
             return redirect("admin:auth_user_csv_import")
         grouped, errors = _parse_csv(pending["text"])
+        resolved_users, identity_errors = _resolve_existing_users(grouped)
+        errors.extend(identity_errors)
         if "is_administrator" in pending.get("headers", []) and not (
             request.user.is_superuser or request.user.groups.filter(name="Admin").exists()
         ):
@@ -193,7 +248,7 @@ def import_users_csv(request):
         created = updated = 0
         with transaction.atomic():
             for username, record in grouped:
-                user = _find_existing_user(username, record["values"])
+                user = resolved_users.get(username)
                 was_created = user is None
                 if was_created:
                     user = User(username=username)
@@ -234,6 +289,8 @@ def import_users_csv(request):
     if request.method == "POST" and form.is_valid():
         text = form.csv_text
         grouped, errors = _parse_csv(text)
+        resolved_users, identity_errors = _resolve_existing_users(grouped)
+        errors.extend(identity_errors)
         headers = next(csv.reader(io.StringIO(text), delimiter=";"))
         if "is_administrator" in headers and not (
             request.user.is_superuser or request.user.groups.filter(name="Admin").exists()
@@ -249,8 +306,8 @@ def import_users_csv(request):
             preview = {
                 "token": token,
                 "users": len(grouped),
-                "new_users": sum(_find_existing_user(username, record["values"]) is None for username, record in grouped),
-                "updated_users": sum(_find_existing_user(username, record["values"]) is not None for username, record in grouped),
+                "new_users": sum(resolved_users.get(username) is None for username, record in grouped),
+                "updated_users": sum(resolved_users.get(username) is not None for username, record in grouped),
                 "assignments": sum(len(record["series"]) for _, record in grouped),
             }
     return render(request, "admin/auth/user/csv_import.html", {

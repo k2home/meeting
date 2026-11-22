@@ -1252,3 +1252,194 @@ class RepositoryAuditRegressionTests(TestCase):
         self.assertIsNone(meeting.finalized_at)
         from .models import TopicSnapshot
         self.assertFalse(TopicSnapshot.objects.filter(meeting=meeting).exists())
+
+
+
+class ApprovedRepositoryAuditFollowupTests(TestCase):
+    def test_archive_template_has_balanced_section_elements(self):
+        from pathlib import Path
+        template = Path(__file__).resolve().parent.parent / "templates" / "meetings" / "archive.html"
+        content = template.read_text(encoding="utf-8")
+        self.assertEqual(content.count("<section"), content.count("</section>"))
+
+    def test_archived_topic_cannot_be_added_to_meeting_through_post(self):
+        from datetime import date
+        user = User.objects.create_user(username="archive-member", password="strong-test-password")
+        series = MeetingSeries.objects.create(name="Archivschutz")
+        SeriesAccess.objects.create(user=user, series=series)
+        meeting = Meeting.objects.create(series=series, date=date(2026, 12, 18))
+        topic = Topic.objects.create(title="Archiviertes Thema", series=series, status="archived")
+        self.client.force_login(user)
+
+        response = self.client.post(
+            reverse("meeting", args=[meeting.pk]),
+            {"add_existing_topic": topic.pk},
+        )
+
+        self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
+        self.assertFalse(AgendaItem.objects.filter(meeting=meeting, topic=topic).exists())
+
+    def test_archived_topics_are_not_carried_forward_from_previous_protocols(self):
+        from datetime import date
+        from django.utils import timezone
+        from .services import ensure_agenda
+        series = MeetingSeries.objects.create(name="Archivierter Übertrag")
+        topic = Topic.objects.create(title="Nicht mehr übernehmen", series=series, status="archived")
+        previous = Meeting.objects.create(
+            series=series, date=date(2026, 11, 20), finalized_at=timezone.now()
+        )
+        AgendaItem.objects.create(meeting=previous, topic=topic, status="open")
+        upcoming = Meeting.objects.create(series=series, date=date(2026, 12, 20))
+
+        items = ensure_agenda(upcoming)
+
+        self.assertFalse(items.exists())
+        self.assertFalse(AgendaItem.objects.filter(meeting=upcoming, topic=topic).exists())
+
+    def test_topic_csv_rejects_archived_agenda_rows_and_preserves_archived_topic_state(self):
+        from datetime import date
+        from .topic_csv import parse_topic_agenda_csv
+        MeetingSeries.objects.create(name="CSV-Archiv")
+        headers = (
+            "record_type;series;topic_series;meeting_date;meeting_title;topic_title;"
+            "topic_status;archive_previous_status;agenda_status"
+        )
+        agenda_csv = headers + "\nagenda;CSV-Archiv;CSV-Archiv;2026-12-18;;Archivthema;archived;done;open"
+        rows, errors = parse_topic_agenda_csv(agenda_csv)
+        self.assertEqual(rows, [])
+        self.assertTrue(any("Archivierte Themen dürfen nicht" in error for error in errors))
+
+        topic_csv = headers + "\ntopic;CSV-Archiv;CSV-Archiv;;;Archivthema;archived;done;"
+        rows, errors = parse_topic_agenda_csv(topic_csv)
+        self.assertEqual(errors, [])
+        self.assertEqual(rows[0]["topic"]["archive_previous_status"], "done")
+
+        Topic.objects.create(
+            title="Schon archiviert",
+            series=MeetingSeries.objects.get(name="CSV-Archiv"),
+            status="archived",
+        )
+        reopened_in_csv = headers + "\nagenda;CSV-Archiv;CSV-Archiv;2026-12-19;;schon archiviert;open;;open"
+        rows, errors = parse_topic_agenda_csv(reopened_in_csv)
+        self.assertEqual(rows, [])
+        self.assertTrue(any("muss zuerst über die Themenansicht" in error for error in errors))
+
+        active_topic = Topic.objects.create(
+            title="Mit offenem Termin",
+            series=MeetingSeries.objects.get(name="CSV-Archiv"),
+            status="open",
+        )
+        future_meeting = Meeting.objects.create(
+            series=active_topic.series, date=date(2026, 12, 23)
+        )
+        AgendaItem.objects.create(meeting=future_meeting, topic=active_topic)
+        archive_in_csv = headers + "\ntopic;CSV-Archiv;CSV-Archiv;;;Mit offenem Termin;archived;open;"
+        rows, errors = parse_topic_agenda_csv(archive_in_csv)
+        self.assertEqual(rows, [])
+        self.assertTrue(any("zukünftigen oder offenen Tagesordnung" in error for error in errors))
+
+    def test_reopening_meeting_keeps_snapshot_responsible_name_in_audit(self):
+        from datetime import date
+        from django.utils import timezone
+        from .models import AuditEvent, TopicSnapshot
+        user = User.objects.create_user(username="protocol-moderator", password="strong-test-password")
+        series = MeetingSeries.objects.create(name="Snapshot-Reihe")
+        SeriesAccess.objects.create(user=user, series=series, role=SeriesAccess.ROLE_MODERATOR)
+        meeting = Meeting.objects.create(series=series, date=date(2026, 12, 19), finalized_at=timezone.now())
+        TopicSnapshot.objects.create(
+            meeting=meeting, topic_title="Verantwortung", text="Stand", status="done",
+            topic_id=123, responsible_name="Max Mustermann",
+        )
+        self.client.force_login(user)
+
+        response = self.client.post(reverse("meeting_reopen", args=[meeting.pk]))
+
+        self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
+        event = AuditEvent.objects.get(meeting=meeting, action="reopened")
+        self.assertEqual(
+            event.changes["Gesicherter Protokollstand"][0]["responsible_name"],
+            "Max Mustermann",
+        )
+
+    def test_deleted_series_name_is_kept_on_retained_meetings(self):
+        from datetime import date
+        from .views import _meeting_series_name
+        user = User.objects.create_user(username="series-moderator", password="strong-test-password")
+        series = MeetingSeries.objects.create(name="Historische Fachrunde")
+        SeriesAccess.objects.create(user=user, series=series, role=SeriesAccess.ROLE_MODERATOR)
+        meeting = Meeting.objects.create(series=series, date=date(2026, 1, 15))
+        self.client.force_login(user)
+
+        response = self.client.post(reverse("series_delete", args=[series.pk]))
+
+        self.assertRedirects(response, reverse("dashboard"))
+        meeting.refresh_from_db()
+        self.assertIsNone(meeting.series_id)
+        self.assertEqual(meeting.archived_series_name, "Historische Fachrunde")
+        self.assertEqual(_meeting_series_name(meeting), "Historische Fachrunde")
+        self.assertEqual(str(meeting), "Historische Fachrunde – 15.01.2026")
+        protocol = self.client.get(reverse("protocol", args=[meeting.pk]))
+        self.assertContains(protocol, "Historische Fachrunde")
+
+    def test_topic_csv_sample_rows_match_the_header(self):
+        import csv
+        import io
+        from .topic_csv import sample_csv_response
+        response = sample_csv_response()
+        rows = list(csv.reader(
+            io.StringIO(response.content.decode("utf-8-sig")),
+            delimiter=";",
+        ))
+        self.assertEqual(len(rows[0]), 16)
+        for row in rows[1:4]:
+            self.assertEqual(len(row), len(rows[0]))
+
+    def test_user_csv_identity_conflicts_are_rejected_before_import(self):
+        from .user_csv import _resolve_existing_users
+        User.objects.create_user(
+            username="first-account", email="first@example.org", password="strong-test-password"
+        )
+        User.objects.create_user(
+            username="second-account", email="second@example.org", password="strong-test-password"
+        )
+        grouped = [
+            ("first-account", {"values": {"email": "second@example.org"}}),
+        ]
+        resolved, errors = _resolve_existing_users(grouped)
+        self.assertEqual(resolved, {})
+        self.assertTrue(any("gehören zu unterschiedlichen Konten" in error for error in errors))
+
+        grouped = [
+            ("renamed-first", {"values": {"email": "first@example.org"}}),
+            ("renamed-second", {"values": {"email": "first@example.org"}}),
+        ]
+        resolved, errors = _resolve_existing_users(grouped)
+        self.assertTrue(any(
+            "dasselbe Benutzerkonto" in error or "mehreren CSV-Benutzern" in error
+            for error in errors
+        ))
+
+        grouped = [
+            ("new-user-a", {"values": {"email": "new@example.org"}}),
+            ("new-user-b", {"values": {"email": "new@example.org"}}),
+        ]
+        resolved, errors = _resolve_existing_users(grouped)
+        self.assertTrue(any("mehreren CSV-Benutzern" in error for error in errors))
+
+    def test_meeting_delete_message_matches_the_action(self):
+        from datetime import date
+        user = User.objects.create_superuser(
+            username="orphan-meeting-moderator",
+            email="orphan@example.org",
+            password="strong-test-password",
+        )
+        meeting = Meeting.objects.create(series=None, date=date(2026, 12, 22))
+        self.client.force_login(user)
+        response = self.client.post(reverse("meeting_delete", args=[meeting.pk]))
+        self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
+        from django.contrib.messages import get_messages
+        stored_messages = [str(message) for message in get_messages(response.wsgi_request)]
+        self.assertIn(
+            "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht gelöscht werden.",
+            stored_messages,
+        )

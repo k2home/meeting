@@ -13,10 +13,9 @@
 </section>
 <section class="card">
   <h2>Erledigte Tagesordnungspunkte</h2>
-<section class="card">
 {% for item in items %}
 <article class="content-divider">
-  <div class="topline"><div><h2 style="margin:.2rem 0"><a href="{% url 'topic_edit' item.topic_id %}">{{ item.topic.title }}</a></h2><p class="muted">{{ item.meeting.series|default:"Ohne Besprechungsreihe" }} · {{ item.meeting.date|date:"d.m.Y" }}</p></div><span class="pill">Erledigt</span></div>
+  <div class="topline"><div><h2 style="margin:.2rem 0"><a href="{% url 'topic_edit' item.topic_id %}">{{ item.topic.title }}</a></h2><p class="muted">{% if item.meeting.series_id %}{{ item.meeting.series.name }}{% else %}{{ item.meeting.archived_series_name|default:"Ohne Besprechungsreihe" }}{% endif %} · {{ item.meeting.date|date:"d.m.Y" }}</p></div><span class="pill">Erledigt</span></div>
   {% if item.working_text %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
   <p><a href="{% url 'protocol' item.meeting_id %}">Besprechungsprotokoll öffnen</a></p>
 </article>

@@ -8,6 +8,7 @@ from django.contrib import admin, messages
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 from .models import AgendaItem, Meeting, MeetingSeries, Topic, UserProfile
 from django.contrib.auth import get_user_model
@@ -16,7 +17,7 @@ User = get_user_model()
 
 CSV_FIELDS = (
     "record_type", "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
-    "topic_status", "agenda_status", "responsible_username", "responsible_kurzbezeichnung",
+    "topic_status", "archive_previous_status", "agenda_status", "responsible_username", "responsible_kurzbezeichnung",
     "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
     "followup_series", "followup_meeting_date",
 )
@@ -50,9 +51,9 @@ def sample_csv_response():
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären.", "", ""])
-    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten.", "Lenkungskreis Digitalisierung", "2026-12-03"])
-    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen.", "", ""])
+    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären.", "", ""])
+    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten.", "Lenkungskreis Digitalisierung", "2026-12-03"])
+    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen.", "", ""])
     _write_csv_documentation(writer)
     return response
 
@@ -64,6 +65,7 @@ def _write_csv_documentation(writer):
     writer.writerow(["#", "series", "Besprechungsreihe des konkreten Termins; bei record_type=topic optional."])
     writer.writerow(["#", "topic_series", "Zuständige Besprechungsreihe des Themas; leer bedeutet ohne Zuordnung. Bei alten Dateien ohne diese Spalte wird series übernommen."])
     writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in Topic.STATUS)])
+    writer.writerow(["#", "archive_previous_status", "Vorheriger Themenstatus (open, in_progress oder done); bei älteren CSV-Dateien wird open angenommen. Archivierte Themen werden als Themen-Datensatz ohne aktive Tagesordnung exportiert."])
     writer.writerow(["#", "agenda_status", "; ".join(f"{value} ({label})" for value, label in AgendaItem.STATUS)])
     writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Optionale Hauptzuständigkeit des Themas."])
     writer.writerow(["#", "agenda_responsible_username / agenda_responsible_kurzbezeichnung", "Optionale abweichende Person für genau diesen Tagesordnungspunkt; leer bedeutet Hauptverantwortliche Person."])
@@ -97,7 +99,7 @@ def export_topic_agenda_csv(request):
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    items = AgendaItem.objects.select_related(
+    items = AgendaItem.objects.exclude(topic__status="archived").select_related(
         "meeting__series", "topic", "topic__series", "topic__assigned_to", "assigned_to"
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
     for item in items:
@@ -111,6 +113,7 @@ def export_topic_agenda_csv(request):
             meeting.title,
             topic.title,
             topic.status,
+            "",
             item.status,
             topic.assigned_to.username if topic.assigned_to else "",
             _profile_short_description(topic.assigned_to),
@@ -120,11 +123,14 @@ def export_topic_agenda_csv(request):
             source.meeting.series.name if source and source.meeting.series else "",
             source.meeting.date.isoformat() if source else "",
         ]])
-    topics_without_agenda = Topic.objects.filter(agenda_items__isnull=True).select_related("series", "assigned_to").order_by("title", "pk")
+    topics_without_agenda = (
+        Topic.objects.filter(status="archived") | Topic.objects.filter(agenda_items__isnull=True)
+    ).select_related("series", "assigned_to").order_by("title", "pk")
     for topic in topics_without_agenda:
         writer.writerow([_csv_value(value) for value in [
             "topic", topic.series.name if topic.series else "", topic.series.name if topic.series else "",
-            "", "", topic.title, topic.status, "", topic.assigned_to.username if topic.assigned_to else "",
+            "", "", topic.title, topic.status, topic.archive_previous_status, "",
+            topic.assigned_to.username if topic.assigned_to else "",
             _profile_short_description(topic.assigned_to), "", "", "", "", "",
         ]])
     _write_csv_documentation(writer)
@@ -225,6 +231,14 @@ def parse_topic_agenda_csv(text):
         topic_status = (row.get("topic_status") or "open") if "agenda_status" in headers else None
         if topic_status is not None and topic_status not in TOPIC_STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter topic_status „{topic_status}“.")
+        archive_previous_status = row.get("archive_previous_status", "").strip()
+        if archive_previous_status and archive_previous_status not in {"open", "in_progress", "done"}:
+            errors.append(f"Zeile {row_number}: Unbekannter archive_previous_status „{archive_previous_status}“.")
+        if topic_status == "archived":
+            if record_type != "topic":
+                errors.append(f"Zeile {row_number}: Archivierte Themen dürfen nicht als Tagesordnungspunkt importiert werden; verwende record_type=topic.")
+            if not archive_previous_status:
+                archive_previous_status = "open"
         agenda_status = (row.get("agenda_status") if "agenda_status" in headers else row.get("topic_status")) or "open"
         if agenda_status not in AGENDA_STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter agenda_status „{agenda_status}“.")
@@ -245,6 +259,8 @@ def parse_topic_agenda_csv(text):
         topic_data = {"series_id": topic_series_id, "title": title}
         if "topic_status" in headers and "agenda_status" in headers:
             topic_data["status"] = topic_status
+            if topic_status == "archived":
+                topic_data["archive_previous_status"] = archive_previous_status
         if "responsible_username" in headers or "responsible_kurzbezeichnung" in headers:
             topic_data["assigned_to_id"] = main_user.pk if main_user else None
         if topic_key not in topic_records:
@@ -335,7 +351,7 @@ def parse_topic_agenda_csv(text):
         if row.get("followup_series_id"):
             source_key = (row["followup_series_id"], row["followup_meeting_date"], row["topic_key"])
             existing_topic = Topic.objects.filter(
-                series_id=row["topic"]["series_id"], title=row["topic"]["title"]
+                series_id=row["topic"]["series_id"], title__iexact=row["topic"]["title"]
             ).first()
             source_in_database = bool(existing_topic and AgendaItem.objects.filter(
                 topic=existing_topic, meeting__series_id=row["followup_series_id"],
@@ -358,12 +374,27 @@ def parse_topic_agenda_csv(text):
         if meeting and (meeting.finalized_at or meeting.snapshots.exists()):
             errors.append(f"Zeile {row['row_number']}: Der Termin am {row['meeting_date']:%d.%m.%Y} ist abgeschlossen und kann nicht importiert werden.")
         row["existing_meeting_id"] = meeting.pk if meeting else None
-    for record in topic_records.values():
+    for topic_key, record in topic_records.items():
         data = record["topic"]
-        matches = Topic.objects.filter(series_id=data["series_id"], title=data["title"])
+        matches = Topic.objects.filter(series_id=data["series_id"], title__iexact=data["title"])
         if matches.count() > 1:
             errors.append(f"Zeile {record['row']}: Thema „{data['title']}“ ist mehrfach vorhanden.")
-        record["existing_topic_id"] = matches.first().pk if matches.exists() else None
+        existing_topic = matches.first() if matches.exists() else None
+        record["existing_topic_id"] = existing_topic.pk if existing_topic else None
+        effective_status = data.get("status", existing_topic.status if existing_topic else "open")
+        has_agenda_rows = any(
+            row.get("record_type") != "topic" and row.get("topic_key") == topic_key
+            for row in rows
+        )
+        if (effective_status == "archived" or (existing_topic and existing_topic.status == "archived")) and has_agenda_rows:
+            errors.append(f"Zeile {record['row']}: Das archivierte Thema „{data['title']}“ muss zuerst über die Themenansicht wieder geöffnet werden, bevor Tagesordnungspunkte importiert werden können.")
+        if effective_status == "archived" and existing_topic and existing_topic.agenda_items.filter(
+            meeting__date__gte=timezone.localdate(),
+            meeting__finalized_at__isnull=True,
+        ).exists():
+            errors.append(
+                f"Zeile {record['row']}: Thema „{data['title']}“ kann nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht."
+            )
     if errors:
         return [], errors
     return rows, []
@@ -413,6 +444,10 @@ def import_topic_agenda_csv(request):
                     topic.title = data["title"]
                     if "status" in data and data["status"] is not None:
                         topic.status = data["status"]
+                        topic.archive_previous_status = (
+                            data.get("archive_previous_status", "open")
+                            if data["status"] == "archived" else ""
+                        )
                     if "assigned_to_id" in data:
                         topic.assigned_to_id = data["assigned_to_id"]
                     topic.save()
