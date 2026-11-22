@@ -157,6 +157,7 @@ def parse_topic_agenda_csv(text):
 
     series_by_name = {name: pk for pk, name in MeetingSeries.objects.values_list("pk", "name")}
     rows, topic_records, seen, positions = [], {}, set(), {}
+    legacy_followups = []
     for row_number, raw in enumerate(reader, start=2):
         if None in raw:
             errors.append(f"Zeile {row_number}: Die Zeile enthält mehr Werte als die Kopfzeile.")
@@ -209,10 +210,14 @@ def parse_topic_agenda_csv(text):
             topic_records[topic_key] = {"topic": topic_data, "row": row_number}
 
         schedule_rows = [(meeting_date, row.get("agenda_text", ""), agenda_user.pk if agenda_user else None)]
-        # Legacy imports used topic_due_date as a scheduled follow-up. Preserve it
-        # by materializing a second agenda row rather than restoring a topic date.
+        # Defer synthetic legacy appointments until all explicit CSV rows have
+        # been read, so a real row for the same future meeting takes precedence.
         if legacy_due_date and legacy_due_date != meeting_date:
-            schedule_rows.append((legacy_due_date, "", None))
+            legacy_followups.append({
+                "row_number": row_number, "series_id": series_id,
+                "meeting_date": legacy_due_date, "meeting_title": meeting_title,
+                "topic_key": topic_key, "topic": topic_data,
+            })
 
         for scheduled_date, agenda_text, agenda_assignee_id in schedule_rows:
             schedule_key = (series_id, scheduled_date, topic_key)
@@ -228,6 +233,21 @@ def parse_topic_agenda_csv(text):
                 "agenda_text": agenda_text, "agenda_assigned_to_id": agenda_assignee_id,
                 "position": position,
             })
+
+    for followup in legacy_followups:
+        schedule_key = (followup["series_id"], followup["meeting_date"], followup["topic_key"])
+        if schedule_key in seen:
+            continue
+        seen.add(schedule_key)
+        meeting_key = (followup["series_id"], followup["meeting_date"])
+        position = positions.get(meeting_key, 0)
+        positions[meeting_key] = position + 1
+        rows.append({
+            **followup,
+            "agenda_text": "",
+            "agenda_assigned_to_id": None,
+            "position": position,
+        })
 
     if not rows:
         errors.append("Die CSV-Datei enthält keine gültigen Datensätze.")
