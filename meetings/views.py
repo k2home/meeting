@@ -1300,8 +1300,10 @@ def series_reset_meetings(request, pk):
                         existing.assigned_to_id = saved["assigned_to_id"]
                     if status_rank.get(saved["status"], 0) > status_rank.get(existing.status, 0):
                         existing.status = saved["status"]
+                    if saved["followup_of"] and not existing.followup_of_id:
+                        existing.followup_of = saved["followup_of"]
                     existing.carried_forward = True
-                    existing.save(update_fields=["working_text", "assigned_to", "status", "carried_forward"])
+                    existing.save(update_fields=["working_text", "assigned_to", "status", "followup_of", "carried_forward"])
                 else:
                     next_position = (target.agenda_items.order_by("-position").values_list("position", flat=True).first() if target.agenda_items.exists() else -1) + 1
                     AgendaItem.objects.create(
