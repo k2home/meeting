@@ -43,11 +43,11 @@
                 </td>
                 <td>
                   {% if has_change_permission %}
-                    <form method="post">
+                    <form method="post" data-confirm-message="Diese Serienzuordnung wirklich entfernen?">
                       {% csrf_token %}
                       <input type="hidden" name="action" value="remove">
                       <input type="hidden" name="access_id" value="{{ access.pk }}">
-                      <button type="submit" class="button secondary" onclick="return confirm('Diese Serienzuordnung wirklich entfernen?');">Entfernen</button>
+                      <button type="submit" class="button secondary">Entfernen</button>
                     </form>
                   {% endif %}
                 </td>
