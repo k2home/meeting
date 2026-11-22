@@ -211,14 +211,14 @@ class AuditTransactionAndTransferTests(TestCase):
         self.series = MeetingSeries.objects.create(name="Audit Transaktion")
         SeriesAccess.objects.create(user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR)
 
-    def test_meeting_edit_rolls_back_when_audit_write_fails(self):
-        meeting = Meeting.objects.create(series=self.series, date=date(2026, 12, 1))
+    def test_topic_edit_rolls_back_when_audit_write_fails(self):
+        topic = Topic.objects.create(title="Ursprünglicher Titel", series=self.series)
         self.client.force_login(self.moderator)
-        with patch("meetings.views.record_event", side_effect=RuntimeError("Audit ausgefallen")):
+        with patch("meetings.agenda_topic_views.record_event", side_effect=RuntimeError("Audit ausgefallen")):
             with self.assertRaises(RuntimeError):
-                self.client.post(reverse("meeting_edit", args=[meeting.pk]), {"date": "2026-12-02"})
-        meeting.refresh_from_db()
-        self.assertEqual(meeting.date, date(2026, 12, 1))
+                self.client.post(reverse("topic_edit", args=[topic.pk]), {"title": "Neuer Titel"})
+        topic.refresh_from_db()
+        self.assertEqual(topic.title, "Ursprünglicher Titel")
 
     def test_topic_transfer_is_visible_in_source_and_destination_audit_histories(self):
         member = User.objects.create_user(username="transfer-member", password="strong-test-password")
