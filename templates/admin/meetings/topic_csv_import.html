@@ -1,0 +1,45 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block content %}
+<div id="content-main">
+  <p>Importiere Themen und Tagesordnungspunkte aus einer CSV-Datei. Jede Zeile ordnet genau ein Thema einem Besprechungstermin zu. Mehrere Zeilen mit demselben <code>topic_key</code> verwenden dasselbe Thema an mehreren Terminen.</p>
+  <p><a class="button" href="{% url 'admin:meetings_topic_csv_sample' %}">Muster-CSV herunterladen</a></p>
+  <h2>Spalten und Regeln</h2>
+  <ul>
+    <li>Pflicht: <code>series</code>, <code>meeting_date</code>, <code>topic_key</code>, <code>topic_title</code>.</li>
+    <li>Datum: <code>JJJJ-MM-TT</code> oder <code>TT.MM.JJJJ</code>. Trennzeichen: Semikolon, Kodierung: UTF-8.</li>
+    <li>Die Besprechungsreihe muss bereits existieren. Ein fehlender Termin wird angelegt; abgeschlossene Termine werden nicht verändert.</li>
+    <li>Ein vorhandenes Thema wird über <code>topic_id</code> oder eindeutig über Besprechungsreihe und Titel erkannt. Ohne Treffer wird es angelegt.</li>
+    <li>Gültige Statuswerte: <code>open</code>, <code>in_progress</code>, <code>done</code>, <code>archived</code>. Verantwortliche werden über ihren Anmeldenamen gesucht.</li>
+  </ul>
+  {% if errors %}<div class="messagelist">{% for error in errors %}<div class="error">{{ error }}</div>{% endfor %}</div>{% endif %}
+  {% if preview %}
+    <div class="module">
+      <h2>Importvorschau</h2>
+      <ul>
+        <li>{{ preview.rows }} Zeilen für {{ preview.topics }} Themen</li>
+        <li>{{ preview.new_topics }} neue Themen, {{ preview.existing_topics }} vorhandene Themen werden aktualisiert</li>
+        <li>{{ preview.meetings }} neue Besprechungstermine</li>
+        <li>{{ preview.agenda_items }} Tagesordnungspunkte (neu oder aktualisiert)</li>
+      </ul>
+      <p>Vorhandene Tagesordnungspunkte derselben Kombination aus Termin und Thema werden aktualisiert.</p>
+      <form method="post">{% csrf_token %}
+        <input type="hidden" name="action" value="confirm">
+        <input type="hidden" name="token" value="{{ preview.token }}">
+        <div class="submit-row">
+          <input type="submit" value="Import jetzt durchführen" class="default">
+          <a href="{% url 'admin:meetings_topic_csv_import' %}" class="button secondary cancel-link">Abbrechen</a>
+        </div>
+      </form>
+    </div>
+  {% else %}
+    <form method="post" enctype="multipart/form-data" novalidate>{% csrf_token %}
+      <fieldset class="module aligned">{{ form.as_p }}</fieldset>
+      <div class="submit-row">
+        <input type="submit" value="CSV prüfen" class="secondary">
+        <a href="{% url 'admin:meetings_topic_changelist' %}" class="button secondary cancel-link">Zurück zu Themen</a>
+      </div>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}
