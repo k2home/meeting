@@ -159,6 +159,9 @@ class AuditEvent(models.Model):
         ("agenda_edited", "Agendatext geändert"),
         ("finalized", "Besprechung abgeschlossen"),
         ("comment_added", "Kommentar hinzugefügt"),
+        ("deleted", "Gelöscht"),
+        ("series_extended", "Terminreihe verlängert"),
+        ("series_reset", "Termine neu aufgesetzt"),
     ]
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
