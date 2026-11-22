@@ -17,6 +17,7 @@ from .models import (
     TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile, OrganizationSettings,
 )
 from .user_display import user_display_name, user_display_name_with_login
+from .user_roles import sync_admin_access
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 
@@ -310,15 +311,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
             user=user,
             defaults={"short_description": form.cleaned_data.get("short_description", "")},
         )
-        admin_group, _ = Group.objects.get_or_create(name="Admin")
-        if form.cleaned_data.get("is_administrator", False):
-            user.groups.add(admin_group)
-        else:
-            user.groups.remove(admin_group)
-        should_be_staff = user.is_superuser or user.groups.filter(name="Admin").exists()
-        if user.is_staff != should_be_staff:
-            user.is_staff = should_be_staff
-            user.save(update_fields=["is_staff"])
+        sync_admin_access(user, form.cleaned_data.get("is_administrator", False))
 
 
 admin.site.unregister(User)
