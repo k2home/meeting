@@ -1230,3 +1230,25 @@ class RepositoryAuditRegressionTests(TestCase):
         meeting.refresh_from_db()
         self.assertIsNone(meeting.finalized_at)
         self.assertFalse(TopicSnapshot.objects.filter(meeting=meeting).exists())
+
+
+    def test_finalize_rolls_back_when_audit_event_cannot_be_written(self):
+        from datetime import date
+        from unittest.mock import patch
+
+        series = MeetingSeries.objects.create(name="Abschluss mit Audit")
+        user = User.objects.create_user(username="finalize-user", password="strong-test-password")
+        SeriesAccess.objects.create(user=user, series=series, role=SeriesAccess.ROLE_PARTICIPANT)
+        meeting = Meeting.objects.create(series=series, date=date(2026, 12, 21))
+        topic = Topic.objects.create(title="Abschluss-Thema", series=series)
+        AgendaItem.objects.create(meeting=meeting, topic=topic, working_text="Sachstand")
+
+        self.client.force_login(user)
+        with patch("meetings.views.record_event", side_effect=RuntimeError("Audit nicht verfügbar")):
+            with self.assertRaises(RuntimeError):
+                self.client.post(reverse("finalize", args=[meeting.pk]))
+
+        meeting.refresh_from_db()
+        self.assertIsNone(meeting.finalized_at)
+        from .models import TopicSnapshot
+        self.assertFalse(TopicSnapshot.objects.filter(meeting=meeting).exists())
