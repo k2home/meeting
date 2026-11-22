@@ -863,7 +863,7 @@ def agenda_topic_history(request, pk, topic_pk):
         topic=item.topic, meeting__in=visible_meetings
     ).select_related("meeting__series", "assigned_to"):
         history[entry.meeting_id] = {
-            "series": entry.meeting.series.name if entry.meeting.series else "Gelöschte Besprechungsreihe",
+            "series": _meeting_series_name(entry.meeting),
             "date": entry.meeting.date,
             "text": entry.working_text,
             "responsible": user_display_name(entry.assigned_to) if entry.assigned_to else "",
@@ -873,7 +873,7 @@ def agenda_topic_history(request, pk, topic_pk):
         topic_id=item.topic_id, meeting__in=visible_meetings
     ).select_related("meeting__series"):
         history[snapshot.meeting_id] = {
-            "series": snapshot.meeting.series.name if snapshot.meeting.series else "Gelöschte Besprechungsreihe",
+            "series": _meeting_series_name(snapshot.meeting),
             "date": snapshot.meeting.date,
             "text": snapshot.text,
             "responsible": snapshot.responsible_name,
@@ -1216,7 +1216,7 @@ def protocol(request, pk):
     ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
-    series_name = meeting.series.name if meeting.series_id else "Gelöschte Besprechungsreihe"
+    series_name = _meeting_series_name(meeting)
     recipient_emails = []
     if meeting.series_id:
         recipient_emails = list(

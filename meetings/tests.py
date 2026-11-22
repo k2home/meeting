@@ -1378,6 +1378,8 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         self.assertEqual(meeting.archived_series_name, "Historische Fachrunde")
         self.assertEqual(_meeting_series_name(meeting), "Historische Fachrunde")
         self.assertEqual(str(meeting), "Historische Fachrunde – 15.01.2026")
+        protocol = self.client.get(reverse("protocol", args=[meeting.pk]))
+        self.assertContains(protocol, "Historische Fachrunde")
 
     def test_topic_csv_sample_rows_match_the_header(self):
         import csv

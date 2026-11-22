@@ -82,7 +82,7 @@
 .agenda-history-entry{padding:.75rem 0;border-bottom:1px solid var(--border)}
 .agenda-history-entry:last-child{border-bottom:0}
 </style>
-<h1>{{ meeting.series.name|default:'Gelöschte Besprechungsreihe' }} – {{ meeting.date|date:"d.m.Y" }}</h1>
+<h1>{% if meeting.series_id %}{{ meeting.series.name }}{% else %}{{ meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} – {{ meeting.date|date:"d.m.Y" }}</h1>
 <p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
 
 <nav class="meeting-action-menu no-print" aria-label="Aktionen für diese Besprechung">
