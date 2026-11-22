@@ -897,6 +897,7 @@ class MeetingSeriesSchedulingTests(TestCase):
         self.series.recurrence = "weekly"
         self.series.recurrence_interval = 4
         self.series.save()
+        self.meeting.delete()
         generate_meetings(self.series)
         dates = list(
             Meeting.objects.filter(series=self.series).order_by("date").values_list("date", flat=True)
@@ -914,6 +915,7 @@ class MeetingSeriesSchedulingTests(TestCase):
         self.series.recurrence = "monthly"
         self.series.recurrence_interval = 2
         self.series.save()
+        self.meeting.delete()
         generate_meetings(self.series)
         expected = [start]
         cursor = start
