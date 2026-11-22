@@ -49,6 +49,46 @@ def sample_csv_response():
     writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2026-12-03", "in_progress", "m.mustermann", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
     writer.writerow(["Lenkungskreis Digitalisierung", "2027-01-14", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2027-01-14", "in_progress", "m.mustermann", "Rückmeldung aus den Pilotbereichen auswerten."])
     writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "Konzept und Zeitplan für die Beschäftigtenschulungen", "2027-01-14", "open", "a.beispiel", "Vorschlag für Schulungsformate und Termine abstimmen."])
+    _write_csv_documentation(writer)
+    return response
+
+
+def _write_csv_documentation(writer):
+    writer.writerow([])
+    writer.writerow(["# GÜLTIGE WERTE", "Feld", "Erlaubte Werte"])
+    writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in Topic.STATUS)])
+    writer.writerow([])
+    writer.writerow(["# DATUMS-/FORMATVORGABEN", "Feld", "Format"])
+    writer.writerow(["#", "meeting_date", "yyyy-mm-dd (z. B. 2026-12-03)"])
+    writer.writerow(["#", "topic_due_date", "yyyy-mm-dd (z. B. 2026-12-03)"])
+    writer.writerow(["#", "CSV-Trennzeichen", "Semikolon (;)"])
+    writer.writerow(["#", "Zeichencodierung", "UTF-8"])
+
+
+def export_topic_agenda_csv(request):
+    response = HttpResponse(content_type="text/csv; charset=utf-8")
+    response["Content-Disposition"] = 'attachment; filename="themen_und_punkte_export.csv"'
+    response.write("\ufeff")
+    writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
+    writer.writerow(CSV_FIELDS)
+    items = AgendaItem.objects.select_related(
+        "meeting__series", "topic", "topic__assigned_to"
+    ).order_by("meeting__date", "meeting__series__name", "position", "pk")
+    for item in items:
+        meeting = item.meeting
+        topic = item.topic
+        writer.writerow([
+            meeting.series.name if meeting.series else "",
+            meeting.date.isoformat(),
+            meeting.title,
+            topic.title,
+            topic.description,
+            topic.due_date.isoformat() if topic.due_date else "",
+            topic.status,
+            topic.assigned_to.username if topic.assigned_to else "",
+            item.working_text,
+        ])
+    _write_csv_documentation(writer)
     return response
 
 
@@ -90,6 +130,9 @@ def parse_topic_agenda_csv(text):
             continue
         row = {key: (value or "").strip() for key, value in raw.items() if key}
         if not any(row.values()):
+            continue
+        # Dokumentationszeilen aus Muster- und Exportdateien sind keine Datensätze.
+        if (row.get("series") or "").strip().startswith("#"):
             continue
         series_name = row.get("series", "")
         series_id = series_by_name.get(series_name)
