@@ -1090,6 +1090,19 @@ class AgendaItemDeletionTests(TestCase):
         self.item = AgendaItem.objects.create(meeting=self.meeting, topic=self.topic, working_text="Text für den Termin")
         self.other_item = AgendaItem.objects.create(meeting=self.other_meeting, topic=self.topic, working_text="Text im Folgetermin")
 
+    def test_admin_can_see_delete_action_without_expanding_agenda_item(self):
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
+        delete_form_position = html.index('class="agenda-item-delete-form')
+        collapsed_content_position = html.index(f'id="agenda-item-content-{self.item.pk}"')
+        self.assertLess(delete_form_position, collapsed_content_position)
+        self.assertContains(response, "Punkt löschen")
+
     def test_delete_removes_only_selected_meeting_entry_and_keeps_topic(self):
         response = self.client.post(reverse("agenda_item_delete", args=[self.meeting.pk, self.item.pk]))
 
