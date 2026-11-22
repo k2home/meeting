@@ -132,15 +132,18 @@ def dashboard(request):
             | Q(assigned_to__username__icontains=query)
             | Q(assigned_to__first_name__icontains=query)
             | Q(assigned_to__last_name__icontains=query)
+            | Q(agenda_items__assigned_to__username__icontains=query)
+            | Q(agenda_items__assigned_to__first_name__icontains=query)
+            | Q(agenda_items__assigned_to__last_name__icontains=query)
         )
     if selected_series.isdigit():
         topics = topics.filter(series_id=int(selected_series))
     else:
         selected_series = ""
     if selected_assignee == "unassigned":
-        topics = topics.filter(assigned_to__isnull=True)
+        topics = topics.filter(assigned_to__isnull=True).exclude(agenda_items__assigned_to__isnull=False)
     elif selected_assignee.isdigit():
-        topics = topics.filter(assigned_to_id=int(selected_assignee))
+        topics = topics.filter(Q(assigned_to_id=int(selected_assignee)) | Q(agenda_items__assigned_to_id=int(selected_assignee))).distinct()
     else:
         selected_assignee = ""
     topics = topics.annotate(next_meeting_date=Min("agenda_items__meeting__date", filter=Q(agenda_items__meeting__finalized_at__isnull=True)))
@@ -343,6 +346,9 @@ def meeting_detail(request, pk):
                         target_item.working_text = item.working_text
                         target_item.position = (target_meeting.agenda_items.exclude(pk=target_item.pk).order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exclude(pk=target_item.pk).exists() else -1) + 1
                         target_item.save(update_fields=["working_text", "position"])
+                        if item.assigned_to_id and not target_item.assigned_to_id:
+                            target_item.assigned_to_id = item.assigned_to_id
+                            target_item.save(update_fields=["assigned_to"])
                         item.delete()
                     else:
                         next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
