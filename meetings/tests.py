@@ -1860,6 +1860,24 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(item.meeting.series, self.series)
         self.assertEqual(item.working_text, "Punkttext")
 
+    def test_legacy_csv_without_topic_series_defaults_to_meeting_series(self):
+        import csv
+        from io import StringIO
+
+        output = StringIO()
+        writer = csv.writer(output, delimiter=";")
+        writer.writerow([
+            "series", "meeting_date", "meeting_title", "topic_title",
+            "topic_current_status", "topic_due_date", "topic_status",
+            "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
+        ])
+        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "Sachstand", "", "open", "", "", "Punkttext"])
+        self._confirm_import(output.getvalue())
+        topic = Topic.objects.get(title="Altes CSV-Thema")
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertEqual(topic.series, self.series)
+        self.assertEqual(item.meeting.series, self.series)
+
     def test_legacy_due_date_becomes_a_separate_agenda_item(self):
         response = self._confirm_import(self._csv([[
             "2026-12-03", "Reguläre Sitzung", "Alte Wiedervorlage",
