@@ -76,7 +76,8 @@ def finalize_meeting(meeting):
     for item in meeting.agenda_items.select_related("topic"):
         topic = item.topic
         TopicSnapshot.objects.get_or_create(meeting=meeting, topic_id=topic.pk, defaults={
-            "topic_title": topic.title, "text": item.working_text, "status": topic.status
+            "topic_title": topic.title, "text": item.working_text, "status": topic.status,
+            "responsible_name": str(item.assigned_to or topic.assigned_to or "")
         })
         topic.description = item.working_text
         topic.save(update_fields=["description","updated_at"])
