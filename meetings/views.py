@@ -487,7 +487,7 @@ def meeting_detail(request, pk):
                     topic=topic, meeting=meeting,
                     changes={"Tagesordnung": {"vorher": None, "nachher": meeting.date.isoformat()}},
                 )
-                messages.success(request, f"„{topic.title}“ wurde in diese Tagesordnung übernommen. Terminserie und Wiedervorlage des Themas bleiben unverändert.")
+                messages.success(request, f"„{topic.title}“ wurde in diese Tagesordnung übernommen. Die Hauptverantwortung und Besprechungsreihe des Themas bleiben unverändert.")
         elif request.POST.get("add_agenda_topic"):
             create_form = AgendaItemCreateForm(request.POST)
             if create_form.is_valid():
