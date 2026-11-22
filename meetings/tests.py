@@ -521,8 +521,8 @@ class TopicAgendaCsvImportTests(TestCase):
         topic = Topic.objects.get(title="Neues Thema")
         meeting = Meeting.objects.get(series=self.series, date="2026-12-03")
         item = AgendaItem.objects.get(meeting=meeting, topic=topic)
-        self.assertEqual(topic.description, "Aktueller Stand")
-        self.assertEqual(item.working_text, "Beratungstext")
+        self.assertEqual(topic.description, "")
+        self.assertEqual(item.working_text, "Aktueller Stand\\nBeratungstext")
         self.assertEqual(item.position, 0)
         self.assertFalse(item.carried_forward)
 
@@ -549,7 +549,9 @@ class TopicAgendaCsvImportTests(TestCase):
             "Teamleitung Bau", "Sachstand",
         ]]))
         topic = Topic.objects.get(title="Verantwortliches Thema")
-        self.assertEqual(topic.assigned_to, responsible)
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertIsNone(topic.assigned_to)
+        self.assertEqual(item.assigned_to, responsible)
 
     def test_agenda_responsible_user_is_imported_independently_from_topic_owner(self):
         item_owner = User.objects.create_user(username="agenda-csv-owner", password="strong-test-password")
