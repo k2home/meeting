@@ -40,6 +40,14 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertNotContains(response, "Themenstatus")
         self.assertNotContains(response, "Beschreibung und aktueller Stand")
 
+    def test_topic_detail_omits_redundant_header_and_title_label(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, f"Thema #{self.topic.pk}")
+        self.assertNotContains(response, '<label for="id_title">Titel</label>')
+        self.assertContains(response, "<h2>Thementitel</h2>")
+        self.assertContains(response, self.topic.title)
+
     def test_audit_cleanup_removes_topic_description_values(self):
         event = AuditEvent.objects.create(
             topic=self.topic,
