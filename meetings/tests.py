@@ -291,7 +291,7 @@ class MyTasksViewTests(TestCase):
         self.assertEqual(response.context["due_today_count"], 1)
         self.assertEqual(response.context["without_due_date_count"], 1)
         self.assertContains(response, "Überfällig")
-        self.assertContains(response, "Heute terminiert")
+        self.assertContains(response, "Heute auf der Tagesordnung")
         self.assertNotContains(response, "Aufgabe anderer Person")
         self.assertNotContains(response, "Nicht zugewiesen")
         self.assertNotContains(response, "Erledigt")
@@ -1388,6 +1388,28 @@ class MeetingAgendaEnhancementTests(TestCase):
         item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
         self.assertEqual(item.working_text, "Ein erster Sachstand")
 
+    def test_agenda_item_assignee_overrides_topic_responsible_without_changing_it(self):
+        main_owner = User.objects.create_user(username="main-owner", password="strong-test-password")
+        item_owner = User.objects.create_user(username="item-owner", password="strong-test-password")
+        topic = Topic.objects.create(title="Abweichende Zuständigkeit", series=self.series_a, assigned_to=main_owner)
+        item = AgendaItem.objects.create(meeting=self.meeting, topic=topic)
+
+        response = self.client.post(reverse("meeting", args=[self.meeting.pk]), {
+            "update_agenda_assignee": str(item.pk), "assigned_to": str(item_owner.pk),
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        item.refresh_from_db()
+        topic.refresh_from_db()
+        self.assertEqual(item.assigned_to, item_owner)
+        self.assertEqual(topic.assigned_to, main_owner)
+
+        self.client.post(reverse("meeting", args=[self.meeting.pk]), {
+            "update_agenda_assignee": str(item.pk), "assigned_to": "",
+        })
+        item.refresh_from_db()
+        self.assertIsNone(item.assigned_to)
+        self.assertEqual(topic.assigned_to, main_owner)
+
     def test_topic_suggestions_return_matching_accessible_topics(self):
         Topic.objects.create(title="Digitalisierung Haushalt", series=self.series_a)
         Topic.objects.create(title="Digitalisierung Schule", series=self.series_b)
@@ -1756,6 +1778,19 @@ class TopicAgendaCsvImportTests(TestCase):
         ]]))
         topic = Topic.objects.get(title="Verantwortliches Thema")
         self.assertEqual(topic.assigned_to, responsible)
+
+    def test_agenda_responsible_user_is_imported_independently_from_topic_owner(self):
+        item_owner = User.objects.create_user(username="agenda-csv-owner", password="strong-test-password")
+        response = self._confirm_import(self._csv([[
+            "2026-12-03", "", "Punktverantwortung", "Sachstand", "open",
+            "", "", "agenda-csv-owner", "", "Punkttext",
+        ]]))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Punktverantwortung")
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertIsNone(topic.assigned_to)
+        self.assertEqual(item.assigned_to, item_owner)
+        self.assertEqual(item.working_text, "Punkttext")
 
     def test_unknown_or_ambiguous_short_description_is_rejected(self):
         from .models import UserProfile
