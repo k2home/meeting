@@ -350,7 +350,7 @@ def parse_topic_agenda_csv(text):
         if row.get("followup_series_id"):
             source_key = (row["followup_series_id"], row["followup_meeting_date"], row["topic_key"])
             existing_topic = Topic.objects.filter(
-                series_id=row["topic"]["series_id"], title=row["topic"]["title"]
+                series_id=row["topic"]["series_id"], title__iexact=row["topic"]["title"]
             ).first()
             source_in_database = bool(existing_topic and AgendaItem.objects.filter(
                 topic=existing_topic, meeting__series_id=row["followup_series_id"],
@@ -375,7 +375,7 @@ def parse_topic_agenda_csv(text):
         row["existing_meeting_id"] = meeting.pk if meeting else None
     for topic_key, record in topic_records.items():
         data = record["topic"]
-        matches = Topic.objects.filter(series_id=data["series_id"], title=data["title"])
+        matches = Topic.objects.filter(series_id=data["series_id"], title__iexact=data["title"])
         if matches.count() > 1:
             errors.append(f"Zeile {record['row']}: Thema „{data['title']}“ ist mehrfach vorhanden.")
         existing_topic = matches.first() if matches.exists() else None

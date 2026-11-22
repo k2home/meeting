@@ -1318,7 +1318,7 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
             series=MeetingSeries.objects.get(name="CSV-Archiv"),
             status="archived",
         )
-        reopened_in_csv = headers + "\nagenda;CSV-Archiv;CSV-Archiv;2026-12-19;;Schon archiviert;open;;open"
+        reopened_in_csv = headers + "\nagenda;CSV-Archiv;CSV-Archiv;2026-12-19;;schon archiviert;open;;open"
         rows, errors = parse_topic_agenda_csv(reopened_in_csv)
         self.assertEqual(rows, [])
         self.assertTrue(any("muss zuerst über die Themenansicht" in error for error in errors))
