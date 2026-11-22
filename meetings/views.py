@@ -430,7 +430,7 @@ def meeting_detail(request, pk):
                 next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                 target_item, created = AgendaItem.objects.get_or_create(
                     meeting=target_meeting, topic=topic,
-                    defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id},
+                    defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id, "status": item.status},
                 )
                 if not created and target_item.working_text:
                     target_item.working_text = ""
@@ -580,7 +580,7 @@ def meeting_detail(request, pk):
                     next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                     target_item, created = AgendaItem.objects.get_or_create(
                         meeting=target_meeting, topic=topic,
-                        defaults={"working_text": "", "position": next_position, "assigned_to_id": scheduled_item.assigned_to_id},
+                        defaults={"working_text": "", "position": next_position, "assigned_to_id": scheduled_item.assigned_to_id, "status": scheduled_item.status},
                     )
                     if not created and target_item.working_text:
                         target_item.working_text = ""
@@ -921,7 +921,7 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
                 )
             if item.assigned_to_id and not target_item.assigned_to_id:
                 target_item.assigned_to_id = item.assigned_to_id
-            target_item.save(update_fields=["working_text", "assigned_to"])
+            target_item.status = item.status\n            target_item.save(update_fields=["working_text", "assigned_to", "status"])
             item.delete()
         else:
             next_position = (
@@ -1344,7 +1344,7 @@ def series_reset_meetings(request, pk):
             )
             carried_topics = {}
             for agenda_item in agenda_items:
-                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position, agenda_item.assigned_to_id)
+                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position, agenda_item.assigned_to_id, agenda_item.status)
     
             drafts.delete()
             new_meetings = generate_meetings(series)
@@ -1354,11 +1354,11 @@ def series_reset_meetings(request, pk):
             )
             if next_meeting is None:
                 raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
-            for topic, working_text, position, assigned_to_id in carried_topics.values():
+            for topic, working_text, position, assigned_to_id, status in carried_topics.values():
                 AgendaItem.objects.update_or_create(
                     meeting=next_meeting,
                     topic=topic,
-                    defaults={"working_text": working_text, "position": position, "carried_forward": True, "assigned_to_id": assigned_to_id},
+                    defaults={"working_text": working_text, "position": position, "carried_forward": True, "assigned_to_id": assigned_to_id, "status": status},
                 )
     except ValueError as exc:
         messages.error(request, str(exc))
@@ -1487,7 +1487,7 @@ def meeting_delete(request, pk):
                         existing.save(update_fields=["working_text"])
                     if item.assigned_to_id and not existing.assigned_to_id:
                         existing.assigned_to_id = item.assigned_to_id
-                        existing.save(update_fields=["assigned_to"])
+                        existing.status = item.status\n                        existing.save(update_fields=["assigned_to", "status"])
                     item.delete()
                 else:
                     item.meeting = target
