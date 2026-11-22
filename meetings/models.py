@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
@@ -31,6 +32,11 @@ class MeetingSeries(models.Model):
         ]
         verbose_name = "Besprechungsreihe"
         verbose_name_plural = "Besprechungsreihen"
+
+    def clean(self):
+        super().clean()
+        if self.end_date and self.start_date and self.end_date < self.start_date:
+            raise ValidationError({"end_date": "Das Enddatum darf nicht vor dem Startdatum liegen."})
 
     @property
     def weekday_label(self):
