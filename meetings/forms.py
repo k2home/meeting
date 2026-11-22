@@ -1,9 +1,12 @@
-from datetime import date, timedelta\n\nfrom django import forms
+from datetime import date, timedelta
+
+from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef
 from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
-from .user_display import user_display_name\nfrom django.utils import timezone
+from .user_display import user_display_name
+from django.utils import timezone
 
 class UsernameLoginForm(AuthenticationForm):
     username = forms.CharField(label="Benutzername", max_length=150)
