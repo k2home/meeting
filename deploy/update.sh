@@ -6,7 +6,21 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
+# Preserve the live environment file while upgrading from releases where
+# .env was tracked in Git. Restore it after the repository removes that file.
+ENV_BACKUP=""
+if [[ -f "$APP_DIR/.env" ]]; then
+  ENV_BACKUP="$(mktemp /root/meeting-manager-env.XXXXXX)"
+  install -m 0600 "$APP_DIR/.env" "$ENV_BACKUP"
+  if git -C "$APP_DIR" ls-files --error-unmatch .env >/dev/null 2>&1; then
+    git -C "$APP_DIR" checkout -- .env
+  fi
+fi
 git -C "$APP_DIR" pull --ff-only
+if [[ -n "$ENV_BACKUP" && -f "$ENV_BACKUP" ]]; then
+  install -o root -g www-data -m 0640 "$ENV_BACKUP" "$APP_DIR/.env"
+  rm -f "$ENV_BACKUP"
+fi
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt"
 runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
