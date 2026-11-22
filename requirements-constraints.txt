@@ -1,7 +1,8 @@
 # Direct application dependencies tested by the CI matrix (Python 3.11 and 3.13).
 # Update these pins together with the compatibility matrix in .github/workflows/tests.yml.
 Django==5.2.19
-psycopg[binary]==3.3.9
+psycopg==3.3.9
+psycopg-binary==3.3.9
 gunicorn==23.0.0
 reportlab==4.5.1
 python-docx==1.2.0
