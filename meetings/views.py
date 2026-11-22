@@ -367,6 +367,7 @@ def my_tasks(request):
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def agenda_reorder(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -389,8 +390,17 @@ def agenda_reorder(request, pk):
         item = items_by_id[item_id]
         item.position = position
         ordered_items.append(item)
-    with transaction.atomic():
-        AgendaItem.objects.bulk_update(ordered_items, ["position"])
+    if current_ids != ordered_ids:
+        before_titles = [items_by_id[item_id].topic.title for item_id in current_ids]
+        after_titles = [items_by_id[item_id].topic.title for item_id in ordered_ids]
+        with transaction.atomic():
+            AgendaItem.objects.bulk_update(ordered_items, ["position"])
+            record_event(
+                actor=request.user, action="updated",
+                summary=f"Tagesordnung für {_meeting_series_name(meeting)} am {meeting.date:%d.%m.%Y} sortiert",
+                meeting=meeting,
+                changes={"Reihenfolge": {"vorher": before_titles, "nachher": after_titles}},
+            )
     messages.success(request, "Reihenfolge der Tagesordnung gespeichert.")
     return redirect("meeting", pk=pk)
 
@@ -446,6 +456,7 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def agenda_item_delete(request, pk, item_pk):
     if request.method != "POST":
         return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
@@ -471,6 +482,7 @@ def agenda_item_delete(request, pk, item_pk):
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if not meeting.participants_initialized and not meeting.finalized_at:
@@ -908,6 +920,7 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def topic_transfer(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -958,6 +971,7 @@ def archive(request):
 
 @login_required
 @reader_no_access
+@transaction.atomic
 def attachment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     form = AttachmentForm(request.POST or None, request.FILES or None)
@@ -1531,6 +1545,7 @@ def series_delete(request, pk):
 
 @login_required
 @moderator_required
+@transaction.atomic
 def meeting_edit(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if meeting.finalized_at:
@@ -1774,6 +1789,7 @@ def audit_history(request):
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def topic_comment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     if request.method != "POST":
