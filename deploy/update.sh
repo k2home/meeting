@@ -25,6 +25,7 @@ if ! git -C "$APP_DIR" diff --quiet -- "$NGINX_TEMPLATE"; then
   fi
   if [[ -n "$TRUSTED_PROXY" && "$ALLOW_COUNT" == "1" && "$DENY_COUNT" == "1" ]] \
     && cmp -s "$EXPECTED_NGINX" "$NGINX_TEMPLATE" \
+    && [[ -f /etc/nginx/sites-available/meeting-manager ]] \
     && git -C "$APP_DIR" diff --cached --quiet -- "$NGINX_TEMPLATE"; then
     git -C "$APP_DIR" checkout -- "$NGINX_TEMPLATE"
     echo "Hinweis: Alte, vom Installskript erzeugte Nginx-Vorlage wurde bereinigt; die aktive Konfiguration unter /etc/nginx bleibt erhalten."
