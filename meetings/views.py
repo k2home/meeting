@@ -1279,11 +1279,71 @@ def meeting_delete(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
-    if meeting.finalized_at or meeting.snapshots.exists() or meeting.agenda_items.exists() or meeting.participants.exists():
-        messages.error(request, "Dieser Termin kann nicht gelöscht werden, weil er abgeschlossen ist oder bereits Tagesordnungspunkte bzw. Teilnehmer enthält.")
+    if meeting.finalized_at or meeting.snapshots.exists():
+        messages.error(request, "Abgeschlossene Besprechungen mit Protokoll können nicht gelöscht werden.")
         return redirect("meeting", pk=pk)
-    meeting.delete()
-    messages.success(request, "Der einzelne Termin wurde gelöscht. Die Besprechungsreihe bleibt bestehen.")
+    if not meeting.series_id:
+        messages.error(request, "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht verschoben werden.")
+        return redirect("meeting", pk=pk)
+
+    with transaction.atomic():
+        meeting = Meeting.objects.select_for_update().select_related("series").get(pk=meeting.pk)
+        target = (
+            Meeting.objects.select_for_update()
+            .filter(series=meeting.series, date__gt=meeting.date, finalized_at__isnull=True)
+            .order_by("date", "pk")
+            .first()
+        )
+        if meeting.agenda_items.exists() and target is None:
+            today = timezone.localdate()
+            target_end = date(today.year + 1, 12, 31)
+            if not meeting.series.end_date or meeting.series.end_date < target_end:
+                meeting.series.end_date = target_end
+                meeting.series.save(update_fields=["end_date"])
+            generate_meetings(meeting.series)
+            target = (
+                Meeting.objects.select_for_update()
+                .filter(series=meeting.series, date__gt=meeting.date, finalized_at__isnull=True)
+                .order_by("date", "pk")
+                .first()
+            )
+        if meeting.agenda_items.exists() and target is None:
+            messages.error(request, "Es konnte kein nachfolgender Termin für die Tagesordnungspunkte angelegt werden. Der Termin bleibt erhalten.")
+            return redirect("meeting", pk=pk)
+
+        if target is not None:
+            next_position = (
+                target.agenda_items.order_by("-position").values_list("position", flat=True).first()
+                if target.agenda_items.exists() else -1
+            ) + 1
+            moved_count = 0
+            for item in meeting.agenda_items.select_related("topic").order_by("position", "pk"):
+                existing = target.agenda_items.filter(topic=item.topic).first()
+                if existing:
+                    if item.working_text:
+                        existing.working_text = "\n".join(
+                            part for part in [existing.working_text, item.working_text] if part
+                        )
+                        existing.save(update_fields=["working_text"])
+                    item.delete()
+                else:
+                    item.meeting = target
+                    item.position = next_position
+                    item.carried_forward = True
+                    item.save(update_fields=["meeting", "position", "carried_forward"])
+                    next_position += 1
+                if item.topic.due_date == meeting.date:
+                    item.topic.due_date = target.date
+                    item.topic.save(update_fields=["due_date", "updated_at"])
+                moved_count += 1
+        else:
+            moved_count = 0
+        meeting.delete()
+
+    if moved_count:
+        messages.success(request, f"Der Termin wurde gelöscht. {moved_count} Tagesordnungspunkt(e) wurden auf den {target.date:%d.%m.%Y} übertragen.")
+    else:
+        messages.success(request, "Der einzelne Termin wurde gelöscht. Die Besprechungsreihe bleibt bestehen.")
     return redirect("series_admin")
 
 
