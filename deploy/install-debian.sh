@@ -120,11 +120,17 @@ USE_X_FORWARDED_HOST=$USE_X_FORWARDED_HOST
 EOF
 chown root:www-data "$APP_DIR/.env"
 chmod 640 "$APP_DIR/.env"
+# Generate the host-specific Nginx configuration outside the Git working
+# tree. The tracked file is a clean template and must remain unchanged so
+# deploy/update.sh can safely detect unrelated local modifications.
+NGINX_CONFIG="$(mktemp)"
+trap 'rm -f "$NGINX_CONFIG"' EXIT
+cp "$APP_DIR/deploy/nginx-meeting-manager.conf" "$NGINX_CONFIG"
 if [[ "$TRUST_PROXY_SSL" == "1" ]]; then
   # Only the explicitly configured reverse proxy may reach this local Nginx
   # listener; this prevents clients from spoofing X-Forwarded-Proto.
-  sed -i "s|server_name _;|server_name _;\\n    allow $TRUSTED_PROXY;\\n    deny all;|" "$APP_DIR/deploy/nginx-meeting-manager.conf"
-  sed -i 's/proxy_set_header X-Forwarded-Proto \$scheme;/proxy_set_header X-Forwarded-Proto \$http_x_forwarded_proto;/' "$APP_DIR/deploy/nginx-meeting-manager.conf"
+  sed -i "s|server_name _;|server_name _;\\n    allow $TRUSTED_PROXY;\\n    deny all;|" "$NGINX_CONFIG"
+  sed -i 's/proxy_set_header X-Forwarded-Proto \$scheme;/proxy_set_header X-Forwarded-Proto \$http_x_forwarded_proto;/' "$NGINX_CONFIG"
 fi
 
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
@@ -141,7 +147,7 @@ find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
-install -m 0644 "$APP_DIR/deploy/nginx-meeting-manager.conf" /etc/nginx/sites-available/meeting-manager
+install -m 0644 "$NGINX_CONFIG" /etc/nginx/sites-available/meeting-manager
 ln -sfn /etc/nginx/sites-available/meeting-manager /etc/nginx/sites-enabled/meeting-manager
 rm -f /etc/nginx/sites-enabled/default
 nginx -t

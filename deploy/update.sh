@@ -8,6 +8,33 @@ fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
 # below because it is intentionally local and may have been tracked by old releases.
+# Older installer versions modified the tracked Nginx template in-place
+# when configuring a trusted reverse proxy. Recognize only that exact generated
+# form, restore the clean template (the active config lives in /etc/nginx), and
+# continue. Any other local edit remains protected by the normal dirty-tree check.
+NGINX_TEMPLATE="$APP_DIR/deploy/nginx-meeting-manager.conf"
+if ! git -C "$APP_DIR" diff --quiet -- "$NGINX_TEMPLATE"; then
+  EXPECTED_NGINX="$(mktemp)"
+  git -C "$APP_DIR" show "HEAD:deploy/nginx-meeting-manager.conf" > "$EXPECTED_NGINX"
+  TRUSTED_PROXY="$(sed -n 's/^[[:space:]]*allow \([^;]*\);$/\1/p' "$NGINX_TEMPLATE")"
+  ALLOW_COUNT="$(grep -Ec '^[[:space:]]*allow [^;]+;$' "$NGINX_TEMPLATE" || true)"
+  DENY_COUNT="$(grep -Ec '^[[:space:]]*deny all;$' "$NGINX_TEMPLATE" || true)"
+  if [[ -n "$TRUSTED_PROXY" && "$ALLOW_COUNT" == "1" && "$DENY_COUNT" == "1" ]]; then
+    sed -i "s|server_name _;|server_name _;\\n    allow $TRUSTED_PROXY;\\n    deny all;|" "$EXPECTED_NGINX"
+    sed -i 's/proxy_set_header X-Forwarded-Proto \$scheme;/proxy_set_header X-Forwarded-Proto \$http_x_forwarded_proto;/' "$EXPECTED_NGINX"
+  fi
+  if [[ -n "$TRUSTED_PROXY" && "$ALLOW_COUNT" == "1" && "$DENY_COUNT" == "1" ]] \
+    && cmp -s "$EXPECTED_NGINX" "$NGINX_TEMPLATE" \
+    && [[ -f /etc/nginx/sites-available/meeting-manager ]] \
+    && git -C "$APP_DIR" diff --cached --quiet -- "$NGINX_TEMPLATE"; then
+    git -C "$APP_DIR" checkout -- "$NGINX_TEMPLATE"
+    echo "Hinweis: Alte, vom Installskript erzeugte Nginx-Vorlage wurde bereinigt; die aktive Konfiguration unter /etc/nginx bleibt erhalten."
+  fi
+  rm -f "$EXPECTED_NGINX"
+fi
+
+# Refuse to update a mixed working tree. The live .env is handled separately
+# below because it is intentionally local and may have been tracked by old releases.
 if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' \
   || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env'; then
   echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env." >&2
