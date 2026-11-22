@@ -1075,3 +1075,42 @@ class RepositoryConsistencyRegressionTests(TestCase):
         self.assertFalse(Meeting.objects.filter(pk=obsolete.pk).exists())
         self.assertGreaterEqual(len(created), 1)
 
+
+
+class AgendaItemDeletionTests(TestCase):
+    def setUp(self):
+        from datetime import date
+        self.user = User.objects.create_user(username="agenda-editor", password="strong-test-password")
+        self.client.force_login(self.user)
+        self.series = MeetingSeries.objects.create(name="Löschtest-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
+        self.meeting = Meeting.objects.create(series=self.series, date=date(2026, 12, 1))
+        self.other_meeting = Meeting.objects.create(series=self.series, date=date(2026, 12, 8))
+        self.topic = Topic.objects.create(title="Bleibendes Thema", series=self.series)
+        self.item = AgendaItem.objects.create(meeting=self.meeting, topic=self.topic, working_text="Text für den Termin")
+        self.other_item = AgendaItem.objects.create(meeting=self.other_meeting, topic=self.topic, working_text="Text im Folgetermin")
+
+    def test_delete_removes_only_selected_meeting_entry_and_keeps_topic(self):
+        response = self.client.post(reverse("agenda_item_delete", args=[self.meeting.pk, self.item.pk]))
+
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertFalse(AgendaItem.objects.filter(pk=self.item.pk).exists())
+        self.assertTrue(Topic.objects.filter(pk=self.topic.pk).exists())
+        self.assertTrue(AgendaItem.objects.filter(pk=self.other_item.pk, topic=self.topic).exists())
+
+    def test_completed_meeting_agenda_item_cannot_be_deleted(self):
+        from django.utils import timezone
+        self.meeting.finalized_at = timezone.now()
+        self.meeting.save(update_fields=["finalized_at"])
+
+        response = self.client.post(reverse("agenda_item_delete", args=[self.meeting.pk, self.item.pk]))
+
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertTrue(AgendaItem.objects.filter(pk=self.item.pk).exists())
+        self.assertTrue(Topic.objects.filter(pk=self.topic.pk).exists())
+
+    def test_item_from_another_meeting_cannot_be_deleted_through_this_url(self):
+        response = self.client.post(reverse("agenda_item_delete", args=[self.meeting.pk, self.other_item.pk]))
+
+        self.assertEqual(response.status_code, 404)
+        self.assertTrue(AgendaItem.objects.filter(pk=self.other_item.pk).exists())
