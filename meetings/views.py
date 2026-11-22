@@ -119,15 +119,15 @@ def dashboard(request):
             meeting_groups.append({"series": meeting.series, "meetings": []})
         meeting_groups[-1]["meetings"].append(meeting)
 
-    topics = accessible_topics(request.user).select_related("series", "assigned_to")
+    topics = accessible_topics(request.user).select_related("series")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
     selected_due = request.GET.get("due", "")
 
-    if selected_status in {"open", "done", "archived"}:
-        topics = topics.filter(status=selected_status)
+    if selected_status in {"open", "in_progress", "done"}:
+        topics = topics.filter(agenda_items__status=selected_status)
     elif selected_status != "all":
         selected_status = "open"
 
@@ -136,9 +136,6 @@ def dashboard(request):
             Q(title__icontains=query)
             | Q(description__icontains=query)
             | Q(series__name__icontains=query)
-            | Q(assigned_to__username__icontains=query)
-            | Q(assigned_to__first_name__icontains=query)
-            | Q(assigned_to__last_name__icontains=query)
             | Q(agenda_items__assigned_to__username__icontains=query)
             | Q(agenda_items__assigned_to__first_name__icontains=query)
             | Q(agenda_items__assigned_to__last_name__icontains=query)
@@ -148,14 +145,14 @@ def dashboard(request):
     else:
         selected_series = ""
     if selected_assignee == "unassigned":
-        topics = topics.filter(assigned_to__isnull=True).exclude(agenda_items__assigned_to__isnull=False)
+        topics = topics.filter(agenda_items__assigned_to__isnull=True)
     elif selected_assignee.isdigit():
-        topics = topics.filter(Q(assigned_to_id=int(selected_assignee)) | Q(agenda_items__assigned_to_id=int(selected_assignee))).distinct()
+        topics = topics.filter(agenda_items__assigned_to_id=int(selected_assignee)).distinct()
     else:
         selected_assignee = ""
     topics = topics.annotate(next_meeting_date=Min("agenda_items__meeting__date", filter=Q(agenda_items__meeting__finalized_at__isnull=True)))
     if selected_due == "overdue":
-        topics = topics.filter(next_meeting_date__lt=today, status="open")
+        topics = topics.filter(next_meeting_date__lt=today, agenda_items__status__in=["open", "in_progress"])
     elif selected_due == "today":
         topics = topics.filter(next_meeting_date=today)
     elif selected_due == "without_date":
@@ -164,7 +161,7 @@ def dashboard(request):
         topics = topics.filter(next_meeting_date__gt=today)
 
     topics = topics.distinct()
-    overdue_count = accessible_topics(request.user).filter(status="open", agenda_items__meeting__date__lt=today, agenda_items__meeting__finalized_at__isnull=True).distinct().count()
+    overdue_count = accessible_topics(request.user).filter(agenda_items__status__in=["open", "in_progress"], agenda_items__meeting__date__lt=today, agenda_items__meeting__finalized_at__isnull=True).distinct().count()
     return render(request, "meetings/dashboard.html", {
         "meetings": meetings, "meeting_groups": meeting_groups, "topics": topics, "overdue_count": overdue_count, "today": today,
         "query": query, "selected_status": selected_status, "selected_series": selected_series,
@@ -246,15 +243,13 @@ def my_tasks(request):
     """Show open topics assigned to the user either at topic or agenda-item level."""
     today = timezone.localdate()
     responsibility = (
-        Q(assigned_to=request.user, agenda_items__isnull=True)
-        | Q(assigned_to=request.user, agenda_items__assigned_to__isnull=True)
-        | Q(agenda_items__assigned_to=request.user)
+        Q(agenda_items__assigned_to=request.user)
     )
-    topics = accessible_topics(request.user).filter(responsibility, status="open").select_related("series").annotate(
+    topics = accessible_topics(request.user).filter(responsibility, agenda_items__status__in=["open", "in_progress"]).select_related("series").annotate(
         next_meeting_date=Min(
             "agenda_items__meeting__date",
             filter=Q(agenda_items__meeting__finalized_at__isnull=True)
-            & (Q(agenda_items__assigned_to=request.user) | Q(agenda_items__assigned_to__isnull=True, assigned_to=request.user)),
+            & Q(agenda_items__assigned_to=request.user),
         )
     ).distinct().order_by(F("next_meeting_date").asc(nulls_last=True), "title")
     return render(request, "meetings/my_tasks.html", {
