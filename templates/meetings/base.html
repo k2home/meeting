@@ -173,6 +173,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if is_moderator %}<a class="nav-series" href="/admin/series/">Besprechungsreihen</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
+<div class="sidebar-management"><a href="{% url 'user_guide' %}">Hilfe &amp; Anleitung</a></div>
 {% if is_admin %}<div class="sidebar-management"><a href="/django-admin/">Verwaltung</a></div>{% endif %}
 <button class="theme-toggle secondary" type="button" id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
 <span class="username">{{ user|user_display }}</span>
