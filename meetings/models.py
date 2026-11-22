@@ -103,6 +103,11 @@ class TopicSnapshot(models.Model):
     class Meta:
         ordering = ["id"]
 
+    def get_status_display(self):
+        """Use the same human-readable labels as live agenda items."""
+        return dict(AgendaItem.STATUS).get(self.status, self.status)
+
+
 class TopicAttachment(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="attachments")
     label = models.CharField("Bezeichnung", max_length=180)
@@ -112,6 +117,34 @@ class TopicAttachment(models.Model):
 
     def __str__(self):
         return self.label
+    @property
+    def network_url(self):
+        """Return a validated SMB URL; unsupported paths remain plain text."""
+        from urllib.parse import urlsplit
+        value = (self.network_path or "").strip()
+        if not value:
+            return ""
+        if value.startswith("\\\\"):
+            value = "smb://" + value.lstrip("\\").replace("\\", "/")
+        elif value.startswith("//"):
+            value = "smb:" + value.replace("\\", "/")
+        try:
+            parsed = urlsplit(value)
+        except ValueError:
+            return ""
+        scheme = parsed.scheme.lower()
+        if any(ord(char) < 32 for char in value) or parsed.username or parsed.password:
+            return ""
+        if scheme in {"http", "https", "smb"}:
+            if not parsed.hostname:
+                return ""
+        elif scheme == "mailto":
+            if not parsed.path or "@" not in parsed.path or "?" in parsed.path:
+                return ""
+        else:
+            return ""
+        return value
+
 
 
 class AuditEvent(models.Model):

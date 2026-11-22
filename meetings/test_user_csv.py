@@ -38,8 +38,8 @@ class UserCsvAdminTests(TestCase):
         self.assertEqual({row["series"] for row in member_rows}, {"Vorstand", "Arbeitskreis IT"})
         self.assertEqual({row["series_role"] for row in member_rows}, {"moderator", "reader"})
         self.assertEqual(member_rows[0]["short_description"], "01/22")
-        self.assertIn("date_joined", member_rows[0])
-        self.assertIn("last_login", member_rows[0])
+        self.assertNotIn("date_joined", member_rows[0])
+        self.assertNotIn("last_login", member_rows[0])
 
     def test_import_preview_then_confirm_creates_user_and_multiple_series_roles(self):
         first = MeetingSeries.objects.create(name="Vorstand")

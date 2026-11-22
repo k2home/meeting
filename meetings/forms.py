@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef
-from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
+from .models import AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
 from .user_display import user_display_name
 from django.utils import timezone
 
@@ -15,21 +15,6 @@ class UsernameLoginForm(AuthenticationForm):
 class UserDisplayModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return user_display_name(obj)
-
-
-class TopicForm(forms.ModelForm):
-    assigned_to = UserDisplayModelChoiceField(queryset=get_user_model().objects.none(), required=False, label="Verantwortlich")
-
-    class Meta:
-        model = Topic
-        fields = ["title", "series"]
-
-    def __init__(self, *args, series_queryset=None, series_required=False, **kwargs):
-        super().__init__(*args, **kwargs)
-        if series_queryset is not None:
-            self.fields["series"].queryset = series_queryset
-            self.fields["series"].required = series_required
-        User = get_user_model()
 
 
 class TopicCommentForm(forms.ModelForm):

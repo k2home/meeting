@@ -17,13 +17,14 @@ User = get_user_model()
 
 EXPORT_FIELDS = (
     "username", "first_name", "last_name", "email", "short_description",
-    "is_active", "is_administrator", "series", "date_joined", "last_login",
+    "is_active", "is_administrator", "series",
 )
 IMPORT_FIELDS = (
     "username", "first_name", "last_name", "email", "short_description",
     "is_active", "series", "series_role",
 )
-ACCEPTED_FIELDS = IMPORT_FIELDS + ("is_administrator", "date_joined", "last_login")
+LEGACY_EXPORT_ONLY_FIELDS = ("date_joined", "last_login")  # accepted from older exports; never overwritten on import
+ACCEPTED_FIELDS = IMPORT_FIELDS + ("is_administrator",) + LEGACY_EXPORT_ONLY_FIELDS
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
 SESSION_IMPORT_KEY = "pending_user_csv_import"
 
@@ -77,7 +78,7 @@ def export_users_csv(request):
                 "email": user.email,
                 "short_description": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
                 "is_active": "true" if user.is_active else "false",
-                "is_administrator": "true" if user.groups.filter(name="Admin").exists() else "false",
+                "is_administrator": "true" if (user.is_superuser or user.groups.filter(name="Admin").exists()) else "false",
                 "series": assignment.series.name if assignment else "",
                 "series_role": assignment.role if assignment else "",
                 "date_joined": user.date_joined.isoformat() if user.date_joined else "",
@@ -145,10 +146,10 @@ def _parse_csv(text):
             errors.append(f"Zeile {row_number}: Benutzername ist länger als 150 Zeichen.")
             continue
         record = grouped.setdefault(username, {"values": {}, "series": [], "row": row_number})
-        for field in ("first_name", "last_name", "email", "short_description", "is_active"):
+        for field in ("first_name", "last_name", "email", "short_description", "is_active", "is_administrator"):
             if field in headers:
                 value = row.get(field, "")
-                if field == "is_active":
+                if field in {"is_active", "is_administrator"}:
                     value = _parse_bool(value, field, row_number, errors)
                 if field in record["values"] and record["values"][field] != value:
                     errors.append(f"Zeile {row_number}: Benutzer „{username}“ hat widersprüchliche Werte für „{field}“.")
@@ -180,6 +181,10 @@ def import_users_csv(request):
             messages.error(request, "Die Importvorschau ist abgelaufen. Bitte lade die CSV-Datei erneut hoch.")
             return redirect("admin:auth_user_csv_import")
         grouped, errors = _parse_csv(pending["text"])
+        if "is_administrator" in pending.get("headers", []) and not (
+            request.user.is_superuser or request.user.groups.filter(name="Admin").exists()
+        ):
+            errors.append("Nur globale Administratoren dürfen die Admin-Rolle per CSV ändern.")
         if errors:
             request.session.pop(SESSION_IMPORT_KEY, None)
             messages.error(request, "Die CSV-Datei ist nicht mehr gültig. Bitte erneut hochladen.")
@@ -199,13 +204,21 @@ def import_users_csv(request):
                 # Apply the CSV username after resolving the existing user.
                 user.username = username
                 for field, value in record["values"].items():
-                    setattr(user, field, value)
+                    if field != "is_administrator":
+                        setattr(user, field, value)
                 user.save()
                 if "short_description" in record["values"]:
                     UserProfile.objects.update_or_create(
                         user=user,
                         defaults={"short_description": record["values"]["short_description"]},
                     )
+                if "is_administrator" in record["values"]:
+                    from django.contrib.auth.models import Group
+                    admin_group, _ = Group.objects.get_or_create(name="Admin")
+                    if record["values"]["is_administrator"]:
+                        user.groups.add(admin_group)
+                    else:
+                        user.groups.remove(admin_group)
                 if "series" in pending["headers"]:
                     SeriesAccess.objects.filter(user=user).delete()
                     SeriesAccess.objects.bulk_create([
@@ -225,6 +238,11 @@ def import_users_csv(request):
     if request.method == "POST" and form.is_valid():
         text = form.csv_text
         grouped, errors = _parse_csv(text)
+        headers = next(csv.reader(io.StringIO(text), delimiter=";"))
+        if "is_administrator" in headers and not (
+            request.user.is_superuser or request.user.groups.filter(name="Admin").exists()
+        ):
+            errors.append("Nur globale Administratoren dürfen die Admin-Rolle per CSV ändern.")
         if not errors:
             token = secrets.token_urlsafe(18)
             request.session[SESSION_IMPORT_KEY] = {

@@ -34,18 +34,18 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Themen und Aufgaben
 
-- Themen mit Beschreibung, Fälligkeitsdatum, Status, Besprechungsreihe und verantwortlicher Person.
-- Suche über Titel, Beschreibung, Reihe und verantwortliche Person.
-- Filter nach Status, Reihe, Zuständigkeit und Fälligkeit.
+- Themen mit Titel, Status, zuständiger Besprechungsreihe und Hauptverantwortung.
+- Der Text und Bearbeitungsstand eines Tagesordnungspunkts werden je Besprechungstermin separat gespeichert.
+- Abweichende Zuständigkeiten können einzelnen Tagesordnungspunkten zugewiesen werden.
+- Suche über Thementitel, Tagesordnungstexte, Besprechungsreihe und Zuständigkeit; Filter nach Status, Reihe und Zuständigkeit.
 - Themen können archiviert, wieder geöffnet und zwischen zugänglichen Besprechungsreihen übertragen werden.
 - Kommentare und nächste Schritte werden chronologisch am Thema gesammelt.
-- „Meine Aufgaben“ zeigt die einer angemeldeten Person zugewiesenen offenen Themen.
+- „Meine Aufgaben“ trennt die Hauptzuständigkeit für Themen von ausdrücklich zugewiesenen Tagesordnungspunkten zukünftiger Termine.
 - Anlagen können als Datei oder als Netzwerkpfad bzw. Link hinterlegt werden.
 
 ### Tagesordnung und Protokolle
 
-- Fällige Themen werden beim Öffnen einer Besprechung in die Tagesordnung übernommen.
-- Offene Themen aus dem letzten abgeschlossenen Termin werden weitergeführt.
+- Offene Tagesordnungspunkte aus dem letzten abgeschlossenen Termin werden beim Öffnen des Folgetermins bei Bedarf weitergeführt.
 - Tagesordnungspunkte lassen sich per Drag-and-drop oder über die Pfeil-Schaltflächen sortieren.
 - Tagesordnungstexte und Teilnehmerliste können bis zum Abschluss bearbeitet werden.
 - Beim Abschluss wird ein unveränderlicher Protokoll-Snapshot gespeichert.
@@ -54,7 +54,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Änderungsverlauf
 
-Wichtige Änderungen an Themen, Status, Fälligkeiten, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen werden mit Benutzer und Zeitpunkt protokolliert. Der Änderungsverlauf ist innerhalb der jeweils zugänglichen Besprechungsreihen einsehbar.
+Wichtige Änderungen an Themen, Status, Hauptzuständigkeiten, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen werden mit Benutzer und Zeitpunkt protokolliert. Der Änderungsverlauf ist innerhalb der jeweils zugänglichen Besprechungsreihen einsehbar.
 
 ## Rollen und Berechtigungen
 
@@ -133,7 +133,7 @@ Die Verwaltung befindet sich unter `/django-admin/` und ist nur für Admins bzw.
 4. Die globale Gruppe **Admin** wird nur für Konten vergeben, die alle Reihen verwalten sollen.
 5. Änderungen speichern.
 
-Die Serienzuweisungen können alternativ direkt an einer Besprechungsreihe im Bereich **Besprechungsreihen** gepflegt werden. Beide Ansichten bearbeiten dieselben Zuordnungen.
+Die Serienzuweisungen können alternativ direkt an einer Besprechungsreihe im Bereich **Besprechungsreihen** gepflegt werden. Beide Ansichten bearbeiten dieselben Zuordnungen. Im Verwaltungsbereich stehen außerdem CSV-Import und -Export für Themen und Tagesordnungspunkte zur Verfügung. `record_type=topic` exportiert Themen ohne Tagesordnungspunkt; `record_type=agenda` enthält einen Terminbezug. Die Spalten `followup_series` und `followup_meeting_date` erhalten Wiedervorlage-Verknüpfungen.
 
 **Empfehlung:** Admin nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten die Rolle je Besprechungsreihe passend festlegen und nur die benötigten Reihen zuweisen.
 
@@ -164,23 +164,23 @@ Die Installation richtet PostgreSQL, Nginx, Python-Abhängigkeiten, eine virtuel
    sudo bash deploy/install-debian.sh
    ```
 
-4. Während der Installation die IP-Adresse oder den DNS-Namen eingeben, unter dem die Website erreichbar sein soll.
+4. Während der Installation Hostname/IP, `SECRET_KEY` und PostgreSQL-Passwort eingeben. Beide Secrets können leer gelassen werden, um sichere Zufallswerte zu erzeugen. Optional kann HTTPS-Terminierung über einen vorgeschalteten Reverse Proxy aktiviert werden; dessen IP/CIDR wird dann abgefragt.
 5. Ein erstes Administratorkonto anlegen:
 
    ```bash
-   sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'
+   sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'
    ```
 
-6. Im Browser `http://SERVER-IP/` öffnen und mit dem Superuser anmelden.
+6. Bei direktem internem HTTP-Betrieb `http://SERVER-IP/` öffnen. Bei aktiviertem Reverse Proxy die HTTPS-Adresse verwenden.
 
-Das Installationsskript erstellt die Datenbank `meeting_manager`, das Datenbankkonto `meetingapp` und die Konfigurationsdatei `/etc/meeting-manager.env`. Das Passwort der Datenbank und der Django-`SECRET_KEY` werden zufällig erzeugt. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
+Das Installationsskript fragt `SECRET_KEY` und PostgreSQL-Passwort verdeckt ab (leere Eingabe erzeugt jeweils einen kryptografisch zufälligen Wert). Es erstellt `/opt/meeting-manager/.env` mit restriktiven Dateirechten. Die Datei wird nicht versioniert; `.env.example` dokumentiert die verfügbaren Variablen. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
 
 ### Wichtige Pfade und Dienste
 
 | Zweck | Pfad / Name |
 |---|---|
 | Installationsverzeichnis | `/opt/meeting-manager` |
-| Konfiguration und Zugangsdaten | `/etc/meeting-manager.env` |
+| Konfiguration und Zugangsdaten | `/opt/meeting-manager/.env` |
 | Hochgeladene Dateien | `/opt/meeting-manager/media` |
 | Statische Dateien | `/opt/meeting-manager/staticfiles` |
 | PostgreSQL-Datenbank | `meeting_manager` |
@@ -188,7 +188,7 @@ Das Installationsskript erstellt die Datenbank `meeting_manager`, das Datenbankk
 | systemd-Dienst | `meeting-manager` |
 | Nginx-Konfiguration | `/etc/nginx/sites-available/meeting-manager` |
 
-Die Datei `/etc/meeting-manager.env` enthält Geheimnisse. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden.
+Die Datei `/opt/meeting-manager/.env` enthält Geheimnisse. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Die früher im Repository vorhandene `.env` wurde aus dem aktuellen Stand entfernt; das löscht sie nicht aus der Git-Historie. Falls einer der früher veröffentlichten Werte jemals produktiv oder anderweitig gültig war, muss er außerhalb von Git widerrufen bzw. ersetzt werden.
 
 ## Updates und Betrieb
 
@@ -202,7 +202,7 @@ sudo bash /opt/meeting-manager/deploy/update.sh
 
 Das Skript:
 
-1. Holt Änderungen des aktuell ausgecheckten Git-Branches mit `git pull --ff-only`.
+1. Sichert die lokale `.env`, holt Änderungen des aktuell ausgecheckten Git-Branches mit `git pull --ff-only` und stellt die `.env` anschließend wieder her. So funktioniert das Update auch beim Übergang von älteren Versionen, in denen `.env` noch versioniert war.
 2. Installiert bzw. aktualisiert Python-Abhängigkeiten.
 3. Führt ausstehende Datenbankmigrationen aus.
 4. Sammelt statische Dateien für Nginx.
@@ -234,7 +234,7 @@ sudo nginx -t
 Für manuelle `manage.py`-Befehle müssen die Umgebungsvariablen aus der Konfigurationsdatei geladen werden:
 
 ```bash
-sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py showmigrations'
+sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py showmigrations'
 ```
 
 Dasselbe Muster gilt für weitere `manage.py`-Befehle, zum Beispiel `check` oder `test`. So werden dieselben Umgebungsvariablen und Dateiberechtigungen wie beim Anwendungsdienst verwendet. Keine Zugangsdaten direkt in Befehlszeilen oder Tickets schreiben.
@@ -247,7 +247,7 @@ Moderator*innen öffnen **Besprechungsreihen** in der Navigation. Dort werden Na
 
 ### 2. Themen pflegen
 
-Über **Neues Thema** oder die Themenübersicht lassen sich Titel, Beschreibung, Fälligkeit, Status, Besprechungsreihe und verantwortliche Person pflegen. Die auswählbaren Reihen sind auf die eigenen Zuweisungen begrenzt. Kommentare, Anlagen und Netzwerkpfade werden direkt am Thema gesammelt.
+Über **Neues Thema** wird ein Titel angelegt und ein erster Termin aus den vorhandenen zukünftigen Terminen einer Besprechungsreihe ausgewählt. Das Thema wird direkt auf dessen Tagesordnung gesetzt. In der Themenbearbeitung lassen sich Titel, Status, Hauptverantwortung und Besprechungsreihe pflegen. Kommentare, Anlagen und Netzwerkpfade werden direkt am Thema gesammelt.
 
 ### 3. Besprechung vorbereiten und durchführen
 
@@ -261,13 +261,13 @@ Nur Moderator*innen und Admins können eine abgeschlossene Besprechung wieder ö
 
 ### 5. Aufgaben nachverfolgen
 
-Die Seite **Meine Aufgaben** zeigt die offenen Themen, die dem angemeldeten Konto zugewiesen sind. Die Themenübersicht und der Änderungsverlauf berücksichtigen stets die eigenen Serienberechtigungen.
+Die Seite **Meine Aufgaben** zeigt in einem eigenen Abschnitt die offenen Themen mit eigener Hauptzuständigkeit und optisch getrennt darunter die eigenen Tagesordnungspunkte heutiger und zukünftiger Termine. Die Themenübersicht und der Änderungsverlauf berücksichtigen stets die eigenen Serienberechtigungen.
 
 ## Netzwerkfreigaben und Anlagen
 
 Netzwerkfreigaben werden auf der **VM selbst** eingebunden, nicht auf dem Arbeitsplatz des Benutzers. Beispiel: Eine NAS-Freigabe nach `/mnt/meeting-share` mounten und diesen Pfad am Thema hinterlegen.
 
-SMB-Pfade werden als Referenz gespeichert. Browser können SMB-Pfade nicht zuverlässig direkt öffnen; die Freigabe muss auf dem jeweiligen Arbeitsplatz erreichbar sein. Hochgeladene Dateien liegen unter `/opt/meeting-manager/media`.
+SMB-Pfade (`smb://server/freigabe/...`) werden als anklickbare Referenz gespeichert, sofern Host und Schema gültig sind. Ob der Browser bzw. das Betriebssystem den Link öffnet, hängt von der Client-Konfiguration und einem registrierten SMB-Handler ab. UNC-Pfade werden, soweit eindeutig erkennbar, in SMB-URLs überführt; nicht unterstützte oder ungültige Pfade bleiben reiner Text. Die Anwendung greift nicht selbst auf SMB-Freigaben zu. Hochgeladene Dateien liegen unter `/opt/meeting-manager/media`.
 
 ## Backup und Wiederherstellung
 
@@ -302,10 +302,10 @@ Anschließend das passende Media-Backup nach `/opt/meeting-manager/media` zurüc
 **Die Anwendung ist ein internes MVP und sollte vor einem produktiven Einsatz weiter gehärtet werden.**
 
 - Zugriff auf das interne Netzwerk begrenzen und eine Firewall einsetzen.
-- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. Die Standardinstallation verwendet HTTP.
+- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. Die Standardinstallation verwendet HTTP. Optional kann das Setup HTTPS-Terminierung durch einen vorgeschalteten Reverse Proxy konfigurieren. Dabei wird die IP/CIDR des Proxys abgefragt und der lokale Nginx-Zugang auf diese Quelle begrenzt; `X-Forwarded-Proto` wird nur in diesem Modus vertraut. `CSRF_TRUSTED_ORIGINS`, sichere Cookies und HTTPS-Weiterleitung werden entsprechend gesetzt.
 - Regelmäßige, getestete Backups von Datenbank und Media-Verzeichnis einrichten.
 - Admin-Rechte nur gezielt vergeben und Serienzuweisungen regelmäßig überprüfen.
-- Hochgeladene Dateien werden derzeit über Nginx aus dem Media-Verzeichnis ausgeliefert. Dort keine Dateien ablegen, die unabhängig von der Anwendung vertraulich bleiben müssen.
+- Hochgeladene Dateien werden ausschließlich über eine angemeldete, berechtigungsgeprüfte Download-Route ausgeliefert. Der Media-Ordner darf nicht direkt durch Nginx veröffentlicht werden.
 - Passwörter werden durch Django gehasht gespeichert. Zugangsdaten und `SECRET_KEY` gehören ausschließlich in die geschützte Umgebungsdatei.
 - Vor produktivem Einsatz automatisierte Tests und die Berechtigungen mit separaten Testkonten aller drei Rollen prüfen.
 
@@ -315,15 +315,15 @@ Screenshots sind derzeit nicht eingebettet: Die Anwendung wird in einem geschüt
 
 ### Lokale Umgebung
 
-Die Anwendung benötigt Python-Abhängigkeiten aus `requirements.txt` sowie eine konfigurierte Datenbank. Für die produktive Installation werden PostgreSQL und die Umgebungsvariablen aus `/etc/meeting-manager.env` verwendet.
+Die Anwendung benötigt Python-Abhängigkeiten aus `requirements.txt` sowie eine konfigurierte Datenbank. Für die produktive Installation werden PostgreSQL und die Umgebungsvariablen aus `/opt/meeting-manager/.env` verwendet.
 
 ### Django-Prüfungen und Tests
 
 Im aktivierten Virtualenv und mit geladener Konfiguration:
 
 ```bash
-sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py check'
-sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py test'
+sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py check'
+sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py test'
 ```
 
 Die Berechtigungstests liegen in `meetings/test_permissions.py`; weitere Anwendungstests liegen in `meetings/tests.py`.
