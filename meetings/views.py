@@ -339,7 +339,11 @@ def meeting_detail(request, pk):
                 target_series = schedule_form.cleaned_data["target_series"]
                 target_meeting = schedule_form.cleaned_data["target_meeting"]
                 if old_series != target_series:
-                    _move_future_agenda_items(topic, old_series, target_series, {item.pk})
+                    try:
+                        _move_future_agenda_items(topic, old_series, target_series, {item.pk})
+                    except ValueError as exc:
+                        messages.error(request, str(exc))
+                        return redirect("meeting", pk=pk)
                 if target_meeting.pk == meeting.pk:
                     messages.error(request, "Bitte wähle einen anderen, späteren Besprechungstermin.")
                 else:
@@ -538,7 +542,11 @@ def meeting_detail(request, pk):
                     target_series = schedule_form.cleaned_data["target_series"]
                     target_meeting = schedule_form.cleaned_data["target_meeting"]
                     if old_series != target_series:
-                        _move_future_agenda_items(topic, old_series, target_series, {scheduled_item.pk})
+                        try:
+                            _move_future_agenda_items(topic, old_series, target_series, {scheduled_item.pk})
+                        except ValueError as exc:
+                            messages.error(request, str(exc))
+                            return redirect("meeting", pk=pk)
                     topic.series = target_series
                     topic.save(update_fields=["series", "updated_at"])
                     next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
@@ -598,7 +606,11 @@ def meeting_detail(request, pk):
                             target_series = schedule_form.cleaned_data["target_series"]
                             target_meeting = schedule_form.cleaned_data["target_meeting"]
                             if old_series != target_series:
-                                _move_future_agenda_items(topic, old_series, target_series, {item.pk})
+                                try:
+                                    _move_future_agenda_items(topic, old_series, target_series, {item.pk})
+                                except ValueError as exc:
+                                    messages.error(request, str(exc))
+                                    return redirect("meeting", pk=pk)
                             topic.series = target_series
                             topic.save(update_fields=["series", "updated_at"])
                             next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
@@ -796,6 +808,7 @@ def topic_reopen(request, pk):
     messages.success(request, "Thema wurde wieder geöffnet.")
     return redirect("topic_edit", pk=topic.pk)
 
+@transaction.atomic
 def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=None):
     """Move future, unfinalized agenda entries when a topic changes series."""
     today = timezone.localdate()
