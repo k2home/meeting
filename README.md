@@ -326,7 +326,10 @@ Das Skript:
 2. Installiert bzw. aktualisiert Python-Abhängigkeiten.
 3. Führt ausstehende Datenbankmigrationen aus.
 4. Sammelt statische Dateien für Nginx.
-5. Startet den Dienst `meeting-manager` neu und zeigt dessen Status an.
+5. Deaktiviert in der aktiven Nginx-Konfiguration das Browser-Caching für HTML-Seiten und statische Assets (`Cache-Control: no-store`) und prüft/lädt Nginx neu. Bestehende Reverse-Proxy-Freigaben bleiben erhalten.
+6. Startet den Dienst `meeting-manager` neu und zeigt dessen Status an.
+
+Nach dem Update laden Browser und iOS-Web-Apps beim nächsten Seitenaufruf HTML und Assets erneut vom Server, statt alte Dateien aus dem HTTP-Cache zu verwenden. Bereits geöffnete Seiten werden nicht aktiv ferngesteuert neu geladen; sie beziehen die aktuelle Version beim nächsten Aufruf bzw. Neuladen. Betriebssystemseitig gespeicherte Home-Bildschirm-Symbole können davon unabhängig weiterhin separat zwischengespeichert bleiben.
 
 Das Skript aktualisiert den Branch, der auf dem Server ausgecheckt ist. Für den regulären Betrieb sollte das der freigegebene Hauptbranch sein.
 
