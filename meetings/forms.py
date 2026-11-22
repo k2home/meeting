@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef
@@ -14,7 +15,12 @@ class UsernameLoginForm(AuthenticationForm):
 
 class UserDisplayModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return user_display_name(obj)
+        name = user_display_name(obj)
+        try:
+            short_description = obj.meeting_profile.short_description.strip()
+        except ObjectDoesNotExist:
+            short_description = ""
+        return f"{short_description} – {name}" if short_description else name
 
 
 class TopicCommentForm(forms.ModelForm):
