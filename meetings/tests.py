@@ -272,10 +272,15 @@ class MyTasksViewTests(TestCase):
         self.no_due_date = Topic.objects.create(
             title="Ohne geplanten Termin", series=self.series, assigned_to=self.user,
         )
+        self.point_assigned = Topic.objects.create(
+            title="Punktaufgabe", series=self.series, assigned_to=self.other_user,
+        )
         overdue_meeting = Meeting.objects.create(series=self.series, date=today - timedelta(days=2))
         today_meeting = Meeting.objects.create(series=self.series, date=today)
+        point_meeting = Meeting.objects.create(series=self.series, date=today + timedelta(days=2))
         AgendaItem.objects.create(meeting=overdue_meeting, topic=self.overdue)
         AgendaItem.objects.create(meeting=today_meeting, topic=self.due_today)
+        AgendaItem.objects.create(meeting=point_meeting, topic=self.point_assigned, assigned_to=self.user)
         Topic.objects.create(title="Aufgabe anderer Person", series=self.series, assigned_to=self.other_user)
         Topic.objects.create(title="Nicht zugewiesen", series=self.series)
         Topic.objects.create(title="Erledigt", series=self.series, assigned_to=self.user, status="done")
@@ -286,12 +291,13 @@ class MyTasksViewTests(TestCase):
         response = self.client.get(reverse("my_tasks"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.no_due_date])
+        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.point_assigned, self.no_due_date])
         self.assertEqual(response.context["overdue_count"], 1)
         self.assertEqual(response.context["due_today_count"], 1)
         self.assertEqual(response.context["without_due_date_count"], 1)
         self.assertContains(response, "Überfällig")
         self.assertContains(response, "Heute auf der Tagesordnung")
+        self.assertContains(response, "Punktaufgabe")
         self.assertNotContains(response, "Aufgabe anderer Person")
         self.assertNotContains(response, "Nicht zugewiesen")
         self.assertNotContains(response, "Erledigt")
@@ -1791,6 +1797,18 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertIsNone(topic.assigned_to)
         self.assertEqual(item.assigned_to, item_owner)
         self.assertEqual(item.working_text, "Punkttext")
+
+    def test_legacy_due_date_becomes_a_separate_agenda_item(self):
+        response = self._confirm_import(self._csv([[
+            "2026-12-03", "Reguläre Sitzung", "Alte Wiedervorlage",
+            "Sachstand", "2027-01-14", "open", "", "Erster Stand",
+        ]]))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Alte Wiedervorlage")
+        self.assertEqual(
+            list(AgendaItem.objects.filter(topic=topic).values_list("meeting__date", flat=True).order_by("meeting__date")),
+            [__import__("datetime").date(2026, 12, 3), __import__("datetime").date(2027, 1, 14)],
+        )
 
     def test_unknown_or_ambiguous_short_description_is_rejected(self):
         from .models import UserProfile
