@@ -816,6 +816,8 @@ def topic_reopen(request, pk):
 @transaction.atomic
 def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=None):
     """Move future, unfinalized agenda entries when a topic changes series."""
+    if from_series == to_series:
+        return 0
     today = timezone.localdate()
     source_items = list(
         AgendaItem.objects.filter(
