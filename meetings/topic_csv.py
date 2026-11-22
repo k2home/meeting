@@ -198,7 +198,7 @@ def parse_topic_agenda_csv(text):
         topic_status = row.get("topic_status") or "open"
         if topic_status not in TOPIC_STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter topic_status „{topic_status}“.")
-        # CSV-Dateien vor agenda_status bevatten topic_status als status van het agenda-item.
+        # Ältere CSV-Dateien verwenden topic_status auch als Status des Tagesordnungspunkts.
         agenda_status = (row.get("agenda_status") if "agenda_status" in headers else row.get("topic_status")) or "open"
         if agenda_status not in AGENDA_STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter agenda_status „{agenda_status}“.")
