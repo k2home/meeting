@@ -64,6 +64,7 @@
 .agenda-followup-label{color:var(--muted);font-size:.9rem;white-space:nowrap}
 .agenda-followup-form select{min-width:130px;width:auto;font:inherit;font-size:.9rem;padding:.3rem .4rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:5px}
 @media(max-width:760px){.agenda-followup-form{justify-content:flex-start;width:100%}}
+.agenda-item-delete-form{margin:0;flex:0 0 auto}.agenda-item-delete-form button{white-space:nowrap}
 .agenda-item-summary{cursor:pointer}
 .agenda-item-summary :is(button,a){cursor:pointer}
 #agenda-list.reorder-mode .agenda-item{cursor:grab}
@@ -161,6 +162,12 @@
           </span>
         </h2>
       </div>
+      {% if not meeting.finalized_at and not is_reader %}
+      <form method="post" class="agenda-item-delete-form no-print" action="{% url 'agenda_item_delete' meeting.id item.id %}" onsubmit="return confirm('„{{ item.topic.title|escapejs }}“ nur aus diesem Besprechungstermin entfernen? Das Thema und andere Termine bleiben erhalten.');">
+        {% csrf_token %}
+        <button type="submit" class="secondary" aria-label="Tagesordnungspunkt {{ item.topic.title }} aus diesem Termin löschen">Punkt löschen</button>
+      </form>
+      {% endif %}
     </div>
     <div id="agenda-item-content-{{ item.id }}" class="agenda-item-content" hidden>
       <div class="agenda-item-expanded-row">
@@ -191,10 +198,6 @@
           <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
           <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
           <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
-          <form method="post" action="{% url 'agenda_item_delete' meeting.id item.id %}" onsubmit="return confirm('„{{ item.topic.title|escapejs }}“ nur aus diesem Besprechungstermin entfernen? Das Thema und andere Termine bleiben erhalten.');">
-            {% csrf_token %}
-            <button type="submit" class="secondary" aria-label="Tagesordnungspunkt {{ item.topic.title }} aus diesem Termin löschen">Punkt löschen</button>
-          </form>
           {% endif %}
         </div>
       </div>
