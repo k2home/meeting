@@ -143,7 +143,7 @@ def dashboard(request):
         topics = topics.filter(assigned_to_id=int(selected_assignee))
     else:
         selected_assignee = ""
-    topics = topics.annotate(next_meeting_date=Min("agenda_items__meeting__date", filter=Q(agenda_items__meeting__date__gte=today, agenda_items__meeting__finalized_at__isnull=True)))
+    topics = topics.annotate(next_meeting_date=Min("agenda_items__meeting__date", filter=Q(agenda_items__meeting__finalized_at__isnull=True)))
     if selected_due == "overdue":
         topics = topics.filter(next_meeting_date__lt=today, status="open")
     elif selected_due == "today":
