@@ -22,7 +22,7 @@ class TopicForm(forms.ModelForm):
 
     class Meta:
         model = Topic
-        fields = ["title", "description", "status", "series", "assigned_to", "completion_note"]
+        fields = ["title", "series"]
         widgets = {"description": forms.Textarea(attrs={"rows": 5})}
 
     def __init__(self, *args, series_queryset=None, series_required=False, **kwargs):
@@ -31,9 +31,6 @@ class TopicForm(forms.ModelForm):
             self.fields["series"].queryset = series_queryset
             self.fields["series"].required = series_required
         User = get_user_model()
-        self.fields["assigned_to"].queryset = User.objects.filter(is_active=True).order_by("username")
-        self.fields["assigned_to"].required = False
-        self.fields["assigned_to"].empty_label = "Nicht zugewiesen"
 
 
 class TopicCommentForm(forms.ModelForm):
