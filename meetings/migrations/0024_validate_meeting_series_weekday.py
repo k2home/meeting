@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="meetingseries",
             constraint=models.CheckConstraint(
-                condition=models.Q(("weekday__gte", 0), ("weekday__lte", 6)),
+                condition=models.Q(weekday__gte=0, weekday__lte=6),
                 name="meeting_series_weekday_0_6",
             ),
         ),
