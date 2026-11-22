@@ -504,6 +504,10 @@ def agenda_item_delete(request, pk, item_pk):
 @transaction.atomic
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
+    archived_readonly = (
+        meeting.series_id is None and not is_admin(request.user)
+        and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists()
+    )
     if not meeting.participants_initialized and not meeting.finalized_at:
         if not meeting.participants.exists() and meeting.series_id:
             default_participants = SeriesAccess.objects.filter(
@@ -547,8 +551,10 @@ def meeting_detail(request, pk):
                 messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
                 return render(request, "meetings/meeting.html", {
                     "meeting": meeting, "items": items, "participant_form": participant_form,
-                    "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series),
-                    "is_moderator": is_moderator(request.user, meeting.series),
+                    "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
+                    "is_moderator": is_admin(request.user) or (
+                        meeting.series_id is not None and is_moderator(request.user, meeting.series)
+                    ),
                     "writable_series": writable_series, "target_meetings": target_meetings,
                 })
         elif request.POST.get("shift_item"):
@@ -823,8 +829,10 @@ def meeting_detail(request, pk):
     participant_form = MeetingParticipantsForm(instance=meeting)
     return render(request, "meetings/meeting.html", {
         "meeting": meeting, "items": items, "participant_form": participant_form,
-        "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series),
-        "is_moderator": is_moderator(request.user, meeting.series),
+        "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
+        "is_moderator": is_admin(request.user) or (
+            meeting.series_id is not None and is_moderator(request.user, meeting.series)
+        ),
         "writable_series": writable_series, "target_meetings": target_meetings,
     })
 
@@ -1226,7 +1234,9 @@ def protocol(request, pk):
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
         "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
-        "can_reopen_meeting": is_moderator(request.user, meeting.series),
+        "can_reopen_meeting": is_admin(request.user) or (
+            meeting.series_id is not None and is_moderator(request.user, meeting.series)
+        ),
     })
 
 @login_required
