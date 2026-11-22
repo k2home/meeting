@@ -1283,10 +1283,19 @@ def series_admin(request):
         with transaction.atomic():
             access_request = SeriesAccessRequest.objects.select_for_update().get(pk=access_request.pk, status=SeriesAccessRequest.STATUS_PENDING)
             if decision == SeriesAccessRequest.STATUS_APPROVED:
-                SeriesAccess.objects.update_or_create(
-                    user=access_request.user, series=access_request.series,
-                    defaults={"role": access_request.requested_role},
-                )
+                role_rank = {
+                    SeriesAccess.ROLE_READER: 0,
+                    SeriesAccess.ROLE_PARTICIPANT: 1,
+                    SeriesAccess.ROLE_MODERATOR: 2,
+                }
+                current_access = SeriesAccess.objects.filter(
+                    user=access_request.user, series=access_request.series
+                ).first()
+                if current_access is None or role_rank[access_request.requested_role] > role_rank[current_access.role]:
+                    SeriesAccess.objects.update_or_create(
+                        user=access_request.user, series=access_request.series,
+                        defaults={"role": access_request.requested_role},
+                    )
             access_request.status = decision
             access_request.decision_note = request.POST.get("decision_note", "").strip()[:500]
             access_request.decided_by = request.user
@@ -1939,8 +1948,14 @@ def user_overview(request):
         series = get_object_or_404(MeetingSeries, pk=request.POST.get("series_id"))
         request_form = SeriesAccessRequestForm(request.POST)
         if request_form.is_valid():
-            if SeriesAccess.objects.filter(user=request.user, series=series, role=request_form.cleaned_data["role"]).exists():
-                messages.info(request, "Du hast diese Berechtigung für die Besprechungsreihe bereits.")
+            role_rank = {
+                SeriesAccess.ROLE_READER: 0,
+                SeriesAccess.ROLE_PARTICIPANT: 1,
+                SeriesAccess.ROLE_MODERATOR: 2,
+            }
+            current_access = SeriesAccess.objects.filter(user=request.user, series=series).first()
+            if current_access and role_rank[current_access.role] >= role_rank[request_form.cleaned_data["role"]]:
+                messages.info(request, "Du hast diese Berechtigung bereits oder eine höhere Berechtigung.")
             elif SeriesAccessRequest.objects.filter(user=request.user, series=series, status=SeriesAccessRequest.STATUS_PENDING).exists():
                 messages.error(request, "Für diese Besprechungsreihe liegt bereits ein offener Antrag vor.")
             else:
