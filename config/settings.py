@@ -42,6 +42,11 @@ DATABASES = {"default": {
 }}
 AUTH_PASSWORD_VALIDATORS = []
 LANGUAGE_CODE = "de-de"
+DATE_FORMAT = "d.m.Y"
+SHORT_DATE_FORMAT = "d.m.Y"
+DATETIME_FORMAT = "d.m.Y H:i"
+SHORT_DATETIME_FORMAT = "d.m.Y H:i"
+FIRST_DAY_OF_WEEK = 1
 TIME_ZONE = os.getenv("TIME_ZONE", "Europe/Berlin")
 USE_I18N = True
 USE_TZ = True
