@@ -51,6 +51,10 @@ class AgendaOwnedTopicContentTests(TestCase):
                 "nested": [{"Aktueller Stand": "Auch löschen", "keep": "Behalten"}],
             },
         )
+        orphaned_event = AuditEvent.objects.create(
+            topic=None, action="updated", summary="Thema „Gelöscht“ geändert",
+            changes={"Beschreibung": {"vorher": "Orphan-Alttext"}},
+        )
         migration = import_module("meetings.migrations.0020_remove_topic_description")
         migration.remove_topic_description_from_audit(
             apps, SimpleNamespace(connection=connection)
@@ -60,6 +64,8 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertNotIn("Aktueller Stand", event.changes["nested"][0])
         self.assertEqual(event.changes["Status"]["nachher"], "In Arbeit")
         self.assertEqual(event.changes["nested"][0]["keep"], "Behalten")
+        orphaned_event.refresh_from_db()
+        self.assertNotIn("Beschreibung", orphaned_event.changes)
 
     def test_topic_view_can_edit_text_for_a_specific_unfinalized_meeting(self):
         meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
@@ -75,6 +81,15 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(item.assigned_to, self.user)
         self.assertNotIn("description", {field.name for field in Topic._meta.get_fields()})
 
+    def test_dashboard_search_finds_agenda_text(self):
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-15")
+        AgendaItem.objects.create(
+            meeting=meeting, topic=self.topic,
+            working_text="Einmaliger historischer Suchbegriff",
+        )
+        response = self.client.get(reverse("dashboard"), {"q": "historischer Suchbegriff"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.topic.title)
     def test_finalized_meeting_text_is_read_only(self):
         meeting = Meeting.objects.create(
             series=self.series, date="2026-11-10", finalized_at="2026-11-10T10:00:00Z"
