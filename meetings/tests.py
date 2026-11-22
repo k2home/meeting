@@ -1532,6 +1532,28 @@ class SeriesAccessRequestTests(TestCase):
             status=self.SeriesAccessRequest.STATUS_PENDING,
         ).exists())
 
+    def test_lower_role_request_is_automatically_approved_and_applied(self):
+        SeriesAccess.objects.create(
+            user=self.requester, series=self.series, role=SeriesAccess.ROLE_MODERATOR
+        )
+        self.client.force_login(self.requester)
+
+        response = self.client.post(reverse("user_overview"), {
+            "form_type": "access_request", "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_READER,
+        })
+
+        self.assertRedirects(response, reverse("user_overview"))
+        access = SeriesAccess.objects.get(user=self.requester, series=self.series)
+        self.assertEqual(access.role, SeriesAccess.ROLE_READER)
+        access_request = self.SeriesAccessRequest.objects.get(
+            user=self.requester, series=self.series
+        )
+        self.assertEqual(access_request.status, self.SeriesAccessRequest.STATUS_APPROVED)
+        self.assertEqual(access_request.requested_role, SeriesAccess.ROLE_READER)
+        self.assertIsNotNone(access_request.decided_at)
+        self.assertIsNone(access_request.decided_by)
+
     def test_only_one_pending_request_per_user_and_series(self):
         self.client.force_login(self.requester)
         payload = {
