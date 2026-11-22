@@ -217,12 +217,20 @@ def parse_topic_agenda_csv(text):
             continue
 
         topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
-        topic_data = {
-            "series_id": topic_series_id, "title": title,
-            "status": topic_status, "assigned_to_id": main_user.pk if main_user else None,
-        }
+        topic_data = {"series_id": topic_series_id, "title": title}
+        if "topic_status" in headers and "agenda_status" in headers:
+            topic_data["status"] = topic_status
+        if "responsible_username" in headers or "responsible_kurzbezeichnung" in headers:
+            topic_data["assigned_to_id"] = main_user.pk if main_user else None
         if topic_key not in topic_records:
-            topic_records[topic_key] = {"topic": topic_data, "row": row_number}
+            topic_records[topic_key] = {"topic": topic_data.copy(), "row": row_number}
+        else:
+            existing_data = topic_records[topic_key]["topic"]
+            for field, value in topic_data.items():
+                if field in existing_data and existing_data[field] != value:
+                    errors.append(f"Zeile {row_number}: Das Thema „{title}“ hat widersprüchliche Werte für „{field}“ in mehreren CSV-Zeilen.")
+                else:
+                    existing_data[field] = value
 
         schedule_rows = [(meeting_date, row.get("agenda_text", ""), agenda_user.pk if agenda_user else None)]
         # Defer synthetic legacy appointments until all explicit CSV rows have
@@ -248,6 +256,9 @@ def parse_topic_agenda_csv(text):
                 "meeting_title": meeting_title, "topic_key": topic_key, "topic": topic_data,
                 "agenda_text": agenda_text, "agenda_assigned_to_id": agenda_assignee_id,
                 "agenda_status": agenda_status,
+                "agenda_text_present": "agenda_text" in headers,
+                "agenda_assignment_present": ("agenda_responsible_username" in headers or "agenda_responsible_kurzbezeichnung" in headers),
+                "agenda_status_present": ("agenda_status" in headers or "topic_status" in headers),
                 "position": position,
             })
 
@@ -329,9 +340,10 @@ def import_topic_agenda_csv(request):
                         created_topics += 1
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
-                    if data["status"] is not None:
+                    if "status" in data and data["status"] is not None:
                         topic.status = data["status"]
-                    topic.assigned_to_id = data["assigned_to_id"]
+                    if "assigned_to_id" in data:
+                        topic.assigned_to_id = data["assigned_to_id"]
                     topic.save()
                     topic_records[key] = topic
 
@@ -341,22 +353,33 @@ def import_topic_agenda_csv(request):
                         series_id=row["series_id"], date=row["meeting_date"], title=row["meeting_title"],
                     )
                     created_meetings += 1
-                _, created = AgendaItem.objects.update_or_create(
-                    meeting=meeting, topic=topic_records[key],
-                    defaults={
-                        "working_text": row["agenda_text"],
-                        "assigned_to_id": row["agenda_assigned_to_id"],
-                        "status": row["agenda_status"],
-                        "position": row["position"],
-                        "carried_forward": AgendaItem.objects.filter(
+                agenda_item = AgendaItem.objects.filter(meeting=meeting, topic=topic_records[key]).first()
+                if agenda_item is None:
+                    agenda_item = AgendaItem.objects.create(
+                        meeting=meeting, topic=topic_records[key],
+                        working_text=row["agenda_text"] if row["agenda_text_present"] else "",
+                        assigned_to_id=row["agenda_assigned_to_id"] if row["agenda_assignment_present"] else None,
+                        status=row["agenda_status"] if row["agenda_status_present"] else "open",
+                        position=row["position"],
+                        carried_forward=AgendaItem.objects.filter(
                             topic=topic_records[key], meeting__series_id=row["series_id"],
                             meeting__date__lt=row["meeting_date"],
                         ).exists(),
-                    },
-                )
-                if created:
+                    )
                     created_items += 1
                 else:
+                    changed_fields = []
+                    if row["agenda_text_present"]:
+                        agenda_item.working_text = row["agenda_text"]
+                        changed_fields.append("working_text")
+                    if row["agenda_assignment_present"]:
+                        agenda_item.assigned_to_id = row["agenda_assigned_to_id"]
+                        changed_fields.append("assigned_to")
+                    if row["agenda_status_present"]:
+                        agenda_item.status = row["agenda_status"]
+                        changed_fields.append("status")
+                    if changed_fields:
+                        agenda_item.save(update_fields=changed_fields)
                     updated_items += 1
         request.session.pop(SESSION_KEY, None)
         messages.success(
