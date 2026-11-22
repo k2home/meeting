@@ -1501,3 +1501,79 @@ class UserOverviewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Admin – globaler Zugriff")
         self.assertEqual(len(response.context["series_rows"]), MeetingSeries.objects.count())
+
+
+class SeriesAccessRequestTests(TestCase):
+    def setUp(self):
+        from .models import SeriesAccessRequest
+        self.SeriesAccessRequest = SeriesAccessRequest
+        self.requester = User.objects.create_user(username="requester", password="strong-test-password")
+        self.moderator = User.objects.create_user(username="series-moderator", password="strong-test-password")
+        self.series = MeetingSeries.objects.create(name="Antragsreihe")
+        self.other_series = MeetingSeries.objects.create(name="Andere Reihe")
+        SeriesAccess.objects.create(
+            user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR
+        )
+
+    def test_user_sees_all_series_and_can_request_permission(self):
+        self.client.force_login(self.requester)
+        page = self.client.get(reverse("user_overview"))
+        self.assertContains(page, "Antragsreihe")
+        self.assertContains(page, "Andere Reihe")
+        self.assertContains(page, "Keine Berechtigung")
+        response = self.client.post(reverse("user_overview"), {
+            "form_type": "access_request", "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_MODERATOR,
+        })
+        self.assertRedirects(response, reverse("user_overview"))
+        self.assertTrue(self.SeriesAccessRequest.objects.filter(
+            user=self.requester, series=self.series,
+            requested_role=SeriesAccess.ROLE_MODERATOR,
+            status=self.SeriesAccessRequest.STATUS_PENDING,
+        ).exists())
+
+    def test_only_one_pending_request_per_user_and_series(self):
+        self.client.force_login(self.requester)
+        payload = {
+            "form_type": "access_request", "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_READER,
+        }
+        self.client.post(reverse("user_overview"), payload)
+        self.client.post(reverse("user_overview"), {**payload, "role": SeriesAccess.ROLE_PARTICIPANT})
+        self.assertEqual(self.SeriesAccessRequest.objects.filter(
+            user=self.requester, series=self.series,
+            status=self.SeriesAccessRequest.STATUS_PENDING,
+        ).count(), 1)
+
+    def test_moderator_can_approve_request_for_own_series(self):
+        access_request = self.SeriesAccessRequest.objects.create(
+            user=self.requester, series=self.series,
+            requested_role=SeriesAccess.ROLE_PARTICIPANT,
+        )
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_admin"), {
+            "form_type": "access_request_decision", "request_id": access_request.pk,
+            "decision": "approved", "decision_note": "Zustimmung",
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        access_request.refresh_from_db()
+        self.assertEqual(access_request.status, self.SeriesAccessRequest.STATUS_APPROVED)
+        self.assertEqual(access_request.decision_note, "Zustimmung")
+        self.assertTrue(SeriesAccess.objects.filter(
+            user=self.requester, series=self.series,
+            role=SeriesAccess.ROLE_PARTICIPANT,
+        ).exists())
+
+    def test_moderator_cannot_process_request_for_another_series(self):
+        access_request = self.SeriesAccessRequest.objects.create(
+            user=self.requester, series=self.other_series,
+            requested_role=SeriesAccess.ROLE_READER,
+        )
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_admin"), {
+            "form_type": "access_request_decision", "request_id": access_request.pk,
+            "decision": "rejected",
+        })
+        self.assertEqual(response.status_code, 403)
+        access_request.refresh_from_db()
+        self.assertEqual(access_request.status, self.SeriesAccessRequest.STATUS_PENDING)
