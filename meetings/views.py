@@ -1287,7 +1287,7 @@ def meeting_delete(request, pk):
         return redirect("meeting", pk=pk)
 
     with transaction.atomic():
-        meeting = Meeting.objects.select_for_update().select_related("series").get(pk=meeting.pk)
+        meeting = Meeting.objects.select_for_update().get(pk=meeting.pk)
         target = (
             Meeting.objects.select_for_update()
             .filter(series=meeting.series, date__gt=meeting.date, finalized_at__isnull=True)
