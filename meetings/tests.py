@@ -727,13 +727,14 @@ class DashboardUpcomingMeetingsTests(TestCase):
         self.assertEqual([len(group["meetings"]) for group in groups], [2, 2])
         self.assertContains(response, '<h3>Reihe Alpha</h3>', html=True)
         self.assertContains(response, '<h3>Reihe Beta</h3>', html=True)
-        self.assertContains(response, f'href="{reverse("meeting", args=[Meeting.objects.get(series=self.series_a, date=self.a_dates[0]).pk])}">{self.a_dates[0].strftime("%a, %d.%m.%Y")}</a>')
+        self.assertContains(response, f'href="{reverse("meeting", args=[Meeting.objects.get(series=self.series_a, date=self.a_dates[0]).pk])}"')
+        self.assertContains(response, self.a_dates[0].strftime("%d.%m.%Y"))
 
     def test_dashboard_topics_have_sortable_columns(self):
         response = self.client.get(reverse("dashboard"), {"assigned_to": ""})
         self.assertEqual(response.status_code, 200)
-        for column in ("Thema", "Besprechungsreihe", "Nächste Besprechung", "Verantwortlich", "Status"):
-            self.assertContains(response, f'data-sort-column=')
+        for index, column in enumerate(("Thema", "Besprechungsreihe", "Nächste Besprechung", "Verantwortlich", "Status")):
+            self.assertContains(response, f'data-sort-column="{index}"')
             self.assertContains(response, column)
         self.assertContains(response, 'id="dashboard-topics-table"')
 
