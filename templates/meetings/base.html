@@ -163,11 +163,11 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if user.is_authenticated %}
 <div class="mobile-header">
 <button class="menu-toggle secondary" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
-<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon-180.png' %}?v=3" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span><span class="brand-org-short">{{ organization_unit_short_name }}</span>{% endif %}</span></a>
+<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=3" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span><span class="brand-org-short">{{ organization_unit_short_name }}</span>{% endif %}</span></a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
 <button class="desktop-menu-toggle" type="button" id="desktop-menu-toggle" aria-expanded="false" aria-label="Navigation aufklappen">☰</button>
-<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon-180.png' %}?v=3" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span>{% endif %}<span class="brand-short">{{ organization_unit_short_name }}</span></span></a>
+<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=3" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span>{% endif %}<span class="brand-short">{{ organization_unit_short_name }}</span></span></a>
 <nav class="nav-links" aria-label="Hauptmenü">
 <a class="nav-overview" href="/">Übersicht</a>
 {% if not is_reader %}<a class="nav-tasks" href="{% url 'my_tasks' %}">Meine Aufgaben</a>{% endif %}
@@ -199,6 +199,28 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if user.is_authenticated %}
 <script>
 (() => {
+  // Keep the complete product name visible in the sidebar by scaling its text to fit.
+  const sidebarBrand = document.querySelector('.sidebar .brand');
+  const sidebarTitle = sidebarBrand?.querySelector('.brand-title');
+  const sidebarCopy = sidebarBrand?.querySelector('.brand-copy');
+  if (sidebarBrand && sidebarTitle && sidebarCopy) {
+    const fitSidebarTitle = () => {
+      sidebarTitle.style.fontSize = '';
+      if (window.matchMedia('(min-width: 1050px)').matches || sidebarBrand.closest('.sidebar')?.classList.contains('is-expanded') || window.matchMedia('(max-width: 760px)').matches) {
+        const available = sidebarCopy.clientWidth;
+        const needed = sidebarTitle.scrollWidth;
+        if (available > 0 && needed > available) {
+          const baseSize = parseFloat(getComputedStyle(sidebarTitle).fontSize);
+          sidebarTitle.style.fontSize = Math.max(11, baseSize * available / needed) + 'px';
+        }
+      }
+    };
+    if ('ResizeObserver' in window) new ResizeObserver(fitSidebarTitle).observe(sidebarBrand);
+    window.addEventListener('resize', fitSidebarTitle);
+    const sidebarForTitle = sidebarBrand.closest('.sidebar');
+    if (sidebarForTitle && 'MutationObserver' in window) new MutationObserver(fitSidebarTitle).observe(sidebarForTitle, { attributes: true, attributeFilter: ['class'] });
+    fitSidebarTitle();
+  }
   const mobileBrand = document.querySelector('.mobile-header .brand');
   if (mobileBrand) {
     const fullName = mobileBrand.querySelector('.brand-organization');
