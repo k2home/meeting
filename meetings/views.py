@@ -277,20 +277,28 @@ def open_topics(request):
             pk=request.POST.get("target_meeting"),
         )
         with transaction.atomic():
+            source_item = item.followup_of or item
+            followup = AgendaItem.objects.filter(followup_of=source_item).first()
             next_position = (
-                target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first()
-                if target_meeting.agenda_items.exists() else -1
+                target_meeting.agenda_items.exclude(pk=followup.pk if followup else None)
+                .order_by("-position").values_list("position", flat=True).first()
+                if target_meeting.agenda_items.exclude(pk=followup.pk if followup else None).exists() else -1
             ) + 1
-            AgendaItem.objects.get_or_create(
-                meeting=target_meeting, topic=item.topic,
-                defaults={
-                    "working_text": item.working_text,
-                    "assigned_to_id": item.assigned_to_id,
-                    "status": item.status,
-                    "position": next_position,
-                    "carried_forward": True,
-                },
-            )
+            if followup:
+                followup.meeting = target_meeting
+                followup.working_text = source_item.working_text
+                followup.assigned_to_id = source_item.assigned_to_id
+                followup.status = source_item.status
+                followup.position = next_position
+                followup.save(update_fields=["meeting", "working_text", "assigned_to", "status", "position"])
+            else:
+                AgendaItem.objects.create(
+                    meeting=target_meeting, topic=source_item.topic,
+                    working_text=source_item.working_text,
+                    assigned_to_id=source_item.assigned_to_id,
+                    status=source_item.status,
+                    position=next_position, carried_forward=True, followup_of=source_item,
+                )
             record_event(
                 actor=request.user, action="updated",
                 summary=f"„{item.topic.title}“ auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt",
