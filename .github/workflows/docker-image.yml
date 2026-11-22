@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ui-sidebar-horizontal-brand-mobile-short-name
   pull_request:
 
 permissions:
