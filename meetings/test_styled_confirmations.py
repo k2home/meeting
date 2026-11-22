@@ -29,21 +29,29 @@ class StyledConfirmationDialogTests(SimpleTestCase):
     def test_application_and_admin_layouts_provide_the_styled_dialog(self):
         app_base = (REPOSITORY_ROOT / "templates/meetings/base.html").read_text(encoding="utf-8")
         admin_base = (REPOSITORY_ROOT / "templates/admin/base_site.html").read_text(encoding="utf-8")
-        for source in (app_base, admin_base):
-            self.assertIn('id="app-confirm-dialog"', source)
-            self.assertIn('form[data-confirm-message]', source)
-            self.assertIn('class="app-confirm-cancel"', source)
-            self.assertIn('class="app-confirm-accept"', source)
+        include = '{% include "meetings/includes/confirmation_dialog.html" %}'
+        self.assertIn(include, app_base)
+        self.assertIn(include, admin_base)
+        shared = (REPOSITORY_ROOT / "templates/meetings/includes/confirmation_dialog.html").read_text(encoding="utf-8")
+        self.assertIn('id="app-confirm-dialog"', shared)
+        self.assertIn('form[data-confirm-message]', shared)
+        self.assertIn('class="app-confirm-cancel"', shared)
+        self.assertIn('class="app-confirm-accept"', shared)
+        self.assertEqual(app_base.count('id="app-confirm-dialog"'), 0)
+        self.assertEqual(admin_base.count('id="app-confirm-dialog"'), 0)
 
     def test_destructive_and_finalizing_actions_use_styled_confirmation(self):
         expected = {
             "templates/meetings/meeting.html": "Besprechung wirklich abschließen?",
             "templates/meetings/series_edit.html": "Alle nicht abgeschlossenen Termine dieser Reihe löschen",
-            "templates/meetings/series.html": "data-confirm-message=",
-            "templates/meetings/topic_form.html": "data-confirm-message=",
+            "templates/meetings/series.html": "Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern?",
+            "templates/meetings/topic_form.html": "Thema „{{ topic.title }}“ in die ausgewählte Besprechungsreihe übertragen?",
             "templates/admin/auth/group/change_list.html": "data-confirm-message=",
         }
+        expected["templates/meetings/meeting.html"] = "Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt"
         for relative_path, expected_text in expected.items():
             with self.subTest(template=relative_path):
                 source = (REPOSITORY_ROOT / relative_path).read_text(encoding="utf-8")
                 self.assertIn(expected_text, source)
+        meeting_source = (REPOSITORY_ROOT / "templates/meetings/meeting.html").read_text(encoding="utf-8")
+        self.assertIn("Besprechung wirklich abschließen?", meeting_source)

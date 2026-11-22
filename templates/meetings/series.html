@@ -28,7 +28,7 @@
             </form>
           </div>
         </details>
-        <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.35rem">
+        <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.35rem" data-confirm-message="Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern? Fehlende Termine werden ergänzt; bestehende Termine bleiben unverändert.">
           {% csrf_token %}<button class="secondary" type="submit">Verlängern</button>
         </form>
       </div>
