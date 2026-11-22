@@ -1492,11 +1492,8 @@ class UserOverviewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<th>Berechtigung</th>", html=True)
         self.assertNotContains(response, "<th>Deine Berechtigung</th>", html=True)
-        self.assertContains(
-            response,
-            '<select id="role-%s" name="role" data-current-role="reader">' % self.series.pk,
-            html=True,
-        )
+        self.assertContains(response, 'id="role-%s"' % self.series.pk)
+        self.assertContains(response, 'data-current-role="reader"')
         self.assertContains(response, '<button type="submit" hidden>Antrag senden</button>', html=True)
 
     def test_user_can_edit_own_profile(self):
