@@ -2,6 +2,25 @@
 {% block content %}
 <div class="topline"><div><h1>Besprechungsreihe bearbeiten</h1><p class="muted">{{ series.name }}</p></div><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div>
 <div class="card">
-  <form method="post">{% csrf_token %}{{ form.as_p }}<p class="muted">Eine Änderung des Wochentags verschiebt alle noch nicht abgeschlossenen zukünftigen Termine entsprechend. Abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich unabhängig davon verschieben.</p><div class="actions"><button type="submit">Änderungen speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div></form>
+  <form method="post">{% csrf_token %}{{ form.as_p }}
+    <p class="muted">Die Wiederholung erfolgt alle {{ series.recurrence_interval }} {{ series.get_recurrence_display|lower }} am {{ series.weekday_label }}. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
+    <div class="actions"><button type="submit">Änderungen speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div>
+  </form>
+</div>
+<div class="card">
+  <h2>Termine neu aufsetzen</h2>
+  <p>Alle nicht abgeschlossenen Termine werden entfernt und anhand der aktuellen Serieneinstellungen neu angelegt. Bereits vorhandene Tagesordnungspunkte werden auf den nächsten neuen Termin übertragen. Abgeschlossene Termine und ihre Protokolle bleiben erhalten.</p>
+  <form method="post" action="{% url 'series_reset_meetings' series.pk %}" onsubmit="return confirm('Alle nicht abgeschlossenen Termine dieser Reihe löschen und neu erzeugen? Tagesordnungspunkte werden auf den nächsten Termin übertragen. Abgeschlossene Protokolle bleiben erhalten.');">
+    {% csrf_token %}
+    <button class="danger" type="submit">Alle Termine neu aufsetzen …</button>
+  </form>
+</div>
+<div class="card">
+  <h2>Terminserie verlängern</h2>
+  <p>Ergänzt fehlende Termine mit den aktuellen Einstellungen bis zum 31.12. des Folgejahres. Bestehende Termine bleiben unverändert.</p>
+  <form method="post" action="{% url 'series_extend' series.pk %}" onsubmit="return confirm('Die Terminserie bis zum 31.12. des Folgejahres verlängern?');">
+    {% csrf_token %}
+    <button type="submit">Verlängern</button>
+  </form>
 </div>
 {% endblock %}
