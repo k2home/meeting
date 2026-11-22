@@ -134,6 +134,7 @@ def dashboard(request):
     if query:
         topics = topics.filter(
             Q(title__icontains=query)
+            | Q(agenda_items__working_text__icontains=query)
             | Q(series__name__icontains=query)
             | Q(agenda_items__assigned_to__username__icontains=query)
             | Q(agenda_items__assigned_to__first_name__icontains=query)
