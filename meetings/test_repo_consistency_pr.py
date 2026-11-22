@@ -100,8 +100,8 @@ class AdminIntegrityTests(TestCase):
         url = reverse("admin:meetings_meeting_change", args=[meeting.pk])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'name="date"')
         self.assertContains(response, 'class="readonly"')
+        self.assertNotContains(response, '<input type="date" name="date"')
 
     def test_snapshot_correction_requires_reason_and_records_previous_values(self):
         meeting = Meeting.objects.create(
