@@ -8,18 +8,6 @@
 {% endblock %}
 {% block extrastyle %}
 {{ block.super }}
-<style>
-:root {
-  --hagen-blue: {{ accent_color_light|default:accent_color }};
-  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
-  --hagen-yellow: var(--hagen-blue);
-}
-:root[data-theme="dark"] {
-  --hagen-blue: {{ accent_color_dark|default:accent_color }};
-  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
-  --hagen-yellow: var(--hagen-blue);
-}
-</style>
 <script>try{const savedTheme=localStorage.getItem("meeting-theme");if(savedTheme==="dark"||savedTheme==="light")document.documentElement.dataset.theme=savedTheme;}catch(e){}</script>
 <style>
 :root {
@@ -122,6 +110,18 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 :root[data-theme="dark"] select:focus,
 :root[data-theme="dark"] textarea:focus{outline:2px solid #527fa8;border-color:#8fc5ff}
 :root[data-theme="dark"] ::selection{background:#315b80;color:#fff}
+</style>
+<style>
+:root {
+  --hagen-blue: {{ accent_color_light|default:accent_color }};
+  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
+  --hagen-yellow: var(--hagen-blue);
+}
+:root[data-theme="dark"] {
+  --hagen-blue: {{ accent_color_dark|default:accent_color }};
+  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
+  --hagen-yellow: var(--hagen-blue);
+}
 </style>
 {% endblock %}
 
