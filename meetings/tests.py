@@ -1693,6 +1693,9 @@ class TopicAgendaCsvImportTests(TestCase):
             "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
         ])
         for row in rows:
+            # Alte Testdaten enthalten noch keine Spalte responsible_kurzbezeichnung.
+            if len(row) == 8:
+                row = [*row[:7], "", *row[7:]]
             writer.writerow(["CSV-Reihe", *row])
         return output.getvalue()
 
