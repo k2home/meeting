@@ -156,9 +156,12 @@ class CsvCaseInsensitivePreviewTests(TestCase):
             "record_type;series;topic_series;meeting_date;meeting_title;topic_title;"
             "topic_status;archive_previous_status;agenda_status;responsible_username;"
             "responsible_kurzbezeichnung;agenda_responsible_username;"
-            "agenda_responsible_kurzbezeichnung;agenda_text;followup_series;followup_meeting_date\n"
-            f"agenda;{series.name};{series.name};2026-12-18;Sitzung;DIGITALISIERUNG;"
-            "open;;open;;;;Sachstand;;\n"
+            "agenda_responsible_kurzbezeichnung;agenda_text;followup_series;followup_meeting_date\\n"
+            + ";".join([
+                "agenda", series.name, series.name, "2026-12-18", "Sitzung",
+                "DIGITALISIERUNG", "open", "", "open", "", "", "", "",
+                "Sachstand", "", "",
+            ]) + "\\n"
         )
         upload = SimpleUploadedFile("topics.csv", csv_text.encode("utf-8"), content_type="text/csv")
 
