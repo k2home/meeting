@@ -112,11 +112,18 @@ def dashboard(request):
         .select_related("series")
         .order_by("date", "series__name", "pk")
     )
+    meeting_groups = []
+    grouped_meetings = meetings.order_by("series__name", "date", "pk")
+    for meeting in grouped_meetings:
+        if not meeting_groups or meeting_groups[-1]["series"].pk != meeting.series_id:
+            meeting_groups.append({"series": meeting.series, "meetings": []})
+        meeting_groups[-1]["meetings"].append(meeting)
+
     topics = accessible_topics(request.user).select_related("series", "assigned_to")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
     selected_series = request.GET.get("series", "")
-    selected_assignee = request.GET.get("assigned_to", "")
+    selected_assignee = request.GET.get("assigned_to", str(request.user.pk))
     selected_due = request.GET.get("due", "")
 
     if selected_status in {"open", "done", "archived"}:
@@ -159,7 +166,7 @@ def dashboard(request):
     topics = topics.distinct()
     overdue_count = accessible_topics(request.user).filter(status="open", agenda_items__meeting__date__lt=today, agenda_items__meeting__finalized_at__isnull=True).distinct().count()
     return render(request, "meetings/dashboard.html", {
-        "meetings": meetings, "topics": topics, "overdue_count": overdue_count, "today": today,
+        "meetings": meetings, "meeting_groups": meeting_groups, "topics": topics, "overdue_count": overdue_count, "today": today,
         "query": query, "selected_status": selected_status, "selected_series": selected_series,
         "selected_assignee": selected_assignee, "selected_due": selected_due,
         "series_options": accessible_series(request.user).order_by("name"),
