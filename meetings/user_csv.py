@@ -78,7 +78,7 @@ def export_users_csv(request):
                 "email": user.email,
                 "short_description": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
                 "is_active": "true" if user.is_active else "false",
-                "is_administrator": "true" if user.groups.filter(name="Admin").exists() else "false",
+                "is_administrator": "true" if (user.is_superuser or user.groups.filter(name="Admin").exists()) else "false",
                 "series": assignment.series.name if assignment else "",
                 "series_role": assignment.role if assignment else "",
                 "date_joined": user.date_joined.isoformat() if user.date_joined else "",
