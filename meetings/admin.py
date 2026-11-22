@@ -8,7 +8,6 @@ from django.contrib.auth.admin import (
 )
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
-from django.forms import ModelForm
 from django.db import transaction
 from django.template.response import TemplateResponse
 from django.urls import path
@@ -32,6 +31,8 @@ admin.site.index_title = "Daten und Benutzer verwalten"
 class MeetingInline(admin.TabularInline):
     model = Meeting
     extra = 0
+    can_delete = False
+    readonly_fields = tuple(field.name for field in Meeting._meta.fields) + ("participants",)
 
 
 class SeriesAccessInline(admin.TabularInline):
@@ -46,6 +47,10 @@ class SeriesAccessInline(admin.TabularInline):
 class SeriesAdmin(admin.ModelAdmin):
     list_display = ("name", "recurrence", "active", "start_date", "end_date")
     inlines = [MeetingInline, SeriesAccessInline]
+
+    def has_delete_permission(self, request, obj=None):
+        # Series deletion uses the application workflow to preserve archived access.
+        return False
 
 
 @admin.register(Meeting)
