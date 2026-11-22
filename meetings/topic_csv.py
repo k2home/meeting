@@ -9,14 +9,14 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import AgendaItem, Meeting, MeetingSeries, Topic
+from .models import AgendaItem, Meeting, MeetingSeries, Topic, UserProfile
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 CSV_FIELDS = (
     "series", "meeting_date", "meeting_title", "topic_title", "topic_current_status",
-    "topic_due_date", "topic_status", "responsible_username", "agenda_text",
+    "topic_due_date", "topic_status", "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
 )
 REQUIRED_FIELDS = ("series", "meeting_date", "topic_title")
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
@@ -46,9 +46,9 @@ def sample_csv_response():
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2026-12-03", "in_progress", "m.mustermann", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "2027-01-14", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2027-01-14", "in_progress", "m.mustermann", "Rückmeldung aus den Pilotbereichen auswerten."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "Konzept und Zeitplan für die Beschäftigtenschulungen", "2027-01-14", "open", "a.beispiel", "Vorschlag für Schulungsformate und Termine abstimmen."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2026-12-03", "in_progress", "m.mustermann", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "2027-01-14", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2027-01-14", "in_progress", "m.mustermann", "", "Rückmeldung aus den Pilotbereichen auswerten."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "Konzept und Zeitplan für die Beschäftigtenschulungen", "2027-01-14", "open", "a.beispiel", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
     _write_csv_documentation(writer)
     return response
 
@@ -86,6 +86,7 @@ def export_topic_agenda_csv(request):
             topic.due_date.isoformat() if topic.due_date else "",
             topic.status,
             topic.assigned_to.username if topic.assigned_to else "",
+            topic.assigned_to.meeting_profile.short_description if topic.assigned_to and hasattr(topic.assigned_to, "meeting_profile") else "",
             item.working_text,
         ])
     _write_csv_documentation(writer)
@@ -153,9 +154,24 @@ def parse_topic_agenda_csv(text):
         if status not in STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter topic_status „{status}“.")
         username = row.get("responsible_username", "")
+        short_description = row.get("responsible_kurzbezeichnung", "")
         user = User.objects.filter(username=username).first() if username else None
         if username and user is None:
-            errors.append(f"Zeile {row_number}: Verantwortliche Person „{username}“ existiert nicht.")
+            errors.append(f"Zeile {row_number}: Verantwortliche Person mit Anmeldename „{username}“ existiert nicht.")
+        if short_description:
+            profiles = UserProfile.objects.filter(
+                short_description__iexact=short_description
+            ).select_related("user")
+            if profiles.count() == 0:
+                errors.append(f"Zeile {row_number}: Keine Person mit Kurzbezeichnung „{short_description}“ gefunden.")
+            elif profiles.count() > 1:
+                errors.append(f"Zeile {row_number}: Die Kurzbezeichnung „{short_description}“ ist nicht eindeutig.")
+            else:
+                short_user = profiles.first().user
+                if user and user.pk != short_user.pk:
+                    errors.append(f"Zeile {row_number}: responsible_username und responsible_kurzbezeichnung gehören zu unterschiedlichen Personen.")
+                else:
+                    user = short_user
         if not meeting_date or not title:
             continue
         topic_key = f"{series_id}:{title.casefold()}"
