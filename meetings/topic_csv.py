@@ -48,9 +48,9 @@ def sample_csv_response():
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "a.beispiel", "Rückmeldung aus den Pilotbereichen auswerten."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "a.beispiel", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
     _write_csv_documentation(writer)
     return response
 
