@@ -217,7 +217,7 @@ def parse_topic_agenda_csv(text):
         legacy_text = row.get("topic_current_status", "")
         agenda_text = row.get("agenda_text", "")
         if legacy_text and legacy_text not in agenda_text:
-            agenda_text = "\\n".join(part for part in (legacy_text, agenda_text) if part)
+            agenda_text = "\n".join(part for part in (legacy_text, agenda_text) if part)
         schedule_rows = [(meeting_date, agenda_text, agenda_user.pk if agenda_user else None)]
         # Defer synthetic legacy appointments until all explicit CSV rows have
         # been read, so a real row for the same future meeting takes precedence.
