@@ -8,6 +8,7 @@ on:
       - feature/usability-and-core-workflows
       - chat
       - fix/agenda-followup-linkage
+      - ui-sidebar-horizontal-brand-mobile-short-name
   pull_request:
 
 jobs:
