@@ -356,10 +356,7 @@ def meeting_detail(request, pk):
                         topic=topic, meeting=meeting,
                         changes={
                             "Tagesordnung": {"vorher": meeting.date.isoformat(), "nachher": target_meeting.date.isoformat()},
-                            "Fälligkeit": {
-                                "vorher": old_due_date.isoformat() if old_due_date else None,
-                                "nachher": target_meeting.date.isoformat(),
-                            },
+                            "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
                             "Besprechungsserie": {
                                 "vorher": old_series.name if old_series else None,
                                 "nachher": target_series.name,
@@ -541,10 +538,7 @@ def meeting_detail(request, pk):
                         summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
                         topic=topic, meeting=meeting,
                         changes={
-                            "Fälligkeit": {
-                                "vorher": old_due_date.isoformat() if old_due_date else None,
-                                "nachher": target_meeting.date.isoformat(),
-                            },
+                            "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
                             "Besprechungsserie": {
                                 "vorher": old_series.name if old_series else None,
                                 "nachher": target_series.name,
