@@ -599,7 +599,7 @@ class TopicAgendaCsvImportTests(TestCase):
             "topic_due_date", "topic_status",
             "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
         ])
-        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "", "open", "", "Punkttext"])
+        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "", "open", "", "", "Punkttext"])
         self._confirm_import(output.getvalue())
         topic = Topic.objects.get(title="Altes CSV-Thema")
         item = AgendaItem.objects.get(topic=topic)
