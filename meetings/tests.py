@@ -1834,6 +1834,16 @@ class TopicAgendaCsvImportTests(TestCase):
             [__import__("datetime").date(2026, 12, 3), __import__("datetime").date(2027, 1, 14)],
         )
 
+    def test_explicit_future_csv_row_wins_over_legacy_synthetic_followup(self):
+        self._confirm_import(self._csv([
+            ["2026-12-03", "Reguläre Sitzung", "Legacy-Doppelzeile", "Sachstand", "2027-01-14", "open", "", "Text Dezember"],
+            ["2027-01-14", "Reguläre Sitzung", "Legacy-Doppelzeile", "Sachstand", "2027-01-14", "open", "", "Expliziter Text Januar"],
+        ]))
+        topic = Topic.objects.get(title="Legacy-Doppelzeile")
+        future_item = AgendaItem.objects.get(topic=topic, meeting__date="2027-01-14")
+        self.assertEqual(future_item.working_text, "Expliziter Text Januar")
+        self.assertEqual(AgendaItem.objects.filter(topic=topic).count(), 2)
+
     def test_unknown_or_ambiguous_short_description_is_rejected(self):
         from .models import UserProfile
         first = User.objects.create_user(username="short-one", password="strong-test-password")
