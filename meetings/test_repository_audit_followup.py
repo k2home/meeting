@@ -2,7 +2,6 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, transaction
 from django.test import TestCase, SimpleTestCase
@@ -123,9 +122,7 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
 
     def test_series_reset_rolls_back_when_audit_write_fails(self):
         today = timezone.localdate()
-        first_date = today + timedelta(days=(today.weekday() - today.weekday()) % 7)
-        if first_date < today:
-            first_date += timedelta(days=7)
+        first_date = today
         series = MeetingSeries.objects.create(
             name="Rollback Reset", recurrence="weekly", weekday=first_date.weekday(),
             start_date=first_date, end_date=first_date + timedelta(days=28),
