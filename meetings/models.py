@@ -103,6 +103,11 @@ class TopicSnapshot(models.Model):
     class Meta:
         ordering = ["id"]
 
+    def get_status_display(self):
+        """Use the same human-readable labels as live agenda items."""
+        return dict(AgendaItem.STATUS).get(self.status, self.status)
+
+
 class TopicAttachment(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="attachments")
     label = models.CharField("Bezeichnung", max_length=180)
