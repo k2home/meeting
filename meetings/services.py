@@ -90,7 +90,16 @@ def generate_meetings(series):
     status_rank = {"open": 0, "in_progress": 1, "done": 2}
     obsolete = list(obsolete_qs.exclude(date__in=desired_dates).order_by("date", "pk"))
     for old_meeting in obsolete:
-        target_date = min(desired_dates, key=lambda d: (abs((d - old_meeting.date).days), d))
+        nearest_dates = sorted(
+            desired_dates, key=lambda d: (abs((d - old_meeting.date).days), d)
+        )
+        target_date = next(
+            (candidate for candidate in nearest_dates
+             if not desired_meetings[candidate].agenda_items.filter(
+                 topic_id__in=old_meeting.agenda_items.values_list("topic_id", flat=True)
+             ).exists()),
+            nearest_dates[0],
+        )
         target = desired_meetings[target_date]
         if old_meeting.participants.exists():
             target.participants.add(*old_meeting.participants.all())
