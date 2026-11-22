@@ -191,6 +191,10 @@
           <button type="button" class="secondary move-up" aria-label="Thema nach oben verschieben">↑</button>
           <button type="button" class="secondary move-down" aria-label="Thema nach unten verschieben">↓</button>
           <span class="muted drag-handle" aria-hidden="true">↕ Ziehen</span>
+          <form method="post" action="{% url 'agenda_item_delete' meeting.id item.id %}" onsubmit="return confirm('„{{ item.topic.title|escapejs }}“ nur aus diesem Besprechungstermin entfernen? Das Thema und andere Termine bleiben erhalten.');">
+            {% csrf_token %}
+            <button type="submit" class="secondary" aria-label="Tagesordnungspunkt {{ item.topic.title }} aus diesem Termin löschen">Punkt löschen</button>
+          </form>
           {% endif %}
         </div>
       </div>
