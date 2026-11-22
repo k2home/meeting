@@ -57,6 +57,7 @@ def _write_csv_documentation(writer):
     writer.writerow([])
     writer.writerow(["# GÜLTIGE WERTE", "Feld", "Erlaubte Werte"])
     writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in Topic.STATUS)])
+    writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Mindestens eines der Felder kann verwendet werden; Kurzbezeichnung muss eindeutig sein."])
     writer.writerow([])
     writer.writerow(["# DATUMS-/FORMATVORGABEN", "Feld", "Format"])
     writer.writerow(["#", "meeting_date", "yyyy-mm-dd (z. B. 2026-12-03)"])
