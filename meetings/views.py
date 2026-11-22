@@ -1397,6 +1397,7 @@ def series_reset_meetings(request, pk):
         with transaction.atomic():
             drafts = Meeting.objects.filter(series=series, finalized_at__isnull=True, date__gte=today)
             payload = []
+            draft_item_ids = set(AgendaItem.objects.filter(meeting__in=drafts).values_list("pk", flat=True))
             for old_meeting in drafts.prefetch_related("participants"):
                 participants = list(old_meeting.participants.all())
                 for item in old_meeting.agenda_items.select_related("topic", "followup_of").order_by("position", "pk"):
@@ -1404,7 +1405,7 @@ def series_reset_meetings(request, pk):
                         "old_date": old_meeting.date, "topic": item.topic,
                         "working_text": item.working_text, "position": item.position,
                         "assigned_to_id": item.assigned_to_id, "status": item.status,
-                        "followup_of": item.followup_of,
+                        "followup_of": item.followup_of if item.followup_of_id not in draft_item_ids else None,
                     })
                 old_meeting._reset_participants = participants
 
