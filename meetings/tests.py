@@ -423,6 +423,19 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(page.status_code, 200)
         self.assertContains(page, "Muster-CSV herunterladen")
 
+    def test_removed_topic_current_status_column_is_rejected(self):
+        import csv
+        from io import StringIO
+        from .topic_csv import parse_topic_agenda_csv
+
+        output = StringIO()
+        writer = csv.writer(output, delimiter=";")
+        writer.writerow(["series", "meeting_date", "topic_title", "topic_current_status", "agenda_text"])
+        writer.writerow(["CSV-Reihe", "2026-12-03", "Altformat", "Alter Text", "Neuer Punkttext"])
+        rows, errors = parse_topic_agenda_csv(output.getvalue())
+        self.assertEqual(rows, [])
+        self.assertTrue(any("Unbekannte CSV-Spalten" in error for error in errors))
+
     def test_import_creates_topic_meeting_and_agenda_item(self):
         from django.core.files.uploadedfile import SimpleUploadedFile
         text = self._csv([[
@@ -503,6 +516,7 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertNotContains(sample, "topic_key")
         sample_header = sample.content.decode("utf-8-sig").splitlines()[0]
         self.assertNotIn("topic_due_date", sample_header)
+        self.assertNotIn("topic_current_status", sample_header)
         self.assertContains(sample, "agenda_responsible_username")
         page = self.client.get(reverse("admin:meetings_topic_csv_import"))
         self.assertEqual(page.status_code, 200)
@@ -582,10 +596,10 @@ class TopicAgendaCsvImportTests(TestCase):
         writer = csv.writer(output, delimiter=";")
         writer.writerow([
             "series", "meeting_date", "meeting_title", "topic_title",
-            "topic_current_status", "topic_due_date", "topic_status",
+            "topic_due_date", "topic_status",
             "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
         ])
-        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "", "open", "", "", "Punkttext"])
+        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "", "open", "", "Punkttext"])
         self._confirm_import(output.getvalue())
         topic = Topic.objects.get(title="Altes CSV-Thema")
         item = AgendaItem.objects.get(topic=topic)
