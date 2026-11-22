@@ -754,7 +754,7 @@ class AgendaFollowupLinkTests(TestCase):
 
     def test_scheduling_creates_followup_and_keeps_source_open(self):
         response = self._schedule(self.first_target)
-        self.assertRedirects(response, reverse("meeting", args=[self.source_meeting.pk]))
+        self.assertRedirects(response, f"{reverse('meeting', args=[self.source_meeting.pk])}#agenda-item-{self.item.pk}")
         self.item.refresh_from_db()
         followup = AgendaItem.objects.get(followup_of=self.item)
         self.assertEqual(followup.meeting, self.first_target)
@@ -767,7 +767,7 @@ class AgendaFollowupLinkTests(TestCase):
         self._schedule(self.first_target)
         followup = AgendaItem.objects.get(followup_of=self.item)
         response = self._schedule(self.second_target)
-        self.assertRedirects(response, reverse("meeting", args=[self.source_meeting.pk]))
+        self.assertRedirects(response, f"{reverse('meeting', args=[self.source_meeting.pk])}#agenda-item-{self.item.pk}")
         followup.refresh_from_db()
         self.assertEqual(followup.meeting, self.second_target)
         self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
