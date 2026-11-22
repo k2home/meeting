@@ -179,7 +179,7 @@ class MeetingParticipantsForm(forms.ModelForm):
 
 class MeetingDateForm(forms.ModelForm):
     date = forms.DateField(
-        input_formats=["%d.%m.%Y"],
+        input_formats=["%d.%m.%Y", "%Y-%m-%d"],
         widget=forms.DateInput(
             format="%d.%m.%Y",
             attrs={"type": "text", "placeholder": "TT.MM.JJJJ", "inputmode": "numeric", "autocomplete": "off"},
