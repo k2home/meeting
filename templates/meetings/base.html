@@ -274,7 +274,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
     pendingSubmitter = event.submitter || form.querySelector('button[type="submit"],input[type="submit"],button:not([type])');
     let text = form.dataset.confirmMessage || "Möchtest du diese Aktion wirklich ausführen?";
     const completed = form.querySelector('input[name="delete_completed"]:checked');
-    if (completed) text += "\n\nAchtung: Auch abgeschlossene Besprechungen und ihre Protokolle werden endgültig gelöscht.";
+    if (completed) text += String.fromCharCode(10, 10) + "Achtung: Auch abgeschlossene Besprechungen und ihre Protokolle werden endgültig gelöscht.";
     message.textContent = text;
     accept.classList.toggle("danger", Boolean(pendingSubmitter && pendingSubmitter.classList.contains("danger")));
     dialog.showModal();
