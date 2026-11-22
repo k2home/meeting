@@ -1318,7 +1318,7 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
             series=MeetingSeries.objects.get(name="CSV-Archiv"),
             status="archived",
         )
-        reopened_in_csv = headers + "\\nagenda;CSV-Archiv;CSV-Archiv;2026-12-19;;Schon archiviert;open;;open"
+        reopened_in_csv = headers + "\nagenda;CSV-Archiv;CSV-Archiv;2026-12-19;;Schon archiviert;open;;open"
         rows, errors = parse_topic_agenda_csv(reopened_in_csv)
         self.assertEqual(rows, [])
         self.assertTrue(any("muss zuerst über die Themenansicht" in error for error in errors))
@@ -1362,6 +1362,20 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         self.assertIsNone(meeting.series_id)
         self.assertEqual(meeting.archived_series_name, "Historische Fachrunde")
         self.assertEqual(_meeting_series_name(meeting), "Historische Fachrunde")
+        self.assertEqual(str(meeting), "Historische Fachrunde – 15.01.2026")
+
+    def test_topic_csv_sample_rows_match_the_header(self):
+        import csv
+        import io
+        from .topic_csv import sample_csv_response
+        response = sample_csv_response()
+        rows = list(csv.reader(
+            io.StringIO(response.content.decode("utf-8-sig")),
+            delimiter=";",
+        ))
+        self.assertEqual(len(rows[0]), 16)
+        for row in rows[1:4]:
+            self.assertEqual(len(row), len(rows[0]))
 
     def test_user_csv_identity_conflicts_are_rejected_before_import(self):
         from .user_csv import _resolve_existing_users
