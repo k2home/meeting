@@ -2111,6 +2111,18 @@ class TopicDetailRedesignTests(TestCase):
         self.assertNotContains(response, "Kommentare und nächste Schritte")
         self.assertNotContains(response, "Änderungsverlauf dieses Themas")
 
+    def test_marking_topic_done_sets_completion_date(self):
+        response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
+            "title": self.topic.title, "description": self.topic.description,
+            "status": "done", "series": self.series.pk, "assigned_to": "",
+            "completion_note": "Ergebnis erreicht",
+        })
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "done")
+        self.assertIsNotNone(self.topic.completed_at)
+        self.assertEqual(self.topic.completion_note, "Ergebnis erreicht")
+
     def test_archiving_saves_completion_date_and_note_and_reopening_clears_them(self):
         response = self.client.post(reverse("topic_archive", args=[self.topic.pk]), {"completion_note": "Abschluss geprüft"})
         self.assertEqual(response.status_code, 302)
@@ -2123,3 +2135,4 @@ class TopicDetailRedesignTests(TestCase):
         self.assertEqual(self.topic.status, "open")
         self.assertIsNone(self.topic.completed_at)
         self.assertEqual(self.topic.completion_note, "")
+
