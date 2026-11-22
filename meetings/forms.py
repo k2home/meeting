@@ -228,3 +228,10 @@ class PersonalProfileForm(forms.Form):
         profile.short_description = self.cleaned_data["short_description"].strip()
         profile.save(update_fields=["short_description"])
         return self.user
+
+
+class SeriesAccessRequestForm(forms.Form):
+    role = forms.ChoiceField(
+        label="Gewünschte Berechtigung",
+        choices=SeriesAccess.ROLE_CHOICES,
+    )
