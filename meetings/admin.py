@@ -83,9 +83,10 @@ class TopicAdmin(admin.ModelAdmin):
             raise PermissionDenied
         return export_topic_agenda_csv(request)
 
-    list_display = ("title", "series", "assigned_to", "status")
-    list_filter = ("series", "status")
-    search_fields = ("title", "description")
+    fields = ("title", "series")
+    list_display = ("title", "series")
+    list_filter = ("series",)
+    search_fields = ("title",)
 
 
 @admin.register(TopicTransferHistory)
