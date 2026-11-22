@@ -18,7 +18,6 @@ def ensure_agenda(meeting):
             topic__series=meeting.series,
         ).exclude(
             topic__agenda_items__meeting__date__gt=previous.date,
-            topic__agenda_items__meeting__date__lt=meeting.date,
         ).select_related("topic")
         for item in carried:
             AgendaItem.objects.get_or_create(
