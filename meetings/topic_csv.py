@@ -211,8 +211,7 @@ def parse_topic_agenda_csv(text):
 
         topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
         topic_data = {"series_id": topic_series_id, "title": title}
-        if topic_key in topic_records:
-        else:
+        if topic_key not in topic_records:
             topic_records[topic_key] = {"topic": topic_data, "row": row_number}
 
         schedule_rows = [(meeting_date, row.get("agenda_text", "") or row.get("topic_current_status", ""), agenda_user.pk if agenda_user else None)]
