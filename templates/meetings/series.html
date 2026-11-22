@@ -17,7 +17,7 @@
           <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
           <div style="margin-top:.25rem;padding:.45rem .55rem;min-width:min(14rem,80vw);background:var(--surface);border:1px solid var(--border);border-radius:5px">
             <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
-            <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" data-inline-confirm>
+            <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" data-confirm-message="Besprechungsreihe „{{ s.name }}“ wirklich löschen? Zugehörige Termine und Tagesordnungspunkte werden ebenfalls entfernt."
               {% csrf_token %}
               <p style="margin:.25rem 0 .5rem"><strong>Reihe löschen</strong></p>
               <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.9rem;margin-bottom:.75rem">
@@ -51,7 +51,7 @@
               <a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>
             {% endif %}
             {% if not s.next_meeting.finalized_at %}
-              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" data-inline-confirm>
+              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?"
                 {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
               </form>
             {% endif %}
@@ -74,7 +74,7 @@
                   <a class="btn secondary" href="{% url 'meeting' m.pk %}">Öffnen</a>
                   {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
                   {% if not m.finalized_at %}
-                    <form method="post" action="{% url 'meeting_delete' m.pk %}" data-inline-confirm>
+                    <form method="post" action="{% url 'meeting_delete' m.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?"
                       {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
                     </form>
                   {% endif %}
