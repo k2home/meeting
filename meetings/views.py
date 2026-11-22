@@ -1013,8 +1013,8 @@ def _protocol_entries(meeting):
         {
             "title": item.topic.title,
             "text": item.working_text,
-            "status": item.topic.get_status_display(),
-            "responsible": user_display_name(item.assigned_to or item.topic.assigned_to) if (item.assigned_to or item.topic.assigned_to) else "",
+            "status": item.get_status_display(),
+            "responsible": user_display_name(item.assigned_to) if item.assigned_to else "",
         }
         for item in ensure_agenda(meeting)
     ]
