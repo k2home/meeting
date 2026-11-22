@@ -1,61 +1,88 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
-<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</p><h1>{% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
-<div class="card">{% if not is_reader %}<p class="muted">Lege hier fest, wer das Thema federführend bearbeitet. Die Zuständigkeit kann jederzeit geändert oder aufgehoben werden.</p>{% endif %}<form method="post">{% csrf_token %}{{ form.as_p }}{% if not topic and available_meetings %}<label for="new-topic-meeting">Erster Besprechungstermin</label><select id="new-topic-meeting" name="meeting" required><option value="">Besprechungstermin auswählen …</option>{% for meeting in available_meetings %}<option value="{{ meeting.pk }}" data-series="{{ meeting.series_id }}">{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}</select>{% endif %}{% if not is_reader %}<button type="submit">Änderungen speichern</button>{% endif %}</form></div>
-{% if topic %}
-{% if not is_reader %}<div class="card">
-<h2>Weitere Aktionen</h2>
-<div class="actions">
-{% if topic.status == "archived" %}
-<form method="post" action="{% url 'topic_reopen' topic.pk %}">{% csrf_token %}<button type="submit">Thema wieder öffnen</button></form>
+<style>
+.topic-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:1.2rem;align-items:start}
+.topic-main,.topic-side{min-width:0}.topic-side .card{position:static}
+.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
+.topic-title{margin:.2rem 0 .65rem}.topic-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
+.topic-history-item{padding:.8rem 0;border-bottom:1px solid var(--border,#ddd)}.topic-history-item:last-child{border:0}
+.topic-field textarea{min-height:130px}.topic-inline-form .form-row{margin-bottom:.8rem}
+.topic-meeting{padding:.85rem 0;border-bottom:1px solid var(--border,#ddd)}.topic-meeting:last-child{border:0}
+@media(max-width:800px){.topic-layout{grid-template-columns:1fr}.topic-meta{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.topic-meta{grid-template-columns:1fr}}
+</style>
+<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if is_reader %}Thema ansehen{% elif topic %}Thema{% else %}Neues Thema{% endif %}</p><h1>{% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
+{% if not topic %}
+<section class="card">
+  <h2>Neues Thema anlegen</h2>
+  <form method="post">{% csrf_token %}{{ form.as_p }}
+    {% if available_meetings %}<label for="new-topic-meeting">Erster Besprechungstermin</label><select id="new-topic-meeting" name="meeting" required><option value="">Besprechungstermin auswählen …</option>{% for meeting in available_meetings %}<option value="{{ meeting.pk }}">{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}</select>{% endif %}
+    {% if not is_reader %}<button type="submit">Thema anlegen</button>{% endif %}
+  </form>
+</section>
 {% else %}
-<form method="post" action="{% url 'topic_archive' topic.pk %}">{% csrf_token %}<button type="submit">Thema archivieren</button></form>
-{% endif %}
+<div class="card topic-hero">
+  <div><p class="muted">Thema #{{ topic.pk }} · {{ topic.series.name|default:"Ohne Besprechungsreihe" }}</p><h1 class="topic-title">{{ topic.title }}</h1><span class="pill">{{ topic.get_status_display }}</span></div>
+  {% if not is_reader %}<div class="topic-actions"><button type="submit" form="topic-edit-form">Änderungen speichern</button><a class="btn" href="{% url 'dashboard' %}">Zur Übersicht</a></div>{% endif %}
 </div>
-{% if transfer_series %}
-<hr><h3>In eine andere Besprechungsreihe übertragen</h3>
-<p class="muted">Das Thema wird ab jetzt in der ausgewählten Reihe weitergeführt. Frühere Zuordnungen bleiben in der Transferhistorie erhalten.</p>
-<form method="post" action="{% url 'topic_transfer' topic.pk %}">
-{% csrf_token %}
-<label for="transfer-series">Zielreihe</label>
-<select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select>
-<label for="transfer-note">Notiz zur Übertragung (optional)</label><input id="transfer-note" name="note" maxlength="500" placeholder="z. B. Zuständigkeit wurde verlagert">
-<button type="submit">Thema übertragen</button>
-</form>
-{% endif %}
-
-</div>{% endif %}
-{% if topic.transfer_history.exists %}<div class="card"><h2>Transferhistorie</h2><ul>{% for transfer in topic.transfer_history.all %}<li>{{ transfer.transferred_at|date:"d.m.Y H:i" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</li>{% endfor %}</ul></div>{% endif %}
-<div class="card"><h2>Anlagen und Netzwerkpfade</h2>{% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.id %}">Anlage hinzufügen</a></p>{% endif %}
-{% for a in topic.attachments.all %}<p><strong>{{ a.label }}</strong> — {% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %} {{ a.network_path }}</p>{% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
-<p class="muted">Netzwerkfreigaben müssen auf dem Server eingebunden sein. Hier werden die für alle Benutzer gültigen Pfade hinterlegt.</p></div>
-<div class="card">
-  <div class="topline"><h2>Kommentare und nächste Schritte</h2><span class="pill">{{ topic.comments.count }} Kommentare</span></div>
-  {% if not is_reader %}<form method="post" action="{% url 'topic_comment_add' topic.pk %}">
-    {% csrf_token %}
-    <label for="comment-body">Neuen Kommentar hinzufügen</label>
-    <textarea id="comment-body" name="body" rows="3" maxlength="5000" required placeholder="Besprechungsergebnis, Rückfrage oder nächster Schritt …"></textarea>
-    <button type="submit">Kommentar speichern</button>
-  </form>{% endif %}
-  <hr>
-  {% for comment in topic.comments.all %}
-    <article class="content-divider">
-      <div class="topline"><strong>{{ comment.author|user_display|default:"Gelöschter Benutzer" }}</strong><small>{{ comment.created_at|date:"d.m.Y H:i" }}</small></div>
-      <p>{{ comment.body|linebreaksbr }}</p>
-    </article>
-  {% empty %}<p class="muted">Noch keine Kommentare. Halte hier Absprachen und nächste Schritte fest.</p>{% endfor %}
-</div>
-<div class="card">
-  <div class="topline"><h2>Änderungsverlauf dieses Themas</h2><a href="{% url 'audit_history' %}?topic={{ topic.pk }}">Alle Einträge anzeigen</a></div>
-  {% for event in topic.audit_events.all|slice:":8" %}
-    <div class="content-divider">
-      <strong>{{ event.get_action_display }}</strong> · {{ event.created_at|date:"d.m.Y H:i" }}
-      <p>{{ event.summary }}</p>
-      <small>Von {% if event.actor %}{{ event.actor|user_display }}{% else %}System / gelöschtem Benutzer{% endif %}</small>
-      {% if event.changes %}<details><summary>Details</summary><pre style="white-space:pre-wrap;font:inherit">{{ event.changes }}</pre></details>{% endif %}
+<div class="topic-layout">
+ <main class="topic-main">
+  <section class="card">
+   <div class="topline"><h2>Beschreibung und aktueller Stand</h2></div>
+   {% if is_reader %}<div class="topic-inline-form">
+    <div class="topic-field"><label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}</div>
+    <div class="topic-field"><label for="{{ form.description.id_for_label }}">Aktueller Stand</label>{{ form.description }}</div>
+    <div class="topic-meta">
+     <div><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}</div>
+     <div><label for="{{ form.assigned_to.id_for_label }}">Verantwortlich</label>{{ form.assigned_to }}</div>
+     <div><label for="{{ form.series.id_for_label }}">Besprechungsreihe</label>{{ form.series }}</div>
     </div>
-  {% empty %}<p class="muted">Für dieses Thema gibt es noch keine protokollierten Änderungen.</p>{% endfor %}
+    <div style="margin-top:1rem"><label for="{{ form.completion_note.id_for_label }}">Abschlussvermerk</label>{{ form.completion_note }}</div>
+   </div>
+   {% else %}<form id="topic-edit-form" method="post" class="topic-inline-form">{% csrf_token %}
+    <div class="topic-field"><label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title.errors }}{{ form.title }}</div>
+    <div class="topic-field"><label for="{{ form.description.id_for_label }}">Aktueller Stand</label>{{ form.description.errors }}{{ form.description }}</div>
+    <div class="topic-meta">
+     <div><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}</div>
+     <div><label for="{{ form.assigned_to.id_for_label }}">Verantwortlich</label>{{ form.assigned_to }}</div>
+     <div><label for="{{ form.series.id_for_label }}">Besprechungsreihe</label>{{ form.series }}</div>
+    </div>
+    <div style="margin-top:1rem"><label for="{{ form.completion_note.id_for_label }}">Abschlussvermerk</label>{{ form.completion_note }}<small class="muted">Wird beim Erledigen oder Archivieren als Abschlussnotiz gespeichert.</small></div>
+   </form>{% endif %}
+  </section>
+  <section class="card">
+   <h2>Besprechungen und Tagesordnung</h2>
+   {% for item in topic_agenda_items %}
+    <article class="topic-meeting">
+     <div class="topline"><strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"d.m.Y" }}</strong>{% if item.meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant / Entwurf</span>{% endif %}</div>
+     {% if item.working_text %}<p>{{ item.working_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein zusätzlicher Protokolltext hinterlegt.</p>{% endif %}
+     <p class="muted">Verantwortlich: {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
+     <a href="{% url 'protocol' item.meeting_id %}">Vollständiges Besprechungsprotokoll öffnen</a>
+    </article>
+   {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
+  </section>
+ </main>
+ <aside class="topic-side">
+  <section class="card"><h2>Überblick</h2><dl class="topic-meta">
+   <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"d.m.Y" }}</dd></div>
+   <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"d.m.Y" }}</dd></div>
+   <div><dt>Zuständigkeit</dt><dd>{{ topic.assigned_to|user_display|default:"Nicht zugewiesen" }}</dd></div>
+   <div><dt>Abschlussdatum</dt><dd>{{ topic.completed_at|date:"d.m.Y"|default:"Noch offen" }}</dd></div>
+  </dl></section>
+  <section class="card"><h2>Dateien und Anlagen</h2>{% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
+   {% for a in topic.attachments.all %}<div class="topic-history-item"><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %}{% if a.network_path %}<p><a href="{{ a.network_path }}">{{ a.network_path }}</a></p>{% endif %}<small class="muted">Hinzugefügt {{ a.added_at|date:"d.m.Y" }}</small></div>
+   {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
+  </section>
+  {% if not is_reader %}<section class="card"><h2>Aktionen</h2>
+   {% if topic.status == "archived" %}<form method="post" action="{% url 'topic_reopen' topic.pk %}">{% csrf_token %}<button type="submit">Thema wieder öffnen</button></form>
+   {% else %}<form method="post" action="{% url 'topic_archive' topic.pk %}">{% csrf_token %}<label for="archive-completion-note">Abschlussvermerk (optional)</label><textarea id="archive-completion-note" name="completion_note" rows="3">{{ topic.completion_note }}</textarea><button type="submit">Thema archivieren</button></form>{% endif %}
+   {% if transfer_series %}<hr><h3>Besprechungsreihe wechseln</h3><form method="post" action="{% url 'topic_transfer' topic.pk %}">{% csrf_token %}<label for="transfer-series">Zielreihe</label><select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select><label for="transfer-note">Hinweis (optional)</label><input id="transfer-note" name="note" maxlength="500"><button type="submit">Übertragen</button></form>{% endif %}
+  </section>{% endif %}
+  {% if topic.status == "done" or topic.status == "archived" %}<section class="card"><h2>Abschluss</h2><p><strong>{{ topic.completed_at|date:"d.m.Y"|default:"—" }}</strong></p>{{ topic.completion_note|linebreaksbr }}</section>{% endif %}
+ </aside>
 </div>
 {% endif %}
 {% endblock %}

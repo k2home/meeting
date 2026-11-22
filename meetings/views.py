@@ -764,6 +764,11 @@ def topic_edit(request, pk):
                     moved_agenda_items = _move_future_agenda_items(topic, old_series, new_series)
                     TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=new_series,
                         transferred_by=request.user, note="Zuordnung im Themenformular geändert")
+                if updated_topic.status in {"done", "archived"} and not updated_topic.completed_at:
+                    updated_topic.completed_at = timezone.localdate()
+                elif updated_topic.status not in {"done", "archived"}:
+                    updated_topic.completed_at = None
+                    updated_topic.completion_note = ""
                 updated_topic.save()
                 if moved_agenda_items:
                     changes["Geplante Tagesordnungspunkte"] = {"übertragen": moved_agenda_items}
@@ -781,9 +786,13 @@ def topic_edit(request, pk):
             })
         messages.success(request, "Thema gespeichert." + (f" {moved_agenda_items} geplante Tagesordnungspunkte wurden in die neue Besprechungsreihe übertragen." if moved_agenda_items else ""))
         return redirect("topic_edit", pk=topic.pk)
+    topic_agenda_items = AgendaItem.objects.filter(
+        topic=topic, meeting__in=accessible_meetings(request.user)
+    ).select_related("meeting", "meeting__series", "assigned_to").order_by("-meeting__date", "position")
     return render(request, "meetings/topic_form.html", {
         "form": form, "topic": topic, "is_reader": is_reader(request.user, topic.series),
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
+        "topic_agenda_items": topic_agenda_items,
     })
 
 @login_required
@@ -837,7 +846,9 @@ def topic_archive(request, pk):
         messages.info(request, "Dieses Thema ist bereits archiviert.")
     else:
         topic.status = "archived"
-        topic.save(update_fields=["status", "updated_at"])
+        topic.completed_at = topic.completed_at or timezone.localdate()
+        topic.completion_note = request.POST.get("completion_note", "").strip()[:10000]
+        topic.save(update_fields=["status", "completed_at", "completion_note", "updated_at"])
         record_event(actor=request.user, action="archived", summary=f"Thema „{topic.title}“ archiviert",
                      topic=topic, changes={"Status": {"vorher": "Offen", "nachher": "Archiviert"}})
         messages.success(request, "Thema wurde archiviert.")
@@ -850,7 +861,9 @@ def topic_reopen(request, pk):
         return HttpResponseForbidden()
     topic = get_object_or_404(accessible_topics(request.user), pk=pk, status="archived")
     topic.status = "open"
-    topic.save(update_fields=["status", "updated_at"])
+    topic.completed_at = None
+    topic.completion_note = ""
+    topic.save(update_fields=["status", "completed_at", "completion_note", "updated_at"])
     record_event(actor=request.user, action="reopened", summary=f"Thema „{topic.title}“ wieder geöffnet",
                  topic=topic, changes={"Status": {"vorher": "Archiviert", "nachher": "Offen"}})
     messages.success(request, "Thema wurde wieder geöffnet.")

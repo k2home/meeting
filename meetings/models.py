@@ -51,6 +51,8 @@ class Topic(models.Model):
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="topics")
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                     related_name="assigned_meeting_topics", verbose_name="Verantwortlich")
+    completed_at = models.DateField("Abschlussdatum", null=True, blank=True)
+    completion_note = models.TextField("Abschlussvermerk", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
