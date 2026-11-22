@@ -1568,10 +1568,11 @@ def finalize(request, pk):
     if meeting.finalized_at:
         messages.info(request, "Diese Besprechung ist bereits abgeschlossen.")
         return redirect("protocol", pk=pk)
-    meeting = finalize_meeting(meeting)
-    record_event(actor=request.user, action="finalized",
-                 summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
-                 meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
+    with transaction.atomic():
+        meeting = finalize_meeting(meeting)
+        record_event(actor=request.user, action="finalized",
+                     summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
+                     meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
     messages.success(request, "Besprechung abgeschlossen; Protokoll-Snapshot gespeichert.")
     return redirect("protocol", pk=pk)
 
