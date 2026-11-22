@@ -100,7 +100,7 @@
   </section>
   {% if not is_reader and transfer_series %}
   <section class="card"><h2>Besprechungsreihe wechseln</h2>
-   <form method="post" action="{% url 'topic_transfer' topic.pk %}">{% csrf_token %}
+   <form method="post" action="{% url 'topic_transfer' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ in die ausgewählte Besprechungsreihe übertragen? Zukünftige Tagesordnungspunkte werden ebenfalls verschoben.">{% csrf_token %}
     <label for="transfer-series">Zielreihe</label>
     <select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select>
     <label for="transfer-note">Hinweis (optional)</label><input id="transfer-note" name="note" maxlength="500">
