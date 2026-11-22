@@ -7,7 +7,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from .access import accessible_meetings, accessible_series, accessible_topics, is_admin, is_reader
+from .access import accessible_meetings, accessible_series, accessible_topics, is_admin, is_moderator, is_reader
 from .audit import record_event
 from .models import AgendaItem, Meeting, SeriesAccess, Topic, TopicSnapshot
 
@@ -116,6 +116,7 @@ def topic_detail(request, pk):
     return render(request, "meetings/topic_form.html", {
         "form": form,
         "topic": topic,
+        "can_archive_topic": is_moderator(request.user, topic.series),
         "is_reader": reader,
         "topic_agenda_items": items,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
