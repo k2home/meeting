@@ -907,6 +907,45 @@ class AgendaFollowupLinkTests(TestCase):
         self.assertEqual(self.item.meeting, self.source_meeting)
         self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
 
+    def test_save_all_texts_can_also_schedule_followup(self):
+        other_topic = Topic.objects.create(title="Weiterer Punkt", series=self.series)
+        other_item = AgendaItem.objects.create(
+            meeting=self.source_meeting, topic=other_topic, working_text="Alter weiterer Text",
+        )
+        response = self.client.post(reverse("meeting", args=[self.source_meeting.pk]), {
+            "save_all_working_texts": "1",
+            f"working_text_{self.item.pk}": "Aktualisierter Sachstand",
+            f"working_text_{other_item.pk}": "Aktualisierter weiterer Text",
+            "schedule_item": str(self.item.pk),
+            "target_series": str(self.series.pk),
+            "target_meeting": str(self.first_target.pk),
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.source_meeting.pk]))
+        self.item.refresh_from_db()
+        other_item.refresh_from_db()
+        self.assertEqual(self.item.working_text, "Aktualisierter Sachstand")
+        self.assertEqual(other_item.working_text, "Aktualisierter weiterer Text")
+        followup = AgendaItem.objects.get(followup_of=self.item)
+        self.assertEqual(followup.working_text, "Aktualisierter Sachstand")
+
+    def test_followup_conflict_does_not_partially_change_topic_or_source_text(self):
+        target_series = MeetingSeries.objects.create(name="Andere Wiedervorlage-Reihe")
+        conflict = Topic.objects.create(title=self.topic.title, series=target_series)
+        target_item = AgendaItem.objects.create(meeting=Meeting.objects.create(
+            series=target_series, date="2027-01-14",
+        ), topic=conflict, working_text="Unabhängiger Eintrag")
+        response = self.client.post(reverse("meeting", args=[self.source_meeting.pk]), {
+            "item_id": self.item.pk, "schedule_item": self.item.pk,
+            "target_series": target_series.pk, "target_meeting": target_item.meeting_id,
+            "working_text": "Darf nicht teilweise gespeichert werden",
+        })
+        self.assertRedirects(response, f"{reverse('meeting', args=[self.source_meeting.pk])}#agenda-item-{self.item.pk}")
+        self.item.refresh_from_db()
+        self.topic.refresh_from_db()
+        self.assertEqual(self.item.working_text, "Aktueller Sachstand")
+        self.assertEqual(self.topic.series, self.series)
+        self.assertFalse(AgendaItem.objects.filter(followup_of=self.item).exists())
+
     def test_changing_target_moves_existing_followup_without_duplicate(self):
         self._schedule(self.first_target)
         followup = AgendaItem.objects.get(followup_of=self.item)
