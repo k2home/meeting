@@ -45,6 +45,10 @@ runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR
 
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist (z.B. meeting.intern): " SITE_HOST
 SITE_HOST="${SITE_HOST:-localhost}"
+if [[ ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ && ! "$SITE_HOST" =~ ^[0-9a-fA-F:.]+$ ]]; then
+  echo "Bitte einen gültigen Hostnamen oder eine IP-Adresse eingeben." >&2
+  exit 1
+fi
 read -r -p "Django SECRET_KEY eingeben (leer = sicher zufällig erzeugen): " -s SECRET_KEY_INPUT
 echo
 SECRET_KEY="${SECRET_KEY_INPUT:-$(openssl rand -hex 48)}"
