@@ -108,6 +108,7 @@ class SeriesForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        provided_initial = kwargs.get("initial") or {}
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.pk:
             if self.instance.recurrence == "biweekly":
@@ -118,8 +119,10 @@ class SeriesForm(forms.ModelForm):
             weekday = int(self.initial.get("weekday", self.fields["weekday"].initial or 0))
             self.initial.setdefault("weekday", weekday)
             self.initial.setdefault("recurrence_interval", 1)
-            self.initial.setdefault("start_date", today + timedelta(days=(weekday - today.weekday()) % 7))
-            self.initial.setdefault("end_date", date(today.year + 1, 12, 31))
+            if "start_date" not in provided_initial:
+                self.initial["start_date"] = today + timedelta(days=(weekday - today.weekday()) % 7)
+            if "end_date" not in provided_initial:
+                self.initial["end_date"] = date(today.year + 1, 12, 31)
 
 
 class CompactParticipantSelect(forms.CheckboxSelectMultiple):
