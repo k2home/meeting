@@ -959,11 +959,12 @@ class MeetingSeriesSchedulingTests(TestCase):
         self.assertEqual(second_response.status_code, 302)
         self.assertEqual(Meeting.objects.filter(series=self.series).count(), count_after_first_extension)
 
-    def test_meeting_date_form_uses_german_day_month_year_format(self):
+    def test_meeting_date_form_uses_native_calendar_input(self):
         from .forms import MeetingDateForm
         form = MeetingDateForm(instance=self.meeting)
-        self.assertIn(self.meeting.date.strftime("%d.%m.%Y"), str(form["date"]))
-        submitted = MeetingDateForm(data={"date": "05.12.2026"}, instance=self.meeting)
+        self.assertIn('type="date"', str(form["date"]))
+        self.assertIn(self.meeting.date.isoformat(), str(form["date"]))
+        submitted = MeetingDateForm(data={"date": "2026-12-05"}, instance=self.meeting)
         self.assertTrue(submitted.is_valid(), submitted.errors)
         self.assertEqual(submitted.cleaned_data["date"].isoformat(), "2026-12-05")
 
