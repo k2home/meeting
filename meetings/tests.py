@@ -1405,16 +1405,24 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.target_meeting = Meeting.objects.create(series=self.series_b, date=date(2027, 1, 12))
         self.client.force_login(self.user)
 
-    def test_new_agenda_topic_can_be_created_from_meeting_page(self):
+    def test_new_agenda_topic_can_set_main_and_point_responsibility(self):
+        main_owner = User.objects.create_user(username="new-topic-main", password="strong-test-password")
+        item_owner = User.objects.create_user(username="new-topic-point", password="strong-test-password")
         response = self.client.post(
             reverse("meeting", args=[self.meeting.pk]),
-            {"add_agenda_topic": "1", "title": "Neuer Tagesordnungspunkt", "working_text": "Ein erster Sachstand"},
+            {
+                "add_agenda_topic": "1", "title": "Neuer Tagesordnungspunkt",
+                "working_text": "Ein erster Sachstand",
+                "topic_assigned_to": str(main_owner.pk), "assigned_to": str(item_owner.pk),
+            },
         )
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         topic = Topic.objects.get(title="Neuer Tagesordnungspunkt")
         self.assertEqual(topic.series, self.series_a)
+        self.assertEqual(topic.assigned_to, main_owner)
         item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
         self.assertEqual(item.working_text, "Ein erster Sachstand")
+        self.assertEqual(item.assigned_to, item_owner)
 
     def test_agenda_item_assignee_overrides_topic_responsible_without_changing_it(self):
         main_owner = User.objects.create_user(username="main-owner", password="strong-test-password")
