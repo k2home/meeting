@@ -8,7 +8,7 @@ class MeetingSeries(models.Model):
     description = models.TextField("Beschreibung", blank=True)
     active = models.BooleanField("Aktiv", default=True)
     recurrence = models.CharField("Wiederholung", max_length=12, choices=[("weekly", "Wöchentlich"), ("monthly", "Monatlich")], default="monthly")
-    recurrence_interval = models.PositiveSmallIntegerField("Wiederholungsintervall", default=1)
+    recurrence_interval = models.PositiveSmallIntegerField("Wiederholungsintervall", default=1, validators=[MinValueValidator(1), MaxValueValidator(52)])
     weekday = models.PositiveSmallIntegerField("Wochentag (0=Mo)", default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
     start_date = models.DateField("Startdatum", default=timezone.localdate)
     end_date = models.DateField("Enddatum", null=True, blank=True)
@@ -19,6 +19,14 @@ class MeetingSeries(models.Model):
             models.CheckConstraint(
                 condition=models.Q(weekday__gte=0, weekday__lte=6),
                 name="meeting_series_weekday_0_6",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(recurrence_interval__gte=1, recurrence_interval__lte=52),
+                name="meeting_series_interval_1_52",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(end_date__isnull=True) | models.Q(end_date__gte=models.F("start_date")),
+                name="meeting_series_end_after_start",
             ),
         ]
         verbose_name = "Besprechungsreihe"
@@ -69,6 +77,18 @@ class Topic(models.Model):
 
     def __str__(self):
         return self.title
+
+class ArchivedMeetingAccess(models.Model):
+    """Read access retained for former members after a series is deleted."""
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name="archived_access")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="archived_meeting_access")
+    role = models.CharField("Ehemalige Rolle", max_length=16, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["meeting", "user"], name="unique_archived_meeting_user")
+        ]
+
 
 class TopicTransferHistory(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="transfer_history")
