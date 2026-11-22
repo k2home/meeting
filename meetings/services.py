@@ -139,10 +139,14 @@ def generate_meetings(series):
         old_meeting.delete()
     return created
 
+@transaction.atomic
 def finalize_meeting(meeting):
-    if meeting.finalized_at: return
+    """Finalize a meeting and persist all snapshots as one indivisible operation."""
+    meeting = Meeting.objects.select_for_update().get(pk=meeting.pk)
+    if meeting.finalized_at:
+        return meeting
     ensure_agenda(meeting)
-    for item in meeting.agenda_items.select_related("topic"):
+    for item in meeting.agenda_items.select_related("topic", "assigned_to"):
         topic = item.topic
         TopicSnapshot.objects.get_or_create(meeting=meeting, topic_id=topic.pk, defaults={
             "topic_title": topic.title, "text": item.working_text, "status": item.status,
@@ -150,3 +154,4 @@ def finalize_meeting(meeting):
         })
     meeting.finalized_at = timezone.now()
     meeting.save(update_fields=["finalized_at"])
+    return meeting
