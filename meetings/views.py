@@ -377,7 +377,6 @@ def meeting_detail(request, pk):
             if schedule_form.is_valid():
                 topic = item.topic
                 old_series = topic.series
-                old_due_date = topic.due_date
                 target_series = schedule_form.cleaned_data["target_series"]
                 target_meeting = schedule_form.cleaned_data["target_meeting"]
                 topic.series = target_series
@@ -401,10 +400,7 @@ def meeting_detail(request, pk):
                     summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
                     topic=topic, meeting=meeting,
                     changes={
-                        "Fälligkeit": {
-                            "vorher": old_due_date.isoformat() if old_due_date else None,
-                            "nachher": target_meeting.date.isoformat(),
-                        },
+                        "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
                         "Besprechungsserie": {
                             "vorher": old_series.name if old_series else None,
                             "nachher": target_series.name,
@@ -414,22 +410,22 @@ def meeting_detail(request, pk):
                 messages.success(request, f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen Termin.")
-        elif request.POST.get("update_topic_assignee"):
-            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_topic_assignee"), meeting=meeting)
+        elif request.POST.get("update_agenda_assignee"):
+            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_agenda_assignee"), meeting=meeting)
             assignee_id = request.POST.get("assigned_to") or None
             assignee = get_object_or_404(UserModel, pk=assignee_id, is_active=True) if assignee_id else None
-            if item.topic.assigned_to_id != (assignee.pk if assignee else None):
-                old_assignee = user_display_name(item.topic.assigned_to) if item.topic.assigned_to else "Nicht zugewiesen"
-                item.topic.assigned_to = assignee
-                item.topic.save(update_fields=["assigned_to", "updated_at"])
-                new_assignee = user_display_name(assignee) if assignee else "Nicht zugewiesen"
+            if item.assigned_to_id != (assignee.pk if assignee else None):
+                old_assignee = user_display_name(item.assigned_to) if item.assigned_to else "Hauptverantwortliche Person"
+                item.assigned_to = assignee
+                item.save(update_fields=["assigned_to"])
+                new_assignee = user_display_name(assignee) if assignee else "Hauptverantwortliche Person"
                 record_event(
                     actor=request.user, action="updated",
-                    summary=f"Zuständigkeit für „{item.topic.title}“ auf {new_assignee} gesetzt",
+                    summary=f"Abweichende Zuständigkeit für „{item.topic.title}“ geändert",
                     topic=item.topic, meeting=meeting,
-                    changes={"Zuständigkeit": {"vorher": old_assignee, "nachher": new_assignee}},
+                    changes={"Zuständigkeit Tagesordnungspunkt": {"vorher": old_assignee, "nachher": new_assignee}},
                 )
-                messages.success(request, "Zuständigkeit gespeichert.")
+                messages.success(request, "Zuständigkeit des Tagesordnungspunkts gespeichert.")
             else:
                 messages.info(request, "Die Zuständigkeit ist unverändert.")
         elif request.POST.get("update_topic_status"):
@@ -522,12 +518,10 @@ def meeting_detail(request, pk):
                 if schedule_form.is_valid():
                     topic = scheduled_item.topic
                     old_series = topic.series
-                    old_due_date = topic.due_date
-                    target_series = schedule_form.cleaned_data["target_series"]
+                        target_series = schedule_form.cleaned_data["target_series"]
                     target_meeting = schedule_form.cleaned_data["target_meeting"]
                     topic.series = target_series
-                    topic.due_date = target_meeting.date
-                    topic.save(update_fields=["series", "due_date", "updated_at"])
+                    topic.save(update_fields=["series", "updated_at"])
                     next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                     target_item, created = AgendaItem.objects.get_or_create(
                         meeting=target_meeting, topic=topic,
@@ -582,8 +576,7 @@ def meeting_detail(request, pk):
                         if schedule_form is not None:
                             topic = item.topic
                             old_series = topic.series
-                            old_due_date = topic.due_date
-                            target_series = schedule_form.cleaned_data["target_series"]
+                                        target_series = schedule_form.cleaned_data["target_series"]
                             target_meeting = schedule_form.cleaned_data["target_meeting"]
                             topic.series = target_series
                             topic.save(update_fields=["series", "updated_at"])
@@ -606,10 +599,7 @@ def meeting_detail(request, pk):
                                 summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
                                 topic=topic, meeting=meeting,
                                 changes={
-                                    "Fälligkeit": {
-                                        "vorher": old_due_date.isoformat() if old_due_date else None,
-                                        "nachher": target_meeting.date.isoformat(),
-                                    },
+                                    "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
                                     "Besprechungsserie": {
                                         "vorher": old_series.name if old_series else None,
                                         "nachher": target_series.name,
