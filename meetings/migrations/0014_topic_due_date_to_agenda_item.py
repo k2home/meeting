@@ -9,16 +9,36 @@ def move_topic_due_dates_to_agenda(apps, schema_editor):
     AgendaItem = apps.get_model("meetings", "AgendaItem")
     db = schema_editor.connection.alias
 
-    for topic in Topic.objects.using(db).exclude(due_date__isnull=True).iterator():
-        meeting = Meeting.objects.using(db).filter(series_id=topic.series_id, date=topic.due_date).first()
+    topics = Topic.objects.using(db).exclude(due_date__isnull=True).iterator()
+    for topic in topics:
+        # If an explicit future agenda entry already exists, it is the
+        # authoritative appointment and must not be duplicated.
+        existing_item = (
+            AgendaItem.objects.using(db)
+            .filter(topic_id=topic.pk, meeting__date__gte=topic.due_date)
+            .order_by("meeting__date", "pk")
+            .first()
+        )
+        if existing_item:
+            continue
+
+        # Old due dates were picked up by the first meeting on/after that
+        # date. Preserve that behavior using the existing meeting schedule.
+        meeting = (
+            Meeting.objects.using(db)
+            .filter(series_id=topic.series_id, date__gte=topic.due_date)
+            .order_by("date", "pk")
+            .first()
+        )
         if meeting is None:
-            meeting = Meeting.objects.using(db).create(series_id=topic.series_id, date=topic.due_date, title="")
+            meeting = Meeting.objects.using(db).create(
+                series_id=topic.series_id, date=topic.due_date, title=""
+            )
         AgendaItem.objects.using(db).get_or_create(
             meeting_id=meeting.pk,
             topic_id=topic.pk,
             defaults={"working_text": "", "position": 0, "carried_forward": False},
         )
-
 
 def restore_topic_due_dates(apps, schema_editor):
     Topic = apps.get_model("meetings", "Topic")
