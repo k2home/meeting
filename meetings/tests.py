@@ -458,6 +458,53 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(item.assigned_to, point_owner)
         self.assertEqual(item.working_text, "Punkttext")
 
+    def test_export_and_import_preserve_standalone_topics_and_followup_relations(self):
+        import csv
+        from io import StringIO
+        from .topic_csv import parse_topic_agenda_csv
+
+        topic = Topic.objects.create(title="Wiedervorlage-Rundlauf", series=self.series)
+        source_meeting = Meeting.objects.create(series=self.series, date="2026-12-03")
+        target_meeting = Meeting.objects.create(series=self.series, date="2027-01-14")
+        source_item = AgendaItem.objects.create(meeting=source_meeting, topic=topic, working_text="Ursprung")
+        followup_item = AgendaItem.objects.create(
+            meeting=target_meeting, topic=topic, working_text="Fortsetzung", followup_of=source_item,
+        )
+        standalone = Topic.objects.create(title="Thema ohne Tagesordnung", series=self.series)
+
+        response = self.client.get(reverse("admin:meetings_topic_csv_export"))
+        self.assertEqual(response.status_code, 200)
+        text = response.content.decode("utf-8-sig")
+        rows = list(csv.DictReader(StringIO(text), delimiter=";"))
+        exported_followup = next(row for row in rows if row["topic_title"] == topic.title and row["meeting_date"] == "2027-01-14")
+        exported_standalone = next(row for row in rows if row["topic_title"] == standalone.title)
+        self.assertEqual(exported_followup["followup_series"], "CSV-Reihe")
+        self.assertEqual(exported_followup["followup_meeting_date"], "2026-12-03")
+        self.assertEqual(exported_standalone["record_type"], "topic")
+        self.assertEqual(exported_standalone["meeting_date"], "")
+
+        parsed, errors = parse_topic_agenda_csv(text)
+        self.assertEqual(errors, [])
+        self.assertTrue(any(row.get("record_type") == "topic" for row in parsed))
+        self.assertTrue(any(row.get("followup_series_id") for row in parsed))
+
+        result = self._confirm_import(text)
+        self.assertRedirects(result, reverse("admin:meetings_topic_changelist"))
+        followup_item.refresh_from_db()
+        self.assertEqual(followup_item.followup_of_id, source_item.pk)
+        self.assertTrue(Topic.objects.filter(pk=standalone.pk).exists())
+
+    def test_topic_csv_export_neutralizes_spreadsheet_formulas(self):
+        import csv
+        from io import StringIO
+        topic = Topic.objects.create(title="=HYPERLINK(1)", series=self.series)
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-03")
+        AgendaItem.objects.create(meeting=meeting, topic=topic)
+        response = self.client.get(reverse("admin:meetings_topic_csv_export"))
+        rows = list(csv.DictReader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
+        exported = next(row for row in rows if row["topic_title"].endswith("HYPERLINK(1)"))
+        self.assertTrue(exported["topic_title"].startswith("'="))
+
     def test_export_contains_topic_and_agenda_fields_independently(self):
         import csv
         from io import StringIO
