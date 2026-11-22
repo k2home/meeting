@@ -34,11 +34,11 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Themen und Aufgaben
 
-- Themen mit Titel, Status, zuständiger Besprechungsreihe und Hauptverantwortung.
+- Themen mit Titel, Status und zuständiger Besprechungsreihe.
 - Der Text und Bearbeitungsstand eines Tagesordnungspunkts werden je Besprechungstermin separat gespeichert.
 - Abweichende Zuständigkeiten können einzelnen Tagesordnungspunkten zugewiesen werden.
 - Suche über Thementitel, Tagesordnungstexte, Besprechungsreihe und Zuständigkeit; Filter nach Status, Reihe und Zuständigkeit.
-- Themen können archiviert, wieder geöffnet und zwischen zugänglichen Besprechungsreihen übertragen werden.
+- Themen können zwischen zugänglichen Besprechungsreihen übertragen werden. Ein eigener Archivieren-/Wiederöffnen-Workflow ist derzeit nicht vorhanden.
 - Kommentare und nächste Schritte werden chronologisch am Thema gesammelt.
 - „Meine Aufgaben“ trennt die Hauptzuständigkeit für Themen von ausdrücklich zugewiesenen Tagesordnungspunkten zukünftiger Termine.
 - Anlagen können als Datei oder als Netzwerkpfad bzw. Link hinterlegt werden.
@@ -54,66 +54,107 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Änderungsverlauf
 
-Wichtige Änderungen an Themen, Status, Hauptzuständigkeiten, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen werden mit Benutzer und Zeitpunkt protokolliert. Der Änderungsverlauf ist innerhalb der jeweils zugänglichen Besprechungsreihen einsehbar.
+Anlage und Umbenennung von Themen, Themenübertragungen, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen werden mit Benutzer und Zeitpunkt protokolliert. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
 
 ## Rollen und Berechtigungen
 
-Die Anwendung verwendet vier Django-Gruppen. Die Gruppe eines Kontos bestimmt die Rolle; zusätzlich wird jeder regulären Benutzerin bzw. jedem regulären Benutzer ausdrücklich zugewiesen, auf welche Besprechungsreihen sie oder er zugreifen darf.
+Die Anwendung unterscheidet vier Rollen. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden jeweils pro Besprechungsreihe zugewiesen. Die Rolle **Admin** gilt global. Django-Superuser haben ebenfalls globalen Zugriff.
 
-### Berechtigungsmatrix
+### Berechtigungsmatrix nach Funktionsbereichen
+
+Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“ bedeutet: nur innerhalb der Besprechungsreihen, denen das Konto zugeordnet ist. Moderatorrechte gelten ebenfalls nur in Reihen mit Moderatorzuweisung.
+
+#### 1. Inhalte und Besprechungen
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
-|---|:---:|:---:|:---:|
-| Zugewiesene Besprechungsreihen und deren Inhalte ansehen | Ja | Ja | Ja | Alle Reihen |
-| Protokolle und Änderungsverlauf ansehen | Ja | Ja | Ja | Alle Reihen |
-| Kommentare schreiben | Nein | Ja | Ja | Ja |
-| Themen anlegen und bearbeiten | Nein | Ja | Ja | Ja |
-| Themen archivieren und wieder öffnen | Nein | Ja | Ja | Ja |
-| Themen zwischen zugänglichen Reihen übertragen | Nein | Ja | Ja | Ja |
-| Tagesordnung und Teilnehmer verwalten | Nein | Ja | Ja | Ja |
-| Besprechungen abschließen | Nein | Ja | Ja | Ja |
-| Abgeschlossene Besprechungen wieder öffnen | Nein | Nein | Ja | Ja |
-| Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja |
-| Besprechungsreihen anlegen, ändern und löschen | Nein | Nein | Ja* | Ja |
-| Benutzer, Gruppen und Serienzuweisungen verwalten | Nein | Nein | Nein | Ja |
-| Globaler Zugriff auf alle Besprechungsreihen | Nein | Nein | Nein | Ja |
+|---|:---:|:---:|:---:|:---:|
+| Zugewiesene Reihen, Themen und Termine ansehen | Ja | Ja | Ja | Alle Reihen |
+| Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja | Alle Reihen |
+| Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja | Ja |
+| Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja | Ja |
+| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja |
+| Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja | Ja |
+| Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja | Ja |
+| Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja | Ja |
+| Einzelne Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja |
 
-\* Moderator*innen dürfen nur die ihnen zugewiesenen Reihen verwalten. Eine von einer Moderatorin oder einem Moderator neu angelegte Reihe wird dieser Person automatisch zugewiesen.
+#### 2. Themen und Zusammenarbeit
+
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
+|---|:---:|:---:|:---:|:---:|
+| Themenübersicht und Themenhistorie ansehen | Ja | Ja | Ja | Alle Reihen |
+| Themen anlegen und Titel bearbeiten | Nein | Ja | Ja | Ja |
+| Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja | Ja |
+| Kommentare hinzufügen | Nein | Ja | Ja | Ja |
+| Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja |
+| Themen archivieren oder wieder öffnen | Nein | Nein | Nein | Nein |
+
+**Hinweis zum Themenstatus:** Das Datenmodell kennt weiterhin den Status „Archiviert“. Ein eigener Archivieren-/Wiederöffnen-Workflow ist in der Weboberfläche derzeit jedoch nicht vorhanden. Die Statusoption ist daher keine zugesicherte Bedienfunktion.
+
+#### 3. Besprechungsreihen verwalten
+
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
+|---|:---:|:---:|:---:|:---:|
+| Eigene zugewiesene Reihen verwalten | Nein | Nein | Ja | Ja |
+| Reihen anlegen und Termine erzeugen | Nein | Nein | Ja | Ja |
+| Reihen ändern und verlängern | Nein | Nein | Ja | Ja |
+| Zukünftige Entwurfstermine einer Reihe neu aufsetzen | Nein | Nein | Ja | Ja |
+| Reihen löschen | Nein | Nein | Ja | Ja |
+| Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Ja |
+
+Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrücklich die Rolle Moderator*in besitzen. Eine von ihnen neu angelegte Reihe wird automatisch der erstellenden Person als Moderator*in zugewiesen.
+
+#### 4. Änderungsverlauf
+
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
+|---|:---:|:---:|:---:|:---:|
+| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Alle Reihen |
+
+Der Änderungsverlauf ist bewusst auf Moderator*innen der jeweiligen Reihe und globale Administrator*innen beschränkt. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind nur globalen Administrator*innen zugänglich.
+
+#### 5. Benutzer- und Systemverwaltung
+
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
+|---|:---:|:---:|:---:|:---:|
+| Benutzerkonten anlegen und bearbeiten | Nein | Nein | Nein | Ja |
+| Globale Admin-Rolle vergeben oder entziehen | Nein | Nein | Nein | Ja |
+| Serienzuweisungen und Rollen anderer Benutzer verwalten | Nein | Nein | Nein | Ja |
+| Benutzer-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
+| Themen- und Tagesordnungspunkt-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
+| Globale Organisationseinstellungen ändern | Nein | Nein | Nein | Ja |
+| Django-Administration öffnen | Nein | Nein | Nein | Ja |
 
 ### Was die Rollen im Alltag bedeuten
 
 **Leser*in**
 
-- Sieht alle Themen, Besprechungstermine, Protokolle und Änderungsverläufe der ausdrücklich zugewiesenen Besprechungsreihen.
-- Ist kein Besprechungsteilnehmer und erscheint nicht in Teilnehmerlisten oder Protokoll-Teilnehmerangaben.
-- Hat ausschließlich Leserechte: keine Kommentare, Änderungen, Anlagen, Tagesordnungsaktionen, Abschlüsse oder Verwaltungsfunktionen.
+- Sieht Inhalte und Protokolle der ausdrücklich zugewiesenen Besprechungsreihen.
+- Hat ausschließlich Leserechte. Änderungen, Kommentare, Anlagen, Tagesordnungsaktionen und Verwaltungsfunktionen sind nicht möglich.
+- Kann den Änderungsverlauf nicht einsehen.
 
 **Teilnehmer*in**
 
-- Sieht ausschließlich die ausdrücklich zugewiesenen Besprechungsreihen.
-- Kann innerhalb dieser Reihen Themen anlegen und bearbeiten, Themen archivieren oder übertragen, Kommentare schreiben und Tagesordnungen sowie Teilnehmer verwalten.
-- Kann Besprechungen abschließen, aber nicht wieder öffnen.
-- Kann keine Besprechungsreihen oder Benutzerkonten verwalten.
+- Kann innerhalb der ausdrücklich zugewiesenen Reihen an der fachlichen Arbeit teilnehmen: Themen und Tagesordnung bearbeiten, Kommentare und Anlagen ergänzen, Teilnehmende verwalten und Besprechungen abschließen.
+- Kann abgeschlossene Besprechungen nicht wieder öffnen und keine Besprechungsreihen verwalten.
+- Kann den Änderungsverlauf nicht einsehen.
 
 **Moderator*in**
 
-- Hat innerhalb der eigenen zugewiesenen Reihen dieselben fachlichen Rechte wie Teilnehmer*innen.
-- Kann zusätzlich abgeschlossene Besprechungen wieder öffnen.
-- Kann eigene zugewiesene Besprechungsreihen anlegen, ändern und löschen sowie deren Termine verwalten.
-- Kann nicht auf fremde, nicht zugewiesene Reihen zugreifen und keine Benutzerrollen oder Serienzuweisungen anderer Konten verwalten.
+- Hat innerhalb der jeweils moderierten Reihen die fachlichen Rechte einer Teilnehmerin bzw. eines Teilnehmers.
+- Kann zusätzlich abgeschlossene Besprechungen wieder öffnen sowie die eigenen moderierten Reihen und deren Termine verwalten.
+- Kann den Änderungsverlauf der eigenen moderierten Reihen einsehen.
+- Kann weder fremde Reihen noch Benutzerkonten und globale Serienzuweisungen verwalten.
 
 **Admin**
 
 - Hat Zugriff auf alle Besprechungsreihen und deren Inhalte.
-- Kann Besprechungsreihen, Benutzerkonten, Gruppen und Serienzuweisungen global verwalten.
-- Kann alle Besprechungen abschließen und wieder öffnen.
+- Kann Besprechungsreihen, Benutzerkonten, Gruppen, Serienzuweisungen und globale Organisationseinstellungen verwalten.
+- Kann alle Besprechungen abschließen und wieder öffnen sowie alle Änderungsverläufe einsehen.
 - Die Admin-Rolle wird über die Gruppe **Admin** vergeben. Django-Superuser haben ebenfalls globalen Zugriff.
 
 ### Rollen gelten je Besprechungsreihe
 
-Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden direkt an der jeweiligen Benutzer-/Besprechungsreihen-Zuordnung vergeben. Ein Konto kann deshalb in einer Reihe Leser*in, in einer zweiten Teilnehmer*in und in einer dritten Moderator*in sein. Die Rolle gilt ausschließlich für die zugeordnete Reihe.
-
-**Admin** bleibt eine globale Berechtigung und wird weiterhin über die Gruppe **Admin** oder den Django-Superuser vergeben.
+Ein Konto kann in einer Reihe Leser*in, in einer zweiten Teilnehmer*in und in einer dritten Moderator*in sein. Die jeweilige Rolle gilt ausschließlich für die zugeordnete Reihe. **Admin** bleibt eine globale Berechtigung.
 
 Bei der Einführung der Serienberechtigungen werden bestehende Konten automatisch zugeordnet:
 
