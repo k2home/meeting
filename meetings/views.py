@@ -1073,6 +1073,7 @@ def series_admin(request):
         item.completed_count = sum(1 for meeting in item.ordered_meetings if meeting.finalized_at)
         item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
     form = SeriesForm(request.POST or None)
+    form.fields.pop("end_date", None)
     if request.method == "POST" and form.is_valid():
         item = form.save(commit=False)
         if not item.end_date:
