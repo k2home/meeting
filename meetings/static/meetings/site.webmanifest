@@ -3,28 +3,22 @@
   "short_name": "Meetings",
   "icons": [
     {
-      "src": "/static/meetings/favicon.svg?v=5",
+      "src": "/static/meetings/favicon.svg?v=6",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/static/meetings/favicon-maskable.svg?v=5",
+      "src": "/static/meetings/favicon-maskable.svg?v=6",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"
     },
     {
-      "src": "/static/meetings/favicon-monochrome.svg?v=5",
+      "src": "/static/meetings/favicon-monochrome.svg?v=6",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "monochrome"
-    },
-    {
-      "src": "/static/meetings/favicon-180.png?v=5",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
     }
   ],
   "display": "standalone",
