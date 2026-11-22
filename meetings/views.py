@@ -18,12 +18,12 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import PersonalProfileForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
+from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
-from .models import SeriesAccess
+from .models import SeriesAccess, SeriesAccessRequest
 from .user_display import user_display_name
 
 def login_view(request):
@@ -1272,6 +1272,28 @@ def protocol(request, pk):
 @moderator_required
 def series_admin(request):
     today = timezone.localdate()
+    if request.method == "POST" and request.POST.get("form_type") == "access_request_decision":
+        request_id = request.POST.get("request_id")
+        access_request = get_object_or_404(SeriesAccessRequest.objects.select_related("series"), pk=request_id, status=SeriesAccessRequest.STATUS_PENDING)
+        if not is_admin(request.user) and not is_moderator(request.user, access_request.series):
+            return HttpResponseForbidden("Du darfst Anträge nur für Besprechungsreihen bearbeiten, in denen du Moderator bist.")
+        decision = request.POST.get("decision")
+        if decision not in {SeriesAccessRequest.STATUS_APPROVED, SeriesAccessRequest.STATUS_REJECTED}:
+            return HttpResponseForbidden("Ungültige Entscheidung.")
+        with transaction.atomic():
+            access_request = SeriesAccessRequest.objects.select_for_update().get(pk=access_request.pk, status=SeriesAccessRequest.STATUS_PENDING)
+            if decision == SeriesAccessRequest.STATUS_APPROVED:
+                SeriesAccess.objects.update_or_create(
+                    user=access_request.user, series=access_request.series,
+                    defaults={"role": access_request.requested_role},
+                )
+            access_request.status = decision
+            access_request.decision_note = request.POST.get("decision_note", "").strip()[:500]
+            access_request.decided_by = request.user
+            access_request.decided_at = timezone.now()
+            access_request.save(update_fields=["status", "decision_note", "decided_by", "decided_at"])
+        messages.success(request, "Der Berechtigungsantrag wurde bearbeitet.")
+        return redirect("series_admin")
     series_queryset = accessible_series(request.user)
     if not is_admin(request.user):
         series_queryset = series_queryset.filter(user_access__role=SeriesAccess.ROLE_MODERATOR)
@@ -1323,9 +1345,18 @@ def series_admin(request):
             )
         messages.success(request, "Besprechungsreihe und Termine bis zum Serienende angelegt.")
         return redirect("series_admin")
+    pending_requests = SeriesAccessRequest.objects.filter(
+        status=SeriesAccessRequest.STATUS_PENDING
+    ).select_related("user", "series").order_by("created_at")
+    if not is_admin(request.user):
+        pending_requests = pending_requests.filter(
+            series__user_access__user=request.user,
+            series__user_access__role=SeriesAccess.ROLE_MODERATOR,
+        ).distinct()
     return render(request, "meetings/series.html", {
         "series": series, "form": form, "today": today,
         "expanded_series_id": expanded_series_id,
+        "pending_access_requests": pending_requests,
     })
 
 
@@ -1904,15 +1935,25 @@ def topic_comment_add(request, pk):
 @login_required
 def user_overview(request):
     """Show and edit the current user's profile, series roles and password."""
+    if request.method == "POST" and request.POST.get("form_type") == "access_request":
+        series = get_object_or_404(MeetingSeries, pk=request.POST.get("series_id"))
+        request_form = SeriesAccessRequestForm(request.POST)
+        if request_form.is_valid():
+            if SeriesAccess.objects.filter(user=request.user, series=series, role=request_form.cleaned_data["role"]).exists():
+                messages.info(request, "Du hast diese Berechtigung für die Besprechungsreihe bereits.")
+            elif SeriesAccessRequest.objects.filter(user=request.user, series=series, status=SeriesAccessRequest.STATUS_PENDING).exists():
+                messages.error(request, "Für diese Besprechungsreihe liegt bereits ein offener Antrag vor.")
+            else:
+                SeriesAccessRequest.objects.create(
+                    user=request.user, series=series,
+                    requested_role=request_form.cleaned_data["role"],
+                )
+                messages.success(request, "Dein Berechtigungsantrag wurde übermittelt.")
+            return redirect("user_overview")
+        messages.error(request, "Bitte wähle eine gültige Berechtigung.")
     if request.method == "POST" and request.POST.get("form_type") == "password":
         profile_form = PersonalProfileForm(user=request.user)
         password_form = PasswordChangeForm(request.user, request.POST)
-        if password_form.is_valid():
-            user = password_form.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, "Dein Passwort wurde erfolgreich geändert.")
-            return redirect("user_overview")
-        messages.error(request, "Bitte prüfe die Angaben zum Passwort.")
     elif request.method == "POST" and request.POST.get("form_type") == "profile":
         profile_form = PersonalProfileForm(request.POST, user=request.user)
         password_form = PasswordChangeForm(request.user)
@@ -1925,27 +1966,41 @@ def user_overview(request):
         profile_form = PersonalProfileForm(user=request.user)
         password_form = PasswordChangeForm(request.user)
 
+    if request.method == "POST" and request.POST.get("form_type") == "password":
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Dein Passwort wurde erfolgreich geändert.")
+            return redirect("user_overview")
+        messages.error(request, "Bitte prüfe die Angaben zum Passwort.")
+
     admin_access = is_admin(request.user)
-    if admin_access:
-        series_rows = [
-            {"series": series, "role_label": "Admin – globaler Zugriff"}
-            for series in MeetingSeries.objects.order_by("name")
-        ]
-    else:
-        role_labels = dict(SeriesAccess.ROLE_CHOICES)
-        assignments = (
-            SeriesAccess.objects.filter(user=request.user)
-            .select_related("series")
-            .order_by("series__name")
-        )
-        series_rows = [
-            {"series": assignment.series, "role_label": role_labels.get(assignment.role, assignment.role)}
-            for assignment in assignments
-        ]
+    assignments = {
+        assignment.series_id: assignment
+        for assignment in SeriesAccess.objects.filter(user=request.user).select_related("series")
+    }
+    latest_requests = {}
+    for item in SeriesAccessRequest.objects.filter(user=request.user).select_related("series").order_by("-created_at"):
+        latest_requests.setdefault(item.series_id, item)
+    role_labels = dict(SeriesAccess.ROLE_CHOICES)
+    series_rows = []
+    for series in MeetingSeries.objects.order_by("name"):
+        assignment = assignments.get(series.pk)
+        pending = latest_requests.get(series.pk)
+        series_rows.append({
+            "series": series,
+            "role_label": "Admin – globaler Zugriff" if admin_access else (
+                role_labels.get(assignment.role, assignment.role) if assignment else "Keine Berechtigung"
+            ),
+            "pending_request": pending if pending and pending.status == SeriesAccessRequest.STATUS_PENDING else None,
+            "latest_request": pending,
+            "can_request": not admin_access and not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
+        })
 
     return render(request, "meetings/user_overview.html", {
         "profile_form": profile_form,
         "password_form": password_form,
         "series_rows": series_rows,
         "is_admin_user": admin_access,
+        "request_role_choices": SeriesAccess.ROLE_CHOICES,
     })
