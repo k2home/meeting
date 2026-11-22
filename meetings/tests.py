@@ -60,7 +60,6 @@ class AuditHistoryTests(TestCase):
         response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
             "title": "Neuer Titel",
             "description": "Neue Beschreibung",
-            "due_date": "2026-12-01",
             "status": "open",
             "series": self.series.pk,
         })
@@ -223,7 +222,6 @@ class TopicTaskManagementTests(TestCase):
         response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
             "title": self.topic.title,
             "description": self.topic.description,
-            "due_date": "",
             "status": "open",
             "series": self.series.pk,
             "assigned_to": self.owner.pk,
@@ -270,7 +268,7 @@ class MyTasksViewTests(TestCase):
             due_date=today - timedelta(days=2),
         )
         self.due_today = Topic.objects.create(
-            title="Heute fällig", series=self.series, assigned_to=self.user, due_date=today,
+            title="Heute terminiert", series=self.series, assigned_to=self.user,
         )
         self.no_due_date = Topic.objects.create(
             title="Ohne Fälligkeit", series=self.series, assigned_to=self.user,
@@ -290,7 +288,7 @@ class MyTasksViewTests(TestCase):
         self.assertEqual(response.context["due_today_count"], 1)
         self.assertEqual(response.context["without_due_date_count"], 1)
         self.assertContains(response, "Überfällig")
-        self.assertContains(response, "Heute fällig")
+        self.assertContains(response, "Heute terminiert")
         self.assertNotContains(response, "Aufgabe anderer Person")
         self.assertNotContains(response, "Nicht zugewiesen")
         self.assertNotContains(response, "Erledigt")
@@ -316,8 +314,10 @@ class DashboardTopicFilterTests(TestCase):
         today = timezone.localdate()
         self.topic = Topic.objects.create(
             title="Serverwartung", description="Festplatten prüfen", series=self.series_a,
-            assigned_to=self.user, due_date=today + timedelta(days=2),
+            assigned_to=self.user,
         )
+        future_meeting = Meeting.objects.create(series=self.series_a, date=today + timedelta(days=2))
+        AgendaItem.objects.create(meeting=future_meeting, topic=self.topic)
         Topic.objects.create(title="Urlaubsplanung", series=self.series_b, assigned_to=self.other_user)
         Topic.objects.create(title="Nicht zugewiesen", series=self.series_a)
 
@@ -757,7 +757,6 @@ class MeetingSeriesManagementTests(TestCase):
         )
         topic = Topic.objects.create(
             title="Übertragener Tagesordnungspunkt", series=self.series,
-            due_date=self.meeting.date,
         )
         source_item = AgendaItem.objects.create(
             meeting=self.meeting, topic=topic, working_text="Wichtiger Sachstand", position=2
@@ -770,9 +769,9 @@ class MeetingSeriesManagementTests(TestCase):
         moved_item = AgendaItem.objects.get(topic=topic)
         self.assertEqual(moved_item.meeting, following)
         self.assertEqual(moved_item.working_text, "Wichtiger Sachstand")
+        self.assertEqual(moved_item.assigned_to_id, source_item.assigned_to_id)
         self.assertTrue(moved_item.carried_forward)
         topic.refresh_from_db()
-        self.assertEqual(topic.due_date, following.date)
 
     def test_series_delete_removes_future_drafts_but_preserves_completed_protocols(self):
         from datetime import timedelta
@@ -997,7 +996,7 @@ class MeetingSeriesSchedulingTests(TestCase):
         from datetime import timedelta
         from django.utils import timezone
         from .models import TopicSnapshot
-        topic = Topic.objects.create(title="Mitnehmen", series=self.series, due_date=self.meeting.date)
+        topic = Topic.objects.create(title="Mitnehmen", series=self.series)
         AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Aktueller Stand", position=3)
         completed = Meeting.objects.create(
             series=self.series, date=self.today - timedelta(days=7), finalized_at=timezone.now()
@@ -1383,7 +1382,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         topic = Topic.objects.get(title="Neuer Tagesordnungspunkt")
         self.assertEqual(topic.series, self.series_a)
-        self.assertEqual(topic.due_date, self.meeting.date)
         item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
         self.assertEqual(item.working_text, "Ein erster Sachstand")
 
@@ -1400,10 +1398,10 @@ class MeetingAgendaEnhancementTests(TestCase):
             set(Topic.objects.filter(title__startswith="Digitalisierung").values_list("pk", flat=True)),
         )
 
-    def test_existing_topic_is_added_only_to_current_agenda_without_changing_series_or_due_date(self):
+    def test_existing_topic_is_added_only_to_current_agenda_without_changing_series(self):
         topic = Topic.objects.create(
             title="Vorhandenes Thema", series=self.series_b,
-            due_date=self.target_meeting.date, description="Bisheriger Sachstand",
+            description="Bisheriger Sachstand",
         )
         response = self.client.post(
             reverse("meeting", args=[self.meeting.pk]),
@@ -1412,7 +1410,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         topic.refresh_from_db()
         self.assertEqual(topic.series, self.series_b)
-        self.assertEqual(topic.due_date, self.target_meeting.date)
         item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
         self.assertEqual(item.working_text, "Bisheriger Sachstand")
         self.assertFalse(AgendaItem.objects.filter(meeting=self.target_meeting, topic=topic).exists())
@@ -1441,7 +1438,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         topic.refresh_from_db()
         self.assertEqual(topic.series, self.series_b)
-        self.assertEqual(topic.due_date, self.target_meeting.date)
         transfer = TopicTransferHistory.objects.get(topic=topic)
         self.assertEqual(transfer.from_series, self.series_a)
         self.assertEqual(transfer.to_series, self.series_b)
@@ -1470,7 +1466,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         item.refresh_from_db()
         target_item = AgendaItem.objects.get(meeting=self.target_meeting, topic=topic)
         self.assertEqual(topic.series, self.series_b)
-        self.assertEqual(topic.due_date, self.target_meeting.date)
         self.assertEqual(item.working_text, "Aktualisierter Protokolltext")
         self.assertEqual(target_item.working_text, "")
 
@@ -1506,7 +1501,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         )
         topic.refresh_from_db()
         self.assertEqual(topic.series, self.series_a)
-        self.assertIsNone(topic.due_date)
         self.assertFalse(TopicTransferHistory.objects.filter(topic=topic).exists())
 
     def test_history_lists_meetings_series_dates_and_text(self):
@@ -1562,7 +1556,6 @@ class OpenTopicsViewTests(TestCase):
         item = AgendaItem.objects.get(meeting=self.future_meeting, topic=topic)
         self.assertEqual(item.working_text, "")
         topic.refresh_from_db()
-        self.assertEqual(topic.due_date, self.future_meeting.date)
 
     def test_reader_cannot_access_open_topics_and_does_not_see_menu_item(self):
         reader = User.objects.create_user(username="open-topics-reader", password="strong-test-password")
@@ -1690,12 +1683,16 @@ class TopicAgendaCsvImportTests(TestCase):
         writer.writerow([
             "series", "meeting_date", "meeting_title", "topic_title",
             "topic_current_status", "topic_due_date", "topic_status",
-            "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
+            "responsible_username", "responsible_kurzbezeichnung",
+            "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
         ])
         for row in rows:
-            # Alte Testdaten enthalten noch keine Spalte responsible_kurzbezeichnung.
             if len(row) == 8:
-                row = [*row[:7], "", *row[7:]]
+                row = [*row[:7], "", "", "", row[7]]
+            elif len(row) == 9:
+                row = [*row[:8], "", "", row[8]]
+            elif len(row) == 10:
+                row = [*row[:4], "", *row[4:]]
             writer.writerow(["CSV-Reihe", *row])
         return output.getvalue()
 
