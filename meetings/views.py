@@ -391,8 +391,8 @@ def agenda_reorder(request, pk):
 def _schedule_agenda_followup(item, target_series, target_meeting, actor):
     """Create or move the linked follow-up without partial mutations."""
     with transaction.atomic():
-        item = AgendaItem.objects.select_for_update().select_related("topic", "topic__series").get(pk=item.pk)
-        topic = item.topic
+        item = AgendaItem.objects.select_for_update().get(pk=item.pk)
+        topic = Topic.objects.select_for_update().get(pk=item.topic_id)
         old_series = topic.series
         followup = AgendaItem.objects.select_for_update().filter(followup_of=item).first()
         conflict = AgendaItem.objects.filter(meeting=target_meeting, topic=topic)
