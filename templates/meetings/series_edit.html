@@ -3,7 +3,7 @@
 <div class="topline"><div><h1>Besprechungsreihe bearbeiten</h1><p class="muted">{{ series.name }}</p></div><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div>
 <div class="card">
   <form method="post">{% csrf_token %}{{ form.as_p }}
-    <p class="muted">Die Wiederholung erfolgt alle {{ series.recurrence_interval }} {{ series.get_recurrence_display|lower }} am {{ series.weekday_label }}. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
+    <p class="muted">Rhythmus: {{ series.recurrence_interval }} × {{ series.get_recurrence_display|lower }} am {{ series.weekday_label }}. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
     <div class="actions"><button type="submit">Änderungen speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div>
   </form>
 </div>
