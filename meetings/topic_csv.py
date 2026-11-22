@@ -5,11 +5,9 @@ from datetime import datetime
 
 from django import forms
 from django.contrib import admin, messages
-from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.utils.crypto import get_random_string
 
 from .models import AgendaItem, Meeting, MeetingSeries, Topic
 from django.contrib.auth import get_user_model
@@ -17,11 +15,10 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 CSV_FIELDS = (
-    "series", "meeting_date", "meeting_title", "topic_key", "topic_id",
-    "topic_title", "topic_description", "topic_due_date", "topic_status",
-    "responsible_username", "agenda_text", "position", "carried_forward",
+    "series", "meeting_date", "meeting_title", "topic_title", "topic_current_status",
+    "topic_due_date", "topic_status", "responsible_username", "agenda_text",
 )
-REQUIRED_FIELDS = ("series", "meeting_date", "topic_key", "topic_title")
+REQUIRED_FIELDS = ("series", "meeting_date", "topic_title")
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
 SESSION_KEY = "pending_topic_agenda_csv_import"
 STATUS_VALUES = {value for value, _ in Topic.STATUS}
@@ -49,25 +46,9 @@ def sample_csv_response():
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    writer.writerow([
-        "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung",
-        "DIGI-001", "", "Einführung der E-Akte",
-        "Projektstand und offene technische Fragen", "2026-12-03", "in_progress",
-        "m.mustermann", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären.",
-        "1", "false",
-    ])
-    writer.writerow([
-        "Lenkungskreis Digitalisierung", "2027-01-14", "Reguläre Sitzung",
-        "DIGI-001", "", "Einführung der E-Akte",
-        "Projektstand und offene technische Fragen", "2027-01-14", "in_progress",
-        "m.mustermann", "Rückmeldung aus den Pilotbereichen auswerten.", "1", "true",
-    ])
-    writer.writerow([
-        "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung",
-        "DIGI-002", "", "Schulungsplanung",
-        "Konzept und Zeitplan für die Beschäftigtenschulungen", "2027-01-14", "open",
-        "a.beispiel", "Vorschlag für Schulungsformate und Termine abstimmen.", "2", "false",
-    ])
+    writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2026-12-03", "in_progress", "m.mustermann", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "2027-01-14", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "2027-01-14", "in_progress", "m.mustermann", "Rückmeldung aus den Pilotbereichen auswerten."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "Konzept und Zeitplan für die Beschäftigtenschulungen", "2027-01-14", "open", "a.beispiel", "Vorschlag für Schulungsformate und Termine abstimmen."])
     return response
 
 
@@ -86,16 +67,6 @@ def _parse_date(value, field, row_number, errors, required=False):
     return None
 
 
-def _parse_bool(value, row_number, errors):
-    normalized = (value or "").strip().lower()
-    if normalized in {"true", "1", "ja", "yes"}:
-        return True
-    if normalized in {"false", "0", "nein", "no", ""}:
-        return False
-    errors.append(f"Zeile {row_number}: „carried_forward“ muss Ja/Nein bzw. true/false sein.")
-    return False
-
-
 def parse_topic_agenda_csv(text):
     errors = []
     reader = csv.DictReader(io.StringIO(text, newline=""), delimiter=";")
@@ -112,9 +83,7 @@ def parse_topic_agenda_csv(text):
         return [], errors
 
     series_by_name = {name: pk for pk, name in MeetingSeries.objects.values_list("pk", "name")}
-    rows = []
-    topic_keys = {}
-    scheduled_keys = set()
+    rows, topic_records, seen, positions = [], {}, set(), {}
     for row_number, raw in enumerate(reader, start=2):
         if None in raw:
             errors.append(f"Zeile {row_number}: Die Zeile enthält mehr Werte als die Kopfzeile.")
@@ -128,18 +97,15 @@ def parse_topic_agenda_csv(text):
             errors.append(f"Zeile {row_number}: Besprechungsreihe „{series_name}“ existiert nicht.")
             continue
         meeting_date = _parse_date(row.get("meeting_date"), "meeting_date", row_number, errors, True)
-        meeting_title = row.get("meeting_title", "")
-        if len(meeting_title) > 180:
-            errors.append(f"Zeile {row_number}: meeting_title ist länger als 180 Zeichen.")
         due_date = _parse_date(row.get("topic_due_date"), "topic_due_date", row_number, errors)
-        topic_key = row.get("topic_key", "")
         title = row.get("topic_title", "")
-        if not topic_key:
-            errors.append(f"Zeile {row_number}: topic_key fehlt.")
+        meeting_title = row.get("meeting_title", "")
         if not title:
             errors.append(f"Zeile {row_number}: topic_title fehlt.")
         if len(title) > 240:
             errors.append(f"Zeile {row_number}: topic_title ist länger als 240 Zeichen.")
+        if len(meeting_title) > 180:
+            errors.append(f"Zeile {row_number}: meeting_title ist länger als 180 Zeichen.")
         status = row.get("topic_status") or "open"
         if status not in STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter topic_status „{status}“.")
@@ -147,75 +113,51 @@ def parse_topic_agenda_csv(text):
         user = User.objects.filter(username=username).first() if username else None
         if username and user is None:
             errors.append(f"Zeile {row_number}: Verantwortliche Person „{username}“ existiert nicht.")
-        topic_id = row.get("topic_id", "")
-        if topic_id and not topic_id.isdigit():
-            errors.append(f"Zeile {row_number}: topic_id muss eine Zahl sein.")
-        position_text = row.get("position", "")
-        try:
-            position = int(position_text) if position_text else 0
-            if position < 0:
-                raise ValueError
-        except ValueError:
-            errors.append(f"Zeile {row_number}: position muss eine nicht-negative ganze Zahl sein.")
-            position = 0
-        if not meeting_date or not topic_key or not title:
+        if not meeting_date or not title:
             continue
-        scheduled_key = (series_id, meeting_date, topic_key)
-        if scheduled_key in scheduled_keys:
-            errors.append(f"Zeile {row_number}: topic_key „{topic_key}“ ist für diesen Besprechungstag mehrfach vorhanden.")
-        scheduled_keys.add(scheduled_key)
+        topic_key = f"{series_id}:{title.casefold()}"
+        schedule_key = (series_id, meeting_date, topic_key)
+        if schedule_key in seen:
+            errors.append(f"Zeile {row_number}: Thema „{title}“ ist für diesen Termin mehrfach vorhanden.")
+        seen.add(schedule_key)
         topic_data = {
             "series_id": series_id, "title": title,
-            "description": row.get("topic_description", ""),
+            "description": row.get("topic_current_status", ""),
             "due_date": due_date, "status": status,
             "assigned_to_id": user.pk if user else None,
-            "topic_id": int(topic_id) if topic_id.isdigit() else None,
         }
-        previous = topic_keys.get(topic_key)
-        if previous:
-            for field in ("series_id", "title", "description", "status", "assigned_to_id", "topic_id"):
-                if previous["topic"][field] != topic_data[field]:
-                    errors.append(f"Zeile {row_number}: Die Angaben für topic_key „{topic_key}“ sind zwischen den Zeilen widersprüchlich ({field}).")
-                    break
+        if topic_key in topic_records:
+            for field in ("description", "status", "assigned_to_id"):
+                if topic_records[topic_key]["topic"][field] != topic_data[field]:
+                    errors.append(f"Zeile {row_number}: Angaben zum Thema „{title}“ sind widersprüchlich ({field}).")
         else:
-            topic_keys[topic_key] = {"topic": topic_data, "row": row_number}
+            topic_records[topic_key] = {"topic": topic_data, "row": row_number}
+        meeting_key = (series_id, meeting_date)
+        position = positions.get(meeting_key, 0)
+        positions[meeting_key] = position + 1
         rows.append({
             "row_number": row_number, "series_id": series_id, "meeting_date": meeting_date,
-            "meeting_title": meeting_title, "topic_key": topic_key,
-            "topic": topic_data, "agenda_text": row.get("agenda_text", ""),
-            "position": position, "carried_forward": _parse_bool(row.get("carried_forward", ""), row_number, errors),
+            "meeting_title": meeting_title, "topic_key": topic_key, "topic": topic_data,
+            "agenda_text": row.get("agenda_text", ""), "position": position,
         })
-
     if not rows:
         errors.append("Die CSV-Datei enthält keine gültigen Datensätze.")
     if errors:
         return [], errors
-
-    # A topic's due date reflects its latest dated occurrence in this import.
-    for row in rows:
-        row["topic"]["due_date"] = topic_keys[row["topic_key"]]["topic"]["due_date"]
-
-    # Resolve existing topics and meetings during validation, before any writes.
-    for key, record in topic_keys.items():
-        data = record["topic"]
-        if data["topic_id"]:
-            topic = Topic.objects.filter(pk=data["topic_id"]).first()
-            if not topic:
-                errors.append(f"Zeile {record['row']}: topic_id {data['topic_id']} existiert nicht.")
-            elif topic.series_id != data["series_id"]:
-                errors.append(f"Zeile {record['row']}: topic_id {data['topic_id']} gehört nicht zur angegebenen Besprechungsreihe.")
-            record["existing_topic_id"] = topic.pk if topic else None
-        else:
-            matches = Topic.objects.filter(series_id=data["series_id"], title=data["title"])
-            if matches.count() > 1:
-                errors.append(f"Zeile {record['row']}: Es gibt mehrere vorhandene Themen mit dem Titel „{data['title']}“. Bitte topic_id angeben.")
-            record["existing_topic_id"] = matches.first().pk if matches.exists() else None
     for row in rows:
         meeting = Meeting.objects.filter(series_id=row["series_id"], date=row["meeting_date"]).first()
         if meeting and (meeting.finalized_at or meeting.snapshots.exists()):
             errors.append(f"Zeile {row['row_number']}: Der Termin am {row['meeting_date']:%d.%m.%Y} ist abgeschlossen und kann nicht importiert werden.")
         row["existing_meeting_id"] = meeting.pk if meeting else None
-    return (rows, errors)
+    for record in topic_records.values():
+        data = record["topic"]
+        matches = Topic.objects.filter(series_id=data["series_id"], title=data["title"])
+        if matches.count() > 1:
+            errors.append(f"Zeile {record['row']}: Thema „{data['title']}“ ist mehrfach vorhanden.")
+        record["existing_topic_id"] = matches.first().pk if matches.exists() else None
+    if errors:
+        return [], errors
+    return rows, []
 
 
 def _preview(rows, topic_ids):
@@ -289,7 +231,7 @@ def import_topic_agenda_csv(request):
                     defaults={
                         "working_text": row["agenda_text"],
                         "position": row["position"],
-                        "carried_forward": row["carried_forward"],
+                        "carried_forward": any(prior["topic_key"] == key and prior["meeting_date"] < row["meeting_date"] for prior in rows) or AgendaItem.objects.filter(topic=topic_records[key], meeting__series_id=row["series_id"], meeting__date__lt=row["meeting_date"]).exists(),
                     },
                 )
                 if created:
@@ -315,12 +257,8 @@ def import_topic_agenda_csv(request):
             for row in rows:
                 key = row["topic_key"]
                 if key not in topic_ids:
-                    topic_ids[key] = row["topic"].get("topic_id")
-                    if not topic_ids[key]:
-                        matches = Topic.objects.filter(
-                            series_id=row["topic"]["series_id"], title=row["topic"]["title"]
-                        )
-                        topic_ids[key] = matches.first().pk if matches.exists() else None
+                    matches = Topic.objects.filter(series_id=row["topic"]["series_id"], title=row["topic"]["title"])
+                    topic_ids[key] = matches.first().pk if matches.exists() else None
             token = secrets.token_urlsafe(18)
             request.session[SESSION_KEY] = {
                 "token": token, "text": form.csv_text, "topic_ids": topic_ids,

@@ -1670,3 +1670,83 @@ class TopicAgendaCsvImportTests(TestCase):
         topic = Topic.objects.get(title="Mehrfachthema")
         self.assertEqual(AgendaItem.objects.filter(topic=topic).count(), 2)
         self.assertEqual(Meeting.objects.filter(series=self.series).count(), 2)
+
+
+class TopicAgendaCsvImportTests(TestCase):
+    def setUp(self):
+        self.admin = User.objects.create_superuser(
+            username="csv-admin", email="csv-admin@example.com", password="strong-test-password"
+        )
+        self.series = MeetingSeries.objects.create(name="CSV-Reihe")
+        self.client.force_login(self.admin)
+
+    def _csv(self, rows):
+        import csv
+        from io import StringIO
+        output = StringIO()
+        writer = csv.writer(output, delimiter=";")
+        writer.writerow([
+            "series", "meeting_date", "meeting_title", "topic_title",
+            "topic_current_status", "topic_due_date", "topic_status",
+            "responsible_username", "agenda_text",
+        ])
+        for row in rows:
+            writer.writerow(["CSV-Reihe", *row])
+        return output.getvalue()
+
+    def _confirm_import(self, text):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        upload = SimpleUploadedFile("import.csv", text.encode("utf-8"), content_type="text/csv")
+        response = self.client.post(reverse("admin:meetings_topic_csv_import"), {"csv_file": upload})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Importvorschau")
+        token = response.context["preview"]["token"]
+        return self.client.post(reverse("admin:meetings_topic_csv_import"), {
+            "action": "confirm", "token": token,
+        })
+
+    def test_admin_can_download_sample_and_open_import(self):
+        sample = self.client.get(reverse("admin:meetings_topic_csv_sample"))
+        self.assertEqual(sample.status_code, 200)
+        self.assertIn("muster_themen_und_punkte.csv", sample["Content-Disposition"])
+        self.assertNotContains(sample, "topic_key")
+        page = self.client.get(reverse("admin:meetings_topic_csv_import"))
+        self.assertEqual(page.status_code, 200)
+        self.assertContains(page, "Muster-CSV herunterladen")
+
+    def test_import_creates_topic_meeting_and_agenda_item(self):
+        response = self._confirm_import(self._csv([[
+            "2026-12-03", "Reguläre Sitzung", "Neues Thema",
+            "Aktueller Stand", "2026-12-03", "open", "", "Beratungstext",
+        ]]))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Neues Thema")
+        meeting = Meeting.objects.get(series=self.series, date="2026-12-03")
+        item = AgendaItem.objects.get(meeting=meeting, topic=topic)
+        self.assertEqual(topic.description, "Aktueller Stand")
+        self.assertEqual(item.working_text, "Beratungstext")
+        self.assertEqual(item.position, 0)
+        self.assertFalse(item.carried_forward)
+
+    def test_repeated_topic_title_is_matched_automatically_and_missing_meetings_created(self):
+        response = self._confirm_import(self._csv([
+            ["2026-12-03", "", "Mehrfachthema", "Sachstand", "", "open", "", "Erster Stand"],
+            ["2027-01-14", "", "Mehrfachthema", "Sachstand", "", "open", "", "Zweiter Stand"],
+        ]))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Mehrfachthema")
+        self.assertEqual(AgendaItem.objects.filter(topic=topic).count(), 2)
+        self.assertEqual(Meeting.objects.filter(series=self.series).count(), 2)
+        later_item = AgendaItem.objects.get(topic=topic, meeting__date="2027-01-14")
+        self.assertTrue(later_item.carried_forward)
+
+    def test_position_follows_csv_row_order_for_each_meeting(self):
+        self._confirm_import(self._csv([
+            ["2026-12-03", "", "Erstes Thema", "", "", "open", "", "Text 1"],
+            ["2026-12-03", "", "Zweites Thema", "", "", "open", "", "Text 2"],
+        ]))
+        meeting = Meeting.objects.get(series=self.series, date="2026-12-03")
+        self.assertEqual(
+            list(meeting.agenda_items.order_by("position").values_list("topic__title", flat=True)),
+            ["Erstes Thema", "Zweites Thema"],
+        )
