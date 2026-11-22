@@ -92,6 +92,16 @@ def topic_archive_toggle(request, pk):
             )
             messages.success(request, f"„{topic.title}“ wurde wieder geöffnet.")
         else:
+            has_future_agenda = topic.agenda_items.filter(
+                meeting__date__gte=timezone.localdate(),
+                meeting__finalized_at__isnull=True,
+            ).exists()
+            if has_future_agenda:
+                messages.error(
+                    request,
+                    "Das Thema kann noch nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht. Entferne zuerst die geplanten Tagesordnungspunkte.",
+                )
+                return redirect("topic_edit", pk=topic.pk)
             previous_status = topic.status
             topic.archive_previous_status = previous_status
             topic.status = "archived"
