@@ -195,10 +195,11 @@ def parse_topic_agenda_csv(text):
             errors.append(f"Zeile {row_number}: topic_title ist länger als 240 Zeichen.")
         if len(meeting_title) > 180:
             errors.append(f"Zeile {row_number}: meeting_title ist länger als 180 Zeichen.")
-        topic_status = row.get("topic_status") or "open"
-        if topic_status not in TOPIC_STATUS_VALUES:
+        # In älteren CSV-Dateien bezeichnet topic_status den Punktstatus. Ohne
+        # agenda_status darf deshalb der eigenständige Themenstatus nicht geändert werden.
+        topic_status = (row.get("topic_status") or "open") if "agenda_status" in headers else None
+        if topic_status is not None and topic_status not in TOPIC_STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter topic_status „{topic_status}“.")
-        # Ältere CSV-Dateien verwenden topic_status auch als Status des Tagesordnungspunkts.
         agenda_status = (row.get("agenda_status") if "agenda_status" in headers else row.get("topic_status")) or "open"
         if agenda_status not in AGENDA_STATUS_VALUES:
             errors.append(f"Zeile {row_number}: Unbekannter agenda_status „{agenda_status}“.")
@@ -328,7 +329,8 @@ def import_topic_agenda_csv(request):
                         created_topics += 1
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
-                    topic.status = data["status"]
+                    if data["status"] is not None:
+                        topic.status = data["status"]
                     topic.assigned_to_id = data["assigned_to_id"]
                     topic.save()
                     topic_records[key] = topic
