@@ -95,7 +95,7 @@ class SeriesForm(forms.ModelForm):
         coerce=int,
     )
     recurrence_interval = forms.IntegerField(
-        label="Alle … Wochen / Monate", min_value=1, max_value=52, initial=1,
+        label="Intervall (Wochen oder Monate)", min_value=1, max_value=52, initial=1,
         widget=forms.NumberInput(attrs={"min": "1", "max": "52"}),
     )
 
