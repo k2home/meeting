@@ -749,6 +749,31 @@ class MeetingSeriesManagementTests(TestCase):
         self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
         self.assertTrue(MeetingSeries.objects.filter(pk=self.series.pk).exists())
 
+    def test_meeting_with_agenda_items_can_be_deleted_and_items_move_to_next_meeting(self):
+        from datetime import timedelta
+
+        following = Meeting.objects.create(
+            series=self.series, date=self.meeting.date + timedelta(days=7)
+        )
+        topic = Topic.objects.create(
+            title="Übertragener Tagesordnungspunkt", series=self.series,
+            due_date=self.meeting.date,
+        )
+        source_item = AgendaItem.objects.create(
+            meeting=self.meeting, topic=topic, working_text="Wichtiger Sachstand", position=2
+        )
+
+        response = self.client.post(reverse("meeting_delete", args=[self.meeting.pk]))
+
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
+        moved_item = AgendaItem.objects.get(topic=topic)
+        self.assertEqual(moved_item.meeting, following)
+        self.assertEqual(moved_item.working_text, "Wichtiger Sachstand")
+        self.assertTrue(moved_item.carried_forward)
+        topic.refresh_from_db()
+        self.assertEqual(topic.due_date, following.date)
+
     def test_series_delete_removes_future_drafts_but_preserves_completed_protocols(self):
         from datetime import timedelta
         from django.utils import timezone
