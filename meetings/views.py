@@ -1497,7 +1497,7 @@ def series_reset_meetings(request, pk):
                         )
                     if status_rank.get(saved["status"], 0) > status_rank.get(existing.status, 0):
                         existing.status = saved["status"]
-                                        existing.carried_forward = True
+                    existing.carried_forward = True
                     existing.save(update_fields=["working_text", "assigned_to", "status", "carried_forward"])
                     restored_items[saved["old_id"]] = existing
                 else:
