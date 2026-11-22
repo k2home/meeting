@@ -731,7 +731,8 @@ class DashboardUpcomingMeetingsTests(TestCase):
         self.assertContains(response, self.a_dates[0].strftime("%d.%m.%Y"))
 
     def test_dashboard_topics_have_sortable_columns(self):
-        response = self.client.get(reverse("dashboard"), {"assigned_to": ""})
+        Topic.objects.create(title="Sortierbares Thema", series=self.series_a, assigned_to=self.user)
+        response = self.client.get(reverse("dashboard"))
         self.assertEqual(response.status_code, 200)
         for index, column in enumerate(("Thema", "Besprechungsreihe", "Nächste Besprechung", "Verantwortlich", "Status")):
             self.assertContains(response, f'data-sort-column="{index}"')
