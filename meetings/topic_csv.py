@@ -341,8 +341,19 @@ def parse_topic_agenda_csv(text):
                 topic=existing_topic, meeting__series_id=row["followup_series_id"],
                 meeting__date=row["followup_meeting_date"],
             ).exists())
+            if source_key == (row["series_id"], row["meeting_date"], row["topic_key"]):
+                errors.append(f"Zeile {row['row_number']}: Ein Tagesordnungspunkt kann nicht auf sich selbst verweisen.")
             if source_key not in agenda_source_keys and not source_in_database:
                 errors.append(f"Zeile {row['row_number']}: Der Quell-Tagesordnungspunkt für die Wiedervorlage existiert nicht.")
+            if existing_topic:
+                source_item = AgendaItem.objects.filter(
+                    topic=existing_topic, meeting__series_id=row["followup_series_id"],
+                    meeting__date=row["followup_meeting_date"],
+                ).first()
+                if source_item and AgendaItem.objects.filter(followup_of=source_item).exclude(
+                    meeting__series_id=row["series_id"], meeting__date=row["meeting_date"]
+                ).exists():
+                    errors.append(f"Zeile {row['row_number']}: Für den Quell-Tagesordnungspunkt existiert bereits eine andere Wiedervorlage.")
         meeting = Meeting.objects.filter(series_id=row["series_id"], date=row["meeting_date"]).first()
         if meeting and (meeting.finalized_at or meeting.snapshots.exists()):
             errors.append(f"Zeile {row['row_number']}: Der Termin am {row['meeting_date']:%d.%m.%Y} ist abgeschlossen und kann nicht importiert werden.")
