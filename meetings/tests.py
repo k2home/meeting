@@ -947,10 +947,17 @@ class MeetingSeriesSchedulingTests(TestCase):
         self.series.end_date = self.today + timedelta(days=1)
         self.series.save(update_fields=["end_date"])
         response = self.client.post(reverse("series_extend", args=[self.series.pk]))
-        self.assertRedirects(response, reverse("series_admin"))
+        expected_redirect = f"{reverse('series_admin')}?expanded={self.series.pk}#series-{self.series.pk}"
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], expected_redirect)
         self.series.refresh_from_db()
         self.assertEqual(self.series.end_date, date(self.today.year + 1, 12, 31))
         self.assertTrue(Meeting.objects.filter(series=self.series, date__gt=self.today + timedelta(days=1)).exists())
+        count_after_first_extension = Meeting.objects.filter(series=self.series).count()
+
+        second_response = self.client.post(reverse("series_extend", args=[self.series.pk]))
+        self.assertEqual(second_response.status_code, 302)
+        self.assertEqual(Meeting.objects.filter(series=self.series).count(), count_after_first_extension)
 
     def test_reset_moves_agenda_items_to_next_new_meeting_and_preserves_completed_protocols(self):
         from datetime import timedelta
