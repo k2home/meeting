@@ -2,9 +2,9 @@
 
 Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, Tagesordnungen und nachvollziehbarer Besprechungsprotokolle. Die Benutzeroberfläche ist deutschsprachig; als Zeitzone ist standardmäßig `Europe/Berlin` konfiguriert.
 
-- **Betrieb:** Debian-/Ubuntu-VM, z. B. auf Proxmox
+- **Betrieb:** Debian-/Ubuntu-VM, z. B. auf Proxmox, oder Docker-Host
 - **Stack:** Django, PostgreSQL, Gunicorn und Nginx
-- **Installation:** direkt auf Linux, ohne Docker
+- **Installation:** direkt auf Linux oder containerisiert mit Docker Compose
 - **Zugriff:** für interne Netze vorgesehen
 
 ## Inhaltsverzeichnis
@@ -13,6 +13,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - [Rollen und Berechtigungen](#rollen-und-berechtigungen)
 - [Benutzer und Serienzuweisungen verwalten](#benutzer-und-serienzuweisungen-verwalten)
 - [Installation](#installation)
+  - [Docker Compose](#docker-compose-alternative)
 - [Updates und Betrieb](#updates-und-betrieb)
 - [Arbeitsabläufe in der Anwendung](#arbeitsabläufe-in-der-anwendung)
 - [Netzwerkfreigaben und Anlagen](#netzwerkfreigaben-und-anlagen)
@@ -181,6 +182,82 @@ Die Serienzuweisungen können alternativ direkt an einer Besprechungsreihe im Be
 **Empfehlung:** Admin nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten die Rolle je Besprechungsreihe passend festlegen und nur die benötigten Reihen zuweisen.
 
 ## Installation
+
+### Docker Compose (alternative)
+
+Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installation mit Debian-/Ubuntu-VM, systemd und Nginx bleibt vollständig bestehen. Beide Varianten verwenden denselben Quellcode im Repository `k2home/meeting`; ein separater Fork ist nicht erforderlich.
+
+**Voraussetzungen**
+
+- Linux-Host oder VM mit aktueller Docker Engine und Docker Compose v2
+- Netzwerkzugriff auf GitHub Container Registry (`ghcr.io`)
+- Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
+
+**Einrichtung**
+
+1. Repository klonen und in das Verzeichnis wechseln:
+
+   ```bash
+   git clone https://github.com/k2home/meeting.git
+   cd meeting
+   ```
+
+2. Für den Bezug des Images aus der GitHub Container Registry anmelden. Das Paket kann eine Anmeldung mit einem GitHub Personal Access Token mit mindestens `read:packages` erfordern:
+
+   ```bash
+   docker login ghcr.io
+   ```
+
+3. Konfiguration anlegen und bearbeiten:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Mindestens `SECRET_KEY`, `POSTGRES_PASSWORD` und `ALLOWED_HOSTS` durch individuelle Werte ersetzen. Für den Docker-Betrieb wird `POSTGRES_HOST=db` verwendet (Compose setzt diesen Wert für den Anwendungscontainer automatisch). `ALLOWED_HOSTS` muss den verwendeten Hostnamen enthalten. Bei HTTPS hinter einem vorgeschalteten Reverse Proxy zusätzlich `CSRF_TRUSTED_ORIGINS` passend setzen und `TRUST_PROXY_SSL=1` konfigurieren. Die HTTPS-Terminierung selbst übernimmt der vorgeschaltete Proxy.
+
+4. Container starten:
+
+   ```bash
+   docker compose -f docker/compose.yaml pull
+   docker compose -f docker/compose.yaml up -d
+   ```
+
+   Der Webzugriff erfolgt standardmäßig über Port `8080`, beispielsweise `http://SERVER-IP:8080/`. Für den produktiven Betrieb sollte dieser Port nur intern erreichbar sein und der Zugriff über einen HTTPS-Reverse-Proxy erfolgen.
+
+5. Administratorkonto anlegen:
+
+   ```bash
+   docker compose -f docker/compose.yaml exec app python manage.py createsuperuser
+   ```
+
+**Daten und Persistenz**
+
+- PostgreSQL-Daten liegen im benannten Volume `postgres_data`.
+- Hochgeladene Dateien liegen im Volume `media_data`.
+- Statische Dateien liegen im Volume `static_data` und werden vom Nginx-Container ausgeliefert.
+- Diese Daten bleiben beim Ersetzen oder Aktualisieren der Container erhalten. `docker compose down -v` löscht dagegen die benannten Volumes und damit Datenbank und Uploads – diesen Befehl nicht für normale Updates verwenden.
+
+**Updates**
+
+Nach einem freigegebenen neuen Build kann die Installation kontrolliert aktualisiert werden:
+
+```bash
+docker compose -f docker/compose.yaml pull
+docker compose -f docker/compose.yaml up -d
+```
+
+Beim Start führt der Anwendungscontainer ausstehende Django-Datenbankmigrationen aus und sammelt statische Dateien. Vor jedem Update ist ein Backup von Datenbank und Upload-Volume anzulegen. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in den Branch `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig; der Betreiber entscheidet, wann das neue Image eingespielt wird.
+
+**Protokolle und Betrieb**
+
+```bash
+docker compose -f docker/compose.yaml ps
+docker compose -f docker/compose.yaml logs -f app
+docker compose -f docker/compose.yaml restart app
+```
+
+Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden. Die Anwendung greift nicht automatisch auf Freigaben des Hosts zu.
 
 ### Voraussetzungen
 
