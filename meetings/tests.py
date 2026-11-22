@@ -378,6 +378,30 @@ class DashboardTopicFilterTests(TestCase):
             {"Serverwartung", "Urlaubsplanung", "Nicht zugewiesen"},
         )
 
+    def test_dashboard_offers_new_topic_dialog_and_removes_sidebar_shortcut(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("dashboard"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="open-dashboard-new-topic"')
+        self.assertContains(response, 'id="dashboard-new-topic-dialog"')
+        self.assertContains(response, 'action="/topics/new/"')
+        self.assertNotContains(response, ">+ Thema</a>")
+
+    def test_dashboard_new_topic_dialog_creates_topic(self):
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("topic_new"), {
+            "title": "Neues Dashboard-Thema",
+            "description": "Aus dem Dashboard angelegt",
+            "status": "open",
+            "series": self.series_a.pk,
+            "assigned_to": self.user.pk,
+        })
+        topic = Topic.objects.get(title="Neues Dashboard-Thema")
+        self.assertEqual(topic.series, self.series_a)
+        self.assertEqual(topic.assigned_to, self.user)
+        self.assertEqual(topic.description, "Aus dem Dashboard angelegt")
+        self.assertRedirects(response, reverse("topic_edit", args=[topic.pk]))
+
     def test_filters_can_be_combined(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse("dashboard"), {
