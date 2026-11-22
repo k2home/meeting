@@ -73,6 +73,14 @@ def _write_csv_documentation(writer):
     writer.writerow(["#", "Kompatibilität", "Alte Dateien mit topic_due_date werden weiterhin eingelesen; abweichende Wiedervorlagen werden als eigener Tagesordnungspunkt angelegt."])
 
 
+def _csv_value(value):
+    """Neutralize spreadsheet formulas in exported user-controlled cells."""
+    value = "" if value is None else str(value)
+    if value.startswith(("=", "+", "-", "@", "\\t", "\\r")):
+        return "'" + value
+    return value
+
+
 def _profile_short_description(user):
     if not user:
         return ""
@@ -91,7 +99,7 @@ def export_topic_agenda_csv(request):
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
     for item in items:
         meeting, topic = item.meeting, item.topic
-        writer.writerow([
+        writer.writerow([_csv_value(value) for value in [
             meeting.series.name if meeting.series else "",
             topic.series.name if topic.series else "",
             meeting.date.isoformat(),
@@ -104,7 +112,7 @@ def export_topic_agenda_csv(request):
             item.assigned_to.username if item.assigned_to else "",
             _profile_short_description(item.assigned_to),
             item.working_text,
-        ])
+        ]])
     _write_csv_documentation(writer)
     return response
 
@@ -241,6 +249,9 @@ def parse_topic_agenda_csv(text):
                 "meeting_date": legacy_due_date, "meeting_title": meeting_title,
                 "topic_key": topic_key, "topic": topic_data,
                 "agenda_status": agenda_status,
+                "agenda_text_present": True,
+                "agenda_assignment_present": True,
+                "agenda_status_present": True,
             })
 
         for scheduled_date, agenda_text, agenda_assignee_id in schedule_rows:
