@@ -11,12 +11,15 @@
       <div class="topline" style="align-items:flex-start;gap:1rem">
         <div style="min-width:0">
           <h2 style="margin:0 0 .35rem">{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% else %}<span class="pill">Aktiv</span>{% endif %}</h2>
-          <p class="muted" style="margin:0">{{ s.get_recurrence_display }} · {{ s.weekday_label }}</p>
+          <p class="muted" style="margin:0">{{ s.recurrence_interval }}-{{ s.get_recurrence_display|lower }} · {{ s.weekday_label }} · bis {{ s.end_date|date:"d.m.Y" }}</p>
         </div>
         <details>
           <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
           <div class="card" style="margin-top:.5rem;padding:1rem;min-width:min(18rem,80vw)">
             <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
+            <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.65rem" onsubmit="return confirm('Die Terminserie bis zum 31.12. des Folgejahres verlängern?');">
+              {% csrf_token %}<button type="submit">Verlängern</button>
+            </form>
             <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" onsubmit="return confirm(this.delete_completed.checked ? 'Die Reihe und alle abgeschlossenen Besprechungen samt Protokollen endgültig löschen?' : 'Die Reihe löschen? Zukünftige, noch nicht abgeschlossene Termine werden entfernt. Abgeschlossene und sonstige verbleibende Besprechungen bleiben erhalten.');">
               {% csrf_token %}
               <p style="margin:.25rem 0 .5rem"><strong>Reihe löschen</strong></p>
@@ -96,5 +99,28 @@
     <div class="actions"><button type="submit">Reihe anlegen</button><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()">Abbrechen</button></div>
   </form>
 </dialog>
+<script>
+(function () {
+  const weekday = document.getElementById('id_weekday');
+  const startDate = document.getElementById('id_start_date');
+  if (!weekday || !startDate) return;
+  weekday.addEventListener('change', function () {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const currentWeekday = (today.getDay() + 6) % 7;
+    const delta = (Number(weekday.value) - currentWeekday + 7) % 7;
+    today.setDate(today.getDate() + delta);
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    startDate.value = yyyy + '-' + mm + '-' + dd;
+  });
+  startDate.addEventListener('change', function () {
+    if (!startDate.value) return;
+    const selected = new Date(startDate.value + 'T00:00:00');
+    weekday.value = String((selected.getDay() + 6) % 7);
+  });
+})();
+</script>
 {% if form.errors %}<script>document.addEventListener('DOMContentLoaded',function(){document.getElementById('new-series-dialog').showModal();});</script>{% endif %}
 {% endblock %}

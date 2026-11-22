@@ -706,6 +706,7 @@ class MeetingSeriesManagementTests(TestCase):
             "description": self.series.description,
             "active": "on",
             "recurrence": self.series.recurrence,
+            "recurrence_interval": "1",
             "weekday": "2",
             "start_date": self.series.start_date.isoformat(),
             "end_date": "",
@@ -866,6 +867,132 @@ class MeetingSeriesManagementTests(TestCase):
         self.client.post(reverse("meeting_delete", args=[self.meeting.pk]))
         self.assertTrue(Meeting.objects.filter(pk=self.meeting.pk).exists())
 
+
+
+class MeetingSeriesSchedulingTests(TestCase):
+    def setUp(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        self.today = timezone.localdate()
+        self.admin = User.objects.create_user(username="series-scheduler-admin", password="strong-test-password", is_staff=True)
+        from django.contrib.auth.models import Group
+        self.admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
+        self.client.force_login(self.admin)
+        self.series = MeetingSeries.objects.create(
+            name="Rhythmusreihe", recurrence="weekly", recurrence_interval=4,
+            weekday=0, start_date=self.today,
+            end_date=self.today + timedelta(days=7),
+        )
+        self.meeting = Meeting.objects.create(
+            series=self.series, date=self.today + timedelta(days=14)
+        )
+
+    def test_four_week_recurrence_generates_all_dates_to_end(self):
+        from datetime import timedelta
+        from .services import generate_meetings
+        start = self.today + timedelta(days=(0 - self.today.weekday()) % 7)
+        self.series.start_date = start
+        self.series.end_date = start + timedelta(days=70)
+        self.series.weekday = 0
+        self.series.recurrence = "weekly"
+        self.series.recurrence_interval = 4
+        self.series.save()
+        self.meeting.delete()
+        generate_meetings(self.series)
+        dates = list(
+            Meeting.objects.filter(series=self.series).order_by("date").values_list("date", flat=True)
+        )
+        self.assertEqual(dates, [start, start + timedelta(days=28), start + timedelta(days=56)])
+
+    def test_two_month_recurrence_keeps_same_weekday_occurrence(self):
+        from datetime import timedelta
+        from .services import generate_meetings, _monthly_weekday
+        start = self.today + timedelta(days=(0 - self.today.weekday()) % 7)
+        end = start + timedelta(days=150)
+        self.series.start_date = start
+        self.series.end_date = end
+        self.series.weekday = 0
+        self.series.recurrence = "monthly"
+        self.series.recurrence_interval = 2
+        self.series.save()
+        self.meeting.delete()
+        generate_meetings(self.series)
+        expected = [start]
+        cursor = start
+        occurrence = (start.day - 1) // 7 + 1
+        while True:
+            month_index = cursor.year * 12 + cursor.month - 1 + 2
+            year, month_zero = divmod(month_index, 12)
+            cursor = _monthly_weekday(year, month_zero + 1, 0, occurrence)
+            if cursor > end:
+                break
+            expected.append(cursor)
+        dates = list(
+            Meeting.objects.filter(series=self.series).order_by("date").values_list("date", flat=True)
+        )
+        self.assertEqual(dates, expected)
+
+    def test_new_series_form_defaults_to_next_selected_weekday_and_next_year_end(self):
+        from datetime import date, timedelta
+        from django.utils import timezone
+        from .forms import SeriesForm
+        today = timezone.localdate()
+        form = SeriesForm()
+        expected_start = today + timedelta(days=(0 - today.weekday()) % 7)
+        self.assertEqual(form.initial["start_date"], expected_start)
+        self.assertEqual(form.initial["end_date"], date(today.year + 1, 12, 31))
+
+    def test_extend_adds_dates_through_end_of_following_year(self):
+        from datetime import date, timedelta
+        self.series.end_date = self.today + timedelta(days=1)
+        self.series.save(update_fields=["end_date"])
+        response = self.client.post(reverse("series_extend", args=[self.series.pk]))
+        self.assertRedirects(response, reverse("series_admin"))
+        self.series.refresh_from_db()
+        self.assertEqual(self.series.end_date, date(self.today.year + 1, 12, 31))
+        self.assertTrue(Meeting.objects.filter(series=self.series, date__gt=self.today + timedelta(days=1)).exists())
+
+    def test_reset_moves_agenda_items_to_next_new_meeting_and_preserves_completed_protocols(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from .models import TopicSnapshot
+        topic = Topic.objects.create(title="Mitnehmen", series=self.series, due_date=self.meeting.date)
+        AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Aktueller Stand", position=3)
+        completed = Meeting.objects.create(
+            series=self.series, date=self.today - timedelta(days=7), finalized_at=timezone.now()
+        )
+        snapshot = TopicSnapshot.objects.create(
+            meeting=completed, topic_title="Historischer Protokollpunkt",
+            text="Gesicherter Text", status="open", topic_id=9876,
+        )
+        response = self.client.post(reverse("series_reset_meetings", args=[self.series.pk]))
+        self.assertRedirects(response, reverse("series_edit", args=[self.series.pk]))
+        completed.refresh_from_db()
+        self.assertTrue(completed.snapshots.filter(pk=snapshot.pk).exists())
+        next_meeting = Meeting.objects.filter(
+            series=self.series, finalized_at__isnull=True, date__gte=self.today
+        ).order_by("date").first()
+        self.assertIsNotNone(next_meeting)
+        moved = AgendaItem.objects.get(meeting=next_meeting, topic=topic)
+        self.assertEqual(moved.working_text, "Aktueller Stand")
+        self.assertEqual(moved.position, 3)
+        self.assertTrue(moved.carried_forward)
+        self.assertFalse(Meeting.objects.filter(pk=self.meeting.pk).exists())
+
+    def test_moderator_sees_and_manages_only_assigned_moderator_series(self):
+        moderator = User.objects.create_user(username="series-limited-moderator", password="strong-test-password")
+        other = MeetingSeries.objects.create(name="Fremde Reihe")
+        SeriesAccess.objects.create(user=moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR)
+        SeriesAccess.objects.create(user=moderator, series=other, role=SeriesAccess.ROLE_PARTICIPANT)
+        self.client.force_login(moderator)
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Rhythmusreihe")
+        self.assertNotContains(response, "Fremde Reihe")
+        denied = self.client.get(reverse("series_edit", args=[other.pk]))
+        self.assertEqual(denied.status_code, 403)
+        denied_extend = self.client.post(reverse("series_extend", args=[other.pk]))
+        self.assertEqual(denied_extend.status_code, 403)
 
 
 

@@ -1,9 +1,12 @@
+from datetime import date, timedelta
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef
 from .models import Topic, AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
 from .user_display import user_display_name
+from django.utils import timezone
 
 class UsernameLoginForm(AuthenticationForm):
     username = forms.CharField(label="Benutzername", max_length=150)
@@ -91,14 +94,35 @@ class SeriesForm(forms.ModelForm):
                                   (3, "Donnerstag"), (4, "Freitag"), (5, "Samstag"), (6, "Sonntag")],
         coerce=int,
     )
+    recurrence_interval = forms.IntegerField(
+        label="Intervall (Wochen oder Monate)", min_value=1, max_value=52, initial=1,
+        widget=forms.NumberInput(attrs={"min": "1", "max": "52"}),
+    )
 
     class Meta:
         model = MeetingSeries
-        fields = ["name", "description", "active", "recurrence", "weekday", "start_date", "end_date"]
+        fields = ["name", "description", "active", "recurrence", "recurrence_interval", "weekday", "start_date", "end_date"]
         widgets = {
             "start_date": forms.DateInput(attrs={"type": "date"}),
             "end_date": forms.DateInput(attrs={"type": "date"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        provided_initial = kwargs.get("initial") or {}
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            if self.instance.recurrence == "biweekly":
+                self.initial.setdefault("recurrence", "weekly")
+                self.initial.setdefault("recurrence_interval", 2)
+        else:
+            today = timezone.localdate()
+            weekday = int(self.initial.get("weekday", self.fields["weekday"].initial or 0))
+            self.initial.setdefault("weekday", weekday)
+            self.initial.setdefault("recurrence_interval", 1)
+            if "start_date" not in provided_initial:
+                self.initial["start_date"] = today + timedelta(days=(weekday - today.weekday()) % 7)
+            if "end_date" not in provided_initial:
+                self.initial["end_date"] = date(today.year + 1, 12, 31)
 
 
 class CompactParticipantSelect(forms.CheckboxSelectMultiple):

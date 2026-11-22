@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import date, timedelta
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
@@ -54,7 +54,7 @@ def _series_for_view(view, kwargs):
     if view.__name__ in {"agenda_reorder", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen"}:
         meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
         return meeting.series if meeting else None
-    if view.__name__ in {"series_edit", "series_delete"}:
+    if view.__name__ in {"series_edit", "series_delete", "series_extend", "series_reset_meetings"}:
         return MeetingSeries.objects.filter(pk=pk).first()
     topic = Topic.objects.filter(pk=pk).select_related("series").first()
     return topic.series if topic else None
@@ -1074,11 +1074,14 @@ def series_admin(request):
         item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
     form = SeriesForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        item = form.save()
+        item = form.save(commit=False)
+        if not item.end_date:
+            item.end_date = date(today.year + 1, 12, 31)
+        item.save()
         if not is_admin(request.user):
             SeriesAccess.objects.get_or_create(user=request.user, series=item, defaults={"role": SeriesAccess.ROLE_MODERATOR})
         generate_meetings(item)
-        messages.success(request, "Besprechungsreihe und Termine angelegt.")
+        messages.success(request, "Besprechungsreihe und Termine bis zum Serienende angelegt.")
         return redirect("series_admin")
     return render(request, "meetings/series.html", {
         "series": series, "form": form, "today": today,
@@ -1121,6 +1124,90 @@ def series_edit(request, pk):
             messages.success(request, "Besprechungsreihe gespeichert. Noch nicht abgeschlossene zukünftige Termine wurden auf den neuen Wochentag verschoben.")
             return redirect("series_admin")
     return render(request, "meetings/series_edit.html", {"form": form, "series": series})
+
+
+@login_required
+@moderator_required
+def series_extend(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    series = get_object_or_404(accessible_series(request.user), pk=pk)
+    if not is_moderator(request.user, series):
+        return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+    today = timezone.localdate()
+    target_end = date(today.year + 1, 12, 31)
+    if not series.end_date or series.end_date < target_end:
+        series.end_date = target_end
+        series.save(update_fields=["end_date"])
+    created = generate_meetings(series)
+    messages.success(
+        request,
+        f"Die Reihe wurde bis zum {series.end_date:%d.%m.%Y} verlängert. "
+        f"{len(created)} neue Termine wurden angelegt."
+    )
+    return redirect("series_admin")
+
+
+@login_required
+@moderator_required
+def series_reset_meetings(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    series = get_object_or_404(accessible_series(request.user), pk=pk)
+    if not is_moderator(request.user, series):
+        return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+
+    today = timezone.localdate()
+    if series.end_date is None:
+        series.end_date = date(today.year + 1, 12, 31)
+        series.save(update_fields=["end_date"])
+    first_possible = max(series.start_date, today)
+    next_possible = first_possible + timedelta(days=(series.weekday - first_possible.weekday()) % 7)
+    if series.end_date < today or next_possible > series.end_date:
+        messages.error(request, "Im gewählten Serienzeitraum kann kein zukünftiger Termin erzeugt werden. Bitte prüfe Start- und Enddatum oder verlängere die Reihe.")
+        return redirect("series_edit", pk=series.pk)
+
+    try:
+        with transaction.atomic():
+            drafts = Meeting.objects.filter(series=series, finalized_at__isnull=True)
+            agenda_items = list(
+                AgendaItem.objects.filter(meeting__in=drafts)
+                .select_related("topic", "meeting")
+                .order_by("meeting__date", "pk")
+            )
+            carried_topics = {}
+            for agenda_item in agenda_items:
+                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position)
+    
+            drafts.delete()
+            new_meetings = generate_meetings(series)
+            next_meeting = (
+                Meeting.objects.filter(series=series, finalized_at__isnull=True, date__gte=today)
+                .order_by("date", "pk").first()
+            )
+            if next_meeting is None:
+                raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
+            for topic, working_text, position in carried_topics.values():
+                AgendaItem.objects.update_or_create(
+                    meeting=next_meeting,
+                    topic=topic,
+                    defaults={"working_text": working_text, "position": position, "carried_forward": True},
+                )
+                if topic.due_date != next_meeting.date:
+                    topic.due_date = next_meeting.date
+                    topic.save(update_fields=["due_date", "updated_at"])
+    except ValueError as exc:
+        messages.error(request, str(exc))
+        return redirect("series_edit", pk=series.pk)
+
+    messages.success(
+        request,
+        f"Alle nicht abgeschlossenen Termine wurden neu erzeugt. "
+        f"{len(new_meetings)} Termine angelegt; vorhandene Tagesordnungspunkte "
+        f"liegen jetzt auf dem nächsten Termin ({next_meeting.date:%d.%m.%Y}). "
+        "Abgeschlossene Termine und Protokolle blieben erhalten."
+    )
+    return redirect("series_edit", pk=series.pk)
 
 
 @login_required
