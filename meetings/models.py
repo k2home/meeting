@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
@@ -8,7 +9,7 @@ class MeetingSeries(models.Model):
     description = models.TextField("Beschreibung", blank=True)
     active = models.BooleanField("Aktiv", default=True)
     recurrence = models.CharField("Wiederholung", max_length=12, choices=[("weekly", "Wöchentlich"), ("monthly", "Monatlich")], default="monthly")
-    recurrence_interval = models.PositiveSmallIntegerField("Wiederholungsintervall", default=1)
+    recurrence_interval = models.PositiveSmallIntegerField("Wiederholungsintervall", default=1, validators=[MinValueValidator(1), MaxValueValidator(52)])
     weekday = models.PositiveSmallIntegerField("Wochentag (0=Mo)", default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
     start_date = models.DateField("Startdatum", default=timezone.localdate)
     end_date = models.DateField("Enddatum", null=True, blank=True)
@@ -20,9 +21,22 @@ class MeetingSeries(models.Model):
                 condition=models.Q(weekday__gte=0, weekday__lte=6),
                 name="meeting_series_weekday_0_6",
             ),
+            models.CheckConstraint(
+                condition=models.Q(recurrence_interval__gte=1, recurrence_interval__lte=52),
+                name="meeting_series_interval_1_52",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(end_date__isnull=True) | models.Q(end_date__gte=models.F("start_date")),
+                name="meeting_series_end_after_start",
+            ),
         ]
         verbose_name = "Besprechungsreihe"
         verbose_name_plural = "Besprechungsreihen"
+
+    def clean(self):
+        super().clean()
+        if self.end_date and self.start_date and self.end_date < self.start_date:
+            raise ValidationError({"end_date": "Das Enddatum darf nicht vor dem Startdatum liegen."})
 
     @property
     def weekday_label(self):
@@ -59,6 +73,7 @@ class Topic(models.Model):
                                     related_name="assigned_meeting_topics", verbose_name="Verantwortlich")
     completed_at = models.DateField("Abschlussdatum", null=True, blank=True)
     completion_note = models.TextField("Abschlussvermerk", blank=True)
+    archive_previous_status = models.CharField("Status vor Archivierung", max_length=12, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -69,6 +84,18 @@ class Topic(models.Model):
 
     def __str__(self):
         return self.title
+
+class ArchivedMeetingAccess(models.Model):
+    """Read access retained for former members after a series is deleted."""
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name="archived_access")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="archived_meeting_access")
+    role = models.CharField("Ehemalige Rolle", max_length=16, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["meeting", "user"], name="unique_archived_meeting_user")
+        ]
+
 
 class TopicTransferHistory(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="transfer_history")

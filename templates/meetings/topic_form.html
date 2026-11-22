@@ -88,9 +88,16 @@
   <section class="card"><h2>Informationen</h2>
    <dl class="topic-meta">
     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
+    <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"d.m.Y" }}</dd></div>
     <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"d.m.Y" }}</dd></div>
    </dl>
+   {% if can_archive_topic %}
+   <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
+    {% csrf_token %}
+    <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
+   </form>
+   {% endif %}
   </section>
   <section class="card"><h2>Dateien und Anlagen</h2>
    {% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}

@@ -7,7 +7,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from .access import accessible_meetings, accessible_series, accessible_topics, is_admin, is_reader
+from .access import accessible_meetings, accessible_series, accessible_topics, is_admin, is_moderator, is_reader
 from .audit import record_event
 from .models import AgendaItem, Meeting, SeriesAccess, Topic, TopicSnapshot
 
@@ -69,9 +69,58 @@ def topic_new(request):
 
 
 @login_required
+def topic_archive_toggle(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+    topic = get_object_or_404(accessible_topics(request.user), pk=pk)
+    if not is_admin(request.user) and (
+        topic.series_id is None or not is_moderator(request.user, topic.series)
+    ):
+        return HttpResponseForbidden("Nur Moderator*innen und Admins der Besprechungsreihe dürfen Themen archivieren oder wieder öffnen.")
+    with transaction.atomic():
+        topic = Topic.objects.select_for_update().get(pk=topic.pk)
+        if topic.status == "archived":
+            previous_status = topic.archive_previous_status or "open"
+            topic.status = previous_status if previous_status in {"open", "in_progress", "done"} else "open"
+            topic.archive_previous_status = ""
+            topic.save(update_fields=["status", "archive_previous_status", "updated_at"])
+            record_event(
+                actor=request.user, action="reopened",
+                summary=f"Thema „{topic.title}“ aus dem Archiv wieder geöffnet",
+                topic=topic,
+                changes={"Themenstatus": {"vorher": "Archiviert", "nachher": dict(Topic.STATUS).get(topic.status, topic.status)}},
+            )
+            messages.success(request, f"„{topic.title}“ wurde wieder geöffnet.")
+        else:
+            has_future_agenda = topic.agenda_items.filter(
+                meeting__date__gte=timezone.localdate(),
+                meeting__finalized_at__isnull=True,
+            ).exists()
+            if has_future_agenda:
+                messages.error(
+                    request,
+                    "Das Thema kann noch nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht. Entferne zuerst die geplanten Tagesordnungspunkte.",
+                )
+                return redirect("topic_edit", pk=topic.pk)
+            previous_status = topic.status
+            topic.archive_previous_status = previous_status
+            topic.status = "archived"
+            topic.save(update_fields=["status", "archive_previous_status", "updated_at"])
+            record_event(
+                actor=request.user, action="archived",
+                summary=f"Thema „{topic.title}“ archiviert",
+                topic=topic,
+                changes={"Themenstatus": {"vorher": dict(Topic.STATUS).get(previous_status, previous_status), "nachher": "Archiviert"}},
+            )
+            messages.success(request, f"„{topic.title}“ wurde archiviert.")
+    return redirect("topic_edit", pk=topic.pk)
+
+
+@login_required
+@transaction.atomic
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    reader = is_reader(request.user, topic.series)
+    reader = is_reader(request.user, topic.series) or (topic.series_id is None and not is_admin(request.user))
     original_title = topic.title
     form = TopicTitleForm(request.POST or None, instance=topic)
     if reader:
@@ -116,6 +165,9 @@ def topic_detail(request, pk):
     return render(request, "meetings/topic_form.html", {
         "form": form,
         "topic": topic,
+        "can_archive_topic": is_admin(request.user) or (
+            topic.series_id is not None and is_moderator(request.user, topic.series)
+        ),
         "is_reader": reader,
         "topic_agenda_items": items,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
@@ -124,6 +176,7 @@ def topic_detail(request, pk):
 
 
 @login_required
+@transaction.atomic
 def edit_topic_agenda_item(request, pk, item_pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -131,7 +184,11 @@ def edit_topic_agenda_item(request, pk, item_pk):
         AgendaItem.objects.select_related("topic", "meeting__series"),
         pk=item_pk, topic_id=pk, meeting__in=accessible_meetings(request.user),
     )
-    if is_reader(request.user, item.meeting.series) or item.meeting.finalized_at:
+    if (
+        is_reader(request.user, item.meeting.series)
+        or (item.meeting.series_id is None and not is_admin(request.user))
+        or item.meeting.finalized_at
+    ):
         return HttpResponseForbidden("Dieser Tagesordnungspunkt ist schreibgeschützt.")
     User = get_user_model()
     assignee_id = request.POST.get("assigned_to") or None

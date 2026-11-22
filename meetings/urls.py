@@ -21,6 +21,7 @@ urlpatterns = [
     path("meeting/<int:pk>/reopen/", views.meeting_reopen, name="meeting_reopen"),
     path("topics/new/", agenda_topic_views.topic_new, name="topic_new"),
     path("topics/<int:pk>/", agenda_topic_views.topic_detail, name="topic_edit"),
+    path("topics/<int:pk>/archive/", agenda_topic_views.topic_archive_toggle, name="topic_archive_toggle"),
     path("topics/<int:pk>/agenda/<int:item_pk>/edit/", agenda_topic_views.edit_topic_agenda_item, name="topic_agenda_edit"),
     path("topics/<int:pk>/comments/add/", views.topic_comment_add, name="topic_comment_add"),
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),

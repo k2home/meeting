@@ -5,8 +5,8 @@ from .models import Meeting, AgendaItem, Topic, TopicSnapshot, TopicComment
 from .user_display import user_display_name
 
 def ensure_agenda(meeting):
-    """Return explicit agenda items and carry forward unresolved items once."""
-    if meeting.series_id is None:
+    """Return agenda items; finalized meetings are strictly read-only."""
+    if meeting.finalized_at or meeting.series_id is None:
         return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
 
     previous = (
@@ -60,7 +60,9 @@ def generate_meetings(series):
         series.save(update_fields=["end_date"])
 
     cursor = _next_weekday_on_or_after(series.start_date, series.weekday)
-    interval = max(1, series.recurrence_interval or 1)
+    interval = series.recurrence_interval
+    if not 1 <= interval <= 52:
+        raise ValueError("Das Wiederholungsintervall muss zwischen 1 und 52 liegen.")
     occurrence = (cursor.day - 1) // 7 + 1
     desired_dates = []
     while cursor <= end_date:
@@ -75,9 +77,12 @@ def generate_meetings(series):
 
     obsolete_qs = Meeting.objects.filter(series=series, date__gte=today, finalized_at__isnull=True)
     if not desired_dates:
-        if obsolete_qs.filter(agenda_items__isnull=False).exists():
-            raise ValueError("Der neue Terminplan enthält keinen zukünftigen Termin, auf den vorhandene Tagesordnungspunkte übertragen werden können. Bitte passe Start- oder Enddatum an.")
-        obsolete_qs.delete()
+        if obsolete_qs.exists():
+            raise ValueError(
+                "Der neue Terminplan enthält keinen zukünftigen Termin. "
+                "Vorhandene Entwurfstermine bleiben erhalten, damit Teilnehmende und Inhalte nicht verloren gehen. "
+                "Bitte passe Start- oder Enddatum an."
+            )
         return []
 
     desired_meetings, created = {}, []

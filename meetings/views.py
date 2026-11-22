@@ -18,8 +18,8 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment
-from .audit import record_event
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
+from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
 from .models import SeriesAccess
@@ -64,9 +64,16 @@ def moderator_required(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
         series = _series_for_view(view, kwargs)
+        archived_meeting = (
+            series is None
+            and view.__name__ in {"meeting_edit", "meeting_delete", "meeting_reopen"}
+            and ArchivedMeetingAccess.objects.filter(
+                meeting_id=kwargs.get("pk"), user=request.user
+            ).exists()
+        )
         allowed = is_admin(request.user) or (
-            is_moderator(request.user, series) if series is not None
-            else is_moderator(request.user)
+            is_moderator(request.user, series)
+            if series is not None else (is_moderator(request.user) and not archived_meeting)
         )
         if not allowed:
             return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
@@ -77,8 +84,20 @@ def moderator_required(view):
 def reader_readonly(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
-        if is_reader(request.user, _series_for_view(view, kwargs)) and request.method == "POST":
-            return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
+        if request.method == "POST":
+            series = _series_for_view(view, kwargs)
+            archived_access = False
+            if series is None and not is_admin(request.user):
+                if view.__name__ in {"agenda_reorder", "agenda_item_delete", "meeting_detail", "finalize"}:
+                    archived_access = ArchivedMeetingAccess.objects.filter(
+                        meeting_id=kwargs.get("pk"), user=request.user
+                    ).exists()
+                else:
+                    archived_access = ArchivedMeetingAccess.objects.filter(
+                        user=request.user, meeting__agenda_items__topic_id=kwargs.get("pk")
+                    ).exists()
+            if is_reader(request.user, series) or archived_access:
+                return HttpResponseForbidden("Für archivierte Besprechungen und Leser*innen besteht ausschließlich Lesezugriff.")
         return view(request, *args, **kwargs)
     return wrapped
 
@@ -119,7 +138,7 @@ def dashboard(request):
             meeting_groups.append({"series": meeting.series, "meetings": []})
         meeting_groups[-1]["meetings"].append(meeting)
 
-    topics = accessible_topics(request.user).select_related("series")
+    topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
     selected_series = request.GET.get("series", "")
@@ -264,6 +283,7 @@ def open_topics(request):
     ).order_by("-meeting__date", "-pk").values("pk")[:1]
     items = AgendaItem.objects.filter(
         topic__series__in=allowed_series,
+        topic__status__in=["open", "in_progress", "done"],
         status__in=["open", "in_progress"],
         meeting__date__lte=today,
     ).filter(pk__in=Subquery(latest_item_ids)).select_related(
@@ -366,6 +386,7 @@ def my_tasks(request):
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def agenda_reorder(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -388,8 +409,17 @@ def agenda_reorder(request, pk):
         item = items_by_id[item_id]
         item.position = position
         ordered_items.append(item)
-    with transaction.atomic():
-        AgendaItem.objects.bulk_update(ordered_items, ["position"])
+    if current_ids != ordered_ids:
+        before_titles = [items_by_id[item_id].topic.title for item_id in current_ids]
+        after_titles = [items_by_id[item_id].topic.title for item_id in ordered_ids]
+        with transaction.atomic():
+            AgendaItem.objects.bulk_update(ordered_items, ["position"])
+            record_event(
+                actor=request.user, action="updated",
+                summary=f"Tagesordnung für {_meeting_series_name(meeting)} am {meeting.date:%d.%m.%Y} sortiert",
+                meeting=meeting,
+                changes={"Reihenfolge": {"vorher": before_titles, "nachher": after_titles}},
+            )
     messages.success(request, "Reihenfolge der Tagesordnung gespeichert.")
     return redirect("meeting", pk=pk)
 
@@ -430,12 +460,22 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
             AgendaItem.objects.create(meeting=target_meeting, topic=topic, working_text=item.working_text, assigned_to_id=item.assigned_to_id, status=item.status, position=next_position, carried_forward=True, followup_of=item)
         if old_series != target_series:
             TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=target_series, transferred_by=actor, note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt")
-        record_event(actor=actor, action="transferred" if old_series != target_series else "updated", summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt", topic=topic, meeting=item.meeting, changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}})
+        transfer_changes = {"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}}
+        transfer_summary = f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt"
+        if old_series != target_series:
+            record_transfer_events(
+                actor=actor, summary=transfer_summary, topic=topic,
+                from_series=old_series, to_series=target_series,
+                meeting=item.meeting, changes=transfer_changes,
+            )
+        else:
+            record_event(actor=actor, action="updated", summary=transfer_summary, topic=topic, meeting=item.meeting, changes=transfer_changes)
     return f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}."
 
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def agenda_item_delete(request, pk, item_pk):
     if request.method != "POST":
         return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
@@ -461,9 +501,14 @@ def agenda_item_delete(request, pk, item_pk):
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
-    if not meeting.participants_initialized:
+    archived_readonly = (
+        meeting.series_id is None and not is_admin(request.user)
+        and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists()
+    )
+    if not meeting.participants_initialized and not meeting.finalized_at and not archived_readonly:
         if not meeting.participants.exists() and meeting.series_id:
             default_participants = SeriesAccess.objects.filter(
                 series=meeting.series, user__is_active=True
@@ -506,66 +551,85 @@ def meeting_detail(request, pk):
                 messages.error(request, "Bitte prüfe die Teilnehmerauswahl.")
                 return render(request, "meetings/meeting.html", {
                     "meeting": meeting, "items": items, "participant_form": participant_form,
-                    "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series),
-                    "is_moderator": is_moderator(request.user, meeting.series),
+                    "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
+                    "is_moderator": is_admin(request.user) or (
+                        meeting.series_id is not None and is_moderator(request.user, meeting.series)
+                    ),
                     "writable_series": writable_series, "target_meetings": target_meetings,
                 })
         elif request.POST.get("shift_item"):
-            item = get_object_or_404(AgendaItem.objects.select_related("topic"), pk=request.POST.get("shift_item"), meeting=meeting)
+            item = get_object_or_404(
+                AgendaItem.objects.select_related("topic", "topic__series"),
+                pk=request.POST.get("shift_item"), meeting=meeting,
+            )
             schedule_form = AgendaScheduleForm(
                 request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
             )
             if schedule_form.is_valid():
-                item.working_text = request.POST.get("working_text", item.working_text)
-                item.save(update_fields=["working_text"])
                 topic = item.topic
                 old_series = topic.series
                 target_series = schedule_form.cleaned_data["target_series"]
                 target_meeting = schedule_form.cleaned_data["target_meeting"]
-                if old_series != target_series:
-                    try:
-                        _move_future_agenda_items(topic, old_series, target_series, {item.pk})
-                    except ValueError as exc:
-                        messages.error(request, str(exc))
-                        return redirect("meeting", pk=pk)
-                if target_meeting.pk == meeting.pk:
-                    messages.error(request, "Bitte wähle einen anderen, späteren Besprechungstermin.")
+                try:
+                    with transaction.atomic():
+                        if target_meeting.pk == meeting.pk:
+                            raise ValueError("Bitte wähle einen anderen, späteren Besprechungstermin.")
+                        item.working_text = request.POST.get("working_text", item.working_text)
+                        item.save(update_fields=["working_text"])
+                        if old_series != target_series:
+                            _move_future_agenda_items(topic, old_series, target_series, {item.pk})
+                        target_item = AgendaItem.objects.filter(meeting=target_meeting, topic=topic).first()
+                        if target_item:
+                            target_item.working_text = item.working_text
+                            target_item.position = (
+                                target_meeting.agenda_items.exclude(pk=target_item.pk)
+                                .order_by("-position").values_list("position", flat=True).first()
+                                if target_meeting.agenda_items.exclude(pk=target_item.pk).exists() else -1
+                            ) + 1
+                            if item.assigned_to_id and not target_item.assigned_to_id:
+                                target_item.assigned_to_id = item.assigned_to_id
+                            target_item.save(update_fields=["working_text", "position", "assigned_to"])
+                            item.delete()
+                        else:
+                            next_position = (
+                                target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first()
+                                if target_meeting.agenda_items.exists() else -1
+                            ) + 1
+                            item.meeting = target_meeting
+                            item.position = next_position
+                            item.save(update_fields=["meeting", "position"])
+                        topic.series = target_series
+                        topic.save(update_fields=["series", "updated_at"])
+                        if old_series != target_series:
+                            TopicTransferHistory.objects.create(
+                                topic=topic, from_series=old_series, to_series=target_series,
+                                transferred_by=request.user,
+                                note=f"Agenda-Punkt ohne Besprechung auf {target_meeting.date:%d.%m.%Y} verschoben",
+                            )
+                            record_transfer_events(
+                                actor=request.user,
+                                summary=f"„{topic.title}“ ohne Besprechung von {meeting.date:%d.%m.%Y} nach {target_series.name} am {target_meeting.date:%d.%m.%Y} verschoben",
+                                topic=topic, from_series=old_series, to_series=target_series,
+                                meeting=meeting,
+                                changes={
+                                    "Tagesordnung": {"vorher": meeting.date.isoformat(), "nachher": target_meeting.date.isoformat()},
+                                    "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
+                                    "Besprechungsreihe": {
+                                        "vorher": old_series.name if old_series else None,
+                                        "nachher": target_series.name,
+                                    },
+                                },
+                            )
+                        else:
+                            record_event(
+                                actor=request.user, action="updated",
+                                summary=f"„{topic.title}“ ohne Besprechung auf {target_series.name} am {target_meeting.date:%d.%m.%Y} verschoben",
+                                topic=topic, meeting=meeting,
+                                changes={"Tagesordnung": {"vorher": meeting.date.isoformat(), "nachher": target_meeting.date.isoformat()}},
+                            )
+                except ValueError as exc:
+                    messages.error(request, str(exc))
                 else:
-                    target_item = AgendaItem.objects.filter(meeting=target_meeting, topic=topic).first()
-                    if target_item:
-                        target_item.working_text = item.working_text
-                        target_item.position = (target_meeting.agenda_items.exclude(pk=target_item.pk).order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exclude(pk=target_item.pk).exists() else -1) + 1
-                        target_item.save(update_fields=["working_text", "position"])
-                        if item.assigned_to_id and not target_item.assigned_to_id:
-                            target_item.assigned_to_id = item.assigned_to_id
-                            target_item.save(update_fields=["assigned_to"])
-                        item.delete()
-                    else:
-                        next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
-                        item.meeting = target_meeting
-                        item.position = next_position
-                        item.save(update_fields=["meeting", "position"])
-                    topic.series = target_series
-                    topic.save(update_fields=["series", "updated_at"])
-                    if old_series != target_series:
-                        TopicTransferHistory.objects.create(
-                            topic=topic, from_series=old_series, to_series=target_series,
-                            transferred_by=request.user,
-                            note=f"Agenda-Punkt ohne Besprechung auf {target_meeting.date:%d.%m.%Y} verschoben",
-                        )
-                    record_event(
-                        actor=request.user, action="transferred" if old_series != target_series else "updated",
-                        summary=f"„{topic.title}“ ohne Besprechung von {meeting.date:%d.%m.%Y} auf {target_series.name} am {target_meeting.date:%d.%m.%Y} verschoben",
-                        topic=topic, meeting=meeting,
-                        changes={
-                            "Tagesordnung": {"vorher": meeting.date.isoformat(), "nachher": target_meeting.date.isoformat()},
-                            "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
-                            "Besprechungsserie": {
-                                "vorher": old_series.name if old_series else None,
-                                "nachher": target_series.name,
-                            },
-                        },
-                    )
                     messages.success(request, f"„{topic.title}“ wurde aus dieser Tagesordnung entfernt und auf den {target_meeting.date:%d.%m.%Y} verschoben.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen späteren Termin.")
@@ -765,8 +829,10 @@ def meeting_detail(request, pk):
     participant_form = MeetingParticipantsForm(instance=meeting)
     return render(request, "meetings/meeting.html", {
         "meeting": meeting, "items": items, "participant_form": participant_form,
-        "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series),
-        "is_moderator": is_moderator(request.user, meeting.series),
+        "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
+        "is_moderator": is_admin(request.user) or (
+            meeting.series_id is not None and is_moderator(request.user, meeting.series)
+        ),
         "writable_series": writable_series, "target_meetings": target_meetings,
     })
 
@@ -776,7 +842,7 @@ def topic_suggestions(request):
     query = request.GET.get("q", "").strip()
     results = []
     if len(query) >= 2:
-        topics = accessible_topics(request.user).filter(title__icontains=query).select_related("series").order_by("title")[:8]
+        topics = accessible_topics(request.user).exclude(status="archived").filter(title__icontains=query).select_related("series").order_by("title")[:8]
         results = [
             {"id": topic.pk, "title": topic.title, "series": topic.series.name if topic.series else "Ohne Besprechungsreihe"}
             for topic in topics
@@ -881,6 +947,7 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def topic_transfer(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden()
@@ -894,21 +961,26 @@ def topic_transfer(request, pk):
         return redirect("topic_edit", pk=topic.pk)
     note = request.POST.get("note", "").strip()[:500]
     moved_agenda_items = 0
+    old_series = topic.series
     try:
         with transaction.atomic():
-            moved_agenda_items = _move_future_agenda_items(topic, topic.series, target)
+            moved_agenda_items = _move_future_agenda_items(topic, old_series, target)
             TopicTransferHistory.objects.create(
-                topic=topic, from_series=topic.series, to_series=target,
+                topic=topic, from_series=old_series, to_series=target,
                 transferred_by=request.user, note=note,
             )
             old_series_name = str(topic.series) if topic.series else "Ohne Reihe"
             topic.series = target
             topic.save(update_fields=["series", "updated_at"])
-            record_event(actor=request.user, action="transferred",
-                         summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen", topic=topic,
-                         changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
-                                  "Geplante Tagesordnungspunkte": {"übertragen": moved_agenda_items},
-                                  "Notiz": note})
+            record_transfer_events(
+                actor=request.user,
+                summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen",
+                topic=topic, from_series=old_series,
+                to_series=target,
+                changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
+                         "Geplante Tagesordnungspunkte": {"übertragen": moved_agenda_items},
+                         "Notiz": note},
+            )
     except ValueError as exc:
         messages.error(request, str(exc))
         return redirect("topic_edit", pk=topic.pk)
@@ -922,12 +994,16 @@ def archive(request):
     ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
         "-meeting__date", "topic__title", "position"
     )
-    return render(request, "meetings/archive.html", {"items": items})
+    archived_topics = accessible_topics(request.user).filter(status="archived").select_related("series").order_by("title")
+    return render(request, "meetings/archive.html", {"items": items, "archived_topics": archived_topics})
 
 @login_required
 @reader_no_access
+@transaction.atomic
 def attachment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
+    if topic.series_id is None and not is_admin(request.user):
+        return HttpResponseForbidden("Archivierte Themen sind schreibgeschützt.")
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
         obj = form.save(commit=False)
@@ -1158,6 +1234,9 @@ def protocol(request, pk):
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
         "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
+        "can_reopen_meeting": is_admin(request.user) or (
+            meeting.series_id is not None and is_moderator(request.user, meeting.series)
+        ),
     })
 
 @login_required
@@ -1463,15 +1542,28 @@ def series_delete(request, pk):
         ).delete()
         if delete_completed:
             Meeting.objects.filter(series=series, finalized_at__isnull=False).delete()
-        # Preserve all remaining historical meetings independently of the series.
+        # Preserve former series members' read access to retained protocols.
+        former_access = list(
+            SeriesAccess.objects.filter(series=series).values("user_id", "role")
+        )
+        remaining_meeting_ids = list(Meeting.objects.filter(series=series).values_list("pk", flat=True))
+        ArchivedMeetingAccess.objects.bulk_create(
+            [
+                ArchivedMeetingAccess(meeting_id=meeting_id, user_id=access["user_id"], role=access["role"])
+                for meeting_id in remaining_meeting_ids
+                for access in former_access
+            ],
+            ignore_conflicts=True,
+        )
         Meeting.objects.filter(series=series).update(series=None)
-        # The series and its access assignments are removed below. The event is
-        # intentionally left without a series FK afterwards and remains admin-only.
+        # The series and its active assignments are removed; archive access
+        # remains attached to each retained historical meeting.
         record_event(
             actor=request.user, action="deleted",
             summary=f"Besprechungsreihe „{name}“ gelöscht",
             series=series,
-            changes={"Abgeschlossene Termine ebenfalls gelöscht": delete_completed},
+            changes={"Abgeschlossene Termine ebenfalls gelöscht": delete_completed,
+                     "Ehemalige Mitglieder mit Lesezugriff": len(former_access) if remaining_meeting_ids else 0},
         )
         series.delete()
     messages.success(
@@ -1485,6 +1577,7 @@ def series_delete(request, pk):
 
 @login_required
 @moderator_required
+@transaction.atomic
 def meeting_edit(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if meeting.finalized_at:
@@ -1728,6 +1821,7 @@ def audit_history(request):
 
 @login_required
 @reader_readonly
+@transaction.atomic
 def topic_comment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     if request.method != "POST":

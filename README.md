@@ -31,6 +31,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Leere, noch nicht bearbeitete Einzeltermine können gelöscht werden.
 - Besprechungsreihen können von Moderator*innen und Admins verwaltet werden.
+- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder lesbar; Admins behalten den globalen Zugriff.
 
 ### Themen und Aufgaben
 
@@ -38,7 +39,8 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - Der Text und Bearbeitungsstand eines Tagesordnungspunkts werden je Besprechungstermin separat gespeichert.
 - Abweichende Zuständigkeiten können einzelnen Tagesordnungspunkten zugewiesen werden.
 - Suche über Thementitel, Tagesordnungstexte, Besprechungsreihe und Zuständigkeit; Filter nach Status, Reihe und Zuständigkeit.
-- Themen können zwischen zugänglichen Besprechungsreihen übertragen werden. Ein eigener Archivieren-/Wiederöffnen-Workflow ist derzeit nicht vorhanden.
+- Themen können zwischen zugänglichen Besprechungsreihen übertragen werden. Übertragungen erscheinen im Änderungsverlauf der Ursprungs- und Zielreihe.
+- Moderator*innen und Admins können Themen archivieren und wieder öffnen. Archivierte Themen bleiben erhalten, werden aus den aktiven Übersichten ausgeblendet und sind im Archiv erreichbar; beim Wiederöffnen wird der vorherige Themenstatus wiederhergestellt.
 - Kommentare und nächste Schritte werden chronologisch am Thema gesammelt.
 - „Meine Aufgaben“ trennt die Hauptzuständigkeit für Themen von ausdrücklich zugewiesenen Tagesordnungspunkten zukünftiger Termine.
 - Anlagen können als Datei oder als Netzwerkpfad bzw. Link hinterlegt werden.
@@ -54,7 +56,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Änderungsverlauf
 
-Anlage und Umbenennung von Themen, Themenübertragungen, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen werden mit Benutzer und Zeitpunkt protokolliert. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
+Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Themenübertragungen, Änderungen an Tagesordnungstexten und Zuständigkeiten, Sortierungen, Anlagen, Kommentaren, Teilnehmerlisten, Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen und Einzelterminen werden mit Benutzer und Zeitpunkt protokolliert. Themenübertragungen sind in beiden beteiligten Serienverläufen sichtbar. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
 
 ## Rollen und Berechtigungen
 
@@ -87,9 +89,9 @@ Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“
 | Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja | Ja |
 | Kommentare hinzufügen | Nein | Ja | Ja | Ja |
 | Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja |
-| Themen archivieren oder wieder öffnen | Nein | Nein | Nein | Nein |
+| Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja |
 
-**Hinweis zum Themenstatus:** Das Datenmodell kennt weiterhin den Status „Archiviert“. Ein eigener Archivieren-/Wiederöffnen-Workflow ist in der Weboberfläche derzeit jedoch nicht vorhanden. Die Statusoption ist daher keine zugesicherte Bedienfunktion.
+**Themenarchiv:** Archivieren und Wiederöffnen ist Moderator*innen und Admins vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus, löscht aber weder Thema noch Protokollhistorie. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
 
 #### 3. Besprechungsreihen verwalten
 
@@ -343,7 +345,7 @@ Anschließend das passende Media-Backup nach `/opt/meeting-manager/media` zurüc
 **Die Anwendung ist ein internes MVP und sollte vor einem produktiven Einsatz weiter gehärtet werden.**
 
 - Zugriff auf das interne Netzwerk begrenzen und eine Firewall einsetzen.
-- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. Die Standardinstallation verwendet HTTP. Optional kann das Setup HTTPS-Terminierung durch einen vorgeschalteten Reverse Proxy konfigurieren. Dabei wird die IP/CIDR des Proxys abgefragt und der lokale Nginx-Zugang auf diese Quelle begrenzt; `X-Forwarded-Proto` wird nur in diesem Modus vertraut. `CSRF_TRUSTED_ORIGINS`, sichere Cookies und HTTPS-Weiterleitung werden entsprechend gesetzt.
+- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. HSTS-Subdomain-Schutz darf nur aktiviert werden, wenn sämtliche Subdomains dauerhaft HTTPS verwenden. HSTS Preload ist zusätzlich nur mit HTTPS-Weiterleitung, mindestens einem Jahr HSTS-Laufzeit und vollständiger HTTPS-Abdeckung aller Subdomains zulässig; die Anwendung prüft diese Voraussetzungen beim Start. Die Standardinstallation verwendet HTTP. Optional kann das Setup HTTPS-Terminierung durch einen vorgeschalteten Reverse Proxy konfigurieren. Dabei wird die IP/CIDR des Proxys abgefragt und der lokale Nginx-Zugang auf diese Quelle begrenzt; `X-Forwarded-Proto` wird nur in diesem Modus vertraut. `CSRF_TRUSTED_ORIGINS`, sichere Cookies und HTTPS-Weiterleitung werden entsprechend gesetzt.
 - Regelmäßige, getestete Backups von Datenbank und Media-Verzeichnis einrichten.
 - Admin-Rechte nur gezielt vergeben und Serienzuweisungen regelmäßig überprüfen.
 - Hochgeladene Dateien werden ausschließlich über eine angemeldete, berechtigungsgeprüfte Download-Route ausgeliefert. Der Media-Ordner darf nicht direkt durch Nginx veröffentlicht werden.
