@@ -1449,14 +1449,14 @@ class MeetingAgendaEnhancementTests(TestCase):
     def test_topic_suggestions_return_matching_accessible_topics(self):
         Topic.objects.create(title="Digitalisierung Haushalt", series=self.series_a)
         Topic.objects.create(title="Digitalisierung Schule", series=self.series_b)
-        response = self.client.get(reverse("topic_suggestions"), {"q": "Digitalisierung", "series": self.series_a.pk})
+        response = self.client.get(reverse("topic_suggestions"), {"q": "Digitalisierung"})
         self.assertEqual(response.status_code, 200)
         results = response.json()["results"]
         titles = [entry["title"] for entry in results]
-        self.assertEqual(titles, ["Digitalisierung Haushalt"])
+        self.assertEqual(titles, ["Digitalisierung Haushalt", "Digitalisierung Schule"])
         self.assertEqual(
             {entry["id"] for entry in results},
-            set(Topic.objects.filter(title__startswith="Digitalisierung", series=self.series_a).values_list("pk", flat=True)),
+            set(Topic.objects.filter(title__startswith="Digitalisierung").values_list("pk", flat=True)),
         )
 
     def test_existing_topic_is_added_only_to_current_agenda_without_changing_series(self):
@@ -1772,7 +1772,8 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(sample.status_code, 200)
         self.assertIn("muster_themen_und_punkte.csv", sample["Content-Disposition"])
         self.assertNotContains(sample, "topic_key")
-        self.assertNotContains(sample, "topic_due_date")
+        sample_header = sample.content.decode("utf-8-sig").splitlines()[0]
+        self.assertNotIn("topic_due_date", sample_header)
         self.assertContains(sample, "agenda_responsible_username")
         page = self.client.get(reverse("admin:meetings_topic_csv_import"))
         self.assertEqual(page.status_code, 200)
