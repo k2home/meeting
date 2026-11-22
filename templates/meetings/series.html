@@ -5,7 +5,42 @@
   <button type="button" onclick="document.getElementById('new-series-dialog').showModal()">+ Neu</button>
 </div>
 
-<div class="series-list">
+
+{% if pending_access_requests %}
+<section class="card" style="margin-bottom:1rem">
+  <h2>Offene Berechtigungsanträge</h2>
+  <p class="muted">Administratoren sehen alle Anträge. Moderatoren sehen nur Anträge für ihre eigenen Besprechungsreihen.</p>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Benutzer</th><th>Besprechungsreihe</th><th>Beantragte Berechtigung</th><th>Antrag vom</th><th>Entscheidung</th></tr></thead>
+      <tbody>
+      {% for item in pending_access_requests %}
+        <tr>
+          <td>{{ item.user.get_full_name|default:item.user.username }}</td>
+          <td>{{ item.series.name }}</td>
+          <td>{{ item.get_requested_role_display }}</td>
+          <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
+          <td>
+            <form method="post" style="min-width:15rem">
+              {% csrf_token %}
+              <input type="hidden" name="form_type" value="access_request_decision">
+              <input type="hidden" name="request_id" value="{{ item.pk }}">
+              <label for="note-{{ item.pk }}">Optionale Begründung</label>
+              <input id="note-{{ item.pk }}" type="text" name="decision_note" maxlength="500">
+              <div class="actions" style="margin-top:.4rem">
+                <button type="submit" name="decision" value="approved">Genehmigen</button>
+                <button class="secondary" type="submit" name="decision" value="rejected">Ablehnen</button>
+              </div>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endif %}
+\n<div class="series-list">
   {% for s in series %}
     <section class="card series-entry" id="series-{{ s.pk }}" style="margin-bottom:1rem">
       <div class="topline" style="align-items:flex-start;gap:1rem">
