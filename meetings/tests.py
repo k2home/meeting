@@ -217,7 +217,7 @@ class AuditHistoryTests(TestCase):
         )
         self.client.force_login(self.user)
         response = self.client.post(reverse("series_delete", args=[self.series.pk]))
-        self.assertRedirects(response, reverse("series_admin"))
+        self.assertRedirects(response, reverse("dashboard"))
 
         event = AuditEvent.objects.get(action="deleted", summary__contains="Audit-Reihe")
         self.assertIsNone(event.series_id)
