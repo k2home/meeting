@@ -1,0 +1,112 @@
+{% extends "meetings/base.html" %}
+{% block title %}Hilfe &amp; Anleitung – Meeting Manager{% endblock %}
+{% block content %}
+<style>
+.guide-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:1.25rem;align-items:start}.guide-content{min-width:0}.guide-index{position:sticky;top:1rem}.guide-index a{display:block;padding:.28rem 0;color:var(--text);text-decoration:none}.guide-index a:hover{text-decoration:underline;color:var(--hagen-blue)}.guide-content h2{margin-top:2rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}.guide-content h3{margin-top:1.35rem}.guide-content li{margin:.3rem 0}.guide-note{padding:.8rem 1rem;border-left:4px solid var(--hagen-blue);background:var(--soft-bg);border-radius:4px}.guide-table{width:100%;border-collapse:collapse}.guide-table th,.guide-table td{padding:.55rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}@media(max-width:850px){.guide-layout{grid-template-columns:1fr}.guide-index{position:static;order:-1}}
+</style>
+<div class="topline"><div><p class="muted">Hilfe</p><h1>Hilfe &amp; Bedienungsanleitung</h1><p class="muted">Ausführliche Anleitung für Leser, Teilnehmer, Moderatoren und Administratoren</p></div></div>
+<div class="guide-layout">
+<article class="guide-content">
+<section class="card"><h2 style="margin-top:0">Willkommen im Meeting Manager</h2>
+<p>Der Meeting Manager verwaltet Besprechungsreihen, einzelne Termine, Tagesordnungen, Themen und Protokolle. Welche Funktionen du verwenden kannst, hängt von deiner Rolle in der jeweiligen Besprechungsreihe ab. Ein Benutzer kann in unterschiedlichen Reihen unterschiedliche Rollen besitzen.</p>
+<p>Diese Anleitung ist für alle angemeldeten Benutzer verfügbar. Sie erweitert keine Zugriffsrechte: Du siehst weiterhin nur die Besprechungsreihen und Inhalte, für die dein Konto freigeschaltet ist.</p>
+<div class="guide-note"><strong>Grundprinzip:</strong> Ein Thema ist ein fortlaufender Vorgang. Ein Tagesordnungspunkt ist die Zuordnung dieses Themas zu einem konkreten Besprechungstermin. Text und Status eines Tagesordnungspunkts gehören zu diesem Termin. Ein abgeschlossenes Protokoll bleibt als gesicherter Stand erhalten.</div></section>
+
+<h2 id="rollen">1. Rollen und Berechtigungen</h2>
+<table class="guide-table"><thead><tr><th>Rolle</th><th>Möglichkeiten</th></tr></thead><tbody>
+<tr><td><strong>Leser</strong></td><td>Besprechungen, Themen, Tagesordnungstexte, Anlagen und Protokolle ansehen und Protokolle exportieren. Keine inhaltlichen Änderungen.</td></tr>
+<tr><td><strong>Teilnehmer</strong></td><td>Lesen und mitarbeiten: Themen anlegen und bearbeiten, Tagesordnungspunkte pflegen, Zuständigkeiten setzen, Kommentare und Anlagen ergänzen und Wiedervorlagen verwalten.</td></tr>
+<tr><td><strong>Moderator</strong></td><td>Alle Teilnehmerfunktionen sowie Besprechungsreihen und Termine verwalten, Themen archivieren, Besprechungen abschließen oder wieder öffnen und den Änderungsverlauf einsehen.</td></tr>
+<tr><td><strong>Admin</strong></td><td>Globale Rechte über alle Besprechungsreihen sowie Verwaltung von Benutzern, Rollen, Im-/Exporten und Organisationseinstellungen.</td></tr></tbody></table>
+<p>Die Rolle wird je Besprechungsreihe vergeben. Ein Leser in Reihe A kann Teilnehmer in Reihe B sein. Administratoren haben globalen Zugriff. Fehlt eine Funktion, prüfe, ob du in der betreffenden Reihe die passende Rolle besitzt.</p>
+
+<h2 id="leser">2. Anleitung für Leser</h2>
+<h3>2.1 Anmeldung und Navigation</h3>
+<ol><li>Öffne die Webadresse des Meeting Managers und melde dich mit Benutzername und Passwort an.</li><li>Nach der Anmeldung erscheint die Übersicht. Links befindet sich die Seitenleiste mit den verfügbaren Bereichen.</li><li>Auf Mobilgeräten öffnest du die Navigation über die Menüschaltfläche oben. Über „Abmelden“ beendest du die Sitzung.</li><li>„Hilfe &amp; Anleitung“ öffnet dieses Wiki unabhängig von deiner Rolle.</li></ol>
+<h3>2.2 Übersicht, Suche und Filter</h3>
+<p>Die Übersicht zeigt die für dich sichtbaren Themen und die nächsten Termine deiner freigegebenen Reihen. Du kannst Themen nach Titel, Besprechungstext, Besprechungsreihe und Zuständigkeit durchsuchen. Filter stehen für Status (Offen, In Arbeit, Erledigt oder Alle), Besprechungsreihe, verantwortliche Person sowie nächste Besprechung (überfällig, heute, künftig oder ohne Termin) bereit. Die Spalten Thema und Besprechungsreihe lassen sich über die Überschriften sortieren. „Zurücksetzen“ entfernt die Filter.</p>
+<h3>2.3 Besprechungen und Kalender</h3>
+<p>Öffne „Besprechungen“, um die Termine deiner Reihen im Kalender zu sehen. Wechsle zwischen Monats- und Wochenansicht, blättere mit den Pfeilen oder springe mit „Heute“ zum aktuellen Zeitraum. „Vergangene Termine anzeigen“ blendet frühere Termine ein oder aus. Ein Klick auf einen Termin öffnet dessen Tagesordnung. Unter dem Kalender stehen der nächste noch nicht abgeschlossene Termin je Reihe, deine Rolle und die Zahl offener Tagesordnungspunkte.</p>
+<h3>2.4 Tagesordnung und Themen ansehen</h3>
+<p>In einem Termin kannst du Tagesordnungspunkte auf- und zuklappen. Sichtbar werden Thema, Zuständigkeit, Bearbeitungsstand und der für diesen Termin gespeicherte Text. Über den Thementitel gelangst du zur Themenansicht. Dort findest du Titel, Besprechungsreihe, Status, die zugehörigen Termine und hinterlegte Dateien oder Links. Abgeschlossene Termine sind als gesichert gekennzeichnet.</p>
+<h3>2.5 Protokoll einer Sitzung anzeigen</h3>
+<ol><li>Öffne „Besprechungen“ und wähle den gewünschten Termin.</li><li>Wähle in der Terminansicht den Protokoll-Link.</li><li>Das Protokoll zeigt Besprechungsreihe und Datum, eingetragene Teilnehmer sowie jeden Tagesordnungspunkt mit Verantwortlichkeit, Text und Bearbeitungsstand.</li><li>Bei abgeschlossenen Besprechungen wird der beim Abschluss gesicherte Stand angezeigt. Er bleibt unverändert, auch wenn das Thema später weiterbearbeitet wird.</li></ol>
+<p>Im Protokollmenü kannst du PDF oder Word herunterladen. Wenn E-Mail-Adressen hinterlegt sind, kannst du „Protokoll verschicken“ wählen: Das E-Mail-Programm öffnet eine vorbereitete Nachricht. Empfänger und Inhalt prüfen und die Nachricht dort selbst versenden. „Zur Besprechung“ führt zurück zur Tagesordnung.</p>
+<h3>2.6 Archiv und persönliche Aufgaben</h3>
+<p>Im Archiv findest du ausdrücklich archivierte Themen und erledigte Tagesordnungspunkte. Von dort gelangst du zur Themenansicht oder zum Protokoll. „Meine Aufgaben“ steht Benutzern mit Schreibrechten zur Verfügung. Dort werden offene Hauptzuständigkeiten und ausdrücklich zugewiesene Tagesordnungspunkte getrennt aufgeführt – einschließlich nächster Termine und überfälliger Wiedervorlagen.</p>
+
+<h2 id="teilnehmer">3. Anleitung für Teilnehmer</h2>
+<p>Teilnehmer nutzen alle Lesefunktionen und können zusätzlich in Reihen mit Teilnehmerrechten an Themen und Tagesordnungen arbeiten.</p>
+<h3>3.1 Neues Thema anlegen</h3>
+<ol><li>Öffne die Übersicht und wähle „Neuen Tagesordnungspunkt anlegen“ oder rufe die Funktion „Neues Thema“ auf.</li><li>Gib einen aussagekräftigen Titel ein.</li><li>Wähle eine Besprechungsreihe und einen zukünftigen, noch nicht abgeschlossenen Termin dieser Reihe.</li><li>Bestätige das Anlegen. Das Thema wird erstellt und direkt auf die Tagesordnung des gewählten Termins gesetzt.</li><li>Du gelangst zur Themenansicht, in der du den Titel und später die Besprechungstexte bearbeiten kannst.</li></ol>
+<p>Ein Thema enthält den übergreifenden Titel. Der Arbeits- bzw. Protokolltext wird für jeden konkreten Termin am Tagesordnungspunkt geführt. So bleibt nachvollziehbar, was in welcher Sitzung besprochen wurde.</p>
+<h3>3.2 Vorhandenes Thema zur Tagesordnung hinzufügen</h3>
+<p>Öffne einen noch nicht abgeschlossenen Termin und wähle „+ Neu“. Während du den Titel eingibst, sucht die Anwendung nach passenden vorhandenen Themen. Wähle einen Vorschlag, um das bestehende Thema zu übernehmen und Duplikate zu vermeiden. Andernfalls gib ein neues Thema ein. Optional kannst du gleich einen Text und eine abweichende Zuständigkeit eintragen.</p>
+<h3>3.3 Thema bearbeiten</h3>
+<ol><li>Öffne das Thema über die Übersicht oder einen Tagesordnungspunkt.</li><li>Ändere im Bereich „Thementitel“ die Bezeichnung und klicke „Titel speichern“.</li><li>Im Abschnitt „Besprechungen und Tagesordnungstexte“ findest du die einzelnen Termine des Themas.</li><li>Bei einem offenen Termin kannst du den Text für genau diesen Termin bearbeiten und speichern.</li><li>Optional wählst du eine abweichend verantwortliche Person für diesen Tagesordnungspunkt. Ohne abweichende Zuweisung gilt die Hauptzuständigkeit des Themas.</li></ol>
+<p>Texte abgeschlossener Besprechungen sind schreibgeschützt. Spätere Änderungen überschreiben keine historischen Protokolle.</p>
+<h3>3.4 Tagesordnung bearbeiten</h3>
+<ul><li>Klappe einen Tagesordnungspunkt auf, um Text und Werkzeuge zu sehen.</li><li>Bearbeite „Text für dieses Protokoll“ und speichere. Je nach Situation kannst du nur diesen Punkt oder alle geänderten Punkte gemeinsam speichern.</li><li>Ändere den Bearbeitungsstand auf Offen, In Arbeit oder Erledigt.</li><li>Weise bei Bedarf eine abweichend verantwortliche Person zu.</li><li>Ändere die Reihenfolge über die Pfeile oder durch Ziehen am Ziehgriff. Die Sortierfunktion speichert die Reihenfolge.</li><li>Über „Historie“ kannst du die bisherige Entwicklung des Tagesordnungspunkts nachvollziehen.</li></ul>
+<h3>3.5 Verschieben und Wiedervorlage</h3>
+<p>Mit „Schieben“ kannst du einen Punkt aus dem aktuellen Termin herausnehmen und auf einen späteren Termin legen. Wähle Zielreihe und Zieltermin und bestätige. Der Punkt wird als Wiedervorlage weitergeführt und gilt dadurch nicht automatisch als besprochen oder erledigt. Text und Zuständigkeit werden übernommen.</p>
+<p>Unter „Offene Punkte“ findest du den jeweils letzten noch offenen Tagesordnungspunkt, für den noch kein zukünftiger Termin vorgesehen ist. Wähle einen künftigen Termin derselben Reihe und klicke „Auf Tagesordnung setzen“. Gibt es noch keinen zukünftigen Termin, muss zuerst ein Moderator einen Termin anlegen.</p>
+<h3>3.6 Tagesordnungspunkt aus einem Termin entfernen</h3>
+<p>Das Entfernen erfolgt in der Themenansicht im Abschnitt des betreffenden Termins über „Punkt aus diesem Termin entfernen“. Es wird nur die Zuordnung zu diesem einen Termin entfernt. Das Thema und seine Einträge in anderen Terminen bleiben erhalten. Die Funktion ist für nicht abgeschlossene Besprechungen vorgesehen.</p>
+<h3>3.7 Kommentare, Dateien und Links</h3>
+<ul><li>Im Kommentarbereich eines Themas kannst du eine Nachricht oder nächste Schritte ergänzen. Kommentare werden mit Verfasser und Zeitpunkt angezeigt.</li><li>Über „Anlage hinzufügen“ kannst du eine Datei hochladen oder einen Netzwerkpfad bzw. Link hinterlegen. Vergib eine verständliche Bezeichnung.</li><li>Die Organisation legt die maximal zulässige Dateigröße fest. Bei zu großen Dateien zeigt das Formular einen Hinweis.</li><li>Hinterlegte Dateien öffnest du über „Datei öffnen“. Unterstützte Web- und Netzwerklinks erscheinen anklickbar; nicht unterstützte Pfade werden als Text angezeigt.</li></ul>
+<h3>3.8 Zuständigkeiten und Meine Aufgaben</h3>
+<p>Die Hauptzuständigkeit wird am Thema geführt. Eine abweichende Zuständigkeit kann zusätzlich für einen einzelnen Tagesordnungspunkt gesetzt werden. Unter „Meine Aufgaben“ sind diese beiden Arten getrennt dargestellt. Öffne das Thema oder den zugehörigen Termin direkt über den jeweiligen Link.</p>
+<h3>3.9 Protokoll und Abschluss</h3>
+<p>Teilnehmer können den Protokollentwurf ansehen und exportieren. Das verbindliche Abschließen einer Besprechung ist Moderator*innen und Admins vorbehalten. Vor dem Abschluss sollten Texte, Zuständigkeiten und Status geprüft sein, weil der Abschluss den aktuellen Stand als Protokoll-Snapshot sichert.</p>
+
+<h2 id="moderator">4. Anleitung für Moderatoren</h2>
+<p>Moderatoren verfügen über die Teilnehmerfunktionen und verwalten zusätzlich die Besprechungsreihe und den Sitzungsablauf.</p>
+<h3>4.1 Neue Besprechungsreihe anlegen</h3>
+<ol><li>Öffne „Besprechungsreihen“ in der Seitenleiste und klicke „+ Neu“.</li><li>Vergib eine eindeutige Bezeichnung und optional eine Beschreibung.</li><li>Lege den Rhythmus fest: wöchentlich oder monatlich. Das Intervall bestimmt, nach wie vielen Wochen bzw. Monaten der Termin wiederkehrt.</li><li>Wähle den Wochentag sowie Start- und optional Enddatum.</li><li>Prüfe die Angaben und klicke „Reihe anlegen“. Die Termine werden anhand des Rhythmus erzeugt.</li></ol>
+<p>Das Enddatum darf nicht vor dem Startdatum liegen. Doppelte Termine derselben Reihe am selben Datum werden verhindert.</p>
+<h3>4.2 Besprechungsreihe bearbeiten und verlängern</h3>
+<p>Öffne „Reihe verwalten“ und dann „Einstellungen bearbeiten“. Du kannst Name, Beschreibung, Rhythmus, Intervall, Wochentag sowie Start- und Enddatum anpassen. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben erhalten. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
+<p>„Verlängern“ ergänzt fehlende Termine bis zum 31. Dezember des Folgejahres. Bestehende Termine bleiben unverändert.</p>
+<h3>4.3 Einzelne Termine ändern oder löschen</h3>
+<p>In der Reihenübersicht findest du den nächsten Termin und unter „Alle weiteren Termine anzeigen“ die übrigen Termine. Bei noch nicht abgeschlossenen Terminen kannst du das Datum ändern oder den Termin löschen. Abgeschlossene Termine sind vor solchen Änderungen geschützt. Lies vor dem Löschen den Bestätigungstext, da Tagesordnungspunkte nach den Anwendungsregeln behandelt und Änderungen protokolliert werden.</p>
+<h3>4.4 Termine neu aufsetzen</h3>
+<p>In den Einstellungen einer Reihe findest du „Termine neu aufsetzen“. Alle nicht abgeschlossenen Termine werden entfernt und anhand der aktuellen Serieneinstellungen neu angelegt. Vorhandene Tagesordnungspunkte werden auf den nächsten neuen Termin übertragen. Abgeschlossene Termine und Protokolle bleiben erhalten. Diese Aktion betrifft mehrere Termine; prüfe daher den Bestätigungstext sorgfältig.</p>
+<h3>4.5 Thema archivieren und wieder öffnen</h3>
+<p>In der Themenansicht kannst du ein Thema archivieren, wenn es nicht mehr auf einer zukünftigen oder offenen Tagesordnung steht. Archivierte Themen bleiben erhalten und erscheinen im Archiv. Über „Thema wieder öffnen“ kannst du es später reaktivieren. Dabei wird der Status vor der Archivierung wiederhergestellt.</p>
+<h3>4.6 Besprechung abschließen</h3>
+<ol><li>Öffne den Termin und prüfe Tagesordnung, Texte, Teilnehmer, Zuständigkeiten und Bearbeitungsstände.</li><li>Stelle sicher, dass alle Änderungen gespeichert sind.</li><li>Wähle „Besprechung abschließen“ und bestätige.</li><li>Die Anwendung sichert Themenbezeichnungen, Texte, Statuswerte und Verantwortlichkeiten als Protokollstand.</li><li>Das Protokoll ist anschließend als abgeschlossen gekennzeichnet und kann als PDF oder Word exportiert werden.</li></ol>
+<p>Nach dem Abschluss sind Tagesordnung und Protokoll-Snapshot gegen normale Bearbeitung geschützt. Die weitere Arbeit erfolgt in einem zukünftigen Termin.</p>
+<h3>4.7 Besprechung wieder öffnen</h3>
+<p>Wenn eine abgeschlossene Sitzung erneut bearbeitet werden muss, kannst du sie über die Protokollansicht wieder öffnen. Der gesicherte Stand dient als Grundlage der weiteren Bearbeitung. Verwende diese Funktion nur, wenn eine Korrektur oder Ergänzung erforderlich ist.</p>
+<h3>4.8 Änderungsverlauf</h3>
+<p>„Änderungsverlauf“ zeigt protokollierte Aktionen wie Anlegen, Ändern, Archivieren, Übertragen, Hinzufügen einer Anlage, Abschluss und Wiederöffnung. Du kannst nach Thema oder Besprechungsreihe filtern und Details aufklappen. Einträge werden automatisch erzeugt und können hier nicht bearbeitet werden.</p>
+
+<h2 id="admin">5. Anleitung für Administratoren</h2>
+<p>Administratoren haben die Moderatorfunktionen für alle Reihen und zusätzlich Zugriff auf „Verwaltung“ (Django-Adminbereich).</p>
+<h3>5.1 Benutzer verwalten</h3>
+<ol><li>Öffne „Verwaltung“ und dann „Benutzer“.</li><li>Über „Benutzer hinzufügen“ legst du ein Konto mit Anmeldenamen und Passwort an.</li><li>Pflege Vorname, Nachname, E-Mail-Adresse und Kurzbeschreibung. Die Kurzbeschreibung wird in Auswahllisten vor dem Namen angezeigt.</li><li>Mit „Aktiv“ steuerst du, ob sich das Konto anmelden kann.</li><li>Mit „Administrator“ vergibst oder entziehst du globale Administratorrechte. „Django-Superuser“ ist eine weitergehende technische Berechtigung und sollte nur gezielt verwendet werden.</li><li>Über die Zuordnung kannst du Benutzer einer oder mehreren Besprechungsreihen mit einer Rolle zuweisen.</li></ol>
+<h3>5.2 Rollen und Gruppen zuweisen</h3>
+<p>Öffne unter Verwaltung „Gruppen – Serien und Berechtigungen“. Dort werden Reihen mit ihren Mitgliedern angezeigt. Du kannst eine Person hinzufügen und Leser, Teilnehmer oder Moderator wählen. Bestehende Zuordnungen lassen sich ändern oder entfernen. Rollen gelten jeweils nur für die betreffende Reihe. Nach dem Entfernen einer Zuordnung entfällt der reguläre Zugriff; bei gelöschten Reihen kann ein gesonderter Lesezugriff auf frühere Protokolle erhalten bleiben.</p>
+<h3>5.3 Benutzer per CSV importieren und exportieren</h3>
+<p>In der Benutzerliste stehen CSV-Import und CSV-Export zur Verfügung. Exportiere zunächst eine Datei, um das erwartete Format kennenzulernen. Bearbeite sie in einem Tabellenprogramm und speichere sie wieder als CSV. Achte auf Spaltenüberschriften, Zeichencodierung und eindeutige Benutzernamen. Lies die Rückmeldungen des Imports und prüfe anschließend die angelegten oder aktualisierten Konten.</p>
+<h3>5.4 Themen und Tagesordnungspunkte per CSV verwalten</h3>
+<p>In der Themenverwaltung findest du CSV-Import, CSV-Export und eine Beispieldatei. Verwende die Beispieldatei als Vorlage und halte die Spaltenstruktur ein. Ein Import kann Themen und zugehörige Tagesordnungseinträge betreffen. Prüfe die Datei sorgfältig und sichere vor größeren Änderungen den Datenbestand. Kontrolliere nach dem Import die betroffenen Themen und Termine.</p>
+<h3>5.5 Organisationseinstellungen und Erscheinungsbild</h3>
+<p>Unter „Verwaltung“ → „Organisationseinstellungen“ kannst du Namen und Kurznamen der Organisationseinheit, die maximale Dateigröße für Anlagen und zentrale Markenfarben konfigurieren. Farbwerte werden als Hex-Farben im Format #RRGGBB eingetragen. Es gibt Grundfarben und optionale helle bzw. dunkle Varianten.</p>
+<h3>5.6 Protokollkorrekturen und geschützte Daten</h3>
+<p>Abgeschlossene Protokolle sind als Snapshots gesichert. Eine nachträgliche Korrektur ist keine normale Bearbeitung und erfolgt bei Bedarf im Verwaltungsbereich am gesicherten Protokolleintrag. Eine Begründung ist verpflichtend; der vorherige und der neue Stand werden im Änderungsverlauf dokumentiert. Protokoll-Snapshots können nicht frei angelegt oder gelöscht werden.</p>
+<h3>5.7 Weitere Verwaltungsbereiche</h3>
+<ul><li><strong>Besprechungsreihen:</strong> Stammdaten, Serienberechtigungen und Terminübersicht.</li><li><strong>Besprechungen:</strong> Termine und Teilnehmer; abgeschlossene Besprechungen sind weitgehend schreibgeschützt.</li><li><strong>Themen:</strong> Themenstammdaten sowie CSV-Funktionen.</li><li><strong>Anlagen:</strong> Übersicht hochgeladener Dateien und Themenzuordnung.</li><li><strong>Änderungsverläufe:</strong> automatisch erzeugte, schreibgeschützte Ereignisse.</li><li><strong>Kommentare und Transferhistorie:</strong> nachvollziehbare Dokumentation von Kommunikation und Reihenwechseln.</li></ul>
+<p>Für den normalen Betrieb sind die Anwendungsfunktionen zu bevorzugen. Direkte Datenbankänderungen oder unpassende Admin-Aktionen können Prüfungen und Änderungsprotokolle umgehen.</p>
+
+<h2 id="faq">6. Häufige Fragen und Hinweise</h2>
+<h3>Warum kann ich nichts bearbeiten?</h3><p>Du bist möglicherweise Leser in dieser Reihe oder der Termin ist bereits abgeschlossen. Prüfe, ob du in der richtigen Reihe arbeitest.</p>
+<h3>Warum kann ich ein Thema nicht archivieren?</h3><p>Ein Thema kann erst archiviert werden, wenn es nicht mehr auf einer zukünftigen oder offenen Tagesordnung steht. Entferne oder verschiebe zunächst die noch geplanten Tagesordnungspunkte.</p>
+<h3>Warum weicht das Protokoll vom aktuellen Themenstand ab?</h3><p>Das Protokoll einer abgeschlossenen Sitzung zeigt den zum Abschluss gesicherten Stand. Spätere Änderungen am Thema oder an Folgeterminen ändern dieses historische Protokoll nicht.</p>
+<h3>Was ist der Unterschied zwischen Thema und Tagesordnungspunkt?</h3><p>Das Thema ist der fortlaufende Vorgang. Ein Tagesordnungspunkt ist seine Behandlung in einem bestimmten Termin. Ein Thema kann daher mehrere Tagesordnungspunkte und Protokolltexte über mehrere Sitzungen hinweg haben.</p>
+<h3>Wen kontaktiere ich bei fehlendem Zugriff?</h3><p>Wende dich an den Administrator oder den Moderator der betreffenden Reihe und bitte um Prüfung deiner Serienberechtigung.</p>
+<h3>Bedienung auf Smartphone und Tablet</h3><p>Die Oberfläche passt sich kleineren Bildschirmen an. Öffne die Navigation über die Menüschaltfläche oben. Tabellen können horizontal gescrollt werden. Dialoge lassen sich über „Schließen“ oder „Abbrechen“ verlassen.</p>
+</article>
+<aside class="card guide-index"><h2 style="margin-top:0">Inhaltsverzeichnis</h2><a href="#rollen">Rollen und Berechtigungen</a><a href="#leser">Leser</a><a href="#teilnehmer">Teilnehmer</a><a href="#moderator">Moderator</a><a href="#admin">Admin</a><a href="#faq">Häufige Fragen</a></aside>
+</div>
+{% endblock %}

@@ -1,11 +1,13 @@
 from django.urls import path
 from . import views
 from . import agenda_topic_views
+from . import guide_views
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("", views.dashboard, name="dashboard"),
+    path("hilfe/", guide_views.user_guide, name="user_guide"),
     path("my-tasks/", views.my_tasks, name="my_tasks"),
     path("meetings/", views.meetings_overview, name="meetings_overview"),
     path("open-topics/", views.open_topics, name="open_topics"),
