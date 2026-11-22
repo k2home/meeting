@@ -1,4 +1,5 @@
 from django.db import migrations
+from django.db.models import Q
 
 
 DESCRIPTION_KEYS = {
@@ -25,7 +26,9 @@ def _without_topic_description(value):
 def remove_topic_description_from_audit(apps, schema_editor):
     AuditEvent = apps.get_model("meetings", "AuditEvent")
     database = schema_editor.connection.alias
-    events = AuditEvent.objects.using(database).filter(topic__isnull=False).only("pk", "changes")
+    events = AuditEvent.objects.using(database).filter(
+        Q(topic__isnull=False) | Q(summary__startswith="Thema")
+    ).only("pk", "changes")
     for event in events.iterator():
         cleaned = _without_topic_description(event.changes or {})
         if cleaned != (event.changes or {}):
