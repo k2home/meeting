@@ -3,7 +3,7 @@
 {% block content %}
 <style>
 .topic-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:1.2rem;align-items:start}
-.topic-main,.topic-side{min-width:0}.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
+.topic-main,.topic-side{min-width:0}.topic-layout>.topic-main{margin:0;padding:0;width:auto}.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
 .topic-meeting{padding:1rem 0;border-bottom:1px solid var(--border,#ddd)}
 .topic-meeting:last-child{border:0}.topic-meeting textarea{min-height:120px}
 .topic-meeting-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
@@ -33,7 +33,7 @@
   {% if not is_reader %}<a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a>{% endif %}
 </div>
 <div class="topic-layout">
- <main class="topic-main">
+ <div class="topic-main">
   <section class="card">
    <h2>Thementitel</h2>
    {% if is_reader %}{{ form.title }}
@@ -77,7 +77,7 @@
     </article>
    {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
   </section>
- </main>
+ </div>
  <aside class="topic-side">
   <section class="card"><h2>Informationen</h2>
    <dl class="topic-meta">

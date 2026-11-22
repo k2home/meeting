@@ -40,6 +40,33 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertNotContains(response, "Themenstatus")
         self.assertNotContains(response, "Beschreibung und aktueller Stand")
 
+
+    def test_topic_detail_columns_start_at_same_top_edge(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<div class="topic-main">')
+        self.assertNotContains(response, '<main class="topic-main">')
+        self.assertContains(response, '.topic-layout>.topic-main{margin:0;padding:0;width:auto}')
+
+    def test_sidebar_navigation_groups_have_requested_order_and_separation(self):
+        from pathlib import Path
+
+        template = Path("templates/meetings/base.html").read_text()
+        overview = template.index('class="nav-overview"')
+        tasks = template.index('class="nav-tasks"')
+        open_topics = template.index('class="nav-open-topics"')
+        archive = template.index('class="nav-archive"')
+        history = template.index('class="nav-history"')
+        series = template.index('class="nav-series"')
+        management = template.index('class="sidebar-footer"')
+        self.assertLess(overview, tasks)
+        self.assertLess(tasks, open_topics)
+        self.assertLess(open_topics, archive)
+        self.assertLess(archive, history)
+        self.assertLess(history, series)
+        self.assertLess(series, management)
+        self.assertIn('class="nav-links nav-links-secondary"', template)
+
     def test_topic_detail_omits_redundant_header_and_title_label(self):
         response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
         self.assertEqual(response.status_code, 200)
