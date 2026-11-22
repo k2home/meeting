@@ -123,7 +123,7 @@ def dashboard(request):
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
     selected_series = request.GET.get("series", "")
-    selected_assignee = request.GET.get("assigned_to", str(request.user.pk))
+    selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
     selected_due = request.GET.get("due", "")
 
     if selected_status in {"open", "done", "archived"}:
