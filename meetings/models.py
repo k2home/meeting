@@ -67,6 +67,7 @@ class Topic(models.Model):
                                     related_name="assigned_meeting_topics", verbose_name="Verantwortlich")
     completed_at = models.DateField("Abschlussdatum", null=True, blank=True)
     completion_note = models.TextField("Abschlussvermerk", blank=True)
+    archive_previous_status = models.CharField("Status vor Archivierung", max_length=12, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
