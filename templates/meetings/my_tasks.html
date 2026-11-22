@@ -15,7 +15,7 @@
     <div class="actions">
       {% if overdue_count %}<span class="pill overdue">{{ overdue_count }} überfällige Wiedervorlagen</span>{% endif %}
       {% if due_today_count %}<span class="pill">{{ due_today_count }} heute auf der Tagesordnung</span>{% endif %}
-      {% if without_due_date_count %}<span class="pill">{{ without_due_date_count }} ohne geplante Besprechung</span>{% endif %}
+      {% if without_meeting_count %}<span class="pill">{{ without_meeting_count }} ohne geplante Besprechung</span>{% endif %}
     </div>
   </div>
   {% if topics %}
