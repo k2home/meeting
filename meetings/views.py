@@ -1428,7 +1428,7 @@ def series_delete(request, pk):
         + ("Abgeschlossene Besprechungen wurden ebenfalls entfernt." if delete_completed
            else "Abgeschlossene und sonstige verbleibende Besprechungen samt Protokollen bleiben erhalten.")
     )
-    return redirect("series_admin")
+    return redirect("series_admin" if is_moderator(request.user) else "dashboard")
 
 
 @login_required
