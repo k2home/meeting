@@ -258,11 +258,17 @@ def my_tasks(request):
             & Q(agenda_items__assigned_to=request.user),
         )
     ).distinct().order_by(F("next_meeting_date").asc(nulls_last=True), "title")
+    topics = list(topics)
+    visible_meetings = accessible_meetings(request.user)
+    for topic in topics:
+        topic.latest_agenda_text = topic.agenda_items.filter(
+            meeting__in=visible_meetings
+        ).order_by("-meeting__date", "-pk").values_list("working_text", flat=True).first() or ""
     return render(request, "meetings/my_tasks.html", {
         "topics": topics, "today": today,
-        "overdue_count": topics.filter(next_meeting_date__lt=today).count(),
-        "due_today_count": topics.filter(next_meeting_date=today).count(),
-        "without_meeting_count": topics.filter(next_meeting_date__isnull=True).count(),
+        "overdue_count": sum(1 for topic in topics if topic.next_meeting_date and topic.next_meeting_date < today),
+        "due_today_count": sum(1 for topic in topics if topic.next_meeting_date == today),
+        "without_meeting_count": sum(1 for topic in topics if topic.next_meeting_date is None),
     })
 
 @login_required
