@@ -9,6 +9,7 @@ on:
       - chat
       - fix/agenda-followup-linkage
       - ui-sidebar-horizontal-brand-mobile-short-name
+      - fix-safari-icons-all-references
   pull_request:
 
 jobs:

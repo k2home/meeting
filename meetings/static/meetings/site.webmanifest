@@ -1,0 +1,16 @@
+{
+  "name": "Meeting Manager",
+  "short_name": "Meetings",
+  "icons": [
+    {
+      "src": "/static/meetings/favicon-180.png?v=3",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#003d73"
+}

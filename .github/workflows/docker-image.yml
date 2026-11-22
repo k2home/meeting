@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - ui-sidebar-horizontal-brand-mobile-short-name
+      - fix-safari-icons-all-references
   pull_request:
 
 permissions:
