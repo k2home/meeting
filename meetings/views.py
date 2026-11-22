@@ -973,8 +973,12 @@ def topic_transfer(request, pk):
 
 @login_required
 def archive(request):
-    topics = accessible_topics(request.user).filter(status="archived").select_related("series")
-    return render(request, "meetings/archive.html", {"topics": topics})
+    items = AgendaItem.objects.filter(
+        meeting__in=accessible_meetings(request.user), status="done"
+    ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
+        "-meeting__date", "topic__title", "position"
+    )
+    return render(request, "meetings/archive.html", {"items": items})
 
 @login_required
 @reader_no_access
