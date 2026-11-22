@@ -436,6 +436,46 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(rows, [])
         self.assertTrue(any("Unbekannte CSV-Spalten" in error for error in errors))
 
+    def test_import_separates_topic_and_agenda_status_and_responsibility(self):
+        topic_owner = User.objects.create_user(username="csv-topic-owner", password="strong-test-password")
+        point_owner = User.objects.create_user(username="csv-point-owner", password="strong-test-password")
+        text = self._modern_csv([[
+            "2026-12-03", "Sitzung", "Status-Trennung", "archived", "in_progress",
+            "csv-topic-owner", "", "csv-point-owner", "", "Punkttext",
+        ]])
+        response = self._confirm_import(text)
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Status-Trennung")
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertEqual(topic.status, "archived")
+        self.assertEqual(topic.assigned_to, topic_owner)
+        self.assertEqual(item.status, "in_progress")
+        self.assertEqual(item.assigned_to, point_owner)
+        self.assertEqual(item.working_text, "Punkttext")
+
+    def test_export_contains_topic_and_agenda_fields_independently(self):
+        import csv
+        from io import StringIO
+
+        topic_owner = User.objects.create_user(username="export-topic-owner", password="strong-test-password")
+        point_owner = User.objects.create_user(username="export-point-owner", password="strong-test-password")
+        topic = Topic.objects.create(
+            title="Export-Trennung", series=self.series, status="archived", assigned_to=topic_owner,
+        )
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Exporttermin")
+        AgendaItem.objects.create(
+            meeting=meeting, topic=topic, status="in_progress", assigned_to=point_owner,
+            working_text="Exportierter Punkttext",
+        )
+        response = self.client.get(reverse("admin:meetings_topic_csv_export"))
+        rows = list(csv.DictReader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
+        exported = next(row for row in rows if row.get("topic_title") == "Export-Trennung")
+        self.assertEqual(exported["topic_status"], "archived")
+        self.assertEqual(exported["agenda_status"], "in_progress")
+        self.assertEqual(exported["responsible_username"], "export-topic-owner")
+        self.assertEqual(exported["agenda_responsible_username"], "export-point-owner")
+        self.assertEqual(exported["agenda_text"], "Exportierter Punkttext")
+
     def test_import_creates_topic_meeting_and_agenda_item(self):
         from django.core.files.uploadedfile import SimpleUploadedFile
         text = self._csv([[
@@ -496,6 +536,21 @@ class TopicAgendaCsvImportTests(TestCase):
             if len(row) != 10:
                 raise AssertionError(f"Expected 10 row values, got {len(row)}: {row!r}")
             writer.writerow(["CSV-Reihe", topic_series_name, *row])
+        return output.getvalue()
+
+    def _modern_csv(self, rows):
+        import csv
+        from io import StringIO
+        output = StringIO()
+        writer = csv.writer(output, delimiter=";")
+        writer.writerow([
+            "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
+            "topic_status", "agenda_status", "responsible_username",
+            "responsible_kurzbezeichnung", "agenda_responsible_username",
+            "agenda_responsible_kurzbezeichnung", "agenda_text",
+        ])
+        for row in rows:
+            writer.writerow(["CSV-Reihe", "CSV-Reihe", *row])
         return output.getvalue()
 
     def _confirm_import(self, text):
@@ -559,7 +614,7 @@ class TopicAgendaCsvImportTests(TestCase):
         ]]))
         topic = Topic.objects.get(title="Verantwortliches Thema")
         item = AgendaItem.objects.get(topic=topic)
-        self.assertIsNone(topic.assigned_to)
+        self.assertEqual(topic.assigned_to, responsible)
         self.assertEqual(item.assigned_to, responsible)
 
     def test_agenda_responsible_user_is_imported_independently_from_topic_owner(self):

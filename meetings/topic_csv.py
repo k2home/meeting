@@ -16,14 +16,15 @@ User = get_user_model()
 
 CSV_FIELDS = (
     "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
-    "topic_status", "responsible_username", "responsible_kurzbezeichnung",
+    "topic_status", "agenda_status", "responsible_username", "responsible_kurzbezeichnung",
     "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
 )
 LEGACY_FIELDS = ("topic_due_date",)
 REQUIRED_FIELDS = ("series", "meeting_date", "topic_title")
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
 SESSION_KEY = "pending_topic_agenda_csv_import"
-STATUS_VALUES = {value for value, _ in AgendaItem.STATUS}
+TOPIC_STATUS_VALUES = {value for value, _ in Topic.STATUS}
+AGENDA_STATUS_VALUES = {value for value, _ in AgendaItem.STATUS}
 
 
 class TopicAgendaCsvUploadForm(forms.Form):
@@ -48,9 +49,9 @@ def sample_csv_response():
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
     _write_csv_documentation(writer)
     return response
 
@@ -60,8 +61,9 @@ def _write_csv_documentation(writer):
     writer.writerow(["# GÜLTIGE WERTE", "Feld", "Erlaubte Werte"])
     writer.writerow(["#", "series", "Besprechungsreihe des konkreten Termins; legt Meeting fest."])
     writer.writerow(["#", "topic_series", "Zuständige Besprechungsreihe des Themas; leer bedeutet ohne Zuordnung. Bei alten Dateien ohne diese Spalte wird series übernommen."])
-    writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in AgendaItem.STATUS)])
-    writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Optionale Standardzuständigkeit; wird als Zuständigkeit des Tagesordnungspunkts übernommen, sofern keine abweichende Punktverantwortung angegeben ist."])
+    writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in Topic.STATUS)])
+    writer.writerow(["#", "agenda_status", "; ".join(f"{value} ({label})" for value, label in AgendaItem.STATUS)])
+    writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Optionale Hauptzuständigkeit des Themas."])
     writer.writerow(["#", "agenda_responsible_username / agenda_responsible_kurzbezeichnung", "Optionale abweichende Person für genau diesen Tagesordnungspunkt; leer bedeutet Hauptverantwortliche Person."])
     writer.writerow([])
     writer.writerow(["# DATUMS-/FORMATVORGABEN", "Feld", "Format"])
@@ -85,7 +87,7 @@ def export_topic_agenda_csv(request):
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
     items = AgendaItem.objects.select_related(
-        "meeting__series", "topic", "topic__series", "assigned_to"
+        "meeting__series", "topic", "topic__series", "topic__assigned_to", "assigned_to"
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
     for item in items:
         meeting, topic = item.meeting, item.topic
@@ -95,9 +97,10 @@ def export_topic_agenda_csv(request):
             meeting.date.isoformat(),
             meeting.title,
             topic.title,
+            topic.status,
             item.status,
-            "",
-            "",
+            topic.assigned_to.username if topic.assigned_to else "",
+            _profile_short_description(topic.assigned_to),
             item.assigned_to.username if item.assigned_to else "",
             _profile_short_description(item.assigned_to),
             item.working_text,
@@ -192,9 +195,14 @@ def parse_topic_agenda_csv(text):
             errors.append(f"Zeile {row_number}: topic_title ist länger als 240 Zeichen.")
         if len(meeting_title) > 180:
             errors.append(f"Zeile {row_number}: meeting_title ist länger als 180 Zeichen.")
-        status = row.get("topic_status") or "open"
-        if status not in STATUS_VALUES:
-            errors.append(f"Zeile {row_number}: Unbekannter topic_status „{status}“.")
+        # In älteren CSV-Dateien bezeichnet topic_status den Punktstatus. Ohne
+        # agenda_status darf deshalb der eigenständige Themenstatus nicht geändert werden.
+        topic_status = (row.get("topic_status") or "open") if "agenda_status" in headers else None
+        if topic_status is not None and topic_status not in TOPIC_STATUS_VALUES:
+            errors.append(f"Zeile {row_number}: Unbekannter topic_status „{topic_status}“.")
+        agenda_status = (row.get("agenda_status") if "agenda_status" in headers else row.get("topic_status")) or "open"
+        if agenda_status not in AGENDA_STATUS_VALUES:
+            errors.append(f"Zeile {row_number}: Unbekannter agenda_status „{agenda_status}“.")
 
         main_user = _resolve_user(
             row.get("responsible_username", ""), row.get("responsible_kurzbezeichnung", ""),
@@ -209,7 +217,10 @@ def parse_topic_agenda_csv(text):
             continue
 
         topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
-        topic_data = {"series_id": topic_series_id, "title": title}
+        topic_data = {
+            "series_id": topic_series_id, "title": title,
+            "status": topic_status, "assigned_to_id": main_user.pk if main_user else None,
+        }
         if topic_key not in topic_records:
             topic_records[topic_key] = {"topic": topic_data, "row": row_number}
 
@@ -221,6 +232,7 @@ def parse_topic_agenda_csv(text):
                 "row_number": row_number, "series_id": series_id,
                 "meeting_date": legacy_due_date, "meeting_title": meeting_title,
                 "topic_key": topic_key, "topic": topic_data,
+                "agenda_status": agenda_status,
             })
 
         for scheduled_date, agenda_text, agenda_assignee_id in schedule_rows:
@@ -235,7 +247,7 @@ def parse_topic_agenda_csv(text):
                 "row_number": row_number, "series_id": series_id, "meeting_date": scheduled_date,
                 "meeting_title": meeting_title, "topic_key": topic_key, "topic": topic_data,
                 "agenda_text": agenda_text, "agenda_assigned_to_id": agenda_assignee_id,
-                "agenda_status": status,
+                "agenda_status": agenda_status,
                 "position": position,
             })
 
@@ -251,7 +263,7 @@ def parse_topic_agenda_csv(text):
             **followup,
             "agenda_text": "",
             "agenda_assigned_to_id": None,
-            "agenda_status": followup["topic"].get("status", "open"),
+            "agenda_status": followup["agenda_status"],
             "position": position,
         })
 
@@ -317,6 +329,9 @@ def import_topic_agenda_csv(request):
                         created_topics += 1
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
+                    if data["status"] is not None:
+                        topic.status = data["status"]
+                    topic.assigned_to_id = data["assigned_to_id"]
                     topic.save()
                     topic_records[key] = topic
 
