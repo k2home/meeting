@@ -106,6 +106,18 @@ class TopicArchiveWorkflowTests(TestCase):
         self.topic = Topic.objects.create(title="Archivthema", series=self.series)
         self.client.force_login(self.moderator)
 
+    def test_topic_with_future_agenda_item_cannot_be_archived(self):
+        meeting = Meeting.objects.create(
+            series=self.series,
+            date=timezone.localdate() + timedelta(days=7),
+        )
+        AgendaItem.objects.create(meeting=meeting, topic=self.topic)
+        response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "open")
+        self.assertFalse(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
+
     def test_archive_and_reopen_restores_previous_topic_status(self):
         self.topic.status = "in_progress"
         self.topic.save(update_fields=["status"])
