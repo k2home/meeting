@@ -34,7 +34,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Themen und Aufgaben
 
-- Themen mit Titel, Status, zuständiger Besprechungsreihe und Hauptverantwortung.
+- Themen mit Titel, Status und zuständiger Besprechungsreihe.
 - Der Text und Bearbeitungsstand eines Tagesordnungspunkts werden je Besprechungstermin separat gespeichert.
 - Abweichende Zuständigkeiten können einzelnen Tagesordnungspunkten zugewiesen werden.
 - Suche über Thementitel, Tagesordnungstexte, Besprechungsreihe und Zuständigkeit; Filter nach Status, Reihe und Zuständigkeit.
@@ -72,7 +72,7 @@ Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“
 | Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja | Alle Reihen |
 | Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja | Ja |
 | Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja | Ja |
-| Zuständigkeiten für Themen und Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja |
+| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja |
 | Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja | Ja |
 | Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja | Ja |
 | Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja | Ja |
