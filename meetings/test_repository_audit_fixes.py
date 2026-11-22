@@ -148,6 +148,10 @@ class DeletedSeriesReadAccessTests(TestCase):
         self.client.force_login(member)
         self.assertEqual(self.client.get(reverse("protocol", args=[meeting.pk])).status_code, 200)
         self.assertEqual(self.client.get(reverse("topic_edit", args=[topic.pk])).status_code, 200)
+        denied_topic_edit = self.client.post(reverse("topic_edit", args=[topic.pk]), {"title": "Manipuliert"})
+        self.assertEqual(denied_topic_edit.status_code, 403)
+        denied_meeting_edit = self.client.post(reverse("meeting", args=[meeting.pk]), {"save_participants": "1"})
+        self.assertEqual(denied_meeting_edit.status_code, 403)
 
 
 class AttachmentAndShiftSafetyTests(TestCase):
