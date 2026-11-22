@@ -9,7 +9,7 @@ def normalize_series_values(apps, schema_editor):
     alias = schema_editor.connection.alias
     MeetingSeries.objects.using(alias).filter(recurrence_interval__lt=1).update(recurrence_interval=1)
     MeetingSeries.objects.using(alias).filter(recurrence_interval__gt=52).update(recurrence_interval=52)
-    MeetingSeries.objects.using(alias).filter(end_date__lt=models.F("start_date")).update(end_date=None)
+    MeetingSeries.objects.using(alias).filter(end_date__lt=models.F("start_date")).update(end_date=models.F("start_date"))
 
 
 class Migration(migrations.Migration):
