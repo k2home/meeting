@@ -178,7 +178,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
     pendingForm = form;
     pendingSubmitter = event.submitter || form.querySelector('button[type="submit"],input[type="submit"],button:not([type])');
     let text = form.dataset.confirmMessage || "Möchtest du diese Aktion wirklich ausführen?";
-    if (form.querySelector('input[name="delete_completed"]:checked')) text += "\\n\\nAchtung: Auch abgeschlossene Besprechungen und ihre Protokolle werden endgültig gelöscht.";
+    if (form.querySelector('input[name="delete_completed"]:checked')) text += "\n\nAchtung: Auch abgeschlossene Besprechungen und ihre Protokolle werden endgültig gelöscht.";
     message.textContent = text;
     accept.classList.toggle("danger", Boolean(pendingSubmitter && pendingSubmitter.classList.contains("danger")));
     dialog.showModal();
