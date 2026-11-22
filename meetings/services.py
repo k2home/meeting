@@ -60,7 +60,9 @@ def generate_meetings(series):
         series.save(update_fields=["end_date"])
 
     cursor = _next_weekday_on_or_after(series.start_date, series.weekday)
-    interval = max(1, series.recurrence_interval or 1)
+    interval = series.recurrence_interval
+    if not 1 <= interval <= 52:
+        raise ValueError("Das Wiederholungsintervall muss zwischen 1 und 52 liegen.")
     occurrence = (cursor.day - 1) // 7 + 1
     desired_dates = []
     while cursor <= end_date:
