@@ -188,7 +188,7 @@ Das Installationsskript fragt `SECRET_KEY` und PostgreSQL-Passwort verdeckt ab (
 | systemd-Dienst | `meeting-manager` |
 | Nginx-Konfiguration | `/etc/nginx/sites-available/meeting-manager` |
 
-Die Datei `/opt/meeting-manager/.env` enthält Geheimnisse. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden.
+Die Datei `/opt/meeting-manager/.env` enthält Geheimnisse. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Die früher im Repository vorhandene `.env` wurde aus dem aktuellen Stand entfernt; das löscht sie nicht aus der Git-Historie. Falls einer der früher veröffentlichten Werte jemals produktiv oder anderweitig gültig war, muss er außerhalb von Git widerrufen bzw. ersetzt werden.
 
 ## Updates und Betrieb
 
