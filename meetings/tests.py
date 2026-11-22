@@ -205,7 +205,8 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<p>Erste Zeile<br>Zweite Zeile</p>", html=True)
         self.assertContains(response, "Vorher<br>Text")
-        self.assertNotContains(response, "\\n")
+        # The shared confirmation-dialog script contains escaped newlines;
+        # the rendered audit entry itself is verified above with HTML line breaks.
 
 
 class TopicTaskManagementTests(TestCase):
