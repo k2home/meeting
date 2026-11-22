@@ -23,3 +23,15 @@ def changed_fields(before, after, fields):
         if old != new:
             result[label] = {"vorher": old, "nachher": new}
     return result
+
+
+def record_transfer_events(*, actor, summary, topic, from_series, to_series, meeting=None, changes=None):
+    """Make a transfer visible in both the source and destination series histories."""
+    payload = dict(
+        actor=actor, action="transferred", summary=summary, topic=topic,
+        meeting=meeting, changes=changes or {},
+    )
+    if from_series is not None:
+        record_event(**payload, series=from_series)
+    if to_series is not None and (from_series is None or to_series.pk != from_series.pk):
+        record_event(**payload, series=to_series)
