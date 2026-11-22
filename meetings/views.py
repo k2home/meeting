@@ -318,29 +318,44 @@ def open_topics(request):
 
 @login_required
 def my_tasks(request):
-    """Show open topics assigned to the user either at topic or agenda-item level."""
+    """Separate topic-level ownership from explicit agenda-item assignments."""
     today = timezone.localdate()
-    responsibility = (
-        Q(agenda_items__assigned_to=request.user)
-    )
-    topics = accessible_topics(request.user).filter(responsibility, agenda_items__status__in=["open", "in_progress"]).select_related("series").annotate(
-        next_meeting_date=Min(
+    visible_meetings = accessible_meetings(request.user)
+
+    main_topics = list(
+        accessible_topics(request.user)
+        .filter(assigned_to=request.user, status__in=["open", "in_progress"])
+        .select_related("series")
+        .annotate(next_meeting_date=Min(
             "agenda_items__meeting__date",
             filter=Q(agenda_items__meeting__finalized_at__isnull=True)
-            & Q(agenda_items__assigned_to=request.user),
-        )
-    ).distinct().order_by(F("next_meeting_date").asc(nulls_last=True), "title")
-    topics = list(topics)
-    visible_meetings = accessible_meetings(request.user)
-    for topic in topics:
-        topic.latest_agenda_text = topic.agenda_items.filter(
-            meeting__in=visible_meetings
-        ).order_by("-meeting__date", "-pk").values_list("working_text", flat=True).first() or ""
+            & Q(agenda_items__meeting__date__gte=today),
+        ))
+        .distinct()
+        .order_by(F("next_meeting_date").asc(nulls_last=True), "title")
+    )
+
+    agenda_tasks = list(
+        AgendaItem.objects.filter(
+            meeting__in=visible_meetings,
+            meeting__date__gte=today,
+            meeting__finalized_at__isnull=True,
+            assigned_to=request.user,
+            status__in=["open", "in_progress"],
+        ).select_related("topic", "topic__series", "meeting")
+        .order_by("meeting__date", "meeting__series__name", "position", "pk")
+    )
+
+    # Keep the historical context key for integrations/tests while rendering
+    # the two responsibility types in distinct sections.
     return render(request, "meetings/my_tasks.html", {
-        "topics": topics, "today": today,
-        "overdue_count": sum(1 for topic in topics if topic.next_meeting_date and topic.next_meeting_date < today),
-        "due_today_count": sum(1 for topic in topics if topic.next_meeting_date == today),
-        "without_meeting_count": sum(1 for topic in topics if topic.next_meeting_date is None),
+        "topics": main_topics,
+        "main_topics": main_topics,
+        "agenda_tasks": agenda_tasks,
+        "today": today,
+        "overdue_count": sum(1 for topic in main_topics if topic.next_meeting_date and topic.next_meeting_date < today),
+        "due_today_count": sum(1 for topic in main_topics if topic.next_meeting_date == today),
+        "without_meeting_count": sum(1 for topic in main_topics if topic.next_meeting_date is None),
     })
 
 @login_required
