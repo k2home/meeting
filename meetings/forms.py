@@ -74,6 +74,7 @@ class AttachmentForm(forms.ModelForm):
 
     def clean(self):
         cleaned = super().clean()
+        uploaded = cleaned.get("uploaded_file")
         if not uploaded and not (cleaned.get("network_path") or "").strip():
             raise forms.ValidationError("Bitte wähle eine Datei aus oder gib einen Netzwerkpfad bzw. Link an.")
         return cleaned
