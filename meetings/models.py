@@ -214,21 +214,15 @@ class OrganizationSettings(models.Model):
         "Kurzbezeichnung", max_length=24, blank=True, default="MM",
         help_text='Kompakte Anzeige im eingeklappten Seitenmenü, zum Beispiel „FB 20“ oder „FB20“.',
     )
-    accent_color = models.CharField(
-        "Akzentfarbe", max_length=7, default="#00549F",
-        validators=[RegexValidator(r"^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben.")],
-        help_text="Zentrale Akzentfarbe für die gesamte Anwendung (Format #RRGGBB).",
-    )
-    accent_color_light = models.CharField(
-        "Akzentfarbe – Hellmodus", max_length=7, blank=True, default="",
-        validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")],
-        help_text="Optional. Leer = zentrale Akzentfarbe verwenden.",
-    )
-    accent_color_dark = models.CharField(
-        "Akzentfarbe – Dunkelmodus", max_length=7, blank=True, default="",
-        validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")],
-        help_text="Optional. Leer = zentrale Akzentfarbe verwenden.",
-    )
+    primary_color = models.CharField("Primärfarbe", max_length=7, default="#00549F", validators=[RegexValidator(r"^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben.")], help_text="Grundfarbe für Navigation, Links und primäre Schaltflächen.")
+    primary_color_light = models.CharField("Primärfarbe – Hellmodus", max_length=7, blank=True, default="", validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")], help_text="Optional. Leer = Primärfarbe verwenden.")
+    primary_color_dark = models.CharField("Primärfarbe – Dunkelmodus", max_length=7, blank=True, default="", validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")], help_text="Optional. Leer = Primärfarbe verwenden.")
+    secondary_color = models.CharField("Sekundärfarbe", max_length=7, default="#8FC5FF", validators=[RegexValidator(r"^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben.")], help_text="Ergänzende Akzente, dezente Hervorhebungen und unterstützende Flächen.")
+    secondary_color_light = models.CharField("Sekundärfarbe – Hellmodus", max_length=7, blank=True, default="", validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")], help_text="Optional. Leer = Sekundärfarbe verwenden.")
+    secondary_color_dark = models.CharField("Sekundärfarbe – Dunkelmodus", max_length=7, blank=True, default="", validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")], help_text="Optional. Leer = Sekundärfarbe verwenden.")
+    tertiary_color = models.CharField("Tertiärfarbe", max_length=7, default="#FFCC00", validators=[RegexValidator(r"^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben.")], help_text="Markierungen und besondere visuelle Hervorhebungen.")
+    tertiary_color_light = models.CharField("Tertiärfarbe – Hellmodus", max_length=7, blank=True, default="", validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")], help_text="Optional. Leer = Tertiärfarbe verwenden.")
+    tertiary_color_dark = models.CharField("Tertiärfarbe – Dunkelmodus", max_length=7, blank=True, default="", validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")], help_text="Optional. Leer = Tertiärfarbe verwenden.")
 
     class Meta:
         verbose_name = "Organisationseinstellung"
@@ -245,14 +239,16 @@ class OrganizationSettings(models.Model):
         self.save(update_fields=["name"])
 
     @classmethod
-    def current_accent_colors(cls):
-        settings = cls.objects.filter(pk=1).only("accent_color", "accent_color_light", "accent_color_dark").first()
-        base = settings.accent_color if settings and settings.accent_color else "#00549F"
-        return {
-            "accent_color": base,
-            "accent_color_light": (settings.accent_color_light or base) if settings else base,
-            "accent_color_dark": (settings.accent_color_dark or base) if settings else base,
-        }
+    def current_brand_colors(cls):
+        defaults = {"primary_color": "#00549F", "secondary_color": "#8FC5FF", "tertiary_color": "#FFCC00"}
+        settings = cls.objects.filter(pk=1).first()
+        colors = {}
+        for name, default in defaults.items():
+            base = getattr(settings, name, "") or default
+            colors[name] = base
+            colors[f"{name}_light"] = (getattr(settings, f"{name}_light", "") or base) if settings else base
+            colors[f"{name}_dark"] = (getattr(settings, f"{name}_dark", "") or base) if settings else base
+        return colors
 
     @classmethod
     def current_short_name(cls):
