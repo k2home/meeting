@@ -217,7 +217,7 @@
           </label>
           <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage
             <select id="target-meeting-{{ item.id }}" name="target_meeting" required>
-              {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+              {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id %}selected{% endif %}>{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
             </select>
           </label>
           <div class="agenda-dialog-actions">
