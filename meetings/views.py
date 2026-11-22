@@ -1161,7 +1161,9 @@ def series_reset_meetings(request, pk):
     if series.end_date is None:
         series.end_date = date(today.year + 1, 12, 31)
         series.save(update_fields=["end_date"])
-    if series.end_date < today or series.start_date > series.end_date:
+    first_possible = max(series.start_date, today)
+    next_possible = first_possible + timedelta(days=(series.weekday - first_possible.weekday()) % 7)
+    if series.end_date < today or next_possible > series.end_date:
         messages.error(request, "Im gewählten Serienzeitraum kann kein zukünftiger Termin erzeugt werden. Bitte prüfe Start- und Enddatum oder verlängere die Reihe.")
         return redirect("series_edit", pk=series.pk)
 
@@ -1174,7 +1176,7 @@ def series_reset_meetings(request, pk):
         )
         carried_topics = {}
         for agenda_item in agenda_items:
-            carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text)
+            carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position)
 
         drafts.delete()
         new_meetings = generate_meetings(series)
@@ -1184,11 +1186,11 @@ def series_reset_meetings(request, pk):
         )
         if next_meeting is None:
             raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
-        for topic, working_text in carried_topics.values():
+        for topic, working_text, position in carried_topics.values():
             AgendaItem.objects.update_or_create(
                 meeting=next_meeting,
                 topic=topic,
-                defaults={"working_text": working_text, "carried_forward": True},
+                defaults={"working_text": working_text, "position": position, "carried_forward": True},
             )
             if topic.due_date != next_meeting.date:
                 topic.due_date = next_meeting.date
