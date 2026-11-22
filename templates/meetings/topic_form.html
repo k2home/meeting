@@ -12,7 +12,7 @@
 @media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
 </style>
 <div class="topline">
-  <div><p class="muted"><a href="{% url 'dashboard' %}">Übersicht</a> / {% if topic %}Thema{% else %}Neues Thema{% endif %}</p><h1>{% if topic %}Thema{% else %}Neues Thema anlegen{% endif %}</h1></div>
+  <div><h1>{% if topic %}Thema{% else %}Neues Thema anlegen{% endif %}</h1></div>
 </div>
 {% if not topic %}
 <section class="card">
