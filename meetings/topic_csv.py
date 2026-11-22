@@ -318,7 +318,8 @@ def import_topic_agenda_csv(request):
                         created_topics += 1
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
-                    topic.description = data["description"]
+                    if data["description"]:
+                        topic.description = data["description"]
                     topic.save()
                     topic_records[key] = topic
 
