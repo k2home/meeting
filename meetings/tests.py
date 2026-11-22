@@ -941,6 +941,8 @@ class RepositoryConsistencyRegressionTests(TestCase):
         unc = TopicAttachment.objects.create(topic=topic, label="UNC", network_path=r"\\\\fileserver\\freigabe\\datei.pdf")
         unsafe = TopicAttachment.objects.create(topic=topic, label="Unsicher", network_path="javascript:alert(1)")
         self.assertEqual(valid.network_url, "smb://fileserver/freigabe/datei.pdf")
+        web_link = TopicAttachment.objects.create(topic=topic, label="Web", network_path="https://intranet.example.org/dokument")
+        self.assertEqual(web_link.network_url, "https://intranet.example.org/dokument")
         self.assertTrue(unc.network_url.startswith("smb://fileserver/"))
         self.assertEqual(unsafe.network_url, "")
 
