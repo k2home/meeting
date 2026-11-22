@@ -105,7 +105,7 @@
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
   {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button secondary" type="button" id="toggle-agenda-reorder" aria-pressed="false">Reihenfolge ändern</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
-    <form method="post" action="{% url 'finalize' meeting.id %}" onsubmit="return confirm('Besprechung wirklich abschließen?');">{% csrf_token %}<button class="meeting-menu-button secondary finish-button" type="submit">Besprechung abschließen</button></form>
+    <form method="post" action="{% url 'finalize' meeting.id %}" data-confirm-message="Besprechung wirklich abschließen?">{% csrf_token %}<button class="meeting-menu-button secondary finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
     <form method="post" action="{% url 'meeting_reopen' meeting.id %}">{% csrf_token %}<button class="meeting-menu-button" type="submit">Besprechung wieder öffnen</button></form>
   {% endif %}
