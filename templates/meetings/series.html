@@ -1,54 +1,68 @@
 {% extends "meetings/base.html" %}
 {% block content %}
-<h1>Besprechungsreihen</h1>
-<div class="card">
-  <h2>Neue Reihe und Termine erzeugen</h2>
-  <form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Anlegen</button></form>
+<div class="topline">
+  <h1>Besprechungsreihen</h1>
+  <button type="button" onclick="document.getElementById('new-series-dialog').showModal()">+ Neu</button>
 </div>
-<div class="card">
-  <h2>Vorhandene Reihen</h2>
+
+<div class="series-list">
   {% for s in series %}
-    <section class="series-entry">
-      <div class="topline">
-        <div>
-          <h3>{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% endif %}</h3>
-          <p class="muted">{{ s.get_recurrence_display }} · {{ s.weekday_label }} · {{ s.meeting_count }} Termine</p>
+    <section class="card series-entry" style="margin-bottom:1rem">
+      <div class="topline" style="align-items:flex-start;gap:1rem">
+        <div style="min-width:0">
+          <h2 style="margin:0 0 .35rem">{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% else %}<span class="pill">Aktiv</span>{% endif %}</h2>
+          <p class="muted" style="margin:0">{{ s.get_recurrence_display }} · {{ s.weekday_label }}</p>
         </div>
-        <div class="actions">
-          <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Reihe bearbeiten</a>
-          <form method="post" action="{% url 'series_delete' s.pk %}" onsubmit="return confirm('Besprechungsreihe löschen? Zukünftige, noch nicht abgeschlossene Termine werden entfernt. Abgeschlossene Besprechungen bleiben standardmäßig samt Protokollen erhalten.');">
-            {% csrf_token %}
-            <label style="display:block;font-size:.85rem;margin-bottom:.35rem"><input type="checkbox" name="delete_completed"> Abgeschlossene Besprechungen samt Protokollen ebenfalls löschen</label>
-            <button class="danger" type="submit">Reihe löschen</button>
-          </form>
-        </div>
+        <details>
+          <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
+          <div class="card" style="margin-top:.5rem;padding:1rem;min-width:min(18rem,80vw)">
+            <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
+            <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" onsubmit="return confirm(this.delete_completed.checked ? 'Die Reihe und alle abgeschlossenen Besprechungen samt Protokollen endgültig löschen?' : 'Die Reihe löschen? Zukünftige, noch nicht abgeschlossene Termine werden entfernt. Abgeschlossene und sonstige verbleibende Besprechungen bleiben erhalten.');">
+              {% csrf_token %}
+              <p style="margin:.25rem 0 .5rem"><strong>Reihe löschen</strong></p>
+              <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.9rem;margin-bottom:.75rem">
+                <input type="checkbox" name="delete_completed">
+                <span>Auch abgeschlossene Besprechungen und ihre Protokolle endgültig löschen</span>
+              </label>
+              <button class="danger" type="submit">Reihe löschen …</button>
+            </form>
+          </div>
+        </details>
+      </div>
+
+      <div class="series-stats" style="display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:.85rem 0;padding:.75rem 0;border-top:1px solid var(--border-color, #ddd);border-bottom:1px solid var(--border-color, #ddd)">
+        <span><strong>{{ s.meeting_count }}</strong> Termine insgesamt</span>
+        <span><strong>{{ s.upcoming_count }}</strong> offen / geplant</span>
+        <span><strong>{{ s.completed_count }}</strong> abgeschlossen</span>
       </div>
 
       {% if s.next_meeting %}
         <div class="series-next-meeting">
-          <strong>Nächster Termin:</strong> {{ s.next_meeting.date|date:"D, d.m.Y" }}
-          {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
-          <div class="actions" style="margin-top:.5rem">
-            <a class="btn secondary" href="{% url 'meeting' s.next_meeting.pk %}">Termin öffnen</a>
+          <div class="topline" style="align-items:center">
+            <div><span class="muted">Nächster Termin:</span><br><strong>{{ s.next_meeting.date|date:"D, d.m.Y" }}</strong></div>
+            {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
+          </div>
+          <div class="actions" style="margin-top:.65rem">
+            <a class="btn" href="{% url 'meeting' s.next_meeting.pk %}">Termin öffnen</a>
             {% if not s.next_meeting.finalized_at %}
               <a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>
             {% endif %}
             {% if not s.next_meeting.finalized_at and not s.next_meeting.agenda_items.exists and not s.next_meeting.participants.exists and not s.next_meeting.snapshots.exists %}
-              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" onsubmit="return confirm('Diesen einzelnen Termin wirklich löschen?');">
+              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" onsubmit="return confirm('Diesen leeren Einzeltermin wirklich löschen?');">
                 {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
               </form>
             {% endif %}
           </div>
         </div>
+      {% else %}
+        <p class="muted" style="margin:.75rem 0">Kein zukünftiger Termin vorhanden.</p>
       {% endif %}
 
       {% if s.other_meetings %}
         <details style="margin-top:.75rem">
-          <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">
-            Alle weiteren Termine anzeigen ({{ s.other_meetings|length }})
-          </summary>
+          <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">Alle weiteren Termine anzeigen ({{ s.other_meetings|length }})</summary>
           <div style="overflow-x:auto;margin-top:.5rem">
-            <table><thead><tr><th>Einzeltermin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
+            <table><thead><tr><th>Termin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
             {% for m in s.other_meetings %}
               <tr>
                 <td>{{ m.date|date:"D, d.m.Y" }}</td>
@@ -57,7 +71,7 @@
                   <a class="btn secondary" href="{% url 'meeting' m.pk %}">Öffnen</a>
                   {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
                   {% if not m.finalized_at and not m.agenda_items.exists and not m.participants.exists %}
-                    <form method="post" action="{% url 'meeting_delete' m.pk %}" onsubmit="return confirm('Diesen einzelnen Termin wirklich löschen?');">
+                    <form method="post" action="{% url 'meeting_delete' m.pk %}" onsubmit="return confirm('Diesen leeren Einzeltermin wirklich löschen?');">
                       {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
                     </form>
                   {% endif %}
@@ -68,10 +82,19 @@
           </div>
         </details>
       {% endif %}
-      {% if not s.next_meeting and not s.other_meetings %}
-        <p class="muted" style="margin-top:.75rem">Noch keine Termine vorhanden.</p>
-      {% endif %}
     </section>
-  {% empty %}<p class="muted">Noch keine Besprechungsreihen angelegt.</p>{% endfor %}
+  {% empty %}
+    <div class="card"><p class="muted">Noch keine Besprechungsreihen angelegt. Über „+ Neu“ kannst du eine Reihe erstellen.</p></div>
+  {% endfor %}
 </div>
+
+<dialog id="new-series-dialog" class="card" style="width:min(92vw, 38rem);max-height:85vh;overflow-y:auto;border:0;border-radius:12px;padding:1.5rem;box-shadow:0 1rem 3rem #0004">
+  <div class="topline"><h2>Neue Besprechungsreihe</h2><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()" aria-label="Schließen">Schließen</button></div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions"><button type="submit">Reihe anlegen</button><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()">Abbrechen</button></div>
+  </form>
+</dialog>
+{% if form.errors %}<script>document.addEventListener('DOMContentLoaded',function(){document.getElementById('new-series-dialog').showModal();});</script>{% endif %}
 {% endblock %}
