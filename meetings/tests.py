@@ -725,3 +725,50 @@ class OrganizationBrandColorTests(TestCase):
         self.assertContains(page, "--primary-color: #ABCDEF")
         self.assertContains(page, "--secondary-color: #234567")
         self.assertContains(page, "--tertiary-color: #56789A")
+
+
+class AgendaFollowupLinkTests(TestCase):
+    def setUp(self):
+        self.admin = User.objects.create_superuser(
+            username="followup-admin", email="followup-admin@example.com", password="strong-test-password"
+        )
+        self.client.force_login(self.admin)
+        self.series = MeetingSeries.objects.create(name="Wiedervorlage-Reihe")
+        self.source_meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Ausgangstermin")
+        self.first_target = Meeting.objects.create(series=self.series, date="2027-01-14", title="Folgetermin 1")
+        self.second_target = Meeting.objects.create(series=self.series, date="2027-02-11", title="Folgetermin 2")
+        self.topic = Topic.objects.create(title="Wiedervorlage-Thema", series=self.series)
+        self.item = AgendaItem.objects.create(
+            meeting=self.source_meeting, topic=self.topic, working_text="Aktueller Sachstand",
+            status="in_progress", position=0,
+        )
+
+    def _schedule(self, target):
+        return self.client.post(reverse("meeting", args=[self.source_meeting.pk]), {
+            "item_id": self.item.pk,
+            "schedule_item": self.item.pk,
+            "target_series": self.series.pk,
+            "target_meeting": target.pk,
+            "working_text": "Aktueller Sachstand",
+        })
+
+    def test_scheduling_creates_followup_and_keeps_source_open(self):
+        response = self._schedule(self.first_target)
+        self.assertRedirects(response, reverse("meeting", args=[self.source_meeting.pk]))
+        self.item.refresh_from_db()
+        followup = AgendaItem.objects.get(followup_of=self.item)
+        self.assertEqual(followup.meeting, self.first_target)
+        self.assertEqual(followup.working_text, self.item.working_text)
+        self.assertEqual(self.item.status, "in_progress")
+        self.assertEqual(self.item.meeting, self.source_meeting)
+        self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
+
+    def test_changing_target_moves_existing_followup_without_duplicate(self):
+        self._schedule(self.first_target)
+        followup = AgendaItem.objects.get(followup_of=self.item)
+        response = self._schedule(self.second_target)
+        self.assertRedirects(response, reverse("meeting", args=[self.source_meeting.pk]))
+        followup.refresh_from_db()
+        self.assertEqual(followup.meeting, self.second_target)
+        self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
+        self.assertFalse(AgendaItem.objects.filter(meeting=self.first_target, topic=self.topic).exists())
