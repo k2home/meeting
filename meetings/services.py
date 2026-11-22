@@ -93,20 +93,19 @@ def generate_meetings(series):
         nearest_dates = sorted(
             desired_dates, key=lambda d: (abs((d - old_meeting.date).days), d)
         )
-        target_date = next(
-            (candidate for candidate in nearest_dates
-             if not desired_meetings[candidate].agenda_items.filter(
-                 topic_id__in=old_meeting.agenda_items.values_list("topic_id", flat=True)
-             ).exists()),
-            nearest_dates[0],
-        )
-        target = desired_meetings[target_date]
+        nearest_target = desired_meetings[nearest_dates[0]]
         if old_meeting.participants.exists():
-            target.participants.add(*old_meeting.participants.all())
-        if old_meeting.title and not target.title:
-            target.title = old_meeting.title
-            target.save(update_fields=["title"])
+            nearest_target.participants.add(*old_meeting.participants.all())
+        if old_meeting.title and not nearest_target.title:
+            nearest_target.title = old_meeting.title
+            nearest_target.save(update_fields=["title"])
         for item in old_meeting.agenda_items.select_related("topic").order_by("position", "pk"):
+            target_date = next(
+                (candidate for candidate in nearest_dates
+                 if not desired_meetings[candidate].agenda_items.filter(topic_id=item.topic_id).exists()),
+                nearest_dates[0],
+            )
+            target = desired_meetings[target_date]
             existing = target.agenda_items.filter(topic_id=item.topic_id).first()
             if existing:
                 existing.working_text = "\n\n".join(dict.fromkeys(
