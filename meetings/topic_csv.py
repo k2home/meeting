@@ -114,6 +114,7 @@ def parse_topic_agenda_csv(text):
     series_by_name = {name: pk for pk, name in MeetingSeries.objects.values_list("pk", "name")}
     rows = []
     topic_keys = {}
+    scheduled_keys = set()
     for row_number, raw in enumerate(reader, start=2):
         if None in raw:
             errors.append(f"Zeile {row_number}: Die Zeile enthält mehr Werte als die Kopfzeile.")
@@ -127,6 +128,9 @@ def parse_topic_agenda_csv(text):
             errors.append(f"Zeile {row_number}: Besprechungsreihe „{series_name}“ existiert nicht.")
             continue
         meeting_date = _parse_date(row.get("meeting_date"), "meeting_date", row_number, errors, True)
+        meeting_title = row.get("meeting_title", "")
+        if len(meeting_title) > 180:
+            errors.append(f"Zeile {row_number}: meeting_title ist länger als 180 Zeichen.")
         due_date = _parse_date(row.get("topic_due_date"), "topic_due_date", row_number, errors)
         topic_key = row.get("topic_key", "")
         title = row.get("topic_title", "")
@@ -156,6 +160,10 @@ def parse_topic_agenda_csv(text):
             position = 0
         if not meeting_date or not topic_key or not title:
             continue
+        scheduled_key = (series_id, meeting_date, topic_key)
+        if scheduled_key in scheduled_keys:
+            errors.append(f"Zeile {row_number}: topic_key „{topic_key}“ ist für diesen Besprechungstag mehrfach vorhanden.")
+        scheduled_keys.add(scheduled_key)
         topic_data = {
             "series_id": series_id, "title": title,
             "description": row.get("topic_description", ""),
@@ -173,7 +181,7 @@ def parse_topic_agenda_csv(text):
             topic_keys[topic_key] = {"topic": topic_data, "row": row_number}
         rows.append({
             "row_number": row_number, "series_id": series_id, "meeting_date": meeting_date,
-            "meeting_title": row.get("meeting_title", ""), "topic_key": topic_key,
+            "meeting_title": meeting_title, "topic_key": topic_key,
             "topic": topic_data, "agenda_text": row.get("agenda_text", ""),
             "position": position, "carried_forward": _parse_bool(row.get("carried_forward", ""), row_number, errors),
         })
