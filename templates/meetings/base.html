@@ -121,6 +121,22 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 :root[data-theme="dark"] details>summary{color:var(--text)}
 :root[data-theme="dark"] pre{color:var(--text)}
 </style>
+<style>
+:root {
+  --hagen-blue: {{ accent_color_light|default:accent_color }};
+  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
+  --hagen-yellow: var(--hagen-blue);
+  --nav-bg: var(--hagen-blue-dark);
+  --nav-hover: var(--hagen-blue);
+}
+:root[data-theme="dark"] {
+  --hagen-blue: {{ accent_color_dark|default:accent_color }};
+  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
+  --hagen-yellow: var(--hagen-blue);
+  --nav-bg: var(--hagen-blue-dark);
+  --nav-hover: var(--hagen-blue);
+}
+</style>
 </head>
 <body>
 <div class="app-layout">

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 
@@ -213,6 +214,21 @@ class OrganizationSettings(models.Model):
         "Kurzbezeichnung", max_length=24, blank=True, default="MM",
         help_text='Kompakte Anzeige im eingeklappten Seitenmenü, zum Beispiel „FB 20“ oder „FB20“.',
     )
+    accent_color = models.CharField(
+        "Akzentfarbe", max_length=7, default="#00549F",
+        validators=[RegexValidator(r"^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben.")],
+        help_text="Zentrale Akzentfarbe für die gesamte Anwendung (Format #RRGGBB).",
+    )
+    accent_color_light = models.CharField(
+        "Akzentfarbe – Hellmodus", max_length=7, blank=True, default="",
+        validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")],
+        help_text="Optional. Leer = zentrale Akzentfarbe verwenden.",
+    )
+    accent_color_dark = models.CharField(
+        "Akzentfarbe – Dunkelmodus", max_length=7, blank=True, default="",
+        validators=[RegexValidator(r"^$|^#[0-9A-Fa-f]{6}$", "Bitte einen HEX-Farbwert im Format #RRGGBB eingeben oder leer lassen.")],
+        help_text="Optional. Leer = zentrale Akzentfarbe verwenden.",
+    )
 
     class Meta:
         verbose_name = "Organisationseinstellung"
@@ -227,6 +243,16 @@ class OrganizationSettings(models.Model):
         # Den Datensatz nicht entfernen, sondern die Bezeichnung leeren.
         self.name = ""
         self.save(update_fields=["name"])
+
+    @classmethod
+    def current_accent_colors(cls):
+        settings = cls.objects.filter(pk=1).only("accent_color", "accent_color_light", "accent_color_dark").first()
+        base = settings.accent_color if settings and settings.accent_color else "#00549F"
+        return {
+            "accent_color": base,
+            "accent_color_light": (settings.accent_color_light or base) if settings else base,
+            "accent_color_dark": (settings.accent_color_dark or base) if settings else base,
+        }
 
     @classmethod
     def current_short_name(cls):
