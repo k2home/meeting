@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import migrations, models
 import django.db.models.deletion
 
@@ -19,6 +20,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(normalize_series_values, migrations.RunPython.noop),
+        migrations.AlterField(
+            model_name="meetingseries",
+            name="recurrence_interval",
+            field=models.PositiveSmallIntegerField(
+                default=1,
+                validators=[MinValueValidator(1), MaxValueValidator(52)],
+                verbose_name="Wiederholungsintervall",
+            ),
+        ),
         migrations.AddConstraint(
             model_name="meetingseries",
             constraint=models.CheckConstraint(
