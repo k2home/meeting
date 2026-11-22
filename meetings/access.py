@@ -1,4 +1,6 @@
-from .models import Meeting, MeetingSeries, SeriesAccess, Topic
+from django.db.models import Q
+
+from .models import ArchivedMeetingAccess, Meeting, MeetingSeries, SeriesAccess, Topic
 
 ADMIN_GROUP = "Admin"
 
@@ -43,16 +45,23 @@ def accessible_series(user):
     return MeetingSeries.objects.filter(user_access__user=user)
 
 
-def accessible_topics(user):
-    if is_admin(user):
-        return Topic.objects.all()
-    return Topic.objects.filter(series__in=accessible_series(user))
-
-
 def accessible_meetings(user):
     if is_admin(user):
         return Meeting.objects.all()
-    return Meeting.objects.filter(series__in=accessible_series(user))
+    return Meeting.objects.filter(
+        Q(series__in=accessible_series(user))
+        | Q(archived_access__user=user)
+    ).distinct()
+
+
+def accessible_topics(user):
+    if is_admin(user):
+        return Topic.objects.all()
+    visible_meetings = accessible_meetings(user)
+    return Topic.objects.filter(
+        Q(series__in=accessible_series(user))
+        | Q(agenda_items__meeting__in=visible_meetings)
+    ).distinct()
 
 
 def can_reopen_meeting(user, meeting=None):
