@@ -43,33 +43,69 @@ runuser -u meetingapp -- python3 -m venv "$APP_DIR/.venv"
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install --upgrade pip
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR/requirements.txt"
 
-read -r -p "Hostname oder IP, unter der die Website erreichbar ist (z.B. 192.168.1.50): " SITE_HOST
+read -r -p "Hostname oder IP, unter der die Website erreichbar ist (z.B. meeting.intern): " SITE_HOST
 SITE_HOST="${SITE_HOST:-localhost}"
-SECRET_KEY="$(openssl rand -hex 48)"
+read -r -p "Django SECRET_KEY eingeben (leer = sicher zufällig erzeugen): " -s SECRET_KEY_INPUT
+echo
+SECRET_KEY="${SECRET_KEY_INPUT:-$(openssl rand -hex 48)}"
+read -r -p "PostgreSQL-Passwort eingeben (leer = sicher zufällig erzeugen): " -s DB_PASSWORD_INPUT
+echo
+DB_PASSWORD="${DB_PASSWORD_INPUT:-$(openssl rand -hex 24)}"
+read -r -p "Wird HTTPS durch einen vorgeschalteten Reverse Proxy terminiert? [j/N]: " USE_PROXY
+USE_PROXY="${USE_PROXY:-N}"
+TRUST_PROXY_SSL=0
+SECURE_SSL_REDIRECT=0
+SESSION_COOKIE_SECURE=0
+CSRF_COOKIE_SECURE=0
+USE_X_FORWARDED_HOST=0
+CSRF_TRUSTED_ORIGINS=""
+if [[ "$USE_PROXY" =~ ^[JjYy]$ ]]; then
+  read -r -p "IP-Adresse oder CIDR des vorgeschalteten Reverse Proxy: " TRUSTED_PROXY
+  if [[ -z "$TRUSTED_PROXY" ]]; then
+    echo "Im Proxy-Betrieb muss die IP/CIDR des vorgeschalteten Reverse Proxy angegeben werden." >&2
+    exit 1
+  fi
+  TRUST_PROXY_SSL=1
+  SECURE_SSL_REDIRECT=1
+  SESSION_COOKIE_SECURE=1
+  CSRF_COOKIE_SECURE=1
+  USE_X_FORWARDED_HOST=1
+  CSRF_TRUSTED_ORIGINS="https://$SITE_HOST"
+fi
 umask 077
-cat > /etc/meeting-manager.env <<EOF
+cat > "$APP_DIR/.env" <<EOF
 SECRET_KEY=$SECRET_KEY
 DEBUG=0
 ALLOWED_HOSTS=$SITE_HOST,localhost,127.0.0.1
+CSRF_TRUSTED_ORIGINS=$CSRF_TRUSTED_ORIGINS
 POSTGRES_DB=$DB_NAME
 POSTGRES_USER=$DB_USER
 POSTGRES_PASSWORD=$DB_PASSWORD
 POSTGRES_HOST=127.0.0.1
 POSTGRES_PORT=5432
 TIME_ZONE=Europe/Berlin
+SECURE_SSL_REDIRECT=$SECURE_SSL_REDIRECT
+SESSION_COOKIE_SECURE=$SESSION_COOKIE_SECURE
+CSRF_COOKIE_SECURE=$CSRF_COOKIE_SECURE
+TRUST_PROXY_SSL=$TRUST_PROXY_SSL
+USE_X_FORWARDED_HOST=$USE_X_FORWARDED_HOST
 EOF
-# The service account belongs to www-data and must be able to source this file
-# for one-off Django management commands. Keep it non-readable by other users.
-chown root:www-data /etc/meeting-manager.env
-chmod 640 /etc/meeting-manager.env
+chown root:www-data "$APP_DIR/.env"
+chmod 640 "$APP_DIR/.env"
+if [[ "$TRUST_PROXY_SSL" == "1" ]]; then
+  # Only the explicitly configured reverse proxy may reach this local Nginx
+  # listener; this prevents clients from spoofing X-Forwarded-Proto.
+  sed -i "s/server_name _;/server_name _;\\n    allow $TRUSTED_PROXY;\\n    deny all;/" "$APP_DIR/deploy/nginx-meeting-manager.conf"
+  sed -i 's/proxy_set_header X-Forwarded-Proto \$scheme;/proxy_set_header X-Forwarded-Proto \$http_x_forwarded_proto;/' "$APP_DIR/deploy/nginx-meeting-manager.conf"
+fi
 
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
-runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+runuser -u meetingapp -- bash -c 'set -a; source $APP_DIR/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
 # Nginx serves static files as www-data. Do not let the restrictive umask
 # used for the environment file make collected admin assets unreadable.
 umask 027
-runuser -u meetingapp -- bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec "$@"' _ \
+runuser -u meetingapp -- bash -c 'set -a; source $APP_DIR/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
 chown -R meetingapp:www-data "$APP_DIR/staticfiles"
 find "$APP_DIR/staticfiles" -type d -exec chmod 750 {} +
@@ -88,9 +124,9 @@ systemctl reload nginx
 
 echo
 echo "Installation abgeschlossen."
-echo "Website: http://$SITE_HOST/"
+if [[ "$TRUST_PROXY_SSL" == "1" ]]; then echo "Website: https://$SITE_HOST/ (über vorgeschalteten Reverse Proxy)"; else echo "Website: http://$SITE_HOST/"; fi
 echo "Status:  systemctl status meeting-manager"
 echo "Logs:    journalctl -u meeting-manager -f"
-echo "Admin:   sudo -u meetingapp bash -c 'set -a; source /etc/meeting-manager.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'"
+echo "Admin:   sudo -u meetingapp bash -c 'set -a; source $APP_DIR/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'"
 echo
-echo "WICHTIG: HTTP nur im internen LAN freigeben. Benutzerkonten mit Passwort verwenden."
+echo "WICHTIG: Die .env enthält Secrets und ist nur für root und www-data lesbar. Nicht einchecken oder weitergeben."
