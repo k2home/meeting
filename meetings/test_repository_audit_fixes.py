@@ -244,8 +244,10 @@ class HstsConfigurationTests(SimpleTestCase):
         from config.settings import validate_hsts_configuration
 
         with self.assertRaises(ImproperlyConfigured):
-            validate_hsts_configuration(31536000, False, True)
+            validate_hsts_configuration(31536000, False, True, True)
         with self.assertRaises(ImproperlyConfigured):
-            validate_hsts_configuration(86400, True, True)
-        validate_hsts_configuration(31536000, True, True)
-        validate_hsts_configuration(31536000, False, False)
+            validate_hsts_configuration(86400, True, True, True)
+        with self.assertRaises(ImproperlyConfigured):
+            validate_hsts_configuration(31536000, True, True, False)
+        validate_hsts_configuration(31536000, True, True, True)
+        validate_hsts_configuration(31536000, False, False, False)
