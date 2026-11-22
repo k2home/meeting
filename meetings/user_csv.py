@@ -23,7 +23,8 @@ IMPORT_FIELDS = (
     "username", "first_name", "last_name", "email", "short_description",
     "is_active", "series", "series_role",
 )
-ACCEPTED_FIELDS = IMPORT_FIELDS + ("is_administrator",)
+LEGACY_EXPORT_ONLY_FIELDS = ("date_joined", "last_login")  # accepted from older exports; never overwritten on import
+ACCEPTED_FIELDS = IMPORT_FIELDS + ("is_administrator",) + LEGACY_EXPORT_ONLY_FIELDS
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
 SESSION_IMPORT_KEY = "pending_user_csv_import"
 
