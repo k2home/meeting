@@ -165,7 +165,7 @@ def parse_topic_agenda_csv(text):
         }
         previous = topic_keys.get(topic_key)
         if previous:
-            for field in ("series_id", "title", "description", "due_date", "status", "assigned_to_id", "topic_id"):
+            for field in ("series_id", "title", "description", "status", "assigned_to_id", "topic_id"):
                 if previous["topic"][field] != topic_data[field]:
                     errors.append(f"Zeile {row_number}: Die Angaben für topic_key „{topic_key}“ sind zwischen den Zeilen widersprüchlich ({field}).")
                     break
@@ -182,6 +182,10 @@ def parse_topic_agenda_csv(text):
         errors.append("Die CSV-Datei enthält keine gültigen Datensätze.")
     if errors:
         return [], errors
+
+    # A topic's due date reflects its latest dated occurrence in this import.
+    for row in rows:
+        row["topic"]["due_date"] = topic_keys[row["topic_key"]]["topic"]["due_date"]
 
     # Resolve existing topics and meetings during validation, before any writes.
     for key, record in topic_keys.items():
@@ -206,7 +210,7 @@ def parse_topic_agenda_csv(text):
     return (rows, errors)
 
 
-def _preview(rows):
+def _preview(rows, topic_ids):
     topics = {}
     for row in rows:
         topics[row["topic_key"]] = row["topic_key"]
@@ -216,8 +220,7 @@ def _preview(rows):
     new_items = set()
     update_items = set()
     for row in rows:
-        topic_id = row["topic"].get("topic_id")
-        if topic_id:
+        if topic_ids.get(row["topic_key"]):
             existing_topics.add(row["topic_key"])
         else:
             new_topics.add(row["topic_key"])
@@ -314,7 +317,7 @@ def import_topic_agenda_csv(request):
             request.session[SESSION_KEY] = {
                 "token": token, "text": form.csv_text, "topic_ids": topic_ids,
             }
-            preview = {**_preview(rows), "token": token}
+            preview = {**_preview(rows, topic_ids), "token": token}
     return render(request, "admin/meetings/topic_csv_import.html", {
         **admin.site.each_context(request), "form": form, "preview": preview,
         "errors": errors, "title": "Themen und Tagesordnungspunkte importieren",
