@@ -119,7 +119,7 @@ def dashboard(request):
             meeting_groups.append({"series": meeting.series, "meetings": []})
         meeting_groups[-1]["meetings"].append(meeting)
 
-    topics = accessible_topics(request.user).select_related("series")
+    topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
     selected_series = request.GET.get("series", "")
@@ -264,6 +264,7 @@ def open_topics(request):
     ).order_by("-meeting__date", "-pk").values("pk")[:1]
     items = AgendaItem.objects.filter(
         topic__series__in=allowed_series,
+        topic__status__in=["open", "in_progress", "done"],
         status__in=["open", "in_progress"],
         meeting__date__lte=today,
     ).filter(pk__in=Subquery(latest_item_ids)).select_related(
@@ -776,7 +777,7 @@ def topic_suggestions(request):
     query = request.GET.get("q", "").strip()
     results = []
     if len(query) >= 2:
-        topics = accessible_topics(request.user).filter(title__icontains=query).select_related("series").order_by("title")[:8]
+        topics = accessible_topics(request.user).exclude(status="archived").filter(title__icontains=query).select_related("series").order_by("title")[:8]
         results = [
             {"id": topic.pk, "title": topic.title, "series": topic.series.name if topic.series else "Ohne Besprechungsreihe"}
             for topic in topics
@@ -922,7 +923,8 @@ def archive(request):
     ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
         "-meeting__date", "topic__title", "position"
     )
-    return render(request, "meetings/archive.html", {"items": items})
+    archived_topics = accessible_topics(request.user).filter(status="archived").select_related("series").order_by("title")
+    return render(request, "meetings/archive.html", {"items": items, "archived_topics": archived_topics})
 
 @login_required
 @reader_no_access
