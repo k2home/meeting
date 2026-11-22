@@ -1,8 +1,12 @@
 from django.contrib.auth import get_user_model
+from django.apps import apps
+from django.db import connection
+from types import SimpleNamespace
+from importlib import import_module
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import AgendaItem, Meeting, MeetingSeries, SeriesAccess, Topic, TopicSnapshot
+from .models import AgendaItem, AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic, TopicSnapshot
 
 User = get_user_model()
 
@@ -35,6 +39,27 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertNotContains(response, "Abschlussvermerk")
         self.assertNotContains(response, "Themenstatus")
         self.assertNotContains(response, "Beschreibung und aktueller Stand")
+
+    def test_audit_cleanup_removes_topic_description_values(self):
+        event = AuditEvent.objects.create(
+            topic=self.topic,
+            action="updated",
+            summary="Thema geändert",
+            changes={
+                "Beschreibung": {"vorher": "Zu löschender Alttext", "nachher": "Neuer Alttext"},
+                "Status": {"vorher": "Offen", "nachher": "In Arbeit"},
+                "nested": [{"Aktueller Stand": "Auch löschen", "keep": "Behalten"}],
+            },
+        )
+        migration = import_module("meetings.migrations.0020_remove_topic_description")
+        migration.remove_topic_description_from_audit(
+            apps, SimpleNamespace(connection=connection)
+        )
+        event.refresh_from_db()
+        self.assertNotIn("Beschreibung", event.changes)
+        self.assertNotIn("Aktueller Stand", event.changes["nested"][0])
+        self.assertEqual(event.changes["Status"]["nachher"], "In Arbeit")
+        self.assertEqual(event.changes["nested"][0]["keep"], "Behalten")
 
     def test_topic_view_can_edit_text_for_a_specific_unfinalized_meeting(self):
         meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
