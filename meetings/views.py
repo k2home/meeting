@@ -51,7 +51,7 @@ def _series_for_view(view, kwargs):
     pk = kwargs.get("pk")
     if not pk:
         return None
-    if view.__name__ in {"agenda_reorder", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen", "finalize"}:
+    if view.__name__ in {"agenda_reorder", "agenda_item_delete", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen", "finalize"}:
         meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
         return meeting.series if meeting else None
     if view.__name__ in {"series_edit", "series_delete", "series_extend", "series_reset_meetings"}:
@@ -432,6 +432,31 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
             TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=target_series, transferred_by=actor, note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt")
         record_event(actor=actor, action="transferred" if old_series != target_series else "updated", summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt", topic=topic, meeting=item.meeting, changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}})
     return f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}."
+
+
+@login_required
+@reader_readonly
+def agenda_item_delete(request, pk, item_pk):
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
+    if meeting.finalized_at:
+        messages.error(request, "Tagesordnungspunkte abgeschlossener Besprechungen können nicht gelöscht werden.")
+        return redirect("meeting", pk=pk)
+    item = get_object_or_404(
+        AgendaItem.objects.select_related("topic"),
+        pk=item_pk, meeting=meeting,
+    )
+    topic = item.topic
+    item.delete()
+    record_event(
+        actor=request.user, action="updated",
+        summary=f"„{topic.title}“ aus der Tagesordnung am {meeting.date:%d.%m.%Y} entfernt",
+        topic=topic, meeting=meeting,
+        changes={"Tagesordnungspunkt": {"vorher": meeting.date.isoformat(), "nachher": None}},
+    )
+    messages.success(request, f"„{topic.title}“ wurde aus diesem Besprechungstermin entfernt. Das Thema bleibt bestehen.")
+    return redirect("meeting", pk=pk)
 
 
 @login_required
