@@ -135,7 +135,7 @@ class TopicSnapshotCorrectionForm(forms.ModelForm):
 
     class Meta:
         model = TopicSnapshot
-        fields = ("topic_title", "text", "status", "topic_id", "responsible_name")
+        fields = ("topic_title", "text", "status", "topic_id", "responsible_name", "correction_reason")
 
 
 class TopicSnapshotAdmin(admin.ModelAdmin):
