@@ -17,7 +17,7 @@ def ensure_agenda(meeting):
         carried = previous.agenda_items.filter(
             status__in=["open", "in_progress"],
             topic__series=meeting.series,
-        ).exclude(
+        ).exclude(topic__status="archived").exclude(
             topic__agenda_items__meeting__date__gt=previous.date,
         ).select_related("topic")
         for item in carried:

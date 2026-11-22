@@ -94,6 +94,7 @@ def _resolve_existing_users(grouped):
     resolved = {}
     errors = []
     seen_usernames = {}
+    seen_emails = {}
     seen_user_ids = {}
 
     for username, record in grouped:
@@ -113,6 +114,14 @@ def _resolve_existing_users(grouped):
         username_user = username_matches[0] if username_matches else None
 
         email = (record["values"].get("email") or "").strip()
+        normalized_email = email.casefold()
+        if normalized_email and normalized_email in seen_emails and seen_emails[normalized_email] != username:
+            errors.append(
+                f"Die E-Mail-Adresse „{email}“ wird mehreren CSV-Benutzern zugeordnet."
+            )
+            continue
+        if normalized_email:
+            seen_emails[normalized_email] = username
         email_matches = list(User.objects.filter(email__iexact=email)[:2]) if email else []
         if len(email_matches) > 1:
             errors.append(f"Die E-Mail-Adresse „{email}“ gehört zu mehreren vorhandenen Benutzerkonten.")

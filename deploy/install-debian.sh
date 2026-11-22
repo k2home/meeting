@@ -41,7 +41,7 @@ rm -rf "$APP_DIR/.venv"
 install -d -o meetingapp -g www-data "$APP_DIR/.venv"
 runuser -u meetingapp -- python3 -m venv "$APP_DIR/.venv"
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install --upgrade pip
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR/requirements.txt"
+runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
 
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist (z.B. meeting.intern): " SITE_HOST
 SITE_HOST="${SITE_HOST:-localhost}"

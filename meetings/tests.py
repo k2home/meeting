@@ -1279,6 +1279,23 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
         self.assertFalse(AgendaItem.objects.filter(meeting=meeting, topic=topic).exists())
 
+    def test_archived_topics_are_not_carried_forward_from_previous_protocols(self):
+        from datetime import date
+        from django.utils import timezone
+        from .services import ensure_agenda
+        series = MeetingSeries.objects.create(name="Archivierter Übertrag")
+        topic = Topic.objects.create(title="Nicht mehr übernehmen", series=series, status="archived")
+        previous = Meeting.objects.create(
+            series=series, date=date(2026, 11, 20), finalized_at=timezone.now()
+        )
+        AgendaItem.objects.create(meeting=previous, topic=topic, status="open")
+        upcoming = Meeting.objects.create(series=series, date=date(2026, 12, 20))
+
+        items = ensure_agenda(upcoming)
+
+        self.assertFalse(items.exists())
+        self.assertFalse(AgendaItem.objects.filter(meeting=upcoming, topic=topic).exists())
+
     def test_topic_csv_rejects_archived_agenda_rows_and_preserves_archived_topic_state(self):
         from .topic_csv import parse_topic_agenda_csv
         MeetingSeries.objects.create(name="CSV-Archiv")
@@ -1295,6 +1312,16 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         rows, errors = parse_topic_agenda_csv(topic_csv)
         self.assertEqual(errors, [])
         self.assertEqual(rows[0]["topic"]["archive_previous_status"], "done")
+
+        Topic.objects.create(
+            title="Schon archiviert",
+            series=MeetingSeries.objects.get(name="CSV-Archiv"),
+            status="archived",
+        )
+        reopened_in_csv = headers + "\\nagenda;CSV-Archiv;CSV-Archiv;2026-12-19;;Schon archiviert;open;;open"
+        rows, errors = parse_topic_agenda_csv(reopened_in_csv)
+        self.assertEqual(rows, [])
+        self.assertTrue(any("muss zuerst über die Themenansicht" in error for error in errors))
 
     def test_reopening_meeting_keeps_snapshot_responsible_name_in_audit(self):
         from datetime import date
@@ -1357,6 +1384,13 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         ]
         resolved, errors = _resolve_existing_users(grouped)
         self.assertTrue(any("dasselbe Benutzerkonto" in error for error in errors))
+
+        grouped = [
+            ("new-user-a", {"values": {"email": "new@example.org"}}),
+            ("new-user-b", {"values": {"email": "new@example.org"}}),
+        ]
+        resolved, errors = _resolve_existing_users(grouped)
+        self.assertTrue(any("mehreren CSV-Benutzern" in error for error in errors))
 
     def test_meeting_delete_message_matches_the_action(self):
         from datetime import date

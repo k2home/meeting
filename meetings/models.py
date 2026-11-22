@@ -63,7 +63,11 @@ class Meeting(models.Model):
         verbose_name_plural = "Besprechungen"
 
     def __str__(self):
-        return self.title or f"{self.series or 'Gelöschte Besprechungsreihe'} – {self.date:%d.%m.%Y}"
+        series_name = (
+            self.series.name if self.series_id
+            else self.archived_series_name or "Gelöschte Besprechungsreihe"
+        )
+        return self.title or f"{series_name} – {self.date:%d.%m.%Y}"
 
 class Topic(models.Model):
     STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt"), ("archived", "Archiviert")]
