@@ -2020,6 +2020,7 @@ def user_overview(request):
             "role_label": "Admin – globaler Zugriff" if admin_access else (
                 role_labels.get(assignment.role, assignment.role) if assignment else "Keine Berechtigung"
             ),
+            "role_value": assignment.role if assignment else "",
             "pending_request": pending if pending and pending.status == SeriesAccessRequest.STATUS_PENDING else None,
             "latest_request": pending,
             "can_request": not admin_access and not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
