@@ -1449,14 +1449,14 @@ class MeetingAgendaEnhancementTests(TestCase):
     def test_topic_suggestions_return_matching_accessible_topics(self):
         Topic.objects.create(title="Digitalisierung Haushalt", series=self.series_a)
         Topic.objects.create(title="Digitalisierung Schule", series=self.series_b)
-        response = self.client.get(reverse("topic_suggestions"), {"q": "Digitalisierung"})
+        response = self.client.get(reverse("topic_suggestions"), {"q": "Digitalisierung", "series": self.series_a.pk})
         self.assertEqual(response.status_code, 200)
         results = response.json()["results"]
         titles = [entry["title"] for entry in results]
-        self.assertEqual(titles, ["Digitalisierung Haushalt", "Digitalisierung Schule"])
+        self.assertEqual(titles, ["Digitalisierung Haushalt"])
         self.assertEqual(
             {entry["id"] for entry in results},
-            set(Topic.objects.filter(title__startswith="Digitalisierung").values_list("pk", flat=True)),
+            set(Topic.objects.filter(title__startswith="Digitalisierung", series=self.series_a).values_list("pk", flat=True)),
         )
 
     def test_existing_topic_is_added_only_to_current_agenda_without_changing_series(self):
