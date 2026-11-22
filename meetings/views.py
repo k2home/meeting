@@ -928,6 +928,7 @@ def protocol_pdf(request, pk):
         safe_text = escape(entry["text"] or "—").replace("\n", "<br/>")
         story.append(KeepTogether([
             Paragraph(escape(entry["title"]), styles["ProtocolTopic"]),
+            *([Paragraph("<b>Verantwortlich:</b> " + escape(entry["responsible"]), styles["Normal"])] if entry.get("responsible") else []),
             Paragraph(safe_text, styles["Normal"]),
             Paragraph(f"<i>Status: {escape(entry['status'])}</i>", styles["Normal"]),
         ]))
@@ -978,6 +979,8 @@ def protocol_docx(request, pk):
         document.add_paragraph("Keine Teilnehmer eingetragen.")
     for entry in entries:
         document.add_heading(entry["title"], level=2)
+        if entry.get("responsible"):
+            document.add_paragraph("Verantwortlich: " + entry["responsible"])
         document.add_paragraph(entry["text"] or "—")
         status = document.add_paragraph()
         run = status.add_run(f"Status: {entry['status']}")
