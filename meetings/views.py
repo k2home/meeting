@@ -1194,10 +1194,25 @@ def series_admin(request):
         item = form.save(commit=False)
         if not item.end_date:
             item.end_date = date(today.year + 1, 12, 31)
-        item.save()
-        if not is_admin(request.user):
-            SeriesAccess.objects.get_or_create(user=request.user, series=item, defaults={"role": SeriesAccess.ROLE_MODERATOR})
-        generate_meetings(item)
+        with transaction.atomic():
+            item.save()
+            if not is_admin(request.user):
+                SeriesAccess.objects.get_or_create(user=request.user, series=item, defaults={"role": SeriesAccess.ROLE_MODERATOR})
+            created_meetings = generate_meetings(item)
+            record_event(
+                actor=request.user, action="created",
+                summary=f"Besprechungsreihe „{item.name}“ angelegt",
+                series=item,
+                changes={
+                    "Bezeichnung": {"vorher": None, "nachher": item.name},
+                    "Wiederholung": {"vorher": None, "nachher": item.recurrence},
+                    "Intervall": {"vorher": None, "nachher": item.recurrence_interval},
+                    "Wochentag": {"vorher": None, "nachher": item.weekday},
+                    "Startdatum": {"vorher": None, "nachher": item.start_date.isoformat()},
+                    "Enddatum": {"vorher": None, "nachher": item.end_date.isoformat() if item.end_date else None},
+                    "Angelegte Termine": len(created_meetings),
+                },
+            )
         messages.success(request, "Besprechungsreihe und Termine bis zum Serienende angelegt.")
         return redirect("series_admin")
     return render(request, "meetings/series.html", {
@@ -1228,6 +1243,15 @@ def series_edit(request, pk):
         else:
             try:
                 with transaction.atomic():
+                    before = {
+                        "name": series.name,
+                        "description": series.description,
+                        "recurrence": series.recurrence,
+                        "recurrence_interval": series.recurrence_interval,
+                        "weekday": series.weekday,
+                        "start_date": series.start_date.isoformat(),
+                        "end_date": series.end_date.isoformat() if series.end_date else None,
+                    }
                     updated = form.save()
                     if weekday_delta:
                         for meeting in future:
@@ -1239,7 +1263,32 @@ def series_edit(request, pk):
                         if "start_date" not in form.changed_data:
                             updated.start_date = updated.start_date + timedelta(days=weekday_delta)
                             updated.save(update_fields=["start_date"])
-                    generate_meetings(updated)
+                    created_meetings = generate_meetings(updated)
+                    after = {
+                        "name": updated.name,
+                        "description": updated.description,
+                        "recurrence": updated.recurrence,
+                        "recurrence_interval": updated.recurrence_interval,
+                        "weekday": updated.weekday,
+                        "start_date": updated.start_date.isoformat(),
+                        "end_date": updated.end_date.isoformat() if updated.end_date else None,
+                    }
+                    labels = {
+                        "name": "Bezeichnung", "description": "Beschreibung",
+                        "recurrence": "Wiederholung", "recurrence_interval": "Intervall",
+                        "weekday": "Wochentag", "start_date": "Startdatum", "end_date": "Enddatum",
+                    }
+                    changes = {
+                        label: {"vorher": before[field], "nachher": after[field]}
+                        for field, label in labels.items() if before[field] != after[field]
+                    }
+                    if changes:
+                        changes["Neu angelegte Termine"] = len(created_meetings)
+                        record_event(
+                            actor=request.user, action="updated",
+                            summary=f"Besprechungsreihe „{updated.name}“ geändert",
+                            series=updated, changes=changes,
+                        )
             except ValueError as exc:
                 form.add_error(None, str(exc))
             else:
@@ -1259,27 +1308,28 @@ def series_extend(request, pk):
     previous_end = series.end_date
     today = timezone.localdate()
     target_end = date(today.year + 1, 12, 31)
-    if not series.end_date or series.end_date < target_end:
-        series.end_date = target_end
-        series.save(update_fields=["end_date"])
-    created = generate_meetings(series)
-    scheduled_count = Meeting.objects.filter(
-        series=series, date__gte=today, date__lte=series.end_date
-    ).count()
-    skipped_count = max(0, scheduled_count - len(created))
-    record_event(
-        actor=request.user, action="series_extended",
-        summary=f"Besprechungsreihe „{series.name}“ bis zum {series.end_date:%d.%m.%Y} verlängert",
-        series=series,
-        changes={
-            "Enddatum": {
-                "vorher": previous_end.isoformat() if previous_end else None,
-                "nachher": series.end_date.isoformat(),
+    with transaction.atomic():
+        if not series.end_date or series.end_date < target_end:
+            series.end_date = target_end
+            series.save(update_fields=["end_date"])
+        created = generate_meetings(series)
+        scheduled_count = Meeting.objects.filter(
+            series=series, date__gte=today, date__lte=series.end_date
+        ).count()
+        skipped_count = max(0, scheduled_count - len(created))
+        record_event(
+            actor=request.user, action="series_extended",
+            summary=f"Besprechungsreihe „{series.name}“ bis zum {series.end_date:%d.%m.%Y} verlängert",
+            series=series,
+            changes={
+                "Enddatum": {
+                    "vorher": previous_end.isoformat() if previous_end else None,
+                    "nachher": series.end_date.isoformat(),
+                },
+                "Neue Termine": len(created),
+                "Vorhandene Termine": skipped_count,
             },
-            "Neue Termine": len(created),
-            "Vorhandene Termine": skipped_count,
-        },
-    )
+        )
     messages.success(
         request,
         f"Die Reihe reicht jetzt bis zum {series.end_date:%d.%m.%Y}. "
@@ -1298,17 +1348,18 @@ def series_reset_meetings(request, pk):
         return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
 
     today = timezone.localdate()
-    if series.end_date is None:
-        series.end_date = date(today.year + 1, 12, 31)
-        series.save(update_fields=["end_date"])
+    effective_end_date = series.end_date or date(today.year + 1, 12, 31)
     first_possible = max(series.start_date, today)
     next_possible = first_possible + timedelta(days=(series.weekday - first_possible.weekday()) % 7)
-    if series.end_date < today or next_possible > series.end_date:
+    if effective_end_date < today or next_possible > effective_end_date:
         messages.error(request, "Im gewählten Serienzeitraum kann kein zukünftiger Termin erzeugt werden. Bitte prüfe Start- und Enddatum oder verlängere die Reihe.")
         return redirect("series_edit", pk=series.pk)
 
     try:
         with transaction.atomic():
+            if series.end_date is None:
+                series.end_date = effective_end_date
+                series.save(update_fields=["end_date"])
             drafts = Meeting.objects.filter(series=series, finalized_at__isnull=True, date__gte=today)
             payload = []
             draft_item_ids = set(AgendaItem.objects.filter(meeting__in=drafts).values_list("pk", flat=True))
@@ -1373,19 +1424,19 @@ def series_reset_meetings(request, pk):
                         assigned_to_id=saved["assigned_to_id"], status=saved["status"],
                         carried_forward=True, followup_of=saved["followup_of"],
                     )
+            record_event(
+                actor=request.user, action="series_reset",
+                summary=f"Zukünftige Entwurfstermine der Besprechungsreihe „{series.name}“ neu aufgesetzt",
+                series=series,
+                changes={
+                    "Neu angelegte Termine": len(created),
+                    "Übertragene Tagesordnungspunkte": len(payload),
+                },
+            )
     except ValueError as exc:
         messages.error(request, str(exc))
         return redirect("series_edit", pk=series.pk)
 
-    record_event(
-        actor=request.user, action="series_reset",
-        summary=f"Zukünftige Entwurfstermine der Besprechungsreihe „{series.name}“ neu aufgesetzt",
-        series=series,
-        changes={
-            "Neu angelegte Termine": len(created),
-            "Übertragene Tagesordnungspunkte": len(payload),
-        },
-    )
     messages.success(
         request,
         f"Alle zukünftigen Entwurfstermine wurden neu erzeugt. {len(created)} Termine neu angelegt; "
