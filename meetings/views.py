@@ -831,7 +831,7 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
             ).order_by("date", "pk").first()
         )
         if target_meeting is None and to_series is not None:
-            extension_end = date(today.year + 1, 12, 31)
+            extension_end = date(max(today.year + 1, item.meeting.date.year + 1), 12, 31)
             if not to_series.end_date or to_series.end_date < extension_end:
                 to_series.end_date = extension_end
                 to_series.save(update_fields=["end_date"])
