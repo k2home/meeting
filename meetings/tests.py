@@ -1041,11 +1041,12 @@ class RepositoryConsistencyRegressionTests(TestCase):
         self.client.force_login(moderator)
         response = self.client.post(reverse("series_reset_meetings", args=[series.pk]))
         self.assertRedirects(response, reverse("series_edit", args=[series.pk]))
-        items = AgendaItem.objects.filter(topic=topic)
-        self.assertEqual(items.count(), 1)
-        self.assertEqual(items.get().meeting.date, first_new_date)
-        self.assertIn("Text aus Termin eins", items.get().working_text)
-        self.assertIn("Text aus Termin zwei", items.get().working_text)
+        items = list(AgendaItem.objects.filter(topic=topic).select_related("meeting").order_by("meeting__date"))
+        self.assertEqual(len(items), 2)
+        self.assertEqual(items[0].meeting.date, first_new_date)
+        self.assertEqual(items[0].working_text, "Text aus Termin eins")
+        self.assertEqual(items[1].meeting.date, first_new_date + timedelta(days=7))
+        self.assertEqual(items[1].working_text, "Text aus Termin zwei")
         self.assertFalse(Meeting.objects.filter(pk__in=[old_one.pk, old_two.pk]).exists())
 
     def test_recurrence_reconciliation_moves_agenda_to_nearest_generated_meeting(self):
