@@ -1679,7 +1679,7 @@ class TopicAgendaCsvImportTests(TestCase):
         for row in rows:
             if len(row) == 8:
                 row = [*row[:7], "", *row[7:]]
-            writer.writerow(["CSV-Reihe", self.topic_series_name, *row])
+            writer.writerow(["CSV-Reihe", *row])
         return output.getvalue()
 
     def test_admin_can_download_sample_and_open_import(self):
@@ -1735,7 +1735,7 @@ class TopicAgendaCsvImportTests(TestCase):
         self.series = MeetingSeries.objects.create(name="CSV-Reihe")
         self.client.force_login(self.admin)
 
-    def _csv(self, rows):
+    def _csv(self, rows, topic_series_name="CSV-Reihe"):
         import csv
         from io import StringIO
         output = StringIO()
@@ -1753,7 +1753,7 @@ class TopicAgendaCsvImportTests(TestCase):
                 row = [*row[:8], "", "", row[8]]
             elif len(row) == 10:
                 row = [*row[:4], "", *row[4:]]
-            writer.writerow(["CSV-Reihe", *row])
+            writer.writerow(["CSV-Reihe", topic_series_name, *row])
         return output.getvalue()
 
     def _confirm_import(self, text):
