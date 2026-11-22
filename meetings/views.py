@@ -23,7 +23,7 @@ from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransfe
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
-from .models import SeriesAccess, UserProfile
+from .models import SeriesAccess
 from .user_display import user_display_name
 
 def login_view(request):
