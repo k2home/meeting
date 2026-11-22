@@ -508,7 +508,7 @@ def meeting_detail(request, pk):
         meeting.series_id is None and not is_admin(request.user)
         and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists()
     )
-    if not meeting.participants_initialized and not meeting.finalized_at:
+    if not meeting.participants_initialized and not meeting.finalized_at and not archived_readonly:
         if not meeting.participants.exists() and meeting.series_id:
             default_participants = SeriesAccess.objects.filter(
                 series=meeting.series, user__is_active=True
