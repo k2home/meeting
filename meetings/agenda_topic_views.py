@@ -69,6 +69,42 @@ def topic_new(request):
 
 
 @login_required
+def topic_archive_toggle(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+    topic = get_object_or_404(accessible_topics(request.user), pk=pk)
+    if not is_moderator(request.user, topic.series):
+        return HttpResponseForbidden("Nur Moderator*innen und Admins dürfen Themen archivieren oder wieder öffnen.")
+    with transaction.atomic():
+        topic = Topic.objects.select_for_update().get(pk=topic.pk)
+        if topic.status == "archived":
+            previous_status = topic.archive_previous_status or "open"
+            topic.status = previous_status if previous_status in {"open", "in_progress", "done"} else "open"
+            topic.archive_previous_status = ""
+            topic.save(update_fields=["status", "archive_previous_status", "updated_at"])
+            record_event(
+                actor=request.user, action="reopened",
+                summary=f"Thema „{topic.title}“ aus dem Archiv wieder geöffnet",
+                topic=topic,
+                changes={"Themenstatus": {"vorher": "Archiviert", "nachher": dict(Topic.STATUS).get(topic.status, topic.status)}},
+            )
+            messages.success(request, f"„{topic.title}“ wurde wieder geöffnet.")
+        else:
+            previous_status = topic.status
+            topic.archive_previous_status = previous_status
+            topic.status = "archived"
+            topic.save(update_fields=["status", "archive_previous_status", "updated_at"])
+            record_event(
+                actor=request.user, action="archived",
+                summary=f"Thema „{topic.title}“ archiviert",
+                topic=topic,
+                changes={"Themenstatus": {"vorher": dict(Topic.STATUS).get(previous_status, previous_status), "nachher": "Archiviert"}},
+            )
+            messages.success(request, f"„{topic.title}“ wurde archiviert.")
+    return redirect("topic_edit", pk=topic.pk)
+
+
+@login_required
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     reader = is_reader(request.user, topic.series)
