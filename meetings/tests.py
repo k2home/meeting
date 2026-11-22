@@ -353,7 +353,7 @@ class DashboardTopicFilterTests(TestCase):
     def test_search_matches_title_description_series_and_assignee(self):
         self.client.force_login(self.user)
         for term in ["Serverwartung", "Festplatten", "Betrieb", "filter-user"]:
-            response = self.client.get(reverse("dashboard"), {"q": term})
+            response = self.client.get(reverse("dashboard"), {"q": term, "assigned_to": ""})
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Serverwartung")
             expected = [self.topic]
@@ -362,6 +362,21 @@ class DashboardTopicFilterTests(TestCase):
             elif term == "filter-user":
                 expected.append(Topic.objects.get(title="Urlaubsplanung"))
             self.assertEqual(list(response.context["topics"]), expected)
+
+    def test_dashboard_defaults_to_current_user_responsibility_and_can_show_all(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("dashboard"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["selected_assignee"], str(self.user.pk))
+        self.assertEqual(list(response.context["topics"]), [self.topic])
+
+        response = self.client.get(reverse("dashboard"), {"assigned_to": ""})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["selected_assignee"], "")
+        self.assertEqual(
+            {topic.title for topic in response.context["topics"]},
+            {"Serverwartung", "Urlaubsplanung", "Nicht zugewiesen"},
+        )
 
     def test_filters_can_be_combined(self):
         self.client.force_login(self.user)
@@ -703,6 +718,26 @@ class DashboardUpcomingMeetingsTests(TestCase):
         )
         self.assertNotIn(self.a_dates[2], [meeting.date for meeting in meetings])
         self.assertNotIn(self.b_dates[2], [meeting.date for meeting in meetings])
+
+    def test_dashboard_groups_upcoming_meetings_by_series_with_date_links(self):
+        response = self.client.get(reverse("dashboard"))
+        self.assertEqual(response.status_code, 200)
+        groups = response.context["meeting_groups"]
+        self.assertEqual([group["series"].name for group in groups], ["Reihe Alpha", "Reihe Beta"])
+        self.assertEqual([len(group["meetings"]) for group in groups], [2, 2])
+        self.assertContains(response, '<h3>Reihe Alpha</h3>', html=True)
+        self.assertContains(response, '<h3>Reihe Beta</h3>', html=True)
+        self.assertContains(response, f'href="{reverse("meeting", args=[Meeting.objects.get(series=self.series_a, date=self.a_dates[0]).pk])}"')
+        self.assertContains(response, self.a_dates[0].strftime("%d.%m.%Y"))
+
+    def test_dashboard_topics_have_sortable_columns(self):
+        Topic.objects.create(title="Sortierbares Thema", series=self.series_a, assigned_to=self.user)
+        response = self.client.get(reverse("dashboard"))
+        self.assertEqual(response.status_code, 200)
+        for index, column in enumerate(("Thema", "Besprechungsreihe", "Nächste Besprechung", "Verantwortlich", "Status")):
+            self.assertContains(response, f'data-sort-column="{index}"')
+            self.assertContains(response, column)
+        self.assertContains(response, 'id="dashboard-topics-table"')
 
     def test_dashboard_upcoming_meetings_requires_login(self):
         self.client.logout()
