@@ -659,7 +659,7 @@ def agenda_topic_history(request, pk, topic_pk):
             "series": entry.meeting.series.name if entry.meeting.series else "Gelöschte Besprechungsreihe",
             "date": entry.meeting.date,
             "text": entry.working_text,
-            "responsible": str(entry.assigned_to or entry.topic.assigned_to or ""),
+            "responsible": user_display_name(entry.assigned_to or entry.topic.assigned_to) if (entry.assigned_to or entry.topic.assigned_to) else "",
         }
     from .models import TopicSnapshot
     for snapshot in TopicSnapshot.objects.filter(
