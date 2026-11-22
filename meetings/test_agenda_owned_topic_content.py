@@ -40,6 +40,33 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertNotContains(response, "Themenstatus")
         self.assertNotContains(response, "Beschreibung und aktueller Stand")
 
+
+    def test_topic_detail_columns_start_at_same_top_edge(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<div class="topic-main">')
+        self.assertNotContains(response, '<main class="topic-main">')
+        self.assertContains(response, '.topic-layout>.topic-main{margin:0;padding:0;width:auto}')
+
+    def test_sidebar_navigation_groups_have_requested_order_and_separation(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        overview = content.index('>Übersicht</a>')
+        tasks = content.index('>Meine Aufgaben</a>')
+        open_topics = content.index('>Offene Punkte</a>')
+        archive = content.index('>Archiv</a>')
+        history = content.index('>Änderungsverlauf</a>')
+        series = content.index('>Besprechungsreihen</a>')
+        management = content.index('>Verwaltung</a>')
+        self.assertLess(overview, tasks)
+        self.assertLess(tasks, open_topics)
+        self.assertLess(open_topics, archive)
+        self.assertLess(archive, history)
+        self.assertLess(history, series)
+        self.assertLess(series, management)
+        self.assertIn('class="nav-links nav-links-secondary"', content)
+
     def test_topic_detail_omits_redundant_header_and_title_label(self):
         response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
         self.assertEqual(response.status_code, 200)
