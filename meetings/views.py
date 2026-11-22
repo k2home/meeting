@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
@@ -1315,6 +1315,11 @@ def series_reset_meetings(request, pk):
                     ))
                     if not existing.assigned_to_id and saved["assigned_to_id"]:
                         existing.assigned_to_id = saved["assigned_to_id"]
+                    elif existing.assigned_to_id and saved["assigned_to_id"] and existing.assigned_to_id != saved["assigned_to_id"]:
+                        TopicComment.objects.create(
+                            topic=saved["topic"], author=None,
+                            body=f"Beim Zurücksetzen der Besprechungsreihe wurden zwei Tagesordnungspunkte zusammengeführt. Die aktive Punktzuständigkeit bleibt bestehen; zusätzlich war {user_display_name(UserModel.objects.get(pk=saved['assigned_to_id']))} für den zusammengeführten Punkt eingetragen.",
+                        )
                     if status_rank.get(saved["status"], 0) > status_rank.get(existing.status, 0):
                         existing.status = saved["status"]
                     if saved["followup_of"] and not existing.followup_of_id:
