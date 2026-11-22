@@ -1,7 +1,7 @@
 from datetime import timedelta
 from django.utils import timezone
 from django.db import transaction
-from .models import Meeting, AgendaItem, Topic, TopicSnapshot
+from .models import Meeting, AgendaItem, Topic, TopicSnapshot, TopicComment
 from .user_display import user_display_name
 
 def ensure_agenda(meeting):
@@ -113,6 +113,11 @@ def generate_meetings(series):
                 ))
                 if not existing.assigned_to_id and item.assigned_to_id:
                     existing.assigned_to_id = item.assigned_to_id
+                elif existing.assigned_to_id and item.assigned_to_id and existing.assigned_to_id != item.assigned_to_id:
+                    TopicComment.objects.create(
+                        topic=item.topic, author=None,
+                        body=f"Bei der automatischen Termin-Neuzuordnung wurden zwei Tagesordnungspunkte zusammengeführt. Die aktive Punktzuständigkeit bleibt bestehen; zusätzlich war {user_display_name(item.assigned_to)} für den zusammengeführten Punkt eingetragen.",
+                    )
                 if status_rank.get(item.status, 0) > status_rank.get(existing.status, 0):
                     existing.status = item.status
                 if item.followup_of_id and not existing.followup_of_id:
