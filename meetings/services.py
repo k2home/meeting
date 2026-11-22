@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.utils import timezone
 from .models import Meeting, AgendaItem, Topic, TopicSnapshot
+from .user_display import user_display_name
 
 def ensure_agenda(meeting):
     """Return explicit agenda items and carry forward unresolved items once."""
@@ -78,7 +79,7 @@ def finalize_meeting(meeting):
         topic = item.topic
         TopicSnapshot.objects.get_or_create(meeting=meeting, topic_id=topic.pk, defaults={
             "topic_title": topic.title, "text": item.working_text, "status": topic.status,
-            "responsible_name": str(item.assigned_to or topic.assigned_to or "")
+            "responsible_name": user_display_name(item.assigned_to or topic.assigned_to) if (item.assigned_to or topic.assigned_to) else ""
         })
         topic.description = item.working_text
         topic.save(update_fields=["description","updated_at"])
