@@ -162,12 +162,6 @@
           </span>
         </h2>
       </div>
-      {% if not meeting.finalized_at and not is_reader %}
-      <form method="post" class="agenda-item-delete-form no-print" action="{% url 'agenda_item_delete' meeting.id item.id %}" onsubmit="return confirm('„{{ item.topic.title|escapejs }}“ nur aus diesem Besprechungstermin entfernen? Das Thema und andere Termine bleiben erhalten.');">
-        {% csrf_token %}
-        <button type="submit" class="secondary" aria-label="Tagesordnungspunkt {{ item.topic.title }} aus diesem Termin löschen">Punkt löschen</button>
-      </form>
-      {% endif %}
     </div>
     <div id="agenda-item-content-{{ item.id }}" class="agenda-item-content" hidden>
       <div class="agenda-item-expanded-row">

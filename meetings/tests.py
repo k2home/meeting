@@ -1090,23 +1090,27 @@ class AgendaItemDeletionTests(TestCase):
         self.item = AgendaItem.objects.create(meeting=self.meeting, topic=self.topic, working_text="Text für den Termin")
         self.other_item = AgendaItem.objects.create(meeting=self.other_meeting, topic=self.topic, working_text="Text im Folgetermin")
 
-    def test_admin_can_see_delete_action_without_expanding_agenda_item(self):
+    def test_delete_action_is_only_shown_in_topic_overview(self):
         self.user.is_superuser = True
         self.user.save(update_fields=["is_superuser"])
 
-        response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(meeting_response.status_code, 200)
+        self.assertNotContains(meeting_response, "Punkt löschen")
+        self.assertNotContains(meeting_response, "Punkt aus diesem Termin entfernen")
 
-        self.assertEqual(response.status_code, 200)
-        html = response.content.decode()
-        delete_form_position = html.index('class="agenda-item-delete-form')
-        collapsed_content_position = html.index(f'id="agenda-item-content-{self.item.pk}"')
-        self.assertLess(delete_form_position, collapsed_content_position)
-        self.assertContains(response, "Punkt löschen")
+        topic_response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(topic_response.status_code, 200)
+        self.assertContains(topic_response, "Punkt aus diesem Termin entfernen")
+        self.assertContains(
+            topic_response,
+            reverse("agenda_item_delete", args=[self.meeting.pk, self.item.pk]),
+        )
 
     def test_delete_removes_only_selected_meeting_entry_and_keeps_topic(self):
         response = self.client.post(reverse("agenda_item_delete", args=[self.meeting.pk, self.item.pk]))
 
-        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
         self.assertFalse(AgendaItem.objects.filter(pk=self.item.pk).exists())
         self.assertTrue(Topic.objects.filter(pk=self.topic.pk).exists())
         self.assertTrue(AgendaItem.objects.filter(pk=self.other_item.pk, topic=self.topic).exists())
