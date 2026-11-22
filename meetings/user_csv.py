@@ -12,6 +12,7 @@ from django.shortcuts import redirect, render
 from django.utils.crypto import get_random_string
 
 from .models import MeetingSeries, SeriesAccess, UserProfile
+from .user_roles import sync_admin_access
 
 User = get_user_model()
 
@@ -213,12 +214,7 @@ def import_users_csv(request):
                         defaults={"short_description": record["values"]["short_description"]},
                     )
                 if "is_administrator" in record["values"]:
-                    from django.contrib.auth.models import Group
-                    admin_group, _ = Group.objects.get_or_create(name="Admin")
-                    if record["values"]["is_administrator"]:
-                        user.groups.add(admin_group)
-                    else:
-                        user.groups.remove(admin_group)
+                    sync_admin_access(user, record["values"]["is_administrator"])
                 if "series" in pending["headers"]:
                     SeriesAccess.objects.filter(user=user).delete()
                     SeriesAccess.objects.bulk_create([
