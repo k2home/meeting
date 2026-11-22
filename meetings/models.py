@@ -46,7 +46,6 @@ class Topic(models.Model):
     STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt"), ("archived", "Archiviert")]
     title = models.CharField("Thema", max_length=240)
     description = models.TextField("Aktueller Stand", blank=True)
-    due_date = models.DateField("Fällig am", null=True, blank=True)
     status = models.CharField("Status", max_length=12, choices=STATUS, default="open")
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="topics")
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
@@ -55,7 +54,7 @@ class Topic(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["due_date", "title"]
+        ordering = ["title"]
         verbose_name = "Thema"
         verbose_name_plural = "Themen"
 
@@ -79,6 +78,8 @@ class AgendaItem(models.Model):
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name="agenda_items")
     topic = models.ForeignKey(Topic, on_delete=models.PROTECT, related_name="agenda_items")
     working_text = models.TextField("Text für dieses Protokoll", blank=True)
+    assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                    related_name="assigned_meeting_agenda_items", verbose_name="Abweichend verantwortlich")
     position = models.PositiveIntegerField(default=0)
     carried_forward = models.BooleanField(default=False)
 
@@ -92,6 +93,7 @@ class TopicSnapshot(models.Model):
     text = models.TextField(blank=True)
     status = models.CharField(max_length=12)
     topic_id = models.PositiveBigIntegerField()
+    responsible_name = models.CharField("Verantwortlich", max_length=255, blank=True)
 
     class Meta:
         ordering = ["id"]

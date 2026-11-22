@@ -1,19 +1,35 @@
 from datetime import timedelta
 from django.utils import timezone
 from .models import Meeting, AgendaItem, Topic, TopicSnapshot
+from .user_display import user_display_name
 
 def ensure_agenda(meeting):
+    """Return explicit agenda items and carry forward unresolved items once."""
     if meeting.series_id is None:
-        return meeting.agenda_items.select_related("topic").all()
-    due = Topic.objects.filter(series=meeting.series, status="open", due_date__lte=meeting.date)
-    previous = Meeting.objects.filter(series=meeting.series, date__lt=meeting.date, finalized_at__isnull=False).order_by("-date").first()
-    carried_ids = []
+        return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
+
+    previous = (
+        Meeting.objects.filter(series=meeting.series, date__lt=meeting.date, finalized_at__isnull=False)
+        .order_by("-date").first()
+    )
     if previous:
-        carried_ids = list(previous.agenda_items.filter(topic__status="open", topic__series=meeting.series).values_list("topic_id", flat=True))
-    candidates = (due | Topic.objects.filter(id__in=carried_ids)).distinct()
-    for topic in candidates:
-        AgendaItem.objects.get_or_create(meeting=meeting, topic=topic, defaults={"working_text": "", "carried_forward": topic.id in carried_ids})
-    return meeting.agenda_items.select_related("topic").all()
+        carried = previous.agenda_items.filter(
+            topic__status__in=["open", "in_progress"],
+            topic__series=meeting.series,
+        ).exclude(
+            topic__agenda_items__meeting__date__gt=previous.date,
+        ).select_related("topic")
+        for item in carried:
+            AgendaItem.objects.get_or_create(
+                meeting=meeting,
+                topic=item.topic,
+                defaults={
+                    "working_text": item.working_text,
+                    "carried_forward": True,
+                    "assigned_to_id": item.assigned_to_id,
+                },
+            )
+    return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
 
 def _next_weekday_on_or_after(day, weekday):
     return day + timedelta(days=(weekday - day.weekday()) % 7)
@@ -61,7 +77,8 @@ def finalize_meeting(meeting):
     for item in meeting.agenda_items.select_related("topic"):
         topic = item.topic
         TopicSnapshot.objects.get_or_create(meeting=meeting, topic_id=topic.pk, defaults={
-            "topic_title": topic.title, "text": item.working_text, "status": topic.status
+            "topic_title": topic.title, "text": item.working_text, "status": topic.status,
+            "responsible_name": user_display_name(item.assigned_to or topic.assigned_to) if (item.assigned_to or topic.assigned_to) else ""
         })
         topic.description = item.working_text
         topic.save(update_fields=["description","updated_at"])

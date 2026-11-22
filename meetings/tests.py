@@ -26,6 +26,26 @@ class TopicWorkflowTests(TestCase):
         SeriesAccess.objects.create(user=self.user, series=self.series_b)
         self.topic = Topic.objects.create(title="Testthema", series=self.series_a)
 
+    def test_transfer_moves_future_agenda_items_and_keeps_point_responsibility(self):
+        from datetime import date
+        source_meeting = Meeting.objects.create(series=self.series_a, date=date(2026, 12, 3))
+        target_meeting = Meeting.objects.create(series=self.series_b, date=date(2026, 12, 10))
+        item = AgendaItem.objects.create(
+            meeting=source_meeting, topic=self.topic, working_text="Noch zu beraten",
+            assigned_to=self.user,
+        )
+
+        response = self.client.post(reverse("topic_transfer", args=[self.topic.pk]), {
+            "series": self.series_b.pk, "note": "Gremienwechsel",
+        })
+
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        item.refresh_from_db()
+        self.assertEqual(item.meeting, target_meeting)
+        self.assertEqual(item.working_text, "Noch zu beraten")
+        self.assertEqual(item.assigned_to, self.user)
+        self.assertFalse(AgendaItem.objects.filter(meeting=source_meeting, topic=self.topic).exists())
+
     def test_archive_and_reopen_topic(self):
         response = self.client.post(reverse("topic_archive", args=[self.topic.pk]))
         self.assertRedirects(response, reverse("archive"))
@@ -60,7 +80,6 @@ class AuditHistoryTests(TestCase):
         response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
             "title": "Neuer Titel",
             "description": "Neue Beschreibung",
-            "due_date": "2026-12-01",
             "status": "open",
             "series": self.series.pk,
         })
@@ -223,7 +242,6 @@ class TopicTaskManagementTests(TestCase):
         response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
             "title": self.topic.title,
             "description": self.topic.description,
-            "due_date": "",
             "status": "open",
             "series": self.series.pk,
             "assigned_to": self.owner.pk,
@@ -267,14 +285,22 @@ class MyTasksViewTests(TestCase):
         today = timezone.localdate()
         self.overdue = Topic.objects.create(
             title="Überfällige Aufgabe", series=self.series, assigned_to=self.user,
-            due_date=today - timedelta(days=2),
         )
         self.due_today = Topic.objects.create(
-            title="Heute fällig", series=self.series, assigned_to=self.user, due_date=today,
+            title="Heute terminiert", series=self.series, assigned_to=self.user,
         )
-        self.no_due_date = Topic.objects.create(
-            title="Ohne Fälligkeit", series=self.series, assigned_to=self.user,
+        self.no_meeting = Topic.objects.create(
+            title="Ohne geplanten Termin", series=self.series, assigned_to=self.user,
         )
+        self.point_assigned = Topic.objects.create(
+            title="Punktaufgabe", series=self.series, assigned_to=self.other_user,
+        )
+        overdue_meeting = Meeting.objects.create(series=self.series, date=today - timedelta(days=2))
+        today_meeting = Meeting.objects.create(series=self.series, date=today)
+        point_meeting = Meeting.objects.create(series=self.series, date=today + timedelta(days=2))
+        AgendaItem.objects.create(meeting=overdue_meeting, topic=self.overdue)
+        AgendaItem.objects.create(meeting=today_meeting, topic=self.due_today)
+        AgendaItem.objects.create(meeting=point_meeting, topic=self.point_assigned, assigned_to=self.user)
         Topic.objects.create(title="Aufgabe anderer Person", series=self.series, assigned_to=self.other_user)
         Topic.objects.create(title="Nicht zugewiesen", series=self.series)
         Topic.objects.create(title="Erledigt", series=self.series, assigned_to=self.user, status="done")
@@ -285,12 +311,13 @@ class MyTasksViewTests(TestCase):
         response = self.client.get(reverse("my_tasks"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.no_due_date])
+        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.point_assigned, self.no_meeting])
         self.assertEqual(response.context["overdue_count"], 1)
         self.assertEqual(response.context["due_today_count"], 1)
-        self.assertEqual(response.context["without_due_date_count"], 1)
+        self.assertEqual(response.context["without_meeting_count"], 1)
         self.assertContains(response, "Überfällig")
-        self.assertContains(response, "Heute fällig")
+        self.assertContains(response, "Heute auf der Tagesordnung")
+        self.assertContains(response, "Punktaufgabe")
         self.assertNotContains(response, "Aufgabe anderer Person")
         self.assertNotContains(response, "Nicht zugewiesen")
         self.assertNotContains(response, "Erledigt")
@@ -316,8 +343,10 @@ class DashboardTopicFilterTests(TestCase):
         today = timezone.localdate()
         self.topic = Topic.objects.create(
             title="Serverwartung", description="Festplatten prüfen", series=self.series_a,
-            assigned_to=self.user, due_date=today + timedelta(days=2),
+            assigned_to=self.user,
         )
+        future_meeting = Meeting.objects.create(series=self.series_a, date=today + timedelta(days=2))
+        AgendaItem.objects.create(meeting=future_meeting, topic=self.topic)
         Topic.objects.create(title="Urlaubsplanung", series=self.series_b, assigned_to=self.other_user)
         Topic.objects.create(title="Nicht zugewiesen", series=self.series_a)
 
@@ -547,7 +576,8 @@ class MeetingReopenTests(TestCase):
     def test_reopened_meeting_can_be_completed_again_with_a_new_snapshot(self):
         self.client.post(reverse("meeting_reopen", args=[self.meeting.pk]))
         self.item.working_text = "Überarbeiteter Stand"
-        self.item.save(update_fields=["working_text"])
+        self.item.assigned_to = self.admin
+        self.item.save(update_fields=["working_text", "assigned_to"])
 
         response = self.client.post(reverse("finalize", args=[self.meeting.pk]))
 
@@ -556,6 +586,7 @@ class MeetingReopenTests(TestCase):
         self.assertIsNotNone(self.meeting.finalized_at)
         self.assertEqual(self.meeting.snapshots.count(), 1)
         self.assertEqual(self.meeting.snapshots.get().text, "Überarbeiteter Stand")
+        self.assertEqual(self.meeting.snapshots.get().responsible_name, "meeting-admin")
 
     def test_non_staff_user_cannot_reopen_meeting(self):
         member = User.objects.create_user(username="meeting-member", password="strong-test-password")
@@ -757,7 +788,6 @@ class MeetingSeriesManagementTests(TestCase):
         )
         topic = Topic.objects.create(
             title="Übertragener Tagesordnungspunkt", series=self.series,
-            due_date=self.meeting.date,
         )
         source_item = AgendaItem.objects.create(
             meeting=self.meeting, topic=topic, working_text="Wichtiger Sachstand", position=2
@@ -770,9 +800,9 @@ class MeetingSeriesManagementTests(TestCase):
         moved_item = AgendaItem.objects.get(topic=topic)
         self.assertEqual(moved_item.meeting, following)
         self.assertEqual(moved_item.working_text, "Wichtiger Sachstand")
+        self.assertEqual(moved_item.assigned_to_id, source_item.assigned_to_id)
         self.assertTrue(moved_item.carried_forward)
         topic.refresh_from_db()
-        self.assertEqual(topic.due_date, following.date)
 
     def test_series_delete_removes_future_drafts_but_preserves_completed_protocols(self):
         from datetime import timedelta
@@ -997,7 +1027,7 @@ class MeetingSeriesSchedulingTests(TestCase):
         from datetime import timedelta
         from django.utils import timezone
         from .models import TopicSnapshot
-        topic = Topic.objects.create(title="Mitnehmen", series=self.series, due_date=self.meeting.date)
+        topic = Topic.objects.create(title="Mitnehmen", series=self.series)
         AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Aktueller Stand", position=3)
         completed = Meeting.objects.create(
             series=self.series, date=self.today - timedelta(days=7), finalized_at=timezone.now()
@@ -1375,17 +1405,46 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.target_meeting = Meeting.objects.create(series=self.series_b, date=date(2027, 1, 12))
         self.client.force_login(self.user)
 
-    def test_new_agenda_topic_can_be_created_from_meeting_page(self):
+    def test_new_agenda_topic_can_set_main_and_point_responsibility(self):
+        main_owner = User.objects.create_user(username="new-topic-main", password="strong-test-password")
+        item_owner = User.objects.create_user(username="new-topic-point", password="strong-test-password")
         response = self.client.post(
             reverse("meeting", args=[self.meeting.pk]),
-            {"add_agenda_topic": "1", "title": "Neuer Tagesordnungspunkt", "working_text": "Ein erster Sachstand"},
+            {
+                "add_agenda_topic": "1", "title": "Neuer Tagesordnungspunkt",
+                "working_text": "Ein erster Sachstand",
+                "topic_assigned_to": str(main_owner.pk), "assigned_to": str(item_owner.pk),
+            },
         )
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         topic = Topic.objects.get(title="Neuer Tagesordnungspunkt")
         self.assertEqual(topic.series, self.series_a)
-        self.assertEqual(topic.due_date, self.meeting.date)
+        self.assertEqual(topic.assigned_to, main_owner)
         item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
         self.assertEqual(item.working_text, "Ein erster Sachstand")
+        self.assertEqual(item.assigned_to, item_owner)
+
+    def test_agenda_item_assignee_overrides_topic_responsible_without_changing_it(self):
+        main_owner = User.objects.create_user(username="main-owner", password="strong-test-password")
+        item_owner = User.objects.create_user(username="item-owner", password="strong-test-password")
+        topic = Topic.objects.create(title="Abweichende Zuständigkeit", series=self.series_a, assigned_to=main_owner)
+        item = AgendaItem.objects.create(meeting=self.meeting, topic=topic)
+
+        response = self.client.post(reverse("meeting", args=[self.meeting.pk]), {
+            "update_agenda_assignee": str(item.pk), "assigned_to": str(item_owner.pk),
+        })
+        self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
+        item.refresh_from_db()
+        topic.refresh_from_db()
+        self.assertEqual(item.assigned_to, item_owner)
+        self.assertEqual(topic.assigned_to, main_owner)
+
+        self.client.post(reverse("meeting", args=[self.meeting.pk]), {
+            "update_agenda_assignee": str(item.pk), "assigned_to": "",
+        })
+        item.refresh_from_db()
+        self.assertIsNone(item.assigned_to)
+        self.assertEqual(topic.assigned_to, main_owner)
 
     def test_topic_suggestions_return_matching_accessible_topics(self):
         Topic.objects.create(title="Digitalisierung Haushalt", series=self.series_a)
@@ -1400,10 +1459,10 @@ class MeetingAgendaEnhancementTests(TestCase):
             set(Topic.objects.filter(title__startswith="Digitalisierung").values_list("pk", flat=True)),
         )
 
-    def test_existing_topic_is_added_only_to_current_agenda_without_changing_series_or_due_date(self):
+    def test_existing_topic_is_added_only_to_current_agenda_without_changing_series(self):
         topic = Topic.objects.create(
             title="Vorhandenes Thema", series=self.series_b,
-            due_date=self.target_meeting.date, description="Bisheriger Sachstand",
+            description="Bisheriger Sachstand",
         )
         response = self.client.post(
             reverse("meeting", args=[self.meeting.pk]),
@@ -1412,7 +1471,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         topic.refresh_from_db()
         self.assertEqual(topic.series, self.series_b)
-        self.assertEqual(topic.due_date, self.target_meeting.date)
         item = AgendaItem.objects.get(meeting=self.meeting, topic=topic)
         self.assertEqual(item.working_text, "Bisheriger Sachstand")
         self.assertFalse(AgendaItem.objects.filter(meeting=self.target_meeting, topic=topic).exists())
@@ -1441,7 +1499,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertRedirects(response, reverse("meeting", args=[self.meeting.pk]))
         topic.refresh_from_db()
         self.assertEqual(topic.series, self.series_b)
-        self.assertEqual(topic.due_date, self.target_meeting.date)
         transfer = TopicTransferHistory.objects.get(topic=topic)
         self.assertEqual(transfer.from_series, self.series_a)
         self.assertEqual(transfer.to_series, self.series_b)
@@ -1470,7 +1527,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         item.refresh_from_db()
         target_item = AgendaItem.objects.get(meeting=self.target_meeting, topic=topic)
         self.assertEqual(topic.series, self.series_b)
-        self.assertEqual(topic.due_date, self.target_meeting.date)
         self.assertEqual(item.working_text, "Aktualisierter Protokolltext")
         self.assertEqual(target_item.working_text, "")
 
@@ -1484,10 +1540,9 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertNotIn('onchange="this.form.requestSubmit()"', content)
 
     def test_history_includes_planned_followup_meeting_without_agenda_item(self):
-        topic = Topic.objects.create(
-            title="Geplante Historie", series=self.series_b, due_date=self.target_meeting.date,
-        )
+        topic = Topic.objects.create(title="Geplante Historie", series=self.series_b)
         AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Besprochen")
+        AgendaItem.objects.create(meeting=self.target_meeting, topic=topic, working_text="")
         response = self.client.get(reverse("agenda_topic_history", args=[self.meeting.pk, topic.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "12.01.2027")
@@ -1506,7 +1561,6 @@ class MeetingAgendaEnhancementTests(TestCase):
         )
         topic.refresh_from_db()
         self.assertEqual(topic.series, self.series_a)
-        self.assertIsNone(topic.due_date)
         self.assertFalse(TopicTransferHistory.objects.filter(topic=topic).exists())
 
     def test_history_lists_meetings_series_dates_and_text(self):
@@ -1562,7 +1616,6 @@ class OpenTopicsViewTests(TestCase):
         item = AgendaItem.objects.get(meeting=self.future_meeting, topic=topic)
         self.assertEqual(item.working_text, "")
         topic.refresh_from_db()
-        self.assertEqual(topic.due_date, self.future_meeting.date)
 
     def test_reader_cannot_access_open_topics_and_does_not_see_menu_item(self):
         reader = User.objects.create_user(username="open-topics-reader", password="strong-test-password")
@@ -1629,6 +1682,22 @@ class TopicAgendaCsvImportTests(TestCase):
             writer.writerow(["CSV-Reihe", *row])
         return output.getvalue()
 
+    def test_csv_export_keeps_meeting_and_topic_series_separate(self):
+        import csv
+        from io import StringIO
+
+        topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        topic = Topic.objects.create(title="Reihenübergreifendes Thema", series=topic_series)
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Sondersitzung")
+        AgendaItem.objects.create(meeting=meeting, topic=topic)
+
+        response = self.client.get(reverse("admin:meetings_topic_csv_export"))
+        self.assertEqual(response.status_code, 200)
+        rows = list(csv.DictReader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
+        exported = next(row for row in rows if row.get("topic_title") == "Reihenübergreifendes Thema")
+        self.assertEqual(exported["series"], "CSV-Reihe")
+        self.assertEqual(exported["topic_series"], "Themenreihe")
+
     def test_admin_can_download_sample_and_open_import(self):
         sample = self.client.get(reverse("admin:meetings_topic_csv_sample"))
         self.assertEqual(sample.status_code, 200)
@@ -1682,21 +1751,25 @@ class TopicAgendaCsvImportTests(TestCase):
         self.series = MeetingSeries.objects.create(name="CSV-Reihe")
         self.client.force_login(self.admin)
 
-    def _csv(self, rows):
+    def _csv(self, rows, topic_series_name="CSV-Reihe"):
         import csv
         from io import StringIO
         output = StringIO()
         writer = csv.writer(output, delimiter=";")
         writer.writerow([
-            "series", "meeting_date", "meeting_title", "topic_title",
+            "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
             "topic_current_status", "topic_due_date", "topic_status",
-            "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
+            "responsible_username", "responsible_kurzbezeichnung",
+            "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
         ])
         for row in rows:
-            # Alte Testdaten enthalten noch keine Spalte responsible_kurzbezeichnung.
             if len(row) == 8:
-                row = [*row[:7], "", *row[7:]]
-            writer.writerow(["CSV-Reihe", *row])
+                row = [*row[:7], "", "", "", row[7]]
+            elif len(row) == 9:
+                row = [*row[:8], "", "", row[8]]
+            elif len(row) == 10:
+                row = [*row[:4], "", *row[4:]]
+            writer.writerow(["CSV-Reihe", topic_series_name, *row])
         return output.getvalue()
 
     def _confirm_import(self, text):
@@ -1715,6 +1788,9 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(sample.status_code, 200)
         self.assertIn("muster_themen_und_punkte.csv", sample["Content-Disposition"])
         self.assertNotContains(sample, "topic_key")
+        sample_header = sample.content.decode("utf-8-sig").splitlines()[0]
+        self.assertNotIn("topic_due_date", sample_header)
+        self.assertContains(sample, "agenda_responsible_username")
         page = self.client.get(reverse("admin:meetings_topic_csv_import"))
         self.assertEqual(page.status_code, 200)
         self.assertContains(page, "Muster-CSV herunterladen")
@@ -1757,6 +1833,72 @@ class TopicAgendaCsvImportTests(TestCase):
         ]]))
         topic = Topic.objects.get(title="Verantwortliches Thema")
         self.assertEqual(topic.assigned_to, responsible)
+
+    def test_agenda_responsible_user_is_imported_independently_from_topic_owner(self):
+        item_owner = User.objects.create_user(username="agenda-csv-owner", password="strong-test-password")
+        response = self._confirm_import(self._csv([[
+            "2026-12-03", "", "Punktverantwortung", "Sachstand", "open",
+            "", "", "agenda-csv-owner", "", "Punkttext",
+        ]]))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Punktverantwortung")
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertIsNone(topic.assigned_to)
+        self.assertEqual(item.assigned_to, item_owner)
+        self.assertEqual(item.working_text, "Punkttext")
+
+    def test_csv_preserves_topic_series_separately_from_meeting_series(self):
+        topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        response = self._confirm_import(self._csv([[
+            "2026-12-03", "Sondersitzung", "Thema aus anderer Reihe",
+            "Sachstand", "", "open", "", "Punkttext",
+        ]], topic_series_name="Themenreihe"))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Thema aus anderer Reihe")
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertEqual(topic.series, topic_series)
+        self.assertEqual(item.meeting.series, self.series)
+        self.assertEqual(item.working_text, "Punkttext")
+
+    def test_legacy_csv_without_topic_series_defaults_to_meeting_series(self):
+        import csv
+        from io import StringIO
+
+        output = StringIO()
+        writer = csv.writer(output, delimiter=";")
+        writer.writerow([
+            "series", "meeting_date", "meeting_title", "topic_title",
+            "topic_current_status", "topic_due_date", "topic_status",
+            "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
+        ])
+        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "Sachstand", "", "open", "", "", "Punkttext"])
+        self._confirm_import(output.getvalue())
+        topic = Topic.objects.get(title="Altes CSV-Thema")
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertEqual(topic.series, self.series)
+        self.assertEqual(item.meeting.series, self.series)
+
+    def test_legacy_due_date_becomes_a_separate_agenda_item(self):
+        response = self._confirm_import(self._csv([[
+            "2026-12-03", "Reguläre Sitzung", "Alte Wiedervorlage",
+            "Sachstand", "2027-01-14", "open", "", "Erster Stand",
+        ]]))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Alte Wiedervorlage")
+        self.assertEqual(
+            list(AgendaItem.objects.filter(topic=topic).values_list("meeting__date", flat=True).order_by("meeting__date")),
+            [__import__("datetime").date(2026, 12, 3), __import__("datetime").date(2027, 1, 14)],
+        )
+
+    def test_explicit_future_csv_row_wins_over_legacy_synthetic_followup(self):
+        self._confirm_import(self._csv([
+            ["2026-12-03", "Reguläre Sitzung", "Legacy-Doppelzeile", "Sachstand", "2027-01-14", "open", "", "Text Dezember"],
+            ["2027-01-14", "Reguläre Sitzung", "Legacy-Doppelzeile", "Sachstand", "2027-01-14", "open", "", "Expliziter Text Januar"],
+        ]))
+        topic = Topic.objects.get(title="Legacy-Doppelzeile")
+        future_item = AgendaItem.objects.get(topic=topic, meeting__date="2027-01-14")
+        self.assertEqual(future_item.working_text, "Expliziter Text Januar")
+        self.assertEqual(AgendaItem.objects.filter(topic=topic).count(), 2)
 
     def test_unknown_or_ambiguous_short_description_is_rejected(self):
         from .models import UserProfile

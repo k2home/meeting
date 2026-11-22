@@ -83,7 +83,7 @@ class TopicAdmin(admin.ModelAdmin):
             raise PermissionDenied
         return export_topic_agenda_csv(request)
 
-    list_display = ("title", "series", "due_date", "assigned_to", "status")
+    list_display = ("title", "series", "assigned_to", "status")
     list_filter = ("series", "status")
     search_fields = ("title", "description")
 

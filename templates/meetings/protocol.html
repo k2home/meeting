@@ -35,6 +35,7 @@
 {% for s in snapshots %}
 <article class="card">
   <h2>{{ s.topic_title }}</h2>
+  {% if s.responsible_name %}<p><strong>Verantwortlich:</strong> {{ s.responsible_name }}</p>{% endif %}
   <p>{{ s.text|linebreaksbr }}</p>
   <small>Status: {{ s.get_status_display|default:s.status }}</small>
 </article>
@@ -42,6 +43,7 @@
   {% for item in meeting.agenda_items.all %}
   <article class="card">
     <h2>{{ item.topic.title }}</h2>
+    <p><strong>Verantwortlich:</strong> {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     <p>{{ item.working_text|linebreaksbr }}</p>
     <small>Status: {{ item.topic.get_status_display }}</small>
   </article>
