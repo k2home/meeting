@@ -32,7 +32,16 @@
  <main class="topic-main">
   <section class="card">
    <div class="topline"><h2>Beschreibung und aktueller Stand</h2></div>
-   {% if is_reader %}<div>{{ topic.description|linebreaksbr|default:"Noch keine Beschreibung hinterlegt." }}</div>
+   {% if is_reader %}<div class="topic-inline-form">
+    <div class="topic-field"><label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}</div>
+    <div class="topic-field"><label for="{{ form.description.id_for_label }}">Aktueller Stand</label>{{ form.description }}</div>
+    <div class="topic-meta">
+     <div><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}</div>
+     <div><label for="{{ form.assigned_to.id_for_label }}">Verantwortlich</label>{{ form.assigned_to }}</div>
+     <div><label for="{{ form.series.id_for_label }}">Besprechungsreihe</label>{{ form.series }}</div>
+    </div>
+    <div style="margin-top:1rem"><label for="{{ form.completion_note.id_for_label }}">Abschlussvermerk</label>{{ form.completion_note }}</div>
+   </div>
    {% else %}<form id="topic-edit-form" method="post" class="topic-inline-form">{% csrf_token %}
     <div class="topic-field"><label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title.errors }}{{ form.title }}</div>
     <div class="topic-field"><label for="{{ form.description.id_for_label }}">Aktueller Stand</label>{{ form.description.errors }}{{ form.description }}</div>
