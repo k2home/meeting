@@ -1096,6 +1096,7 @@ class AgendaItemDeletionTests(TestCase):
 
         meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
         self.assertEqual(meeting_response.status_code, 200)
+        self.assertNotContains(meeting_response, "Punkt löschen")
         self.assertNotContains(meeting_response, "Punkt aus diesem Termin entfernen")
 
         topic_response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
