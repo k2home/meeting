@@ -3,12 +3,11 @@
 <html lang="de-DE">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Kein apple-touch-icon: iOS 26 soll das SVG aus dem Manifest statt eines statischen PNG verwenden. -->
-<link rel="icon" type="image/svg+xml" href="{% static 'meetings/favicon.svg' %}?v=5">
-<link rel="icon" type="image/png" sizes="180x180" href="{% static 'meetings/favicon-180.png' %}?v=5">
-<link rel="shortcut icon" href="{% static 'meetings/favicon-180.png' %}?v=5">
-<link rel="mask-icon" href="{% static 'meetings/favicon-monochrome.svg' %}?v=5" color="#003d73">
-<link rel="manifest" href="{% static 'meetings/site.webmanifest' %}?v=5">
+<!-- SVG für Browser-Tabs; PNG ausschließlich als Apple Touch Icon für iOS. -->
+<link rel="icon" type="image/svg+xml" href="{% static 'meetings/favicon.svg' %}?v=6">
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'meetings/favicon-180.png' %}?v=6">
+<link rel="mask-icon" href="{% static 'meetings/favicon-monochrome.svg' %}?v=6" color="#003d73">
+<link rel="manifest" href="{% static 'meetings/site.webmanifest' %}?v=6">
 <meta name="theme-color" content="#003d73">
 <script>try{const savedTheme=localStorage.getItem("meeting-theme");if(savedTheme==="dark"||savedTheme==="light")document.documentElement.dataset.theme=savedTheme;}catch(e){}</script>
 <title>{% block title %}Meeting Manager{% endblock %}{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</title>
@@ -163,11 +162,11 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if user.is_authenticated %}
 <div class="mobile-header">
 <button class="menu-toggle secondary" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
-<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=5" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span><span class="brand-org-short">{{ organization_unit_short_name }}</span>{% endif %}</span></a>
+<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=6" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span><span class="brand-org-short">{{ organization_unit_short_name }}</span>{% endif %}</span></a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
 <button class="desktop-menu-toggle" type="button" id="desktop-menu-toggle" aria-expanded="false" aria-label="Navigation aufklappen">☰</button>
-<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=5" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span>{% endif %}<span class="brand-short">{{ organization_unit_short_name }}</span></span></a>
+<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=6" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span>{% endif %}<span class="brand-short">{{ organization_unit_short_name }}</span></span></a>
 <nav class="nav-links" aria-label="Hauptmenü">
 <a class="nav-overview" href="/">Übersicht</a>
 {% if not is_reader %}<a class="nav-tasks" href="{% url 'my_tasks' %}">Meine Aufgaben</a>{% endif %}
