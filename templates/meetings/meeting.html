@@ -347,6 +347,25 @@
     content.hidden = !expanded;
   }
 
+  const agendaExpansionStorageKey = "meeting-agenda-expanded-{{ meeting.id }}";
+  function saveAgendaExpansionState() {
+    const expandedIds = Array.from(document.querySelectorAll(".agenda-item")).filter((card) => {
+      const toggle = card.querySelector(".agenda-item-toggle");
+      return toggle && toggle.getAttribute("aria-expanded") === "true";
+    }).map((card) => card.dataset.agendaItem);
+    try { sessionStorage.setItem(agendaExpansionStorageKey, JSON.stringify(expandedIds)); } catch (error) {}
+  }
+  try {
+    const savedExpandedIds = JSON.parse(sessionStorage.getItem(agendaExpansionStorageKey) || "null");
+    if (Array.isArray(savedExpandedIds)) {
+      savedExpandedIds.forEach((id) => {
+        const card = document.querySelector('.agenda-item[data-agenda-item="' + id + '"]');
+        if (card) setAgendaItemExpanded(card, true);
+      });
+    }
+    sessionStorage.removeItem(agendaExpansionStorageKey);
+  } catch (error) {}
+
   if (window.location.hash.startsWith("#agenda-item-")) {
     const card = document.getElementById(window.location.hash.slice(1));
     if (card) setAgendaItemExpanded(card, true);
@@ -400,6 +419,9 @@
       pendingTextForm = form;
       saveChoiceDialog.showModal();
     });
+    form.addEventListener("submit", (event) => {
+      if (!event.defaultPrevented) saveAgendaExpansionState();
+    });
   });
   const cancelSaveButton = document.getElementById("cancel-agenda-save");
   const saveOneButton = document.getElementById("save-one-agenda-text");
@@ -429,6 +451,7 @@
     allFlag.type = "hidden"; allFlag.name = "save_all_working_texts"; allFlag.value = "1";
     form.appendChild(allFlag);
     form.dataset.confirmedSave = "true";
+    saveAgendaExpansionState();
     saveChoiceDialog.close();
     form.submit();
     pendingTextForm = null;
