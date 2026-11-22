@@ -1624,6 +1624,8 @@ class TopicAgendaCsvImportTests(TestCase):
             "responsible_username", "agenda_text", "position", "carried_forward",
         ])
         for row in rows:
+            if len(row) == 8:
+                row = [*row[:7], "", *row[7:]]
             writer.writerow(["CSV-Reihe", *row])
         return output.getvalue()
 
@@ -1688,7 +1690,7 @@ class TopicAgendaCsvImportTests(TestCase):
         writer.writerow([
             "series", "meeting_date", "meeting_title", "topic_title",
             "topic_current_status", "topic_due_date", "topic_status",
-            "responsible_username", "agenda_text",
+            "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
         ])
         for row in rows:
             writer.writerow(["CSV-Reihe", *row])
@@ -1739,6 +1741,34 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(Meeting.objects.filter(series=self.series).count(), 2)
         later_item = AgendaItem.objects.get(topic=topic, meeting__date="2027-01-14")
         self.assertTrue(later_item.carried_forward)
+
+    def test_responsible_user_can_be_resolved_by_short_description_without_username(self):
+        from .models import UserProfile
+        responsible = User.objects.create_user(
+            username="short-name-user", password="strong-test-password"
+        )
+        UserProfile.objects.create(user=responsible, short_description="Teamleitung Bau")
+        self._confirm_import(self._csv([[
+            "2026-12-03", "", "Verantwortliches Thema", "", "", "open", "",
+            "Teamleitung Bau", "Sachstand",
+        ]]))
+        topic = Topic.objects.get(title="Verantwortliches Thema")
+        self.assertEqual(topic.assigned_to, responsible)
+
+    def test_unknown_or_ambiguous_short_description_is_rejected(self):
+        from .models import UserProfile
+        first = User.objects.create_user(username="short-one", password="strong-test-password")
+        second = User.objects.create_user(username="short-two", password="strong-test-password")
+        UserProfile.objects.create(user=first, short_description="Doppelt")
+        UserProfile.objects.create(user=second, short_description="Doppelt")
+        from .topic_csv import parse_topic_agenda_csv
+        text = self._csv([[
+            "2026-12-03", "", "Mehrdeutiges Thema", "", "", "open", "",
+            "Doppelt", "Text",
+        ]])
+        rows, errors = parse_topic_agenda_csv(text)
+        self.assertEqual(rows, [])
+        self.assertTrue(any("nicht eindeutig" in error for error in errors))
 
     def test_position_follows_csv_row_order_for_each_meeting(self):
         self._confirm_import(self._csv([
