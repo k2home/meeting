@@ -15,7 +15,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 CSV_FIELDS = (
-    "series", "meeting_date", "meeting_title", "topic_title", "topic_current_status",
+    "series", "topic_series", "meeting_date", "meeting_title", "topic_title", "topic_current_status",
     "topic_status", "responsible_username", "responsible_kurzbezeichnung",
     "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
 )
@@ -48,8 +48,8 @@ def sample_csv_response():
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "2027-01-14", "Reguläre Sitzung", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten."])
     writer.writerow(["Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "Konzept und Zeitplan für die Beschäftigtenschulungen", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
     _write_csv_documentation(writer)
     return response
@@ -58,6 +58,8 @@ def sample_csv_response():
 def _write_csv_documentation(writer):
     writer.writerow([])
     writer.writerow(["# GÜLTIGE WERTE", "Feld", "Erlaubte Werte"])
+    writer.writerow(["#", "series", "Besprechungsreihe des konkreten Termins; legt Meeting fest."])
+    writer.writerow(["#", "topic_series", "Zuständige Besprechungsreihe des Themas; leer bedeutet ohne Zuordnung. Bei alten Dateien ohne diese Spalte wird series übernommen."])
     writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in Topic.STATUS)])
     writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Hauptverantwortliche Person des Themas; Kurzbezeichnung muss eindeutig sein."])
     writer.writerow(["#", "agenda_responsible_username / agenda_responsible_kurzbezeichnung", "Optionale abweichende Person für genau diesen Tagesordnungspunkt; leer bedeutet Hauptverantwortliche Person."])
@@ -89,6 +91,7 @@ def export_topic_agenda_csv(request):
         meeting, topic = item.meeting, item.topic
         writer.writerow([
             meeting.series.name if meeting.series else "",
+            topic.series.name if topic.series else "",
             meeting.date.isoformat(),
             meeting.title,
             topic.title,
@@ -170,6 +173,15 @@ def parse_topic_agenda_csv(text):
         if not series_id:
             errors.append(f"Zeile {row_number}: Besprechungsreihe „{series_name}“ existiert nicht.")
             continue
+        if "topic_series" in headers:
+            topic_series_name = row.get("topic_series", "")
+            topic_series_id = series_by_name.get(topic_series_name) if topic_series_name else None
+            if topic_series_name and topic_series_id is None:
+                errors.append(f"Zeile {row_number}: Zuständige Themenreihe „{topic_series_name}“ existiert nicht.")
+                continue
+        else:
+            # Legacy CSV files used one series column for both the meeting and topic.
+            topic_series_id = series_id
 
         meeting_date = _parse_date(row.get("meeting_date"), "meeting_date", row_number, errors, True)
         legacy_due_date = _parse_date(row.get("topic_due_date"), "topic_due_date", row_number, errors) if "topic_due_date" in headers else None
@@ -196,9 +208,9 @@ def parse_topic_agenda_csv(text):
         if not meeting_date or not title:
             continue
 
-        topic_key = f"{series_id}:{title.casefold()}"
+        topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
         topic_data = {
-            "series_id": series_id, "title": title,
+            "series_id": topic_series_id, "title": title,
             "description": row.get("topic_current_status", ""),
             "status": status, "assigned_to_id": main_user.pk if main_user else None,
         }
