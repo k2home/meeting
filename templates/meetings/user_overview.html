@@ -1,0 +1,51 @@
+{% extends "meetings/base.html" %}
+{% block title %}Benutzerübersicht{% endblock %}
+{% block content %}
+<div class="topline">
+  <div>
+    <h1>Benutzerübersicht</h1>
+    <p class="muted">Persönliche Angaben und deine Berechtigungen im Meeting Manager.</p>
+  </div>
+</div>
+
+<section class="card">
+  <h2>Persönliche Daten</h2>
+  <p class="muted">Diese Angaben kannst du selbst ändern. Der Benutzername für die Anmeldung bleibt unverändert.</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="profile">
+    {{ profile_form.as_p }}
+    <button type="submit">Persönliche Daten speichern</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Meine Besprechungsreihen und Berechtigungen</h2>
+  {% if is_admin_user %}
+    <p>Du hast die globale Berechtigung <strong>Admin</strong> und damit Zugriff auf alle Besprechungsreihen.</p>
+  {% endif %}
+  {% if series_rows %}
+    <table>
+      <thead><tr><th>Besprechungsreihe</th><th>Deine Berechtigung</th></tr></thead>
+      <tbody>
+      {% for row in series_rows %}
+        <tr><td>{{ row.series.name }}</td><td>{{ row.role_label }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Dir sind derzeit keine Besprechungsreihen zugewiesen.</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Passwort ändern</h2>
+  <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="password">
+    {{ password_form.as_p }}
+    <button type="submit">Passwort ändern</button>
+  </form>
+</section>
+{% endblock %}

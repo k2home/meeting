@@ -195,3 +195,36 @@ class MeetingDateForm(forms.ModelForm):
     class Meta:
         model = Meeting
         fields = ["date"]
+
+
+class PersonalProfileForm(forms.Form):
+    first_name = forms.CharField(label="Vorname", max_length=150, required=False)
+    last_name = forms.CharField(label="Nachname", max_length=150, required=False)
+    email = forms.EmailField(label="E-Mail-Adresse", required=False)
+    short_description = forms.CharField(label="Kurzbezeichnung", max_length=80, required=False)
+
+    def __init__(self, *args, user, **kwargs):
+        self.user = user
+        try:
+            self.profile = user.meeting_profile
+        except ObjectDoesNotExist:
+            self.profile = None
+        initial = kwargs.pop("initial", {})
+        initial.update({
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+            "short_description": self.profile.short_description if self.profile else "",
+        })
+        super().__init__(*args, initial=initial, **kwargs)
+
+    def save(self):
+        self.user.first_name = self.cleaned_data["first_name"].strip()
+        self.user.last_name = self.cleaned_data["last_name"].strip()
+        self.user.email = self.cleaned_data["email"].strip()
+        self.user.save(update_fields=["first_name", "last_name", "email"])
+        from .models import UserProfile
+        profile, _ = UserProfile.objects.get_or_create(user=self.user)
+        profile.short_description = self.cleaned_data["short_description"].strip()
+        profile.save(update_fields=["short_description"])
+        return self.user

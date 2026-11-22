@@ -6,8 +6,9 @@ from urllib.parse import quote, urlencode
 from xml.sax.saxutils import escape
 
 from django.contrib import messages
-from django.contrib.auth import login, logout, get_user_model
+from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
 from django.db.models.functions import RowNumber
@@ -17,7 +18,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
+from .forms import PersonalProfileForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
@@ -1899,3 +1900,52 @@ def topic_comment_add(request, pk):
     else:
         messages.error(request, "Bitte gib einen Kommentar ein (maximal 5.000 Zeichen).")
     return redirect("topic_edit", pk=pk)
+
+@login_required
+def user_overview(request):
+    """Show and edit the current user's profile, series roles and password."""
+    if request.method == "POST" and request.POST.get("form_type") == "password":
+        profile_form = PersonalProfileForm(user=request.user)
+        password_form = PasswordChangeForm(request.user, request.POST)
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "Dein Passwort wurde erfolgreich geändert.")
+            return redirect("user_overview")
+        messages.error(request, "Bitte prüfe die Angaben zum Passwort.")
+    elif request.method == "POST" and request.POST.get("form_type") == "profile":
+        profile_form = PersonalProfileForm(request.POST, user=request.user)
+        password_form = PasswordChangeForm(request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, "Deine persönlichen Daten wurden gespeichert.")
+            return redirect("user_overview")
+        messages.error(request, "Bitte prüfe deine persönlichen Angaben.")
+    else:
+        profile_form = PersonalProfileForm(user=request.user)
+        password_form = PasswordChangeForm(request.user)
+
+    admin_access = is_admin(request.user)
+    if admin_access:
+        series_rows = [
+            {"series": series, "role_label": "Admin – globaler Zugriff"}
+            for series in MeetingSeries.objects.order_by("name")
+        ]
+    else:
+        role_labels = dict(SeriesAccess.ROLE_CHOICES)
+        assignments = (
+            SeriesAccess.objects.filter(user=request.user)
+            .select_related("series")
+            .order_by("series__name")
+        )
+        series_rows = [
+            {"series": assignment.series, "role_label": role_labels.get(assignment.role, assignment.role)}
+            for assignment in assignments
+        ]
+
+    return render(request, "meetings/user_overview.html", {
+        "profile_form": profile_form,
+        "password_form": password_form,
+        "series_rows": series_rows,
+        "is_admin_user": admin_access,
+    })
