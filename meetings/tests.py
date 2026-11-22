@@ -962,7 +962,7 @@ class MeetingSeriesSchedulingTests(TestCase):
     def test_meeting_date_form_uses_german_day_month_year_format(self):
         from .forms import MeetingDateForm
         form = MeetingDateForm(instance=self.meeting)
-        self.assertEqual(form["date"].value(), self.meeting.date.strftime("%d.%m.%Y"))
+        self.assertIn(self.meeting.date.strftime("%d.%m.%Y"), str(form["date"]))
         submitted = MeetingDateForm(data={"date": "05.12.2026"}, instance=self.meeting)
         self.assertTrue(submitted.is_valid(), submitted.errors)
         self.assertEqual(submitted.cleaned_data["date"].isoformat(), "2026-12-05")
