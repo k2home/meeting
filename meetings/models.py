@@ -132,9 +132,16 @@ class TopicAttachment(models.Model):
             parsed = urlsplit(value)
         except ValueError:
             return ""
-        if parsed.scheme.lower() != "smb" or not parsed.hostname or parsed.username or parsed.password:
+        scheme = parsed.scheme.lower()
+        if any(ord(char) < 32 for char in value) or parsed.username or parsed.password:
             return ""
-        if any(ord(char) < 32 for char in value):
+        if scheme in {"http", "https", "smb"}:
+            if not parsed.hostname:
+                return ""
+        elif scheme == "mailto":
+            if not parsed.path or "@" not in parsed.path or "?" in parsed.path:
+                return ""
+        else:
             return ""
         return value
 
