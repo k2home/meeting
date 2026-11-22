@@ -183,7 +183,7 @@ def dashboard(request):
 
 @login_required
 def open_topics(request):
-    """List non-completed topics without a future agenda appointment."""
+    """Show the latest unfinished agenda entry for topics without a future appointment."""
     today = timezone.localdate()
     if is_admin(request.user):
         allowed_series = MeetingSeries.objects.all()
@@ -195,18 +195,21 @@ def open_topics(request):
         if not allowed_series.exists():
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
-    topics = (
-        Topic.objects.filter(series__in=allowed_series)
-        .exclude(status="done")
-        .exclude(agenda_items__meeting__date__gt=today)
-        .select_related("series", "assigned_to")
-        .distinct()
-        .order_by("series__name", "title")
-    )
+    latest_item_ids = AgendaItem.objects.filter(
+        topic_id=__import__("django.db.models", fromlist=["OuterRef"]).OuterRef("topic_id")
+    ).order_by("-meeting__date", "-pk").values("pk")[:1]
+    items = AgendaItem.objects.filter(
+        topic__series__in=allowed_series,
+        status__in=["open", "in_progress"],
+        meeting__date__lte=today,
+    ).filter(pk__in=__import__("django.db.models", fromlist=["Subquery"]).Subquery(latest_item_ids)).select_related(
+        "topic", "topic__series", "meeting", "assigned_to"
+    ).order_by("topic__series__name", "topic__title")
+
     if request.method == "POST":
-        topic = get_object_or_404(topics, pk=request.POST.get("schedule_topic"))
+        item = get_object_or_404(items, pk=request.POST.get("schedule_item"))
         target_meeting = get_object_or_404(
-            Meeting.objects.filter(series=topic.series, date__gt=today, finalized_at__isnull=True),
+            Meeting.objects.filter(series=item.topic.series, date__gt=today, finalized_at__isnull=True),
             pk=request.POST.get("target_meeting"),
         )
         with transaction.atomic():
@@ -215,27 +218,30 @@ def open_topics(request):
                 if target_meeting.agenda_items.exists() else -1
             ) + 1
             AgendaItem.objects.get_or_create(
-                meeting=target_meeting,
-                topic=topic,
-                defaults={"working_text": "", "position": next_position},
+                meeting=target_meeting, topic=item.topic,
+                defaults={
+                    "working_text": item.working_text,
+                    "assigned_to_id": item.assigned_to_id,
+                    "status": item.status,
+                    "position": next_position,
+                    "carried_forward": True,
+                },
             )
             record_event(
-                actor=request.user,
-                action="updated",
-                summary=f"„{topic.title}“ auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt",
-                topic=topic,
-                meeting=target_meeting,
+                actor=request.user, action="updated",
+                summary=f"„{item.topic.title}“ auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt",
+                topic=item.topic, meeting=target_meeting,
                 changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}},
             )
-        messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt.")
+        messages.success(request, f"„{item.topic.title}“ wurde auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt.")
         return redirect("open_topics")
 
     rows = []
-    for topic in topics:
+    for item in items:
         future_meetings = Meeting.objects.filter(
-            series=topic.series, date__gt=today, finalized_at__isnull=True
+            series=item.topic.series, date__gt=today, finalized_at__isnull=True
         ).order_by("date")
-        rows.append({"topic": topic, "future_meetings": future_meetings})
+        rows.append({"item": item, "future_meetings": future_meetings})
     return render(request, "meetings/open_topics.html", {"rows": rows, "today": today})
 
 @login_required
