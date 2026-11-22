@@ -79,7 +79,7 @@ def _write_csv_documentation(writer):
 def _csv_value(value):
     """Neutralize spreadsheet formulas in exported user-controlled cells."""
     value = "" if value is None else str(value)
-    if value.startswith(("=", "+", "-", "@", "\\t", "\\r")):
+    if value.startswith(("=", "+", "-", "@", "\t", "\r")):
         return "'" + value
     return value
 
