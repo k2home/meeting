@@ -201,7 +201,7 @@ class PersonalProfileForm(forms.Form):
     first_name = forms.CharField(label="Vorname", max_length=150, required=False)
     last_name = forms.CharField(label="Nachname", max_length=150, required=False)
     email = forms.EmailField(label="E-Mail-Adresse", required=False)
-    short_description = forms.CharField(label="Kurzbezeichnung", max_length=80, required=False)
+    short_description = forms.CharField(label="Organisationskennzeichen", max_length=80, required=False)
 
     def __init__(self, *args, user, **kwargs):
         self.user = user
