@@ -51,10 +51,16 @@
     <label for="dashboard-topic-title">Thema</label>
     <input id="dashboard-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
     <label for="dashboard-topic-series">Besprechungsreihe</label>
-    <select id="dashboard-topic-series" name="series" {% if not is_admin %}required{% endif %}>
-      {% if is_admin %}<option value="">Keine Besprechungsreihe</option>{% endif %}
+    <select id="dashboard-topic-series" name="series" required>
+      <option value="">Besprechungsreihe auswählen …</option>
       {% for series in new_topic_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}
     </select>
+    <label for="dashboard-topic-meeting">Erster Besprechungstermin</label>
+    <select id="dashboard-topic-meeting" name="meeting" required disabled>
+      <option value="">Zuerst eine Besprechungsreihe auswählen</option>
+      {% for meeting in new_topic_meetings %}<option value="{{ meeting.pk }}" data-series="{{ meeting.series_id }}">{{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}
+    </select>
+    <p id="dashboard-topic-meeting-empty" class="muted" hidden>Für diese Besprechungsreihe gibt es keinen zukünftigen Termin.</p>
     <label for="dashboard-topic-description">Beschreibung / Arbeitsauftrag</label>
     <textarea id="dashboard-topic-description" name="description" rows="4"></textarea>
     <input type="hidden" name="status" value="open">
@@ -90,6 +96,26 @@
   newTopicDialog?.addEventListener("click", event => {
     if (event.target === newTopicDialog) newTopicDialog.close();
   });
+
+  const seriesSelect = document.getElementById("dashboard-topic-series");
+  const meetingSelect = document.getElementById("dashboard-topic-meeting");
+  const meetingEmpty = document.getElementById("dashboard-topic-meeting-empty");
+  if (seriesSelect && meetingSelect) {
+    const meetingOptions = Array.from(meetingSelect.options).slice(1);
+    const updateMeetingOptions = () => {
+      const seriesId = seriesSelect.value;
+      meetingSelect.replaceChildren(new Option(
+        seriesId ? "Besprechungstermin auswählen …" : "Zuerst eine Besprechungsreihe auswählen", ""
+      ));
+      meetingOptions.filter(option => option.dataset.series === seriesId).forEach(option => {
+        meetingSelect.add(option.cloneNode(true));
+      });
+      meetingSelect.disabled = !seriesId || meetingSelect.options.length === 1;
+      meetingEmpty.hidden = !seriesId || meetingSelect.options.length > 1;
+    };
+    seriesSelect.addEventListener("change", updateMeetingOptions);
+    updateMeetingOptions();
+  }
 
   const table = document.getElementById("dashboard-topics-table");
   if (!table) return;
