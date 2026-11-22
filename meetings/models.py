@@ -46,7 +46,6 @@ class Meeting(models.Model):
 class Topic(models.Model):
     STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt"), ("archived", "Archiviert")]
     title = models.CharField("Thema", max_length=240)
-    description = models.TextField("Aktueller Stand", blank=True)
     status = models.CharField("Status", max_length=12, choices=STATUS, default="open")
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="topics")
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,

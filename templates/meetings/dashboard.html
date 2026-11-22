@@ -57,11 +57,6 @@
       {% for meeting in new_topic_meetings %}<option value="{{ meeting.pk }}" data-series="{{ meeting.series_id }}">{{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}
     </select>
     <p id="dashboard-topic-meeting-empty" class="muted" hidden>Für diese Besprechungsreihe gibt es keinen zukünftigen Termin.</p>
-    <label for="dashboard-topic-description">Beschreibung / Arbeitsauftrag</label>
-    <textarea id="dashboard-topic-description" name="description" rows="4"></textarea>
-    <input type="hidden" name="status" value="open">
-    <label for="dashboard-topic-assignee">Hauptverantwortliche Person des Themas</label>
-    <select id="dashboard-topic-assignee" name="assigned_to"><option value="">Nicht zugewiesen</option>{% for assignee in new_topic_assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}</select>
     <div class="actions"><button type="submit">Thema anlegen</button></div>
   </form>
 </dialog>

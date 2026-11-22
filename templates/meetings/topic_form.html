@@ -76,13 +76,6 @@
      {% endif %}
     </article>
    {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
-   {% if legacy_description %}
-    <article class="topic-meeting">
-      <strong>Bisherige Themenbeschreibung (vor Umstellung)</strong>
-      <p>{{ legacy_description|linebreaksbr }}</p>
-      <small class="muted">Dieser Alttext bleibt zur Nachvollziehbarkeit erhalten und ist keinem Besprechungstermin zugeordnet.</small>
-    </article>
-   {% endif %}
   </section>
  </main>
  <aside class="topic-side">

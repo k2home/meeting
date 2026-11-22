@@ -15,7 +15,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 CSV_FIELDS = (
-    "series", "topic_series", "meeting_date", "meeting_title", "topic_title", "topic_current_status",
+    "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
     "topic_status", "responsible_username", "responsible_kurzbezeichnung",
     "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
 )
@@ -50,7 +50,7 @@ def sample_csv_response():
     writer.writerow(CSV_FIELDS)
     writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
     writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "Konzept und Zeitplan für die Beschäftigtenschulungen", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
+    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
     _write_csv_documentation(writer)
     return response
 
@@ -61,7 +61,7 @@ def _write_csv_documentation(writer):
     writer.writerow(["#", "series", "Besprechungsreihe des konkreten Termins; legt Meeting fest."])
     writer.writerow(["#", "topic_series", "Zuständige Besprechungsreihe des Themas; leer bedeutet ohne Zuordnung. Bei alten Dateien ohne diese Spalte wird series übernommen."])
     writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in AgendaItem.STATUS)])
-    writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Legacy-Spalte; wird beim Import nicht mehr als Themenzuständigkeit gespeichert."])
+    writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Optionale Standardzuständigkeit; wird als Zuständigkeit des Tagesordnungspunkts übernommen, sofern keine abweichende Punktverantwortung angegeben ist."])
     writer.writerow(["#", "agenda_responsible_username / agenda_responsible_kurzbezeichnung", "Optionale abweichende Person für genau diesen Tagesordnungspunkt; leer bedeutet Hauptverantwortliche Person."])
     writer.writerow([])
     writer.writerow(["# DATUMS-/FORMATVORGABEN", "Feld", "Format"])
@@ -95,7 +95,6 @@ def export_topic_agenda_csv(request):
             meeting.date.isoformat(),
             meeting.title,
             topic.title,
-            topic.description,
             item.status,
             "",
             "",
@@ -210,7 +209,7 @@ def parse_topic_agenda_csv(text):
             continue
 
         topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
-        topic_data = {"series_id": topic_series_id, "title": title, "description": row.get("topic_current_status", "")}
+        topic_data = {"series_id": topic_series_id, "title": title}
         if topic_key not in topic_records:
             topic_records[topic_key] = {"topic": topic_data, "row": row_number}
 
@@ -318,8 +317,6 @@ def import_topic_agenda_csv(request):
                         created_topics += 1
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
-                    if data["description"]:
-                        topic.description = data["description"]
                     topic.save()
                     topic_records[key] = topic
 
