@@ -27,8 +27,8 @@ class Migration(migrations.Migration):
             name="attachment_max_size_mb",
             field=models.PositiveSmallIntegerField(
                 default=20,
-                help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 25 MB.",
-                validators=[MinValueValidator(1), MaxValueValidator(25)],
+                help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 24 MB.",
+                validators=[MinValueValidator(1), MaxValueValidator(24)],
                 verbose_name="Maximale Dateigröße für Anlagen (MB)",
             ),
         ),
