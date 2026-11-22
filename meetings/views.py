@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import F, Q, Window, Prefetch, Min
+from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery
 from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -196,13 +196,13 @@ def open_topics(request):
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
     latest_item_ids = AgendaItem.objects.filter(
-        topic_id=__import__("django.db.models", fromlist=["OuterRef"]).OuterRef("topic_id")
+        topic_id=OuterRef("topic_id")
     ).order_by("-meeting__date", "-pk").values("pk")[:1]
     items = AgendaItem.objects.filter(
         topic__series__in=allowed_series,
         status__in=["open", "in_progress"],
         meeting__date__lte=today,
-    ).filter(pk__in=__import__("django.db.models", fromlist=["Subquery"]).Subquery(latest_item_ids)).select_related(
+    ).filter(pk__in=Subquery(latest_item_ids)).select_related(
         "topic", "topic__series", "meeting", "assigned_to"
     ).order_by("topic__series__name", "topic__title")
 
