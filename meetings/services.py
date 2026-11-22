@@ -14,7 +14,7 @@ def ensure_agenda(meeting):
     )
     if previous:
         carried = previous.agenda_items.filter(
-            topic__status__in=["open", "in_progress"],
+            status__in=["open", "in_progress"],
             topic__series=meeting.series,
         ).exclude(
             topic__agenda_items__meeting__date__gt=previous.date,
@@ -27,6 +27,7 @@ def ensure_agenda(meeting):
                     "working_text": item.working_text,
                     "carried_forward": True,
                     "assigned_to_id": item.assigned_to_id,
+                    "status": item.status,
                 },
             )
     return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
@@ -77,10 +78,8 @@ def finalize_meeting(meeting):
     for item in meeting.agenda_items.select_related("topic"):
         topic = item.topic
         TopicSnapshot.objects.get_or_create(meeting=meeting, topic_id=topic.pk, defaults={
-            "topic_title": topic.title, "text": item.working_text, "status": topic.status,
-            "responsible_name": user_display_name(item.assigned_to or topic.assigned_to) if (item.assigned_to or topic.assigned_to) else ""
+            "topic_title": topic.title, "text": item.working_text, "status": item.status,
+            "responsible_name": user_display_name(item.assigned_to) if item.assigned_to else ""
         })
-        topic.description = item.working_text
-        topic.save(update_fields=["description","updated_at"])
     meeting.finalized_at = timezone.now()
     meeting.save(update_fields=["finalized_at"])

@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import agenda_topic_views
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
@@ -16,11 +17,10 @@ urlpatterns = [
     path("meeting/<int:pk>/protocol/word/", views.protocol_docx, name="protocol_docx"),
     path("meeting/<int:pk>/finalize/", views.finalize, name="finalize"),
     path("meeting/<int:pk>/reopen/", views.meeting_reopen, name="meeting_reopen"),
-    path("topics/new/", views.topic_new, name="topic_new"),
-    path("topics/<int:pk>/", views.topic_edit, name="topic_edit"),
+    path("topics/new/", agenda_topic_views.topic_new, name="topic_new"),
+    path("topics/<int:pk>/", agenda_topic_views.topic_detail, name="topic_edit"),
+    path("topics/<int:pk>/agenda/<int:item_pk>/edit/", agenda_topic_views.edit_topic_agenda_item, name="topic_agenda_edit"),
     path("topics/<int:pk>/comments/add/", views.topic_comment_add, name="topic_comment_add"),
-    path("topics/<int:pk>/archive/", views.topic_archive, name="topic_archive"),
-    path("topics/<int:pk>/reopen/", views.topic_reopen, name="topic_reopen"),
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("archive/", views.archive, name="archive"),

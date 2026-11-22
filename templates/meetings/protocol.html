@@ -43,9 +43,9 @@
   {% for item in meeting.agenda_items.all %}
   <article class="card">
     <h2>{{ item.topic.title }}</h2>
-    <p><strong>Verantwortlich:</strong> {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
+    <p><strong>Verantwortlich:</strong> {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     <p>{{ item.working_text|linebreaksbr }}</p>
-    <small>Status: {{ item.topic.get_status_display }}</small>
+    <small>Bearbeitungsstand: {{ item.get_status_display }}</small>
   </article>
   {% empty %}
   <p>Keine Tagesordnungspunkte.</p>

@@ -78,9 +78,11 @@ class TopicTransferHistory(models.Model):
         verbose_name_plural = "Themenübertragungen"
 
 class AgendaItem(models.Model):
+    STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt")]
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name="agenda_items")
     topic = models.ForeignKey(Topic, on_delete=models.PROTECT, related_name="agenda_items")
     working_text = models.TextField("Text für dieses Protokoll", blank=True)
+    status = models.CharField("Bearbeitungsstand dieses Tagesordnungspunkts", max_length=12, choices=STATUS, default="open")
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                     related_name="assigned_meeting_agenda_items", verbose_name="Abweichend verantwortlich")
     position = models.PositiveIntegerField(default=0)

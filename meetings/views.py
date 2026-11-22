@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import F, Q, Window, Prefetch, Min
+from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery
 from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -119,15 +119,15 @@ def dashboard(request):
             meeting_groups.append({"series": meeting.series, "meetings": []})
         meeting_groups[-1]["meetings"].append(meeting)
 
-    topics = accessible_topics(request.user).select_related("series", "assigned_to")
+    topics = accessible_topics(request.user).select_related("series")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
     selected_due = request.GET.get("due", "")
 
-    if selected_status in {"open", "done", "archived"}:
-        topics = topics.filter(status=selected_status)
+    if selected_status in {"open", "in_progress", "done"}:
+        topics = topics.filter(agenda_items__status=selected_status)
     elif selected_status != "all":
         selected_status = "open"
 
@@ -136,9 +136,6 @@ def dashboard(request):
             Q(title__icontains=query)
             | Q(description__icontains=query)
             | Q(series__name__icontains=query)
-            | Q(assigned_to__username__icontains=query)
-            | Q(assigned_to__first_name__icontains=query)
-            | Q(assigned_to__last_name__icontains=query)
             | Q(agenda_items__assigned_to__username__icontains=query)
             | Q(agenda_items__assigned_to__first_name__icontains=query)
             | Q(agenda_items__assigned_to__last_name__icontains=query)
@@ -148,14 +145,14 @@ def dashboard(request):
     else:
         selected_series = ""
     if selected_assignee == "unassigned":
-        topics = topics.filter(assigned_to__isnull=True).exclude(agenda_items__assigned_to__isnull=False)
+        topics = topics.filter(agenda_items__assigned_to__isnull=True)
     elif selected_assignee.isdigit():
-        topics = topics.filter(Q(assigned_to_id=int(selected_assignee)) | Q(agenda_items__assigned_to_id=int(selected_assignee))).distinct()
+        topics = topics.filter(agenda_items__assigned_to_id=int(selected_assignee)).distinct()
     else:
         selected_assignee = ""
     topics = topics.annotate(next_meeting_date=Min("agenda_items__meeting__date", filter=Q(agenda_items__meeting__finalized_at__isnull=True)))
     if selected_due == "overdue":
-        topics = topics.filter(next_meeting_date__lt=today, status="open")
+        topics = topics.filter(next_meeting_date__lt=today, agenda_items__status__in=["open", "in_progress"])
     elif selected_due == "today":
         topics = topics.filter(next_meeting_date=today)
     elif selected_due == "without_date":
@@ -164,7 +161,7 @@ def dashboard(request):
         topics = topics.filter(next_meeting_date__gt=today)
 
     topics = topics.distinct()
-    overdue_count = accessible_topics(request.user).filter(status="open", agenda_items__meeting__date__lt=today, agenda_items__meeting__finalized_at__isnull=True).distinct().count()
+    overdue_count = accessible_topics(request.user).filter(agenda_items__status__in=["open", "in_progress"], agenda_items__meeting__date__lt=today, agenda_items__meeting__finalized_at__isnull=True).distinct().count()
     return render(request, "meetings/dashboard.html", {
         "meetings": meetings, "meeting_groups": meeting_groups, "topics": topics, "overdue_count": overdue_count, "today": today,
         "query": query, "selected_status": selected_status, "selected_series": selected_series,
@@ -186,7 +183,7 @@ def dashboard(request):
 
 @login_required
 def open_topics(request):
-    """List non-completed topics without a future agenda appointment."""
+    """Show the latest unfinished agenda entry for topics without a future appointment."""
     today = timezone.localdate()
     if is_admin(request.user):
         allowed_series = MeetingSeries.objects.all()
@@ -198,18 +195,21 @@ def open_topics(request):
         if not allowed_series.exists():
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
-    topics = (
-        Topic.objects.filter(series__in=allowed_series)
-        .exclude(status="done")
-        .exclude(agenda_items__meeting__date__gt=today)
-        .select_related("series", "assigned_to")
-        .distinct()
-        .order_by("series__name", "title")
-    )
+    latest_item_ids = AgendaItem.objects.filter(
+        topic_id=OuterRef("topic_id")
+    ).order_by("-meeting__date", "-pk").values("pk")[:1]
+    items = AgendaItem.objects.filter(
+        topic__series__in=allowed_series,
+        status__in=["open", "in_progress"],
+        meeting__date__lte=today,
+    ).filter(pk__in=Subquery(latest_item_ids)).select_related(
+        "topic", "topic__series", "meeting", "assigned_to"
+    ).order_by("topic__series__name", "topic__title")
+
     if request.method == "POST":
-        topic = get_object_or_404(topics, pk=request.POST.get("schedule_topic"))
+        item = get_object_or_404(items, pk=request.POST.get("schedule_item"))
         target_meeting = get_object_or_404(
-            Meeting.objects.filter(series=topic.series, date__gt=today, finalized_at__isnull=True),
+            Meeting.objects.filter(series=item.topic.series, date__gt=today, finalized_at__isnull=True),
             pk=request.POST.get("target_meeting"),
         )
         with transaction.atomic():
@@ -218,27 +218,30 @@ def open_topics(request):
                 if target_meeting.agenda_items.exists() else -1
             ) + 1
             AgendaItem.objects.get_or_create(
-                meeting=target_meeting,
-                topic=topic,
-                defaults={"working_text": "", "position": next_position},
+                meeting=target_meeting, topic=item.topic,
+                defaults={
+                    "working_text": item.working_text,
+                    "assigned_to_id": item.assigned_to_id,
+                    "status": item.status,
+                    "position": next_position,
+                    "carried_forward": True,
+                },
             )
             record_event(
-                actor=request.user,
-                action="updated",
-                summary=f"„{topic.title}“ auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt",
-                topic=topic,
-                meeting=target_meeting,
+                actor=request.user, action="updated",
+                summary=f"„{item.topic.title}“ auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt",
+                topic=item.topic, meeting=target_meeting,
                 changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}},
             )
-        messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt.")
+        messages.success(request, f"„{item.topic.title}“ wurde auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt.")
         return redirect("open_topics")
 
     rows = []
-    for topic in topics:
+    for item in items:
         future_meetings = Meeting.objects.filter(
-            series=topic.series, date__gt=today, finalized_at__isnull=True
+            series=item.topic.series, date__gt=today, finalized_at__isnull=True
         ).order_by("date")
-        rows.append({"topic": topic, "future_meetings": future_meetings})
+        rows.append({"item": item, "future_meetings": future_meetings})
     return render(request, "meetings/open_topics.html", {"rows": rows, "today": today})
 
 @login_required
@@ -246,22 +249,26 @@ def my_tasks(request):
     """Show open topics assigned to the user either at topic or agenda-item level."""
     today = timezone.localdate()
     responsibility = (
-        Q(assigned_to=request.user, agenda_items__isnull=True)
-        | Q(assigned_to=request.user, agenda_items__assigned_to__isnull=True)
-        | Q(agenda_items__assigned_to=request.user)
+        Q(agenda_items__assigned_to=request.user)
     )
-    topics = accessible_topics(request.user).filter(responsibility, status="open").select_related("series").annotate(
+    topics = accessible_topics(request.user).filter(responsibility, agenda_items__status__in=["open", "in_progress"]).select_related("series").annotate(
         next_meeting_date=Min(
             "agenda_items__meeting__date",
             filter=Q(agenda_items__meeting__finalized_at__isnull=True)
-            & (Q(agenda_items__assigned_to=request.user) | Q(agenda_items__assigned_to__isnull=True, assigned_to=request.user)),
+            & Q(agenda_items__assigned_to=request.user),
         )
     ).distinct().order_by(F("next_meeting_date").asc(nulls_last=True), "title")
+    topics = list(topics)
+    visible_meetings = accessible_meetings(request.user)
+    for topic in topics:
+        topic.latest_agenda_text = topic.agenda_items.filter(
+            meeting__in=visible_meetings
+        ).order_by("-meeting__date", "-pk").values_list("working_text", flat=True).first() or ""
     return render(request, "meetings/my_tasks.html", {
         "topics": topics, "today": today,
-        "overdue_count": topics.filter(next_meeting_date__lt=today).count(),
-        "due_today_count": topics.filter(next_meeting_date=today).count(),
-        "without_meeting_count": topics.filter(next_meeting_date__isnull=True).count(),
+        "overdue_count": sum(1 for topic in topics if topic.next_meeting_date and topic.next_meeting_date < today),
+        "due_today_count": sum(1 for topic in topics if topic.next_meeting_date == today),
+        "without_meeting_count": sum(1 for topic in topics if topic.next_meeting_date is None),
     })
 
 @login_required
@@ -423,7 +430,7 @@ def meeting_detail(request, pk):
                 next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                 target_item, created = AgendaItem.objects.get_or_create(
                     meeting=target_meeting, topic=topic,
-                    defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id},
+                    defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id, "status": item.status},
                 )
                 if not created and target_item.working_text:
                     target_item.working_text = ""
@@ -470,32 +477,32 @@ def meeting_detail(request, pk):
                 messages.success(request, "Zuständigkeit des Tagesordnungspunkts gespeichert.")
             else:
                 messages.info(request, "Die Zuständigkeit ist unverändert.")
-        elif request.POST.get("update_topic_status"):
-            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_topic_status"), meeting=meeting)
+        elif request.POST.get("update_agenda_status"):
+            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_agenda_status"), meeting=meeting)
             new_status = request.POST.get("status")
-            valid_statuses = dict(Topic.STATUS)
+            valid_statuses = dict(AgendaItem.STATUS)
             if new_status not in valid_statuses:
-                messages.error(request, "Bitte wähle einen gültigen Themenstatus.")
-            elif item.topic.status != new_status:
-                old_status = item.topic.get_status_display()
-                item.topic.status = new_status
-                item.topic.save(update_fields=["status", "updated_at"])
+                messages.error(request, "Bitte wähle einen gültigen Bearbeitungsstand für diesen Tagesordnungspunkt.")
+            elif item.status != new_status:
+                old_status = item.get_status_display()
+                item.status = new_status
+                item.save(update_fields=["status"])
                 record_event(
                     actor=request.user, action="updated",
-                    summary=f"Status für „{item.topic.title}“ auf {valid_statuses[new_status]} gesetzt",
+                    summary=f"Bearbeitungsstand für Agenda-Punkt „{item.topic.title}“ auf {valid_statuses[new_status]} gesetzt",
                     topic=item.topic, meeting=meeting,
-                    changes={"Status": {"vorher": old_status, "nachher": valid_statuses[new_status]}},
+                    changes={"Bearbeitungsstand Tagesordnungspunkt": {"vorher": old_status, "nachher": valid_statuses[new_status]}},
                 )
-                messages.success(request, "Themenstatus gespeichert.")
+                messages.success(request, "Bearbeitungsstand des Tagesordnungspunkts gespeichert.")
             else:
-                messages.info(request, "Der Themenstatus ist unverändert.")
+                messages.info(request, "Der Bearbeitungsstand ist unverändert.")
         elif request.POST.get("add_existing_topic"):
             topic = get_object_or_404(accessible_topics(request.user), pk=request.POST.get("add_existing_topic"))
             if meeting.agenda_items.filter(topic=topic).exists():
                 messages.info(request, f"„{topic.title}“ steht bereits auf dieser Tagesordnung.")
             else:
                 AgendaItem.objects.create(
-                    meeting=meeting, topic=topic, working_text=topic.description,
+                    meeting=meeting, topic=topic, working_text="",
                     position=(meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if meeting.agenda_items.exists() else -1) + 1,
                 )
                 record_event(
@@ -514,8 +521,7 @@ def meeting_detail(request, pk):
                     messages.error(request, "Bitte gib einen Thementitel ein.")
                 else:
                     topic = Topic.objects.create(
-                        title=title, description=working_text, series=meeting.series,
-                        assigned_to=create_form.cleaned_data["topic_assigned_to"],
+                        title=title, series=meeting.series,
                     )
                     AgendaItem.objects.create(
                         meeting=meeting, topic=topic, working_text=working_text,
@@ -574,7 +580,7 @@ def meeting_detail(request, pk):
                     next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                     target_item, created = AgendaItem.objects.get_or_create(
                         meeting=target_meeting, topic=topic,
-                        defaults={"working_text": "", "position": next_position, "assigned_to_id": scheduled_item.assigned_to_id},
+                        defaults={"working_text": "", "position": next_position, "assigned_to_id": scheduled_item.assigned_to_id, "status": scheduled_item.status},
                     )
                     if not created and target_item.working_text:
                         target_item.working_text = ""
@@ -702,12 +708,12 @@ def agenda_topic_history(request, pk, topic_pk):
     history = {}
     for entry in AgendaItem.objects.filter(
         topic=item.topic, meeting__in=visible_meetings
-    ).select_related("meeting__series", "assigned_to", "topic__assigned_to"):
+    ).select_related("meeting__series", "assigned_to"):
         history[entry.meeting_id] = {
             "series": entry.meeting.series.name if entry.meeting.series else "Gelöschte Besprechungsreihe",
             "date": entry.meeting.date,
             "text": entry.working_text,
-            "responsible": user_display_name(entry.assigned_to or entry.topic.assigned_to) if (entry.assigned_to or entry.topic.assigned_to) else "",
+            "responsible": user_display_name(entry.assigned_to) if entry.assigned_to else "",
         }
     from .models import TopicSnapshot
     for snapshot in TopicSnapshot.objects.filter(
@@ -915,7 +921,8 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
                 )
             if item.assigned_to_id and not target_item.assigned_to_id:
                 target_item.assigned_to_id = item.assigned_to_id
-            target_item.save(update_fields=["working_text", "assigned_to"])
+            target_item.status = item.status
+            target_item.save(update_fields=["working_text", "assigned_to", "status"])
             item.delete()
         else:
             next_position = (
@@ -967,8 +974,12 @@ def topic_transfer(request, pk):
 
 @login_required
 def archive(request):
-    topics = accessible_topics(request.user).filter(status="archived").select_related("series")
-    return render(request, "meetings/archive.html", {"topics": topics})
+    items = AgendaItem.objects.filter(
+        meeting__in=accessible_meetings(request.user), status="done"
+    ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
+        "-meeting__date", "topic__title", "position"
+    )
+    return render(request, "meetings/archive.html", {"items": items})
 
 @login_required
 @reader_no_access
@@ -1003,8 +1014,8 @@ def _protocol_entries(meeting):
         {
             "title": item.topic.title,
             "text": item.working_text,
-            "status": item.topic.get_status_display(),
-            "responsible": user_display_name(item.assigned_to or item.topic.assigned_to) if (item.assigned_to or item.topic.assigned_to) else "",
+            "status": item.get_status_display(),
+            "responsible": user_display_name(item.assigned_to) if item.assigned_to else "",
         }
         for item in ensure_agenda(meeting)
     ]
@@ -1334,7 +1345,7 @@ def series_reset_meetings(request, pk):
             )
             carried_topics = {}
             for agenda_item in agenda_items:
-                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position, agenda_item.assigned_to_id)
+                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position, agenda_item.assigned_to_id, agenda_item.status)
     
             drafts.delete()
             new_meetings = generate_meetings(series)
@@ -1344,11 +1355,11 @@ def series_reset_meetings(request, pk):
             )
             if next_meeting is None:
                 raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
-            for topic, working_text, position, assigned_to_id in carried_topics.values():
+            for topic, working_text, position, assigned_to_id, status in carried_topics.values():
                 AgendaItem.objects.update_or_create(
                     meeting=next_meeting,
                     topic=topic,
-                    defaults={"working_text": working_text, "position": position, "carried_forward": True, "assigned_to_id": assigned_to_id},
+                    defaults={"working_text": working_text, "position": position, "carried_forward": True, "assigned_to_id": assigned_to_id, "status": status},
                 )
     except ValueError as exc:
         messages.error(request, str(exc))
@@ -1477,7 +1488,8 @@ def meeting_delete(request, pk):
                         existing.save(update_fields=["working_text"])
                     if item.assigned_to_id and not existing.assigned_to_id:
                         existing.assigned_to_id = item.assigned_to_id
-                        existing.save(update_fields=["assigned_to"])
+                        existing.status = item.status
+                        existing.save(update_fields=["assigned_to", "status"])
                     item.delete()
                 else:
                     item.meeting = target

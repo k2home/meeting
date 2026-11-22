@@ -22,7 +22,7 @@ class TopicForm(forms.ModelForm):
 
     class Meta:
         model = Topic
-        fields = ["title", "description", "status", "series", "assigned_to", "completion_note"]
+        fields = ["title", "series"]
         widgets = {"description": forms.Textarea(attrs={"rows": 5})}
 
     def __init__(self, *args, series_queryset=None, series_required=False, **kwargs):
@@ -31,9 +31,6 @@ class TopicForm(forms.ModelForm):
             self.fields["series"].queryset = series_queryset
             self.fields["series"].required = series_required
         User = get_user_model()
-        self.fields["assigned_to"].queryset = User.objects.filter(is_active=True).order_by("username")
-        self.fields["assigned_to"].required = False
-        self.fields["assigned_to"].empty_label = "Nicht zugewiesen"
 
 
 class TopicCommentForm(forms.ModelForm):
@@ -56,13 +53,11 @@ class AgendaItemCreateForm(forms.Form):
         label="Text für dieses Protokoll", required=False,
         widget=forms.Textarea(attrs={"rows": 4}),
     )
-    topic_assigned_to = UserDisplayModelChoiceField(queryset=get_user_model().objects.none(), required=False, label="Hauptverantwortliche Person des Themas")
     assigned_to = UserDisplayModelChoiceField(queryset=get_user_model().objects.none(), required=False, label="Abweichend verantwortlich für diesen Tagesordnungspunkt")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         active_users = get_user_model().objects.filter(is_active=True).order_by("username")
-        self.fields["topic_assigned_to"].queryset = active_users
         self.fields["assigned_to"].queryset = active_users
 
 
