@@ -1487,6 +1487,18 @@ class UserOverviewTests(TestCase):
         self.assertContains(response, "Leser")
         self.assertNotContains(response, "Admin – globaler Zugriff")
 
+    def test_series_role_and_request_share_one_column_with_hidden_submit_button(self):
+        response = self.client.get(reverse("user_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<th>Berechtigung</th>", html=True)
+        self.assertNotContains(response, "<th>Deine Berechtigung</th>", html=True)
+        self.assertContains(
+            response,
+            '<select id="role-%s" name="role" data-current-role="reader">' % self.series.pk,
+            html=True,
+        )
+        self.assertContains(response, '<button type="submit" hidden>Antrag senden</button>', html=True)
+
     def test_user_can_edit_own_profile(self):
         response = self.client.post(reverse("user_overview"), {
             "form_type": "profile",
