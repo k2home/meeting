@@ -64,9 +64,16 @@ def moderator_required(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
         series = _series_for_view(view, kwargs)
+        archived_meeting = (
+            series is None
+            and view.__name__ in {"meeting_edit", "meeting_delete", "meeting_reopen"}
+            and ArchivedMeetingAccess.objects.filter(
+                meeting_id=kwargs.get("pk"), user=request.user
+            ).exists()
+        )
         allowed = is_admin(request.user) or (
-            is_moderator(request.user, series) if series is not None
-            else is_moderator(request.user)
+            is_moderator(request.user, series)
+            if series is not None else (is_moderator(request.user) and not archived_meeting)
         )
         if not allowed:
             return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
@@ -77,8 +84,20 @@ def moderator_required(view):
 def reader_readonly(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
-        if is_reader(request.user, _series_for_view(view, kwargs)) and request.method == "POST":
-            return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
+        if request.method == "POST":
+            series = _series_for_view(view, kwargs)
+            archived_access = False
+            if series is None and not is_admin(request.user):
+                if view.__name__ in {"agenda_reorder", "agenda_item_delete", "meeting_detail", "finalize"}:
+                    archived_access = ArchivedMeetingAccess.objects.filter(
+                        meeting_id=kwargs.get("pk"), user=request.user
+                    ).exists()
+                else:
+                    archived_access = ArchivedMeetingAccess.objects.filter(
+                        user=request.user, meeting__agenda_items__topic_id=kwargs.get("pk")
+                    ).exists()
+            if is_reader(request.user, series) or archived_access:
+                return HttpResponseForbidden("Für archivierte Besprechungen und Leser*innen besteht ausschließlich Lesezugriff.")
         return view(request, *args, **kwargs)
     return wrapped
 
