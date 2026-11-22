@@ -26,6 +26,7 @@ def ensure_agenda(meeting):
                 defaults={
                     "working_text": item.working_text,
                     "carried_forward": True,
+                    "assigned_to_id": item.assigned_to_id,
                 },
             )
     return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
