@@ -329,16 +329,22 @@ admin.site.register(Group, MeetingGroupAdmin)
 @admin.register(OrganizationSettings)
 class OrganizationSettingsAdmin(admin.ModelAdmin):
     list_display = ("name",)
-    fields = ("name", "short_name", "accent_color", "accent_color_light", "accent_color_dark")
+    fields = ("name", "short_name", ("primary_color", "primary_color_light", "primary_color_dark"), ("secondary_color", "secondary_color_light", "secondary_color_dark"), ("tertiary_color", "tertiary_color_light", "tertiary_color_dark"))
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
-        if db_field.name.startswith("accent_color") and formfield:
-            formfield.widget.attrs.update({
-                "placeholder": "#00549F",
-                "pattern": r"^#[0-9A-Fa-f]{6}$" if db_field.name == "accent_color" else r"^$|^#[0-9A-Fa-f]{6}$",
-                "spellcheck": "false",
-            })
+        if db_field.name.endswith("_color") or db_field.name.endswith("_color_light") or db_field.name.endswith("_color_dark"):
+            defaults = {
+                "primary_color": "#00549F", "primary_color_light": "#00549F", "primary_color_dark": "#00549F",
+                "secondary_color": "#8FC5FF", "secondary_color_light": "#8FC5FF", "secondary_color_dark": "#8FC5FF",
+                "tertiary_color": "#FFCC00", "tertiary_color_light": "#FFCC00", "tertiary_color_dark": "#FFCC00",
+            }
+            if formfield:
+                formfield.widget.attrs.update({
+                    "placeholder": defaults.get(db_field.name, "#RRGGBB"),
+                    "pattern": r"^#[0-9A-Fa-f]{6}$" if db_field.name in ("primary_color", "secondary_color", "tertiary_color") else r"^$|^#[0-9A-Fa-f]{6}$",
+                    "spellcheck": "false",
+                })
         return formfield
 
     def has_add_permission(self, request):

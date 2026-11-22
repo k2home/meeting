@@ -123,19 +123,32 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 </style>
 <style>
 :root {
-  --hagen-blue: {{ accent_color_light|default:accent_color }};
-  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
-  --hagen-yellow: var(--hagen-blue);
-  --nav-bg: var(--hagen-blue-dark);
-  --nav-hover: var(--hagen-blue);
+  --primary-color: {{ primary_color_light }};
+  --secondary-color: {{ secondary_color_light }};
+  --tertiary-color: {{ tertiary_color_light }};
+  --hagen-blue: var(--primary-color);
+  --hagen-blue-dark: color-mix(in srgb, var(--primary-color) 78%, #000);
+  --hagen-light-blue: var(--secondary-color);
+  --hagen-yellow: var(--tertiary-color);
+  --hagen-pale: color-mix(in srgb, var(--secondary-color) 18%, #fff);
+  --hagen-border: color-mix(in srgb, var(--secondary-color) 42%, #fff);
+  --nav-bg: color-mix(in srgb, var(--primary-color) 78%, #000);
+  --nav-hover: var(--primary-color);
 }
 :root[data-theme="dark"] {
-  --hagen-blue: {{ accent_color_dark|default:accent_color }};
-  --hagen-blue-dark: color-mix(in srgb, var(--hagen-blue) 78%, #000);
-  --hagen-yellow: var(--hagen-blue);
-  --nav-bg: var(--hagen-blue-dark);
-  --nav-hover: var(--hagen-blue);
+  --primary-color: {{ primary_color_dark }};
+  --secondary-color: {{ secondary_color_dark }};
+  --tertiary-color: {{ tertiary_color_dark }};
+  --hagen-blue: var(--primary-color);
+  --hagen-blue-dark: color-mix(in srgb, var(--primary-color) 78%, #000);
+  --hagen-light-blue: var(--secondary-color);
+  --hagen-yellow: var(--tertiary-color);
+  --hagen-pale: color-mix(in srgb, var(--secondary-color) 22%, #1b2735);
+  --hagen-border: color-mix(in srgb, var(--secondary-color) 35%, #39495b);
+  --nav-bg: color-mix(in srgb, var(--primary-color) 45%, #101d2b);
+  --nav-hover: color-mix(in srgb, var(--primary-color) 75%, #101d2b);
 }
+.messages{background:color-mix(in srgb,var(--secondary-color) 16%,var(--surface))}
 </style>
 </head>
 <body>

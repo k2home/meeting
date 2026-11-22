@@ -1927,83 +1927,73 @@ class TopicAgendaCsvImportTests(TestCase):
         )
 
 
-class OrganizationAccentColorTests(TestCase):
+class OrganizationBrandColorTests(TestCase):
     def setUp(self):
-        self.admin = User.objects.create_superuser(
-            username="accent-admin", email="accent-admin@example.com", password="strong-test-password"
-        )
+        self.admin = User.objects.create_superuser(username="brand-admin", email="brand-admin@example.com", password="strong-test-password")
         self.client.force_login(self.admin)
 
-    def test_accent_color_defaults_and_optional_mode_overrides(self):
+    def test_brand_color_defaults_and_mode_overrides(self):
         from .models import OrganizationSettings
-
         settings = OrganizationSettings.objects.create(name="Test")
-        self.assertEqual(OrganizationSettings.current_accent_colors(), {
-            "accent_color": "#00549F",
-            "accent_color_light": "#00549F",
-            "accent_color_dark": "#00549F",
+        self.assertEqual(OrganizationSettings.current_brand_colors(), {
+            "primary_color": "#00549F", "primary_color_light": "#00549F", "primary_color_dark": "#00549F",
+            "secondary_color": "#8FC5FF", "secondary_color_light": "#8FC5FF", "secondary_color_dark": "#8FC5FF",
+            "tertiary_color": "#FFCC00", "tertiary_color_light": "#FFCC00", "tertiary_color_dark": "#FFCC00",
         })
-
-        settings.accent_color = "#123456"
-        settings.accent_color_light = "#ABCDEF"
+        settings.primary_color = "#123456"
+        settings.primary_color_light = "#ABCDEF"
+        settings.secondary_color_dark = "#234567"
+        settings.tertiary_color = "#FEDCBA"
         settings.save()
-        self.assertEqual(OrganizationSettings.current_accent_colors(), {
-            "accent_color": "#123456",
-            "accent_color_light": "#ABCDEF",
-            "accent_color_dark": "#123456",
-        })
+        colors = OrganizationSettings.current_brand_colors()
+        self.assertEqual(colors["primary_color_light"], "#ABCDEF")
+        self.assertEqual(colors["primary_color_dark"], "#123456")
+        self.assertEqual(colors["secondary_color_light"], "#8FC5FF")
+        self.assertEqual(colors["secondary_color_dark"], "#234567")
+        self.assertEqual(colors["tertiary_color_light"], "#FEDCBA")
 
-        settings.accent_color_dark = "#654321"
-        settings.save()
-        self.assertEqual(OrganizationSettings.current_accent_colors()["accent_color_dark"], "#654321")
-
-    def test_invalid_hex_values_are_rejected(self):
+    def test_all_base_and_optional_mode_colors_validate_hex_values(self):
         from django.core.exceptions import ValidationError
         from .models import OrganizationSettings
-
-        settings = OrganizationSettings(accent_color="blue")
-        with self.assertRaises(ValidationError):
-            settings.full_clean()
-        settings.accent_color = "#12GG56"
-        with self.assertRaises(ValidationError):
-            settings.full_clean()
-        settings.accent_color = "#123456"
-        settings.accent_color_light = "123456"
-        with self.assertRaises(ValidationError):
-            settings.full_clean()
-        settings.accent_color_light = ""
-        settings.accent_color_dark = "#ABCDEF"
+        settings = OrganizationSettings()
+        for field in ("primary_color", "secondary_color", "tertiary_color"):
+            setattr(settings, field, "blue")
+            with self.subTest(field=field), self.assertRaises(ValidationError):
+                settings.full_clean()
+            setattr(settings, field, "#123456")
+        for field in ("primary_color_light", "primary_color_dark", "secondary_color_light", "secondary_color_dark", "tertiary_color_light", "tertiary_color_dark"):
+            setattr(settings, field, "123456")
+            with self.subTest(field=field), self.assertRaises(ValidationError):
+                settings.full_clean()
+            setattr(settings, field, "")
         settings.full_clean()
 
-    def test_admin_can_edit_accent_colors_and_application_receives_them(self):
+    def test_admin_can_edit_all_colors_and_templates_receive_mode_palette(self):
         from .models import OrganizationSettings
-
         settings = OrganizationSettings.objects.create(name="Test")
         response = self.client.get(reverse("admin:meetings_organizationsettings_change", args=[settings.pk]))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Akzentfarbe")
-        self.assertContains(response, "Akzentfarbe – Hellmodus")
-        self.assertContains(response, "Akzentfarbe – Dunkelmodus")
-
+        for label in ("Primärfarbe", "Sekundärfarbe", "Tertiärfarbe"):
+            self.assertContains(response, label)
         response = self.client.post(reverse("admin:meetings_organizationsettings_change", args=[settings.pk]), {
-            "name": "Test",
-            "short_name": "MM",
-            "accent_color": "#123456",
-            "accent_color_light": "#ABCDEF",
-            "accent_color_dark": "",
+            "name": "Test", "short_name": "MM",
+            "primary_color": "#123456", "primary_color_light": "#ABCDEF", "primary_color_dark": "",
+            "secondary_color": "#234567", "secondary_color_light": "", "secondary_color_dark": "#345678",
+            "tertiary_color": "#456789", "tertiary_color_light": "#56789A", "tertiary_color_dark": "",
             "_save": "Speichern",
         })
         self.assertEqual(response.status_code, 302)
         settings.refresh_from_db()
-        self.assertEqual(settings.accent_color, "#123456")
-        self.assertEqual(settings.accent_color_light, "#ABCDEF")
-        self.assertEqual(settings.accent_color_dark, "")
-
-        self.client.force_login(self.admin)
+        self.assertEqual(settings.primary_color, "#123456")
+        self.assertEqual(settings.secondary_color_dark, "#345678")
+        self.assertEqual(settings.tertiary_color_light, "#56789A")
         page = self.client.get(reverse("dashboard"))
         self.assertEqual(page.status_code, 200)
-        self.assertContains(page, "--hagen-blue: #ABCDEF")
-        self.assertContains(page, '--hagen-blue: ')
+        self.assertContains(page, "--primary-color: #ABCDEF")
+        self.assertContains(page, "--secondary-color: #234567")
+        self.assertContains(page, "--tertiary-color: #56789A")
         page = self.client.get(reverse("admin:index"))
         self.assertEqual(page.status_code, 200)
-        self.assertContains(page, "--hagen-blue: #ABCDEF")
+        self.assertContains(page, "--primary-color: #ABCDEF")
+        self.assertContains(page, "--secondary-color: #234567")
+        self.assertContains(page, "--tertiary-color: #56789A")
