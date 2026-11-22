@@ -60,12 +60,14 @@ def sample_csv_response():
 def _write_csv_documentation(writer):
     writer.writerow([])
     writer.writerow(["# GÜLTIGE WERTE", "Feld", "Erlaubte Werte"])
-    writer.writerow(["#", "series", "Besprechungsreihe des konkreten Termins; legt Meeting fest."])
+    writer.writerow(["#", "record_type", "agenda = Tagesordnungspunkt; topic = Thema ohne Tagesordnungspunkt. Fehlt die Spalte, wird agenda angenommen."])
+    writer.writerow(["#", "series", "Besprechungsreihe des konkreten Termins; bei record_type=topic optional."])
     writer.writerow(["#", "topic_series", "Zuständige Besprechungsreihe des Themas; leer bedeutet ohne Zuordnung. Bei alten Dateien ohne diese Spalte wird series übernommen."])
     writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in Topic.STATUS)])
     writer.writerow(["#", "agenda_status", "; ".join(f"{value} ({label})" for value, label in AgendaItem.STATUS)])
     writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Optionale Hauptzuständigkeit des Themas."])
     writer.writerow(["#", "agenda_responsible_username / agenda_responsible_kurzbezeichnung", "Optionale abweichende Person für genau diesen Tagesordnungspunkt; leer bedeutet Hauptverantwortliche Person."])
+    writer.writerow(["#", "followup_series / followup_meeting_date", "Besprechungsreihe und Datum des Quell-Tagesordnungspunkts einer Wiedervorlage; beide Felder gemeinsam ausfüllen."])
     writer.writerow([])
     writer.writerow(["# DATUMS-/FORMATVORGABEN", "Feld", "Format"])
     writer.writerow(["#", "meeting_date", "yyyy-mm-dd (z. B. 2026-12-03); das Datum gehört zum Besprechungstermin."])
@@ -236,7 +238,7 @@ def parse_topic_agenda_csv(text):
             row_number, "Verantwortliche Person des Tagesordnungspunkts", errors,
         )
         agenda_user = agenda_user or main_user
-        if not meeting_date or not title:
+        if (record_type == "agenda" and not meeting_date) or not title:
             continue
 
         topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
