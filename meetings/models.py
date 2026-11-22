@@ -93,6 +93,7 @@ class TopicSnapshot(models.Model):
     text = models.TextField(blank=True)
     status = models.CharField(max_length=12)
     topic_id = models.PositiveBigIntegerField()
+    responsible_name = models.CharField("Verantwortlich", max_length=150, blank=True)
 
     class Meta:
         ordering = ["id"]
