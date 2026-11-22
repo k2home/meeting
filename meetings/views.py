@@ -715,18 +715,22 @@ def topic_edit(request, pk):
             labels[field]: {"vorher": before[field], "nachher": after[field]}
             for field in form.changed_data if field in labels
         }
+        moved_agenda_items = 0
         with transaction.atomic():
             if old_series != new_series:
+                moved_agenda_items = _move_future_agenda_items(topic, old_series, new_series)
                 TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=new_series,
                     transferred_by=request.user, note="Zuordnung im Themenformular geändert")
             updated_topic.save()
+            if moved_agenda_items:
+                changes["Geplante Tagesordnungspunkte"] = {"übertragen": moved_agenda_items}
             if changes:
                 summary = (f"Zuständigkeit für „{updated_topic.title}“ geändert"
                            if "assigned_to" in form.changed_data and len(form.changed_data) == 1
                            else f"Thema „{updated_topic.title}“ geändert")
                 record_event(actor=request.user, action="updated",
                     summary=summary, topic=updated_topic, changes=changes)
-        messages.success(request, "Thema gespeichert.")
+        messages.success(request, "Thema gespeichert." + (f" {moved_agenda_items} geplante Tagesordnungspunkte wurden in die neue Besprechungsreihe übertragen." if moved_agenda_items else ""))
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
         "form": form, "topic": topic, "is_reader": is_reader(request.user, topic.series),
@@ -777,6 +781,58 @@ def topic_reopen(request, pk):
     messages.success(request, "Thema wurde wieder geöffnet.")
     return redirect("topic_edit", pk=topic.pk)
 
+def _move_future_agenda_items(topic, from_series, to_series):
+    """Move future, unfinalized agenda entries when a topic changes series."""
+    today = timezone.localdate()
+    source_items = list(
+        AgendaItem.objects.filter(
+            topic=topic, meeting__series=from_series,
+            meeting__date__gte=today, meeting__finalized_at__isnull=True,
+        ).select_related("meeting").order_by("meeting__date", "position", "pk")
+    )
+    moved = 0
+    for item in source_items:
+        target_meeting = (
+            Meeting.objects.filter(
+                series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True,
+            ).order_by("date", "pk").first()
+        )
+        if target_meeting is None:
+            extension_end = date(today.year + 1, 12, 31)
+            if not to_series.end_date or to_series.end_date < extension_end:
+                to_series.end_date = extension_end
+                to_series.save(update_fields=["end_date"])
+            generate_meetings(to_series)
+            target_meeting = (
+                Meeting.objects.filter(
+                    series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True,
+                ).order_by("date", "pk").first()
+            )
+        if target_meeting is None:
+            raise ValueError(f"Für „{to_series.name}“ konnte kein zukünftiger Besprechungstermin gefunden werden.")
+
+        target_item = target_meeting.agenda_items.filter(topic=topic).first()
+        if target_item:
+            if item.working_text:
+                target_item.working_text = "\\n".join(
+                    part for part in [target_item.working_text, item.working_text] if part
+                )
+            if item.assigned_to_id and not target_item.assigned_to_id:
+                target_item.assigned_to_id = item.assigned_to_id
+            target_item.save(update_fields=["working_text", "assigned_to"])
+            item.delete()
+        else:
+            next_position = (
+                target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first()
+                if target_meeting.agenda_items.exists() else -1
+            ) + 1
+            item.meeting = target_meeting
+            item.position = next_position
+            item.save(update_fields=["meeting", "position"])
+        moved += 1
+    return moved
+
+
 @login_required
 @reader_readonly
 def topic_transfer(request, pk):
@@ -791,7 +847,9 @@ def topic_transfer(request, pk):
         messages.info(request, "Das Thema ist bereits dieser Besprechungsreihe zugeordnet.")
         return redirect("topic_edit", pk=topic.pk)
     note = request.POST.get("note", "").strip()[:500]
+    moved_agenda_items = 0
     with transaction.atomic():
+        moved_agenda_items = _move_future_agenda_items(topic, topic.series, target)
         TopicTransferHistory.objects.create(
             topic=topic, from_series=topic.series, to_series=target,
             transferred_by=request.user, note=note,
@@ -803,7 +861,7 @@ def topic_transfer(request, pk):
                      summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen", topic=topic,
                      changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
                               "Notiz": note})
-    messages.success(request, f"Thema wurde nach „{target.name}“ übertragen. Die bisherige Zuordnung bleibt in der Historie erhalten.")
+    messages.success(request, f"Thema wurde nach „{target.name}“ übertragen. {moved_agenda_items} zukünftige Tagesordnungspunkte wurden übernommen. Die bisherige Zuordnung bleibt in der Historie erhalten.")
     return redirect("topic_edit", pk=topic.pk)
 
 @login_required
