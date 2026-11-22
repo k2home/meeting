@@ -244,7 +244,7 @@ def my_tasks(request):
         "topics": topics, "today": today,
         "overdue_count": topics.filter(next_meeting_date__lt=today).count(),
         "due_today_count": topics.filter(next_meeting_date=today).count(),
-        "without_due_date_count": topics.filter(next_meeting_date__isnull=True).count(),
+        "without_meeting_count": topics.filter(next_meeting_date__isnull=True).count(),
     })
 
 @login_required
