@@ -121,10 +121,8 @@
     <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"><span class="muted">Gib mindestens zwei Zeichen ein, um vorhandene Themen zu finden.</span></div>
     <label for="new-topic-text">Text für dieses Protokoll</label>
     <textarea id="new-topic-text" name="working_text" rows="4"></textarea>
-    <label for="new-topic-main-assignee">Hauptverantwortliche Person des Themas</label>
-    <select id="new-topic-main-assignee" name="topic_assigned_to"><option value="">Nicht zugewiesen</option>{% for assignee in assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}</select>
     <label for="new-topic-assignee">Abweichend verantwortlich für diesen Tagesordnungspunkt</label>
-    <select id="new-topic-assignee" name="assigned_to"><option value="">Hauptverantwortliche Person des Themas</option>{% for assignee in assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}</select>
+    <select id="new-topic-assignee" name="assigned_to"><option value="">Nicht zugewiesen</option>{% for assignee in assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}</select>
     <div class="agenda-item-tools"><button type="submit">Thema anlegen und hinzufügen</button></div>
   </form>
 </dialog>
