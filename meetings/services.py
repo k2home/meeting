@@ -3,17 +3,32 @@ from django.utils import timezone
 from .models import Meeting, AgendaItem, Topic, TopicSnapshot
 
 def ensure_agenda(meeting):
+    """Return explicit agenda items and carry forward unresolved items once."""
     if meeting.series_id is None:
-        return meeting.agenda_items.select_related("topic").all()
-    due = Topic.objects.filter(series=meeting.series, status="open", due_date__lte=meeting.date)
-    previous = Meeting.objects.filter(series=meeting.series, date__lt=meeting.date, finalized_at__isnull=False).order_by("-date").first()
-    carried_ids = []
+        return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
+
+    previous = (
+        Meeting.objects.filter(series=meeting.series, date__lt=meeting.date, finalized_at__isnull=False)
+        .order_by("-date").first()
+    )
     if previous:
-        carried_ids = list(previous.agenda_items.filter(topic__status="open", topic__series=meeting.series).values_list("topic_id", flat=True))
-    candidates = (due | Topic.objects.filter(id__in=carried_ids)).distinct()
-    for topic in candidates:
-        AgendaItem.objects.get_or_create(meeting=meeting, topic=topic, defaults={"working_text": "", "carried_forward": topic.id in carried_ids})
-    return meeting.agenda_items.select_related("topic").all()
+        carried = previous.agenda_items.filter(
+            topic__status__in=["open", "in_progress"],
+            topic__series=meeting.series,
+        ).exclude(
+            topic__agenda_items__meeting__date__gt=previous.date,
+            topic__agenda_items__meeting__date__lt=meeting.date,
+        ).select_related("topic")
+        for item in carried:
+            AgendaItem.objects.get_or_create(
+                meeting=meeting,
+                topic=item.topic,
+                defaults={
+                    "working_text": item.working_text,
+                    "carried_forward": True,
+                },
+            )
+    return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
 
 def _next_weekday_on_or_after(day, weekday):
     return day + timedelta(days=(weekday - day.weekday()) % 7)
