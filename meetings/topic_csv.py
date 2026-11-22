@@ -231,7 +231,7 @@ def import_topic_agenda_csv(request):
                     defaults={
                         "working_text": row["agenda_text"],
                         "position": row["position"],
-                        "carried_forward": AgendaItem.objects.filter(topic=topic_records[key], meeting__series_id=row["series_id"], meeting__date__lt=row["meeting_date"]).exists(),
+                        "carried_forward": any(prior["topic_key"] == key and prior["meeting_date"] < row["meeting_date"] for prior in rows) or AgendaItem.objects.filter(topic=topic_records[key], meeting__series_id=row["series_id"], meeting__date__lt=row["meeting_date"]).exists(),
                     },
                 )
                 if created:
