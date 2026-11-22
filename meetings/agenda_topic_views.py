@@ -98,7 +98,7 @@ def topic_archive_toggle(request, pk):
             if has_future_agenda:
                 messages.error(
                     request,
-                    "Das Thema kann noch nicht archiviert werden, solange es auf einer nicht abgeschlossenen Tagesordnung steht. Entferne zuerst die geplanten Tagesordnungspunkte.",
+                    "Das Thema kann noch nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht. Entferne zuerst die geplanten Tagesordnungspunkte.",
                 )
                 return redirect("topic_edit", pk=topic.pk)
             previous_status = topic.status
