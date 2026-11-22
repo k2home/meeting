@@ -402,6 +402,10 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
             raise ValueError("Das Thema steht bereits unabhängig auf der gewählten Tagesordnung. Bitte entferne diesen doppelten Eintrag zuerst.")
         if target_meeting.pk == item.meeting_id:
             raise ValueError("Bitte wähle einen anderen, späteren Besprechungstermin.")
+        if old_series != target_series and Topic.objects.filter(
+            series=target_series, title__iexact=topic.title
+        ).exclude(pk=topic.pk).exists():
+            raise ValueError("In der Ziel-Besprechungsreihe existiert bereits ein Thema mit diesem Titel. Bitte führe die Themen zuerst zusammen.")
         if old_series != target_series:
             _move_future_agenda_items(topic, old_series, target_series, {item.pk})
         topic.series = target_series
