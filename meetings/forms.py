@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef
-from .models import AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess, OrganizationSettings
+from .models import AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
 from .user_display import user_display_name
 from django.utils import timezone
 
@@ -74,7 +74,6 @@ class AttachmentForm(forms.ModelForm):
 
     def clean(self):
         cleaned = super().clean()
-        uploaded = cleaned.get("uploaded_file")
         if not uploaded and not (cleaned.get("network_path") or "").strip():
             raise forms.ValidationError("Bitte wähle eine Datei aus oder gib einen Netzwerkpfad bzw. Link an.")
         return cleaned
