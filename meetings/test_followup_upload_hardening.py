@@ -84,4 +84,5 @@ class RepositoryFollowupHardeningTests(TestCase):
         script = Path(__file__).resolve().parent.parent / "deploy" / "install-debian.sh"
         content = script.read_text(encoding="utf-8")
         self.assertIn("ipaddress.ip_network", content)
+        self.assertIn("IPv6-Adressen bitte über einen DNS-Namen verwenden", content)
         self.assertIn('s|server_name _;|', content)

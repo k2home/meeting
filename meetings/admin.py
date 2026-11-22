@@ -31,6 +31,8 @@ admin.site.index_title = "Daten und Benutzer verwalten"
 class MeetingInline(admin.TabularInline):
     model = Meeting
     extra = 0
+    can_delete = False
+    readonly_fields = tuple(field.name for field in Meeting._meta.fields) + ("participants",)
 
 
 class SeriesAccessInline(admin.TabularInline):
@@ -46,6 +48,10 @@ class SeriesAdmin(admin.ModelAdmin):
     list_display = ("name", "recurrence", "active", "start_date", "end_date")
     inlines = [MeetingInline, SeriesAccessInline]
 
+    def has_delete_permission(self, request, obj=None):
+        # Series deletion uses the application workflow to preserve archived access.
+        return False
+
 
 @admin.register(Meeting)
 class MeetingAdmin(admin.ModelAdmin):
@@ -54,7 +60,14 @@ class MeetingAdmin(admin.ModelAdmin):
     filter_horizontal = ("participants",)
 
     def get_readonly_fields(self, request, obj=None):
-        return ("participants",) if obj and obj.finalized_at else ()
+        if obj and (obj.finalized_at or obj.snapshots.exists()):
+            return tuple(field.name for field in self.model._meta.fields) + ("participants",)
+        return ()
+
+    def has_delete_permission(self, request, obj=None):
+        # Meeting deletion is handled by the application workflow, which carries
+        # agenda items and participants forward and records an audit event.
+        return False
 
 
 @admin.register(Topic)
@@ -98,9 +111,90 @@ class TopicTransferHistoryAdmin(admin.ModelAdmin):
     readonly_fields = ("topic", "from_series", "to_series", "transferred_at", "transferred_by", "note")
 
 
-admin.site.register(AgendaItem)
-admin.site.register(TopicSnapshot)
-admin.site.register(TopicAttachment)
+class AgendaItemAdmin(admin.ModelAdmin):
+    list_display = ("meeting", "topic", "status", "position")
+    list_filter = ("meeting__finalized_at", "status")
+    search_fields = ("topic__title", "working_text")
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj and (obj.meeting.finalized_at or obj.meeting.snapshots.exists()):
+            return tuple(field.name for field in self.model._meta.fields)
+        return ()
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "meeting":
+            kwargs["queryset"] = Meeting.objects.filter(finalized_at__isnull=True, snapshots__isnull=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def has_delete_permission(self, request, obj=None):
+        # Use the application workflow to remove or carry forward agenda items.
+        return False
+
+
+class TopicSnapshotCorrectionForm(forms.ModelForm):
+    correction_reason = forms.CharField(
+        label="Begründung der Protokollkorrektur",
+        help_text="Die Begründung und der vorherige Protokollstand werden unveränderlich protokolliert.",
+        widget=forms.Textarea(attrs={"rows": 3}),
+    )
+
+    class Meta:
+        model = TopicSnapshot
+        fields = ("topic_title", "text", "status", "topic_id", "responsible_name", "correction_reason")
+
+
+class TopicSnapshotAdmin(admin.ModelAdmin):
+    form = TopicSnapshotCorrectionForm
+    list_display = ("meeting", "topic_title", "status")
+    list_filter = ("meeting__finalized_at",)
+    readonly_fields = ("meeting",)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        allowed = super().has_change_permission(request, obj)
+        return allowed and (obj is None or bool(obj.meeting.finalized_at))
+
+    def save_model(self, request, obj, form, change):
+        previous = None
+        if change:
+            previous = TopicSnapshot.objects.get(pk=obj.pk)
+        super().save_model(request, obj, form, change)
+        if previous is not None:
+            before = {
+                "topic_title": previous.topic_title, "text": previous.text,
+                "status": previous.status, "topic_id": previous.topic_id,
+                "responsible_name": previous.responsible_name,
+            }
+            after = {
+                "topic_title": obj.topic_title, "text": obj.text,
+                "status": obj.status, "topic_id": obj.topic_id,
+                "responsible_name": obj.responsible_name,
+            }
+            AuditEvent.objects.create(
+                actor=request.user, meeting=obj.meeting, action="updated",
+                summary=f"Protokollkorrektur für „{obj.topic_title}“ am {obj.meeting.date:%d.%m.%Y}",
+                changes={
+                    "Protokollkorrektur": {
+                        "Begründung": form.cleaned_data["correction_reason"],
+                        "vorher": before, "nachher": after,
+                    }
+                },
+            )
+
+
+class TopicAttachmentAdmin(admin.ModelAdmin):
+    list_display = ("label", "topic", "added_at")
+    search_fields = ("label", "topic__title")
+
+
+admin.site.register(AgendaItem, AgendaItemAdmin)
+admin.site.register(TopicSnapshot, TopicSnapshotAdmin)
+admin.site.register(TopicAttachment, TopicAttachmentAdmin)
 
 
 @admin.register(AuditEvent)

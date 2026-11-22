@@ -4,6 +4,15 @@ from django.core.validators import MaxValueValidator, MinValueValidator, RegexVa
 from django.db import models
 from django.utils import timezone
 
+
+def validate_topic_attachment_size(uploaded_file):
+    if not uploaded_file:
+        return
+    limit = OrganizationSettings.current_attachment_max_size_bytes()
+    if uploaded_file.size > limit:
+        limit_mb = limit // (1024 * 1024)
+        raise ValidationError(f"Die Datei darf höchstens {limit_mb} MB groß sein.")
+
 class MeetingSeries(models.Model):
     name = models.CharField("Bezeichnung", max_length=160, unique=True)
     description = models.TextField("Beschreibung", blank=True)
@@ -150,7 +159,7 @@ class TopicSnapshot(models.Model):
 class TopicAttachment(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="attachments")
     label = models.CharField("Bezeichnung", max_length=180)
-    uploaded_file = models.FileField("Datei-Upload", upload_to="topic-files/%Y/%m/", blank=True)
+    uploaded_file = models.FileField("Datei-Upload", upload_to="topic-files/%Y/%m/", blank=True, validators=[validate_topic_attachment_size])
     network_path = models.CharField("Netzwerkpfad / Link", max_length=1000, blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
 
