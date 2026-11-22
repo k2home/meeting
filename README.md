@@ -34,18 +34,18 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Themen und Aufgaben
 
-- Themen mit Beschreibung, Fälligkeitsdatum, Status, Besprechungsreihe und verantwortlicher Person.
-- Suche über Titel, Beschreibung, Reihe und verantwortliche Person.
-- Filter nach Status, Reihe, Zuständigkeit und Fälligkeit.
+- Themen mit Titel, Status, zuständiger Besprechungsreihe und Hauptverantwortung.
+- Der Text und Bearbeitungsstand eines Tagesordnungspunkts werden je Besprechungstermin separat gespeichert.
+- Abweichende Zuständigkeiten können einzelnen Tagesordnungspunkten zugewiesen werden.
+- Suche über Thementitel, Tagesordnungstexte, Besprechungsreihe und Zuständigkeit; Filter nach Status, Reihe und Zuständigkeit.
 - Themen können archiviert, wieder geöffnet und zwischen zugänglichen Besprechungsreihen übertragen werden.
 - Kommentare und nächste Schritte werden chronologisch am Thema gesammelt.
-- „Meine Aufgaben“ zeigt die einer angemeldeten Person zugewiesenen offenen Themen.
+- „Meine Aufgaben“ trennt die Hauptzuständigkeit für Themen von ausdrücklich zugewiesenen Tagesordnungspunkten zukünftiger Termine.
 - Anlagen können als Datei oder als Netzwerkpfad bzw. Link hinterlegt werden.
 
 ### Tagesordnung und Protokolle
 
-- Fällige Themen werden beim Öffnen einer Besprechung in die Tagesordnung übernommen.
-- Offene Themen aus dem letzten abgeschlossenen Termin werden weitergeführt.
+- Offene Tagesordnungspunkte aus dem letzten abgeschlossenen Termin werden beim Öffnen des Folgetermins bei Bedarf weitergeführt.
 - Tagesordnungspunkte lassen sich per Drag-and-drop oder über die Pfeil-Schaltflächen sortieren.
 - Tagesordnungstexte und Teilnehmerliste können bis zum Abschluss bearbeitet werden.
 - Beim Abschluss wird ein unveränderlicher Protokoll-Snapshot gespeichert.
@@ -133,7 +133,7 @@ Die Verwaltung befindet sich unter `/django-admin/` und ist nur für Admins bzw.
 4. Die globale Gruppe **Admin** wird nur für Konten vergeben, die alle Reihen verwalten sollen.
 5. Änderungen speichern.
 
-Die Serienzuweisungen können alternativ direkt an einer Besprechungsreihe im Bereich **Besprechungsreihen** gepflegt werden. Beide Ansichten bearbeiten dieselben Zuordnungen.
+Die Serienzuweisungen können alternativ direkt an einer Besprechungsreihe im Bereich **Besprechungsreihen** gepflegt werden. Beide Ansichten bearbeiten dieselben Zuordnungen. Im Verwaltungsbereich stehen außerdem CSV-Import und -Export für Themen und Tagesordnungspunkte zur Verfügung. `record_type=topic` exportiert Themen ohne Tagesordnungspunkt; `record_type=agenda` enthält einen Terminbezug. Die Spalten `followup_series` und `followup_meeting_date` erhalten Wiedervorlage-Verknüpfungen.
 
 **Empfehlung:** Admin nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten die Rolle je Besprechungsreihe passend festlegen und nur die benötigten Reihen zuweisen.
 
@@ -164,14 +164,14 @@ Die Installation richtet PostgreSQL, Nginx, Python-Abhängigkeiten, eine virtuel
    sudo bash deploy/install-debian.sh
    ```
 
-4. Während der Installation die IP-Adresse oder den DNS-Namen eingeben, unter dem die Website erreichbar sein soll.
+4. Während der Installation Hostname/IP, `SECRET_KEY` und PostgreSQL-Passwort eingeben. Beide Secrets können leer gelassen werden, um sichere Zufallswerte zu erzeugen. Optional kann HTTPS-Terminierung über einen vorgeschalteten Reverse Proxy aktiviert werden; dessen IP/CIDR wird dann abgefragt.
 5. Ein erstes Administratorkonto anlegen:
 
    ```bash
    sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'
    ```
 
-6. Im Browser `http://SERVER-IP/` öffnen und mit dem Superuser anmelden.
+6. Bei direktem internem HTTP-Betrieb `http://SERVER-IP/` öffnen. Bei aktiviertem Reverse Proxy die HTTPS-Adresse verwenden.
 
 Das Installationsskript fragt `SECRET_KEY` und PostgreSQL-Passwort verdeckt ab (leere Eingabe erzeugt jeweils einen kryptografisch zufälligen Wert). Es erstellt `/opt/meeting-manager/.env` mit restriktiven Dateirechten. Die Datei wird nicht versioniert; `.env.example` dokumentiert die verfügbaren Variablen. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
 
@@ -202,7 +202,7 @@ sudo bash /opt/meeting-manager/deploy/update.sh
 
 Das Skript:
 
-1. Holt Änderungen des aktuell ausgecheckten Git-Branches mit `git pull --ff-only`.
+1. Sichert die lokale `.env`, holt Änderungen des aktuell ausgecheckten Git-Branches mit `git pull --ff-only` und stellt die `.env` anschließend wieder her. So funktioniert das Update auch beim Übergang von älteren Versionen, in denen `.env` noch versioniert war.
 2. Installiert bzw. aktualisiert Python-Abhängigkeiten.
 3. Führt ausstehende Datenbankmigrationen aus.
 4. Sammelt statische Dateien für Nginx.
@@ -247,7 +247,7 @@ Moderator*innen öffnen **Besprechungsreihen** in der Navigation. Dort werden Na
 
 ### 2. Themen pflegen
 
-Über **Neues Thema** oder die Themenübersicht lassen sich Titel, Beschreibung, Fälligkeit, Status, Besprechungsreihe und verantwortliche Person pflegen. Die auswählbaren Reihen sind auf die eigenen Zuweisungen begrenzt. Kommentare, Anlagen und Netzwerkpfade werden direkt am Thema gesammelt.
+Über **Neues Thema** wird ein Titel angelegt und ein erster Termin aus den vorhandenen zukünftigen Terminen einer Besprechungsreihe ausgewählt. Das Thema wird direkt auf dessen Tagesordnung gesetzt. In der Themenbearbeitung lassen sich Titel, Status, Hauptverantwortung und Besprechungsreihe pflegen. Kommentare, Anlagen und Netzwerkpfade werden direkt am Thema gesammelt.
 
 ### 3. Besprechung vorbereiten und durchführen
 
@@ -261,7 +261,7 @@ Nur Moderator*innen und Admins können eine abgeschlossene Besprechung wieder ö
 
 ### 5. Aufgaben nachverfolgen
 
-Die Seite **Meine Aufgaben** trennt offene Themen in Hauptzuständigkeit von ausdrücklich zugewiesenen Tagesordnungspunkten zukünftiger Termine. Die Themenübersicht und der Änderungsverlauf berücksichtigen stets die eigenen Serienberechtigungen.
+Die Seite **Meine Aufgaben** zeigt in einem eigenen Abschnitt die offenen Themen mit eigener Hauptzuständigkeit und optisch getrennt darunter die eigenen Tagesordnungspunkte heutiger und zukünftiger Termine. Die Themenübersicht und der Änderungsverlauf berücksichtigen stets die eigenen Serienberechtigungen.
 
 ## Netzwerkfreigaben und Anlagen
 
