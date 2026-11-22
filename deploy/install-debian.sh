@@ -51,6 +51,15 @@ SECRET_KEY="${SECRET_KEY_INPUT:-$(openssl rand -hex 48)}"
 read -r -p "PostgreSQL-Passwort eingeben (leer = sicher zufällig erzeugen): " -s DB_PASSWORD_INPUT
 echo
 DB_PASSWORD="${DB_PASSWORD_INPUT:-$(openssl rand -hex 24)}"
+if [[ ! "$SECRET_KEY" =~ ^[A-Za-z0-9._-]{50,}$ ]]; then
+  echo "SECRET_KEY muss mindestens 50 Zeichen enthalten (Buchstaben, Zahlen, Punkt, _ oder -)." >&2
+  exit 1
+fi
+if [[ ! "$DB_PASSWORD" =~ ^[A-Za-z0-9._-]{16,}$ ]]; then
+  echo "Das Datenbankpasswort muss mindestens 16 Zeichen enthalten (Buchstaben, Zahlen, Punkt, _ oder -)." >&2
+  exit 1
+fi
+runuser -u postgres -- psql -c "ALTER ROLE $DB_USER WITH LOGIN PASSWORD '$DB_PASSWORD';"
 read -r -p "Wird HTTPS durch einen vorgeschalteten Reverse Proxy terminiert? [j/N]: " USE_PROXY
 USE_PROXY="${USE_PROXY:-N}"
 TRUST_PROXY_SSL=0
@@ -61,7 +70,7 @@ USE_X_FORWARDED_HOST=0
 CSRF_TRUSTED_ORIGINS=""
 if [[ "$USE_PROXY" =~ ^[JjYy]$ ]]; then
   read -r -p "IP-Adresse oder CIDR des vorgeschalteten Reverse Proxy: " TRUSTED_PROXY
-  if [[ -z "$TRUSTED_PROXY" ]]; then
+  if [[ ! "$TRUSTED_PROXY" =~ ^[0-9a-fA-F:.\/]+$ ]]; then
     echo "Im Proxy-Betrieb muss die IP/CIDR des vorgeschalteten Reverse Proxy angegeben werden." >&2
     exit 1
   fi
@@ -100,7 +109,7 @@ if [[ "$TRUST_PROXY_SSL" == "1" ]]; then
 fi
 
 echo "==> Erzeuge Datenbanktabellen und statische Dateien"
-runuser -u meetingapp -- bash -c 'set -a; source $APP_DIR/.env; set +a; exec "$@"' _ \
+runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
 # Nginx serves static files as www-data. Do not let the restrictive umask
 # used for the environment file make collected admin assets unreadable.
