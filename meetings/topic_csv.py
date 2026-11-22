@@ -526,7 +526,7 @@ def import_topic_agenda_csv(request):
             for row in rows:
                 key = row["topic_key"]
                 if key not in topic_ids:
-                    matches = Topic.objects.filter(series_id=row["topic"]["series_id"], title=row["topic"]["title"])
+                    matches = Topic.objects.filter(series_id=row["topic"]["series_id"], title__iexact=row["topic"]["title"])
                     topic_ids[key] = matches.first().pk if matches.exists() else None
             token = secrets.token_urlsafe(18)
             request.session[SESSION_KEY] = {"token": token, "text": form.csv_text, "topic_ids": topic_ids}
