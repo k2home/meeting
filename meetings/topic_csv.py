@@ -392,7 +392,7 @@ def parse_topic_agenda_csv(text):
             meeting__finalized_at__isnull=True,
         ).exists():
             errors.append(
-                f"Zeile {record['row']}: Thema „{data['title']}“ kann nicht archiviert werden, solange es auf einer nicht abgeschlossenen Tagesordnung steht."
+                f"Zeile {record['row']}: Thema „{data['title']}“ kann nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht."
             )
     if errors:
         return [], errors
