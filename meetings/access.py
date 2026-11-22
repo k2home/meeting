@@ -79,4 +79,5 @@ def organization_branding(request):
     return {
         "organization_unit_name": OrganizationSettings.current_name(),
         "organization_unit_short_name": OrganizationSettings.current_short_name(),
+        **OrganizationSettings.current_accent_colors(),
     }
