@@ -474,7 +474,7 @@ def meeting_detail(request, pk):
             else:
                 messages.info(request, "Der Themenstatus ist unverändert.")
         elif request.POST.get("add_existing_topic"):
-            topic = get_object_or_404(accessible_topics(request.user), pk=request.POST.get("add_existing_topic"), series_id=meeting.series_id)
+            topic = get_object_or_404(accessible_topics(request.user), pk=request.POST.get("add_existing_topic"))
             if meeting.agenda_items.filter(topic=topic).exists():
                 messages.info(request, f"„{topic.title}“ steht bereits auf dieser Tagesordnung.")
             else:
@@ -669,7 +669,7 @@ def topic_suggestions(request):
     query = request.GET.get("q", "").strip()
     results = []
     if len(query) >= 2:
-        topics = accessible_topics(request.user).filter(title__icontains=query, series_id=request.GET.get("series") or None).select_related("series").order_by("title")[:8]
+        topics = accessible_topics(request.user).filter(title__icontains=query).select_related("series").order_by("title")[:8]
         results = [
             {"id": topic.pk, "title": topic.title, "series": topic.series.name if topic.series else "Ohne Besprechungsreihe"}
             for topic in topics
