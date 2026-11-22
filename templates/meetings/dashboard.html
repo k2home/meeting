@@ -15,7 +15,7 @@
   </div>
 {% empty %}<p class="muted">Keine zukünftigen Termine vorhanden. {% if is_moderator %}<a href="{% url 'series_admin' %}">Besprechungsreihe einrichten</a>{% endif %}</p>{% endfor %}
 </section>
-<section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><a href="{% url 'archive' %}">Zum Archiv</a></div>
+<section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><div class="actions"><a href="{% url 'archive' %}">Zum Archiv</a>{% if not is_reader %}<button type="button" id="open-dashboard-new-topic">+ Neu</button>{% endif %}</div></div>
 <form method="get" class="card filter-panel" style="margin:.8rem 0">
 <label for="topic-search">Thema suchen</label>
 <input id="topic-search" type="search" name="q" value="{{ query }}" placeholder="Titel, Beschreibung, Reihe oder Verantwortliche …">
@@ -43,7 +43,34 @@
 </tr>{% endfor %}
 </tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
 </section>
+{% if not is_reader %}
+<dialog id="dashboard-new-topic-dialog" class="dashboard-topic-dialog" aria-labelledby="dashboard-new-topic-title">
+  <div class="topline"><h2 id="dashboard-new-topic-title">Neuen Tagesordnungspunkt anlegen</h2><button type="button" class="secondary" id="close-dashboard-new-topic">Schließen</button></div>
+  <form method="post" action="{% url 'topic_new' %}" id="dashboard-new-topic-form">
+    {% csrf_token %}
+    <label for="dashboard-topic-title">Thema</label>
+    <input id="dashboard-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
+    <label for="dashboard-topic-series">Besprechungsreihe</label>
+    <select id="dashboard-topic-series" name="series" {% if not is_admin %}required{% endif %}>
+      {% if is_admin %}<option value="">Keine Besprechungsreihe</option>{% endif %}
+      {% for series in new_topic_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}
+    </select>
+    <label for="dashboard-topic-description">Beschreibung / Arbeitsauftrag</label>
+    <textarea id="dashboard-topic-description" name="description" rows="4"></textarea>
+    <input type="hidden" name="status" value="open">
+    <label for="dashboard-topic-assignee">Hauptverantwortliche Person des Themas</label>
+    <select id="dashboard-topic-assignee" name="assigned_to"><option value="">Nicht zugewiesen</option>{% for assignee in new_topic_assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}</select>
+    <div class="actions"><button type="submit">Thema anlegen</button></div>
+  </form>
+</dialog>
+{% endif %}
 <style>
+.dashboard-topic-dialog{width:min(620px,calc(100% - 2rem));max-height:85vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.dashboard-topic-dialog::backdrop{background:#0009}
+.dashboard-topic-dialog h2{margin-top:0}
+.dashboard-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
+.dashboard-topic-dialog form>input,.dashboard-topic-dialog form>textarea,.dashboard-topic-dialog form>select{width:100%}
+.dashboard-topic-dialog .actions{justify-content:flex-end;margin-top:.75rem}
 .upcoming-series{padding:.55rem 0 .75rem;border-bottom:1px solid var(--border)}
 .upcoming-series:last-child{border-bottom:0}
 .upcoming-series h3{font-size:.94rem;margin:.1rem 0 .4rem;color:var(--muted);font-weight:650}
@@ -55,6 +82,15 @@
 </style>
 <script>
 (() => {
+  const newTopicDialog = document.getElementById("dashboard-new-topic-dialog");
+  const openNewTopic = document.getElementById("open-dashboard-new-topic");
+  const closeNewTopic = document.getElementById("close-dashboard-new-topic");
+  openNewTopic?.addEventListener("click", () => newTopicDialog?.showModal());
+  closeNewTopic?.addEventListener("click", () => newTopicDialog?.close());
+  newTopicDialog?.addEventListener("click", event => {
+    if (event.target === newTopicDialog) newTopicDialog.close();
+  });
+
   const table = document.getElementById("dashboard-topics-table");
   if (!table) return;
   const body = table.tBodies[0];
