@@ -1764,6 +1764,8 @@ class TopicAgendaCsvImportTests(TestCase):
         self.assertEqual(sample.status_code, 200)
         self.assertIn("muster_themen_und_punkte.csv", sample["Content-Disposition"])
         self.assertNotContains(sample, "topic_key")
+        self.assertNotContains(sample, "topic_due_date")
+        self.assertContains(sample, "agenda_responsible_username")
         page = self.client.get(reverse("admin:meetings_topic_csv_import"))
         self.assertEqual(page.status_code, 200)
         self.assertContains(page, "Muster-CSV herunterladen")
