@@ -1679,7 +1679,7 @@ class TopicAgendaCsvImportTests(TestCase):
         for row in rows:
             if len(row) == 8:
                 row = [*row[:7], "", *row[7:]]
-            writer.writerow(["CSV-Reihe", *row])
+            writer.writerow(["CSV-Reihe", self.topic_series_name, *row])
         return output.getvalue()
 
     def test_admin_can_download_sample_and_open_import(self):
@@ -1741,7 +1741,7 @@ class TopicAgendaCsvImportTests(TestCase):
         output = StringIO()
         writer = csv.writer(output, delimiter=";")
         writer.writerow([
-            "series", "meeting_date", "meeting_title", "topic_title",
+            "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
             "topic_current_status", "topic_due_date", "topic_status",
             "responsible_username", "responsible_kurzbezeichnung",
             "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
@@ -1829,6 +1829,19 @@ class TopicAgendaCsvImportTests(TestCase):
         item = AgendaItem.objects.get(topic=topic)
         self.assertIsNone(topic.assigned_to)
         self.assertEqual(item.assigned_to, item_owner)
+        self.assertEqual(item.working_text, "Punkttext")
+
+    def test_csv_preserves_topic_series_separately_from_meeting_series(self):
+        topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        response = self._confirm_import(self._csv([[
+            "2026-12-03", "Sondersitzung", "Thema aus anderer Reihe",
+            "Sachstand", "", "open", "", "Punkttext",
+        ]], topic_series_name="Themenreihe"))
+        self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
+        topic = Topic.objects.get(title="Thema aus anderer Reihe")
+        item = AgendaItem.objects.get(topic=topic)
+        self.assertEqual(topic.series, topic_series)
+        self.assertEqual(item.meeting.series, self.series)
         self.assertEqual(item.working_text, "Punkttext")
 
     def test_legacy_due_date_becomes_a_separate_agenda_item(self):
