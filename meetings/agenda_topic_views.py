@@ -71,6 +71,8 @@ def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     reader = is_reader(request.user, topic.series)
     form = TopicTitleForm(request.POST or None, instance=topic)
+    if reader:
+        form.fields["title"].disabled = True
     if request.method == "POST":
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
