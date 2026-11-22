@@ -36,7 +36,7 @@
  <main class="topic-main">
   <section class="card">
    <h2>Thementitel</h2>
-   {% if is_reader %}<p>{{ topic.title }}</p>
+   {% if is_reader %}<label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}
    {% else %}<form method="post">{% csrf_token %}
      {{ form.title.errors }}<label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}
      <button type="submit">Titel speichern</button>
