@@ -1,7 +1,7 @@
 from .models import AuditEvent
 
 
-def record_event(*, actor, action, summary, topic=None, meeting=None, changes=None):
+def record_event(*, actor, action, summary, topic=None, meeting=None, series=None, changes=None):
     """Write one append-only audit entry. Never store passwords or uploaded file contents."""
     return AuditEvent.objects.create(
         actor=actor if getattr(actor, "is_authenticated", False) else None,
@@ -9,7 +9,7 @@ def record_event(*, actor, action, summary, topic=None, meeting=None, changes=No
         summary=summary[:500],
         topic=topic,
         meeting=meeting,
-        series=(meeting.series if meeting is not None and meeting.series_id else (topic.series if topic is not None else None)),
+        series=(series or (meeting.series if meeting is not None and meeting.series_id else (topic.series if topic is not None else None))),
         changes=changes or {},
     )
 

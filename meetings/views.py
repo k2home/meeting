@@ -1256,6 +1256,7 @@ def series_extend(request, pk):
     series = get_object_or_404(accessible_series(request.user), pk=pk)
     if not is_moderator(request.user, series):
         return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+    previous_end = series.end_date
     today = timezone.localdate()
     target_end = date(today.year + 1, 12, 31)
     if not series.end_date or series.end_date < target_end:
@@ -1266,6 +1267,19 @@ def series_extend(request, pk):
         series=series, date__gte=today, date__lte=series.end_date
     ).count()
     skipped_count = max(0, scheduled_count - len(created))
+    record_event(
+        actor=request.user, action="series_extended",
+        summary=f"Besprechungsreihe „{series.name}“ bis zum {series.end_date:%d.%m.%Y} verlängert",
+        series=series,
+        changes={
+            "Enddatum": {
+                "vorher": previous_end.isoformat() if previous_end else None,
+                "nachher": series.end_date.isoformat(),
+            },
+            "Neue Termine": len(created),
+            "Vorhandene Termine": skipped_count,
+        },
+    )
     messages.success(
         request,
         f"Die Reihe reicht jetzt bis zum {series.end_date:%d.%m.%Y}. "
@@ -1363,6 +1377,15 @@ def series_reset_meetings(request, pk):
         messages.error(request, str(exc))
         return redirect("series_edit", pk=series.pk)
 
+    record_event(
+        actor=request.user, action="series_reset",
+        summary=f"Zukünftige Entwurfstermine der Besprechungsreihe „{series.name}“ neu aufgesetzt",
+        series=series,
+        changes={
+            "Neu angelegte Termine": len(created),
+            "Übertragene Tagesordnungspunkte": len(payload),
+        },
+    )
     messages.success(
         request,
         f"Alle zukünftigen Entwurfstermine wurden neu erzeugt. {len(created)} Termine neu angelegt; "
@@ -1390,6 +1413,14 @@ def series_delete(request, pk):
             Meeting.objects.filter(series=series, finalized_at__isnull=False).delete()
         # Preserve all remaining historical meetings independently of the series.
         Meeting.objects.filter(series=series).update(series=None)
+        # The series and its access assignments are removed below. The event is
+        # intentionally left without a series FK afterwards and remains admin-only.
+        record_event(
+            actor=request.user, action="deleted",
+            summary=f"Besprechungsreihe „{name}“ gelöscht",
+            series=series,
+            changes={"Abgeschlossene Termine ebenfalls gelöscht": delete_completed},
+        )
         series.delete()
     messages.success(
         request,
@@ -1397,7 +1428,7 @@ def series_delete(request, pk):
         + ("Abgeschlossene Besprechungen wurden ebenfalls entfernt." if delete_completed
            else "Abgeschlossene und sonstige verbleibende Besprechungen samt Protokollen bleiben erhalten.")
     )
-    return redirect("series_admin")
+    return redirect("series_admin" if is_moderator(request.user) else "dashboard")
 
 
 @login_required
@@ -1484,9 +1515,22 @@ def meeting_delete(request, pk):
                         existing.save(update_fields=["working_text"])
                     if item.assigned_to_id and not existing.assigned_to_id:
                         existing.assigned_to_id = item.assigned_to_id
+                    status_rank = {"open": 0, "in_progress": 1, "done": 2}
+                    if status_rank.get(item.status, 0) > status_rank.get(existing.status, 0):
                         existing.status = item.status
-                        existing.save(update_fields=["assigned_to", "status"])
+                    previous_followup = item.followup_of if item.followup_of_id else None
+                    linked_followup = AgendaItem.objects.filter(followup_of=item).first()
+                    existing_followup = AgendaItem.objects.filter(followup_of=existing).first()
+                    if linked_followup and not existing_followup:
+                        linked_followup.followup_of = existing
+                        linked_followup.save(update_fields=["followup_of"])
+                    existing.save(update_fields=["working_text", "assigned_to", "status"])
                     item.delete()
+                    # The OneToOne relation is unique; release the source link
+                    # before assigning its predecessor to the merged agenda item.
+                    if previous_followup and not existing.followup_of_id:
+                        existing.followup_of = previous_followup
+                        existing.save(update_fields=["followup_of"])
                 else:
                     item.meeting = target
                     item.position = next_position
@@ -1496,6 +1540,16 @@ def meeting_delete(request, pk):
                 moved_count += 1
         else:
             moved_count = 0
+        record_event(
+            actor=request.user, action="deleted",
+            summary=f"Besprechungstermin vom {meeting.date:%d.%m.%Y} aus „{meeting.series.name}“ gelöscht",
+            meeting=meeting, series=meeting.series,
+            changes={
+                "Übertragene Tagesordnungspunkte": moved_count,
+                "Zieltermin": target.date.isoformat() if target is not None else None,
+                "Teilnehmende übertragen": meeting.participants.count(),
+            },
+        )
         meeting.delete()
 
     if moved_count:
@@ -1514,10 +1568,11 @@ def finalize(request, pk):
     if meeting.finalized_at:
         messages.info(request, "Diese Besprechung ist bereits abgeschlossen.")
         return redirect("protocol", pk=pk)
-    finalize_meeting(meeting)
-    record_event(actor=request.user, action="finalized",
-                 summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
-                 meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
+    with transaction.atomic():
+        meeting = finalize_meeting(meeting)
+        record_event(actor=request.user, action="finalized",
+                     summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
+                     meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
     messages.success(request, "Besprechung abgeschlossen; Protokoll-Snapshot gespeichert.")
     return redirect("protocol", pk=pk)
 
