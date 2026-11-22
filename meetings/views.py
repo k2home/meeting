@@ -422,6 +422,8 @@ def meeting_detail(request, pk):
                 request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
             )
             if schedule_form.is_valid():
+                item.working_text = request.POST.get("working_text", item.working_text)
+                item.save(update_fields=["working_text"])
                 topic = item.topic
                 old_series = topic.series
                 target_series = schedule_form.cleaned_data["target_series"]
