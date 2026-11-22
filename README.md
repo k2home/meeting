@@ -31,7 +31,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Leere, noch nicht bearbeitete Einzeltermine können gelöscht werden.
 - Besprechungsreihen können von Moderator*innen und Admins verwaltet werden.
-- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene abgeschlossene Protokolle bleiben für die bisherigen Serienmitglieder lesbar; Admins behalten den globalen Zugriff.
+- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder lesbar; Admins behalten den globalen Zugriff.
 
 ### Themen und Aufgaben
 
