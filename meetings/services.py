@@ -15,22 +15,39 @@ def ensure_agenda(meeting):
         AgendaItem.objects.get_or_create(meeting=meeting, topic=topic, defaults={"working_text": "", "carried_forward": topic.id in carried_ids})
     return meeting.agenda_items.select_related("topic").all()
 
-def generate_meetings(series, count=24):
-    cursor = series.start_date
-    today = timezone.localdate()
+def _next_weekday_on_or_after(day, weekday):
+    return day + timedelta(days=(weekday - day.weekday()) % 7)
+
+
+def _monthly_weekday(year, month, weekday, occurrence):
+    import calendar
+    from datetime import date
+    first_weekday, days_in_month = calendar.monthrange(year, month)
+    first_day = 1 + (weekday - first_weekday) % 7
+    day = first_day + (occurrence - 1) * 7
+    if day > days_in_month:
+        day -= 7
+    return date(year, month, day)
+
+
+def generate_meetings(series):
     created = []
-    for _ in range(count):
-        if series.end_date and cursor > series.end_date: break
+    today = timezone.localdate()
+    cursor = _next_weekday_on_or_after(series.start_date, series.weekday)
+    interval = max(1, series.recurrence_interval or 1)
+    occurrence = (cursor.day - 1) // 7 + 1
+    while not series.end_date or cursor <= series.end_date:
         if cursor >= today:
-            obj, made = Meeting.objects.get_or_create(series=series, date=cursor)
-            if made: created.append(obj)
-        if series.recurrence == "weekly": cursor += timedelta(days=7)
-        elif series.recurrence == "biweekly": cursor += timedelta(days=14)
+            meeting, made = Meeting.objects.get_or_create(series=series, date=cursor)
+            if made:
+                created.append(meeting)
+        if series.recurrence in ("weekly", "biweekly"):
+            weeks = interval * (2 if series.recurrence == "biweekly" else 1)
+            cursor += timedelta(days=7 * weeks)
         else:
-            import calendar
-            year, month = cursor.year, cursor.month + 1
-            if month == 13: year, month = year + 1, 1
-            cursor = cursor.replace(year=year, month=month, day=min(cursor.day, calendar.monthrange(year, month)[1]))
+            month_index = cursor.year * 12 + cursor.month - 1 + interval
+            year, month_zero = divmod(month_index, 12)
+            cursor = _monthly_weekday(year, month_zero + 1, series.weekday, occurrence)
     return created
 
 def finalize_meeting(meeting):
