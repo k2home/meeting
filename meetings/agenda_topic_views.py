@@ -29,6 +29,8 @@ def topic_new(request):
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+        if not writable_series.exists():
+            return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
     form = NewTopicForm(request.POST or None)
     form.fields["series"].queryset = writable_series.filter(active=True)
     form.fields["series"].required = not is_admin(request.user)
