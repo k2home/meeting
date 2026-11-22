@@ -1,26 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <style>
-    .background{fill:#f1f5fa}
-    .paper{fill:#ffffff;stroke:#173b63}
-    .ink{stroke:#173b63}
-    .cell{fill:#8fb4dc}
-    .clock{fill:#ffffff;stroke:#173b63}
-    @media(prefers-color-scheme:dark){
-      .background{fill:#101d2b}
-      .paper{fill:#172638;stroke:#b8d7f4}
-      .ink{stroke:#b8d7f4}
-      .cell{fill:#6da9df}
-      .clock{fill:#172638;stroke:#b8d7f4}
-    }
-  </style>
-  <rect class="background" width="64" height="64"/>
-  <rect class="paper" x="5" y="9" width="42" height="46" rx="7" stroke-width="4"/>
-  <path class="ink" d="M5 20h42" stroke-width="4"/>
-  <path class="ink" d="M16 5v9M36 5v9" stroke-width="4" stroke-linecap="round"/>
-  <rect class="cell" x="13" y="27" width="7" height="7" rx="1.5"/>
-  <rect class="cell" x="25" y="27" width="7" height="7" rx="1.5"/>
-  <rect class="cell" x="13" y="39" width="7" height="7" rx="1.5"/>
-  <rect class="cell" x="25" y="39" width="7" height="7" rx="1.5"/>
-  <circle class="clock" cx="44" cy="43" r="16" stroke-width="4"/>
-  <path class="ink" d="M44 34v10l7 5" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="5" y="9" width="42" height="46" rx="7" fill="#ffffff" stroke="#173b63" stroke-width="4"/>
+  <path d="M5 20h42" stroke="#173b63" stroke-width="4"/>
+  <path d="M16 5v9M36 5v9" stroke="#173b63" stroke-width="4" stroke-linecap="round"/>
+  <rect x="13" y="27" width="7" height="7" rx="1.5" fill="#8fb4dc"/>
+  <rect x="25" y="27" width="7" height="7" rx="1.5" fill="#8fb4dc"/>
+  <rect x="13" y="39" width="7" height="7" rx="1.5" fill="#8fb4dc"/>
+  <rect x="25" y="39" width="7" height="7" rx="1.5" fill="#8fb4dc"/>
+  <circle cx="44" cy="43" r="16" fill="#ffffff" stroke="#173b63" stroke-width="4"/>
+  <path d="M44 34v10l7 5" fill="none" stroke="#173b63" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
