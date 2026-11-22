@@ -200,7 +200,7 @@ def open_topics(request):
             AgendaItem.objects.get_or_create(
                 meeting=target_meeting,
                 topic=topic,
-                defaults={"working_text": "", "position": next_position},
+                defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id},
             )
             record_event(
                 actor=request.user,
@@ -388,11 +388,14 @@ def meeting_detail(request, pk):
                 next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                 target_item, created = AgendaItem.objects.get_or_create(
                     meeting=target_meeting, topic=topic,
-                    defaults={"working_text": "", "position": next_position},
+                    defaults={"working_text": "", "position": next_position, "assigned_to_id": scheduled_item.assigned_to_id},
                 )
                 if not created and target_item.working_text:
                     target_item.working_text = ""
                     target_item.save(update_fields=["working_text"])
+                if not created and item.assigned_to_id and not target_item.assigned_to_id:
+                    target_item.assigned_to_id = item.assigned_to_id
+                    target_item.save(update_fields=["assigned_to"])
                 if old_series != target_series:
                     TopicTransferHistory.objects.create(
                         topic=topic, from_series=old_series, to_series=target_series,
@@ -522,18 +525,21 @@ def meeting_detail(request, pk):
                 if schedule_form.is_valid():
                     topic = scheduled_item.topic
                     old_series = topic.series
-                        target_series = schedule_form.cleaned_data["target_series"]
+                    target_series = schedule_form.cleaned_data["target_series"]
                     target_meeting = schedule_form.cleaned_data["target_meeting"]
                     topic.series = target_series
                     topic.save(update_fields=["series", "updated_at"])
                     next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                     target_item, created = AgendaItem.objects.get_or_create(
                         meeting=target_meeting, topic=topic,
-                        defaults={"working_text": "", "position": next_position},
+                        defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id},
                     )
                     if not created and target_item.working_text:
                         target_item.working_text = ""
                         target_item.save(update_fields=["working_text"])
+                    if not created and scheduled_item.assigned_to_id and not target_item.assigned_to_id:
+                        target_item.assigned_to_id = scheduled_item.assigned_to_id
+                        target_item.save(update_fields=["assigned_to"])
                     if old_series != target_series:
                         TopicTransferHistory.objects.create(
                             topic=topic, from_series=old_series, to_series=target_series,
@@ -577,7 +583,7 @@ def meeting_detail(request, pk):
                         if schedule_form is not None:
                             topic = item.topic
                             old_series = topic.series
-                                        target_series = schedule_form.cleaned_data["target_series"]
+                                    target_series = schedule_form.cleaned_data["target_series"]
                             target_meeting = schedule_form.cleaned_data["target_meeting"]
                             topic.series = target_series
                             topic.save(update_fields=["series", "updated_at"])
@@ -589,6 +595,9 @@ def meeting_detail(request, pk):
                             if not created and target_item.working_text:
                                 target_item.working_text = ""
                                 target_item.save(update_fields=["working_text"])
+                            if not created and item.assigned_to_id and not target_item.assigned_to_id:
+                                target_item.assigned_to_id = item.assigned_to_id
+                                target_item.save(update_fields=["assigned_to"])
                             if old_series != target_series:
                                 TopicTransferHistory.objects.create(
                                     topic=topic, from_series=old_series, to_series=target_series,
@@ -645,11 +654,12 @@ def agenda_topic_history(request, pk, topic_pk):
     history = {}
     for entry in AgendaItem.objects.filter(
         topic=item.topic, meeting__in=visible_meetings
-    ).select_related("meeting__series"):
+    ).select_related("meeting__series", "assigned_to", "topic__assigned_to"):
         history[entry.meeting_id] = {
             "series": entry.meeting.series.name if entry.meeting.series else "Gelöschte Besprechungsreihe",
             "date": entry.meeting.date,
             "text": entry.working_text,
+            "responsible": str(entry.assigned_to or entry.topic.assigned_to or ""),
         }
     from .models import TopicSnapshot
     for snapshot in TopicSnapshot.objects.filter(
@@ -659,6 +669,7 @@ def agenda_topic_history(request, pk, topic_pk):
             "series": snapshot.meeting.series.name if snapshot.meeting.series else "Gelöschte Besprechungsreihe",
             "date": snapshot.meeting.date,
             "text": snapshot.text,
+            "responsible": snapshot.responsible_name,
         }
     # Include a planned follow-up meeting even if its agenda item has not
     # yet been materialized by opening that meeting's agenda.
@@ -1155,7 +1166,7 @@ def series_reset_meetings(request, pk):
             )
             carried_topics = {}
             for agenda_item in agenda_items:
-                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position)
+                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position, agenda_item.assigned_to_id)
     
             drafts.delete()
             new_meetings = generate_meetings(series)
@@ -1165,11 +1176,11 @@ def series_reset_meetings(request, pk):
             )
             if next_meeting is None:
                 raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
-            for topic, working_text, position in carried_topics.values():
+            for topic, working_text, position, assigned_to_id in carried_topics.values():
                 AgendaItem.objects.update_or_create(
                     meeting=next_meeting,
                     topic=topic,
-                    defaults={"working_text": working_text, "position": position, "carried_forward": True},
+                    defaults={"working_text": working_text, "position": position, "carried_forward": True, "assigned_to_id": assigned_to_id},
                 )
     except ValueError as exc:
         messages.error(request, str(exc))
@@ -1296,6 +1307,9 @@ def meeting_delete(request, pk):
                             part for part in [existing.working_text, item.working_text] if part
                         )
                         existing.save(update_fields=["working_text"])
+                    if item.assigned_to_id and not existing.assigned_to_id:
+                        existing.assigned_to_id = item.assigned_to_id
+                        existing.save(update_fields=["assigned_to"])
                     item.delete()
                 else:
                     item.meeting = target
