@@ -29,7 +29,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - Wiederkehrende Reihen mit wöchentlichem, 14-tägigem oder monatlichem Rhythmus.
 - Automatische Erzeugung der Besprechungstermine anhand von Startdatum, Wochentag und optionalem Enddatum.
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
-- Leere, noch nicht bearbeitete Einzeltermine können gelöscht werden.
+- Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
 - Besprechungsreihen können von Moderator*innen und Admins verwaltet werden.
 - Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder lesbar; Admins behalten den globalen Zugriff.
 
