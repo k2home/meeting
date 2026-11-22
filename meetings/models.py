@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.validators import RegexValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
 
@@ -9,18 +9,25 @@ class MeetingSeries(models.Model):
     active = models.BooleanField("Aktiv", default=True)
     recurrence = models.CharField("Wiederholung", max_length=12, choices=[("weekly", "Wöchentlich"), ("monthly", "Monatlich")], default="monthly")
     recurrence_interval = models.PositiveSmallIntegerField("Wiederholungsintervall", default=1)
-    weekday = models.PositiveSmallIntegerField("Wochentag (0=Mo)", default=0)
+    weekday = models.PositiveSmallIntegerField("Wochentag (0=Mo)", default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
     start_date = models.DateField("Startdatum", default=timezone.localdate)
     end_date = models.DateField("Enddatum", null=True, blank=True)
 
     class Meta:
         ordering = ["name"]
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(weekday__gte=0, weekday__lte=6),
+                name="meeting_series_weekday_0_6",
+            ),
+        ]
         verbose_name = "Besprechungsreihe"
         verbose_name_plural = "Besprechungsreihen"
 
     @property
     def weekday_label(self):
-        return ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"][self.weekday]
+        labels = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
+        return labels[self.weekday] if 0 <= self.weekday < len(labels) else "Ungültiger Wochentag"
 
     def __str__(self):
         return self.name
