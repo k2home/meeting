@@ -1,6 +1,6 @@
 from django.db.models import Q
 
-from .models import ArchivedMeetingAccess, Meeting, MeetingSeries, SeriesAccess, Topic
+from .models import Meeting, MeetingSeries, SeriesAccess, Topic
 
 ADMIN_GROUP = "Admin"
 
@@ -60,7 +60,7 @@ def accessible_topics(user):
     visible_meetings = accessible_meetings(user)
     return Topic.objects.filter(
         Q(series__in=accessible_series(user))
-        | Q(agenda_items__meeting__in=visible_meetings)
+        | (Q(series__isnull=True) & Q(agenda_items__meeting__in=visible_meetings))
     ).distinct()
 
 
