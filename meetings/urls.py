@@ -28,6 +28,8 @@ urlpatterns = [
     path("admin/series/", views.series_admin, name="series_admin"),
     path("admin/series/<int:pk>/edit/", views.series_edit, name="series_edit"),
     path("admin/series/<int:pk>/delete/", views.series_delete, name="series_delete"),
+    path("admin/series/<int:pk>/extend/", views.series_extend, name="series_extend"),
+    path("admin/series/<int:pk>/reset-meetings/", views.series_reset_meetings, name="series_reset_meetings"),
     path("admin/meeting/<int:pk>/edit/", views.meeting_edit, name="meeting_edit"),
     path("admin/meeting/<int:pk>/delete/", views.meeting_delete, name="meeting_delete"),
 ]
