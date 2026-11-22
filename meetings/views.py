@@ -498,6 +498,7 @@ def meeting_detail(request, pk):
                 else:
                     topic = Topic.objects.create(
                         title=title, description=working_text, series=meeting.series,
+                        assigned_to=create_form.cleaned_data["topic_assigned_to"],
                     )
                     AgendaItem.objects.create(
                         meeting=meeting, topic=topic, working_text=working_text,
