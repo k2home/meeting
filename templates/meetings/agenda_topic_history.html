@@ -4,6 +4,7 @@
   {% for entry in history_entries %}
     <article class="agenda-history-entry">
       <strong>{{ entry.series }}</strong> · {{ entry.date|date:"d.m.Y" }}
+      {% if entry.responsible %}<p><strong>Verantwortlich:</strong> {{ entry.responsible }}</p>{% endif %}
       <p>{{ entry.text|default:"Kein Protokolltext hinterlegt."|linebreaksbr }}</p>
     </article>
   {% endfor %}
