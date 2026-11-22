@@ -171,6 +171,11 @@ def dashboard(request):
         "selected_assignee": selected_assignee, "selected_due": selected_due,
         "series_options": accessible_series(request.user).order_by("name"),
         "assignee_options": UserModel.objects.filter(is_active=True).order_by("username"),
+        "new_topic_series": (
+            accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
+            if not is_admin(request.user) else accessible_series(request.user)
+        ).filter(active=True).distinct().order_by("name"),
+        "new_topic_assignees": UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
         "result_count": topics.count(),
     })
 
