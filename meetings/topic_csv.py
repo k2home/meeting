@@ -85,7 +85,7 @@ def export_topic_agenda_csv(request):
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
     items = AgendaItem.objects.select_related(
-        "meeting__series", "topic", "topic__assigned_to", "assigned_to"
+        "meeting__series", "topic", "topic__series", "topic__assigned_to", "assigned_to"
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
     for item in items:
         meeting, topic = item.meeting, item.topic
