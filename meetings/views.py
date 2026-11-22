@@ -716,20 +716,27 @@ def topic_edit(request, pk):
             for field in form.changed_data if field in labels
         }
         moved_agenda_items = 0
-        with transaction.atomic():
-            if old_series != new_series:
-                moved_agenda_items = _move_future_agenda_items(topic, old_series, new_series)
-                TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=new_series,
-                    transferred_by=request.user, note="Zuordnung im Themenformular geändert")
-            updated_topic.save()
-            if moved_agenda_items:
-                changes["Geplante Tagesordnungspunkte"] = {"übertragen": moved_agenda_items}
-            if changes:
-                summary = (f"Zuständigkeit für „{updated_topic.title}“ geändert"
-                           if "assigned_to" in form.changed_data and len(form.changed_data) == 1
-                           else f"Thema „{updated_topic.title}“ geändert")
-                record_event(actor=request.user, action="updated",
-                    summary=summary, topic=updated_topic, changes=changes)
+        try:
+            with transaction.atomic():
+                if old_series != new_series:
+                    moved_agenda_items = _move_future_agenda_items(topic, old_series, new_series)
+                    TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=new_series,
+                        transferred_by=request.user, note="Zuordnung im Themenformular geändert")
+                updated_topic.save()
+                if moved_agenda_items:
+                    changes["Geplante Tagesordnungspunkte"] = {"übertragen": moved_agenda_items}
+                if changes:
+                    summary = (f"Zuständigkeit für „{updated_topic.title}“ geändert"
+                               if "assigned_to" in form.changed_data and len(form.changed_data) == 1
+                               else f"Thema „{updated_topic.title}“ geändert")
+                    record_event(actor=request.user, action="updated",
+                        summary=summary, topic=updated_topic, changes=changes)
+        except ValueError as exc:
+            form.add_error("series", str(exc))
+            return render(request, "meetings/topic_form.html", {
+                "form": form, "topic": topic, "is_reader": is_reader(request.user, topic.series),
+                "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
+            })
         messages.success(request, "Thema gespeichert." + (f" {moved_agenda_items} geplante Tagesordnungspunkte wurden in die neue Besprechungsreihe übertragen." if moved_agenda_items else ""))
         return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
@@ -814,7 +821,7 @@ def _move_future_agenda_items(topic, from_series, to_series):
         target_item = target_meeting.agenda_items.filter(topic=topic).first()
         if target_item:
             if item.working_text:
-                target_item.working_text = "\\n".join(
+                target_item.working_text = "\n".join(
                     part for part in [target_item.working_text, item.working_text] if part
                 )
             if item.assigned_to_id and not target_item.assigned_to_id:
@@ -848,19 +855,24 @@ def topic_transfer(request, pk):
         return redirect("topic_edit", pk=topic.pk)
     note = request.POST.get("note", "").strip()[:500]
     moved_agenda_items = 0
-    with transaction.atomic():
-        moved_agenda_items = _move_future_agenda_items(topic, topic.series, target)
-        TopicTransferHistory.objects.create(
-            topic=topic, from_series=topic.series, to_series=target,
-            transferred_by=request.user, note=note,
-        )
-        old_series_name = str(topic.series) if topic.series else "Ohne Reihe"
-        topic.series = target
-        topic.save(update_fields=["series", "updated_at"])
-        record_event(actor=request.user, action="transferred",
-                     summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen", topic=topic,
-                     changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
-                              "Notiz": note})
+    try:
+        with transaction.atomic():
+            moved_agenda_items = _move_future_agenda_items(topic, topic.series, target)
+            TopicTransferHistory.objects.create(
+                topic=topic, from_series=topic.series, to_series=target,
+                transferred_by=request.user, note=note,
+            )
+            old_series_name = str(topic.series) if topic.series else "Ohne Reihe"
+            topic.series = target
+            topic.save(update_fields=["series", "updated_at"])
+            record_event(actor=request.user, action="transferred",
+                         summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen", topic=topic,
+                         changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
+                                  "Geplante Tagesordnungspunkte": {"übertragen": moved_agenda_items},
+                                  "Notiz": note})
+    except ValueError as exc:
+        messages.error(request, str(exc))
+        return redirect("topic_edit", pk=topic.pk)
     messages.success(request, f"Thema wurde nach „{target.name}“ übertragen. {moved_agenda_items} zukünftige Tagesordnungspunkte wurden übernommen. Die bisherige Zuordnung bleibt in der Historie erhalten.")
     return redirect("topic_edit", pk=topic.pk)
 
