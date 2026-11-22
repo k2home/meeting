@@ -2089,3 +2089,37 @@ class OrganizationBrandColorTests(TestCase):
         self.assertContains(page, "--primary-color: #ABCDEF")
         self.assertContains(page, "--secondary-color: #234567")
         self.assertContains(page, "--tertiary-color: #56789A")
+
+
+class TopicDetailRedesignTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="detail-user", password="strong-test-password")
+        self.series = MeetingSeries.objects.create(name="Detail-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
+        self.topic = Topic.objects.create(title="Detailthema", series=self.series)
+        self.client.force_login(self.user)
+
+    def test_topic_detail_shows_agenda_meetings_and_protocol_link(self):
+        from datetime import date
+        meeting = Meeting.objects.create(series=self.series, date=date(2026, 12, 8))
+        AgendaItem.objects.create(meeting=meeting, topic=self.topic, working_text="Ergebnis aus der Sitzung")
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Besprechungen und Tagesordnung")
+        self.assertContains(response, "Ergebnis aus der Sitzung")
+        self.assertContains(response, reverse("protocol", args=[meeting.pk]))
+        self.assertNotContains(response, "Kommentare und nächste Schritte")
+        self.assertNotContains(response, "Änderungsverlauf dieses Themas")
+
+    def test_archiving_saves_completion_date_and_note_and_reopening_clears_them(self):
+        response = self.client.post(reverse("topic_archive", args=[self.topic.pk]), {"completion_note": "Abschluss geprüft"})
+        self.assertEqual(response.status_code, 302)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "archived")
+        self.assertIsNotNone(self.topic.completed_at)
+        self.assertEqual(self.topic.completion_note, "Abschluss geprüft")
+        self.client.post(reverse("topic_reopen", args=[self.topic.pk]))
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "open")
+        self.assertIsNone(self.topic.completed_at)
+        self.assertEqual(self.topic.completion_note, "")
