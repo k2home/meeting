@@ -190,7 +190,7 @@ def parse_topic_agenda_csv(text):
             errors.append(f"Zeile {row_number}: Die Zeile enthält mehr Werte als die Kopfzeile.")
             continue
         row = {key: (value or "").strip() for key, value in raw.items() if key}
-        if not any(row.values()) or (row.get("series") or "").startswith("#"):
+        if not any(row.values()) or (row.get("record_type") or "").startswith("#") or (row.get("series") or "").startswith("#"):
             continue
         record_type = (row.get("record_type") or "agenda").lower()
         if record_type not in {"agenda", "topic"}:
