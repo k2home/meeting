@@ -54,7 +54,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Änderungsverlauf
 
-Wichtige Änderungen an Themen, Status, Hauptzuständigkeiten, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen werden mit Benutzer und Zeitpunkt protokolliert. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
+Anlage und Umbenennung von Themen, Themenübertragungen, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen werden mit Benutzer und Zeitpunkt protokolliert. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
 
 ## Rollen und Berechtigungen
 
