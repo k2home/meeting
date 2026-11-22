@@ -69,9 +69,6 @@ class AuditHistoryTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
             "title": "Neuer Titel",
-            "description": "Neue Beschreibung",
-            "status": "open",
-            "series": self.series.pk,
         })
         self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
         from .models import AuditEvent
@@ -79,7 +76,7 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(event.actor, self.user)
         self.assertEqual(event.changes["Titel"]["vorher"], "Audit-Thema")
         self.assertEqual(event.changes["Titel"]["nachher"], "Neuer Titel")
-        self.assertEqual(event.changes["Beschreibung"]["nachher"], "Neue Beschreibung")
+        self.assertNotIn("Beschreibung", event.changes)
 
     def test_history_page_requires_login_and_displays_entries(self):
         from .models import AuditEvent
@@ -219,22 +216,23 @@ class TopicTaskManagementTests(TestCase):
         SeriesAccess.objects.create(user=self.member, series=self.series)
         self.topic = Topic.objects.create(title="Aufgabe", series=self.series)
 
-    def test_topic_can_be_assigned_and_assignment_is_audited(self):
+    def test_agenda_item_can_be_assigned_and_assignment_is_audited(self):
         self.client.force_login(self.member)
-        response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
-            "title": self.topic.title,
-            "description": self.topic.description,
-            "status": "open",
-            "series": self.series.pk,
-            "assigned_to": self.owner.pk,
-        })
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-01")
+        item = AgendaItem.objects.create(meeting=meeting, topic=self.topic)
+        response = self.client.post(
+            reverse("topic_agenda_edit", args=[self.topic.pk, item.pk]),
+            {"working_text": "", "assigned_to": self.owner.pk},
+        )
         self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        item.refresh_from_db()
         self.topic.refresh_from_db()
-        self.assertEqual(self.topic.assigned_to, self.owner)
+        self.assertEqual(item.assigned_to, self.owner)
+        self.assertIsNone(self.topic.assigned_to)
         from .models import AuditEvent
-        event = AuditEvent.objects.get(topic=self.topic, action="updated")
-        self.assertEqual(event.changes["Verantwortlich"]["vorher"], None)
-        self.assertEqual(event.changes["Verantwortlich"]["nachher"], "owner")
+        event = AuditEvent.objects.get(topic=self.topic, action="agenda_edited")
+        self.assertEqual(event.changes["Zuständigkeit"]["vorher"], None)
+        self.assertEqual(event.changes["Zuständigkeit"]["nachher"], str(self.owner.pk))
 
     def test_user_can_add_comment_and_comment_is_audited(self):
         self.client.force_login(self.member)
