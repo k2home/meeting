@@ -203,7 +203,8 @@ def import_users_csv(request):
                 # Apply the CSV username after resolving the existing user.
                 user.username = username
                 for field, value in record["values"].items():
-                    setattr(user, field, value)
+                    if field != "is_administrator":
+                        setattr(user, field, value)
                 user.save()
                 if "short_description" in record["values"]:
                     UserProfile.objects.update_or_create(
