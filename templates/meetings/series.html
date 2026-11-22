@@ -15,11 +15,8 @@
         </div>
         <details>
           <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
-          <div class="card" style="margin-top:.5rem;padding:1rem;min-width:min(18rem,80vw)">
+          <div style="margin-top:.25rem;padding:.45rem .55rem;min-width:min(14rem,80vw);background:var(--surface);border:1px solid var(--border);border-radius:5px">
             <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
-            <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.65rem" onsubmit="return confirm('Die Terminserie bis zum 31.12. des Folgejahres verlängern?');">
-              {% csrf_token %}<button type="submit">Verlängern</button>
-            </form>
             <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" onsubmit="return confirm(this.delete_completed.checked ? 'Die Reihe und alle abgeschlossenen Besprechungen samt Protokollen endgültig löschen?' : 'Die Reihe löschen? Zukünftige, noch nicht abgeschlossene Termine werden entfernt. Abgeschlossene und sonstige verbleibende Besprechungen bleiben erhalten.');">
               {% csrf_token %}
               <p style="margin:.25rem 0 .5rem"><strong>Reihe löschen</strong></p>
@@ -31,6 +28,9 @@
             </form>
           </div>
         </details>
+        <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.35rem" onsubmit="return confirm('Die Terminserie bis zum 31.12. des Folgejahres verlängern?');">
+          {% csrf_token %}<button class="secondary" type="submit">Verlängern</button>
+        </form>
       </div>
 
       <div class="series-stats" style="display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:.85rem 0;padding:.75rem 0;border-top:1px solid var(--border-color, #ddd);border-bottom:1px solid var(--border-color, #ddd)">

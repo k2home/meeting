@@ -101,7 +101,7 @@ class SeriesForm(forms.ModelForm):
 
     class Meta:
         model = MeetingSeries
-        fields = ["name", "description", "active", "recurrence", "recurrence_interval", "weekday", "start_date", "end_date"]
+        fields = ["name", "description", "recurrence", "recurrence_interval", "weekday", "start_date", "end_date"]
         widgets = {
             "start_date": forms.DateInput(attrs={"type": "date"}),
             "end_date": forms.DateInput(attrs={"type": "date"}),
