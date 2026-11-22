@@ -60,7 +60,7 @@
 
       {% if s.other_meetings %}
         <details style="margin-top:.75rem">
-          <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">Vergangene und weitere Termine ({{ s.other_meetings|length }})</summary>
+          <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">Alle weiteren Termine anzeigen ({{ s.other_meetings|length }})</summary>
           <div style="overflow-x:auto;margin-top:.5rem">
             <table><thead><tr><th>Termin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
             {% for m in s.other_meetings %}
