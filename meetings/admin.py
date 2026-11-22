@@ -18,6 +18,7 @@ from .models import (
 )
 from .user_display import user_display_name, user_display_name_with_login
 from .user_csv import export_users_csv, import_users_csv
+from .topic_csv import import_topic_agenda_csv, sample_csv_response
 
 User = get_user_model()
 
@@ -57,6 +58,25 @@ class MeetingAdmin(admin.ModelAdmin):
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
+    change_list_template = "admin/meetings/topic_changelist.html"
+
+    def get_urls(self):
+        custom_urls = [
+            path("csv-import/", self.admin_site.admin_view(self.csv_import_view), name="meetings_topic_csv_import"),
+            path("csv-sample/", self.admin_site.admin_view(self.csv_sample_view), name="meetings_topic_csv_sample"),
+        ]
+        return custom_urls + super().get_urls()
+
+    def csv_import_view(self, request):
+        if not self.has_change_permission(request):
+            raise PermissionDenied
+        return import_topic_agenda_csv(request)
+
+    def csv_sample_view(self, request):
+        if not self.has_view_or_change_permission(request):
+            raise PermissionDenied
+        return sample_csv_response()
+
     list_display = ("title", "series", "due_date", "assigned_to", "status")
     list_filter = ("series", "status")
     search_fields = ("title", "description")
