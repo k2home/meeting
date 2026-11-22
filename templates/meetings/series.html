@@ -11,7 +11,7 @@
       <div class="topline" style="align-items:flex-start;gap:1rem">
         <div style="min-width:0">
           <h2 style="margin:0 0 .35rem">{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% else %}<span class="pill">Aktiv</span>{% endif %}</h2>
-          <p class="muted" style="margin:0">{{ s.recurrence_interval }}-{{ s.get_recurrence_display|lower }} · {{ s.weekday_label }}</p>
+          <p class="muted" style="margin:0">{{ s.recurrence_interval }}-{{ s.get_recurrence_display|lower }} · {{ s.weekday_label }} · bis {{ s.end_date|date:"d.m.Y" }}</p>
         </div>
         <details>
           <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
