@@ -1300,7 +1300,14 @@ def series_reset_meetings(request, pk):
 
             status_rank = {"open": 0, "in_progress": 1, "done": 2}
             for saved in payload:
-                target = min(targets, key=lambda m: (abs((m.date - saved["old_date"]).days), m.date))
+                nearest_targets = sorted(
+                    targets, key=lambda m: (abs((m.date - saved["old_date"]).days), m.date)
+                )
+                target = next(
+                    (candidate for candidate in nearest_targets
+                     if not candidate.agenda_items.filter(topic=saved["topic"]).exists()),
+                    nearest_targets[0],
+                )
                 existing = target.agenda_items.filter(topic=saved["topic"]).first()
                 if existing:
                     existing.working_text = "\n\n".join(dict.fromkeys(
