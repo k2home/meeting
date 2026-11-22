@@ -22,7 +22,7 @@ class TopicForm(forms.ModelForm):
 
     class Meta:
         model = Topic
-        fields = ["title", "description", "status", "series", "assigned_to"]
+        fields = ["title", "description", "status", "series", "assigned_to", "completion_note"]
         widgets = {"description": forms.Textarea(attrs={"rows": 5})}
 
     def __init__(self, *args, series_queryset=None, series_required=False, **kwargs):
