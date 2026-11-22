@@ -329,10 +329,11 @@ def my_tasks(request):
         .annotate(
             next_meeting_date=Min(
                 "agenda_items__meeting__date",
-                filter=Q(agenda_items__meeting__finalized_at__isnull=True),
+                filter=Q(agenda_items__meeting__in=visible_meetings)
+                & Q(agenda_items__meeting__finalized_at__isnull=True),
             ),
             latest_agenda_text=Subquery(
-                AgendaItem.objects.filter(topic=OuterRef("pk"))
+                AgendaItem.objects.filter(topic=OuterRef("pk"), meeting__in=visible_meetings)
                 .order_by("-meeting__date", "-pk").values("working_text")[:1]
             ),
         )
