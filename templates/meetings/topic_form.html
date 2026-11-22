@@ -50,7 +50,7 @@
     <article class="topic-meeting">
      <div class="topline"><strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"d.m.Y" }}</strong>{% if item.meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant / Entwurf</span>{% endif %}</div>
      {% if item.working_text %}<p>{{ item.working_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein zusätzlicher Protokolltext hinterlegt.</p>{% endif %}
-     <p class="muted">Verantwortlich: {{ item.assigned_to|user_display|default:item.topic.assigned_to|user_display|default:"Nicht zugewiesen" }}</p>
+     <p class="muted">Verantwortlich: {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
      <a href="{% url 'protocol' item.meeting_id %}">Vollständiges Besprechungsprotokoll öffnen</a>
     </article>
    {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
