@@ -10,11 +10,9 @@ def move_topic_due_dates_to_agenda(apps, schema_editor):
     db = schema_editor.connection.alias
 
     for topic in Topic.objects.using(db).exclude(due_date__isnull=True).iterator():
-        meeting, _ = Meeting.objects.using(db).get_or_create(
-            series_id=topic.series_id,
-            date=topic.due_date,
-            defaults={"title": ""},
-        )
+        meeting = Meeting.objects.using(db).filter(series_id=topic.series_id, date=topic.due_date).first()
+        if meeting is None:
+            meeting = Meeting.objects.using(db).create(series_id=topic.series_id, date=topic.due_date, title="")
         AgendaItem.objects.using(db).get_or_create(
             meeting_id=meeting.pk,
             topic_id=topic.pk,
@@ -50,6 +48,10 @@ class Migration(migrations.Migration):
                 related_name="assigned_meeting_agenda_items",
                 to=settings.AUTH_USER_MODEL, verbose_name="Abweichend verantwortlich",
             ),
+        ),
+        migrations.AddField(
+            model_name="topicsnapshot", name="responsible_name",
+            field=models.CharField(blank=True, max_length=150, verbose_name="Verantwortlich"),
         ),
         migrations.RunPython(move_topic_due_dates_to_agenda, restore_topic_due_dates),
         migrations.RemoveField(model_name="topic", name="due_date"),
