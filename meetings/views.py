@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery
+from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
 from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -177,6 +177,71 @@ def dashboard(request):
             date__gte=today, finalized_at__isnull=True,
         ).select_related("series").order_by("series__name", "date"),
         "result_count": topics.count(),
+    })
+
+
+@login_required
+def meetings_overview(request):
+    """Show only meetings belonging to series the current user may access."""
+    today = timezone.localdate()
+    series = list(accessible_series(request.user).distinct().order_by("name"))
+    meetings = list(
+        accessible_meetings(request.user)
+        .filter(series__isnull=False)
+        .select_related("series")
+        .annotate(open_agenda_count=Count(
+            "agenda_items",
+            filter=Q(agenda_items__status__in=["open", "in_progress"]),
+        ))
+        .order_by("date", "series__name", "pk")
+    )
+
+    role_labels = {
+        SeriesAccess.ROLE_PARTICIPANT: "Teilnehmer",
+        SeriesAccess.ROLE_READER: "Leser",
+        SeriesAccess.ROLE_MODERATOR: "Moderator",
+    }
+    role_by_series = {}
+    if not is_admin(request.user):
+        role_by_series = {
+            access.series_id: role_labels.get(access.role, access.role)
+            for access in SeriesAccess.objects.filter(user=request.user, series__in=series)
+        }
+
+    events = []
+    for meeting in meetings:
+        role = "Administrator" if is_admin(request.user) else role_by_series.get(meeting.series_id, "")
+        events.append({
+            "id": meeting.pk,
+            "date": meeting.date.isoformat(),
+            "title": meeting.title or "Besprechung",
+            "series": meeting.series.name,
+            "role": role,
+            "url": reverse("meeting", args=[meeting.pk]),
+            "finalized": bool(meeting.finalized_at),
+            "open_agenda_count": meeting.open_agenda_count,
+        })
+
+    next_by_series = {}
+    for meeting in meetings:
+        if meeting.date >= today and not meeting.finalized_at:
+            next_by_series.setdefault(meeting.series_id, meeting)
+
+    series_rows = []
+    for item in series:
+        meeting = next_by_series.get(item.pk)
+        series_rows.append({
+            "series": item,
+            "meeting": meeting,
+            "role": "Administrator" if is_admin(request.user) else role_by_series.get(item.pk, ""),
+            "open_agenda_count": meeting.open_agenda_count if meeting else 0,
+        })
+
+    return render(request, "meetings/meetings_overview.html", {
+        "today": today,
+        "calendar_events": events,
+        "calendar_events_json": __import__("json").dumps(events, ensure_ascii=False),
+        "series_rows": series_rows,
     })
 
 
