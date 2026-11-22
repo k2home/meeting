@@ -289,7 +289,7 @@ class MyTasksViewTests(TestCase):
         self.due_today = Topic.objects.create(
             title="Heute terminiert", series=self.series, assigned_to=self.user,
         )
-        self.no_due_date = Topic.objects.create(
+        self.no_meeting = Topic.objects.create(
             title="Ohne geplanten Termin", series=self.series, assigned_to=self.user,
         )
         self.point_assigned = Topic.objects.create(
@@ -311,10 +311,10 @@ class MyTasksViewTests(TestCase):
         response = self.client.get(reverse("my_tasks"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.point_assigned, self.no_due_date])
+        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.point_assigned, self.no_meeting])
         self.assertEqual(response.context["overdue_count"], 1)
         self.assertEqual(response.context["due_today_count"], 1)
-        self.assertEqual(response.context["without_due_date_count"], 1)
+        self.assertEqual(response.context["without_meeting_count"], 1)
         self.assertContains(response, "Überfällig")
         self.assertContains(response, "Heute auf der Tagesordnung")
         self.assertContains(response, "Punktaufgabe")
