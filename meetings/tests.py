@@ -882,6 +882,9 @@ class MeetingSeriesSchedulingTests(TestCase):
             weekday=0, start_date=self.today,
             end_date=self.today + timedelta(days=7),
         )
+        self.meeting = Meeting.objects.create(
+            series=self.series, date=self.today + timedelta(days=14)
+        )
 
     def test_four_week_recurrence_generates_all_dates_to_end(self):
         from datetime import date
