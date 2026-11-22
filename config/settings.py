@@ -31,12 +31,18 @@ SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "0") == "1"
 SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", "0"))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv("SECURE_HSTS_INCLUDE_SUBDOMAINS", "0") == "1"
 SECURE_HSTS_PRELOAD = os.getenv("SECURE_HSTS_PRELOAD", "0") == "1"
-if SECURE_HSTS_PRELOAD and (
-    not SECURE_HSTS_INCLUDE_SUBDOMAINS or SECURE_HSTS_SECONDS < 31536000
-):
-    raise ImproperlyConfigured(
-        "HSTS preload requires include_subdomains=1 and SECURE_HSTS_SECONDS of at least 31536000."
-    )
+
+
+def validate_hsts_configuration(hsts_seconds, include_subdomains, preload):
+    if preload and (not include_subdomains or hsts_seconds < 31536000):
+        raise ImproperlyConfigured(
+            "HSTS preload requires include_subdomains=1 and SECURE_HSTS_SECONDS of at least 31536000."
+        )
+
+
+validate_hsts_configuration(
+    SECURE_HSTS_SECONDS, SECURE_HSTS_INCLUDE_SUBDOMAINS, SECURE_HSTS_PRELOAD
+)
 SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "0") == "1"
 CSRF_COOKIE_SECURE = os.getenv("CSRF_COOKIE_SECURE", "0") == "1"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") if os.getenv("TRUST_PROXY_SSL", "0") == "1" else None
