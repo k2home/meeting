@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name="topicsnapshot", name="responsible_name",
-            field=models.CharField(blank=True, max_length=150, verbose_name="Verantwortlich"),
+            field=models.CharField(blank=True, max_length=255, verbose_name="Verantwortlich"),
         ),
         migrations.RunPython(move_topic_due_dates_to_agenda, restore_topic_due_dates),
         migrations.RemoveField(model_name="topic", name="due_date"),
