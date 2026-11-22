@@ -123,6 +123,7 @@ def topic_detail(request, pk):
         "topic_agenda_items": items,
         "legacy_description": legacy_description,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
+        "assignees": get_user_model().objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
     })
 
 
