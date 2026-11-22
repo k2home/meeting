@@ -39,7 +39,7 @@ jobs:
           pip install -r requirements.txt
       - name: Run Django checks
         env:
-          SECRET_KEY: ci-only-secret-key
+          SECRET_KEY: ci-only-secret-key-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
           DEBUG: "0"
           ALLOWED_HOSTS: localhost,127.0.0.1
           POSTGRES_DB: meeting_manager
@@ -51,7 +51,7 @@ jobs:
           bash -n deploy/*.sh
           python -m compileall -q config meetings
           python manage.py check
-          python manage.py check --deploy
+          SECRET_KEY="ci-only-secret-key-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" SECURE_SSL_REDIRECT=1 SECURE_HSTS_SECONDS=31536000 SESSION_COOKIE_SECURE=1 CSRF_COOKIE_SECURE=1 python manage.py check --deploy
           python manage.py makemigrations --check --dry-run
           python manage.py migrate --noinput
           python manage.py test meetings
