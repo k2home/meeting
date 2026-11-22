@@ -72,6 +72,12 @@ class AttachmentForm(forms.ModelForm):
         model = TopicAttachment
         fields = ["label", "uploaded_file", "network_path"]
 
+    def clean(self):
+        cleaned = super().clean()
+        if not cleaned.get("uploaded_file") and not (cleaned.get("network_path") or "").strip():
+            raise forms.ValidationError("Bitte wähle eine Datei aus oder gib einen Netzwerkpfad bzw. Link an.")
+        return cleaned
+
 class SeriesForm(forms.ModelForm):
     weekday = forms.TypedChoiceField(
         label="Wochentag", choices=[(0, "Montag"), (1, "Dienstag"), (2, "Mittwoch"),
@@ -90,6 +96,14 @@ class SeriesForm(forms.ModelForm):
             "start_date": forms.DateInput(attrs={"type": "date"}),
             "end_date": forms.DateInput(attrs={"type": "date"}),
         }
+
+    def clean(self):
+        cleaned = super().clean()
+        start_date = cleaned.get("start_date")
+        end_date = cleaned.get("end_date")
+        if start_date and end_date and end_date < start_date:
+            self.add_error("end_date", "Das Enddatum darf nicht vor dem Startdatum liegen.")
+        return cleaned
 
     def __init__(self, *args, **kwargs):
         provided_initial = kwargs.get("initial") or {}
