@@ -8,6 +8,7 @@ from django.contrib import admin, messages
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 from .models import AgendaItem, Meeting, MeetingSeries, Topic, UserProfile
 from django.contrib.auth import get_user_model
@@ -387,6 +388,13 @@ def parse_topic_agenda_csv(text):
         )
         if (effective_status == "archived" or (existing_topic and existing_topic.status == "archived")) and has_agenda_rows:
             errors.append(f"Zeile {record['row']}: Das archivierte Thema „{data['title']}“ muss zuerst über die Themenansicht wieder geöffnet werden, bevor Tagesordnungspunkte importiert werden können.")
+        if effective_status == "archived" and existing_topic and existing_topic.agenda_items.filter(
+            meeting__date__gte=timezone.localdate(),
+            meeting__finalized_at__isnull=True,
+        ).exists():
+            errors.append(
+                f"Zeile {record['row']}: Thema „{data['title']}“ kann nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht."
+            )
     if errors:
         return [], errors
     return rows, []

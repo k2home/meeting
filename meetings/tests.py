@@ -1297,6 +1297,7 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         self.assertFalse(AgendaItem.objects.filter(meeting=upcoming, topic=topic).exists())
 
     def test_topic_csv_rejects_archived_agenda_rows_and_preserves_archived_topic_state(self):
+        from datetime import date
         from .topic_csv import parse_topic_agenda_csv
         MeetingSeries.objects.create(name="CSV-Archiv")
         headers = (
@@ -1322,6 +1323,20 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         rows, errors = parse_topic_agenda_csv(reopened_in_csv)
         self.assertEqual(rows, [])
         self.assertTrue(any("muss zuerst über die Themenansicht" in error for error in errors))
+
+        active_topic = Topic.objects.create(
+            title="Mit offenem Termin",
+            series=MeetingSeries.objects.get(name="CSV-Archiv"),
+            status="open",
+        )
+        future_meeting = Meeting.objects.create(
+            series=active_topic.series, date=date(2026, 12, 23)
+        )
+        AgendaItem.objects.create(meeting=future_meeting, topic=active_topic)
+        archive_in_csv = headers + "\ntopic;CSV-Archiv;CSV-Archiv;;;Mit offenem Termin;archived;open;"
+        rows, errors = parse_topic_agenda_csv(archive_in_csv)
+        self.assertEqual(rows, [])
+        self.assertTrue(any("zukünftigen oder offenen Tagesordnung" in error for error in errors))
 
     def test_reopening_meeting_keeps_snapshot_responsible_name_in_audit(self):
         from datetime import date

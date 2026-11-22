@@ -1231,9 +1231,13 @@ def protocol(request, pk):
         f"das Protokoll für die Sitzung {series_name} am {meeting.date:%d.%m.%Y} "
         f"ist unter {protocol_url} verfügbar.\n"
     )
+    mailto_query = urlencode(
+        {"subject": subject, "body": body + "\n"},
+        quote_via=quote,
+    )
     mailto_url = (
         f"mailto:{quote(','.join(recipient_emails), safe='@,.-_+')}"
-        f"?{urlencode({'subject': subject, 'body': body + '\n'}, quote_via=quote)}"
+        f"?{mailto_query}"
     )
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
