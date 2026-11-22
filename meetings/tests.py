@@ -1682,6 +1682,22 @@ class TopicAgendaCsvImportTests(TestCase):
             writer.writerow(["CSV-Reihe", *row])
         return output.getvalue()
 
+    def test_csv_export_keeps_meeting_and_topic_series_separate(self):
+        import csv
+        from io import StringIO
+
+        topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        topic = Topic.objects.create(title="Reihenübergreifendes Thema", series=topic_series)
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Sondersitzung")
+        AgendaItem.objects.create(meeting=meeting, topic=topic)
+
+        response = self.client.get(reverse("admin:meetings_topic_csv_export"))
+        self.assertEqual(response.status_code, 200)
+        rows = list(csv.DictReader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
+        exported = next(row for row in rows if row.get("topic_title") == "Reihenübergreifendes Thema")
+        self.assertEqual(exported["series"], "CSV-Reihe")
+        self.assertEqual(exported["topic_series"], "Themenreihe")
+
     def test_admin_can_download_sample_and_open_import(self):
         sample = self.client.get(reverse("admin:meetings_topic_csv_sample"))
         self.assertEqual(sample.status_code, 200)
