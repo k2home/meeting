@@ -384,6 +384,8 @@ class DashboardTopicFilterTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'id="open-dashboard-new-topic"')
         self.assertContains(response, 'id="dashboard-new-topic-dialog"')
+        self.assertContains(response, 'id="dashboard-topic-meeting"')
+        self.assertContains(response, 'data-series="{}"'.format(self.series_a.pk))
         self.assertContains(response, 'action="/topics/new/"')
         self.assertNotContains(response, ">+ Thema</a>")
 
