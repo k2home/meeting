@@ -200,7 +200,7 @@ class AuditTransactionAndTransferTests(TestCase):
         self.client.force_login(self.moderator)
         with patch("meetings.views.record_event", side_effect=RuntimeError("Audit ausgefallen")):
             with self.assertRaises(RuntimeError):
-                self.client.post(reverse("meeting_edit", args=[meeting.pk]), {"date": "2026-12-2"})
+                self.client.post(reverse("meeting_edit", args=[meeting.pk]), {"date": "2026-12-02"})
         meeting.refresh_from_db()
         self.assertEqual(meeting.date, date(2026, 12, 1))
 
