@@ -21,40 +21,46 @@
 
 <section class="card">
   <h2>Meine Besprechungsreihen und Berechtigungen</h2>
-  <p class="muted">Hier siehst du alle Besprechungsreihen. Für jede Reihe kannst du eine Berechtigung beantragen.</p>
+  <p class="muted">Hier siehst du alle Besprechungsreihen. Wähle bei Bedarf eine andere Berechtigung aus und sende anschließend den Antrag.</p>
   {% if is_admin_user %}
     <p>Du hast die globale Berechtigung <strong>Admin</strong> und damit Zugriff auf alle Besprechungsreihen.</p>
   {% endif %}
   {% if series_rows %}
     <table>
-      <thead><tr><th>Besprechungsreihe</th><th>Deine Berechtigung</th><th>Antrag / Status</th></tr></thead>
+      <thead><tr><th>Besprechungsreihe</th><th>Berechtigung</th></tr></thead>
       <tbody>
       {% for row in series_rows %}
         <tr>
-          <td>{{ row.series.name }}</td><td>{{ row.role_label }}</td><td>
+          <td>{{ row.series.name }}</td>
+          <td>
+            <strong>{{ row.role_label }}</strong>
             {% if row.pending_request %}
-              <strong>Antrag offen:</strong> {{ row.pending_request.get_requested_role_display }}
-            {% elif row.latest_request %}
-              <strong>{{ row.latest_request.get_status_display }}</strong>
-              {% if row.latest_request.decision_note %}<div class="muted">{{ row.latest_request.decision_note }}</div>{% endif %}
+              <div class="muted" style="margin-top:.25rem">
+                Antrag offen: {{ row.pending_request.get_requested_role_display }}
+              </div>
+            {% else %}
+              {% if row.latest_request %}
+                <div class="muted" style="margin-top:.25rem">
+                  Letzter Antrag: {{ row.latest_request.get_status_display }}
+                  {% if row.latest_request.decision_note %}<div>{{ row.latest_request.decision_note }}</div>{% endif %}
+                </div>
+              {% endif %}
               {% if row.can_request %}
-                <form method="post" style="margin-top:.5rem">{% csrf_token %}
+                <form method="post" class="series-role-request" style="margin-top:.5rem">
+                  {% csrf_token %}
                   <input type="hidden" name="form_type" value="access_request">
                   <input type="hidden" name="series_id" value="{{ row.series.pk }}">
-                  <label for="role-{{ row.series.pk }}">Weitere Berechtigung beantragen</label>
-                  <select id="role-{{ row.series.pk }}" name="role">{% for value,label in request_role_choices %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select>
-                  <button type="submit">Antrag senden</button>
+                  <label for="role-{{ row.series.pk }}">Berechtigung ändern</label>
+                  <select id="role-{{ row.series.pk }}" name="role" data-current-role="{{ row.role_value }}">
+                    {% if not row.role_value %}<option value="" selected>Bitte auswählen</option>{% endif %}
+                    {% for value,label in request_role_choices %}
+                      <option value="{{ value }}" {% if value == row.role_value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" hidden>Antrag senden</button>
                 </form>
               {% endif %}
-            {% elif row.can_request %}
-              <form method="post">{% csrf_token %}
-                <input type="hidden" name="form_type" value="access_request">
-                <input type="hidden" name="series_id" value="{{ row.series.pk }}">
-                <label for="role-{{ row.series.pk }}">Berechtigung beantragen</label>
-                <select id="role-{{ row.series.pk }}" name="role">{% for value,label in request_role_choices %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select>
-                <button type="submit">Antrag senden</button>
-              </form>
-            {% else %}Keine weiteren Anträge möglich{% endif %}
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
@@ -75,4 +81,14 @@
     <button type="submit">Passwort ändern</button>
   </form>
 </section>
+<script>
+  document.querySelectorAll(".series-role-request select").forEach((select) => {
+    const button = select.form.querySelector('button[type="submit"]');
+    const updateButton = () => {
+      button.hidden = select.value === select.dataset.currentRole || !select.value;
+    };
+    select.addEventListener("change", updateButton);
+    updateButton();
+  });
+</script>
 {% endblock %}
