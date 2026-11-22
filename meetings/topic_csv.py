@@ -68,8 +68,8 @@ def _write_csv_documentation(writer):
 def export_topic_agenda_csv(request):
     response = HttpResponse(content_type="text/csv; charset=utf-8")
     response["Content-Disposition"] = 'attachment; filename="themen_und_punkte_export.csv"'
-    response.write("\\ufeff")
-    writer = csv.writer(response, delimiter=";", lineterminator="\\r\\n")
+    response.write("\ufeff")
+    writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
     items = AgendaItem.objects.select_related(
         "meeting__series", "topic", "topic__assigned_to"
