@@ -21,7 +21,7 @@ from .forms import UsernameLoginForm, TopicForm, TopicCommentForm, AgendaTextFor
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
-from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader, role_for_series
+from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
 from .models import SeriesAccess
 from .user_display import user_display_name
 
