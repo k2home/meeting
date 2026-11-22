@@ -176,6 +176,10 @@ def dashboard(request):
             if not is_admin(request.user) else accessible_series(request.user)
         ).filter(active=True).distinct().order_by("name"),
         "new_topic_assignees": UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
+        "new_topic_meetings": accessible_meetings(request.user).filter(
+            series__in=accessible_series(request.user).filter(active=True),
+            date__gte=today, finalized_at__isnull=True,
+        ).select_related("series").order_by("series__name", "date"),
         "result_count": topics.count(),
     })
 
@@ -790,12 +794,38 @@ def topic_new(request):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
     form = TopicForm(request.POST or None, series_queryset=writable_series, series_required=not is_admin(request.user))
     if request.method == "POST" and form.is_valid():
-        topic = form.save()
-        record_event(actor=request.user, action="created", summary=f"Thema „{topic.title}“ angelegt",
-                     topic=topic, changes={"Titel": {"vorher": None, "nachher": topic.title}})
-        messages.success(request, "Thema angelegt.")
-        return redirect("topic_edit", pk=topic.pk)
-    return render(request, "meetings/topic_form.html", {"form": form, "is_reader": not has_writable_series(request.user)})
+        meeting_id = request.POST.get("meeting")
+        meeting = accessible_meetings(request.user).filter(
+            pk=meeting_id, series_id=form.cleaned_data["series"].pk,
+            date__gte=timezone.localdate(), finalized_at__isnull=True,
+        ).first() if meeting_id and form.cleaned_data.get("series") else None
+        if meeting is None:
+            form.add_error(None, "Bitte wähle einen zukünftigen, noch nicht abgeschlossenen Termin der ausgewählten Besprechungsreihe.")
+        else:
+            with transaction.atomic():
+                topic = form.save()
+                next_position = (
+                    meeting.agenda_items.order_by("-position").values_list("position", flat=True).first()
+                    if meeting.agenda_items.exists() else -1
+                ) + 1
+                AgendaItem.objects.create(meeting=meeting, topic=topic, position=next_position)
+                record_event(
+                    actor=request.user, action="created", summary=f"Thema „{topic.title}“ angelegt",
+                    topic=topic, meeting=meeting,
+                    changes={
+                        "Titel": {"vorher": None, "nachher": topic.title},
+                        "Erster Besprechungstermin": {"vorher": None, "nachher": meeting.date.isoformat()},
+                    },
+                )
+            messages.success(request, f"Thema angelegt und auf die Tagesordnung am {meeting.date:%d.%m.%Y} gesetzt.")
+            return redirect("topic_edit", pk=topic.pk)
+    return render(request, "meetings/topic_form.html", {
+        "form": form, "is_reader": not has_writable_series(request.user),
+        "available_meetings": accessible_meetings(request.user).filter(
+            series__in=writable_series.filter(active=True), date__gte=timezone.localdate(),
+            finalized_at__isnull=True,
+        ).select_related("series").order_by("series__name", "date"),
+    })
 
 @login_required
 @reader_readonly
