@@ -706,6 +706,7 @@ class MeetingSeriesManagementTests(TestCase):
             "description": self.series.description,
             "active": "on",
             "recurrence": self.series.recurrence,
+            "recurrence_interval": "1",
             "weekday": "2",
             "start_date": self.series.start_date.isoformat(),
             "end_date": "",
