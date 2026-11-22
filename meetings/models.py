@@ -361,3 +361,37 @@ class OrganizationSettings(models.Model):
 
     def __str__(self):
         return self.name or "Organisationseinheit (nicht festgelegt)"
+
+
+class SeriesAccessRequest(models.Model):
+    STATUS_PENDING = "pending"
+    STATUS_APPROVED = "approved"
+    STATUS_REJECTED = "rejected"
+    STATUS_CHOICES = [
+        (STATUS_PENDING, "Offen"),
+        (STATUS_APPROVED, "Genehmigt"),
+        (STATUS_REJECTED, "Abgelehnt"),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="series_access_requests")
+    series = models.ForeignKey(MeetingSeries, on_delete=models.CASCADE, related_name="access_requests")
+    requested_role = models.CharField("Beantragte Berechtigung", max_length=16, choices=SeriesAccess.ROLE_CHOICES)
+    status = models.CharField("Status", max_length=12, choices=STATUS_CHOICES, default=STATUS_PENDING)
+    decision_note = models.CharField("Begründung", max_length=500, blank=True)
+    decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="decided_series_access_requests")
+    created_at = models.DateTimeField(auto_now_add=True)
+    decided_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["created_at", "pk"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "series"],
+                condition=models.Q(status="pending"),
+                name="unique_pending_series_access_request",
+            )
+        ]
+        verbose_name = "Berechtigungsantrag"
+        verbose_name_plural = "Berechtigungsanträge"
+
+    def __str__(self):
+        return f"{self.user} – {self.series} ({self.get_status_display()})"

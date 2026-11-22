@@ -21,20 +21,47 @@
 
 <section class="card">
   <h2>Meine Besprechungsreihen und Berechtigungen</h2>
+  <p class="muted">Hier siehst du alle Besprechungsreihen. Für jede Reihe kannst du eine Berechtigung beantragen.</p>
   {% if is_admin_user %}
     <p>Du hast die globale Berechtigung <strong>Admin</strong> und damit Zugriff auf alle Besprechungsreihen.</p>
   {% endif %}
   {% if series_rows %}
     <table>
-      <thead><tr><th>Besprechungsreihe</th><th>Deine Berechtigung</th></tr></thead>
+      <thead><tr><th>Besprechungsreihe</th><th>Deine Berechtigung</th><th>Antrag / Status</th></tr></thead>
       <tbody>
       {% for row in series_rows %}
-        <tr><td>{{ row.series.name }}</td><td>{{ row.role_label }}</td></tr>
+        <tr>
+          <td>{{ row.series.name }}</td><td>{{ row.role_label }}</td><td>
+            {% if row.pending_request %}
+              <strong>Antrag offen:</strong> {{ row.pending_request.get_requested_role_display }}
+            {% elif row.latest_request %}
+              <strong>{{ row.latest_request.get_status_display }}</strong>
+              {% if row.latest_request.decision_note %}<div class="muted">{{ row.latest_request.decision_note }}</div>{% endif %}
+              {% if row.can_request %}
+                <form method="post" style="margin-top:.5rem">{% csrf_token %}
+                  <input type="hidden" name="form_type" value="access_request">
+                  <input type="hidden" name="series_id" value="{{ row.series.pk }}">
+                  <label for="role-{{ row.series.pk }}">Weitere Berechtigung beantragen</label>
+                  <select id="role-{{ row.series.pk }}" name="role">{% for value,label in request_role_choices %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select>
+                  <button type="submit">Antrag senden</button>
+                </form>
+              {% endif %}
+            {% elif row.can_request %}
+              <form method="post">{% csrf_token %}
+                <input type="hidden" name="form_type" value="access_request">
+                <input type="hidden" name="series_id" value="{{ row.series.pk }}">
+                <label for="role-{{ row.series.pk }}">Berechtigung beantragen</label>
+                <select id="role-{{ row.series.pk }}" name="role">{% for value,label in request_role_choices %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select>
+                <button type="submit">Antrag senden</button>
+              </form>
+            {% else %}Keine weiteren Anträge möglich{% endif %}
+          </td>
+        </tr>
       {% endfor %}
       </tbody>
     </table>
   {% else %}
-    <p>Dir sind derzeit keine Besprechungsreihen zugewiesen.</p>
+    <p>Es sind derzeit keine Besprechungsreihen vorhanden.</p>
   {% endif %}
 </section>
 
