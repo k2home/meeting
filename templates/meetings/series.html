@@ -95,7 +95,7 @@
   <div class="topline"><h2>Neue Besprechungsreihe</h2><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()" aria-label="Schließen">Schließen</button></div>
   <form method="post">
     {% csrf_token %}
-    {% for field in form %}{% if field.name != "end_date" %}{{ field.as_field_group }}{% endif %}{% endfor %}
+    {{ form.as_p }}
     <div class="actions"><button type="submit">Reihe anlegen</button><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()">Abbrechen</button></div>
   </form>
 </dialog>
