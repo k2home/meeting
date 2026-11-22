@@ -934,11 +934,12 @@ def topic_transfer(request, pk):
         return redirect("topic_edit", pk=topic.pk)
     note = request.POST.get("note", "").strip()[:500]
     moved_agenda_items = 0
+    old_series = topic.series
     try:
         with transaction.atomic():
-            moved_agenda_items = _move_future_agenda_items(topic, topic.series, target)
+            moved_agenda_items = _move_future_agenda_items(topic, old_series, target)
             TopicTransferHistory.objects.create(
-                topic=topic, from_series=topic.series, to_series=target,
+                topic=topic, from_series=old_series, to_series=target,
                 transferred_by=request.user, note=note,
             )
             old_series_name = str(topic.series) if topic.series else "Ohne Reihe"
@@ -947,7 +948,7 @@ def topic_transfer(request, pk):
             record_transfer_events(
                 actor=request.user,
                 summary=f"Thema „{topic.title}“ nach „{target.name}“ übertragen",
-                topic=topic, from_series=topic.transfer_history.latest("transferred_at").from_series,
+                topic=topic, from_series=old_series,
                 to_series=target,
                 changes={"Besprechungsreihe": {"vorher": old_series_name, "nachher": target.name},
                          "Geplante Tagesordnungspunkte": {"übertragen": moved_agenda_items},
