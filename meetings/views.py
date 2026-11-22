@@ -829,7 +829,7 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
                 series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True,
             ).order_by("date", "pk").first()
         )
-        if target_meeting is None:
+        if target_meeting is None and to_series is not None:
             extension_end = date(today.year + 1, 12, 31)
             if not to_series.end_date or to_series.end_date < extension_end:
                 to_series.end_date = extension_end
@@ -840,8 +840,13 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
                     series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True,
                 ).order_by("date", "pk").first()
             )
+        if target_meeting is None and to_series is None:
+            target_meeting = Meeting.objects.create(
+                series=None, date=item.meeting.date, title="",
+            )
         if target_meeting is None:
-            raise ValueError(f"Für „{to_series.name}“ konnte kein zukünftiger Besprechungstermin gefunden werden.")
+            target_name = to_series.name if to_series else "Ohne Besprechungsreihe"
+            raise ValueError(f"Für „{target_name}“ konnte kein zukünftiger Besprechungstermin gefunden werden.")
 
         target_item = target_meeting.agenda_items.filter(topic=topic).first()
         if target_item:
