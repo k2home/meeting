@@ -1669,7 +1669,10 @@ class TopicAgendaCsvImportTests(TestCase):
         self.client.post(reverse("admin:meetings_topic_csv_import"), {"action": "confirm", "token": token})
         topic = Topic.objects.get(title="Mehrfachthema")
         self.assertEqual(AgendaItem.objects.filter(topic=topic).count(), 2)
-        self.assertEqual(Meeting.objects.filter(series=self.series).count(), 2)class TopicAgendaCsvImportTests(TestCase):
+        self.assertEqual(Meeting.objects.filter(series=self.series).count(), 2)
+
+
+class TopicAgendaCsvImportTests(TestCase):
     def setUp(self):
         self.admin = User.objects.create_superuser(
             username="csv-admin", email="csv-admin@example.com", password="strong-test-password"
