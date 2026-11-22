@@ -121,7 +121,7 @@ runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set 
 # Nginx serves static files as www-data. Do not let the restrictive umask
 # used for the environment file make collected admin assets unreadable.
 umask 027
-runuser -u meetingapp -- bash -c 'set -a; source $APP_DIR/.env; set +a; exec "$@"' _ \
+runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput
 chown -R meetingapp:www-data "$APP_DIR/staticfiles"
 find "$APP_DIR/staticfiles" -type d -exec chmod 750 {} +
@@ -143,6 +143,6 @@ echo "Installation abgeschlossen."
 if [[ "$TRUST_PROXY_SSL" == "1" ]]; then echo "Website: https://$SITE_HOST/ (über vorgeschalteten Reverse Proxy)"; else echo "Website: http://$SITE_HOST/"; fi
 echo "Status:  systemctl status meeting-manager"
 echo "Logs:    journalctl -u meeting-manager -f"
-echo "Admin:   sudo -u meetingapp bash -c 'set -a; source $APP_DIR/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'"
+echo "Admin:   sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'"
 echo
 echo "WICHTIG: Die .env enthält Secrets und ist nur für root und www-data lesbar. Nicht einchecken oder weitergeben."
