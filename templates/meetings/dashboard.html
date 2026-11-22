@@ -31,15 +31,11 @@
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="0" data-sort-type="text">Thema <span aria-hidden="true">↕</span></button></th>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="1" data-sort-type="text">Besprechungsreihe <span aria-hidden="true">↕</span></button></th>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="2" data-sort-type="date">Nächste Besprechung <span aria-hidden="true">↕</span></button></th>
-<th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="3" data-sort-type="text">Verantwortlich <span aria-hidden="true">↕</span></button></th>
-<th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="4" data-sort-type="text">Status <span aria-hidden="true">↕</span></button></th>
 </tr></thead><tbody>
 {% for t in topics %}<tr>
 <td data-sort-value="{{ t.title|lower }}"><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td>
 <td data-sort-value="{{ t.series.name|default:''|lower }}">{{ t.series|default:"—" }}</td>
 <td data-sort-value="{{ t.next_meeting_date|date:'Y-m-d' }}">{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"d.m.Y" }}</span>{% else %}{{ t.next_meeting_date|date:"d.m.Y"|default:"—" }}{% endif %}</td>
-<td data-sort-value="{% if t.assigned_to %}{{ t.assigned_to|user_display|lower }}{% else %}nicht zugewiesen{% endif %}">{% if t.assigned_to %}{{ t.assigned_to|user_display }}{% else %}<span class="muted">Nicht zugewiesen</span>{% endif %}</td>
-<td data-sort-value="{{ t.get_status_display|lower }}">{{ t.get_status_display }}</td>
 </tr>{% endfor %}
 </tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
 </section>
