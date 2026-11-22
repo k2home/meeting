@@ -525,7 +525,7 @@ class TopicAgendaCsvImportTests(TestCase):
     def test_import_creates_topic_meeting_and_agenda_item(self):
         response = self._confirm_import(self._csv([[
             "2026-12-03", "Reguläre Sitzung", "Neues Thema",
-            "2026-12-03", "open", "", "", "", "Beratungstext",
+            "2026-12-03", "open", "", "", "", "", "Beratungstext",
         ]]))
         self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
         topic = Topic.objects.get(title="Neues Thema")
