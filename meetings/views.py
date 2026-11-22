@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
 from .audit import record_event
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
@@ -463,7 +463,7 @@ def agenda_item_delete(request, pk, item_pk):
 @reader_readonly
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
-    if not meeting.participants_initialized:
+    if not meeting.participants_initialized and not meeting.finalized_at:
         if not meeting.participants.exists() and meeting.series_id:
             default_participants = SeriesAccess.objects.filter(
                 series=meeting.series, user__is_active=True
@@ -1158,6 +1158,7 @@ def protocol(request, pk):
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
         "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
+        "can_reopen_meeting": is_moderator(request.user, meeting.series),
     })
 
 @login_required
@@ -1463,15 +1464,28 @@ def series_delete(request, pk):
         ).delete()
         if delete_completed:
             Meeting.objects.filter(series=series, finalized_at__isnull=False).delete()
-        # Preserve all remaining historical meetings independently of the series.
+        # Preserve former series members' read access to retained protocols.
+        former_access = list(
+            SeriesAccess.objects.filter(series=series).values("user_id", "role")
+        )
+        remaining_meeting_ids = list(Meeting.objects.filter(series=series).values_list("pk", flat=True))
+        ArchivedMeetingAccess.objects.bulk_create(
+            [
+                ArchivedMeetingAccess(meeting_id=meeting_id, user_id=access["user_id"], role=access["role"])
+                for meeting_id in remaining_meeting_ids
+                for access in former_access
+            ],
+            ignore_conflicts=True,
+        )
         Meeting.objects.filter(series=series).update(series=None)
-        # The series and its access assignments are removed below. The event is
-        # intentionally left without a series FK afterwards and remains admin-only.
+        # The series and its active assignments are removed; archive access
+        # remains attached to each retained historical meeting.
         record_event(
             actor=request.user, action="deleted",
             summary=f"Besprechungsreihe „{name}“ gelöscht",
             series=series,
-            changes={"Abgeschlossene Termine ebenfalls gelöscht": delete_completed},
+            changes={"Abgeschlossene Termine ebenfalls gelöscht": delete_completed,
+                     "Ehemalige Mitglieder mit Lesezugriff": len(former_access)},
         )
         series.delete()
     messages.success(
