@@ -53,3 +53,5 @@ class StyledConfirmationDialogTests(SimpleTestCase):
             with self.subTest(template=relative_path):
                 source = (REPOSITORY_ROOT / relative_path).read_text(encoding="utf-8")
                 self.assertIn(expected_text, source)
+        meeting_source = (REPOSITORY_ROOT / "templates/meetings/meeting.html").read_text(encoding="utf-8")
+        self.assertIn("Besprechung wirklich abschließen?", meeting_source)
