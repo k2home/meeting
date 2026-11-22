@@ -51,7 +51,7 @@
 #save-agenda-order.is-visible{display:inline-flex}
 .agenda-order-save-row{display:flex;justify-content:flex-end;margin:1rem 0 1.5rem}
 #open-new-agenda-topic{margin-left:auto}
-.agenda-title-assignee,.agenda-title-status{display:inline-flex;align-self:center;align-items:center;box-sizing:border-box;min-height:1.6em;line-height:1.2em;padding-left:0;margin-left:.15rem;border-left:0}
+.agenda-title-assignee,.agenda-title-status{display:inline-flex;align-self:center;align-items:center;box-sizing:border-box;min-height:1.6em;line-height:1.2em;padding-left:0;border-left:0}.agenda-title-assignee{margin-left:auto}.agenda-title-status{margin-left:0}
 .agenda-text-actions{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:.5rem}
 .agenda-text-actions .agenda-history-button{margin-left:0}
 .agenda-text-actions .agenda-move-button{margin-left:auto}
@@ -158,7 +158,7 @@
               <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Nicht zugewiesen</option>
               {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_context }}</option>{% endfor %}
             </select>
-            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_assignee }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>
