@@ -169,7 +169,7 @@
           <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
             {% csrf_token %}<input type="hidden" name="update_agenda_status" value="{{ item.id }}">
           </form>
-          <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
+          <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Bearbeitungsstand des Tagesordnungspunkts {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
             {% for value,label in item.STATUS %}<option value="{{ value }}" {% if item.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
           </select>
           {% else %}<span class="pill">{{ item.get_status_display }}</span>{% endif %}
