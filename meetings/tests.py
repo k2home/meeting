@@ -973,6 +973,30 @@ class RepositoryConsistencyRegressionTests(TestCase):
         meeting.refresh_from_db()
         self.assertIsNone(meeting.finalized_at)
 
+    def test_uploaded_attachment_download_requires_series_access(self):
+        import tempfile
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from django.test import override_settings
+        from .models import TopicAttachment
+
+        series = MeetingSeries.objects.create(name="Dateirechte-Reihe")
+        topic = Topic.objects.create(title="Vertraulicher Anhang", series=series)
+        allowed = User.objects.create_user(username="file-reader", password="strong-test-password")
+        denied = User.objects.create_user(username="other-reader", password="strong-test-password")
+        SeriesAccess.objects.create(user=allowed, series=series, role=SeriesAccess.ROLE_READER)
+        with tempfile.TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root):
+                attachment = TopicAttachment.objects.create(
+                    topic=topic, label="Geheim", uploaded_file=SimpleUploadedFile("secret.txt", b"secret-content"),
+                )
+                self.client.force_login(denied)
+                denied_response = self.client.get(reverse("attachment_download", args=[attachment.pk]))
+                self.assertEqual(denied_response.status_code, 404)
+                self.client.force_login(allowed)
+                allowed_response = self.client.get(reverse("attachment_download", args=[attachment.pk]))
+                self.assertEqual(allowed_response.status_code, 200)
+                self.assertEqual(b"".join(allowed_response.streaming_content), b"secret-content")
+
     def test_smb_paths_are_linked_only_when_scheme_and_authority_are_valid(self):
         from .models import TopicAttachment
         topic = Topic.objects.create(title="Netzwerklink")
