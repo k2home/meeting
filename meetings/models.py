@@ -285,6 +285,11 @@ class UserProfile(models.Model):
 class OrganizationSettings(models.Model):
     """Globale Bezeichnung der Organisationseinheit für den Meeting Manager."""
 
+    attachment_max_size_mb = models.PositiveSmallIntegerField(
+        "Maximale Dateigröße für Anlagen (MB)", default=20,
+        validators=[MinValueValidator(1), MaxValueValidator(24)],
+        help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 24 MB.",
+    )
     name = models.CharField(
         "Organisationseinheit", max_length=160, blank=True, default="",
         help_text='Zum Beispiel „Fachbereich 20“. Die Angabe erscheint in der Anwendungs-Kopfzeile und in Protokollen.',
@@ -333,6 +338,12 @@ class OrganizationSettings(models.Model):
     def current_short_name(cls):
         settings = cls.objects.filter(pk=1).only("short_name").first()
         return settings.short_name.strip() if settings and settings.short_name else "MM"
+
+    @classmethod
+    def current_attachment_max_size_bytes(cls):
+        settings = cls.objects.filter(pk=1).only('attachment_max_size_mb').first()
+        size_mb = settings.attachment_max_size_mb if settings else 20
+        return size_mb * 1024 * 1024
 
     @classmethod
     def current_name(cls):

@@ -77,8 +77,8 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS=0
 SECURE_HSTS_PRELOAD=0
 if [[ "$USE_PROXY" =~ ^[JjYy]$ ]]; then
   read -r -p "IP-Adresse oder CIDR des vorgeschalteten Reverse Proxy: " TRUSTED_PROXY
-  if [[ ! "$TRUSTED_PROXY" =~ ^[0-9a-fA-F:.\/]+$ ]]; then
-    echo "Im Proxy-Betrieb muss die IP/CIDR des vorgeschalteten Reverse Proxy angegeben werden." >&2
+  if ! python3 -c 'import ipaddress, sys; ipaddress.ip_network(sys.argv[1], strict=False)' "$TRUSTED_PROXY" 2>/dev/null; then
+    echo "Bitte eine gültige IPv4-/IPv6-Adresse oder ein CIDR-Netz angeben." >&2
     exit 1
   fi
   TRUST_PROXY_SSL=1
@@ -123,7 +123,7 @@ chmod 640 "$APP_DIR/.env"
 if [[ "$TRUST_PROXY_SSL" == "1" ]]; then
   # Only the explicitly configured reverse proxy may reach this local Nginx
   # listener; this prevents clients from spoofing X-Forwarded-Proto.
-  sed -i "s/server_name _;/server_name _;\\n    allow $TRUSTED_PROXY;\\n    deny all;/" "$APP_DIR/deploy/nginx-meeting-manager.conf"
+  sed -i "s|server_name _;|server_name _;\\n    allow $TRUSTED_PROXY;\\n    deny all;|" "$APP_DIR/deploy/nginx-meeting-manager.conf"
   sed -i 's/proxy_set_header X-Forwarded-Proto \$scheme;/proxy_set_header X-Forwarded-Proto \$http_x_forwarded_proto;/' "$APP_DIR/deploy/nginx-meeting-manager.conf"
 fi
 

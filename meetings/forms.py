@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.db.models import Exists, OuterRef
-from .models import AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
+from .models import AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess, OrganizationSettings
 from .user_display import user_display_name
 from django.utils import timezone
 
@@ -74,8 +74,12 @@ class AttachmentForm(forms.ModelForm):
 
     def clean(self):
         cleaned = super().clean()
-        if not cleaned.get("uploaded_file") and not (cleaned.get("network_path") or "").strip():
+        uploaded = cleaned.get("uploaded_file")
+        if not uploaded and not (cleaned.get("network_path") or "").strip():
             raise forms.ValidationError("Bitte wähle eine Datei aus oder gib einen Netzwerkpfad bzw. Link an.")
+        if uploaded and uploaded.size > OrganizationSettings.current_attachment_max_size_bytes():
+            limit_mb = OrganizationSettings.current_attachment_max_size_bytes() // (1024 * 1024)
+            self.add_error("uploaded_file", f"Die Datei darf höchstens {limit_mb} MB groß sein.")
         return cleaned
 
 class SeriesForm(forms.ModelForm):
