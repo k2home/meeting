@@ -209,6 +209,29 @@ class AuditHistoryTests(TestCase):
         # the rendered audit entry itself is verified above with HTML line breaks.
 
 
+    def test_deleted_series_event_is_not_visible_to_former_series_moderator(self):
+        from .models import AuditEvent
+
+        SeriesAccess.objects.filter(user=self.user, series=self.series).update(
+            role=SeriesAccess.ROLE_MODERATOR
+        )
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("series_delete", args=[self.series.pk]))
+        self.assertRedirects(response, reverse("series_admin"))
+
+        event = AuditEvent.objects.get(action="deleted", summary__contains="Audit-Reihe")
+        self.assertIsNone(event.series_id)
+        response = self.client.get(reverse("audit_history"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Audit-Reihe gelöscht")
+
+        admin = User.objects.create_superuser(
+            username="audit-admin", email="audit-admin@example.com", password="strong-test-password"
+        )
+        self.client.force_login(admin)
+        response = self.client.get(reverse("audit_history"))
+        self.assertContains(response, "Audit-Reihe gelöscht")
+
 class TopicTaskManagementTests(TestCase):
     def setUp(self):
         self.owner = User.objects.create_user(username="owner", password="strong-test-password")
@@ -1132,3 +1155,77 @@ class AgendaItemDeletionTests(TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertTrue(AgendaItem.objects.filter(pk=self.other_item.pk).exists())
+
+
+class RepositoryAuditRegressionTests(TestCase):
+    def test_meeting_delete_merges_status_assignment_and_followup_link(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from .models import AuditEvent
+
+        today = timezone.localdate()
+        series = MeetingSeries.objects.create(name="Punktübernahme")
+        moderator = User.objects.create_user(username="merge-moderator", password="strong-test-password")
+        retained_assignee = User.objects.create_user(username="retained-owner", password="strong-test-password")
+        source_assignee = User.objects.create_user(username="source-owner", password="strong-test-password")
+        SeriesAccess.objects.create(user=moderator, series=series, role=SeriesAccess.ROLE_MODERATOR)
+        source_meeting = Meeting.objects.create(series=series, date=today + timedelta(days=1))
+        target_meeting = Meeting.objects.create(series=series, date=today + timedelta(days=8))
+        later_meeting = Meeting.objects.create(series=series, date=today + timedelta(days=15))
+        topic = Topic.objects.create(title="Zusammengeführtes Thema", series=series)
+        source_item = AgendaItem.objects.create(
+            meeting=source_meeting, topic=topic, working_text="Quelltext",
+            assigned_to=source_assignee, status="done",
+        )
+        target_item = AgendaItem.objects.create(
+            meeting=target_meeting, topic=topic, working_text="Zieltext",
+            assigned_to=retained_assignee, status="open",
+        )
+        followup = AgendaItem.objects.create(
+            meeting=later_meeting, topic=topic, working_text="Wiedervorlage",
+            followup_of=source_item,
+        )
+
+        self.client.force_login(moderator)
+        response = self.client.post(reverse("meeting_delete", args=[source_meeting.pk]))
+        self.assertRedirects(response, reverse("series_admin"))
+
+        target_item.refresh_from_db()
+        followup.refresh_from_db()
+        self.assertEqual(target_item.status, "done")
+        self.assertEqual(target_item.assigned_to, retained_assignee)
+        self.assertEqual(target_item.working_text, "Zieltext\nQuelltext")
+        self.assertEqual(followup.followup_of, target_item)
+        self.assertTrue(AuditEvent.objects.filter(
+            action="deleted", series=series, summary__contains="Punktübernahme"
+        ).exists())
+
+    def test_finalize_rolls_back_partial_snapshots_on_failure(self):
+        from datetime import date
+        from unittest.mock import patch
+        from .models import TopicSnapshot
+        from .services import finalize_meeting
+
+        series = MeetingSeries.objects.create(name="Atomarer Abschluss")
+        meeting = Meeting.objects.create(series=series, date=date(2026, 12, 20))
+        first = Topic.objects.create(title="Erster Snapshot", series=series)
+        second = Topic.objects.create(title="Zweiter Snapshot", series=series)
+        AgendaItem.objects.create(meeting=meeting, topic=first, working_text="Erster Text")
+        AgendaItem.objects.create(meeting=meeting, topic=second, working_text="Zweiter Text")
+        original = TopicSnapshot.objects.get_or_create
+        calls = 0
+
+        def fail_on_second_snapshot(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise RuntimeError("Simulierter Snapshot-Fehler")
+            return original(*args, **kwargs)
+
+        with patch("meetings.services.TopicSnapshot.objects.get_or_create", side_effect=fail_on_second_snapshot):
+            with self.assertRaises(RuntimeError):
+                finalize_meeting(meeting)
+
+        meeting.refresh_from_db()
+        self.assertIsNone(meeting.finalized_at)
+        self.assertFalse(TopicSnapshot.objects.filter(meeting=meeting).exists())
