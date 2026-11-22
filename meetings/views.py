@@ -888,58 +888,54 @@ def agenda_topic_history(request, pk, topic_pk):
 
 @transaction.atomic
 def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=None):
-    """Move future, unfinalized agenda entries when a topic changes series."""
+    """Move future entries while retaining predecessor and successor links."""
     if from_series == to_series:
         return 0
     today = timezone.localdate()
-    source_items = list(
-        AgendaItem.objects.filter(
-            topic=topic, meeting__series=from_series,
-            meeting__date__gte=today, meeting__finalized_at__isnull=True,
-        ).exclude(pk__in=exclude_item_ids or []).select_related("meeting").order_by("meeting__date", "position", "pk")
-    )
+    source_items = list(AgendaItem.objects.filter(
+        topic=topic, meeting__series=from_series, meeting__date__gte=today,
+        meeting__finalized_at__isnull=True,
+    ).exclude(pk__in=exclude_item_ids or []).select_related("meeting", "followup_of").order_by("meeting__date", "position", "pk"))
     moved = 0
     for item in source_items:
-        target_meeting = (
-            Meeting.objects.filter(
-                series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True,
-            ).order_by("date", "pk").first()
-        )
+        target_meeting = Meeting.objects.filter(series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True).order_by("date", "pk").first()
         if target_meeting is None and to_series is not None:
             extension_end = date(max(today.year + 1, item.meeting.date.year + 1), 12, 31)
             if not to_series.end_date or to_series.end_date < extension_end:
                 to_series.end_date = extension_end
                 to_series.save(update_fields=["end_date"])
             generate_meetings(to_series)
-            target_meeting = (
-                Meeting.objects.filter(
-                    series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True,
-                ).order_by("date", "pk").first()
-            )
+            target_meeting = Meeting.objects.filter(series=to_series, date__gte=item.meeting.date, finalized_at__isnull=True).order_by("date", "pk").first()
         if target_meeting is None and to_series is None:
-            target_meeting = Meeting.objects.create(
-                series=None, date=item.meeting.date, title="",
-            )
+            target_meeting = Meeting.objects.create(series=None, date=item.meeting.date, title="")
         if target_meeting is None:
             target_name = to_series.name if to_series else "Ohne Besprechungsreihe"
             raise ValueError(f"Für „{target_name}“ konnte kein zukünftiger Besprechungstermin gefunden werden.")
-
         target_item = target_meeting.agenda_items.filter(topic=topic).first()
         if target_item:
-            if item.working_text:
-                target_item.working_text = "\n".join(
-                    part for part in [target_item.working_text, item.working_text] if part
-                )
+            source_parent = item.followup_of
+            source_child = AgendaItem.objects.filter(followup_of=item).first()
+            target_parent = target_item.followup_of
+            target_child = AgendaItem.objects.filter(followup_of=target_item).first()
+            if source_parent and target_parent and source_parent.pk != target_parent.pk:
+                raise ValueError("Zusammenführung abgebrochen: unterschiedliche Wiedervorlage-Vorgänger.")
+            if source_child and target_child and source_child.pk != target_child.pk:
+                raise ValueError("Zusammenführung abgebrochen: unterschiedliche Wiedervorlage-Nachfolger.")
+            target_item.working_text = "\n".join(x for x in [target_item.working_text, item.working_text] if x)
             if item.assigned_to_id and not target_item.assigned_to_id:
                 target_item.assigned_to_id = item.assigned_to_id
             target_item.status = item.status
-            target_item.save(update_fields=["working_text", "assigned_to", "status"])
+            if source_parent and not target_parent:
+                item.followup_of = None
+                item.save(update_fields=["followup_of"])
+                target_item.followup_of = source_parent
+            if source_child and not target_child:
+                source_child.followup_of = target_item
+                source_child.save(update_fields=["followup_of"])
+            target_item.save(update_fields=["working_text", "assigned_to", "status", "followup_of"])
             item.delete()
         else:
-            next_position = (
-                target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first()
-                if target_meeting.agenda_items.exists() else -1
-            ) + 1
+            next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
             item.meeting = target_meeting
             item.position = next_position
             item.save(update_fields=["meeting", "position"])
@@ -1458,7 +1454,7 @@ def series_reset_meetings(request, pk):
                         "old_date": old_meeting.date, "topic": item.topic,
                         "working_text": item.working_text, "position": item.position,
                         "assigned_to_id": item.assigned_to_id, "status": item.status,
-                        "followup_of": item.followup_of if item.followup_of_id not in draft_item_ids else None,
+                        "old_id": item.pk, "followup_of_id": item.followup_of_id,
                     })
                 old_meeting._reset_participants = participants
 
@@ -1477,6 +1473,7 @@ def series_reset_meetings(request, pk):
                     target.participants.add(*participants)
 
             status_rank = {"open": 0, "in_progress": 1, "done": 2}
+            restored_items = {}
             for saved in payload:
                 nearest_targets = sorted(
                     targets, key=lambda m: (abs((m.date - saved["old_date"]).days), m.date)
@@ -1500,18 +1497,31 @@ def series_reset_meetings(request, pk):
                         )
                     if status_rank.get(saved["status"], 0) > status_rank.get(existing.status, 0):
                         existing.status = saved["status"]
-                    if saved["followup_of"] and not existing.followup_of_id:
-                        existing.followup_of = saved["followup_of"]
-                    existing.carried_forward = True
-                    existing.save(update_fields=["working_text", "assigned_to", "status", "followup_of", "carried_forward"])
+                                        existing.carried_forward = True
+                    existing.save(update_fields=["working_text", "assigned_to", "status", "carried_forward"])
+                    restored_items[saved["old_id"]] = existing
                 else:
                     next_position = (target.agenda_items.order_by("-position").values_list("position", flat=True).first() if target.agenda_items.exists() else -1) + 1
-                    AgendaItem.objects.create(
+                    restored_items[saved["old_id"]] = AgendaItem.objects.create(
                         meeting=target, topic=saved["topic"], working_text=saved["working_text"],
                         position=max(next_position, saved["position"]),
                         assigned_to_id=saved["assigned_to_id"], status=saved["status"],
-                        carried_forward=True, followup_of=saved["followup_of"],
+                        carried_forward=True,
                     )
+            for saved in payload:
+                predecessor_id = saved["followup_of_id"]
+                if not predecessor_id:
+                    continue
+                restored = restored_items[saved["old_id"]]
+                predecessor = restored_items.get(predecessor_id) or AgendaItem.objects.filter(pk=predecessor_id).first()
+                if predecessor is None:
+                    raise ValueError("Eine Wiedervorlage konnte beim Zurücksetzen nicht mehr zugeordnet werden.")
+                if restored.followup_of_id and restored.followup_of_id != predecessor.pk:
+                    raise ValueError("Eine Wiedervorlage kollidiert beim Zurücksetzen mit einer bestehenden Verknüpfung.")
+                if AgendaItem.objects.filter(followup_of=predecessor).exclude(pk=restored.pk).exists():
+                    raise ValueError("Ein Wiedervorlage-Vorgänger hätte nach dem Zurücksetzen mehrere Nachfolger.")
+                restored.followup_of = predecessor
+                restored.save(update_fields=["followup_of"])
             record_event(
                 actor=request.user, action="series_reset",
                 summary=f"Zukünftige Entwurfstermine der Besprechungsreihe „{series.name}“ neu aufgesetzt",
