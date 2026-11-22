@@ -86,6 +86,7 @@ class AgendaItem(models.Model):
                                     related_name="assigned_meeting_agenda_items", verbose_name="Abweichend verantwortlich")
     position = models.PositiveIntegerField(default=0)
     carried_forward = models.BooleanField(default=False)
+    followup_of = models.OneToOneField("self", on_delete=models.SET_NULL, null=True, blank=True, related_name="followup_item")
 
     class Meta:
         ordering = ["position", "id"]
