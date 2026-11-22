@@ -456,7 +456,7 @@ def agenda_item_delete(request, pk, item_pk):
         changes={"Tagesordnungspunkt": {"vorher": meeting.date.isoformat(), "nachher": None}},
     )
     messages.success(request, f"„{topic.title}“ wurde aus diesem Besprechungstermin entfernt. Das Thema bleibt bestehen.")
-    return redirect("meeting", pk=pk)
+    return redirect("topic_edit", pk=topic.pk)
 
 
 @login_required
