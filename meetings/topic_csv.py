@@ -15,12 +15,13 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 CSV_FIELDS = (
-    "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
+    "record_type", "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
     "topic_status", "agenda_status", "responsible_username", "responsible_kurzbezeichnung",
     "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
+    "followup_series", "followup_meeting_date",
 )
 LEGACY_FIELDS = ("topic_due_date",)
-REQUIRED_FIELDS = ("series", "meeting_date", "topic_title")
+REQUIRED_FIELDS = ("topic_title",)
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
 SESSION_KEY = "pending_topic_agenda_csv_import"
 TOPIC_STATUS_VALUES = {value for value, _ in Topic.STATUS}
@@ -49,9 +50,9 @@ def sample_csv_response():
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten."])
-    writer.writerow(["Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen."])
+    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "", "", "Sachstand der Pilotierung vorstellen; offene Schnittstellen klären.", "", ""])
+    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2027-01-14", "Einführung der E-Akte", "Projektstand und offene technische Fragen", "open", "in_progress", "m.mustermann", "", "a.beispiel", "", "Rückmeldung aus den Pilotbereichen auswerten.", "Lenkungskreis Digitalisierung", "2026-12-03"])
+    writer.writerow(["agenda", "Lenkungskreis Digitalisierung", "Lenkungskreis Digitalisierung", "2026-12-03", "Reguläre Sitzung", "Schulungsplanung", "open", "open", "a.beispiel", "", "", "", "Vorschlag für Schulungsformate und Termine abstimmen.", "", ""])
     _write_csv_documentation(writer)
     return response
 
@@ -99,7 +100,9 @@ def export_topic_agenda_csv(request):
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
     for item in items:
         meeting, topic = item.meeting, item.topic
+        source = item.followup_of
         writer.writerow([_csv_value(value) for value in [
+            "agenda",
             meeting.series.name if meeting.series else "",
             topic.series.name if topic.series else "",
             meeting.date.isoformat(),
@@ -112,6 +115,15 @@ def export_topic_agenda_csv(request):
             item.assigned_to.username if item.assigned_to else "",
             _profile_short_description(item.assigned_to),
             item.working_text,
+            source.meeting.series.name if source and source.meeting.series else "",
+            source.meeting.date.isoformat() if source else "",
+        ]])
+    topics_without_agenda = Topic.objects.filter(agenda_items__isnull=True).select_related("series", "assigned_to").order_by("title", "pk")
+    for topic in topics_without_agenda:
+        writer.writerow([_csv_value(value) for value in [
+            "topic", topic.series.name if topic.series else "", topic.series.name if topic.series else "",
+            "", "", topic.title, topic.status, "", topic.assigned_to.username if topic.assigned_to else "",
+            _profile_short_description(topic.assigned_to), "", "", "", "", "",
         ]])
     _write_csv_documentation(writer)
     return response
@@ -178,9 +190,13 @@ def parse_topic_agenda_csv(text):
         row = {key: (value or "").strip() for key, value in raw.items() if key}
         if not any(row.values()) or (row.get("series") or "").startswith("#"):
             continue
+        record_type = (row.get("record_type") or "agenda").lower()
+        if record_type not in {"agenda", "topic"}:
+            errors.append(f"Zeile {row_number}: Unbekannter record_type „{record_type}“.")
+            continue
         series_name = row.get("series", "")
-        series_id = series_by_name.get(series_name)
-        if not series_id:
+        series_id = series_by_name.get(series_name) if series_name else None
+        if record_type == "agenda" and series_id is None:
             errors.append(f"Zeile {row_number}: Besprechungsreihe „{series_name}“ existiert nicht.")
             continue
         if "topic_series" in headers:
@@ -190,11 +206,10 @@ def parse_topic_agenda_csv(text):
                 errors.append(f"Zeile {row_number}: Zuständige Themenreihe „{topic_series_name}“ existiert nicht.")
                 continue
         else:
-            # Legacy CSV files used one series column for both the meeting and topic.
             topic_series_id = series_id
 
-        meeting_date = _parse_date(row.get("meeting_date"), "meeting_date", row_number, errors, True)
-        legacy_due_date = _parse_date(row.get("topic_due_date"), "topic_due_date", row_number, errors) if "topic_due_date" in headers else None
+        meeting_date = _parse_date(row.get("meeting_date"), "meeting_date", row_number, errors, record_type == "agenda")
+        legacy_due_date = _parse_date(row.get("topic_due_date"), "topic_due_date", row_number, errors) if record_type == "agenda" and "topic_due_date" in headers else None
         title = row.get("topic_title", "")
         meeting_title = row.get("meeting_title", "")
         if not title:
@@ -240,6 +255,16 @@ def parse_topic_agenda_csv(text):
                 else:
                     existing_data[field] = value
 
+        if record_type == "topic":
+            rows.append({"record_type": "topic", "row_number": row_number, "topic_key": topic_key, "topic": topic_data})
+            continue
+        followup_series_name = row.get("followup_series", "")
+        followup_date = _parse_date(row.get("followup_meeting_date"), "followup_meeting_date", row_number, errors) if row.get("followup_meeting_date") else None
+        followup_series_id = series_by_name.get(followup_series_name) if followup_series_name else None
+        if followup_series_name and followup_series_id is None:
+            errors.append(f"Zeile {row_number}: Wiedervorlage-Besprechungsreihe „{followup_series_name}“ existiert nicht.")
+        if bool(followup_series_name) != bool(followup_date):
+            errors.append(f"Zeile {row_number}: followup_series und followup_meeting_date müssen gemeinsam ausgefüllt sein.")
         schedule_rows = [(meeting_date, row.get("agenda_text", ""), agenda_user.pk if agenda_user else None)]
         # Defer synthetic legacy appointments until all explicit CSV rows have
         # been read, so a real row for the same future meeting takes precedence.
@@ -263,13 +288,14 @@ def parse_topic_agenda_csv(text):
             position = positions.get(meeting_key, 0)
             positions[meeting_key] = position + 1
             rows.append({
-                "row_number": row_number, "series_id": series_id, "meeting_date": scheduled_date,
+                "record_type": "agenda", "row_number": row_number, "series_id": series_id, "meeting_date": scheduled_date,
                 "meeting_title": meeting_title, "topic_key": topic_key, "topic": topic_data,
                 "agenda_text": agenda_text, "agenda_assigned_to_id": agenda_assignee_id,
                 "agenda_status": agenda_status,
                 "agenda_text_present": "agenda_text" in headers,
                 "agenda_assignment_present": ("agenda_responsible_username" in headers or "agenda_responsible_kurzbezeichnung" in headers),
                 "agenda_status_present": ("agenda_status" in headers or "topic_status" in headers),
+                "followup_series_id": followup_series_id, "followup_meeting_date": followup_date,
                 "position": position,
             })
 
@@ -286,6 +312,8 @@ def parse_topic_agenda_csv(text):
             "agenda_text": "",
             "agenda_assigned_to_id": None,
             "agenda_status": followup["agenda_status"],
+            "agenda_text_present": True, "agenda_assignment_present": True, "agenda_status_present": True,
+            "record_type": "agenda", "followup_series_id": None, "followup_meeting_date": None,
             "position": position,
         })
 
@@ -295,6 +323,9 @@ def parse_topic_agenda_csv(text):
         return [], errors
 
     for row in rows:
+        if row.get("record_type") == "topic":
+            row["existing_meeting_id"] = None
+            continue
         meeting = Meeting.objects.filter(series_id=row["series_id"], date=row["meeting_date"]).first()
         if meeting and (meeting.finalized_at or meeting.snapshots.exists()):
             errors.append(f"Zeile {row['row_number']}: Der Termin am {row['meeting_date']:%d.%m.%Y} ist abgeschlossen und kann nicht importiert werden.")
@@ -314,12 +345,13 @@ def _preview(rows, topic_ids):
     topics = {row["topic_key"] for row in rows}
     existing_topics = {key for key in topics if topic_ids.get(key)}
     new_topics = topics - existing_topics
+    agenda_rows = [row for row in rows if row.get("record_type") != "topic"]
     new_meetings = {
-        (row["series_id"], row["meeting_date"]) for row in rows if row["existing_meeting_id"] is None
+        (row["series_id"], row["meeting_date"]) for row in agenda_rows if row["existing_meeting_id"] is None
     }
     return {
         "rows": len(rows), "topics": len(topics), "meetings": len(new_meetings),
-        "agenda_items": len(rows), "new_topics": len(new_topics),
+        "agenda_items": len(agenda_rows), "new_topics": len(new_topics),
         "existing_topics": len(existing_topics),
     }
 
@@ -358,6 +390,8 @@ def import_topic_agenda_csv(request):
                     topic.save()
                     topic_records[key] = topic
 
+                if row.get("record_type") == "topic":
+                    continue
                 meeting = Meeting.objects.filter(series_id=row["series_id"], date=row["meeting_date"]).first()
                 if meeting is None:
                     meeting = Meeting.objects.create(
@@ -392,6 +426,25 @@ def import_topic_agenda_csv(request):
                     if changed_fields:
                         agenda_item.save(update_fields=changed_fields)
                     updated_items += 1
+
+            # Restore the explicit source-to-follow-up relation after all rows
+            # have been imported, so source rows may appear later in the CSV.
+            for row in rows:
+                if row.get("record_type") == "topic" or not row.get("followup_series_id"):
+                    continue
+                topic = topic_records[row["topic_key"]]
+                source_meeting = Meeting.objects.filter(
+                    series_id=row["followup_series_id"], date=row["followup_meeting_date"]
+                ).first()
+                target_meeting = Meeting.objects.get(series_id=row["series_id"], date=row["meeting_date"])
+                source_item = AgendaItem.objects.filter(meeting=source_meeting, topic=topic).first() if source_meeting else None
+                target_item = AgendaItem.objects.filter(meeting=target_meeting, topic=topic).first()
+                if source_item is None or target_item is None or source_item.pk == target_item.pk:
+                    raise ValueError("Eine Wiedervorlage verweist auf keinen passenden Quell-Tagesordnungspunkt.")
+                if AgendaItem.objects.filter(followup_of=source_item).exclude(pk=target_item.pk).exists():
+                    raise ValueError("Für den Quell-Tagesordnungspunkt existiert bereits eine andere Wiedervorlage.")
+                target_item.followup_of = source_item
+                target_item.save(update_fields=["followup_of"])
         request.session.pop(SESSION_KEY, None)
         messages.success(
             request,
