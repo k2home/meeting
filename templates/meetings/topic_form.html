@@ -71,6 +71,10 @@
           <button type="submit">Besprechungstext speichern</button>
           <a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Zur Tagesordnung</a>
           <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll ansehen</a>
+          <form method="post" action="{% url 'agenda_item_delete' item.meeting_id item.pk %}" onsubmit="return confirm('„{{ topic.title|escapejs }}“ nur aus dem Besprechungstermin am {{ item.meeting.date|date:'d.m.Y' }} entfernen? Das Thema und andere Termine bleiben erhalten.');">
+            {% csrf_token %}
+            <button type="submit" class="secondary" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'d.m.Y' }} entfernen">Punkt aus diesem Termin entfernen</button>
+          </form>
         </div>
        </form>
      {% endif %}
