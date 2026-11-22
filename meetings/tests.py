@@ -521,8 +521,8 @@ class TopicAgendaCsvImportTests(TestCase):
         topic = Topic.objects.get(title="Neues Thema")
         meeting = Meeting.objects.get(series=self.series, date="2026-12-03")
         item = AgendaItem.objects.get(meeting=meeting, topic=topic)
-        self.assertEqual(topic.description, "")
-        self.assertEqual(item.working_text, "Aktueller Stand\nBeratungstext")
+        self.assertEqual(topic.description, "Aktueller Stand")
+        self.assertEqual(item.working_text, "Beratungstext")
         self.assertEqual(item.position, 0)
         self.assertFalse(item.carried_forward)
 
