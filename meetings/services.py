@@ -5,8 +5,8 @@ from .models import Meeting, AgendaItem, Topic, TopicSnapshot, TopicComment
 from .user_display import user_display_name
 
 def ensure_agenda(meeting):
-    """Return explicit agenda items and carry forward unresolved items once."""
-    if meeting.series_id is None:
+    """Return agenda items; finalized meetings are strictly read-only."""
+    if meeting.finalized_at or meeting.series_id is None:
         return meeting.agenda_items.select_related("topic", "assigned_to", "topic__assigned_to").all()
 
     previous = (
@@ -75,9 +75,12 @@ def generate_meetings(series):
 
     obsolete_qs = Meeting.objects.filter(series=series, date__gte=today, finalized_at__isnull=True)
     if not desired_dates:
-        if obsolete_qs.filter(agenda_items__isnull=False).exists():
-            raise ValueError("Der neue Terminplan enthält keinen zukünftigen Termin, auf den vorhandene Tagesordnungspunkte übertragen werden können. Bitte passe Start- oder Enddatum an.")
-        obsolete_qs.delete()
+        if obsolete_qs.exists():
+            raise ValueError(
+                "Der neue Terminplan enthält keinen zukünftigen Termin. "
+                "Vorhandene Entwurfstermine bleiben erhalten, damit Teilnehmende und Inhalte nicht verloren gehen. "
+                "Bitte passe Start- oder Enddatum an."
+            )
         return []
 
     desired_meetings, created = {}, []
