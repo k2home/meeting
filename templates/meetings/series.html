@@ -7,7 +7,7 @@
 
 <div class="series-list">
   {% for s in series %}
-    <section class="card series-entry" style="margin-bottom:1rem">
+    <section class="card series-entry" id="series-{{ s.pk }}" style="margin-bottom:1rem">
       <div class="topline" style="align-items:flex-start;gap:1rem">
         <div style="min-width:0">
           <h2 style="margin:0 0 .35rem">{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% else %}<span class="pill">Aktiv</span>{% endif %}</h2>
@@ -17,7 +17,7 @@
           <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
           <div style="margin-top:.25rem;padding:.45rem .55rem;min-width:min(14rem,80vw);background:var(--surface);border:1px solid var(--border);border-radius:5px">
             <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
-            <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" onsubmit="return confirm(this.delete_completed.checked ? 'Die Reihe und alle abgeschlossenen Besprechungen samt Protokollen endgültig löschen?' : 'Die Reihe löschen? Zukünftige, noch nicht abgeschlossene Termine werden entfernt. Abgeschlossene und sonstige verbleibende Besprechungen bleiben erhalten.');">
+            <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" data-inline-confirm>
               {% csrf_token %}
               <p style="margin:.25rem 0 .5rem"><strong>Reihe löschen</strong></p>
               <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.9rem;margin-bottom:.75rem">
@@ -28,7 +28,7 @@
             </form>
           </div>
         </details>
-        <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.35rem" onsubmit="return confirm('Die Terminserie bis zum 31.12. des Folgejahres verlängern?');">
+        <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.35rem">
           {% csrf_token %}<button class="secondary" type="submit">Verlängern</button>
         </form>
       </div>
@@ -51,7 +51,7 @@
               <a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>
             {% endif %}
             {% if not s.next_meeting.finalized_at and not s.next_meeting.agenda_items.exists and not s.next_meeting.participants.exists and not s.next_meeting.snapshots.exists %}
-              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" onsubmit="return confirm('Diesen leeren Einzeltermin wirklich löschen?');">
+              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" data-inline-confirm>
                 {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
               </form>
             {% endif %}
@@ -62,7 +62,7 @@
       {% endif %}
 
       {% if s.other_meetings %}
-        <details style="margin-top:.75rem">
+        <details style="margin-top:.75rem" {% if expanded_series_id == s.pk|stringformat:"s" %}open{% endif %}>
           <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">Alle weiteren Termine anzeigen ({{ s.other_meetings|length }})</summary>
           <div style="overflow-x:auto;margin-top:.5rem">
             <table><thead><tr><th>Termin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
@@ -74,7 +74,7 @@
                   <a class="btn secondary" href="{% url 'meeting' m.pk %}">Öffnen</a>
                   {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
                   {% if not m.finalized_at and not m.agenda_items.exists and not m.participants.exists %}
-                    <form method="post" action="{% url 'meeting_delete' m.pk %}" onsubmit="return confirm('Diesen leeren Einzeltermin wirklich löschen?');">
+                    <form method="post" action="{% url 'meeting_delete' m.pk %}" data-inline-confirm>
                       {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
                     </form>
                   {% endif %}

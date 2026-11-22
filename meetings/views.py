@@ -1072,6 +1072,7 @@ def series_admin(request):
         item.meeting_count = len(item.ordered_meetings)
         item.completed_count = sum(1 for meeting in item.ordered_meetings if meeting.finalized_at)
         item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
+    expanded_series_id = request.GET.get("expanded", "")
     form = SeriesForm(request.POST or None)
     form.fields.pop("end_date", None)
     if request.method == "POST" and form.is_valid():
@@ -1086,6 +1087,7 @@ def series_admin(request):
         return redirect("series_admin")
     return render(request, "meetings/series.html", {
         "series": series, "form": form, "today": today,
+        "expanded_series_id": expanded_series_id,
     })
 
 
@@ -1141,12 +1143,16 @@ def series_extend(request, pk):
         series.end_date = target_end
         series.save(update_fields=["end_date"])
     created = generate_meetings(series)
+    scheduled_count = Meeting.objects.filter(
+        series=series, date__gte=today, date__lte=series.end_date
+    ).count()
+    skipped_count = max(0, scheduled_count - len(created))
     messages.success(
         request,
-        f"Die Reihe wurde bis zum {series.end_date:%d.%m.%Y} verlängert. "
-        f"{len(created)} neue Termine wurden angelegt."
+        f"Die Reihe reicht jetzt bis zum {series.end_date:%d.%m.%Y}. "
+        f"{len(created)} neue Termine angelegt; {skipped_count} bereits vorhandene Termine übersprungen."
     )
-    return redirect("series_admin")
+    return redirect(f"{reverse('series_admin')}?expanded={series.pk}#series-{series.pk}")
 
 
 @login_required

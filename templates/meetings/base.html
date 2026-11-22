@@ -35,7 +35,7 @@ td,th{text-align:left;padding:.65rem;border-bottom:1px solid var(--border);verti
 th{color:#4b5563;font-size:.9rem}
 .btn,button{background:var(--hagen-blue);color:white;border:0;border-radius:4px;padding:.72rem 1rem;cursor:pointer;text-decoration:none;display:inline-block;font:inherit;font-weight:600}
 .btn.secondary,button.secondary{background:#fff3bf;color:#243247}
-.btn.danger,button.danger{background:#a12626}
+.btn.danger,button.danger{background:#a12626}button[data-inline-confirm-armed="true"]{background:#7f1d1d;outline:3px solid #ffcc00;outline-offset:2px}
 .btn:hover,button:hover{filter:brightness(.94)}
 .actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
 .actions form{margin:0}
@@ -204,5 +204,33 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 })();
 </script>
 {% endif %}
+
+<script>
+document.addEventListener("submit", function (event) {
+  const form = event.target.closest("form[data-inline-confirm]");
+  if (!form) return;
+  if (form.dataset.confirmed === "true") return;
+  event.preventDefault();
+  const button = event.submitter || form.querySelector('button[type="submit"], button:not([type])');
+  if (!button) return;
+  button.dataset.originalLabel = button.dataset.originalLabel || button.textContent.trim();
+  button.textContent = "Sicher?";
+  button.dataset.inlineConfirmArmed = "true";
+  button.setAttribute("aria-label", "Erneut klicken, um endgültig zu löschen");
+  form.dataset.confirmed = "true";
+});
+document.addEventListener("change", function (event) {
+  const form = event.target.closest("form[data-inline-confirm]");
+  if (!form || event.target.matches("button")) return;
+  form.dataset.confirmed = "false";
+  const button = form.querySelector("button[data-inline-confirm-armed='true']");
+  if (button) {
+    button.textContent = button.dataset.originalLabel || "Löschen";
+    delete button.dataset.inlineConfirmArmed;
+    button.removeAttribute("aria-label");
+  }
+});
+</script>
+
 </body>
 </html>
