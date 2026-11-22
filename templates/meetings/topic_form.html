@@ -29,16 +29,16 @@
 </section>
 {% else %}
 <div class="card topic-hero">
-  <div><p class="muted">Thema #{{ topic.pk }} · {{ topic.series.name|default:"Ohne Besprechungsreihe" }}</p><h1>{{ topic.title }}</h1></div>
+  <div><h1>{{ topic.title }}</h1></div>
   {% if not is_reader %}<a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a>{% endif %}
 </div>
 <div class="topic-layout">
  <main class="topic-main">
   <section class="card">
    <h2>Thementitel</h2>
-   {% if is_reader %}<label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}
+   {% if is_reader %}{{ form.title }}
    {% else %}<form method="post">{% csrf_token %}
-     {{ form.title.errors }}<label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}
+     {{ form.title.errors }}{{ form.title }}
      <button type="submit">Titel speichern</button>
    </form>{% endif %}
   </section>
