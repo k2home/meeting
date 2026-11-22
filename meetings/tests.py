@@ -230,7 +230,7 @@ class AuditHistoryTests(TestCase):
         )
         self.client.force_login(admin)
         response = self.client.get(reverse("audit_history"))
-        self.assertContains(response, "Audit-Reihe gelöscht")
+        self.assertContains(response, "Audit-Reihe“ gelöscht")
 
 class TopicTaskManagementTests(TestCase):
     def setUp(self):
