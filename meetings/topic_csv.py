@@ -95,7 +95,7 @@ def export_topic_agenda_csv(request):
             meeting.date.isoformat(),
             meeting.title,
             topic.title,
-            "",
+            topic.description,
             item.status,
             "",
             "",
@@ -210,15 +210,11 @@ def parse_topic_agenda_csv(text):
             continue
 
         topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
-        topic_data = {"series_id": topic_series_id, "title": title}
+        topic_data = {"series_id": topic_series_id, "title": title, "description": row.get("topic_current_status", "")}
         if topic_key not in topic_records:
             topic_records[topic_key] = {"topic": topic_data, "row": row_number}
 
-        legacy_text = row.get("topic_current_status", "")
-        agenda_text = row.get("agenda_text", "")
-        if legacy_text and legacy_text not in agenda_text:
-            agenda_text = "\n".join(part for part in (legacy_text, agenda_text) if part)
-        schedule_rows = [(meeting_date, agenda_text, agenda_user.pk if agenda_user else None)]
+        schedule_rows = [(meeting_date, row.get("agenda_text", ""), agenda_user.pk if agenda_user else None)]
         # Defer synthetic legacy appointments until all explicit CSV rows have
         # been read, so a real row for the same future meeting takes precedence.
         if legacy_due_date and legacy_due_date != meeting_date:
@@ -322,6 +318,7 @@ def import_topic_agenda_csv(request):
                         created_topics += 1
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
+                    topic.description = data["description"]
                     topic.save()
                     topic_records[key] = topic
 
