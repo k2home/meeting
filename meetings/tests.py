@@ -26,6 +26,26 @@ class TopicWorkflowTests(TestCase):
         SeriesAccess.objects.create(user=self.user, series=self.series_b)
         self.topic = Topic.objects.create(title="Testthema", series=self.series_a)
 
+    def test_transfer_moves_future_agenda_items_and_keeps_point_responsibility(self):
+        from datetime import date
+        source_meeting = Meeting.objects.create(series=self.series_a, date=date(2026, 12, 3))
+        target_meeting = Meeting.objects.create(series=self.series_b, date=date(2026, 12, 10))
+        item = AgendaItem.objects.create(
+            meeting=source_meeting, topic=self.topic, working_text="Noch zu beraten",
+            assigned_to=self.user,
+        )
+
+        response = self.client.post(reverse("topic_transfer", args=[self.topic.pk]), {
+            "series": self.series_b.pk, "note": "Gremienwechsel",
+        })
+
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        item.refresh_from_db()
+        self.assertEqual(item.meeting, target_meeting)
+        self.assertEqual(item.working_text, "Noch zu beraten")
+        self.assertEqual(item.assigned_to, self.user)
+        self.assertFalse(AgendaItem.objects.filter(meeting=source_meeting, topic=self.topic).exists())
+
     def test_archive_and_reopen_topic(self):
         response = self.client.post(reverse("topic_archive", args=[self.topic.pk]))
         self.assertRedirects(response, reverse("archive"))
