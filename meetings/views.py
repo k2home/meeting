@@ -326,11 +326,16 @@ def my_tasks(request):
         accessible_topics(request.user)
         .filter(assigned_to=request.user, status__in=["open", "in_progress"])
         .select_related("series")
-        .annotate(next_meeting_date=Min(
-            "agenda_items__meeting__date",
-            filter=Q(agenda_items__meeting__finalized_at__isnull=True)
-            & Q(agenda_items__meeting__date__gte=today),
-        ))
+        .annotate(
+            next_meeting_date=Min(
+                "agenda_items__meeting__date",
+                filter=Q(agenda_items__meeting__finalized_at__isnull=True),
+            ),
+            latest_agenda_text=Subquery(
+                AgendaItem.objects.filter(topic=OuterRef("pk"))
+                .order_by("-meeting__date", "-pk").values("working_text")[:1]
+            ),
+        )
         .distinct()
         .order_by(F("next_meeting_date").asc(nulls_last=True), "title")
     )
