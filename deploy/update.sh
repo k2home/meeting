@@ -84,8 +84,8 @@ path = pathlib.Path(sys.argv[1])
 content = path.read_text(encoding="utf-8")
 policy = '        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;'
 
-static_pattern = r"(location /static/\\s*\\{)(.*?)(\\n    \\})"
-root_pattern = r"(location /\\s*\\{)(.*?)(\\n    \\})"
+static_pattern = r"(location /static/\s*\{)(.*?)(\n    \})"
+root_pattern = r"(location /\s*\{)(.*?)(\n    \})"
 static_match = re.search(static_pattern, content, re.S)
 root_match = re.search(root_pattern, content, re.S)
 if not static_match or not root_match:
@@ -93,8 +93,38 @@ if not static_match or not root_match:
     sys.exit(2)
 
 static_body = static_match.group(2)
-static_body = re.sub(r"^\\s*expires\\s+[^;]+;\\s*$", "", static_body, flags=re.M)
-static_body = re.sub(r'^\\s*add_header Cache-Control "public";\\s*runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
+static_body = re.sub(r"^\s*expires\s+[^;]+;\s*$", "", static_body, flags=re.M)
+static_body = re.sub(r'^\s*add_header Cache-Control "[^"]+"(?:\s+always)?;\s*$', "", static_body, flags=re.M)
+static_body = static_body.rstrip() + "\n" + policy
+content = content[:static_match.start(2)] + static_body + content[static_match.end(2):]
+
+root_match = re.search(root_pattern, content, re.S)
+root_body = root_match.group(2)
+root_body = re.sub(r'^\s*add_header Cache-Control "[^"]+"(?:\s+always)?;\s*$', "", root_body, flags=re.M)
+root_body = root_body.rstrip() + "\n" + policy
+content = content[:root_match.start(2)] + root_body + content[root_match.end(2):]
+path.write_text(content, encoding="utf-8")
+PY
+  then
+    if nginx -t; then
+      systemctl reload nginx
+      rm -f "$NGINX_BACKUP"
+      echo "Nginx-Cache deaktiviert: HTML-Seiten und statische Assets werden nicht mehr zwischengespeichert."
+    else
+      cp -a "$NGINX_BACKUP" "$ACTIVE_NGINX"
+      rm -f "$NGINX_BACKUP"
+      nginx -t
+      echo "Nginx-Änderung zurückgerollt; aktive Konfiguration blieb unverändert." >&2
+      exit 1
+    fi
+  else
+    cp -a "$NGINX_BACKUP" "$ACTIVE_NGINX"
+    rm -f "$NGINX_BACKUP"
+    echo "Update abgebrochen: Nginx-Cache-Konfiguration konnte nicht sicher angepasst werden." >&2
+    exit 1
+  fi
+fi
+runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
 runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
 # Keep collected CSS/JS readable and traversable by Nginx (www-data).
