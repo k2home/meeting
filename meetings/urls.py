@@ -24,6 +24,7 @@ urlpatterns = [
     path("topics/<int:pk>/comments/add/", views.topic_comment_add, name="topic_comment_add"),
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
+    path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
     path("admin/series/", views.series_admin, name="series_admin"),
