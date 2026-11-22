@@ -1191,21 +1191,25 @@ def series_edit(request, pk):
         if conflicts.exists():
             form.add_error("weekday", "Die Verschiebung würde mit einem bereits abgeschlossenen oder anderweitig bestehenden Termin kollidieren.")
         else:
-            with transaction.atomic():
-                updated = form.save()
-                if weekday_delta:
-                    for meeting in future:
-                        meeting.date = meeting.date + timedelta(days=36500)
-                        meeting.save(update_fields=["date"])
-                    for meeting in future:
-                        meeting.date = meeting.date - timedelta(days=36500 - weekday_delta)
-                        meeting.save(update_fields=["date"])
-                    if "start_date" not in form.changed_data:
-                        updated.start_date = updated.start_date + timedelta(days=weekday_delta)
-                        updated.save(update_fields=["start_date"])
-                generate_meetings(updated)
-            messages.success(request, "Besprechungsreihe gespeichert. Noch nicht abgeschlossene zukünftige Termine wurden auf den neuen Wochentag verschoben.")
-            return redirect("series_admin")
+            try:
+                with transaction.atomic():
+                    updated = form.save()
+                    if weekday_delta:
+                        for meeting in future:
+                            meeting.date = meeting.date + timedelta(days=36500)
+                            meeting.save(update_fields=["date"])
+                        for meeting in future:
+                            meeting.date = meeting.date - timedelta(days=36500 - weekday_delta)
+                            meeting.save(update_fields=["date"])
+                        if "start_date" not in form.changed_data:
+                            updated.start_date = updated.start_date + timedelta(days=weekday_delta)
+                            updated.save(update_fields=["start_date"])
+                    generate_meetings(updated)
+            except ValueError as exc:
+                form.add_error(None, str(exc))
+            else:
+                messages.success(request, "Besprechungsreihe gespeichert. Tagesordnungspunkte aus entfallenden zukünftigen Terminen wurden dem zeitlich nächstgelegenen neuen Termin zugeordnet; abgeschlossene Protokolle blieben unverändert.")
+                return redirect("series_admin")
     return render(request, "meetings/series_edit.html", {"form": form, "series": series})
 
 
