@@ -281,19 +281,24 @@ class MyTasksViewTests(TestCase):
         AgendaItem.objects.create(meeting=other_meeting, topic=done_topic, assigned_to=self.user, status="done")
         self.client.force_login(self.user)
 
-    def test_my_tasks_shows_only_my_open_agenda_items_and_overdue_summary(self):
+    def test_my_tasks_separates_main_ownership_from_future_agenda_assignments(self):
         response = self.client.get(reverse("my_tasks"))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(list(response.context["topics"]), [self.overdue, self.due_today, self.point_assigned])
-        self.assertEqual(response.context["overdue_count"], 1)
-        self.assertEqual(response.context["due_today_count"], 1)
-        self.assertEqual(response.context["without_meeting_count"], 0)
-        self.assertContains(response, "Überfällig")
-        self.assertContains(response, "Heute auf der Tagesordnung")
+        self.assertEqual(list(response.context["main_topics"]), [])
+        self.assertEqual([item.topic for item in response.context["agenda_tasks"]], [self.due_today, self.point_assigned])
+        self.assertContains(response, "Hauptzuständigkeit")
+        self.assertContains(response, "Eigene Zuständigkeiten bei zukünftigen Terminen")
         self.assertContains(response, "Punktaufgabe")
         self.assertNotContains(response, "Aufgabe anderer Person")
         self.assertNotContains(response, "Nicht zugewiesen")
         self.assertNotContains(response, "Erledigter Tagesordnungspunkt")
+
+    def test_my_tasks_lists_topic_owner_separately(self):
+        self.overdue.assigned_to = self.user
+        self.overdue.save(update_fields=["assigned_to"])
+        response = self.client.get(reverse("my_tasks"))
+        self.assertEqual(list(response.context["main_topics"]), [self.overdue])
+        self.assertNotIn(self.overdue, [item.topic for item in response.context["agenda_tasks"]])
 
     def test_my_tasks_requires_login(self):
         self.client.logout()
