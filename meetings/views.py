@@ -1294,7 +1294,8 @@ def meeting_delete(request, pk):
             .order_by("date", "pk")
             .first()
         )
-        if meeting.agenda_items.exists() and target is None:
+        has_content_to_preserve = meeting.agenda_items.exists() or meeting.participants.exists()
+        if has_content_to_preserve and target is None:
             today = timezone.localdate()
             target_end = date(today.year + 1, 12, 31)
             if not meeting.series.end_date or meeting.series.end_date < target_end:
@@ -1307,11 +1308,13 @@ def meeting_delete(request, pk):
                 .order_by("date", "pk")
                 .first()
             )
-        if meeting.agenda_items.exists() and target is None:
+        if has_content_to_preserve and target is None:
             messages.error(request, "Es konnte kein nachfolgender Termin für die Tagesordnungspunkte angelegt werden. Der Termin bleibt erhalten.")
             return redirect("meeting", pk=pk)
 
         if target is not None:
+            if meeting.participants.exists():
+                target.participants.add(*meeting.participants.all())
             next_position = (
                 target.agenda_items.order_by("-position").values_list("position", flat=True).first()
                 if target.agenda_items.exists() else -1
