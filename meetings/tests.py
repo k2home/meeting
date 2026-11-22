@@ -1443,3 +1443,61 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
             "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht gelöscht werden.",
             stored_messages,
         )
+
+
+class UserOverviewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="profile-user", password="old-strong-password",
+            first_name="Ada", last_name="Beispiel", email="ada@example.test",
+        )
+        self.series = MeetingSeries.objects.create(name="Profil-Reihe")
+        SeriesAccess.objects.create(
+            user=self.user, series=self.series, role=SeriesAccess.ROLE_READER
+        )
+        self.client.force_login(self.user)
+
+    def test_user_overview_shows_series_role_and_profile_fields(self):
+        response = self.client.get(reverse("user_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Ada")
+        self.assertContains(response, "ada@example.test")
+        self.assertContains(response, "Profil-Reihe")
+        self.assertContains(response, "Leser")
+        self.assertNotContains(response, "Admin – globaler Zugriff")
+
+    def test_user_can_edit_own_profile(self):
+        response = self.client.post(reverse("user_overview"), {
+            "form_type": "profile",
+            "first_name": "Grace",
+            "last_name": "Hopper",
+            "email": "grace@example.test",
+            "short_description": "Projektleitung",
+        })
+        self.assertRedirects(response, reverse("user_overview"))
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.first_name, "Grace")
+        self.assertEqual(self.user.last_name, "Hopper")
+        self.assertEqual(self.user.email, "grace@example.test")
+        self.assertEqual(self.user.meeting_profile.short_description, "Projektleitung")
+
+    def test_user_can_change_own_password_without_losing_session(self):
+        response = self.client.post(reverse("user_overview"), {
+            "form_type": "password",
+            "old_password": "old-strong-password",
+            "new_password1": "new-strong-password-123",
+            "new_password2": "new-strong-password-123",
+        })
+        self.assertRedirects(response, reverse("user_overview"))
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("new-strong-password-123"))
+        self.assertEqual(int(self.client.session["_auth_user_id"]), self.user.pk)
+
+    def test_admin_sees_global_access_for_all_series(self):
+        from django.contrib.auth.models import Group
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        self.user.groups.add(admin_group)
+        response = self.client.get(reverse("user_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Admin – globaler Zugriff")
+        self.assertEqual(len(response.context["series_rows"]), MeetingSeries.objects.count())
