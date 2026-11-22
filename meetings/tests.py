@@ -1506,8 +1506,8 @@ class UserOverviewTests(TestCase):
         response = self.client.post(reverse("user_overview"), {
             "form_type": "password",
             "old_password": "old-strong-password",
-            "new_password1": "new-strong-password-123",
-            "new_password2": "new-strong-password-123",
+            "new_password1": "New-strong-password-123",
+            "new_password2": "New-strong-password-123",
         })
         self.assertRedirects(response, reverse("user_overview"))
         self.user.refresh_from_db()
