@@ -1167,34 +1167,38 @@ def series_reset_meetings(request, pk):
         messages.error(request, "Im gewählten Serienzeitraum kann kein zukünftiger Termin erzeugt werden. Bitte prüfe Start- und Enddatum oder verlängere die Reihe.")
         return redirect("series_edit", pk=series.pk)
 
-    with transaction.atomic():
-        drafts = Meeting.objects.filter(series=series, finalized_at__isnull=True)
-        agenda_items = list(
-            AgendaItem.objects.filter(meeting__in=drafts)
-            .select_related("topic", "meeting")
-            .order_by("meeting__date", "pk")
-        )
-        carried_topics = {}
-        for agenda_item in agenda_items:
-            carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position)
-
-        drafts.delete()
-        new_meetings = generate_meetings(series)
-        next_meeting = (
-            Meeting.objects.filter(series=series, finalized_at__isnull=True, date__gte=today)
-            .order_by("date", "pk").first()
-        )
-        if next_meeting is None:
-            raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
-        for topic, working_text, position in carried_topics.values():
-            AgendaItem.objects.update_or_create(
-                meeting=next_meeting,
-                topic=topic,
-                defaults={"working_text": working_text, "position": position, "carried_forward": True},
+    try:
+        with transaction.atomic():
+            drafts = Meeting.objects.filter(series=series, finalized_at__isnull=True)
+            agenda_items = list(
+                AgendaItem.objects.filter(meeting__in=drafts)
+                .select_related("topic", "meeting")
+                .order_by("meeting__date", "pk")
             )
-            if topic.due_date != next_meeting.date:
-                topic.due_date = next_meeting.date
-                topic.save(update_fields=["due_date", "updated_at"])
+            carried_topics = {}
+            for agenda_item in agenda_items:
+                carried_topics[agenda_item.topic_id] = (agenda_item.topic, agenda_item.working_text, agenda_item.position)
+    
+            drafts.delete()
+            new_meetings = generate_meetings(series)
+            next_meeting = (
+                Meeting.objects.filter(series=series, finalized_at__isnull=True, date__gte=today)
+                .order_by("date", "pk").first()
+            )
+            if next_meeting is None:
+                raise ValueError("Für diese Reihe konnte kein neuer zukünftiger Termin erzeugt werden.")
+            for topic, working_text, position in carried_topics.values():
+                AgendaItem.objects.update_or_create(
+                    meeting=next_meeting,
+                    topic=topic,
+                    defaults={"working_text": working_text, "position": position, "carried_forward": True},
+                )
+                if topic.due_date != next_meeting.date:
+                    topic.due_date = next_meeting.date
+                    topic.save(update_fields=["due_date", "updated_at"])
+    except ValueError as exc:
+        messages.error(request, str(exc))
+        return redirect("series_edit", pk=series.pk)
 
     messages.success(
         request,
