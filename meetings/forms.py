@@ -46,13 +46,8 @@ class TopicCommentForm(forms.ModelForm):
 class AgendaTextForm(forms.ModelForm):
     class Meta:
         model = AgendaItem
-        fields = ["working_text", "assigned_to"]
+        fields = ["working_text"]
         widgets = {"working_text": forms.Textarea(attrs={"rows": 7})}
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["assigned_to"].queryset = get_user_model().objects.filter(is_active=True).order_by("username")
-        self.fields["assigned_to"].required = False
 
 
 class AgendaItemCreateForm(forms.Form):
