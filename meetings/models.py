@@ -287,8 +287,8 @@ class OrganizationSettings(models.Model):
 
     attachment_max_size_mb = models.PositiveSmallIntegerField(
         "Maximale Dateigröße für Anlagen (MB)", default=20,
-        validators=[MinValueValidator(1), MaxValueValidator(25)],
-        help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 25 MB.",
+        validators=[MinValueValidator(1), MaxValueValidator(24)],
+        help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 24 MB.",
     )
     name = models.CharField(
         "Organisationseinheit", max_length=160, blank=True, default="",
