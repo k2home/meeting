@@ -921,7 +921,8 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
                 )
             if item.assigned_to_id and not target_item.assigned_to_id:
                 target_item.assigned_to_id = item.assigned_to_id
-            target_item.status = item.status\n            target_item.save(update_fields=["working_text", "assigned_to", "status"])
+            target_item.status = item.status
+            target_item.save(update_fields=["working_text", "assigned_to", "status"])
             item.delete()
         else:
             next_position = (
@@ -1487,7 +1488,8 @@ def meeting_delete(request, pk):
                         existing.save(update_fields=["working_text"])
                     if item.assigned_to_id and not existing.assigned_to_id:
                         existing.assigned_to_id = item.assigned_to_id
-                        existing.status = item.status\n                        existing.save(update_fields=["assigned_to", "status"])
+                        existing.status = item.status
+                        existing.save(update_fields=["assigned_to", "status"])
                     item.delete()
                 else:
                     item.meeting = target
