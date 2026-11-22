@@ -19,7 +19,7 @@ class StyledConfirmationDialogTests(SimpleTestCase):
             if root.exists()
             for path in root.rglob("*.html")
         ]
-        native_confirm = re.compile(r"\\bconfirm\\s*\\(")
+        native_confirm = re.compile(r"\bconfirm\s*\(")
         for path in templates:
             with self.subTest(template=path.relative_to(REPOSITORY_ROOT)):
                 source = path.read_text(encoding="utf-8")
