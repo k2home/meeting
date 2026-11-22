@@ -832,3 +832,67 @@ class AgendaFollowupLinkTests(TestCase):
         self.assertEqual(followup.meeting, self.second_target)
         self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
         self.assertFalse(AgendaItem.objects.filter(meeting=self.first_target, topic=self.topic).exists())
+
+
+class RepositoryConsistencyRegressionTests(TestCase):
+    def test_finalize_permission_uses_meeting_series_even_when_topic_ids_collide(self):
+        from datetime import date
+        reader = User.objects.create_user(username="series-reader", password="strong-test-password")
+        meeting_series = MeetingSeries.objects.create(name="Lesereihe")
+        unrelated_series = MeetingSeries.objects.create(name="Fremde Reihe")
+        SeriesAccess.objects.create(user=reader, series=meeting_series, role=SeriesAccess.ROLE_READER)
+        # Make the topic and meeting primary keys collide intentionally.
+        unrelated_topic = Topic.objects.create(title="Unabhängiges Thema", series=unrelated_series)
+        meeting = Meeting.objects.create(pk=unrelated_topic.pk, series=meeting_series, date=date(2026, 12, 1))
+        self.client.force_login(reader)
+        response = self.client.post(reverse("finalize", args=[meeting.pk]))
+        self.assertEqual(response.status_code, 403)
+        meeting.refresh_from_db()
+        self.assertIsNone(meeting.finalized_at)
+
+    def test_smb_paths_are_linked_only_when_scheme_and_authority_are_valid(self):
+        from .models import TopicAttachment
+        topic = Topic.objects.create(title="Netzwerklink")
+        valid = TopicAttachment.objects.create(topic=topic, label="Gültig", network_path="smb://fileserver/freigabe/datei.pdf")
+        unc = TopicAttachment.objects.create(topic=topic, label="UNC", network_path=r"\\\\fileserver\\freigabe\\datei.pdf")
+        unsafe = TopicAttachment.objects.create(topic=topic, label="Unsicher", network_path="javascript:alert(1)")
+        self.assertEqual(valid.network_url, "smb://fileserver/freigabe/datei.pdf")
+        self.assertTrue(unc.network_url.startswith("smb://fileserver/"))
+        self.assertEqual(unsafe.network_url, "")
+
+    def test_protocol_snapshot_status_uses_human_readable_label(self):
+        from datetime import date
+        from .models import TopicSnapshot
+        series = MeetingSeries.objects.create(name="Protokollreihe")
+        meeting = Meeting.objects.create(series=series, date=date(2026, 12, 2))
+        snapshot = TopicSnapshot.objects.create(
+            meeting=meeting, topic_title="Status", text="", status="in_progress", topic_id=42,
+        )
+        self.assertEqual(snapshot.get_status_display(), "In Arbeit")
+
+    def test_recurrence_reconciliation_moves_agenda_to_nearest_generated_meeting(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from .services import generate_meetings
+        today = timezone.localdate()
+        first_date = today + timedelta(days=3)
+        series = MeetingSeries.objects.create(
+            name="Rhythmuswechsel", recurrence="weekly", recurrence_interval=1,
+            weekday=first_date.weekday(), start_date=first_date,
+            end_date=first_date + timedelta(days=14),
+        )
+        obsolete_date = today + timedelta(days=1)
+        obsolete = Meeting.objects.create(series=series, date=obsolete_date)
+        topic = Topic.objects.create(title="Mitnahme", series=series)
+        item = AgendaItem.objects.create(
+            meeting=obsolete, topic=topic, working_text="Muss erhalten bleiben",
+            status="in_progress",
+        )
+        created = generate_meetings(series)
+        item.refresh_from_db()
+        self.assertEqual(item.meeting.date, first_date)
+        self.assertEqual(item.working_text, "Muss erhalten bleiben")
+        self.assertEqual(item.status, "in_progress")
+        self.assertFalse(Meeting.objects.filter(pk=obsolete.pk).exists())
+        self.assertGreaterEqual(len(created), 1)
+
