@@ -149,13 +149,13 @@
           <span class="agenda-title-assignee">
             {% if not meeting.finalized_at and not is_reader %}
             <form method="post" id="topic-assignee-form-{{ item.id }}" class="agenda-status-form">
-              {% csrf_token %}<input type="hidden" name="update_topic_assignee" value="{{ item.id }}">
+              {% csrf_token %}<input type="hidden" name="update_agenda_assignee" value="{{ item.id }}">
             </form>
             <select id="topic-assignee-{{ item.id }}" name="assigned_to" form="topic-assignee-form-{{ item.id }}" aria-label="Zuständigkeit für {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-assignee-form-{{ item.id }}&quot;).requestSubmit()">
-              <option value="">Nicht zugewiesen</option>
-              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.topic.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
+              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Hauptverantwortliche Person{% if item.topic.assigned_to %} ({{ item.topic.assigned_to|user_display }}){% endif %}</option>
+              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
             </select>
-            {% else %}{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>
@@ -179,7 +179,7 @@
             {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
           </select>
           <select name="target_meeting" form="agenda-text-form-{{ item.id }}" aria-label="Termin der Wiedervorlage">
-            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.topic.series_id == target.series_id and item.topic.due_date == target.date %}selected{% endif %}>{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" >{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
           </select>
         </div>
         {% endif %}
@@ -229,7 +229,7 @@
       {% endif %}
   </div>
 {% empty %}
-  <div class="card">Keine Themen auf der Tagesordnung. Fällige Themen werden automatisch ergänzt.</div>
+  <div class="card">Keine Themen auf der Tagesordnung. Nicht erledigte Punkte aus dem letzten Protokoll werden übernommen.</div>
 {% endfor %}
 </div>
 {% if not is_reader and not meeting.finalized_at and items %}<div class="agenda-order-save-row no-print"><button class="meeting-menu-button" type="button" id="save-agenda-order">Speichern</button></div>{% endif %}
