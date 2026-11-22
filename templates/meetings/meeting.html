@@ -485,7 +485,7 @@
       if (controller) controller.abort();
       controller = new AbortController();
       try {
-        const response = await fetch("{% url 'topic_suggestions' %}?q=" + encodeURIComponent(query) + "&series={{ meeting.series_id|default:'' }}", {
+        const response = await fetch("{% url 'topic_suggestions' %}?q=" + encodeURIComponent(query), {
           headers: {"X-Requested-With": "XMLHttpRequest"}, signal: controller.signal
         });
         if (!response.ok) return;
