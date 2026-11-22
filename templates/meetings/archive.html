@@ -2,7 +2,17 @@
 {% load meeting_user_tags %}
 {% block content %}
 <p class="muted"><a href="/">Übersicht</a> / Archiv</p>
-<div class="topline"><div><h1>Erledigte Tagesordnungspunkte</h1><p class="muted">Hier bleiben abgeschlossene Besprechungspunkte mit ihrem jeweiligen Protokolltext erhalten. Das Thema selbst erhält keinen Abschlussstatus.</p></div></div>
+<div class="topline"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></div>
+<section class="card">
+  <h2>Archivierte Themen</h2>
+  {% for topic in archived_topics %}
+  <article class="content-divider">
+    <div class="topline"><div><h3><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · Archiviert</p></div><span class="pill">Archiviert</span></div>
+  </article>
+  {% empty %}<p class="muted">Es gibt keine archivierten Themen.</p>{% endfor %}
+</section>
+<section class="card">
+  <h2>Erledigte Tagesordnungspunkte</h2>
 <section class="card">
 {% for item in items %}
 <article class="content-divider">
