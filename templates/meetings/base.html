@@ -37,14 +37,6 @@ th{color:#4b5563;font-size:.9rem}
 .btn.secondary,button.secondary{background:#fff3bf;color:#243247}
 .btn.danger,button.danger{background:#a12626}
 .btn:hover,button:hover{filter:brightness(.94)}
-.app-confirm-dialog{width:min(92vw,30rem);max-width:30rem;margin:auto;padding:1.4rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;box-shadow:0 1rem 3rem #0004}
-.app-confirm-dialog::backdrop{background:#10182899}
-.app-confirm-dialog h2{margin:0 0 .65rem;font-size:1.2rem}
-.app-confirm-dialog p{margin:.25rem 0 1.25rem;line-height:1.5;white-space:pre-line}
-.app-confirm-actions{display:flex;justify-content:flex-end;gap:.6rem;flex-wrap:wrap}
-.app-confirm-actions button{min-width:7rem}
-.app-confirm-actions .app-confirm-cancel{background:var(--soft-bg);color:var(--text);border:1px solid var(--border)}
-.app-confirm-actions .app-confirm-accept.danger{background:#a12626;color:#fff}
 .actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
 .actions form{margin:0}
 .topline{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}
@@ -244,57 +236,8 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 </script>
 {% endif %}
 
-<dialog id="app-confirm-dialog" class="app-confirm-dialog" aria-labelledby="app-confirm-title" aria-describedby="app-confirm-message">
-  <h2 id="app-confirm-title">Aktion bestätigen</h2>
-  <p id="app-confirm-message"></p>
-  <div class="app-confirm-actions">
-    <button type="button" class="app-confirm-cancel">Abbrechen</button>
-    <button type="button" class="app-confirm-accept">Bestätigen</button>
-  </div>
-</dialog>
-<script>
-(() => {
-  const dialog = document.getElementById("app-confirm-dialog");
-  if (!dialog) return;
-  const message = dialog.querySelector("#app-confirm-message");
-  const cancel = dialog.querySelector(".app-confirm-cancel");
-  const accept = dialog.querySelector(".app-confirm-accept");
-  let pendingForm = null;
-  let pendingSubmitter = null;
-  const reset = () => { pendingForm = null; pendingSubmitter = null; };
-  document.addEventListener("submit", event => {
-    const form = event.target;
-    if (!(form instanceof HTMLFormElement) || !form.matches("form[data-confirm-message]")) return;
-    if (form.dataset.confirmApproved === "true") {
-      delete form.dataset.confirmApproved;
-      return;
-    }
-    event.preventDefault();
-    pendingForm = form;
-    pendingSubmitter = event.submitter || form.querySelector('button[type="submit"],input[type="submit"],button:not([type])');
-    let text = form.dataset.confirmMessage || "Möchtest du diese Aktion wirklich ausführen?";
-    const completed = form.querySelector('input[name="delete_completed"]:checked');
-    if (completed) text += String.fromCharCode(10, 10) + "Achtung: Auch abgeschlossene Besprechungen und ihre Protokolle werden endgültig gelöscht.";
-    message.textContent = text;
-    accept.classList.toggle("danger", Boolean(pendingSubmitter && pendingSubmitter.classList.contains("danger")));
-    dialog.showModal();
-    accept.focus();
-  }, true);
-  cancel.addEventListener("click", () => dialog.close());
-  accept.addEventListener("click", () => {
-    if (!pendingForm) { dialog.close(); return; }
-    const form = pendingForm;
-    const submitter = pendingSubmitter;
-    reset();
-    form.dataset.confirmApproved = "true";
-    dialog.close();
-    if (submitter && submitter.isConnected) form.requestSubmit(submitter);
-    else form.requestSubmit();
-  });
-  dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); });
-  dialog.addEventListener("close", reset);
-})();
-</script>
+{% include "meetings/includes/confirmation_dialog.html" %}
+
 
 </body>
 </html>
