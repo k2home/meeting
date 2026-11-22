@@ -1563,7 +1563,7 @@ def series_delete(request, pk):
             summary=f"Besprechungsreihe „{name}“ gelöscht",
             series=series,
             changes={"Abgeschlossene Termine ebenfalls gelöscht": delete_completed,
-                     "Ehemalige Mitglieder mit Lesezugriff": len(former_access)},
+                     "Ehemalige Mitglieder mit Lesezugriff": len(former_access) if remaining_meeting_ids else 0},
         )
         series.delete()
     messages.success(
