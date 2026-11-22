@@ -48,6 +48,7 @@ class MeetingSeries(models.Model):
 
 class Meeting(models.Model):
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="meetings")
+    archived_series_name = models.CharField("Ursprüngliche Besprechungsreihe", max_length=160, blank=True)
     date = models.DateField("Termin")
     title = models.CharField("Titel", max_length=180, blank=True)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="meeting_participations", verbose_name="Teilnehmer")

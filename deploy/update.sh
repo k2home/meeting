@@ -6,6 +6,21 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
+# Refuse to update a mixed working tree. The live .env is handled separately
+# below because it is intentionally local and may have been tracked by old releases.
+if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env'; then
+  echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env." >&2
+  git -C "$APP_DIR" status --short
+  exit 1
+fi
+UNTRACKED_FILES="$(git -C "$APP_DIR" ls-files --others --exclude-standard | grep -vxF '.env' || true)"
+if [[ -n "$UNTRACKED_FILES" ]]; then
+  echo "Update abgebrochen: Es gibt nicht versionierte Dateien im Repository:" >&2
+  printf '%s\\n' "$UNTRACKED_FILES" >&2
+  exit 1
+fi
+
 # Preserve the live environment file while upgrading from releases where
 # .env was tracked in Git. Restore it after the repository removes that file.
 ENV_BACKUP=""

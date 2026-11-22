@@ -687,7 +687,9 @@ def meeting_detail(request, pk):
                 messages.info(request, "Der Bearbeitungsstand ist unverändert.")
         elif request.POST.get("add_existing_topic"):
             topic = get_object_or_404(accessible_topics(request.user), pk=request.POST.get("add_existing_topic"))
-            if meeting.agenda_items.filter(topic=topic).exists():
+            if topic.status == "archived":
+                messages.error(request, "Archivierte Themen können nicht auf eine Tagesordnung übernommen werden. Öffne das Thema zuerst im Archiv wieder.")
+            elif meeting.agenda_items.filter(topic=topic).exists():
                 messages.info(request, f"„{topic.title}“ steht bereits auf dieser Tagesordnung.")
             else:
                 AgendaItem.objects.create(
@@ -1059,7 +1061,9 @@ def _meeting_participant_names(meeting):
 
 
 def _meeting_series_name(meeting):
-    return meeting.series.name if meeting.series_id else "Gelöschte Besprechungsreihe"
+    if meeting.series_id:
+        return meeting.series.name
+    return meeting.archived_series_name or "Gelöschte Besprechungsreihe"
 
 
 def _protocol_filename(meeting, extension):
@@ -1555,7 +1559,7 @@ def series_delete(request, pk):
             ],
             ignore_conflicts=True,
         )
-        Meeting.objects.filter(series=series).update(series=None)
+        Meeting.objects.filter(series=series).update(archived_series_name=name, series=None)
         # The series and its active assignments are removed; archive access
         # remains attached to each retained historical meeting.
         record_event(
@@ -1613,7 +1617,7 @@ def meeting_delete(request, pk):
         messages.error(request, "Abgeschlossene Besprechungen mit Protokoll können nicht gelöscht werden.")
         return redirect("meeting", pk=pk)
     if not meeting.series_id:
-        messages.error(request, "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht verschoben werden.")
+        messages.error(request, "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht gelöscht werden.")
         return redirect("meeting", pk=pk)
 
     with transaction.atomic():
@@ -1735,7 +1739,7 @@ def meeting_reopen(request, pk):
     with transaction.atomic():
         previous_finalized_at = meeting.finalized_at
         previous_snapshot = list(meeting.snapshots.values(
-            "topic_title", "text", "status", "topic_id"
+            "topic_title", "text", "status", "topic_id", "responsible_name"
         ))
         # Keep the previous immutable protocol in the append-only audit event.
         # Remove active snapshots so a later completion can create a fresh version.
