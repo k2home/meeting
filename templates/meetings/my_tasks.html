@@ -21,7 +21,7 @@
   {% if topics %}
     <div style="overflow-x:auto">
       <table>
-        <thead><tr><th>Aufgabe</th><th>Besprechungsreihe</th><th>Nächste Besprechung</th><th>Letzter Stand</th><th></th></tr></thead>
+        <thead><tr><th>Aufgabe</th><th>Besprechungsreihe</th><th>Nächste Besprechung</th><th>Letzter Tagesordnungstext</th><th></th></tr></thead>
         <tbody>
           {% for topic in topics %}
             <tr>
@@ -34,7 +34,7 @@
                   {% else %}{{ topic.next_meeting_date|date:"d.m.Y" }}{% endif %}
                 {% else %}<span class="muted">Kein geplanter Termin</span>{% endif %}
               </td>
-              <td>{{ topic.description|default:"—"|truncatechars:100 }}</td>
+              <td>{{ topic.latest_agenda_text|default:"—"|truncatechars:100 }}</td>
               <td><a class="btn secondary" href="{% url 'topic_edit' topic.pk %}">Öffnen</a></td>
             </tr>
           {% endfor %}
