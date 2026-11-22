@@ -156,10 +156,10 @@
               {% csrf_token %}<input type="hidden" name="update_agenda_assignee" value="{{ item.id }}">
             </form>
             <select id="topic-assignee-{{ item.id }}" name="assigned_to" form="topic-assignee-form-{{ item.id }}" aria-label="Zuständigkeit für {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-assignee-form-{{ item.id }}&quot;).requestSubmit()">
-              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}</option>
+              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Nicht zugewiesen</option>
               {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_context }}</option>{% endfor %}
             </select>
-            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_context }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_context }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>
@@ -169,12 +169,12 @@
         <span class="agenda-title-status">
           {% if not meeting.finalized_at and not is_reader %}
           <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
-            {% csrf_token %}<input type="hidden" name="update_topic_status" value="{{ item.id }}">
+            {% csrf_token %}<input type="hidden" name="update_agenda_status" value="{{ item.id }}">
           </form>
           <select id="topic-status-{{ item.id }}" name="status" form="topic-status-form-{{ item.id }}" aria-label="Status von {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-status-form-{{ item.id }}&quot;).requestSubmit()">
-            {% for value,label in item.topic.STATUS %}<option value="{{ value }}" {% if item.topic.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+            {% for value,label in item.STATUS %}<option value="{{ value }}" {% if item.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
           </select>
-          {% else %}<span class="pill">{{ item.topic.get_status_display }}</span>{% endif %}
+          {% else %}<span class="pill">{{ item.get_status_display }}</span>{% endif %}
         </span>
         {% if not meeting.finalized_at and not is_reader %}
         <div class="agenda-schedule-row agenda-schedule-form agenda-followup-form agenda-followup-controls" data-form-id="agenda-text-form-{{ item.id }}">
