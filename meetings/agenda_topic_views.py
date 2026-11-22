@@ -72,6 +72,7 @@ def topic_new(request):
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     reader = is_reader(request.user, topic.series)
+    original_title = topic.title
     form = TopicTitleForm(request.POST or None, instance=topic)
     if reader:
         form.fields["title"].disabled = True
@@ -79,7 +80,7 @@ def topic_detail(request, pk):
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
         if form.is_valid():
-            old_title = topic.title
+            old_title = original_title
             updated = form.save()
             if old_title != updated.title:
                 record_event(
