@@ -48,6 +48,7 @@ jobs:
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_PORT: "5432"
         run: |
+          bash -n deploy/*.sh
           python -m compileall -q config meetings
           python manage.py check
           python manage.py check --deploy
