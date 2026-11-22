@@ -388,6 +388,42 @@ def agenda_reorder(request, pk):
     return redirect("meeting", pk=pk)
 
 
+def _schedule_agenda_followup(item, target_series, target_meeting, actor):
+    """Create or move the linked follow-up without partial mutations."""
+    with transaction.atomic():
+        item = AgendaItem.objects.select_for_update().select_related("topic", "topic__series").get(pk=item.pk)
+        topic = item.topic
+        old_series = topic.series
+        followup = AgendaItem.objects.select_for_update().filter(followup_of=item).first()
+        conflict = AgendaItem.objects.filter(meeting=target_meeting, topic=topic)
+        if followup:
+            conflict = conflict.exclude(pk=followup.pk)
+        if conflict.exists():
+            raise ValueError("Das Thema steht bereits unabhängig auf der gewählten Tagesordnung. Bitte entferne diesen doppelten Eintrag zuerst.")
+        if target_meeting.pk == item.meeting_id:
+            raise ValueError("Bitte wähle einen anderen, späteren Besprechungstermin.")
+        if old_series != target_series:
+            _move_future_agenda_items(topic, old_series, target_series, {item.pk})
+        topic.series = target_series
+        topic.save(update_fields=["series", "updated_at"])
+        remaining = target_meeting.agenda_items.exclude(pk=followup.pk if followup else None)
+        next_position = (remaining.order_by("-position").values_list("position", flat=True).first() if remaining.exists() else -1) + 1
+        if followup:
+            followup.meeting = target_meeting
+            followup.working_text = item.working_text
+            followup.status = item.status
+            followup.assigned_to_id = item.assigned_to_id
+            followup.position = next_position
+            followup.carried_forward = True
+            followup.save(update_fields=["meeting", "working_text", "status", "assigned_to", "position", "carried_forward"])
+        else:
+            AgendaItem.objects.create(meeting=target_meeting, topic=topic, working_text=item.working_text, assigned_to_id=item.assigned_to_id, status=item.status, position=next_position, carried_forward=True, followup_of=item)
+        if old_series != target_series:
+            TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=target_series, transferred_by=actor, note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt")
+        record_event(actor=actor, action="transferred" if old_series != target_series else "updated", summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt", topic=topic, meeting=item.meeting, changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}})
+    return f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}."
+
+
 @login_required
 @reader_readonly
 def meeting_detail(request, pk):
@@ -498,63 +534,19 @@ def meeting_detail(request, pk):
                     messages.success(request, f"„{topic.title}“ wurde aus dieser Tagesordnung entfernt und auf den {target_meeting.date:%d.%m.%Y} verschoben.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen späteren Termin.")
-        elif request.POST.get("schedule_item"):
-            item = get_object_or_404(AgendaItem.objects.select_related("topic"), pk=request.POST.get("schedule_item"), meeting=meeting)
-            schedule_form = AgendaScheduleForm(
-                request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
-            )
+        elif request.POST.get("schedule_item") and not request.POST.get("save_all_working_texts"):
+            item = get_object_or_404(AgendaItem.objects.select_related("topic", "topic__series"), pk=request.POST.get("schedule_item"), meeting=meeting)
+            schedule_form = AgendaScheduleForm(request.POST, series_queryset=writable_series, meeting_queryset=target_meetings)
             if schedule_form.is_valid():
                 item.working_text = request.POST.get("working_text", item.working_text)
-                item.save(update_fields=["working_text"])
-                topic = item.topic
-                old_series = topic.series
-                target_series = schedule_form.cleaned_data["target_series"]
-                target_meeting = schedule_form.cleaned_data["target_meeting"]
-                if target_meeting.pk == meeting.pk:
-                    messages.error(request, "Bitte wähle einen anderen, späteren Besprechungstermin.")
+                try:
+                    with transaction.atomic():
+                        item.save(update_fields=["working_text"])
+                        success_message = _schedule_agenda_followup(item, schedule_form.cleaned_data["target_series"], schedule_form.cleaned_data["target_meeting"], request.user)
+                except ValueError as exc:
+                    messages.error(request, str(exc))
                 else:
-                    if old_series != target_series:
-                        try:
-                            _move_future_agenda_items(topic, old_series, target_series, {item.pk})
-                        except ValueError as exc:
-                            messages.error(request, str(exc))
-                            return redirect("meeting", pk=pk)
-                    topic.series = target_series
-                    topic.save(update_fields=["series", "updated_at"])
-                    followup = AgendaItem.objects.filter(followup_of=item).first()
-                    other_target_item = AgendaItem.objects.filter(meeting=target_meeting, topic=topic).exclude(pk=followup.pk if followup else None).first()
-                    if other_target_item:
-                        messages.error(request, "Das Thema steht bereits unabhängig auf der gewählten Tagesordnung. Bitte entferne diesen doppelten Eintrag zuerst.")
-                        return redirect("meeting", pk=pk)
-                    remaining = target_meeting.agenda_items.exclude(pk=followup.pk if followup else None)
-                    next_position = (remaining.order_by("-position").values_list("position", flat=True).first() if remaining.exists() else -1) + 1
-                    if followup:
-                        followup.meeting = target_meeting
-                        followup.working_text = item.working_text
-                        followup.status = item.status
-                        followup.assigned_to_id = item.assigned_to_id
-                        followup.position = next_position
-                        followup.carried_forward = True
-                        followup.save(update_fields=["meeting", "working_text", "status", "assigned_to", "position", "carried_forward"])
-                    else:
-                        AgendaItem.objects.create(
-                            meeting=target_meeting, topic=topic, working_text=item.working_text,
-                            assigned_to_id=item.assigned_to_id, status=item.status,
-                            position=next_position, carried_forward=True, followup_of=item,
-                        )
-                    if old_series != target_series:
-                        TopicTransferHistory.objects.create(
-                            topic=topic, from_series=old_series, to_series=target_series,
-                            transferred_by=request.user,
-                            note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt",
-                        )
-                    record_event(
-                        actor=request.user, action="transferred" if old_series != target_series else "updated",
-                        summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
-                        topic=topic, meeting=meeting,
-                        changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}},
-                    )
-                    messages.success(request, f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}.")
+                    messages.success(request, success_message)
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen Termin.")
         elif request.POST.get("update_agenda_assignee"):
@@ -655,55 +647,15 @@ def meeting_detail(request, pk):
                 )
                 changed_count += 1
             if request.POST.get("schedule_item"):
-                scheduled_item = get_object_or_404(
-                    AgendaItem.objects.select_related("topic", "topic__series"),
-                    pk=request.POST.get("schedule_item"), meeting=meeting,
-                )
-                schedule_form = AgendaScheduleForm(
-                    request.POST, series_queryset=writable_series, meeting_queryset=target_meetings,
-                )
+                scheduled_item = get_object_or_404(AgendaItem.objects.select_related("topic", "topic__series"), pk=request.POST.get("schedule_item"), meeting=meeting)
+                schedule_form = AgendaScheduleForm(request.POST, series_queryset=writable_series, meeting_queryset=target_meetings)
                 if schedule_form.is_valid():
-                    topic = scheduled_item.topic
-                    old_series = topic.series
-                    target_series = schedule_form.cleaned_data["target_series"]
-                    target_meeting = schedule_form.cleaned_data["target_meeting"]
-                    if old_series != target_series:
-                        try:
-                            _move_future_agenda_items(topic, old_series, target_series, {scheduled_item.pk})
-                        except ValueError as exc:
-                            messages.error(request, str(exc))
-                            return redirect("meeting", pk=pk)
-                    topic.series = target_series
-                    topic.save(update_fields=["series", "updated_at"])
-                    next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
-                    target_item, created = AgendaItem.objects.get_or_create(
-                        meeting=target_meeting, topic=topic,
-                        defaults={"working_text": "", "position": next_position, "assigned_to_id": scheduled_item.assigned_to_id, "status": scheduled_item.status},
-                    )
-                    if not created and target_item.working_text:
-                        target_item.working_text = ""
-                        target_item.save(update_fields=["working_text"])
-                    if not created and scheduled_item.assigned_to_id and not target_item.assigned_to_id:
-                        target_item.assigned_to_id = scheduled_item.assigned_to_id
-                        target_item.save(update_fields=["assigned_to"])
-                    if old_series != target_series:
-                        TopicTransferHistory.objects.create(
-                            topic=topic, from_series=old_series, to_series=target_series,
-                            transferred_by=request.user,
-                            note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt",
-                        )
-                    record_event(
-                        actor=request.user, action="transferred" if old_series != target_series else "updated",
-                        summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
-                        topic=topic, meeting=meeting,
-                        changes={
-                            "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
-                            "Besprechungsserie": {
-                                "vorher": old_series.name if old_series else None,
-                                "nachher": target_series.name,
-                            },
-                        },
-                    )
+                    try:
+                        success_message = _schedule_agenda_followup(scheduled_item, schedule_form.cleaned_data["target_series"], schedule_form.cleaned_data["target_meeting"], request.user)
+                    except ValueError as exc:
+                        messages.error(request, str(exc))
+                    else:
+                        messages.success(request, success_message)
                 else:
                     messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen Termin.")
             messages.success(request, f"{changed_count} geänderte Tagesordnungspunkte gespeichert.")
