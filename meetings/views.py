@@ -200,7 +200,7 @@ def open_topics(request):
             AgendaItem.objects.get_or_create(
                 meeting=target_meeting,
                 topic=topic,
-                defaults={"working_text": "", "position": next_position, "assigned_to_id": scheduled_item.assigned_to_id},
+                defaults={"working_text": "", "position": next_position},
             )
             record_event(
                 actor=request.user,
@@ -590,7 +590,7 @@ def meeting_detail(request, pk):
                             next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
                             target_item, created = AgendaItem.objects.get_or_create(
                                 meeting=target_meeting, topic=topic,
-                                defaults={"working_text": "", "position": next_position},
+                                defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id},
                             )
                             if not created and target_item.working_text:
                                 target_item.working_text = ""
