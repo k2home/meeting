@@ -1954,14 +1954,27 @@ def user_overview(request):
                 SeriesAccess.ROLE_MODERATOR: 2,
             }
             current_access = SeriesAccess.objects.filter(user=request.user, series=series).first()
-            if current_access and role_rank[current_access.role] >= role_rank[request_form.cleaned_data["role"]]:
-                messages.info(request, "Du hast diese Berechtigung bereits oder eine höhere Berechtigung.")
+            requested_role = request_form.cleaned_data["role"]
+            if current_access and role_rank[current_access.role] == role_rank[requested_role]:
+                messages.info(request, "Du hast diese Berechtigung bereits.")
             elif SeriesAccessRequest.objects.filter(user=request.user, series=series, status=SeriesAccessRequest.STATUS_PENDING).exists():
                 messages.error(request, "Für diese Besprechungsreihe liegt bereits ein offener Antrag vor.")
+            elif current_access and role_rank[current_access.role] > role_rank[requested_role]:
+                # Herabstufungen werden automatisch genehmigt und sofort wirksam.
+                with transaction.atomic():
+                    SeriesAccess.objects.filter(pk=current_access.pk).update(role=requested_role)
+                    SeriesAccessRequest.objects.create(
+                        user=request.user, series=series,
+                        requested_role=requested_role,
+                        status=SeriesAccessRequest.STATUS_APPROVED,
+                        decision_note="Automatisch genehmigt: Herabstufung der bestehenden Berechtigung.",
+                        decided_at=timezone.now(),
+                    )
+                messages.success(request, "Deine niedrigere Berechtigung wurde automatisch genehmigt und ist jetzt wirksam.")
             else:
                 SeriesAccessRequest.objects.create(
                     user=request.user, series=series,
-                    requested_role=request_form.cleaned_data["role"],
+                    requested_role=requested_role,
                 )
                 messages.success(request, "Dein Berechtigungsantrag wurde übermittelt.")
             return redirect("user_overview")
