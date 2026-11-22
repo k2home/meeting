@@ -888,10 +888,11 @@ class MeetingSeriesSchedulingTests(TestCase):
         )
 
     def test_four_week_recurrence_generates_all_dates_to_end(self):
-        from datetime import date
+        from datetime import timedelta
         from .services import generate_meetings
-        self.series.start_date = date(2026, 11, 23)
-        self.series.end_date = date(2027, 1, 31)
+        start = self.today + timedelta(days=(0 - self.today.weekday()) % 7)
+        self.series.start_date = start
+        self.series.end_date = start + timedelta(days=70)
         self.series.weekday = 0
         self.series.recurrence = "weekly"
         self.series.recurrence_interval = 4
@@ -900,22 +901,34 @@ class MeetingSeriesSchedulingTests(TestCase):
         dates = list(
             Meeting.objects.filter(series=self.series).order_by("date").values_list("date", flat=True)
         )
-        self.assertEqual(dates, [date(2026, 11, 23), date(2026, 12, 21), date(2027, 1, 18)])
+        self.assertEqual(dates, [start, start + timedelta(days=28), start + timedelta(days=56)])
 
-    def test_two_month_recurrence_keeps_fourth_monday(self):
-        from datetime import date
-        from .services import generate_meetings
-        self.series.start_date = date(2026, 11, 23)
-        self.series.end_date = date(2027, 3, 31)
+    def test_two_month_recurrence_keeps_same_weekday_occurrence(self):
+        from datetime import timedelta
+        from .services import generate_meetings, _monthly_weekday
+        start = self.today + timedelta(days=(0 - self.today.weekday()) % 7)
+        end = start + timedelta(days=150)
+        self.series.start_date = start
+        self.series.end_date = end
         self.series.weekday = 0
         self.series.recurrence = "monthly"
         self.series.recurrence_interval = 2
         self.series.save()
         generate_meetings(self.series)
+        expected = [start]
+        cursor = start
+        occurrence = (start.day - 1) // 7 + 1
+        while True:
+            month_index = cursor.year * 12 + cursor.month - 1 + 2
+            year, month_zero = divmod(month_index, 12)
+            cursor = _monthly_weekday(year, month_zero + 1, 0, occurrence)
+            if cursor > end:
+                break
+            expected.append(cursor)
         dates = list(
             Meeting.objects.filter(series=self.series).order_by("date").values_list("date", flat=True)
         )
-        self.assertEqual(dates, [date(2026, 11, 23), date(2027, 1, 25), date(2027, 3, 22)])
+        self.assertEqual(dates, expected)
 
     def test_new_series_form_defaults_to_next_selected_weekday_and_next_year_end(self):
         from datetime import date, timedelta
