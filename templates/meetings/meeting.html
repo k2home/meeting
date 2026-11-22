@@ -164,6 +164,7 @@
     </div>
     <div id="agenda-item-content-{{ item.id }}" class="agenda-item-content" hidden>
       <div class="agenda-item-expanded-row">
+        {% if item.followup_item %}<span class="agenda-followup-label">Wiedervorlage: {{ item.followup_item.meeting.date|date:"d.m.Y" }}</span>{% endif %}
         <span class="agenda-title-status">
           {% if not meeting.finalized_at and not is_reader %}
           <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
@@ -181,7 +182,7 @@
             {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
           </select>
           <select name="target_meeting" form="agenda-text-form-{{ item.id }}" aria-label="Termin der Wiedervorlage">
-            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" >{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.followup_item and item.followup_item.meeting_id == target.pk %}selected{% endif %}>{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
           </select>
         </div>
         {% endif %}
