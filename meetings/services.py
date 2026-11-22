@@ -110,9 +110,11 @@ def generate_meetings(series):
                 if item.followup_of_id and not existing.followup_of_id:
                     existing.followup_of = item.followup_of
                 linked_followup = AgendaItem.objects.filter(followup_of=item).first()
-                if linked_followup:
+                if linked_followup and linked_followup.pk != existing.pk:
                     linked_followup.followup_of = existing
                     linked_followup.save(update_fields=["followup_of"])
+                elif linked_followup and linked_followup.pk == existing.pk:
+                    existing.followup_of = None
                 existing.carried_forward = True
                 existing.save(update_fields=["working_text", "assigned_to", "status", "followup_of", "carried_forward"])
                 item.delete()
