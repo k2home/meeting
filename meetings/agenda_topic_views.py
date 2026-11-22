@@ -109,14 +109,6 @@ def topic_detail(request, pk):
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
 
-    # Keep legacy free-text data visible after moving the editing workflow to
-    # meeting agenda entries. It is not copied over or allowed to overwrite
-    # any meeting-specific protocol text.
-    legacy_description = (topic.description or "").strip()
-    if legacy_description and legacy_description not in [item.display_text.strip() for item in items]:
-        legacy_description = legacy_description
-    else:
-        legacy_description = ""
 
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
@@ -126,7 +118,6 @@ def topic_detail(request, pk):
         "topic": topic,
         "is_reader": reader,
         "topic_agenda_items": items,
-        "legacy_description": legacy_description,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
         "assignees": get_user_model().objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
     })
