@@ -54,7 +54,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Änderungsverlauf
 
-Wichtige Änderungen an Themen, Status, Fälligkeiten, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen werden mit Benutzer und Zeitpunkt protokolliert. Der Änderungsverlauf ist innerhalb der jeweils zugänglichen Besprechungsreihen einsehbar.
+Wichtige Änderungen an Themen, Status, Hauptzuständigkeiten, Anlagen, Kommentaren, Tagesordnungstexten und Besprechungsabschlüssen werden mit Benutzer und Zeitpunkt protokolliert. Der Änderungsverlauf ist innerhalb der jeweils zugänglichen Besprechungsreihen einsehbar.
 
 ## Rollen und Berechtigungen
 
