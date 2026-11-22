@@ -112,6 +112,27 @@ class TopicAttachment(models.Model):
 
     def __str__(self):
         return self.label
+    @property
+    def network_url(self):
+        """Return a validated SMB URL; unsupported paths remain plain text."""
+        from urllib.parse import urlsplit
+        value = (self.network_path or "").strip()
+        if not value:
+            return ""
+        if value.startswith("\\\\"):
+            value = "smb://" + value.lstrip("\\").replace("\\", "/")
+        elif value.startswith("//"):
+            value = "smb:" + value.replace("\\", "/")
+        try:
+            parsed = urlsplit(value)
+        except ValueError:
+            return ""
+        if parsed.scheme.lower() != "smb" or not parsed.hostname or parsed.username or parsed.password:
+            return ""
+        if any(ord(char) < 32 for char in value):
+            return ""
+        return value
+
 
 
 class AuditEvent(models.Model):
