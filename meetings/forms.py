@@ -77,9 +77,6 @@ class AttachmentForm(forms.ModelForm):
         uploaded = cleaned.get("uploaded_file")
         if not uploaded and not (cleaned.get("network_path") or "").strip():
             raise forms.ValidationError("Bitte wähle eine Datei aus oder gib einen Netzwerkpfad bzw. Link an.")
-        if uploaded and uploaded.size > OrganizationSettings.current_attachment_max_size_bytes():
-            limit_mb = OrganizationSettings.current_attachment_max_size_bytes() // (1024 * 1024)
-            self.add_error("uploaded_file", f"Die Datei darf höchstens {limit_mb} MB groß sein.")
         return cleaned
 
 class SeriesForm(forms.ModelForm):
