@@ -3,85 +3,117 @@
 {% block content %}
 <style>
 .topic-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:1.2rem;align-items:start}
-.topic-main,.topic-side{min-width:0}.topic-side .card{position:static}
-.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
-.topic-title{margin:.2rem 0 .65rem}.topic-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.topic-main,.topic-side{min-width:0}.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
+.topic-meeting{padding:1rem 0;border-bottom:1px solid var(--border,#ddd)}
+.topic-meeting:last-child{border:0}.topic-meeting textarea{min-height:120px}
+.topic-meeting-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
 .topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 .topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
-.topic-history-item{padding:.8rem 0;border-bottom:1px solid var(--border,#ddd)}.topic-history-item:last-child{border:0}
-.topic-field textarea{min-height:130px}.topic-inline-form .form-row{margin-bottom:.8rem}
-.topic-meeting{padding:.85rem 0;border-bottom:1px solid var(--border,#ddd)}.topic-meeting:last-child{border:0}
-@media(max-width:800px){.topic-layout{grid-template-columns:1fr}.topic-meta{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.topic-meta{grid-template-columns:1fr}}
+@media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
 </style>
-<div class="topline"><div><p class="muted"><a href="/">Übersicht</a> / {% if is_reader %}Thema ansehen{% elif topic %}Thema{% else %}Neues Thema{% endif %}</p><h1>{% if is_reader %}Thema ansehen{% elif topic %}Thema bearbeiten{% else %}Neues Thema{% endif %}</h1></div></div>
+<div class="topline">
+  <div><p class="muted"><a href="{% url 'dashboard' %}">Übersicht</a> / {% if topic %}Thema{% else %}Neues Thema{% endif %}</p><h1>{% if topic %}Thema{% else %}Neues Thema anlegen{% endif %}</h1></div>
+</div>
 {% if not topic %}
 <section class="card">
-  <h2>Neues Thema anlegen</h2>
-  <form method="post">{% csrf_token %}{{ form.as_p }}
-    {% if available_meetings %}<label for="new-topic-meeting">Erster Besprechungstermin</label><select id="new-topic-meeting" name="meeting" required><option value="">Besprechungstermin auswählen …</option>{% for meeting in available_meetings %}<option value="{{ meeting.pk }}">{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}</select>{% endif %}
-    {% if not is_reader %}<button type="submit">Thema anlegen</button>{% endif %}
+  <p class="muted">Ein Thema besteht aus seinem Titel. Die inhaltliche Bearbeitung und alle Besprechungstexte werden den jeweiligen Tagesordnungspunkten zugeordnet.</p>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <label for="new-topic-meeting">Erster Besprechungstermin</label>
+    <select id="new-topic-meeting" name="meeting" required>
+      <option value="">Besprechungstermin auswählen …</option>
+      {% for meeting in available_meetings %}<option value="{{ meeting.pk }}" {% if form.data.meeting == meeting.pk|stringformat:"s" %}selected{% endif %}>{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}
+    </select>
+    <button type="submit">Thema anlegen und auf Tagesordnung setzen</button>
   </form>
 </section>
 {% else %}
 <div class="card topic-hero">
-  <div><p class="muted">Thema #{{ topic.pk }} · {{ topic.series.name|default:"Ohne Besprechungsreihe" }}</p><h1 class="topic-title">{{ topic.title }}</h1><span class="pill">{{ topic.get_status_display }}</span></div>
-  {% if not is_reader %}<div class="topic-actions"><button type="submit" form="topic-edit-form">Änderungen speichern</button><a class="btn" href="{% url 'dashboard' %}">Zur Übersicht</a></div>{% endif %}
+  <div><p class="muted">Thema #{{ topic.pk }} · {{ topic.series.name|default:"Ohne Besprechungsreihe" }}</p><h1>{{ topic.title }}</h1></div>
+  {% if not is_reader %}<a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a>{% endif %}
 </div>
 <div class="topic-layout">
  <main class="topic-main">
   <section class="card">
-   <div class="topline"><h2>Beschreibung und aktueller Stand</h2></div>
-   {% if is_reader %}<div class="topic-inline-form">
-    <div class="topic-field"><label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}</div>
-    <div class="topic-field"><label for="{{ form.description.id_for_label }}">Aktueller Stand</label>{{ form.description }}</div>
-    <div class="topic-meta">
-     <div><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}</div>
-     <div><label for="{{ form.assigned_to.id_for_label }}">Verantwortlich</label>{{ form.assigned_to }}</div>
-     <div><label for="{{ form.series.id_for_label }}">Besprechungsreihe</label>{{ form.series }}</div>
-    </div>
-    <div style="margin-top:1rem"><label for="{{ form.completion_note.id_for_label }}">Abschlussvermerk</label>{{ form.completion_note }}</div>
-   </div>
-   {% else %}<form id="topic-edit-form" method="post" class="topic-inline-form">{% csrf_token %}
-    <div class="topic-field"><label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title.errors }}{{ form.title }}</div>
-    <div class="topic-field"><label for="{{ form.description.id_for_label }}">Aktueller Stand</label>{{ form.description.errors }}{{ form.description }}</div>
-    <div class="topic-meta">
-     <div><label for="{{ form.status.id_for_label }}">Status</label>{{ form.status }}</div>
-     <div><label for="{{ form.assigned_to.id_for_label }}">Verantwortlich</label>{{ form.assigned_to }}</div>
-     <div><label for="{{ form.series.id_for_label }}">Besprechungsreihe</label>{{ form.series }}</div>
-    </div>
-    <div style="margin-top:1rem"><label for="{{ form.completion_note.id_for_label }}">Abschlussvermerk</label>{{ form.completion_note }}<small class="muted">Wird beim Erledigen oder Archivieren als Abschlussnotiz gespeichert.</small></div>
+   <h2>Thementitel</h2>
+   {% if is_reader %}<p>{{ topic.title }}</p>
+   {% else %}<form method="post">{% csrf_token %}
+     {{ form.title.errors }}<label for="{{ form.title.id_for_label }}">Titel</label>{{ form.title }}
+     <button type="submit">Titel speichern</button>
    </form>{% endif %}
   </section>
   <section class="card">
-   <h2>Besprechungen und Tagesordnung</h2>
+   <h2>Besprechungen und Tagesordnungstexte</h2>
+   <p class="muted">Jeder Text gehört zu genau dem Besprechungstermin, in dem er bearbeitet wurde. Abgeschlossene Protokolle bleiben unverändert erhalten.</p>
    {% for item in topic_agenda_items %}
     <article class="topic-meeting">
-     <div class="topline"><strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"d.m.Y" }}</strong>{% if item.meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant / Entwurf</span>{% endif %}</div>
-     {% if item.working_text %}<p>{{ item.working_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein zusätzlicher Protokolltext hinterlegt.</p>{% endif %}
-     <p class="muted">Verantwortlich: {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
-     <a href="{% url 'protocol' item.meeting_id %}">Vollständiges Besprechungsprotokoll öffnen</a>
+     <div class="topline">
+      <strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"d.m.Y" }}</strong>
+      {% if item.meeting.finalized_at %}<span class="pill">Protokoll abgeschlossen</span>{% else %}<span class="pill">In Bearbeitung</span>{% endif %}
+     </div>
+     {% if item.meeting.finalized_at %}
+       {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein Text hinterlegt.</p>{% endif %}
+       <p><a href="{% url 'protocol' item.meeting_id %}">Gesichertes Besprechungsprotokoll öffnen</a></p>
+     {% elif is_reader %}
+       {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Noch kein Text hinterlegt.</p>{% endif %}
+       <p><a href="{% url 'protocol' item.meeting_id %}">Besprechungsprotokoll öffnen</a></p>
+     {% else %}
+       <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
+        {% csrf_token %}
+        <label for="working-text-{{ item.pk }}">Text für diese Besprechung</label>
+        <textarea id="working-text-{{ item.pk }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
+        <label for="assigned-to-{{ item.pk }}">Verantwortlich für diesen Tagesordnungspunkt</label>
+        <select id="assigned-to-{{ item.pk }}" name="assigned_to">
+          <option value="">Nicht abweichend zugewiesen</option>
+          {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
+        </select>
+        <div class="topic-meeting-actions">
+          <button type="submit">Besprechungstext speichern</button>
+          <a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Zur Tagesordnung</a>
+          <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll ansehen</a>
+        </div>
+       </form>
+     {% endif %}
     </article>
    {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
+   {% if legacy_description %}
+    <article class="topic-meeting">
+      <strong>Bisherige Themenbeschreibung (vor Umstellung)</strong>
+      <p>{{ legacy_description|linebreaksbr }}</p>
+      <small class="muted">Dieser Alttext bleibt zur Nachvollziehbarkeit erhalten und ist keinem Besprechungstermin zugeordnet.</small>
+    </article>
+   {% endif %}
   </section>
  </main>
  <aside class="topic-side">
-  <section class="card"><h2>Überblick</h2><dl class="topic-meta">
-   <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"d.m.Y" }}</dd></div>
-   <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"d.m.Y" }}</dd></div>
-   <div><dt>Zuständigkeit</dt><dd>{{ topic.assigned_to|user_display|default:"Nicht zugewiesen" }}</dd></div>
-   <div><dt>Abschlussdatum</dt><dd>{{ topic.completed_at|date:"d.m.Y"|default:"Noch offen" }}</dd></div>
-  </dl></section>
-  <section class="card"><h2>Dateien und Anlagen</h2>{% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
-   {% for a in topic.attachments.all %}<div class="topic-history-item"><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %}{% if a.network_path %}<p><a href="{{ a.network_path }}">{{ a.network_path }}</a></p>{% endif %}<small class="muted">Hinzugefügt {{ a.added_at|date:"d.m.Y" }}</small></div>
+  <section class="card"><h2>Informationen</h2>
+   <dl class="topic-meta">
+    <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
+    <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"d.m.Y" }}</dd></div>
+    <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"d.m.Y" }}</dd></div>
+   </dl>
+  </section>
+  <section class="card"><h2>Dateien und Anlagen</h2>
+   {% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
+   {% for a in topic.attachments.all %}
+    <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{{ a.uploaded_file.url }}">Datei öffnen</a>{% endif %}{% if a.network_path %}<br><a href="{{ a.network_path }}">{{ a.network_path }}</a>{% endif %}</p>
    {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
   </section>
-  {% if not is_reader %}<section class="card"><h2>Aktionen</h2>
-   {% if topic.status == "archived" %}<form method="post" action="{% url 'topic_reopen' topic.pk %}">{% csrf_token %}<button type="submit">Thema wieder öffnen</button></form>
-   {% else %}<form method="post" action="{% url 'topic_archive' topic.pk %}">{% csrf_token %}<label for="archive-completion-note">Abschlussvermerk (optional)</label><textarea id="archive-completion-note" name="completion_note" rows="3">{{ topic.completion_note }}</textarea><button type="submit">Thema archivieren</button></form>{% endif %}
-   {% if transfer_series %}<hr><h3>Besprechungsreihe wechseln</h3><form method="post" action="{% url 'topic_transfer' topic.pk %}">{% csrf_token %}<label for="transfer-series">Zielreihe</label><select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select><label for="transfer-note">Hinweis (optional)</label><input id="transfer-note" name="note" maxlength="500"><button type="submit">Übertragen</button></form>{% endif %}
-  </section>{% endif %}
-  {% if topic.status == "done" or topic.status == "archived" %}<section class="card"><h2>Abschluss</h2><p><strong>{{ topic.completed_at|date:"d.m.Y"|default:"—" }}</strong></p>{{ topic.completion_note|linebreaksbr }}</section>{% endif %}
+  {% if not is_reader and transfer_series %}
+  <section class="card"><h2>Besprechungsreihe wechseln</h2>
+   <form method="post" action="{% url 'topic_transfer' topic.pk %}">{% csrf_token %}
+    <label for="transfer-series">Zielreihe</label>
+    <select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select>
+    <label for="transfer-note">Hinweis (optional)</label><input id="transfer-note" name="note" maxlength="500">
+    <button type="submit">Thema übertragen</button>
+   </form>
+  </section>
+  {% endif %}
+  {% if topic.transfer_history.exists %}
+  <section class="card"><h2>Transferhistorie</h2>
+   {% for transfer in topic.transfer_history.all %}<p>{{ transfer.transferred_at|date:"d.m.Y H:i" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</p>{% endfor %}
+  </section>
+  {% endif %}
  </aside>
 </div>
 {% endif %}
