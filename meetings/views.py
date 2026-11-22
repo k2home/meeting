@@ -171,7 +171,6 @@ def dashboard(request):
             accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
             if not is_admin(request.user) else accessible_series(request.user)
         ).filter(active=True).distinct().order_by("name"),
-        "new_topic_assignees": UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
         "new_topic_meetings": accessible_meetings(request.user).filter(
             series__in=accessible_series(request.user).filter(active=True),
             date__gte=today, finalized_at__isnull=True,
