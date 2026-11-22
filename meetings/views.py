@@ -819,6 +819,7 @@ def _protocol_entries(meeting):
                 "title": snapshot.topic_title,
                 "text": snapshot.text,
                 "status": dict(Topic.STATUS).get(snapshot.status, snapshot.status),
+                "responsible": snapshot.responsible_name,
             }
             for snapshot in meeting.snapshots.all()
         ]
@@ -827,6 +828,7 @@ def _protocol_entries(meeting):
             "title": item.topic.title,
             "text": item.working_text,
             "status": item.topic.get_status_display(),
+            "responsible": str(item.assigned_to or item.topic.assigned_to or ""),
         }
         for item in ensure_agenda(meeting)
     ]
