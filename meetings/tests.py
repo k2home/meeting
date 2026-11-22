@@ -1511,7 +1511,7 @@ class UserOverviewTests(TestCase):
         })
         self.assertRedirects(response, reverse("user_overview"))
         self.user.refresh_from_db()
-        self.assertTrue(self.user.check_password("new-strong-password-123"))
+        self.assertTrue(self.user.check_password("New-strong-password-123"))
         self.assertEqual(int(self.client.session["_auth_user_id"]), self.user.pk)
 
     def test_admin_sees_global_access_for_all_series(self):
