@@ -1228,6 +1228,15 @@ def series_edit(request, pk):
     if not is_moderator(request.user, series):
         return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
     old_weekday = series.weekday
+    original_values = {
+        "name": series.name,
+        "description": series.description,
+        "recurrence": series.recurrence,
+        "recurrence_interval": series.recurrence_interval,
+        "weekday": series.weekday,
+        "start_date": series.start_date.isoformat(),
+        "end_date": series.end_date.isoformat() if series.end_date else None,
+    }
     form = SeriesForm(request.POST or None, instance=series)
     if request.method == "POST" and form.is_valid():
         weekday_delta = (form.cleaned_data["weekday"] - old_weekday) % 7
@@ -1243,15 +1252,7 @@ def series_edit(request, pk):
         else:
             try:
                 with transaction.atomic():
-                    before = {
-                        "name": series.name,
-                        "description": series.description,
-                        "recurrence": series.recurrence,
-                        "recurrence_interval": series.recurrence_interval,
-                        "weekday": series.weekday,
-                        "start_date": series.start_date.isoformat(),
-                        "end_date": series.end_date.isoformat() if series.end_date else None,
-                    }
+                    before = original_values
                     updated = form.save()
                     if weekday_delta:
                         for meeting in future:
