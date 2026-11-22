@@ -23,7 +23,7 @@ LEGACY_FIELDS = ("topic_due_date",)
 REQUIRED_FIELDS = ("series", "meeting_date", "topic_title")
 MAX_IMPORT_BYTES = 5 * 1024 * 1024
 SESSION_KEY = "pending_topic_agenda_csv_import"
-STATUS_VALUES = {value for value, _ in Topic.STATUS}
+STATUS_VALUES = {value for value, _ in AgendaItem.STATUS}
 
 
 class TopicAgendaCsvUploadForm(forms.Form):
@@ -60,8 +60,8 @@ def _write_csv_documentation(writer):
     writer.writerow(["# GÜLTIGE WERTE", "Feld", "Erlaubte Werte"])
     writer.writerow(["#", "series", "Besprechungsreihe des konkreten Termins; legt Meeting fest."])
     writer.writerow(["#", "topic_series", "Zuständige Besprechungsreihe des Themas; leer bedeutet ohne Zuordnung. Bei alten Dateien ohne diese Spalte wird series übernommen."])
-    writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in Topic.STATUS)])
-    writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Hauptverantwortliche Person des Themas; Kurzbezeichnung muss eindeutig sein."])
+    writer.writerow(["#", "topic_status", "; ".join(f"{value} ({label})" for value, label in AgendaItem.STATUS)])
+    writer.writerow(["#", "responsible_username / responsible_kurzbezeichnung", "Legacy-Spalte; wird beim Import nicht mehr als Themenzuständigkeit gespeichert."])
     writer.writerow(["#", "agenda_responsible_username / agenda_responsible_kurzbezeichnung", "Optionale abweichende Person für genau diesen Tagesordnungspunkt; leer bedeutet Hauptverantwortliche Person."])
     writer.writerow([])
     writer.writerow(["# DATUMS-/FORMATVORGABEN", "Feld", "Format"])
@@ -85,7 +85,7 @@ def export_topic_agenda_csv(request):
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
     items = AgendaItem.objects.select_related(
-        "meeting__series", "topic", "topic__series", "topic__assigned_to", "assigned_to"
+        "meeting__series", "topic", "topic__series", "assigned_to"
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
     for item in items:
         meeting, topic = item.meeting, item.topic
@@ -95,10 +95,10 @@ def export_topic_agenda_csv(request):
             meeting.date.isoformat(),
             meeting.title,
             topic.title,
-            topic.description,
-            topic.status,
-            topic.assigned_to.username if topic.assigned_to else "",
-            _profile_short_description(topic.assigned_to),
+            "",
+            item.status,
+            "",
+            "",
             item.assigned_to.username if item.assigned_to else "",
             _profile_short_description(item.assigned_to),
             item.working_text,
@@ -199,29 +199,23 @@ def parse_topic_agenda_csv(text):
 
         main_user = _resolve_user(
             row.get("responsible_username", ""), row.get("responsible_kurzbezeichnung", ""),
-            row_number, "Hauptverantwortliche Person", errors,
+            row_number, "Legacy-Zuständigkeit", errors,
         )
         agenda_user = _resolve_user(
             row.get("agenda_responsible_username", ""), row.get("agenda_responsible_kurzbezeichnung", ""),
-            row_number, "Abweichend verantwortliche Person", errors,
+            row_number, "Verantwortliche Person des Tagesordnungspunkts", errors,
         )
+        agenda_user = agenda_user or main_user
         if not meeting_date or not title:
             continue
 
         topic_key = "{}:{}".format(topic_series_id if topic_series_id is not None else "none", title.casefold())
-        topic_data = {
-            "series_id": topic_series_id, "title": title,
-            "description": row.get("topic_current_status", ""),
-            "status": status, "assigned_to_id": main_user.pk if main_user else None,
-        }
+        topic_data = {"series_id": topic_series_id, "title": title}
         if topic_key in topic_records:
-            for field in ("description", "status", "assigned_to_id"):
-                if topic_records[topic_key]["topic"][field] != topic_data[field]:
-                    errors.append(f"Zeile {row_number}: Angaben zum Thema „{title}“ sind widersprüchlich ({field}).")
         else:
             topic_records[topic_key] = {"topic": topic_data, "row": row_number}
 
-        schedule_rows = [(meeting_date, row.get("agenda_text", ""), agenda_user.pk if agenda_user else None)]
+        schedule_rows = [(meeting_date, row.get("agenda_text", "") or row.get("topic_current_status", ""), agenda_user.pk if agenda_user else None)]
         # Defer synthetic legacy appointments until all explicit CSV rows have
         # been read, so a real row for the same future meeting takes precedence.
         if legacy_due_date and legacy_due_date != meeting_date:
@@ -243,6 +237,7 @@ def parse_topic_agenda_csv(text):
                 "row_number": row_number, "series_id": series_id, "meeting_date": scheduled_date,
                 "meeting_title": meeting_title, "topic_key": topic_key, "topic": topic_data,
                 "agenda_text": agenda_text, "agenda_assigned_to_id": agenda_assignee_id,
+                "agenda_status": status,
                 "position": position,
             })
 
@@ -258,6 +253,7 @@ def parse_topic_agenda_csv(text):
             **followup,
             "agenda_text": "",
             "agenda_assigned_to_id": None,
+            "agenda_status": followup["topic"].get("status", "open"),
             "position": position,
         })
 
@@ -323,9 +319,6 @@ def import_topic_agenda_csv(request):
                         created_topics += 1
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
-                    topic.description = data["description"]
-                    topic.status = data["status"]
-                    topic.assigned_to_id = data["assigned_to_id"]
                     topic.save()
                     topic_records[key] = topic
 
@@ -340,6 +333,7 @@ def import_topic_agenda_csv(request):
                     defaults={
                         "working_text": row["agenda_text"],
                         "assigned_to_id": row["agenda_assigned_to_id"],
+                        "status": row["agenda_status"],
                         "position": row["position"],
                         "carried_forward": AgendaItem.objects.filter(
                             topic=topic_records[key], meeting__series_id=row["series_id"],
