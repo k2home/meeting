@@ -265,14 +265,17 @@ class MyTasksViewTests(TestCase):
         today = timezone.localdate()
         self.overdue = Topic.objects.create(
             title="Überfällige Aufgabe", series=self.series, assigned_to=self.user,
-            due_date=today - timedelta(days=2),
         )
         self.due_today = Topic.objects.create(
             title="Heute terminiert", series=self.series, assigned_to=self.user,
         )
         self.no_due_date = Topic.objects.create(
-            title="Ohne Fälligkeit", series=self.series, assigned_to=self.user,
+            title="Ohne geplanten Termin", series=self.series, assigned_to=self.user,
         )
+        overdue_meeting = Meeting.objects.create(series=self.series, date=today - timedelta(days=2))
+        today_meeting = Meeting.objects.create(series=self.series, date=today)
+        AgendaItem.objects.create(meeting=overdue_meeting, topic=self.overdue)
+        AgendaItem.objects.create(meeting=today_meeting, topic=self.due_today)
         Topic.objects.create(title="Aufgabe anderer Person", series=self.series, assigned_to=self.other_user)
         Topic.objects.create(title="Nicht zugewiesen", series=self.series)
         Topic.objects.create(title="Erledigt", series=self.series, assigned_to=self.user, status="done")
@@ -1479,10 +1482,9 @@ class MeetingAgendaEnhancementTests(TestCase):
         self.assertNotIn('onchange="this.form.requestSubmit()"', content)
 
     def test_history_includes_planned_followup_meeting_without_agenda_item(self):
-        topic = Topic.objects.create(
-            title="Geplante Historie", series=self.series_b, due_date=self.target_meeting.date,
-        )
+        topic = Topic.objects.create(title="Geplante Historie", series=self.series_b)
         AgendaItem.objects.create(meeting=self.meeting, topic=topic, working_text="Besprochen")
+        AgendaItem.objects.create(meeting=self.target_meeting, topic=topic, working_text="")
         response = self.client.get(reverse("agenda_topic_history", args=[self.meeting.pk, topic.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "12.01.2027")
