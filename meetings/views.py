@@ -436,6 +436,31 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
 
 @login_required
 @reader_readonly
+def agenda_item_delete(request, pk, item_pk):
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
+    if meeting.finalized_at:
+        messages.error(request, "Tagesordnungspunkte abgeschlossener Besprechungen können nicht gelöscht werden.")
+        return redirect("meeting", pk=pk)
+    item = get_object_or_404(
+        AgendaItem.objects.select_related("topic"),
+        pk=item_pk, meeting=meeting,
+    )
+    topic = item.topic
+    item.delete()
+    record_event(
+        actor=request.user, action="updated",
+        summary=f"„{topic.title}“ aus der Tagesordnung am {meeting.date:%d.%m.%Y} entfernt",
+        topic=topic, meeting=meeting,
+        changes={"Tagesordnungspunkt": {"vorher": meeting.date.isoformat(), "nachher": None}},
+    )
+    messages.success(request, f"„{topic.title}“ wurde aus diesem Besprechungstermin entfernt. Das Thema bleibt bestehen.")
+    return redirect("meeting", pk=pk)
+
+
+@login_required
+@reader_readonly
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     if not meeting.participants_initialized:
