@@ -223,19 +223,26 @@ def open_topics(request):
 
 @login_required
 def my_tasks(request):
-    """Show the signed-in user's open topics, with overdue work first."""
+    """Show open topics assigned to the user either at topic or agenda-item level."""
     today = timezone.localdate()
-    from django.db.models import Q
-    topics = accessible_topics(request.user).filter(assigned_to=request.user, status="open").select_related("series").annotate(
-        next_meeting_date=Min("agenda_items__meeting__date", filter=Q(agenda_items__meeting__date__gte=today, agenda_items__meeting__finalized_at__isnull=True))
-    ).order_by(F("next_meeting_date").asc(nulls_last=True), "title")
+    responsibility = (
+        Q(assigned_to=request.user, agenda_items__isnull=True)
+        | Q(assigned_to=request.user, agenda_items__assigned_to__isnull=True)
+        | Q(agenda_items__assigned_to=request.user)
+    )
+    topics = accessible_topics(request.user).filter(responsibility, status="open").select_related("series").annotate(
+        next_meeting_date=Min(
+            "agenda_items__meeting__date",
+            filter=Q(agenda_items__meeting__finalized_at__isnull=True)
+            & (Q(agenda_items__assigned_to=request.user) | Q(agenda_items__assigned_to__isnull=True, assigned_to=request.user)),
+        )
+    ).distinct().order_by(F("next_meeting_date").asc(nulls_last=True), "title")
     return render(request, "meetings/my_tasks.html", {
         "topics": topics, "today": today,
         "overdue_count": topics.filter(next_meeting_date__lt=today).count(),
         "due_today_count": topics.filter(next_meeting_date=today).count(),
         "without_due_date_count": topics.filter(next_meeting_date__isnull=True).count(),
     })
-
 
 @login_required
 @reader_readonly
