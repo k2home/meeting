@@ -1019,6 +1019,35 @@ class RepositoryConsistencyRegressionTests(TestCase):
         )
         self.assertEqual(snapshot.get_status_display(), "In Arbeit")
 
+    def test_series_reset_preserves_multiple_agenda_entries_for_same_topic(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        today = timezone.localdate()
+        first_new_date = today + timedelta(days=7)
+        series = MeetingSeries.objects.create(
+            name="Reset-Erhaltung", recurrence="weekly", recurrence_interval=1,
+            weekday=first_new_date.weekday(), start_date=first_new_date,
+            end_date=first_new_date + timedelta(days=14),
+        )
+        topic = Topic.objects.create(title="Mehrere alte Punkte", series=series)
+        old_one = Meeting.objects.create(series=series, date=today + timedelta(days=1))
+        old_two = Meeting.objects.create(series=series, date=today + timedelta(days=2))
+        AgendaItem.objects.create(meeting=old_one, topic=topic, working_text="Text aus Termin eins", position=0)
+        AgendaItem.objects.create(meeting=old_two, topic=topic, working_text="Text aus Termin zwei", position=0)
+
+        moderator = User.objects.create_superuser(
+            username="reset-admin", email="reset-admin@example.com", password="strong-test-password",
+        )
+        self.client.force_login(moderator)
+        response = self.client.post(reverse("series_reset_meetings", args=[series.pk]))
+        self.assertRedirects(response, reverse("series_edit", args=[series.pk]))
+        items = AgendaItem.objects.filter(topic=topic)
+        self.assertEqual(items.count(), 1)
+        self.assertEqual(items.get().meeting.date, first_new_date)
+        self.assertIn("Text aus Termin eins", items.get().working_text)
+        self.assertIn("Text aus Termin zwei", items.get().working_text)
+        self.assertFalse(Meeting.objects.filter(pk__in=[old_one.pk, old_two.pk]).exists())
+
     def test_recurrence_reconciliation_moves_agenda_to_nearest_generated_meeting(self):
         from datetime import timedelta
         from django.utils import timezone
