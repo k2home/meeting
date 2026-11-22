@@ -1,0 +1,193 @@
+{% extends "meetings/base.html" %}
+{% load meeting_user_tags %}
+{% block title %}Besprechungen · Meeting Manager{% endblock %}
+{% block content %}
+<div class="topline">
+  <div><h1>Besprechungen</h1><p class="muted">Alle Besprechungstermine deiner zugewiesenen Reihen.</p></div>
+</div>
+
+<section class="card meetings-calendar-card">
+  <div class="calendar-toolbar">
+    <div class="calendar-heading">
+      <h2 id="calendar-title">Kalender</h2>
+      <div class="calendar-navigation">
+        <button type="button" class="secondary" id="calendar-previous" aria-label="Vorheriger Zeitraum">‹</button>
+        <button type="button" class="secondary" id="calendar-today">Heute</button>
+        <button type="button" class="secondary" id="calendar-next" aria-label="Nächster Zeitraum">›</button>
+      </div>
+    </div>
+    <div class="calendar-options">
+      <div class="calendar-view-switch" role="group" aria-label="Kalenderansicht">
+        <button type="button" class="secondary is-selected" data-calendar-view="month" aria-pressed="true">Monat</button>
+        <button type="button" class="secondary" data-calendar-view="week" aria-pressed="false">Woche</button>
+      </div>
+      <label class="past-toggle"><input type="checkbox" id="calendar-show-past"> Vergangene Termine anzeigen</label>
+    </div>
+  </div>
+  <div class="calendar-weekdays" aria-hidden="true">
+    <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+  </div>
+  <div id="meetings-calendar" class="meetings-calendar" aria-live="polite"></div>
+  <p class="calendar-legend muted"><span class="calendar-dot"></span> Geplant <span class="calendar-dot finalized"></span> Abgeschlossen</p>
+  {% if not calendar_events %}<p class="muted">Für dein Benutzerkonto sind derzeit keine Besprechungstermine hinterlegt.</p>{% endif %}
+</section>
+
+<section class="card">
+  <div class="section-heading"><div><h2>Nächster Termin je Besprechungsreihe</h2><p class="muted">Die jeweils nächste noch nicht abgeschlossene Besprechung deiner Reihen.</p></div></div>
+  {% if series_rows %}
+  <div class="table-scroll">
+    <table class="meetings-series-table">
+      <thead><tr><th scope="col">Gremium / Besprechungsreihe</th><th scope="col">Nächster Termin</th><th scope="col">Besprechung</th><th scope="col">Deine Rolle</th><th scope="col">Offene Tagesordnungspunkte</th></tr></thead>
+      <tbody>
+      {% for row in series_rows %}
+        <tr>
+          <td><strong>{{ row.series.name }}</strong></td>
+          <td>{% if row.meeting %}<a href="{% url 'meeting' row.meeting.pk %}">{{ row.meeting.date|date:"d.m.Y" }}</a>{% else %}<span class="muted">Kein Termin geplant</span>{% endif %}</td>
+          <td>{% if row.meeting %}{{ row.meeting.title|default:"Besprechung" }}{% else %}—{% endif %}</td>
+          <td><span class="role-pill">{{ row.role }}</span></td>
+          <td>{% if row.meeting %}{{ row.open_agenda_count }}{% else %}—{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}<p class="muted">Du hast noch keine Besprechungsreihe zugewiesen bekommen.</p>{% endif %}
+</section>
+
+{{ calendar_events|json_script:"meetings-calendar-events" }}
+<style>
+.meetings-calendar-card{min-width:0}
+.calendar-toolbar,.calendar-heading,.calendar-options,.calendar-navigation,.calendar-view-switch{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.calendar-toolbar{justify-content:space-between;margin-bottom:1rem}
+.calendar-heading{justify-content:space-between;flex:1 1 260px}
+.calendar-heading h2{margin:.2rem 0}
+.calendar-navigation button,.calendar-view-switch button{min-width:38px}
+.calendar-view-switch .is-selected{background:var(--hagen-blue);color:white}
+.calendar-options{justify-content:flex-end}
+.past-toggle{display:inline-flex;align-items:center;gap:.4rem;font-size:.9rem}
+.past-toggle input{width:auto}
+.calendar-weekdays,.meetings-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.calendar-weekdays{gap:4px;margin-bottom:4px;text-align:center;font-size:.82rem;font-weight:700;color:var(--muted)}
+.calendar-day{min-width:0;min-height:112px;padding:.45rem;border:1px solid var(--border);background:var(--surface);overflow:hidden}
+.calendar-day.is-outside{background:var(--soft-bg);color:var(--muted)}
+.calendar-day.is-today{outline:2px solid var(--hagen-blue);outline-offset:-2px}
+.calendar-day-number{display:block;font-size:.82rem;font-weight:700;margin-bottom:.35rem}
+.calendar-event{display:block;margin:.2rem 0;padding:.25rem .35rem;border-left:3px solid var(--hagen-blue);border-radius:3px;background:var(--soft-bg);font-size:.75rem;line-height:1.3;text-decoration:none;overflow-wrap:anywhere}
+.calendar-event.is-finalized{border-left-color:var(--muted);opacity:.75}
+.calendar-event strong,.calendar-event span{display:block}
+.calendar-event span{color:var(--muted)}
+.calendar-day-empty{font-size:.75rem;color:var(--muted)}
+.calendar-legend{display:flex;align-items:center;gap:.4rem;font-size:.8rem;margin:.7rem 0 0}
+.calendar-dot{width:9px;height:9px;border-radius:50%;background:var(--hagen-blue);display:inline-block}
+.calendar-dot.finalized{background:var(--muted);margin-left:.5rem}
+.section-heading{margin-bottom:.5rem}
+.section-heading h2{margin-bottom:.2rem}
+.table-scroll{overflow-x:auto}
+.meetings-series-table{width:100%;border-collapse:collapse}
+.meetings-series-table th,.meetings-series-table td{padding:.7rem .6rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:middle}
+.meetings-series-table tbody tr:last-child td{border-bottom:0}
+.role-pill{display:inline-block;padding:.2rem .5rem;border-radius:999px;background:var(--soft-bg);font-size:.82rem}
+@media(max-width:650px){
+ .calendar-toolbar{align-items:flex-start}
+ .calendar-options{justify-content:flex-start}
+ .calendar-day{min-height:86px;padding:.25rem}
+ .calendar-event{font-size:.68rem;padding:.2rem}
+ .calendar-event span{display:none}
+ .calendar-day-number{font-size:.75rem}
+ .meetings-series-table{min-width:680px}
+}
+</style>
+<script>
+(() => {
+  const source = document.getElementById("meetings-calendar-events");
+  const calendar = document.getElementById("meetings-calendar");
+  const title = document.getElementById("calendar-title");
+  if (!source || !calendar || !title) return;
+  const events = JSON.parse(source.textContent);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  let cursor = new Date(today.getFullYear(), today.getMonth(), 1);
+  let view = "month";
+  const showPast = document.getElementById("calendar-show-past");
+  const dateFromIso = value => {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+  const iso = date => [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+  const monday = date => {
+    const result = new Date(date);
+    result.setDate(result.getDate() - ((result.getDay() + 6) % 7));
+    return result;
+  };
+  const sameDay = (a, b) => iso(a) === iso(b);
+  const visibleEvents = events.filter(event => showPast.checked || dateFromIso(event.date) >= today);
+  const render = () => {
+    const start = view === "month" ? monday(new Date(cursor.getFullYear(), cursor.getMonth(), 1)) : monday(cursor);
+    const days = view === "month" ? Math.ceil((Math.ceil((new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0).getDate() + (new Date(cursor.getFullYear(), cursor.getMonth(), 1).getDay() + 6) % 7) / 7)) * 7) : 7;
+    const end = new Date(start);
+    end.setDate(start.getDate() + days - 1);
+    const fmt = {day:"2-digit", month:"long", year:"numeric"};
+    title.textContent = view === "month"
+      ? cursor.toLocaleDateString("de-DE", {month:"long", year:"numeric"})
+      : start.toLocaleDateString("de-DE", {day:"2-digit", month:"short"}) + " – " + end.toLocaleDateString("de-DE", fmt);
+    calendar.replaceChildren();
+    for (let i = 0; i < days; i++) {
+      const date = new Date(start);
+      date.setDate(start.getDate() + i);
+      const cell = document.createElement("div");
+      cell.className = "calendar-day";
+      if (view === "month" && date.getMonth() !== cursor.getMonth()) cell.classList.add("is-outside");
+      if (sameDay(date, today)) cell.classList.add("is-today");
+      const number = document.createElement("span");
+      number.className = "calendar-day-number";
+      number.textContent = date.getDate();
+      cell.append(number);
+      const dayEvents = visibleEvents.filter(event => event.date === iso(date));
+      dayEvents.forEach(event => {
+        const link = document.createElement("a");
+        link.className = "calendar-event" + (event.finalized ? " is-finalized" : "");
+        link.href = event.url;
+        const name = document.createElement("strong");
+        name.textContent = event.series;
+        const detail = document.createElement("span");
+        detail.textContent = event.title + " · " + event.role;
+        link.append(name, detail);
+        cell.append(link);
+      });
+      if (!dayEvents.length && view === "week") {
+        const empty = document.createElement("span");
+        empty.className = "calendar-day-empty";
+        empty.textContent = "Keine Besprechung";
+        cell.append(empty);
+      }
+      calendar.append(cell);
+    }
+  };
+  document.getElementById("calendar-previous").addEventListener("click", () => {
+    if (view === "month") cursor.setMonth(cursor.getMonth() - 1);
+    else cursor.setDate(cursor.getDate() - 7);
+    render();
+  });
+  document.getElementById("calendar-next").addEventListener("click", () => {
+    if (view === "month") cursor.setMonth(cursor.getMonth() + 1);
+    else cursor.setDate(cursor.getDate() + 7);
+    render();
+  });
+  document.getElementById("calendar-today").addEventListener("click", () => {
+    cursor = view === "month" ? new Date(today.getFullYear(), today.getMonth(), 1) : new Date(today);
+    render();
+  });
+  document.querySelectorAll("[data-calendar-view]").forEach(button => button.addEventListener("click", () => {
+    view = button.dataset.calendarView;
+    document.querySelectorAll("[data-calendar-view]").forEach(item => {
+      const selected = item === button;
+      item.classList.toggle("is-selected", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
+    render();
+  }));
+  showPast.addEventListener("change", render);
+  render();
+})();
+</script>
+{% endblock %}
