@@ -15,11 +15,10 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.client.force_login(self.user)
         self.topic = Topic.objects.create(
             title="Strategisches Thema",
-            description="Bisherige Beschreibung muss erhalten bleiben",
             series=self.series,
         )
 
-    def test_topic_view_shows_meeting_texts_and_legacy_description_without_topic_status(self):
+    def test_topic_view_shows_meeting_texts_without_legacy_topic_description_or_status(self):
         first = Meeting.objects.create(series=self.series, date="2026-10-06", finalized_at="2026-10-06T10:00:00Z")
         second = Meeting.objects.create(series=self.series, date="2026-12-01")
         AgendaItem.objects.create(meeting=first, topic=self.topic, working_text="Alter Tagesordnungstext")
@@ -32,7 +31,7 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Gesicherter alter Protokolltext")
         self.assertContains(response, "Aktueller Tagesordnungstext")
-        self.assertContains(response, "Bisherige Beschreibung muss erhalten bleiben")
+        self.assertNotContains(response, "Bisherige Themenbeschreibung")
         self.assertNotContains(response, "Abschlussvermerk")
         self.assertNotContains(response, "Themenstatus")
         self.assertNotContains(response, "Beschreibung und aktueller Stand")
@@ -49,7 +48,7 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.topic.refresh_from_db()
         self.assertEqual(item.working_text, "Überarbeiteter Text")
         self.assertEqual(item.assigned_to, self.user)
-        self.assertEqual(self.topic.description, "Bisherige Beschreibung muss erhalten bleiben")
+        self.assertNotIn("description", {field.name for field in Topic._meta.get_fields()})
 
     def test_finalized_meeting_text_is_read_only(self):
         meeting = Meeting.objects.create(
