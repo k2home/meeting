@@ -994,6 +994,8 @@ def archive(request):
 @transaction.atomic
 def attachment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
+    if topic.series_id is None and not is_admin(request.user):
+        return HttpResponseForbidden("Archivierte Themen sind schreibgeschützt.")
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
         obj = form.save(commit=False)
