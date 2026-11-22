@@ -8,8 +8,11 @@ fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
 # below because it is intentionally local and may have been tracked by old releases.
-if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' \
-  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env'; then
+# The installer keeps the host-specific Nginx configuration in
+# /etc/nginx/sites-available/meeting-manager. Older installer versions also
+# modified this tracked template in-place; tolerate that legacy local diff.
+if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ':(exclude)deploy/nginx-meeting-manager.conf' \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env' ':(exclude)deploy/nginx-meeting-manager.conf'; then
   echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env." >&2
   git -C "$APP_DIR" status --short
   exit 1
