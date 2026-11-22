@@ -484,18 +484,35 @@ def agenda_item_delete(request, pk, item_pk):
         messages.error(request, "Tagesordnungspunkte abgeschlossener Besprechungen können nicht gelöscht werden.")
         return redirect("meeting", pk=pk)
     item = get_object_or_404(
-        AgendaItem.objects.select_related("topic"),
+        AgendaItem.objects.select_for_update().select_related("topic"),
         pk=item_pk, meeting=meeting,
     )
     topic = item.topic
+    predecessor_id = item.followup_of_id
+    successor = AgendaItem.objects.select_for_update().filter(followup_of=item).first()
+    if successor:
+        # Release the one-to-one link before reconnecting the successor.
+        if predecessor_id:
+            item.followup_of = None
+            item.save(update_fields=["followup_of"])
+            successor.followup_of_id = predecessor_id
+        else:
+            successor.followup_of = None
+        successor.save(update_fields=["followup_of"])
     item.delete()
     record_event(
         actor=request.user, action="updated",
         summary=f"„{topic.title}“ aus der Tagesordnung am {meeting.date:%d.%m.%Y} entfernt",
         topic=topic, meeting=meeting,
-        changes={"Tagesordnungspunkt": {"vorher": meeting.date.isoformat(), "nachher": None}},
+        changes={
+            "Tagesordnungspunkt": {"vorher": meeting.date.isoformat(), "nachher": None},
+            "Wiedervorlage": {
+                "Vorgänger erhalten": bool(predecessor_id and successor),
+                "Nachfolger": successor.pk if successor else None,
+            },
+        },
     )
-    messages.success(request, f"„{topic.title}“ wurde aus diesem Besprechungstermin entfernt. Das Thema bleibt bestehen.")
+    messages.success(request, f"„{topic.title}“ wurde aus diesem Besprechungstermin entfernt. Bestehende Wiedervorlagen wurden soweit möglich verbunden; das Thema bleibt bestehen.")
     return redirect("topic_edit", pk=topic.pk)
 
 
@@ -730,6 +747,7 @@ def meeting_detail(request, pk):
                 messages.error(request, "Bitte prüfe den Titel des neuen Themas.")
         elif request.POST.get("save_all_working_texts"):
             changed_count = 0
+            followup_failed = False
             for agenda_item in items:
                 field_name = f"working_text_{agenda_item.pk}"
                 if field_name not in request.POST:
@@ -754,12 +772,18 @@ def meeting_detail(request, pk):
                     try:
                         success_message = _schedule_agenda_followup(scheduled_item, schedule_form.cleaned_data["target_series"], schedule_form.cleaned_data["target_meeting"], request.user)
                     except ValueError as exc:
-                        messages.error(request, str(exc))
+                        followup_failed = True
+                        messages.error(request, f"{exc} Die geänderten Tagesordnungstexte wurden unabhängig davon gespeichert; die Wiedervorlage wurde nicht übernommen.")
                     else:
                         messages.success(request, success_message)
                 else:
-                    messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen Termin.")
-            messages.success(request, f"{changed_count} geänderte Tagesordnungspunkte gespeichert.")
+                    followup_failed = True
+                    messages.error(request, "Die Wiedervorlage wurde nicht übernommen. Die geänderten Tagesordnungstexte wurden unabhängig davon gespeichert.")
+            if changed_count:
+                if followup_failed:
+                    messages.info(request, f"{changed_count} geänderte Tagesordnungstexte wurden gespeichert; die Wiedervorlage blieb unverändert.")
+                else:
+                    messages.success(request, f"{changed_count} geänderte Tagesordnungspunkte gespeichert.")
         else:
             item_id = request.POST.get("item_id")
             if item_id:
@@ -1661,6 +1685,23 @@ def meeting_delete(request, pk):
             return redirect("meeting", pk=pk)
 
         if target is not None:
+            # Validate every duplicate merge before moving participants or items.
+            # A conflict must abort the entire operation without partial changes.
+            for source_item in meeting.agenda_items.select_related("topic").order_by("position", "pk"):
+                existing_item = target.agenda_items.filter(topic=source_item.topic).first()
+                if existing_item is None:
+                    continue
+                source_child = AgendaItem.objects.filter(followup_of=source_item).first()
+                existing_child = AgendaItem.objects.filter(followup_of=existing_item).first()
+                if (
+                    source_item.followup_of_id and existing_item.followup_of_id
+                    and source_item.followup_of_id != existing_item.followup_of_id
+                ):
+                    messages.error(request, "Der Termin kann nicht gelöscht werden: Zusammengeführte Tagesordnungspunkte haben unterschiedliche Wiedervorlage-Vorgänger.")
+                    return redirect("meeting", pk=pk)
+                if source_child and existing_child and source_child.pk != existing_child.pk:
+                    messages.error(request, "Der Termin kann nicht gelöscht werden: Zusammengeführte Tagesordnungspunkte haben unterschiedliche Wiedervorlage-Nachfolger.")
+                    return redirect("meeting", pk=pk)
             if meeting.participants.exists():
                 target.participants.add(*meeting.participants.all())
             next_position = (
@@ -1681,19 +1722,20 @@ def meeting_delete(request, pk):
                     status_rank = {"open": 0, "in_progress": 1, "done": 2}
                     if status_rank.get(item.status, 0) > status_rank.get(existing.status, 0):
                         existing.status = item.status
-                    previous_followup = item.followup_of if item.followup_of_id else None
+                    previous_followup_id = item.followup_of_id
                     linked_followup = AgendaItem.objects.filter(followup_of=item).first()
                     existing_followup = AgendaItem.objects.filter(followup_of=existing).first()
                     if linked_followup and not existing_followup:
                         linked_followup.followup_of = existing
                         linked_followup.save(update_fields=["followup_of"])
-                    existing.save(update_fields=["working_text", "assigned_to", "status"])
+                    if previous_followup_id and not existing.followup_of_id:
+                        # Release the predecessor's one-to-one slot before
+                        # attaching it to the surviving agenda item.
+                        item.followup_of = None
+                        item.save(update_fields=["followup_of"])
+                        existing.followup_of_id = previous_followup_id
+                    existing.save(update_fields=["working_text", "assigned_to", "status", "followup_of"])
                     item.delete()
-                    # The OneToOne relation is unique; release the source link
-                    # before assigning its predecessor to the merged agenda item.
-                    if previous_followup and not existing.followup_of_id:
-                        existing.followup_of = previous_followup
-                        existing.save(update_fields=["followup_of"])
                 else:
                     item.meeting = target
                     item.position = next_position
