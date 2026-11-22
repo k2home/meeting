@@ -1,7 +1,7 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
-<div class="topline"><div><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle Themen der zugewiesenen Besprechungsreihen auf einen Blick.</p></div>{% if not is_reader %}<div class="actions"><a class="btn secondary" href="{% url 'my_tasks' %}">Meine Aufgaben</a><a class="btn" href="{% url 'topic_new' %}">+ Neues Thema</a></div>{% endif %}</div>
+<div class="topline"><div><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle Themen der zugewiesenen Besprechungsreihen auf einen Blick.</p></div></div>
 {% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }} überfällige {% if overdue_count == 1 %}Thema{% else %}Themen{% endif %}</strong><span> — bitte geplante Termine prüfen.</span></div>{% endif %}
 <section class="card"><h2>Nächste Besprechungen</h2>
 {% for group in meeting_groups %}
