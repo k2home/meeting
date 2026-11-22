@@ -475,17 +475,13 @@ class TopicAgendaCsvImportTests(TestCase):
         writer = csv.writer(output, delimiter=";")
         writer.writerow([
             "series", "topic_series", "meeting_date", "meeting_title", "topic_title",
-            "topic_current_status", "topic_due_date", "topic_status",
-            "responsible_username", "responsible_kurzbezeichnung",
-            "agenda_responsible_username", "agenda_responsible_kurzbezeichnung", "agenda_text",
+            "topic_due_date", "topic_status", "responsible_username",
+            "responsible_kurzbezeichnung", "agenda_responsible_username",
+            "agenda_responsible_kurzbezeichnung", "agenda_text",
         ])
         for row in rows:
-            if len(row) == 8:
-                row = [*row[:7], "", "", "", row[7]]
-            elif len(row) == 9:
-                row = [*row[:8], "", "", row[8]]
-            elif len(row) == 10:
-                row = [*row[:4], "", *row[4:]]
+            if len(row) != 10:
+                raise AssertionError(f"Expected 10 row values, got {len(row)}: {row!r}")
             writer.writerow(["CSV-Reihe", topic_series_name, *row])
         return output.getvalue()
 
@@ -515,21 +511,20 @@ class TopicAgendaCsvImportTests(TestCase):
     def test_import_creates_topic_meeting_and_agenda_item(self):
         response = self._confirm_import(self._csv([[
             "2026-12-03", "Reguläre Sitzung", "Neues Thema",
-            "Aktueller Stand", "2026-12-03", "open", "", "Beratungstext",
+            "2026-12-03", "open", "", "", "", "Beratungstext",
         ]]))
         self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
         topic = Topic.objects.get(title="Neues Thema")
         meeting = Meeting.objects.get(series=self.series, date="2026-12-03")
         item = AgendaItem.objects.get(meeting=meeting, topic=topic)
-        self.assertEqual(topic.description, "Aktueller Stand")
         self.assertEqual(item.working_text, "Beratungstext")
         self.assertEqual(item.position, 0)
         self.assertFalse(item.carried_forward)
 
     def test_repeated_topic_title_is_matched_automatically_and_missing_meetings_created(self):
         response = self._confirm_import(self._csv([
-            ["2026-12-03", "", "Mehrfachthema", "Sachstand", "", "open", "", "Erster Stand"],
-            ["2027-01-14", "", "Mehrfachthema", "Sachstand", "", "open", "", "Zweiter Stand"],
+            ["2026-12-03", "", "Mehrfachthema", "", "open", "", "", "", "", "Erster Stand"],
+            ["2027-01-14", "", "Mehrfachthema", "", "open", "", "", "", "", "Zweiter Stand"],
         ]))
         self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
         topic = Topic.objects.get(title="Mehrfachthema")
@@ -545,8 +540,8 @@ class TopicAgendaCsvImportTests(TestCase):
         )
         UserProfile.objects.create(user=responsible, short_description="Teamleitung Bau")
         self._confirm_import(self._csv([[
-            "2026-12-03", "", "Verantwortliches Thema", "", "", "open", "",
-            "Teamleitung Bau", "Sachstand",
+            "2026-12-03", "", "Verantwortliches Thema", "", "open", "",
+            "Teamleitung Bau", "", "", "Sachstand",
         ]]))
         topic = Topic.objects.get(title="Verantwortliches Thema")
         item = AgendaItem.objects.get(topic=topic)
@@ -556,7 +551,7 @@ class TopicAgendaCsvImportTests(TestCase):
     def test_agenda_responsible_user_is_imported_independently_from_topic_owner(self):
         item_owner = User.objects.create_user(username="agenda-csv-owner", password="strong-test-password")
         response = self._confirm_import(self._csv([[
-            "2026-12-03", "", "Punktverantwortung", "Sachstand", "open",
+            "2026-12-03", "", "Punktverantwortung", "", "open",
             "", "", "agenda-csv-owner", "", "Punkttext",
         ]]))
         self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
@@ -570,7 +565,7 @@ class TopicAgendaCsvImportTests(TestCase):
         topic_series = MeetingSeries.objects.create(name="Themenreihe")
         response = self._confirm_import(self._csv([[
             "2026-12-03", "Sondersitzung", "Thema aus anderer Reihe",
-            "Sachstand", "", "open", "", "Punkttext",
+            "", "open", "", "", "", "", "Punkttext",
         ]], topic_series_name="Themenreihe"))
         self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
         topic = Topic.objects.get(title="Thema aus anderer Reihe")
@@ -590,7 +585,7 @@ class TopicAgendaCsvImportTests(TestCase):
             "topic_current_status", "topic_due_date", "topic_status",
             "responsible_username", "responsible_kurzbezeichnung", "agenda_text",
         ])
-        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "Sachstand", "", "open", "", "", "Punkttext"])
+        writer.writerow(["CSV-Reihe", "2026-12-03", "Sitzung", "Altes CSV-Thema", "", "open", "", "", "Punkttext"])
         self._confirm_import(output.getvalue())
         topic = Topic.objects.get(title="Altes CSV-Thema")
         item = AgendaItem.objects.get(topic=topic)
@@ -600,7 +595,7 @@ class TopicAgendaCsvImportTests(TestCase):
     def test_legacy_due_date_becomes_a_separate_agenda_item(self):
         response = self._confirm_import(self._csv([[
             "2026-12-03", "Reguläre Sitzung", "Alte Wiedervorlage",
-            "Sachstand", "2027-01-14", "open", "", "Erster Stand",
+            "2027-01-14", "open", "", "", "", "", "Erster Stand",
         ]]))
         self.assertRedirects(response, reverse("admin:meetings_topic_changelist"))
         topic = Topic.objects.get(title="Alte Wiedervorlage")
@@ -611,8 +606,8 @@ class TopicAgendaCsvImportTests(TestCase):
 
     def test_explicit_future_csv_row_wins_over_legacy_synthetic_followup(self):
         self._confirm_import(self._csv([
-            ["2026-12-03", "Reguläre Sitzung", "Legacy-Doppelzeile", "Sachstand", "2027-01-14", "open", "", "Text Dezember"],
-            ["2027-01-14", "Reguläre Sitzung", "Legacy-Doppelzeile", "Sachstand", "2027-01-14", "open", "", "Expliziter Text Januar"],
+            ["2026-12-03", "Reguläre Sitzung", "Legacy-Doppelzeile", "2027-01-14", "open", "", "", "", "", "Text Dezember"],
+            ["2027-01-14", "Reguläre Sitzung", "Legacy-Doppelzeile", "2027-01-14", "open", "", "", "", "", "Expliziter Text Januar"],
         ]))
         topic = Topic.objects.get(title="Legacy-Doppelzeile")
         future_item = AgendaItem.objects.get(topic=topic, meeting__date="2027-01-14")
@@ -627,8 +622,8 @@ class TopicAgendaCsvImportTests(TestCase):
         UserProfile.objects.create(user=second, short_description="Doppelt")
         from .topic_csv import parse_topic_agenda_csv
         text = self._csv([[
-            "2026-12-03", "", "Mehrdeutiges Thema", "", "", "open", "",
-            "Doppelt", "Text",
+            "2026-12-03", "", "Mehrdeutiges Thema", "", "open", "",
+            "Doppelt", "", "", "Text",
         ]])
         rows, errors = parse_topic_agenda_csv(text)
         self.assertEqual(rows, [])
@@ -636,8 +631,8 @@ class TopicAgendaCsvImportTests(TestCase):
 
     def test_position_follows_csv_row_order_for_each_meeting(self):
         self._confirm_import(self._csv([
-            ["2026-12-03", "", "Erstes Thema", "", "", "open", "", "Text 1"],
-            ["2026-12-03", "", "Zweites Thema", "", "", "open", "", "Text 2"],
+            ["2026-12-03", "", "Erstes Thema", "", "open", "", "", "", "", "Text 1"],
+            ["2026-12-03", "", "Zweites Thema", "", "open", "", "", "", "", "Text 2"],
         ]))
         meeting = Meeting.objects.get(series=self.series, date="2026-12-03")
         self.assertEqual(
