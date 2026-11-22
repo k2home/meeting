@@ -556,7 +556,8 @@ class MeetingReopenTests(TestCase):
     def test_reopened_meeting_can_be_completed_again_with_a_new_snapshot(self):
         self.client.post(reverse("meeting_reopen", args=[self.meeting.pk]))
         self.item.working_text = "Überarbeiteter Stand"
-        self.item.save(update_fields=["working_text"])
+        self.item.assigned_to = self.admin
+        self.item.save(update_fields=["working_text", "assigned_to"])
 
         response = self.client.post(reverse("finalize", args=[self.meeting.pk]))
 
@@ -565,6 +566,7 @@ class MeetingReopenTests(TestCase):
         self.assertIsNotNone(self.meeting.finalized_at)
         self.assertEqual(self.meeting.snapshots.count(), 1)
         self.assertEqual(self.meeting.snapshots.get().text, "Überarbeiteter Stand")
+        self.assertEqual(self.meeting.snapshots.get().responsible_name, "meeting-admin")
 
     def test_non_staff_user_cannot_reopen_meeting(self):
         member = User.objects.create_user(username="meeting-member", password="strong-test-password")
