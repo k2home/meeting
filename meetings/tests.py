@@ -6,6 +6,27 @@ from .models import Meeting, MeetingSeries, SeriesAccess, Topic, TopicTransferHi
 User = get_user_model()
 
 class AccountSecurityTests(TestCase):
+    def test_password_policy_accepts_eight_characters_with_required_character_types(self):
+        from django.contrib.auth.password_validation import validate_password
+
+        validate_password("Abcdef1!")
+
+    def test_password_policy_rejects_missing_character_types(self):
+        from django.contrib.auth.password_validation import validate_password
+        from django.core.exceptions import ValidationError
+
+        for password in ("abcdefgh", "ABCDEFGH", "Abcdefg1"):
+            with self.subTest(password=password):
+                with self.assertRaises(ValidationError):
+                    validate_password(password)
+
+    def test_password_policy_rejects_passwords_shorter_than_eight_characters(self):
+        from django.contrib.auth.password_validation import validate_password
+        from django.core.exceptions import ValidationError
+
+        with self.assertRaises(ValidationError):
+            validate_password("Abc1!")
+
     def test_unknown_username_does_not_create_account(self):
         response = self.client.post(reverse("login"), {"username": "not-a-user", "password": "wrong"})
         self.assertEqual(response.status_code, 200)
