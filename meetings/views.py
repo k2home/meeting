@@ -470,32 +470,32 @@ def meeting_detail(request, pk):
                 messages.success(request, "Zuständigkeit des Tagesordnungspunkts gespeichert.")
             else:
                 messages.info(request, "Die Zuständigkeit ist unverändert.")
-        elif request.POST.get("update_topic_status"):
-            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_topic_status"), meeting=meeting)
+        elif request.POST.get("update_agenda_status"):
+            item = get_object_or_404(AgendaItem, pk=request.POST.get("update_agenda_status"), meeting=meeting)
             new_status = request.POST.get("status")
-            valid_statuses = dict(Topic.STATUS)
+            valid_statuses = dict(AgendaItem.STATUS)
             if new_status not in valid_statuses:
-                messages.error(request, "Bitte wähle einen gültigen Themenstatus.")
-            elif item.topic.status != new_status:
-                old_status = item.topic.get_status_display()
-                item.topic.status = new_status
-                item.topic.save(update_fields=["status", "updated_at"])
+                messages.error(request, "Bitte wähle einen gültigen Bearbeitungsstand für diesen Tagesordnungspunkt.")
+            elif item.status != new_status:
+                old_status = item.get_status_display()
+                item.status = new_status
+                item.save(update_fields=["status"])
                 record_event(
                     actor=request.user, action="updated",
-                    summary=f"Status für „{item.topic.title}“ auf {valid_statuses[new_status]} gesetzt",
+                    summary=f"Bearbeitungsstand für Agenda-Punkt „{item.topic.title}“ auf {valid_statuses[new_status]} gesetzt",
                     topic=item.topic, meeting=meeting,
-                    changes={"Status": {"vorher": old_status, "nachher": valid_statuses[new_status]}},
+                    changes={"Bearbeitungsstand Tagesordnungspunkt": {"vorher": old_status, "nachher": valid_statuses[new_status]}},
                 )
-                messages.success(request, "Themenstatus gespeichert.")
+                messages.success(request, "Bearbeitungsstand des Tagesordnungspunkts gespeichert.")
             else:
-                messages.info(request, "Der Themenstatus ist unverändert.")
+                messages.info(request, "Der Bearbeitungsstand ist unverändert.")
         elif request.POST.get("add_existing_topic"):
             topic = get_object_or_404(accessible_topics(request.user), pk=request.POST.get("add_existing_topic"))
             if meeting.agenda_items.filter(topic=topic).exists():
                 messages.info(request, f"„{topic.title}“ steht bereits auf dieser Tagesordnung.")
             else:
                 AgendaItem.objects.create(
-                    meeting=meeting, topic=topic, working_text=topic.description,
+                    meeting=meeting, topic=topic, working_text="",
                     position=(meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if meeting.agenda_items.exists() else -1) + 1,
                 )
                 record_event(
@@ -514,8 +514,7 @@ def meeting_detail(request, pk):
                     messages.error(request, "Bitte gib einen Thementitel ein.")
                 else:
                     topic = Topic.objects.create(
-                        title=title, description=working_text, series=meeting.series,
-                        assigned_to=create_form.cleaned_data["topic_assigned_to"],
+                        title=title, series=meeting.series,
                     )
                     AgendaItem.objects.create(
                         meeting=meeting, topic=topic, working_text=working_text,
@@ -702,12 +701,12 @@ def agenda_topic_history(request, pk, topic_pk):
     history = {}
     for entry in AgendaItem.objects.filter(
         topic=item.topic, meeting__in=visible_meetings
-    ).select_related("meeting__series", "assigned_to", "topic__assigned_to"):
+    ).select_related("meeting__series", "assigned_to"):
         history[entry.meeting_id] = {
             "series": entry.meeting.series.name if entry.meeting.series else "Gelöschte Besprechungsreihe",
             "date": entry.meeting.date,
             "text": entry.working_text,
-            "responsible": user_display_name(entry.assigned_to or entry.topic.assigned_to) if (entry.assigned_to or entry.topic.assigned_to) else "",
+            "responsible": user_display_name(entry.assigned_to) if entry.assigned_to else "",
         }
     from .models import TopicSnapshot
     for snapshot in TopicSnapshot.objects.filter(
