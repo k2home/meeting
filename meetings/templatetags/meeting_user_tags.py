@@ -17,6 +17,19 @@ def user_display_context(user):
 
 
 @register.filter
+def user_display_assignee(user):
+    """Display an assignee's short description before their full name."""
+    if user is None:
+        return ""
+    name = user_display_name(user)
+    try:
+        short_description = user.meeting_profile.short_description.strip()
+    except ObjectDoesNotExist:
+        short_description = ""
+    return f"{short_description} – {name}" if short_description else name
+
+
+@register.filter
 def user_display_with_login(user):
     """Display a person's name and, for administration, their login identifier."""
     return user_display_name_with_login(user)
