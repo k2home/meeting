@@ -614,7 +614,7 @@ class TopicAgendaCsvImportTests(TestCase):
         ]]))
         topic = Topic.objects.get(title="Verantwortliches Thema")
         item = AgendaItem.objects.get(topic=topic)
-        self.assertIsNone(topic.assigned_to)
+        self.assertEqual(topic.assigned_to, responsible)
         self.assertEqual(item.assigned_to, responsible)
 
     def test_agenda_responsible_user_is_imported_independently_from_topic_owner(self):
