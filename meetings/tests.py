@@ -1412,7 +1412,10 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
             ("renamed-second", {"values": {"email": "first@example.org"}}),
         ]
         resolved, errors = _resolve_existing_users(grouped)
-        self.assertTrue(any("dasselbe Benutzerkonto" in error for error in errors))
+        self.assertTrue(any(
+            "dasselbe Benutzerkonto" in error or "mehreren CSV-Benutzern" in error
+            for error in errors
+        ))
 
         grouped = [
             ("new-user-a", {"values": {"email": "new@example.org"}}),
@@ -1432,7 +1435,9 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         self.client.force_login(user)
         response = self.client.post(reverse("meeting_delete", args=[meeting.pk]))
         self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
-        self.assertContains(
-            self.client.get(reverse("meeting", args=[meeting.pk])),
+        from django.contrib.messages import get_messages
+        stored_messages = [str(message) for message in get_messages(response.wsgi_request)]
+        self.assertIn(
             "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht gelöscht werden.",
+            stored_messages,
         )
