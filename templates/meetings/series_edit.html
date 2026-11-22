@@ -10,7 +10,7 @@
 <div class="card">
   <h2>Termine neu aufsetzen</h2>
   <p>Alle nicht abgeschlossenen Termine werden entfernt und anhand der aktuellen Serieneinstellungen neu angelegt. Bereits vorhandene Tagesordnungspunkte werden auf den nächsten neuen Termin übertragen. Abgeschlossene Termine und ihre Protokolle bleiben erhalten.</p>
-  <form method="post" action="{% url 'series_reset_meetings' series.pk %}" onsubmit="return confirm('Alle nicht abgeschlossenen Termine dieser Reihe löschen und neu erzeugen? Tagesordnungspunkte werden auf den nächsten Termin übertragen. Abgeschlossene Protokolle bleiben erhalten.');">
+  <form method="post" action="{% url 'series_reset_meetings' series.pk %}" data-confirm-message="Alle nicht abgeschlossenen Termine dieser Reihe löschen und neu erzeugen? Tagesordnungspunkte werden auf den nächsten Termin übertragen. Abgeschlossene Protokolle bleiben erhalten.">
     {% csrf_token %}
     <button class="danger" type="submit">Alle nicht abgeschlossenen Termine löschen und neu anlegen …</button>
   </form>
@@ -18,7 +18,7 @@
 <div class="card">
   <h2>Terminserie verlängern</h2>
   <p>Ergänzt fehlende Termine mit den aktuellen Einstellungen bis zum 31.12. des Folgejahres. Bestehende Termine bleiben unverändert.</p>
-  <form method="post" action="{% url 'series_extend' series.pk %}" onsubmit="return confirm('Die Terminserie bis zum 31.12. des Folgejahres verlängern?');">
+  <form method="post" action="{% url 'series_extend' series.pk %}" data-confirm-message="Die Terminserie bis zum 31.12. des Folgejahres verlängern?">
     {% csrf_token %}
     <button type="submit">Verlängern</button>
   </form>
