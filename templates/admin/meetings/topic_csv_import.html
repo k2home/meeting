@@ -2,14 +2,15 @@
 {% load i18n %}
 {% block content %}
 <div id="content-main">
-  <p>Importiere Themen und Tagesordnungspunkte aus einer CSV-Datei. Jede Zeile ordnet genau ein Thema einem Besprechungstermin zu. Mehrere Zeilen mit demselben <code>topic_key</code> verwenden dasselbe Thema an mehreren Terminen.</p>
+  <p>Importiere Themen und Tagesordnungspunkte aus einer CSV-Datei. Jede Zeile ordnet genau ein Thema einem Besprechungstermin zu. Wenn ein Thema in mehreren Zeilen mit demselben Titel innerhalb derselben Besprechungsreihe vorkommt, wird es automatisch wiedererkannt.</p>
   <p><a class="button" href="{% url 'admin:meetings_topic_csv_sample' %}">Muster-CSV herunterladen</a></p>
   <h2>Spalten und Regeln</h2>
   <ul>
-    <li>Pflicht: <code>series</code>, <code>meeting_date</code>, <code>topic_key</code>, <code>topic_title</code>.</li>
+    <li>Pflicht: <code>series</code>, <code>meeting_date</code>, <code>topic_title</code>.</li>
     <li>Datum: <code>JJJJ-MM-TT</code> oder <code>TT.MM.JJJJ</code>. Trennzeichen: Semikolon, Kodierung: UTF-8.</li>
     <li>Die Besprechungsreihe muss bereits existieren. Ein fehlender Termin wird angelegt; abgeschlossene Termine werden nicht verändert.</li>
-    <li>Ein vorhandenes Thema wird über <code>topic_id</code> oder eindeutig über Besprechungsreihe und Titel erkannt. Ohne Treffer wird es angelegt.</li>
+    <li>Ein vorhandenes Thema wird automatisch über Besprechungsreihe und Titel erkannt. Ohne Treffer wird es angelegt. Die technische ID wird intern vergeben.</li>
+    <li><code>topic_current_status</code> entspricht dem Feld „Aktueller Stand“ in der Themenbearbeitung. Die Reihenfolge ergibt sich aus der Reihenfolge der CSV-Zeilen je Termin; Übernahmen werden automatisch erkannt.</li>
     <li>Gültige Statuswerte: <code>open</code>, <code>in_progress</code>, <code>done</code>, <code>archived</code>. Verantwortliche werden über ihren Anmeldenamen gesucht.</li>
   </ul>
   {% if errors %}<div class="messagelist">{% for error in errors %}<div class="error">{{ error }}</div>{% endfor %}</div>{% endif %}
