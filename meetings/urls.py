@@ -11,6 +11,7 @@ urlpatterns = [
     path("open-topics/", views.open_topics, name="open_topics"),
     path("meeting/<int:pk>/", views.meeting_detail, name="meeting"),
     path("meeting/<int:pk>/agenda/reorder/", views.agenda_reorder, name="agenda_reorder"),
+    path("meeting/<int:pk>/agenda/<int:item_pk>/delete/", views.agenda_item_delete, name="agenda_item_delete"),
     path("meeting/<int:pk>/topics/<int:topic_pk>/history/", views.agenda_topic_history, name="agenda_topic_history"),
     path("topics/suggestions/", views.topic_suggestions, name="topic_suggestions"),
     path("meeting/<int:pk>/protocol/", views.protocol, name="protocol"),
