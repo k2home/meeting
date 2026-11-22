@@ -134,7 +134,6 @@ def dashboard(request):
     if query:
         topics = topics.filter(
             Q(title__icontains=query)
-            | Q(description__icontains=query)
             | Q(series__name__icontains=query)
             | Q(agenda_items__assigned_to__username__icontains=query)
             | Q(agenda_items__assigned_to__first_name__icontains=query)
@@ -747,17 +746,14 @@ def topic_edit(request, pk):
             field.disabled = True
     if request.method == "POST" and form.is_valid():
         old_series = original_topic.series
-        before = {"title": original_topic.title, "description": original_topic.description,
-                  "status": original_topic.status,
+        before = {"title": original_topic.title, "status": original_topic.status,
                   "series": str(original_topic.series) if original_topic.series else None,
                   "assigned_to": str(original_topic.assigned_to) if original_topic.assigned_to else None}
         updated_topic = form.save(commit=False)
         new_series = updated_topic.series
-        after = {"title": updated_topic.title, "description": updated_topic.description,
-                 "status": updated_topic.status, "series": str(new_series) if new_series else None,
+        after = {"title": updated_topic.title, "status": updated_topic.status, "series": str(new_series) if new_series else None,
                  "assigned_to": str(updated_topic.assigned_to) if updated_topic.assigned_to else None}
-        labels = {"title": "Titel", "description": "Beschreibung",
-                  "status": "Status", "series": "Besprechungsreihe",
+        labels = {"title": "Titel", "status": "Status", "series": "Besprechungsreihe",
                   "assigned_to": "Verantwortlich"}
         changes = {
             labels[field]: {"vorher": before[field], "nachher": after[field]}
