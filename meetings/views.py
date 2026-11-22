@@ -51,7 +51,7 @@ def _series_for_view(view, kwargs):
     pk = kwargs.get("pk")
     if not pk:
         return None
-    if view.__name__ in {"agenda_reorder", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen"}:
+    if view.__name__ in {"agenda_reorder", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen", "finalize"}:
         meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
         return meeting.series if meeting else None
     if view.__name__ in {"series_edit", "series_delete", "series_extend", "series_reset_meetings"}:
@@ -1092,6 +1092,17 @@ def attachment_add(request, pk):
         messages.success(request, "Anlage hinzugefügt.")
         return redirect("topic_edit", pk=pk)
     return render(request, "meetings/attachment_form.html", {"form": form, "topic": topic})
+
+
+@login_required
+def attachment_download(request, pk):
+    attachment = get_object_or_404(
+        TopicAttachment.objects.select_related("topic__series"),
+        pk=pk, topic__in=accessible_topics(request.user),
+    )
+    from .secure_files import serve_topic_upload
+    return serve_topic_upload(attachment)
+
 
 def _protocol_entries(meeting):
     """Return the immutable snapshot for finalized meetings or the live draft."""
