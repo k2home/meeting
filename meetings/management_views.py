@@ -20,7 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
 from .access import is_admin
-from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection, EnaioDiagnosticReport, EnaioAgentLog
+from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
@@ -203,85 +203,6 @@ def enaio_connection_diagnostics(request):
         ],
         "note": "Der Server kann die lokale Windows-/Citrix-Sitzung des Browserbenutzers nicht einsehen.",
     })
-
-
-def _redact_diagnostic_value(value):
-    import re
-    if isinstance(value, dict):
-        return {str(key)[:100]: _redact_diagnostic_value(item) for key, item in value.items()}
-    if isinstance(value, list):
-        return [_redact_diagnostic_value(item) for item in value[:500]]
-    if isinstance(value, str):
-        text = value[:12000]
-        text = re.sub(r"(?i)(bearer\\s+)[A-Za-z0-9._~+/-]+=*", r"\\1[REDACTED]", text)
-        text = re.sub(r"(?i)((?:password|passwd|secret|token|cookie|authorization|session(?:id|_id)?|pairing[_-]?code)\\s*[:=]\\s*)[^\\s,;]+", r"\\1[REDACTED]", text)
-        return text
-    if value is None or isinstance(value, (bool, int, float)):
-        return value
-    return str(value)[:1000]
-
-
-def _analyze_enaio_report(report, logs):
-    tests = [item for section in ("browser", "server") for item in report.get(section, []) if isinstance(item, dict)]
-    errors = [item for item in tests if str(item.get("result", "")).upper() in {"FEHLER", "ERROR", "FAILED"}]
-    warnings = [item for item in tests if any(word in str(item.get("result", "")).upper() for word in ("FEHLT", "UNVOLLSTÄNDIG", "NICHT VERFÜGBAR", "NICHT MÖGLICH", "HINWEIS"))]
-    agent_errors = [item for item in logs if item["level"] == "ERROR"]
-    agent_warnings = [item for item in logs if item["level"] == "WARNING"]
-    return {
-        "browser_server_checks": len(tests),
-        "diagnostic_errors": len(errors),
-        "diagnostic_warnings": len(warnings),
-        "agent_log_entries": len(logs),
-        "agent_errors": len(agent_errors),
-        "agent_warnings": len(agent_warnings),
-        "findings": [
-            {"test": item.get("test", "Unbekannter Test"), "result": item.get("result", ""), "detail": item.get("detail", "")}
-            for item in errors + warnings
-        ],
-        "recommendation": (
-            "Kritische Fehler in den Agent-Logs zuerst beheben." if agent_errors else
-            "Die erkannten Konfigurations- und Integrationshinweise prüfen." if warnings else
-            "Keine auffälligen Diagnoseergebnisse erkannt."
-        ),
-    }
-
-
-@login_required
-@require_http_methods(["POST"])
-def enaio_diagnostic_report_save(request):
-    _require_admin(request)
-    import json
-    if len(request.body) > 150000:
-        return JsonResponse({"error": "Der Diagnosebericht ist zu groß."}, status=413)
-    try:
-        payload = json.loads(request.body or b"{}")
-    except (ValueError, UnicodeDecodeError):
-        return JsonResponse({"error": "Ungültiger JSON-Bericht."}, status=400)
-    if not isinstance(payload, dict) or payload.get("report_type") != "Meeting Manager – enaio Browserdiagnose":
-        return JsonResponse({"error": "Unbekanntes Berichtsformat."}, status=400)
-    safe_report = _redact_diagnostic_value(payload)
-    logs = [{
-        "created_at": item.created_at.isoformat(),
-        "level": item.level,
-        "device": item.agent.device_name or "Unbekannter Arbeitsplatz",
-        "user": item.agent.user.get_full_name() or item.agent.user.get_username(),
-        "message": _redact_diagnostic_value(item.message),
-    } for item in EnaioAgentLog.objects.select_related("agent", "agent__user").order_by("-created_at")[:300]]
-    safe_report["agent_logs"] = logs
-    analysis = _analyze_enaio_report(safe_report, logs)
-    saved = EnaioDiagnosticReport.objects.create(created_by=request.user, report=safe_report, analysis=analysis)
-    EnaioDiagnosticReport.objects.order_by("-created_at", "-pk")[20:].delete()
-    return JsonResponse({"id": saved.pk, "created_at": saved.created_at.isoformat(), "report": saved.report, "analysis": saved.analysis})
-
-
-@login_required
-@require_http_methods(["GET"])
-def enaio_diagnostic_report_latest(request):
-    _require_admin(request)
-    saved = EnaioDiagnosticReport.objects.first()
-    if not saved:
-        return JsonResponse({"available": False})
-    return JsonResponse({"available": True, "id": saved.pk, "created_at": saved.created_at.isoformat(), "report": saved.report, "analysis": saved.analysis})
 
 
 @login_required
