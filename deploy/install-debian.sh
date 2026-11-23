@@ -103,7 +103,9 @@ TRUST_PROXY_SSL=0
 USE_X_FORWARDED_HOST=0
 EOF
 else
-  if ! grep -q '^SETUP_TOKEN=.' "$APP_DIR/.env"; then
+  if grep -q '^SETUP_TOKEN=' "$APP_DIR/.env"; then
+    sed -i "s/^SETUP_TOKEN=.*/SETUP_TOKEN=$SETUP_TOKEN/" "$APP_DIR/.env"
+  else
     printf '\nSETUP_TOKEN=%s\n' "$SETUP_TOKEN" >> "$APP_DIR/.env"
   fi
   # Keep reverse-proxy, HTTPS and other local settings intact on existing systems.
