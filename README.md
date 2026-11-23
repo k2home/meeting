@@ -297,7 +297,7 @@ Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisc
 
 3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
 
-4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Den Einrichtungscode vertraulich behandeln.
+4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto mit dem vom Installer ausgegebenen Einrichtungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Den Einrichtungscode vertraulich behandeln. Den Einrichtungscode vertraulich behandeln.
 
 
 Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
