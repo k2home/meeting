@@ -1,7 +1,9 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 from . import agenda_topic_views
 from . import guide_views
+from . import management_views
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
@@ -32,6 +34,22 @@ urlpatterns = [
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
+    path("konto/passwort-zuruecksetzen/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(template_name="meetings/password_reset_confirm.html"), name="password_reset_confirm"),
+    path("konto/passwort-zuruecksetzen/abgeschlossen/", auth_views.PasswordResetCompleteView.as_view(template_name="meetings/password_reset_complete.html"), name="password_reset_complete"),
+    path("verwaltung/", management_views.management_home, name="management_home"),
+    path("verwaltung/nutzer/", management_views.management_users, name="management_users"),
+    path("verwaltung/nutzer/neu/", management_views.management_user_edit, name="management_user_new"),
+    path("verwaltung/nutzer/<int:pk>/", management_views.management_user_edit, name="management_user_edit"),
+    path("verwaltung/gruppen/", management_views.management_groups, name="management_groups"),
+    path("verwaltung/organisation/", management_views.management_settings, name="management_settings"),
+    path("verwaltung/daten/", management_views.management_data, name="management_data"),
+    path("verwaltung/nutzer/<int:pk>/reihen/", management_views.management_user_series, name="management_user_series"),
+    path("verwaltung/nutzer/<int:pk>/passwort-zuruecksetzen/", management_views.management_user_password_reset, name="management_user_password_reset"),
+    path("verwaltung/nutzer/csv-export/", management_views.management_user_csv_export, name="management_user_csv_export"),
+    path("verwaltung/nutzer/csv-import/", management_views.management_user_csv_import, name="management_user_csv_import"),
+    path("verwaltung/themen/csv-export/", management_views.management_topic_csv_export, name="management_topic_csv_export"),
+    path("verwaltung/themen/csv-import/", management_views.management_topic_csv_import, name="management_topic_csv_import"),
+    path("verwaltung/themen/csv-muster/", management_views.management_topic_csv_sample, name="management_topic_csv_sample"),
     path("admin/updates/", views.deployment_updates, name="deployment_updates"),
     path("admin/series/", views.series_admin, name="series_admin"),
     path("admin/series/<int:pk>/edit/", views.series_edit, name="series_edit"),

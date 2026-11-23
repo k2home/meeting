@@ -1,0 +1,18 @@
+{% extends "meetings/base.html" %}
+{% block title %}Organisationseinstellungen{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Organisationseinstellungen</h1><p class="muted">Zentrale Darstellung und Verhalten der Organisation festlegen.</p></div><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a></div>
+<div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="actions"><button class="primary" type="submit">Einstellungen speichern</button></div></form></div>
+<script>
+document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],input[name$="_color_dark"]').forEach(function(input){
+  input.setAttribute('pattern','^$|^#[0-9A-Fa-f]{6}$');
+  input.setAttribute('placeholder','#RRGGBB');
+  var picker=document.createElement('input');
+  picker.type='color';
+  picker.setAttribute('aria-label','Farbe auswählen');
+  picker.value=/^#[0-9A-Fa-f]{6}$/.test(input.value)?input.value:'#00549F';
+  picker.addEventListener('input',function(){input.value=picker.value.toUpperCase();});
+  input.insertAdjacentElement('afterend',picker);
+});
+</script>
+{% endblock %}

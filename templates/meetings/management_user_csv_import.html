@@ -1,0 +1,8 @@
+{% extends "meetings/base.html" %}
+{% block title %}Nutzer per CSV importieren{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Nutzer per CSV importieren</h1><p class="muted">CSV-Datei prüfen und anschließend übernehmen</p></div><a class="btn secondary" href="{% url 'management_data' %}">Zurück</a></div>
+<div class="card"><p>UTF-8, Semikolon-getrennt. Mehrere Zeilen mit demselben Benutzernamen bilden einen Benutzer mit mehreren Serienzuordnungen.</p>
+{% if errors %}<ul class="errorlist">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+{% if preview %}<h2>Importvorschau</h2><p>{{ preview.users }} Benutzer: {{ preview.new_users }} neu, {{ preview.updated_users }} Aktualisierungen, {{ preview.assignments }} Zuordnungen.</p><p>Bestehende Zuordnungen der importierten Benutzer werden durch die CSV-Zuordnungen ersetzt.</p><form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="token" value="{{ preview.token }}"><button class="primary">Import jetzt durchführen</button></form>{% else %}<form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button class="primary">CSV prüfen</button></form>{% endif %}
+</div>{% endblock %}

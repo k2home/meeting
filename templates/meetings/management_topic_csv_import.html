@@ -1,0 +1,8 @@
+{% extends "meetings/base.html" %}
+{% block title %}Themen und Punkte importieren{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Themen und Tagesordnungspunkte importieren</h1><p class="muted">CSV-Datei prüfen und anschließend übernehmen</p></div><a class="btn secondary" href="{% url 'management_data' %}">Zurück</a></div>
+<div class="card"><p>Der Import unterstützt Themen, Tagesordnungspunkte, Zuständigkeiten, Status und Wiedervorlage-Verknüpfungen. Abgeschlossene Protokolle werden nicht verändert.</p><p><a class="btn secondary" href="{% url 'management_topic_csv_sample' %}">Muster-CSV herunterladen</a> <a class="btn secondary" href="{% url 'management_topic_csv_export' %}">Datenbank als CSV exportieren</a></p>
+{% if errors %}<ul class="errorlist">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+{% if preview %}<h2>Importvorschau</h2><ul><li>{{ preview.rows }} Zeilen für {{ preview.topics }} Themen</li><li>{{ preview.new_topics }} neue Themen, {{ preview.existing_topics }} vorhandene</li><li>{{ preview.meetings }} neue Termine</li><li>{{ preview.agenda_items }} Tagesordnungspunkte</li></ul><form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="token" value="{{ preview.token }}"><button class="primary">Import jetzt durchführen</button></form>{% else %}<form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button class="primary">CSV prüfen</button></form>{% endif %}
+</div>{% endblock %}
