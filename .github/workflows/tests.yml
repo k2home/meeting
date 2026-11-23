@@ -60,6 +60,7 @@ jobs:
         run: |
           bash -n deploy/*.sh
           bash -n deploy/meeting-manager-update
+          bash -n deploy/meeting-manager-update-runner
           python -m compileall -q config meetings
           python -m py_compile deploy/docker-update-agent.py
           python manage.py check
