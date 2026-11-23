@@ -1425,9 +1425,9 @@ def enaio_transfer_start(request, pk):
         return JsonResponse({
             "error": "Die zentrale enaio-Ordner-ID ist noch nicht unter Verwaltung → enaio-Einstellungen hinterlegt."
         }, status=400)
-    if not filing_settings.archive_name or not filing_settings.register_type_name or not filing_settings.register_name_field or not filing_settings.document_type_name:
+    if not filing_settings.document_type_name:
         return JsonResponse({
-            "error": "Die enaio-Objektdefinition ist noch unvollständig. Bitte Schrankname, Registertyp, Register-Namensfeld und Dokumenttyp unter Verwaltung → enaio-Einstellungen hinterlegen."
+            "error": "Der technische enaio-Dokumenttyp fehlt. Bitte den Dokumenttyp für Protokoll-PDFs unter Verwaltung → enaio-Einstellungen hinterlegen."
         }, status=400)
     transfer = EnaioTransfer.objects.create(
         user=request.user, meeting=meeting,
