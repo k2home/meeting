@@ -47,21 +47,40 @@ def compose(*args, image=None, timeout=180):
     )
 
 
-def current_image():
-    result = compose("config", "--format", "json", timeout=30)
-    if result.returncode:
-        raise RuntimeError("Compose-Konfiguration kann nicht gelesen werden: " + result.stderr[-2000:])
-    config = json.loads(result.stdout)
-    return config["services"]["app"]["image"]
+def preserve_running_image():
+    result = compose("ps", "-q", "app", timeout=30)
+    if result.returncode or not result.stdout.strip():
+        return None
+    container_id = result.stdout.strip().splitlines()[0]
+    inspect = subprocess.run(
+        ["/usr/bin/docker", "inspect", "--format", "{{.Image}}", container_id],
+        text=True, capture_output=True, timeout=30, check=False,
+    )
+    if inspect.returncode or not inspect.stdout.strip():
+        raise RuntimeError("Das bisherige App-Image kann nicht gesichert werden.")
+    rollback_ref = "meeting-manager-rollback:" + container_id[:12]
+    tag = subprocess.run(
+        ["/usr/bin/docker", "image", "tag", inspect.stdout.strip(), rollback_ref],
+        text=True, capture_output=True, timeout=30, check=False,
+    )
+    if tag.returncode:
+        raise RuntimeError("Das bisherige App-Image kann nicht für einen Rollback markiert werden.")
+    return rollback_ref
 
 
+def remove_rollback_image(image_ref):
+    if image_ref:
+        subprocess.run(
+            ["/usr/bin/docker", "image", "rm", image_ref],
+            text=True, capture_output=True, timeout=30, check=False,
+        )
 def run_update(branch):
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
     log = []
     previous_image = None
     try:
-        previous_image = current_image()
+        previous_image = preserve_running_image()
         target_image = f"ghcr.io/k2home/meeting:{'latest' if branch == 'main' else 'beta'}"
         result = compose("pull", "app", image=target_image, timeout=900)
         log.append(result.stdout + result.stderr)
@@ -82,6 +101,7 @@ def run_update(branch):
         if not healthy:
             raise RuntimeError("Die Django-Prüfung war nach dem Update nicht erfolgreich.")
         write_state(status="success", branch=branch, started_at=started, finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), message=f"Update auf {branch} erfolgreich.", log="\n".join(log)[-16000:])
+        remove_rollback_image(previous_image)
     except Exception as exc:
         log.append(str(exc))
         rollback_message = ""
@@ -90,6 +110,8 @@ def run_update(branch):
                 rollback = compose("up", "-d", "--no-deps", "app", image=previous_image, timeout=240)
                 log.append(rollback.stdout + rollback.stderr)
                 rollback_message = " Vorheriges Image wurde wiederhergestellt." if rollback.returncode == 0 else " Wiederherstellung des vorherigen Images fehlgeschlagen."
+                if rollback.returncode == 0:
+                    remove_rollback_image(previous_image)
             except Exception as rollback_exc:
                 log.append("Rollback: " + str(rollback_exc))
                 rollback_message = " Wiederherstellung des vorherigen Images fehlgeschlagen."
