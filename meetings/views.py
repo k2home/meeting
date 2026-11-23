@@ -141,15 +141,18 @@ def dashboard(request):
 
     topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
     query = request.GET.get("q", "").strip()
-    selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "open")
+    selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "active")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
     selected_due = request.GET.get("due", "")
 
-    if selected_status in {"open", "in_progress", "done"}:
+    if selected_status == "active":
+        topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
+    elif selected_status in {"open", "in_progress", "done"}:
         topics = topics.filter(agenda_items__status=selected_status)
     elif selected_status != "all":
-        selected_status = "open"
+        selected_status = "active"
+        topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
 
     if query:
         topics = topics.filter(
