@@ -17,7 +17,7 @@
   <a class="meeting-menu-link" href="{% url 'protocol_docx' meeting.id %}">Word herunterladen</a>
   <a class="meeting-menu-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
-  <form method="post" action="{% url 'meeting_reopen' meeting.id %}">
+  <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'d.m.Y' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">
     {% csrf_token %}
     <button type="submit" class="meeting-menu-button">Besprechung wieder öffnen</button>
   </form>
