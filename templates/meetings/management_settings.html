@@ -67,9 +67,18 @@ document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],inp
   field.addEventListener("change", () => {
     const file = field.files?.[0];
     if (!file || !file.type.startsWith("image/")) { preview.hidden = true; preview.removeAttribute("src"); return; }
-    const reader = new FileReader();
-    reader.onload = () => { preview.src = reader.result; preview.hidden = false; };
-    reader.readAsDataURL(file);
+    const previousUrl = preview.dataset.objectUrl;
+    if (previousUrl) URL.revokeObjectURL(previousUrl);
+    const objectUrl = URL.createObjectURL(file);
+    preview.dataset.objectUrl = objectUrl;
+    preview.onload = () => { preview.hidden = false; };
+    preview.onerror = () => {
+      preview.hidden = true;
+      preview.removeAttribute("src");
+      URL.revokeObjectURL(objectUrl);
+      delete preview.dataset.objectUrl;
+    };
+    preview.src = objectUrl;
   });
 })();
 </script>
