@@ -365,7 +365,7 @@ Globale Administrator*innen öffnen in der Seitenleiste **Software aktualisieren
 sudo bash /opt/meeting-manager/deploy/install-debian-updater.sh
 ```
 
-Das Skript ändert weder Datenbank noch `.env` oder Python-Umgebung. Danach sind reguläre Updates über die Weboberfläche möglich. Bei Docker-Installationen, auf denen der Host-Updater aus dem vorherigen Deployment-Schritt bereits eingerichtet ist, ist keine zusätzliche SSH-Aktion erforderlich.
+Das Skript ändert weder Datenbank noch `.env` oder Python-Umgebung. Danach sind reguläre Updates über die Weboberfläche möglich. Bei bestehenden Docker-Installationen muss der Host-Updater nach dem Aktualisieren des Repository-Checkouts einmalig mit `sudo bash deploy/install-docker-updater.sh` aktualisiert werden. Das installiert den aktuellen eingeschränkten Agenten und startet ihn neu. Der Agent merkt sich anschließend den ausgewählten Image-Branch in der lokalen `.env`; andere Einstellungen in dieser Datei bleiben unverändert. Die App-Images enthalten Commit- und Branch-Metadaten.
 
 Vor Updates sollten weiterhin regelmäßige Backups von Datenbank und hochgeladenen Dateien vorhanden sein. Ein Docker-Rollback stellt das vorherige App-Image wieder her; bereits erfolgreich ausgeführte Datenbankmigrationen werden dabei nicht automatisch zurückgesetzt.
 
