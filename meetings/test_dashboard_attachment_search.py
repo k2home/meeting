@@ -17,7 +17,7 @@ class DashboardAttachmentSearchTests(TestCase):
         SeriesAccess.objects.create(user=self.user, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT)
         self.topic = Topic.objects.create(title="Dokumentation", series=self.series)
         meeting = Meeting.objects.create(series=self.series, date=timezone.localdate() + timedelta(days=3))
-        AgendaItem.objects.create(meeting=meeting, topic=self.topic, working_text="Besprechung")
+        AgendaItem.objects.create(meeting=meeting, topic=self.topic, working_text="Besprechung", assigned_to=self.user)
         TopicAttachment.objects.create(topic=self.topic, label="Brandschutzplan", network_path="\\\\server\\\\planung\\\\plan.pdf")
 
     def test_dashboard_search_finds_attachment_labels(self):
