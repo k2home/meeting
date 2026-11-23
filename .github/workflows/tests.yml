@@ -43,10 +43,15 @@ jobs:
           cache-dependency-path: |
             requirements.txt
             requirements-constraints.txt
+      - name: Install native SVG runtime dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcairo2
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt -c requirements-constraints.txt
+          python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2\" height=\"2\"><rect width=\"2\" height=\"2\" fill=\"#00549f\"/></svg>"); assert png.startswith(b"\x89PNG\r\n\x1a\n")'
       - name: Run Django checks
         env:
           SECRET_KEY: ci-only-secret-key-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ

@@ -206,6 +206,9 @@ fi
 # From this point onward the environment or database may no longer be
 # compatible with the previous source revision; do not switch code back blindly.
 ROLLBACK_SAFE=0
+# CairoSVG wraps the native Cairo library; install it on Debian hosts too.
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libcairo2
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
 runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput

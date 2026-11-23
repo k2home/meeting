@@ -13,7 +13,7 @@ echo "==> Installiere Systempakete"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3 python3-venv python3-dev build-essential libpq-dev \
-  postgresql postgresql-contrib nginx git openssl sudo
+  postgresql postgresql-contrib nginx git openssl sudo libcairo2
 
 echo "==> Richte Dienstkonto und Verzeichnisse ein"
 if ! id meetingapp >/dev/null 2>&1; then
