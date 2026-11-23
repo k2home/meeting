@@ -92,7 +92,8 @@ class EnaioAgentLeaseTests(TestCase):
         settings_obj = EnaioSettings.objects.get(pk=1)
         self.assertEqual(settings_obj.root_folder_id, "123")
         self.assertEqual(settings_obj.root_folder_path, "/Ablage/Protokolle")
-        other_user = User.objects.create_user(username="other-user", password="strong-test-password")
+        User.objects.create_user(username="other-user", password="strong-test-password")
+        self.assertEqual(EnaioSettings.objects.count(), 1)
         self.assertEqual(EnaioSettings.objects.get(pk=1).root_folder_id, settings_obj.root_folder_id)
 
 
