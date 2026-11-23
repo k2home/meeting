@@ -6,13 +6,9 @@
   <a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a>
 </div>
 <div class="card">
-  <p>Alle Protokolle werden unterhalb dieses Ordners abgelegt. Innerhalb des Ordners wird je Besprechungsreihe ein gleichnamiges Register verwendet. Fehlt das Register, öffnet enaio die Indexdatenmaske. Die Anlage und jede Dokumentablage müssen im enaio-Client bestätigt werden.</p>
+  <p>Alle Protokolle werden unterhalb des zentralen enaio-Ablageordners abgelegt. Der Ordnername und Pfad werden nach der Auswahl aus enaio hier ausschließlich zur Information angezeigt. Die technische Schrank- und Registerdefinition soll später automatisch aus dem im enaio-Client geöffneten Ordner ermittelt werden; eine manuelle Eingabe ist dafür nicht vorgesehen.</p>
   {% if configured %}<p class="muted">Ein Ablageordner ist konfiguriert.</p>{% else %}<p class="muted">Noch kein Ablageordner konfiguriert. Die enaio-Ablage bleibt bis zur Einrichtung deaktiviert.</p>{% endif %}
-  {% if not object_definition_configured %}<p class="muted">Die technische Schrank-/Registerdefinition fehlt noch. Protokollablagen bleiben deaktiviert, bis alle vier technischen Angaben hinterlegt sind.</p>{% endif %}
   <form method="post" id="enaio-settings-form">
-    <p>{{ form.archive_name.label_tag }} {{ form.archive_name }}{% if form.archive_name.help_text %}<small class="muted">{{ form.archive_name.help_text }}</small>{% endif %}{{ form.archive_name.errors }}</p>
-    <p>{{ form.register_type_name.label_tag }} {{ form.register_type_name }}{% if form.register_type_name.help_text %}<small class="muted">{{ form.register_type_name.help_text }}</small>{% endif %}{{ form.register_type_name.errors }}</p>
-    <p>{{ form.register_name_field.label_tag }} {{ form.register_name_field }}{% if form.register_name_field.help_text %}<small class="muted">{{ form.register_name_field.help_text }}</small>{% endif %}{{ form.register_name_field.errors }}</p>
     <p>{{ form.document_type_name.label_tag }} {{ form.document_type_name }}{% if form.document_type_name.help_text %}<small class="muted">{{ form.document_type_name.help_text }}</small>{% endif %}{{ form.document_type_name.errors }}</p>
     {% csrf_token %}
     <p>{{ form.root_folder_id.label_tag }} {{ form.root_folder_id }}
@@ -21,8 +17,9 @@
       {% if form.root_folder_type.help_text %}<small class="muted">{{ form.root_folder_type.help_text }}</small>{% endif %}{{ form.root_folder_type.errors }}</p>
     <div class="card" style="margin:1rem 0">
       <strong>Ausgewählter Ordner in enaio</strong>
-      {% if folder_name %}<p>{{ folder_name }}</p>{% else %}<p class="muted">Noch kein Ordnername aus enaio übernommen.</p>{% endif %}
+      {% if folder_name %}<p><strong>{{ folder_name }}</strong></p>{% else %}<p class="muted">Noch kein Ordnername aus enaio übernommen.</p>{% endif %}
       {% if folder_path %}<small class="muted">{{ folder_path }}</small>{% endif %}
+      <small class="muted">Der Ordnername ist eine Information und wird nicht manuell eingegeben.</small>
     </div>
     <div class="actions">
       <button class="secondary" type="button" id="enaio-select-folder">Ordner aus enaio auswählen</button>
@@ -200,8 +197,8 @@
         data.server.https ? "HTTPS wird verwendet." : "Die aktuelle Anfrage verwendet kein HTTPS."));
       report.server.push(check("Zentraler enaio-Ablageordner", data.configuration.root_folder_configured ? "KONFIGURIERT" : "FEHLT",
         data.configuration.root_folder_configured ? "Eine Ordner-ID ist hinterlegt." : "Es ist noch keine zentrale Ordner-ID hinterlegt."));
-      report.server.push(check("Technische Objektdefinition", data.configuration.object_definition_configured ? "KONFIGURIERT" : "UNVOLLSTÄNDIG",
-        data.configuration.object_definition_configured ? "Schrank, Registertyp, Namensfeld und Dokumenttyp sind hinterlegt." : "Fehlende Angaben: " + (data.configuration.missing_fields || []).map(item => item.label).join(", ")));
+      report.server.push(check("Technische Objektdefinition", data.configuration.object_definition_automatic ? "AUTOMATISCHE ERMITTLUNG VORGESEHEN" : "NICHT KONFIGURIERT",
+        data.configuration.object_definition_automatic ? "Die manuelle Eingabe entfällt. Schrank- und Registerinformationen sollen später aus dem im enaio-Client geöffneten Ordner ermittelt werden." : "Die automatische Ermittlung ist nicht aktiviert."));
       report.server.push(check("Session-/COM-Prüfung serverseitig", "NICHT MÖGLICH", data.note));
       report.conclusion = data.checks_not_possible_from_server;
       report.conclusion.push("Ein Browserbericht kann das Vorhandensein einer COM-Schnittstelle im enaio-Client nicht abschließend beweisen.");
