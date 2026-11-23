@@ -62,3 +62,8 @@ class StyledConfirmationDialogTests(SimpleTestCase):
         self.assertIn("color:var(--primary-button-text,#fff)", shared)
         self.assertIn("background:var(--soft-bg,var(--admin-surface,#e9edf2))", shared)
         self.assertIn("color:var(--text,var(--admin-text,#344054))", shared)
+
+    def test_clearing_followup_enables_schedule_submission(self):
+        meeting_template = (REPOSITORY_ROOT / "templates/meetings/meeting.html").read_text(encoding="utf-8")
+        self.assertIn("const initialMeetingValue = meeting.value;", meeting_template)
+        self.assertIn("scheduleFlag.disabled = meeting.value === initialMeetingValue;", meeting_template)
