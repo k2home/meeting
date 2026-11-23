@@ -42,7 +42,7 @@ class AuditHistoryCsvExportTests(TestCase):
         response = self.client.get(reverse("audit_history_csv"))
         rows = list(csv.reader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
         self.assertTrue(any(row[6].startswith("'=HYPERLINK(") for row in rows[1:]))
-        self.assertTrue(any(row[7].startswith("'{") for row in rows[1:]))
+        self.assertTrue(any(row[7] == '{"Notiz": "=1+1"}' for row in rows[1:]))
 
     def test_participant_cannot_export_audit_history(self):
         self.client.force_login(self.participant)
