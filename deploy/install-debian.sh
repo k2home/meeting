@@ -46,6 +46,7 @@ read_existing_env() {
 if [[ -f "$APP_DIR/.env" ]]; then
   SECRET_KEY="$(read_existing_env SECRET_KEY)"
   DB_PASSWORD="$(read_existing_env POSTGRES_PASSWORD)"
+  SETUP_TOKEN="$(read_existing_env SETUP_TOKEN)"
   if [[ -z "$SECRET_KEY" || -z "$DB_PASSWORD" ]]; then
     echo "Die vorhandene .env enthält keinen SECRET_KEY oder POSTGRES_PASSWORD. Bitte zuerst manuell sichern und korrigieren." >&2
     exit 1
@@ -53,6 +54,10 @@ if [[ -f "$APP_DIR/.env" ]]; then
 else
   SECRET_KEY="$(openssl rand -hex 48)"
   DB_PASSWORD="$(openssl rand -hex 24)"
+  SETUP_TOKEN="$(openssl rand -hex 32)"
+fi
+if [[ -z "$SETUP_TOKEN" ]]; then
+  SETUP_TOKEN="$(openssl rand -hex 32)"
 fi
 
 echo "==> Richte lokale PostgreSQL-Datenbank ein"
@@ -78,6 +83,7 @@ if [[ ! -f "$APP_DIR/.env" ]]; then
   umask 077
   cat > "$APP_DIR/.env" <<EOF
 SECRET_KEY=$SECRET_KEY
+SETUP_TOKEN=$SETUP_TOKEN
 DEBUG=0
 ALLOWED_HOSTS=$SITE_HOST,localhost,127.0.0.1
 CSRF_TRUSTED_ORIGINS=
@@ -97,6 +103,9 @@ TRUST_PROXY_SSL=0
 USE_X_FORWARDED_HOST=0
 EOF
 else
+  if ! grep -q '^SETUP_TOKEN=.' "$APP_DIR/.env"; then
+    printf '\\nSETUP_TOKEN=%s\\n' "$SETUP_TOKEN" >> "$APP_DIR/.env"
+  fi
   # Keep reverse-proxy, HTTPS and other local settings intact on existing systems.
   CURRENT_HOSTS="$(read_existing_env ALLOWED_HOSTS)"
   if [[ -n "$CURRENT_HOSTS" && ",$CURRENT_HOSTS," != *",$SITE_HOST,"* ]]; then
@@ -152,4 +161,5 @@ echo
 echo "Die technischen Zugangsdaten wurden automatisch erzeugt und in $APP_DIR/.env gespeichert."
 echo "WICHTIG: .env enthält Secrets und ist nur für root und www-data lesbar. Nicht einchecken oder weitergeben."
 echo "HTTPS: Für produktiven Zugriff HTTPS über einen vorgeschalteten Reverse Proxy konfigurieren."
-echo "Admin: Das erste Administratorkonto muss nach dem Start einmalig angelegt werden (siehe README)."
+echo "Einrichtungscode für den ersten Browser-Aufruf: $SETUP_TOKEN"
+echo "Bitte den Einrichtungscode vertraulich behandeln und nach Abschluss der Einrichtung sicher verwahren oder löschen."
