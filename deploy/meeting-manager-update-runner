@@ -9,6 +9,14 @@ if [[ "$#" -ne 1 || ! "$1" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$ || "$1" == *".
   echo "Ungültiger Update-Branch." >&2
   exit 2
 fi
+TESTING_MODE_FILE="/var/lib/meeting-manager-updater/testing-mode"
+TESTING_ARGS=()
+if [[ -f "$TESTING_MODE_FILE" ]]; then
+  TESTING_ARGS=(-testing)
+elif [[ "$1" != "main" && "$1" != "beta" ]]; then
+  echo "Zusätzliche Branches sind nur im aktivierten -testing-Modus verfügbar." >&2
+  exit 2
+fi
 if ! /usr/bin/git -C /opt/meeting-manager ls-remote --exit-code origin "refs/heads/$1" >/dev/null 2>&1; then
   echo "Der ausgewählte Branch ist im Remote-Repository nicht verfügbar." >&2
   exit 2
@@ -51,7 +59,7 @@ chmod 0640 "$LOG_FILE"
 write_state "running" "Update auf $1 wird ausgeführt." "$STARTED_AT" "" "$1"
 
 set +e
-/usr/bin/bash "$APP_DIR/deploy/update.sh" "$1" >>"$LOG_FILE" 2>&1
+/usr/bin/bash "$APP_DIR/deploy/update.sh" "${TESTING_ARGS[@]}" "$1" >>"$LOG_FILE" 2>&1
 RESULT=$?
 if [[ "$RESULT" -eq 0 ]]; then
   # The updater lives outside the Git checkout. Refresh its privileged host
