@@ -35,7 +35,7 @@ class CalendarExportTests(TestCase):
         self.assertEqual(response["Content-Type"], "text/calendar; charset=utf-8")
         self.assertIn('attachment; filename="meeting-manager.ics"', response["Content-Disposition"])
         content = response.content.decode("utf-8")
-        self.assertIn(r"SUMMARY:Planung\\,\\;Überblick", content)
+        self.assertIn(r"SUMMARY:Planung\,\;Überblick", content)
         self.assertIn("DESCRIPTION:Sichtbare Reihe", content)
         self.assertIn("SUMMARY:Archivierter Termin", content)
         self.assertIn("DESCRIPTION:Ehemalige Reihe", content)
@@ -44,7 +44,7 @@ class CalendarExportTests(TestCase):
         self.assertIn("DTSTART;VALUE=DATE:20261201", content)
         self.assertIn("DTEND;VALUE=DATE:20261202", content)
         self.assertIn("DTSTART;VALUE=DATE:20261203", content)
-        self.assertTrue(content.endswith("END:VCALENDAR\\r\\n"))
+        self.assertTrue(content.endswith("END:VCALENDAR\r\n"))
 
     def test_administrator_can_export_all_series(self):
         self.user.is_superuser = True
