@@ -25,3 +25,32 @@ def serve_topic_upload(attachment):
     response["X-Content-Type-Options"] = "nosniff"
     response["Cache-Control"] = "private, no-store"
     return response
+
+
+def serve_organization_logo(logo):
+    """Stream the organization logo without exposing the media directory publicly."""
+    import mimetypes
+
+    if not logo:
+        raise Http404("Es ist kein Organisationslogo hinterlegt.")
+
+    try:
+        root = Path(settings.MEDIA_ROOT).resolve(strict=True)
+        path = Path(safe_join(str(root), logo.name)).resolve(strict=True)
+        path.relative_to(root)
+    except (FileNotFoundError, ValueError, SuspiciousFileOperation):
+        raise Http404("Das Organisationslogo wurde nicht gefunden.")
+
+    if not path.is_file():
+        raise Http404("Das Organisationslogo wurde nicht gefunden.")
+
+    content_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+    response = FileResponse(
+        path.open("rb"), as_attachment=False, filename=path.name,
+        content_type=content_type,
+    )
+    response["Content-Disposition"] = f'inline; filename="{path.name}"'
+    response["X-Content-Type-Options"] = "nosniff"
+    response["Cache-Control"] = "private, no-store"
+    response["Cross-Origin-Resource-Policy"] = "same-origin"
+    return response
