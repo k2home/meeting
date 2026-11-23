@@ -41,6 +41,7 @@ class PersonalMeetingsOverviewTests(TestCase):
         self.assertNotContains(response, "Fremde Reihe")
         self.assertContains(response, "Vergangene Sitzung")
         self.assertContains(response, "calendar-show-past")
+        self.assertContains(response, "calendar-hide-finalized")
 
     def test_series_table_shows_next_open_meeting_and_role(self):
         self.client.force_login(self.user)

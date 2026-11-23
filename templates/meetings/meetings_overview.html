@@ -22,6 +22,7 @@
         <button type="button" class="secondary" data-calendar-view="week" aria-pressed="false">Woche</button>
       </div>
       <label class="past-toggle"><input type="checkbox" id="calendar-show-past" checked> Vergangene Termine anzeigen</label>
+      <label class="past-toggle"><input type="checkbox" id="calendar-hide-finalized"> Abgeschlossene ausblenden</label>
     </div>
   </div>
   <div class="calendar-weekdays" aria-hidden="true">
@@ -114,6 +115,7 @@
   let cursor = new Date(today.getFullYear(), today.getMonth(), 1);
   let view = "month";
   const showPast = document.getElementById("calendar-show-past");
+  const hideFinalized = document.getElementById("calendar-hide-finalized");
   const dateFromIso = value => {
     const [year, month, day] = value.split("-").map(Number);
     return new Date(year, month - 1, day);
@@ -147,7 +149,7 @@
       number.className = "calendar-day-number";
       number.textContent = date.getDate();
       cell.append(number);
-      const dayEvents = events.filter(event => (showPast.checked || dateFromIso(event.date) >= today) && event.date === iso(date));
+      const dayEvents = events.filter(event => (showPast.checked || dateFromIso(event.date) >= today) && event.date === iso(date) && (!hideFinalized.checked || !event.finalized));
       dayEvents.forEach(event => {
         const link = document.createElement("a");
         const isExpired = dateFromIso(event.date) < today;
@@ -195,6 +197,7 @@
     render();
   }));
   showPast.addEventListener("change", render);
+  hideFinalized.addEventListener("change", render);
   render();
 })();
 </script>
