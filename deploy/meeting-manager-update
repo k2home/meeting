@@ -10,4 +10,48 @@ if [[ "$#" -ne 1 || ( "$1" != "beta" && "$1" != "main" ) ]]; then
   exit 2
 fi
 
-exec /opt/meeting-manager/deploy/update.sh "$1"
+STATE_DIR="/var/lib/meeting-manager-updater"
+STATE_FILE="$STATE_DIR/status.json"
+LOG_FILE="$STATE_DIR/update.log"
+install -d -o root -g www-data -m 0750 "$STATE_DIR"
+exec 9>/run/lock/meeting-manager-update.lock
+if ! flock -n 9; then
+  echo "Ein Update läuft bereits." >&2
+  exit 75
+fi
+
+write_state() {
+  local status="$1"
+  local message="$2"
+  local started="$3"
+  local finished="$4"
+  python3 - "$STATE_FILE" "$LOG_FILE" "$status" "$1" "$message" "$started" "$finished" "$2" <<'PY'
+import json, os, pathlib, sys
+state_path, log_path, status, _unused, message, started, finished, branch = sys.argv[1:]
+log = pathlib.Path(log_path).read_text(encoding="utf-8", errors="replace")[-16000:] if pathlib.Path(log_path).exists() else ""
+data = {"status": status, "branch": branch, "started_at": started or None, "finished_at": finished or None, "message": message, "log": log}
+tmp = pathlib.Path(state_path + ".tmp")
+tmp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+os.chown(tmp, 0, __import__("grp").getgrnam("www-data").gr_gid)
+os.chmod(tmp, 0o640)
+tmp.replace(state_path)
+PY
+}
+
+STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+: > "$LOG_FILE"
+chown root:www-data "$LOG_FILE"
+chmod 0640 "$LOG_FILE"
+write_state "running" "Update auf $1 wird ausgeführt." "$STARTED_AT" "" "$1"
+
+set +e
+/opt/meeting-manager/deploy/update.sh "$1" >>"$LOG_FILE" 2>&1
+RESULT=$?
+set -e
+FINISHED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+if [[ "$RESULT" -eq 0 ]]; then
+  write_state "success" "Update auf $1 erfolgreich." "$STARTED_AT" "$FINISHED_AT" "$1"
+else
+  write_state "error" "Update auf $1 fehlgeschlagen (Exit-Code $RESULT)." "$STARTED_AT" "$FINISHED_AT" "$1"
+fi
+exit "$RESULT"
