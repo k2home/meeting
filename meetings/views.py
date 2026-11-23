@@ -1,7 +1,8 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from urllib.parse import quote, urlencode
 from xml.sax.saxutils import escape
 
@@ -15,7 +16,7 @@ from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import formats, timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
@@ -362,11 +363,11 @@ def open_topics(request):
                 )
             record_event(
                 actor=request.user, action="updated",
-                summary=f"„{item.topic.title}“ auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt",
+                summary=f"„{item.topic.title}“ auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt",
                 topic=item.topic, meeting=target_meeting,
                 changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}},
             )
-        messages.success(request, f"„{item.topic.title}“ wurde auf die Tagesordnung am {target_meeting.date:%d.%m.%Y} gesetzt.")
+        messages.success(request, f"„{item.topic.title}“ wurde auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt.")
         return redirect("open_topics")
 
     rows = []
@@ -457,7 +458,7 @@ def agenda_reorder(request, pk):
             AgendaItem.objects.bulk_update(ordered_items, ["position"])
             record_event(
                 actor=request.user, action="updated",
-                summary=f"Tagesordnung für {_meeting_series_name(meeting)} am {meeting.date:%d.%m.%Y} sortiert",
+                summary=f"Tagesordnung für {_meeting_series_name(meeting)} am {formats.date_format(meeting.date, 'DATE_FORMAT')} sortiert",
                 meeting=meeting,
                 changes={"Reihenfolge": {"vorher": before_titles, "nachher": after_titles}},
             )
@@ -500,9 +501,9 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
         else:
             AgendaItem.objects.create(meeting=target_meeting, topic=topic, working_text=item.working_text, assigned_to_id=item.assigned_to_id, status=item.status, position=next_position, carried_forward=True, followup_of=item)
         if old_series != target_series:
-            TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=target_series, transferred_by=actor, note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt")
+            TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=target_series, transferred_by=actor, note=f"Wiedervorlage für {formats.date_format(target_meeting.date, 'DATE_FORMAT')} festgelegt")
         transfer_changes = {"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}}
-        transfer_summary = f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt"
+        transfer_summary = f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt"
         if old_series != target_series:
             record_transfer_events(
                 actor=actor, summary=transfer_summary, topic=topic,
@@ -511,7 +512,7 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
             )
         else:
             record_event(actor=actor, action="updated", summary=transfer_summary, topic=topic, meeting=item.meeting, changes=transfer_changes)
-    return f"„{topic.title}“ steht am {target_meeting.date:%d.%m.%Y} erneut auf der Tagesordnung von {target_series.name}."
+    return f"„{topic.title}“ steht am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} erneut auf der Tagesordnung von {target_series.name}."
 
 
 @login_required
@@ -543,7 +544,7 @@ def agenda_item_delete(request, pk, item_pk):
     item.delete()
     record_event(
         actor=request.user, action="updated",
-        summary=f"„{topic.title}“ aus der Tagesordnung am {meeting.date:%d.%m.%Y} entfernt",
+        summary=f"„{topic.title}“ aus der Tagesordnung am {formats.date_format(meeting.date, 'DATE_FORMAT')} entfernt",
         topic=topic, meeting=meeting,
         changes={
             "Tagesordnungspunkt": {"vorher": meeting.date.isoformat(), "nachher": None},
@@ -600,7 +601,7 @@ def meeting_detail(request, pk):
                 if before != after:
                     record_event(
                         actor=request.user, action="updated",
-                        summary=f"Teilnehmerliste für „{_meeting_series_name(meeting)}“ am {meeting.date:%d.%m.%Y} geändert",
+                        summary=f"Teilnehmerliste für „{_meeting_series_name(meeting)}“ am {formats.date_format(meeting.date, 'DATE_FORMAT')} geändert",
                         meeting=meeting,
                         changes={"Teilnehmer": {"vorher": before, "nachher": after}},
                     )
@@ -662,11 +663,11 @@ def meeting_detail(request, pk):
                             TopicTransferHistory.objects.create(
                                 topic=topic, from_series=old_series, to_series=target_series,
                                 transferred_by=request.user,
-                                note=f"Agenda-Punkt ohne Besprechung auf {target_meeting.date:%d.%m.%Y} verschoben",
+                                note=f"Agenda-Punkt ohne Besprechung auf {formats.date_format(target_meeting.date, 'DATE_FORMAT')} verschoben",
                             )
                             record_transfer_events(
                                 actor=request.user,
-                                summary=f"„{topic.title}“ ohne Besprechung von {meeting.date:%d.%m.%Y} nach {target_series.name} am {target_meeting.date:%d.%m.%Y} verschoben",
+                                summary=f"„{topic.title}“ ohne Besprechung von {formats.date_format(meeting.date, 'DATE_FORMAT')} nach {target_series.name} am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} verschoben",
                                 topic=topic, from_series=old_series, to_series=target_series,
                                 meeting=meeting,
                                 changes={
@@ -681,14 +682,14 @@ def meeting_detail(request, pk):
                         else:
                             record_event(
                                 actor=request.user, action="updated",
-                                summary=f"„{topic.title}“ ohne Besprechung auf {target_series.name} am {target_meeting.date:%d.%m.%Y} verschoben",
+                                summary=f"„{topic.title}“ ohne Besprechung auf {target_series.name} am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} verschoben",
                                 topic=topic, meeting=meeting,
                                 changes={"Tagesordnung": {"vorher": meeting.date.isoformat(), "nachher": target_meeting.date.isoformat()}},
                             )
                 except ValueError as exc:
                     messages.error(request, str(exc))
                 else:
-                    messages.success(request, f"„{topic.title}“ wurde aus dieser Tagesordnung entfernt und auf den {target_meeting.date:%d.%m.%Y} verschoben.")
+                    messages.success(request, f"„{topic.title}“ wurde aus dieser Tagesordnung entfernt und auf den {formats.date_format(target_meeting.date, 'DATE_FORMAT')} verschoben.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen späteren Termin.")
         elif request.POST.get("schedule_item") and not request.POST.get("save_all_working_texts"):
@@ -756,7 +757,7 @@ def meeting_detail(request, pk):
                 )
                 record_event(
                     actor=request.user, action="created",
-                    summary=f"Vorhandenes Thema „{topic.title}“ in die Tagesordnung am {meeting.date:%d.%m.%Y} übernommen",
+                    summary=f"Vorhandenes Thema „{topic.title}“ in die Tagesordnung am {formats.date_format(meeting.date, 'DATE_FORMAT')} übernommen",
                     topic=topic, meeting=meeting,
                     changes={"Tagesordnung": {"vorher": None, "nachher": meeting.date.isoformat()}},
                 )
@@ -779,7 +780,7 @@ def meeting_detail(request, pk):
                     )
                     record_event(
                         actor=request.user, action="created",
-                        summary=f"Thema „{topic.title}“ zur Tagesordnung am {meeting.date:%d.%m.%Y} hinzugefügt",
+                        summary=f"Thema „{topic.title}“ zur Tagesordnung am {formats.date_format(meeting.date, 'DATE_FORMAT')} hinzugefügt",
                         topic=topic, meeting=meeting,
                         changes={"Titel": {"vorher": None, "nachher": topic.title}},
                     )
@@ -801,7 +802,7 @@ def meeting_detail(request, pk):
                 agenda_item.save(update_fields=["working_text"])
                 record_event(
                     actor=request.user, action="agenda_edited",
-                    summary=f"Agendatext für „{agenda_item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                    summary=f"Agendatext für „{agenda_item.topic.title}“ in {formats.date_format(meeting.date, 'DATE_FORMAT')} geändert",
                     topic=agenda_item.topic, meeting=meeting,
                     changes={"Text": {"vorher": old_text, "nachher": new_text}},
                 )
@@ -842,7 +843,7 @@ def meeting_detail(request, pk):
                             saved = form.save()
                             if old_text != saved.working_text:
                                 record_event(actor=request.user, action="agenda_edited",
-                                    summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                                    summary=f"Agendatext für „{item.topic.title}“ in {formats.date_format(meeting.date, 'DATE_FORMAT')} geändert",
                                     topic=item.topic, meeting=meeting,
                                     changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
                             if schedule_form is not None:
@@ -1154,7 +1155,7 @@ def protocol_pdf(request, pk):
         Paragraph("Protokoll", styles["ProtocolTitle"]),
         Paragraph(escape(_meeting_series_name(meeting)), styles["Heading2"]),
         *([Paragraph(escape(organization_name), styles["Normal"])] if organization_name else []),
-        Paragraph(f"Datum: {meeting.date:%d.%m.%Y}", styles["Normal"]),
+        Paragraph(f"Datum: {formats.date_format(meeting.date, 'DATE_FORMAT')}", styles["Normal"]),
         Paragraph(
             "Gesicherter Stand" if meeting.finalized_at else "Entwurf – nicht abgeschlossen",
             styles["Normal"],
@@ -1204,14 +1205,14 @@ def protocol_docx(request, pk):
     document = Document()
     document.core_properties.title = f"Protokoll – {_meeting_series_name(meeting)}"
     document.core_properties.author = f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager"
-    document.core_properties.subject = f"Besprechung vom {meeting.date:%d.%m.%Y}"
+    document.core_properties.subject = f"Besprechung vom {formats.date_format(meeting.date, 'DATE_FORMAT')}"
     document.add_heading("Protokoll", 0)
     document.add_heading(_meeting_series_name(meeting), level=1)
     if organization_name:
         document.add_paragraph(organization_name)
-    document.add_paragraph(f"Datum: {meeting.date:%d.%m.%Y}")
+    document.add_paragraph(f"Datum: {formats.date_format(meeting.date, 'DATE_FORMAT')}")
     document.add_paragraph(
-        f"Gesicherter Stand: {meeting.finalized_at:%d.%m.%Y %H:%M}"
+        f"Gesicherter Stand: {formats.date_format(timezone.localtime(meeting.finalized_at), 'DATETIME_FORMAT')}"
         if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
     )
     document.add_heading("Teilnehmer", level=2)
@@ -1259,10 +1260,10 @@ def protocol(request, pk):
             ).exclude(user__email="").values_list("user__email", flat=True).distinct()
         )
     protocol_url = request.build_absolute_uri(reverse("protocol", args=[meeting.pk]))
-    subject = f"Protokoll {series_name} {meeting.date:%d.%m.%Y}"
+    subject = f"Protokoll {series_name} {formats.date_format(meeting.date, 'DATE_FORMAT')}"
     body = (
         "Hallo zusammen,\n\n"
-        f"das Protokoll für die Sitzung {series_name} am {meeting.date:%d.%m.%Y} "
+        f"das Protokoll für die Sitzung {series_name} am {formats.date_format(meeting.date, 'DATE_FORMAT')} "
         f"ist unter {protocol_url} verfügbar.\n"
     )
     mailto_query = urlencode(
@@ -1485,7 +1486,7 @@ def series_extend(request, pk):
         skipped_count = max(0, scheduled_count - len(created))
         record_event(
             actor=request.user, action="series_extended",
-            summary=f"Besprechungsreihe „{series.name}“ bis zum {series.end_date:%d.%m.%Y} verlängert",
+            summary=f"Besprechungsreihe „{series.name}“ bis zum {formats.date_format(series.end_date, 'DATE_FORMAT')} verlängert",
             series=series,
             changes={
                 "Enddatum": {
@@ -1498,7 +1499,7 @@ def series_extend(request, pk):
         )
     messages.success(
         request,
-        f"Die Reihe reicht jetzt bis zum {series.end_date:%d.%m.%Y}. "
+        f"Die Reihe reicht jetzt bis zum {formats.date_format(series.end_date, 'DATE_FORMAT')}. "
         f"{len(created)} neue Termine angelegt; {skipped_count} bereits vorhandene Termine übersprungen."
     )
     return redirect(f"{reverse('series_admin')}?expanded={series.pk}#series-{series.pk}")
@@ -1805,7 +1806,7 @@ def meeting_delete(request, pk):
             moved_count = 0
         record_event(
             actor=request.user, action="deleted",
-            summary=f"Besprechungstermin vom {meeting.date:%d.%m.%Y} aus „{meeting.series.name}“ gelöscht",
+            summary=f"Besprechungstermin vom {formats.date_format(meeting.date, 'DATE_FORMAT')} aus „{meeting.series.name}“ gelöscht",
             meeting=meeting, series=meeting.series,
             changes={
                 "Übertragene Tagesordnungspunkte": moved_count,
@@ -1816,7 +1817,7 @@ def meeting_delete(request, pk):
         meeting.delete()
 
     if moved_count:
-        messages.success(request, f"Der Termin wurde gelöscht. {moved_count} Tagesordnungspunkt(e) wurden auf den {target.date:%d.%m.%Y} übertragen.")
+        messages.success(request, f"Der Termin wurde gelöscht. {moved_count} Tagesordnungspunkt(e) wurden auf den {formats.date_format(target.date, 'DATE_FORMAT')} übertragen.")
     else:
         messages.success(request, "Der einzelne Termin wurde gelöscht. Die Besprechungsreihe bleibt bestehen.")
     return redirect("series_admin")
@@ -1834,7 +1835,7 @@ def finalize(request, pk):
     with transaction.atomic():
         meeting = finalize_meeting(meeting)
         record_event(actor=request.user, action="finalized",
-                     summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} abgeschlossen",
+                     summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {formats.date_format(meeting.date, 'DATE_FORMAT')} abgeschlossen",
                      meeting=meeting, changes={"Abgeschlossen": {"vorher": None, "nachher": meeting.finalized_at.isoformat()}})
     messages.success(request, "Besprechung abgeschlossen; Protokoll-Snapshot gespeichert.")
     return redirect("protocol", pk=pk)
@@ -1863,7 +1864,7 @@ def meeting_reopen(request, pk):
         record_event(
             actor=request.user,
             action="reopened",
-            summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {meeting.date:%d.%m.%Y} wieder geöffnet",
+            summary=f"Besprechung „{_meeting_series_name(meeting)}“ vom {formats.date_format(meeting.date, 'DATE_FORMAT')} wieder geöffnet",
             meeting=meeting,
             changes={
                 "Abgeschlossen am": {
@@ -2149,6 +2150,24 @@ def _read_update_status():
         "log": "",
     }
 
+def _format_commit_timestamp(value):
+    try:
+        committed_at = datetime.fromisoformat(value)
+        configured_timezone = (
+            OrganizationSettings.objects.filter(pk=1)
+            .values_list("timezone", flat=True)
+            .first()
+            or "Europe/Berlin"
+        )
+        try:
+            display_timezone = ZoneInfo(configured_timezone)
+        except (ZoneInfoNotFoundError, TypeError, ValueError):
+            display_timezone = ZoneInfo("Europe/Berlin")
+        return formats.date_format(timezone.localtime(committed_at, display_timezone), 'DATETIME_FORMAT')
+    except (TypeError, ValueError):
+        return value
+
+
 def _deployment_info():
     if os.path.exists(UPDATE_SOCKET):
         try:
@@ -2159,7 +2178,7 @@ def _deployment_info():
             return {
                 "deployment_type": "Docker Compose",
                 "current_branch": os.getenv("MEETING_BUILD_BRANCH", "unbekannt"),
-                "current_commit": os.getenv("MEETING_BUILD_COMMIT", "nicht verfügbar"),
+                "current_commit_date": _format_commit_timestamp(os.getenv("MEETING_BUILD_COMMIT_DATE", "nicht verfügbar")),
                 "current_image": "",
                 "build_created": "",
                 "update_available": False,
@@ -2168,7 +2187,7 @@ def _deployment_info():
         return {
             "deployment_type": "Docker Compose",
             "current_branch": os.getenv("MEETING_BUILD_BRANCH", "Im Image nicht hinterlegt"),
-            "current_commit": os.getenv("MEETING_BUILD_COMMIT", "Im Image nicht hinterlegt"),
+            "current_commit_date": _format_commit_timestamp(os.getenv("MEETING_BUILD_COMMIT_DATE", "Im Image nicht hinterlegt")),
             "current_image": "",
             "build_created": "",
             "update_available": True,
@@ -2189,7 +2208,7 @@ def _deployment_info():
         return {
             "deployment_type": "Debian / systemd",
             "current_branch": git_value("branch", "--show-current"),
-            "current_commit": git_value("rev-parse", "--short", "HEAD"),
+            "current_commit_date": _format_commit_timestamp(git_value("show", "-s", "--format=%cI", "HEAD")),
             "current_commit_message": git_value("show", "-s", "--format=%s", "HEAD"),
             "current_image": "",
             "build_created": "",
@@ -2200,7 +2219,7 @@ def _deployment_info():
     return {
         "deployment_type": "Nicht eingerichtet",
         "current_branch": "unbekannt",
-        "current_commit": "nicht verfügbar",
+        "current_commit_date": "nicht verfügbar",
         "current_image": "",
         "build_created": "",
         "update_available": False,
@@ -2256,7 +2275,12 @@ def deployment_updates(request):
             messages.error(request, f"Das Update konnte nicht gestartet werden: {exc}")
         return redirect("deployment_updates")
 
+    update_status = _read_update_status()
+    for timestamp_field in ("started_at", "finished_at"):
+        if update_status.get(timestamp_field):
+            update_status[timestamp_field] = _format_commit_timestamp(update_status[timestamp_field])
+
     return render(request, "meetings/deployment_updates.html", {
         **info,
-        "update_status": _read_update_status(),
+        "update_status": update_status,
     })

@@ -893,7 +893,7 @@ class OrganizationBrandColorTests(TestCase):
         for label in ("Primärfarbe", "Sekundärfarbe", "Tertiärfarbe"):
             self.assertContains(response, label)
         response = self.client.post(reverse("admin:meetings_organizationsettings_change", args=[settings.pk]), {
-            "name": "Test", "short_name": "MM", "attachment_max_size_mb": "20",
+            "name": "Test", "short_name": "MM", "timezone": "Europe/Berlin", "attachment_max_size_mb": "20",
             "primary_color": "#123456", "primary_color_light": "#ABCDEF", "primary_color_dark": "",
             "secondary_color": "#234567", "secondary_color_light": "", "secondary_color_dark": "#345678",
             "tertiary_color": "#456789", "tertiary_color_light": "#56789A", "tertiary_color_dark": "",
@@ -1739,7 +1739,7 @@ class DeploymentUpdatePermissionTests(TestCase):
         info = {
             "deployment_type": "Debian / systemd",
             "current_branch": "beta",
-            "current_commit": "abc1234",
+            "current_commit_date": "2026-11-23T12:00:00+00:00",
             "current_image": "",
             "build_created": "",
             "update_available": True,

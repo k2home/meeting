@@ -14,7 +14,7 @@
     <tbody>
       <tr><th scope="row">Installationsart</th><td>{{ deployment_type }}</td></tr>
       <tr><th scope="row">Aktiver Branch</th><td>{{ current_branch }}</td></tr>
-      <tr><th scope="row">Commit</th><td><code>{{ current_commit }}</code></td></tr>
+      <tr><th scope="row">Commit-Datum</th><td>{{ current_commit_date }}</td></tr>
       {% if current_commit_message %}<tr><th scope="row">Commit-Beschreibung</th><td>{{ current_commit_message }}</td></tr>{% endif %}
       {% if current_image %}<tr><th scope="row">Docker-Image</th><td><code>{{ current_image }}</code></td></tr>{% endif %}
       {% if build_created %}<tr><th scope="row">Image erstellt</th><td>{{ build_created }}</td></tr>{% endif %}

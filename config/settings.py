@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "meetings.middleware.OrganizationTimezoneMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -97,10 +98,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
 ]
 LANGUAGE_CODE = "de-de"
+FORMAT_MODULE_PATH = ["config.formats"]
 DATE_FORMAT = "d.m.Y"
 SHORT_DATE_FORMAT = "d.m.Y"
-DATETIME_FORMAT = "d.m.Y H:i"
-SHORT_DATETIME_FORMAT = "d.m.Y H:i"
+SHORT_DATE_WITH_WEEKDAY_FORMAT = "D, d.m.Y"
+DATETIME_FORMAT = r"d.m.Y, H:i \U\h\r"
+SHORT_DATETIME_FORMAT = r"d.m.Y, H:i \U\h\r"
 FIRST_DAY_OF_WEEK = 1
 TIME_ZONE = os.getenv("TIME_ZONE", "Europe/Berlin")
 USE_I18N = True

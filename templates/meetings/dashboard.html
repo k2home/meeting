@@ -10,7 +10,7 @@
     <h3>{{ group.series.name|default:'Gelöschte Besprechungsreihe' }}</h3>
     <div class="upcoming-dates">
       {% for m in group.meetings %}
-        <span class="upcoming-date"><a href="{% url 'meeting' m.id %}">{{ m.date|date:"D, d.m.Y" }}</a></span>
+        <span class="upcoming-date"><a href="{% url 'meeting' m.id %}">{{ m.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</a></span>
         <span class="upcoming-status">{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</span>
       {% endfor %}
     </div>
@@ -38,7 +38,7 @@
 {% for t in topics %}<tr>
 <td data-sort-value="{{ t.title|lower }}"><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td>
 <td data-sort-value="{{ t.series.name|default:''|lower }}">{{ t.series|default:"—" }}</td>
-<td data-sort-value="{{ t.next_meeting_date|date:'Y-m-d' }}">{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"d.m.Y" }}</span>{% else %}{{ t.next_meeting_date|date:"d.m.Y"|default:"—" }}{% endif %}</td>
+<td data-sort-value="{{ t.next_meeting_date|date:'Y-m-d' }}">{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"DATE_FORMAT" }}</span>{% else %}{{ t.next_meeting_date|date:"DATE_FORMAT"|default:"—" }}{% endif %}</td>
 </tr>{% endfor %}
 </tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
 </section>
@@ -57,7 +57,7 @@
     <label for="dashboard-topic-meeting">Erster Besprechungstermin</label>
     <select id="dashboard-topic-meeting" name="meeting" required disabled>
       <option value="">Zuerst eine Besprechungsreihe auswählen</option>
-      {% for meeting in new_topic_meetings %}<option value="{{ meeting.pk }}" data-series="{{ meeting.series_id }}">{{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}
+      {% for meeting in new_topic_meetings %}<option value="{{ meeting.pk }}" data-series="{{ meeting.series_id }}">{{ meeting.date|date:"DATE_FORMAT" }}</option>{% endfor %}
     </select>
     <p id="dashboard-topic-meeting-empty" class="muted" hidden>Für diese Besprechungsreihe gibt es keinen zukünftigen Termin.</p>
     <div class="actions"><button type="submit">Thema anlegen</button></div>

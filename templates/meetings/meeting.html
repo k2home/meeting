@@ -84,7 +84,7 @@
 </style>
 <header class="page-header">
   <div>
-    <h1>{% if meeting.series_id %}{{ meeting.series.name }}{% else %}{{ meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} – {{ meeting.date|date:"d.m.Y" }}</h1>
+    <h1>{% if meeting.series_id %}{{ meeting.series.name }}{% else %}{{ meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} – {{ meeting.date|date:"DATE_FORMAT" }}</h1>
     <p class="muted">{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
   </div>
 </header>
@@ -111,7 +111,7 @@
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" data-confirm-message="Besprechung wirklich abschließen?">{% csrf_token %}<button class="meeting-menu-button secondary finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
-    <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'d.m.Y' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">{% csrf_token %}<button class="meeting-menu-button" type="submit">Besprechung wieder öffnen</button></form>
+    <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">{% csrf_token %}<button class="meeting-menu-button" type="submit">Besprechung wieder öffnen</button></form>
   {% endif %}
   {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button" type="button" id="open-new-agenda-topic">+ Neu</button>{% endif %}
 </nav>
@@ -169,7 +169,7 @@
     </div>
     <div id="agenda-item-content-{{ item.id }}" class="agenda-item-content" hidden>
       <div class="agenda-item-expanded-row">
-        {% if item.followup_item %}<span class="agenda-followup-label">Wiedervorlage: {{ item.followup_item.meeting.date|date:"d.m.Y" }}</span>{% endif %}
+        {% if item.followup_item %}<span class="agenda-followup-label">Wiedervorlage: {{ item.followup_item.meeting.date|date:"DATE_FORMAT" }}</span>{% endif %}
         <span class="agenda-title-status">
           {% if not meeting.finalized_at and not is_reader %}
           <form method="post" id="topic-status-form-{{ item.id }}" class="agenda-status-form">
@@ -188,7 +188,7 @@
           </select>
           <select name="target_meeting" form="agenda-text-form-{{ item.id }}" aria-label="Termin der Wiedervorlage">
             <option value="" selected>Keine Wiedervorlage</option>
-            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}">{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}">{{ target.date|date:"DATE_FORMAT" }}</option>{% endfor %}
           </select>
         </div>
         {% endif %}
@@ -226,7 +226,7 @@
           </label>
           <label for="target-meeting-{{ item.id }}">Termin der Wiedervorlage
             <select id="target-meeting-{{ item.id }}" name="target_meeting" required>
-              {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" >{{ target.series.name }} – {{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+              {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" >{{ target.series.name }} – {{ target.date|date:"DATE_FORMAT" }}</option>{% endfor %}
             </select>
           </label>
           <div class="agenda-dialog-actions">

@@ -42,7 +42,7 @@
       {% for row in series_rows %}
         <tr>
           <td><strong>{{ row.series.name }}</strong></td>
-          <td>{% if row.meeting %}<a href="{% url 'meeting' row.meeting.pk %}">{{ row.meeting.date|date:"d.m.Y" }}</a>{% else %}<span class="muted">Kein Termin geplant</span>{% endif %}</td>
+          <td>{% if row.meeting %}<a href="{% url 'meeting' row.meeting.pk %}">{{ row.meeting.date|date:"DATE_FORMAT" }}</a>{% else %}<span class="muted">Kein Termin geplant</span>{% endif %}</td>
           <td>{% if row.meeting %}{{ row.meeting.title|default:"Besprechung" }}{% else %}—{% endif %}</td>
           <td><span class="role-pill">{{ row.role }}</span></td>
           <td>{% if row.meeting %}{{ row.open_agenda_count }}{% else %}—{% endif %}</td>

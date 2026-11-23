@@ -27,7 +27,7 @@
           <tr>
             <td><a href="{% url 'topic_edit' topic.pk %}"><strong>{{ topic.title }}</strong></a></td>
             <td>{{ topic.series|default:"—" }}</td>
-            <td>{% if topic.next_meeting_date %}{% if topic.next_meeting_date < today %}<span class="overdue">Überfällig · {{ topic.next_meeting_date|date:"d.m.Y" }}</span>{% elif topic.next_meeting_date == today %}<strong>Heute · {{ topic.next_meeting_date|date:"d.m.Y" }}</strong>{% else %}{{ topic.next_meeting_date|date:"d.m.Y" }}{% endif %}{% else %}<span class="muted">Kein geplanter Termin</span>{% endif %}</td>
+            <td>{% if topic.next_meeting_date %}{% if topic.next_meeting_date < today %}<span class="overdue">Überfällig · {{ topic.next_meeting_date|date:"DATE_FORMAT" }}</span>{% elif topic.next_meeting_date == today %}<strong>Heute · {{ topic.next_meeting_date|date:"DATE_FORMAT" }}</strong>{% else %}{{ topic.next_meeting_date|date:"DATE_FORMAT" }}{% endif %}{% else %}<span class="muted">Kein geplanter Termin</span>{% endif %}</td>
             <td>{{ topic.latest_agenda_text|default:"—"|truncatechars:100 }}</td>
           </tr>
           {% endfor %}
@@ -50,7 +50,7 @@
         <tbody>
           {% for item in agenda_tasks %}
           <tr>
-            <td>{{ item.meeting.date|date:"d.m.Y" }}</td>
+            <td>{{ item.meeting.date|date:"DATE_FORMAT" }}</td>
             <td><a href="{% url 'topic_edit' item.topic_id %}"><strong>{{ item.topic.title }}</strong></a></td>
             <td>{{ item.meeting.series|default:"—" }}</td>
             <td>{{ item.working_text|default:"—"|truncatechars:100 }}</td>

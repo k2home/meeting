@@ -39,6 +39,10 @@ jobs:
             type=raw,value=beta,enable=${{ github.ref == 'refs/heads/beta' }}
             type=sha,prefix=sha-
 
+      - name: Read commit timestamp
+        id: commit
+        run: echo "timestamp=$(git show -s --format=%cI HEAD)" >> "$GITHUB_OUTPUT"
+
       - name: Build and publish branch image
         uses: docker/build-push-action@v6
         with:
@@ -50,5 +54,6 @@ jobs:
           build-args: |
             VCS_REF=${{ github.sha }}
             VCS_BRANCH=${{ github.ref_name }}
+            VCS_COMMIT_DATE=${{ steps.commit.outputs.timestamp }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
