@@ -15,4 +15,20 @@
 <button type="submit" style="width:100%">Anmelden</button>
 </form>
 </div>
+
+<!-- login-caps-lock-warning -->
+<script>
+(() => {
+  const field = document.querySelector('input[type="password"]');
+  if (!field || document.getElementById("login-caps-warning")) return;
+  const warning = document.createElement("small");
+  warning.id = "login-caps-warning";
+  warning.className = "muted";
+  warning.textContent = "Feststelltaste (Caps Lock) ist aktiviert.";
+  warning.hidden = true;
+  field.insertAdjacentElement("afterend", warning);
+  field.addEventListener("keyup", event => { warning.hidden = !event.getModifierState("CapsLock"); });
+  field.addEventListener("blur", () => { warning.hidden = true; });
+})();
+</script>
 {% endblock %}
