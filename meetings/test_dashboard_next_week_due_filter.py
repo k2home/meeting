@@ -35,7 +35,7 @@ class DashboardNextWeekDueFilterTests(TestCase):
             self.topics[key] = topic
 
     def test_next_week_is_the_default_and_includes_today_through_day_seven(self):
-        response = self.client.get(reverse("dashboard"))
+        response = self.client.get(reverse("dashboard"), {"assigned_to": ""})
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["selected_due"], "next_week")
@@ -46,7 +46,7 @@ class DashboardNextWeekDueFilterTests(TestCase):
         self.assertContains(response, "Nächste Woche")
 
     def test_next_week_can_be_selected_explicitly(self):
-        response = self.client.get(reverse("dashboard"), {"due": "next_week"})
+        response = self.client.get(reverse("dashboard"), {"due": "next_week", "assigned_to": ""})
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -55,7 +55,7 @@ class DashboardNextWeekDueFilterTests(TestCase):
         )
 
     def test_all_meetings_option_disables_due_date_restriction(self):
-        response = self.client.get(reverse("dashboard"), {"due": ""})
+        response = self.client.get(reverse("dashboard"), {"due": "", "assigned_to": ""})
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
