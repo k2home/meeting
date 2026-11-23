@@ -124,7 +124,7 @@ def enaio_agent_next_job(request):
                     "archive_name": settings_obj.archive_name,
                     "register_type_name": settings_obj.register_type_name,
                     "register_name_field": settings_obj.register_name_field,
-                    "document_type": "Standard",
+                    "document_type": settings_obj.document_type_name,
                 },
                 "pdf_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/pdf/?lease={lease}"),
                 "status_url": request.build_absolute_uri(f"/enaio/agent/jobs/transfer/{transfer.pk}/status/"),
