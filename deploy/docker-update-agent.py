@@ -17,7 +17,26 @@ COMPOSE_FILE = APP_DIR / "docker" / "compose.yaml"
 STATE_FILE = Path("/var/lib/meeting-manager-updater/status.json")
 LOCK = threading.Lock()
 UPDATE_LOCK = threading.Lock()
-ALLOWED_BRANCHES = {"beta", "main"}
+REPOSITORY_URL = "https://github.com/k2home/meeting.git"
+BRANCH_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$")
+
+
+def available_branches():
+    result = subprocess.run(
+        ["/usr/bin/git", "ls-remote", "--heads", REPOSITORY_URL],
+        text=True, capture_output=True, timeout=15, check=False,
+    )
+    if result.returncode:
+        raise RuntimeError("Die verfügbaren Git-Branches konnten nicht geladen werden.")
+    branches = []
+    for line in result.stdout.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2 or not parts[1].startswith("refs/heads/"):
+            continue
+        name = parts[1][len("refs/heads/"):]
+        if BRANCH_PATTERN.fullmatch(name) and ".." not in name and not name.endswith(("/", ".")):
+            branches.append(name)
+    return sorted(set(branches), key=str.casefold)
 
 
 def read_state():
@@ -142,7 +161,7 @@ def run_update(branch):
     environment_backup = None
     try:
         previous_image = preserve_running_image()
-        target_image = f"ghcr.io/k2home/meeting:{'latest' if branch == 'main' else 'beta'}"
+        target_image = f"ghcr.io/k2home/meeting:{'latest' if branch == 'main' else branch}"
         result = compose("pull", "app", image=target_image, timeout=900)
         log.append(result.stdout + result.stderr)
         if result.returncode:
@@ -209,6 +228,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/status":
             return self.respond(200, read_state())
+        if self.path == "/branches":
+            try:
+                return self.respond(200, {"branches": available_branches()})
+            except (OSError, subprocess.SubprocessError, RuntimeError) as exc:
+                return self.respond(503, {"error": str(exc)})
         if self.path == "/info":
             result = compose("ps", "-q", "app", timeout=30)
             if result.returncode or not result.stdout.strip():
@@ -244,8 +268,13 @@ class Handler(BaseHTTPRequestHandler):
         except (ValueError, json.JSONDecodeError):
             return self.respond(400, {"error": "Ungültiges JSON."})
         branch = payload.get("branch") if isinstance(payload, dict) else None
-        if branch not in ALLOWED_BRANCHES:
-            return self.respond(400, {"error": "Erlaubt sind ausschließlich beta und main."})
+        if not isinstance(branch, str) or not BRANCH_PATTERN.fullmatch(branch) or ".." in branch or branch.endswith(("/", ".")):
+            return self.respond(400, {"error": "Ungültiger Branch-Name."})
+        try:
+            if branch not in available_branches():
+                return self.respond(400, {"error": "Der ausgewählte Branch ist nicht mehr verfügbar."})
+        except (OSError, subprocess.SubprocessError, RuntimeError) as exc:
+            return self.respond(503, {"error": str(exc)})
         if not UPDATE_LOCK.acquire(blocking=False):
             return self.respond(409, {"error": "Ein Update läuft bereits."})
         state = read_state()
