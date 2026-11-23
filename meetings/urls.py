@@ -6,6 +6,7 @@ from . import guide_views
 from . import management_views
 from . import enaio_agent_views
 from . import setup_views
+from . import meetings_export
 
 urlpatterns = [
     path("setup/", setup_views.setup_wizard, name="setup_wizard"),
@@ -26,6 +27,7 @@ urlpatterns = [
     path("konto/", views.user_overview, name="user_overview"),
     path("my-tasks/", views.my_tasks, name="my_tasks"),
     path("meetings/", views.meetings_overview, name="meetings_overview"),
+    path("meetings/export.csv", meetings_export.meetings_csv, name="meetings_csv"),
     path("open-topics/", views.open_topics, name="open_topics"),
     path("meeting/<int:pk>/", views.meeting_detail, name="meeting"),
     path("meeting/<int:pk>/agenda/reorder/", views.agenda_reorder, name="agenda_reorder"),

@@ -4,6 +4,7 @@
 {% block content %}
 <header class="page-header">
   <div><h1>Besprechungen</h1><p class="muted">Alle Besprechungstermine deiner zugewiesenen Reihen.</p></div>
+  <a class="btn secondary" href="{% url 'meetings_csv' %}">Besprechungen als CSV exportieren</a>
 </header>
 
 <section class="card meetings-calendar-card">
