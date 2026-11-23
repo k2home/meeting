@@ -57,6 +57,7 @@ urlpatterns = [
     path("verwaltung/gruppen/", management_views.management_groups, name="management_groups"),
     path("verwaltung/organisation/", management_views.management_settings, name="management_settings"),
     path("verwaltung/enaio/", management_views.management_enaio_settings, name="management_enaio_settings"),
+    path("verwaltung/enaio/diagnose/", management_views.enaio_connection_diagnostics, name="enaio_connection_diagnostics"),
     path("verwaltung/enaio/auswahl/start/", management_views.enaio_folder_selection_start, name="enaio_folder_selection_start"),
     path("verwaltung/enaio/auswahl/<int:pk>/status/", management_views.enaio_folder_selection_status, name="enaio_folder_selection_status"),
     path("verwaltung/enaio/auswahl/<int:pk>/cancel/", management_views.enaio_folder_selection_cancel, name="enaio_folder_selection_cancel"),
