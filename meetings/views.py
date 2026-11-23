@@ -398,17 +398,26 @@ def my_tasks(request):
     else:
         selected_series = ""
 
+    main_meeting_filter = (
+        Q(agenda_items__meeting__in=visible_meetings)
+        & Q(agenda_items__meeting__finalized_at__isnull=True)
+    )
+    latest_agenda_query = AgendaItem.objects.filter(
+        topic=OuterRef("pk"), meeting__in=visible_meetings
+    )
+    if selected_series_id:
+        main_meeting_filter &= Q(agenda_items__meeting__series_id=selected_series_id)
+        latest_agenda_query = latest_agenda_query.filter(
+            meeting__series_id=selected_series_id
+        )
+
     main_topics_query = accessible_topics(request.user).filter(
         assigned_to=request.user, status__in=["open", "in_progress"]
     ).select_related("series").annotate(
-        next_meeting_date=Min(
-            "agenda_items__meeting__date",
-            filter=Q(agenda_items__meeting__in=visible_meetings)
-            & Q(agenda_items__meeting__finalized_at__isnull=True),
-        ),
+        next_meeting_date=Min("agenda_items__meeting__date", filter=main_meeting_filter),
         latest_agenda_text=Subquery(
-            AgendaItem.objects.filter(topic=OuterRef("pk"), meeting__in=visible_meetings)
-            .order_by("-meeting__date", "-pk").values("working_text")[:1]
+            latest_agenda_query.order_by("-meeting__date", "-pk")
+            .values("working_text")[:1]
         ),
     )
     if selected_series_id:
