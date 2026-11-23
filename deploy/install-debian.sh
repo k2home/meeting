@@ -120,8 +120,22 @@ find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
 bash "$APP_DIR/deploy/install-debian-updater.sh"
-install -m 0644 "$APP_DIR/deploy/nginx-meeting-manager.conf" /etc/nginx/sites-available/meeting-manager
-ln -sfn /etc/nginx/sites-available/meeting-manager /etc/nginx/sites-enabled/meeting-manager
+NGINX_CONFIG="/etc/nginx/sites-available/meeting-manager"
+install -m 0644 "$APP_DIR/deploy/nginx-meeting-manager.conf" "$NGINX_CONFIG"
+
+# Keep the default one-prompt installation, but honor an explicitly configured
+# trusted reverse proxy from an existing .env without asking additional questions.
+TRUSTED_PROXY="$(read_existing_env TRUSTED_PROXY)"
+if [[ -n "$TRUSTED_PROXY" ]]; then
+  if ! python3 -c 'import ipaddress, sys; ipaddress.ip_network(sys.argv[1], strict=False)' "$TRUSTED_PROXY" 2>/dev/null; then
+    echo "Ungültige TRUSTED_PROXY-Adresse in .env. Erwartet wird eine IPv4-/IPv6-Adresse oder ein CIDR-Netz." >&2
+    exit 1
+  fi
+  sed -i "s|server_name _;|server_name $SITE_HOST;\\n    allow $TRUSTED_PROXY;\\n    deny all;|" "$NGINX_CONFIG"
+else
+  sed -i "s|server_name _;|server_name $SITE_HOST;|" "$NGINX_CONFIG"
+fi
+ln -sfn "$NGINX_CONFIG" /etc/nginx/sites-enabled/meeting-manager
 rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl daemon-reload
