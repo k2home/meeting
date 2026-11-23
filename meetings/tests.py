@@ -1934,6 +1934,7 @@ class OrganizationLogoDeliveryTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/pdf")
+        self.assertEqual(response["Content-Disposition"], 'attachment; filename="Protokoll_Testreihe_2026-11-23.pdf"')
         self.assertTrue(response.content.startswith(b"%PDF"))
 
     def test_logo_settings_upload_creates_png_copy_for_svg(self):
