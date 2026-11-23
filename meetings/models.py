@@ -454,6 +454,9 @@ class EnaioFolderSelection(models.Model):
     selected_folder_type = models.PositiveIntegerField(default=0)
     selected_folder_name = models.CharField(max_length=255, blank=True)
     selected_folder_path = models.CharField(max_length=1000, blank=True)
+    agent_lease_token = models.CharField(max_length=64, blank=True)
+    agent_lease_expires_at = models.DateTimeField(null=True, blank=True)
+    error_message = models.CharField(max_length=500, blank=True)
 
     class Meta:
         ordering = ["-created_at"]
@@ -486,6 +489,8 @@ class EnaioTransfer(models.Model):
     consumed_at = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="pending")
     error_message = models.CharField(max_length=500, blank=True)
+    agent_lease_token = models.CharField(max_length=64, blank=True)
+    agent_lease_expires_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]
