@@ -1,6 +1,6 @@
 # Meeting Manager – enaio Windows-Agent
 
-Der Agent läuft im angemeldeten Windows-Benutzerkonto, verwendet den dort geöffneten enaio-classic-Client über COM und fragt Aufträge des zugehörigen Meeting-Manager-Kontos über HTTPS ab. Es wird kein URL-Protokoll registriert.
+Der Agent läuft im angemeldeten Windows-Benutzerkonto, verwendet den dort geöffneten enaio-classic-Client über COM und fragt Aufträge des zugehörigen Meeting-Manager-Kontos über HTTPS ab. Für die Zielordnerwahl muss der gewünschte Ordner in enaio geöffnet sein. Bei mehreren geöffneten Ordnern zeigt der Agent einen Auswahldialog, statt willkürlich den ersten Eintrag zu verwenden. Es wird kein URL-Protokoll registriert.
 
 ## Voraussetzungen
 
