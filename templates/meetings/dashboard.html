@@ -72,6 +72,7 @@
 .dashboard-topic-dialog form>input,.dashboard-topic-dialog form>textarea,.dashboard-topic-dialog form>select{width:100%}
 .dashboard-topic-dialog .actions{justify-content:flex-end;margin-top:.75rem}
 .upcoming-grid{display:grid;grid-template-columns:max-content max-content max-content max-content;column-gap:.55rem;row-gap:.35rem;align-items:start}
+@media(max-width:760px){.upcoming-grid{grid-template-columns:minmax(0,1fr) auto;column-gap:.65rem;row-gap:.45rem}.upcoming-series h3{grid-column:1/-1}.upcoming-date{white-space:normal;min-width:0}.upcoming-status{justify-self:end;align-self:center}}
 .upcoming-series,.upcoming-dates{display:contents}
 .upcoming-series h3{grid-column:1/-1;font-size:.94rem;margin:.1rem 0 .05rem;color:var(--muted);font-weight:650}
 .upcoming-series+.upcoming-series h3{border-top:1px solid var(--border);padding-top:.55rem;margin-top:.2rem}
