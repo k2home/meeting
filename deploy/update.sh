@@ -1,13 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 APP_DIR="/opt/meeting-manager"
-TARGET_BRANCH="${1:-}"
-if [[ "$#" -gt 1 ]]; then
-  echo "Verwendung: $0 [remote-branch]" >&2
-  exit 2
-fi
+TARGET_BRANCH=""
+TESTING_MODE=0
+for argument in "$@"; do
+  if [[ "$argument" == "-testing" ]]; then
+    TESTING_MODE=1
+  elif [[ -z "$TARGET_BRANCH" ]]; then
+    TARGET_BRANCH="$argument"
+  else
+    echo "Verwendung: $0 [-testing] [remote-branch]" >&2
+    exit 2
+  fi
+done
 if [[ -n "$TARGET_BRANCH" && ( ! "$TARGET_BRANCH" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$ || "$TARGET_BRANCH" == *".."* || "$TARGET_BRANCH" == */ || "$TARGET_BRANCH" == *. ) ]]; then
   echo "Ungültiger Update-Branch." >&2
+  exit 2
+fi
+if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "main" && "$TARGET_BRANCH" != "beta" && "$TESTING_MODE" -ne 1 ]]; then
+  echo "Zusätzliche Branches sind nur mit -testing verfügbar." >&2
   exit 2
 fi
 if [[ -n "$TARGET_BRANCH" ]] && ! git -C "$APP_DIR" ls-remote --exit-code origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
@@ -17,6 +28,16 @@ fi
 if [[ "$EUID" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo $APP_DIR/deploy/update.sh"
   exit 1
+fi
+
+# Persist the selected mode outside the Git checkout so web-triggered updates
+# can keep it enabled across application upgrades.
+TESTING_MODE_FILE="/var/lib/meeting-manager-updater/testing-mode"
+install -d -o root -g www-data -m 0750 "$(dirname "$TESTING_MODE_FILE")"
+if [[ "$TESTING_MODE" -eq 1 ]]; then
+  install -o root -g www-data -m 0640 /dev/null "$TESTING_MODE_FILE"
+else
+  rm -f "$TESTING_MODE_FILE"
 fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
