@@ -28,6 +28,8 @@ class MeetingParticipantSearchTests(TestCase):
         self.assertContains(response, 'aria-controls="participant-option-groups"')
         self.assertContains(response, 'id="participant-search-status"')
         self.assertContains(response, 'addEventListener("input"')
+        self.assertContains(response, 'event.key === "Escape"')
+        self.assertContains(response, 'Keine Teilnehmer gefunden.')
 
     def test_anonymous_user_cannot_open_participant_selection(self):
         response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
