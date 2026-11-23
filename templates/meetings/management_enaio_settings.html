@@ -75,6 +75,132 @@
 })();
 </script>
 
+
+<section class="card" id="enaio-connection-diagnostics">
+  <h2>enaio-Verbindung prüfen</h2>
+  <p>Diese Diagnose prüft die Browser-Fähigkeiten und die Erreichbarkeit des Meeting-Manager-Servers. Sie versucht ausdrücklich nicht, COM-Objekte zu öffnen, lokale Ports abzufragen oder die enaio-Sitzung zu verändern. Dadurch ist der Test ohne Installation und ohne Änderung am Citrix- oder enaio-Client möglich.</p>
+  <div class="actions">
+    <button type="button" class="primary" id="enaio-diagnostics-run">Diagnose ausführen</button>
+    <button type="button" class="secondary" id="enaio-diagnostics-copy" disabled>Testergebnis kopieren</button>
+    <button type="button" class="secondary" id="enaio-diagnostics-download" disabled>Bericht herunterladen</button>
+  </div>
+  <p id="enaio-diagnostics-status" class="muted" role="status" aria-live="polite">Noch keine Diagnose ausgeführt.</p>
+  <pre id="enaio-diagnostics-result" style="white-space:pre-wrap;overflow:auto;max-height:560px;background:var(--surface-muted, #f4f4f4);padding:1rem;border-radius:8px;font-size:.85rem" aria-live="polite">Nach dem Start erscheint hier ein Bericht mit Browser-, Server- und Integrationsprüfungen.</pre>
+  <p class="muted">Der Bericht enthält keine Passwörter, Cookies, Session-GUIDs, Tokens oder Inhalte aus enaio. Er kann hier vollständig kopiert und zur Fehleranalyse zurückgesendet werden. Ein negatives COM-Ergebnis bedeutet nicht, dass die Windows-COM-Schnittstelle von enaio fehlt, sondern dass sie aus dieser Browserseite nicht direkt nachweisbar bzw. erreichbar ist.</p>
+</section>
+<script>
+(() => {
+  const runButton = document.getElementById("enaio-diagnostics-run");
+  const copyButton = document.getElementById("enaio-diagnostics-copy");
+  const downloadButton = document.getElementById("enaio-diagnostics-download");
+  const status = document.getElementById("enaio-diagnostics-status");
+  const output = document.getElementById("enaio-diagnostics-result");
+  const endpoint = "{% url 'enaio_connection_diagnostics' %}";
+  let reportText = "";
+
+  function check(name, result, detail) {
+    return { test: name, result, detail };
+  }
+
+  function browserChecks() {
+    const ua = navigator.userAgent || "nicht verfügbar";
+    const isIE = /MSIE|Trident/i.test(ua);
+    const globals = Object.getOwnPropertyNames(window)
+      .filter(name => /enaio|ixos|axcdl|dms/i.test(name))
+      .sort();
+    let externalMembers = [];
+    try {
+      if (window.external && (typeof window.external === "object" || typeof window.external === "function")) {
+        externalMembers = Object.getOwnPropertyNames(window.external).slice(0, 30);
+      }
+    } catch (_) {
+      externalMembers = ["Zugriff durch Browser-Sicherheitsmodell blockiert"];
+    }
+    return [
+      check("JavaScript im Browser ausgeführt", "OK", "Die Diagnose läuft im Browser des Meeting Managers."),
+      check("Browsertyp", "INFO", ua),
+      check("Sichere Browserumgebung", window.isSecureContext ? "OK" : "HINWEIS",
+        window.isSecureContext ? "Secure Context verfügbar." : "Kein Secure Context; einige Browserfunktionen können eingeschränkt sein."),
+      check("ActiveX-Unterstützung", isIE && typeof window.ActiveXObject === "function" ? "VORHANDEN" : "NICHT VERFÜGBAR",
+        isIE ? "Internet-Explorer-Laufzeit erkannt." : "Kein Internet Explorer/Trident. Moderne Browser stellen ActiveX/COM-Webzugriff nicht bereit."),
+      check("COM-Automation aus JavaScript", "NICHT DIREKT VERFÜGBAR",
+        "Eine normale Webseite darf keine beliebigen Windows-COM-Objekte instanziieren oder den enaio-Prozess öffnen."),
+      check("enaio-bezogene Browser-Schnittstellen", globals.length ? "KANDIDATEN GEFUNDEN" : "NICHT GEFUNDEN",
+        globals.length ? "Erkannte globale Namen: " + globals.join(", ") : "Keine globalen Fensterobjekte mit enaio-/ixos-/AXCDL-/DMS-Namen gefunden."),
+      check("window.external", window.external ? "VORHANDEN" : "NICHT VORHANDEN",
+        externalMembers.length ? "Sichtbare Eigenschaftsnamen: " + externalMembers.join(", ") : "Keine enumerierbaren Eigenschaften. Das Vorhandensein allein belegt keine enaio-Schnittstelle."),
+      check("Citrix-Windows-Sitzung", "IM BROWSER NICHT PRÜFBAR",
+        "Der Browser stellt die Windows-Sitzungs-ID und die Zuordnung zum enaio-Prozess nicht als Web-API bereit.")
+    ];
+  }
+
+  async function run() {
+    runButton.disabled = true;
+    copyButton.disabled = true;
+    downloadButton.disabled = true;
+    status.textContent = "Diagnose läuft …";
+    const report = {
+      report_type: "Meeting Manager – enaio Browserdiagnose",
+      generated_at: new Date().toISOString(),
+      browser: browserChecks(),
+      server: [],
+      conclusion: []
+    };
+    try {
+      const response = await fetch(endpoint, {
+        method: "GET",
+        credentials: "same-origin",
+        cache: "no-store",
+        headers: { "Accept": "application/json" }
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "HTTP " + response.status);
+      report.server.push(check("Meeting-Manager-Server erreichbar", "OK", "Authentifizierte Diagnose-API antwortet."));
+      report.server.push(check("Serververbindung HTTPS", data.server.https ? "OK" : "HINWEIS",
+        data.server.https ? "HTTPS wird verwendet." : "Die aktuelle Anfrage verwendet kein HTTPS."));
+      report.server.push(check("Zentraler enaio-Ablageordner", data.configuration.root_folder_configured ? "KONFIGURIERT" : "FEHLT",
+        data.configuration.root_folder_configured ? "Eine Ordner-ID ist hinterlegt." : "Es ist noch keine zentrale Ordner-ID hinterlegt."));
+      report.server.push(check("Technische Objektdefinition", data.configuration.object_definition_configured ? "KONFIGURIERT" : "UNVOLLSTÄNDIG",
+        data.configuration.object_definition_configured ? "Schrank, Registertyp, Namensfeld und Dokumenttyp sind hinterlegt." : "Mindestens eine technische Angabe fehlt."));
+      report.server.push(check("Session-/COM-Prüfung serverseitig", "NICHT MÖGLICH", data.note));
+      report.conclusion = data.checks_not_possible_from_server;
+      report.conclusion.push("Ein Browserbericht kann das Vorhandensein einer COM-Schnittstelle im enaio-Client nicht abschließend beweisen.");
+      report.conclusion.push("Für den nächsten Schritt benötigen wir ggf. die Herstellerdokumentation bzw. einen Citrix-seitigen Nachweis einer bereits vorhandenen lokalen Brücke.");
+      status.textContent = "Diagnose abgeschlossen. Bitte den Bericht kopieren oder herunterladen und zurückmelden.";
+    } catch (error) {
+      report.server.push(check("Meeting-Manager-Diagnose-API", "FEHLER", error.message));
+      report.conclusion.push("Die Browserdiagnose konnte den Server-Endpunkt nicht vollständig erreichen.");
+      status.textContent = "Diagnose mit Fehler abgeschlossen. Bitte den Bericht trotzdem zurückmelden.";
+    } finally {
+      reportText = JSON.stringify(report, null, 2);
+      output.textContent = reportText;
+      copyButton.disabled = false;
+      downloadButton.disabled = false;
+      runButton.disabled = false;
+    }
+  }
+
+  runButton.addEventListener("click", run);
+  copyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(reportText);
+      status.textContent = "Testergebnis wurde in die Zwischenablage kopiert.";
+    } catch (_) {
+      status.textContent = "Kopieren wurde vom Browser blockiert. Bitte den Bericht markieren und manuell kopieren.";
+    }
+  });
+  downloadButton.addEventListener("click", () => {
+    const blob = new Blob([reportText], {type:"application/json;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "enaio-browserdiagnose.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+})();
+</script>
+
 <section class="card" id="enaio-debug-console">
   <div class="actions" style="justify-content:space-between;align-items:center">
     <div><h2>enaio-Agent – Debug-Console</h2><p class="muted">Live-Protokoll des verbundenen Windows-Agenten. Aktualisiert sich automatisch alle drei Sekunden.</p></div>
