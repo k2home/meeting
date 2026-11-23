@@ -277,6 +277,32 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   --secondary-button-bg: {{ secondary_button_bg_dark }};
   --secondary-button-text: {{ secondary_button_text_dark }};
 }
+
+/* Untere Aktionsbuttons optisch an die direkt darüberliegenden Navigationsbuttons angleichen. */
+.sidebar .sidebar-management a{
+  background:color-mix(in srgb,var(--secondary-color) 17%,var(--nav-bg));
+  border:1px solid color-mix(in srgb,var(--secondary-color) 24%,transparent);
+  border-left:3px solid color-mix(in srgb,var(--tertiary-color) 68%,var(--secondary-color));
+  color:#f2f6fb;
+  font-weight:550;
+}
+.sidebar .sidebar-management a:hover,
+.sidebar .sidebar-management a:focus-visible{
+  background:color-mix(in srgb,var(--secondary-color) 32%,var(--nav-bg));
+  border-color:var(--tertiary-color);
+  color:#fff;
+}
+:root[data-theme="dark"] .sidebar .sidebar-management a{
+  background:color-mix(in srgb,var(--secondary-color) 17%,var(--nav-bg));
+  border-color:color-mix(in srgb,var(--secondary-color) 24%,transparent);
+  border-left-color:color-mix(in srgb,var(--tertiary-color) 68%,var(--secondary-color));
+}
+:root[data-theme="dark"] .sidebar .sidebar-management a:hover,
+:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible{
+  background:color-mix(in srgb,var(--secondary-color) 32%,var(--nav-bg));
+  border-color:var(--tertiary-color);
+}
+
 .messages{background:color-mix(in srgb,var(--secondary-color) 16%,var(--surface))}
 </style>
 </head>
