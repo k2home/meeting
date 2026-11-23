@@ -21,7 +21,7 @@ class DashboardDateRangeFilterTests(TestCase):
         near = Meeting.objects.create(series=self.series, date=today + timedelta(days=4))
         far = Meeting.objects.create(series=self.series, date=today + timedelta(days=20))
         AgendaItem.objects.create(meeting=near, topic=self.near_topic, status="open")
-        AgendaItem.objects.create(meeting=far, topic=self.far_topic, status="open")
+        AgendaItem.objects.create(meeting=far, topic=self.far_topic, status="open", assigned_to=self.user)
         self.client.force_login(self.user)
 
     def test_dashboard_filters_by_custom_meeting_date_range(self):
