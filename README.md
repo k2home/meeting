@@ -198,8 +198,8 @@ Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installatio
 1. Repository klonen und in das Verzeichnis wechseln:
 
    ```bash
-   git clone https://github.com/k2home/meeting.git
-   cd meeting
+   sudo git clone https://github.com/k2home/meeting.git /opt/meeting-manager
+   cd /opt/meeting-manager
    ```
 
 2. Für den Bezug des Images aus der GitHub Container Registry anmelden. Das Paket kann eine Anmeldung mit einem GitHub Personal Access Token mit mindestens `read:packages` erfordern:
@@ -216,7 +216,15 @@ Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installatio
 
    Mindestens `SECRET_KEY`, `POSTGRES_PASSWORD` und `ALLOWED_HOSTS` durch individuelle Werte ersetzen. Für den Docker-Betrieb wird `POSTGRES_HOST=db` verwendet (Compose setzt diesen Wert für den Anwendungscontainer automatisch). `ALLOWED_HOSTS` muss den verwendeten Hostnamen enthalten. Bei HTTPS hinter einem vorgeschalteten Reverse Proxy zusätzlich `CSRF_TRUSTED_ORIGINS` passend setzen und `TRUST_PROXY_SSL=1` konfigurieren. Die HTTPS-Terminierung selbst übernimmt der vorgeschaltete Proxy.
 
-4. Container starten:
+4. Den eingeschränkten Host-Updater installieren:
+
+   ```bash
+   sudo bash deploy/install-docker-updater.sh
+   ```
+
+   Der Installer richtet einen lokalen Unix-Socket ein. Nur der Anwendungscontainer erhält Zugriff auf diesen Socket; der Docker-Socket des Hosts wird niemals in einen Container eingebunden. Der Updater akzeptiert ausschließlich die Branches `beta` und `main`.
+
+5. Container starten:
 
    ```bash
    docker compose -f docker/compose.yaml pull
@@ -225,7 +233,7 @@ Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installatio
 
    Der Webzugriff erfolgt standardmäßig über Port `8080`, beispielsweise `http://SERVER-IP:8080/`. Für den produktiven Betrieb sollte dieser Port nur intern erreichbar sein und der Zugriff über einen HTTPS-Reverse-Proxy erfolgen.
 
-5. Administratorkonto anlegen:
+6. Administratorkonto anlegen:
 
    ```bash
    docker compose -f docker/compose.yaml exec app python manage.py createsuperuser
@@ -240,14 +248,16 @@ Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installatio
 
 **Updates**
 
-Nach einem freigegebenen neuen Build kann die Installation kontrolliert aktualisiert werden:
+Der Host-Updater kann später durch die Webverwaltung angesteuert werden. Für die manuelle Kontrolle stehen der Socket-Dienst und sein Protokoll zur Verfügung:
 
 ```bash
-docker compose -f docker/compose.yaml pull
-docker compose -f docker/compose.yaml up -d
+sudo systemctl status meeting-manager-docker-updater.socket
+sudo journalctl -u meeting-manager-docker-updater.service -f
 ```
 
-Beim Start führt der Anwendungscontainer ausstehende Django-Datenbankmigrationen aus und sammelt statische Dateien. Vor jedem Update ist ein Backup von Datenbank und Upload-Volume anzulegen. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in den Branch `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig; der Betreiber entscheidet, wann das neue Image eingespielt wird.
+Der Dienst nimmt ausschließlich `beta` oder `main` entgegen, lädt nur das passende App-Image und ersetzt ausschließlich den Dienst `app`. Datenbank, Nginx und persistente Volumes werden nicht neu erstellt. Nach dem Start prüft er Django; schlägt die Prüfung fehl, versucht er, das vorherige App-Image wiederherzustellen. Parallele Updates werden abgewiesen. Der lokale Status ist über den Unix-Socket unter `/run/meeting-manager-updater/control.sock` abrufbar. Der Socket ist nicht über TCP oder das öffentliche Netzwerk erreichbar.
+
+Vor jedem Update ist ein Backup von Datenbank und Upload-Volume anzulegen. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig.
 
 **Protokolle und Betrieb**
 
