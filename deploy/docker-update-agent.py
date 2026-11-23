@@ -77,6 +77,8 @@ def remove_rollback_image(image_ref):
             ["/usr/bin/docker", "image", "rm", image_ref],
             text=True, capture_output=True, timeout=30, check=False,
         )
+
+
 def persist_selected_image(image_ref):
     env_file = APP_DIR / ".env"
     if env_file.is_symlink() or not env_file.is_file():
@@ -100,6 +102,8 @@ def persist_selected_image(image_ref):
     os.chown(temporary, metadata.st_uid, metadata.st_gid)
     os.chmod(temporary, stat.S_IMODE(metadata.st_mode))
     temporary.replace(env_file)
+
+
 def run_update(branch):
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
