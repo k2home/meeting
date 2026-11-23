@@ -2,9 +2,17 @@ from zoneinfo import available_timezones
 import logging
 from datetime import timedelta
 import os
+import json
 import subprocess
 import tempfile
+import zipfile
 from pathlib import Path
+
+from django.core.management import call_command
+from django.db import connection
+from django.db.migrations.executor import MigrationExecutor
+from django.db.migrations.loader import MigrationLoader
+from django.db.migrations.recorder import MigrationRecorder
 
 from django import forms
 from django.contrib import messages
@@ -498,6 +506,7 @@ def management_settings(request):
 
 
 DATABASE_BACKUP_MAX_BYTES = 1024 * 1024 * 1024  # 1 GiB
+DATABASE_BACKUP_FORMAT_VERSION = 1
 
 
 def _database_client_environment():
@@ -522,30 +531,104 @@ def _run_database_client(command, env, timeout=1800):
     )
 
 
+def _database_schema_migrations():
+    return [
+        {"app": app_label, "name": migration_name}
+        for app_label, migration_name in sorted(MigrationRecorder(connection).applied_migrations())
+    ]
+
+
+def _validate_backup_migrations(migrations):
+    if not isinstance(migrations, list):
+        raise RuntimeError("Die Sicherung enthält keine gültige Django-Migrationshistorie.")
+    normalized = set()
+    for item in migrations:
+        if not isinstance(item, dict):
+            raise RuntimeError("Die Migrationshistorie der Sicherung ist beschädigt.")
+        app_label, name = item.get("app"), item.get("name")
+        if not isinstance(app_label, str) or not app_label or not isinstance(name, str) or not name:
+            raise RuntimeError("Die Migrationshistorie der Sicherung ist beschädigt.")
+        key = (app_label, name)
+        if key in normalized:
+            raise RuntimeError("Die Migrationshistorie der Sicherung enthält doppelte Einträge.")
+        normalized.add(key)
+
+    current_migrations = MigrationLoader(None).graph.nodes
+    unknown = sorted(normalized - current_migrations)
+    if unknown:
+        details = ", ".join(f"{app}.{name}" for app, name in unknown[:10])
+        raise RuntimeError(
+            "Dieses Backup stammt aus einer neueren oder inkompatiblen Datenbankversion. "
+            f"Die benötigten Migrationen sind im aktuellen Programm nicht vorhanden: {details}"
+        )
+
+
+def _restore_database_dump(dump_path, database_name, env):
+    return _run_database_client(
+        ["pg_restore", "--clean", "--if-exists", "--exit-on-error", "--single-transaction",
+         "--no-owner", "--no-acl", "--dbname", database_name, dump_path],
+        env,
+    )
+
+
+def _restore_previous_database(safety_path, database_name, env, original_error):
+    rollback = _restore_database_dump(safety_path, database_name, env)
+    if rollback.returncode != 0:
+        raise RuntimeError(
+            "Der Import ist fehlgeschlagen und auch die automatische Wiederherstellung der vorherigen "
+            "Datenbank ist fehlgeschlagen. Bitte den Serverzustand sofort prüfen. "
+            + rollback.stderr.decode("utf-8", "replace")[-1200:]
+        ) from original_error
+    raise RuntimeError(
+        "Der Import bzw. die anschließende Datenbankmigration ist fehlgeschlagen. "
+        "Die vorherige Datenbank wurde automatisch wiederhergestellt. "
+        + str(original_error)
+    ) from original_error
+
+
 @login_required
 @require_http_methods(["GET"])
 def management_database_export(request):
     _require_admin(request)
-    path = None
+    dump_path = archive_path = None
     try:
         env, database_name = _database_client_environment()
-        handle = tempfile.NamedTemporaryFile(prefix="meeting-manager-", suffix=".dump", delete=False)
-        path = handle.name
-        handle.close()
+        with tempfile.NamedTemporaryFile(prefix="meeting-manager-", suffix=".dump", delete=False) as handle:
+            dump_path = handle.name
         result = _run_database_client(
-            ["pg_dump", "--format=custom", "--no-owner", "--no-acl", "--file", path, "--dbname", database_name],
+            ["pg_dump", "--format=custom", "--no-owner", "--no-acl", "--file", dump_path, "--dbname", database_name],
             env,
         )
         if result.returncode != 0:
             raise RuntimeError(result.stderr.decode("utf-8", "replace")[-2000:] or "pg_dump ist fehlgeschlagen.")
-        stream = open(path, "rb")
-        response = FileResponse(stream, as_attachment=True, filename="meeting-manager-vollbackup.dump",
-                                content_type="application/octet-stream")
-        response._resource_closers.append(lambda: Path(path).unlink(missing_ok=True))
+
+        metadata = {
+            "format_version": DATABASE_BACKUP_FORMAT_VERSION,
+            "exported_at": timezone.now().isoformat(),
+            "schema_migrations": _database_schema_migrations(),
+        }
+        with tempfile.NamedTemporaryFile(prefix="meeting-manager-backup-", suffix=".zip", delete=False) as handle:
+            archive_path = handle.name
+        with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_STORED) as archive:
+            archive.write(dump_path, arcname="database.dump")
+            archive.writestr(
+                "metadata.json",
+                json.dumps(metadata, ensure_ascii=False, indent=2).encode("utf-8"),
+            )
+
+        stream = open(archive_path, "rb")
+        response = FileResponse(
+            stream, as_attachment=True, filename="meeting-manager-vollbackup.zip",
+            content_type="application/zip",
+        )
+        response._resource_closers.append(
+            lambda: (Path(dump_path).unlink(missing_ok=True), Path(archive_path).unlink(missing_ok=True))
+        )
         return response
-    except (OSError, RuntimeError, subprocess.TimeoutExpired) as exc:
-        if path:
-            Path(path).unlink(missing_ok=True)
+    except (OSError, RuntimeError, subprocess.TimeoutExpired, zipfile.BadZipFile) as exc:
+        for path in (dump_path, archive_path):
+            if path:
+                Path(path).unlink(missing_ok=True)
         logger.exception("Vollständiger Datenbankexport fehlgeschlagen.")
         messages.error(request, f"Der Datenbankexport ist fehlgeschlagen: {exc}")
         return redirect("management_data")
@@ -566,17 +649,38 @@ def management_database_import(request):
         messages.error(request, "Bitte bestätige den Import durch die Eingabe von DATENBANK ERSETZEN.")
         return redirect("management_data")
 
-    uploaded_path = safety_path = None
+    uploaded_path = dump_path = safety_path = None
     try:
         env, database_name = _database_client_environment()
-        with tempfile.NamedTemporaryFile(prefix="meeting-manager-upload-", suffix=".dump", delete=False) as handle:
+        with tempfile.NamedTemporaryFile(prefix="meeting-manager-upload-", suffix=".zip", delete=False) as handle:
             uploaded_path = handle.name
             for chunk in uploaded.chunks():
                 handle.write(chunk)
 
-        listing = _run_database_client(["pg_restore", "--list", uploaded_path], env, timeout=120)
+        with zipfile.ZipFile(uploaded_path, "r") as archive:
+            entries = {item.filename: item for item in archive.infolist()}
+            if set(entries) != {"metadata.json", "database.dump"} or len(archive.infolist()) != 2:
+                raise RuntimeError("Die Sicherungsdatei besitzt nicht das erwartete Meeting-Manager-Backupformat.")
+            metadata_info = entries["metadata.json"]
+            dump_info = entries["database.dump"]
+            if metadata_info.file_size > 1024 * 1024:
+                raise RuntimeError("Die Metadaten der Sicherung sind ungewöhnlich groß.")
+            if dump_info.file_size <= 0 or dump_info.file_size > DATABASE_BACKUP_MAX_BYTES:
+                raise RuntimeError("Die Datenbanksicherung ist leer oder überschreitet das erlaubte Limit von 1 GiB.")
+            metadata = json.loads(archive.read(metadata_info).decode("utf-8"))
+            if not isinstance(metadata, dict) or metadata.get("format_version") != DATABASE_BACKUP_FORMAT_VERSION:
+                raise RuntimeError("Die Backup-Formatversion wird von dieser Anwendung nicht unterstützt.")
+            _validate_backup_migrations(metadata.get("schema_migrations"))
+
+            with tempfile.NamedTemporaryFile(prefix="meeting-manager-restore-", suffix=".dump", delete=False) as handle:
+                dump_path = handle.name
+                with archive.open(dump_info, "r") as source:
+                    while chunk := source.read(1024 * 1024):
+                        handle.write(chunk)
+
+        listing = _run_database_client(["pg_restore", "--list", dump_path], env, timeout=120)
         if listing.returncode != 0:
-            raise RuntimeError("Die Datei ist kein gültiges PostgreSQL-Datenbank-Backup.")
+            raise RuntimeError("Die Datenbankdatei im Backup ist kein gültiges PostgreSQL-Archiv.")
 
         with tempfile.NamedTemporaryFile(prefix="meeting-manager-before-restore-", suffix=".dump", delete=False) as handle:
             safety_path = handle.name
@@ -585,38 +689,39 @@ def management_database_import(request):
             env,
         )
         if backup.returncode != 0:
-            raise RuntimeError("Die aktuelle Datenbank konnte vor dem Import nicht gesichert werden. Import abgebrochen.")
-
-        restored = _run_database_client(
-            ["pg_restore", "--clean", "--if-exists", "--exit-on-error", "--single-transaction",
-             "--no-owner", "--no-acl", "--dbname", database_name, uploaded_path],
-            env,
-        )
-        if restored.returncode != 0:
-            rollback = _run_database_client(
-                ["pg_restore", "--clean", "--if-exists", "--exit-on-error", "--single-transaction",
-                 "--no-owner", "--no-acl", "--dbname", database_name, safety_path],
-                env,
+            raise RuntimeError(
+                "Die aktuelle Datenbank konnte vor dem Import nicht gesichert werden. Import abgebrochen. "
+                + backup.stderr.decode("utf-8", "replace")[-1200:]
             )
-            if rollback.returncode != 0:
-                raise RuntimeError(
-                    "Import fehlgeschlagen und auch die automatische Wiederherstellung der vorherigen Datenbank "
-                    "ist fehlgeschlagen. Bitte den Serverzustand sofort prüfen. "
-                    + restored.stderr.decode("utf-8", "replace")[-1200:]
-                )
-            raise RuntimeError("Der Import ist fehlgeschlagen. Die vorherige Datenbank wurde automatisch wiederhergestellt. "
-                               + restored.stderr.decode("utf-8", "replace")[-1200:])
 
-        messages.success(request, "Die vollständige Datenbank wurde importiert. Bitte melde dich erneut an.")
+        restored = _restore_database_dump(dump_path, database_name, env)
+        if restored.returncode != 0:
+            _restore_previous_database(
+                safety_path, database_name, env,
+                restored.stderr.decode("utf-8", "replace")[-1200:] or "pg_restore ist fehlgeschlagen.",
+            )
+
+        try:
+            connection.close()
+            call_command("migrate", interactive=False, verbosity=0)
+            executor = MigrationExecutor(connection)
+            pending = executor.migration_plan(executor.loader.graph.leaf_nodes())
+            if pending:
+                raise RuntimeError("Nach der Migration sind weiterhin nicht angewendete Datenbankmigrationen vorhanden.")
+        except Exception as migration_error:
+            connection.close()
+            _restore_previous_database(safety_path, database_name, env, migration_error)
+
         from django.contrib.auth import logout
         logout(request)
+        messages.success(request, "Die Datenbank wurde importiert und auf den aktuellen Programmstand migriert. Bitte melde dich erneut an.")
         return redirect("login")
-    except (OSError, RuntimeError, subprocess.TimeoutExpired) as exc:
+    except (OSError, RuntimeError, subprocess.TimeoutExpired, zipfile.BadZipFile, json.JSONDecodeError, UnicodeDecodeError) as exc:
         logger.exception("Vollständiger Datenbankimport fehlgeschlagen.")
         messages.error(request, f"Der Datenbankimport ist fehlgeschlagen: {exc}")
         return redirect("management_data")
     finally:
-        for path in (uploaded_path, safety_path):
+        for path in (uploaded_path, dump_path, safety_path):
             if path:
                 Path(path).unlink(missing_ok=True)
 
