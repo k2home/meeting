@@ -54,6 +54,21 @@ class PersonalTasksDueFilterTests(TestCase):
         self.assertNotContains(response, "Aufgabe overdue")
         self.assertNotContains(response, "Aufgabe today")
 
+    def test_invalid_filter_falls_back_to_all_and_keeps_total_counters(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("my_tasks"), {"due": "invalid"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Aufgabe overdue")
+        self.assertContains(response, "Aufgabe today")
+        self.assertContains(response, "Aufgabe upcoming")
+        self.assertContains(response, "Aufgabe ohne Termin")
+        self.assertEqual(response.context["selected_due"], "all")
+        self.assertEqual(response.context["overdue_count"], 1)
+        self.assertEqual(response.context["due_today_count"], 1)
+        self.assertEqual(response.context["without_meeting_count"], 1)
+
     def test_today_filter_includes_topics_due_today(self):
         self.client.force_login(self.user)
 
