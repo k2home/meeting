@@ -35,6 +35,7 @@
       return;
     }
     event.preventDefault();
+    if (form.dataset.confirmSetField) event.stopImmediatePropagation();
     pendingForm = form;
     pendingSubmitter = event.submitter || form.querySelector('button[type="submit"],input[type="submit"],button:not([type])');
     let text = form.dataset.confirmMessage || "Möchtest du diese Aktion wirklich ausführen?";
