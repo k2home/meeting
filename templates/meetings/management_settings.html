@@ -5,8 +5,7 @@
 <div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="actions"><button class="primary" type="submit">Einstellungen speichern</button></div></form></div>
 <script>
 document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],input[name$="_color_dark"]').forEach(function(input){
-  input.setAttribute('pattern','^$|^#[0-9A-Fa-f]{6}
-{% endblock %});
+  input.setAttribute('pattern','^$|^#[0-9A-Fa-f]{6}$');
   input.setAttribute('placeholder','#RRGGBB');
   var picker=document.createElement('input');
   picker.type='color';
