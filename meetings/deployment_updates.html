@@ -41,6 +41,13 @@
     <button class="primary" type="submit" {% if not update_available or update_status.status == "running" %}disabled{% endif %}>Update starten</button>
   </form>
   <p class="muted">Während des Updates kann die Anwendung kurzzeitig nicht erreichbar sein. Lokale Konfiguration und persistente Daten bleiben erhalten.</p>
+  {% if testing_mode and is_debian_deployment %}
+    <form method="post" class="actions" style="margin-top:1rem" onsubmit="return confirm('Testing-Modus wirklich deaktivieren? Danach stehen nur noch main und beta zur Auswahl.');">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="disable-testing">
+      <button type="submit" class="secondary" {% if update_status.status == "running" %}disabled{% endif %}>Testing-Modus beenden</button>
+    </form>
+  {% endif %}
 </section>
 
 <section class="card" id="deployment-update-status" data-update-status="{{ update_status.status|default:'idle' }}">
