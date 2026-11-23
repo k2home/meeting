@@ -209,22 +209,22 @@ content = content[:root_match.start(2)] + root_body + content[root_match.end(2):
 
 # Full database backups can exceed the previous CSV upload limit. Preserve
 # custom proxy rules while raising the application site's upload and request timeouts.
-server_match = re.search(r"(^server\\s*\\{)(.*?)(^\\})", content, re.S | re.M)
+server_match = re.search(r"(^server\s*\{)(.*?)(^\})", content, re.S | re.M)
 if not server_match:
     print("Nginx-Serverblock konnte nicht sicher erkannt werden.", file=sys.stderr)
     sys.exit(2)
 server_body = server_match.group(2)
-if re.search(r"^\\s*client_max_body_size\\s+[^;]+;", server_body, re.M):
-    server_body = re.sub(r"^\\s*client_max_body_size\\s+[^;]+;", "    client_max_body_size 1g;", server_body, flags=re.M)
+if re.search(r"^\s*client_max_body_size\s+[^;]+;", server_body, re.M):
+    server_body = re.sub(r"^\s*client_max_body_size\s+[^;]+;", "    client_max_body_size 1g;", server_body, flags=re.M)
 else:
-    server_body = "\\n    client_max_body_size 1g;" + server_body
+    server_body = "\n    client_max_body_size 1g;" + server_body
 content = content[:server_match.start(2)] + server_body + content[server_match.end(2):]
 root_match = re.search(root_pattern, content, re.S)
 root_body = root_match.group(2)
-if re.search(r"^\\s*proxy_read_timeout\\s+[^;]+;", root_body, re.M):
-    root_body = re.sub(r"^\\s*proxy_read_timeout\\s+[^;]+;", "        proxy_read_timeout 1800s;", root_body, flags=re.M)
+if re.search(r"^\s*proxy_read_timeout\s+[^;]+;", root_body, re.M):
+    root_body = re.sub(r"^\s*proxy_read_timeout\s+[^;]+;", "        proxy_read_timeout 1800s;", root_body, flags=re.M)
 else:
-    root_body = root_body.rstrip() + "\\n        proxy_read_timeout 1800s;"
+    root_body = root_body.rstrip() + "\n        proxy_read_timeout 1800s;"
 content = content[:root_match.start(2)] + root_body + content[root_match.end(2):]
 path.write_text(content, encoding="utf-8")
 PY
