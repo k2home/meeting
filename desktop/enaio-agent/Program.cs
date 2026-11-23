@@ -88,7 +88,7 @@ internal static class Program
         if (kind == "select_root_folder")
         {
             var selection = EnaioClient.SelectRootFolder();
-            using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
+            using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(new { selection.folder_id, selection.folder_type, selection.folder_name, selection.folder_path, lease_token = job.GetProperty("lease_token").GetString() }), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
             response.EnsureSuccessStatusCode();
             Console.WriteLine("Zentraler enaio-Stammordner wurde übermittelt.");
         }
@@ -100,7 +100,7 @@ internal static class Program
             {
                 File.WriteAllBytes(tempFile, pdf);
                 var result = EnaioClient.FileProtocol(job.GetProperty("filing"), tempFile);
-                var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path });
+                var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path, lease_token = job.GetProperty("lease_token").GetString() });
                 using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                 response.EnsureSuccessStatusCode();
                 Console.WriteLine("Protokoll wurde in enaio abgelegt: " + result.Path);
