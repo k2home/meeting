@@ -119,9 +119,6 @@ class OrganizationLogoForm(forms.ModelForm):
 
 
 class EnaioSettingsForm(forms.Form):
-    archive_name = forms.CharField(label="enaio-Schrankname", max_length=255, required=False, help_text="Im enaio® editor in der aktuellen Objektdefinition den Schrank markieren und den internen Namen aus den Eigenschaften übernehmen. Nicht die sichtbare Bezeichnung verwenden.")
-    register_type_name = forms.CharField(label="Technischer Registertyp", max_length=255, required=False, help_text="Im enaio® editor den Registertyp unter dem gewünschten Schrank markieren und seinen internen Namen aus den Eigenschaften übernehmen. Nicht die sichtbare Bezeichnung verwenden.")
-    register_name_field = forms.CharField(label="Technisches Register-Namensfeld", max_length=255, required=False, help_text="Im enaio® editor die Indexdatenmaske dieses Registertyps öffnen, das Textfeld für den Registernamen auswählen und dessen internen Namen aus den Eigenschaften übernehmen (nicht die Beschriftung auf der Maske).")
     document_type_name = forms.CharField(label="Technischer Dokumenttyp", max_length=255, required=True, help_text="Dokumenttyp, der in enaio für das Protokoll-PDF verwendet wird (z. B. Standard).")
     root_folder_id = forms.CharField(label="enaio-Ordner-ID", max_length=64,
         help_text="ID des zentralen enaio-Ordners. Sie können die ID direkt eingeben oder über den enaio-Client auswählen.")
@@ -134,9 +131,6 @@ def management_enaio_settings(request):
     _require_admin(request)
     instance = EnaioSettings.objects.filter(pk=1).first()
     initial = {
-        "archive_name": instance.archive_name if instance else "",
-        "register_type_name": instance.register_type_name if instance else "",
-        "register_name_field": instance.register_name_field if instance else "",
         "document_type_name": instance.document_type_name if instance else "Standard",
         "root_folder_id": instance.root_folder_id if instance else "",
         "root_folder_type": instance.root_folder_type if instance else 0,
@@ -148,9 +142,6 @@ def management_enaio_settings(request):
         if settings_obj.root_folder_id != new_folder_id:
             settings_obj.root_folder_name = ""
             settings_obj.root_folder_path = ""
-        settings_obj.archive_name = form.cleaned_data["archive_name"].strip()
-        settings_obj.register_type_name = form.cleaned_data["register_type_name"].strip()
-        settings_obj.register_name_field = form.cleaned_data["register_name_field"].strip()
         settings_obj.document_type_name = form.cleaned_data["document_type_name"].strip()
         settings_obj.root_folder_id = new_folder_id
         settings_obj.root_folder_type = form.cleaned_data.get("root_folder_type") or 0
@@ -159,7 +150,8 @@ def management_enaio_settings(request):
         return redirect("management_enaio_settings")
     return render(request, "meetings/management_enaio_settings.html", {
         "form": form, "configured": bool(instance and instance.root_folder_id),
-        "object_definition_configured": bool(instance and instance.archive_name and instance.register_type_name and instance.register_name_field and instance.document_type_name),
+        "object_definition_configured": False,
+        "object_definition_automatic": True,
         "folder_name": instance.root_folder_name if instance else "",
         "folder_path": instance.root_folder_path if instance else "",
     })
@@ -173,9 +165,6 @@ def enaio_connection_diagnostics(request):
     _require_admin(request)
     config = EnaioSettings.objects.filter(pk=1).first()
     required_fields = [
-        ("archive_name", "enaio-Schrankname"),
-        ("register_type_name", "Technischer Registertyp"),
-        ("register_name_field", "Technisches Register-Namensfeld"),
         ("document_type_name", "Technischer Dokumenttyp"),
     ]
     missing_fields = [
