@@ -31,16 +31,28 @@
   const button=document.getElementById("enaio-select-folder"), status=document.getElementById("enaio-selection-status");
   const csrf=document.querySelector("#enaio-settings-form input[name=csrfmiddlewaretoken]")?.value;
   if(!button||!csrf)return;
+  async function readJson(response){
+    const body=await response.text();
+    try{return JSON.parse(body);}
+    catch(_error){
+      const contentType=response.headers.get("content-type")||"unbekannt";
+      throw new Error(`Der Server hat keine JSON-Antwort geliefert (HTTP ${response.status}, ${contentType}). Bitte Anmeldung und Berechtigung prüfen; weitere Details stehen im Serverprotokoll.`);
+    }
+  }
   button.addEventListener("click",async()=>{
     button.disabled=true; status.textContent="enaio-Auswahl wird vorbereitet …";
     try{
       const response=await fetch("{% url 'enaio_folder_selection_start' %}",{method:"POST",headers:{"X-CSRFToken":csrf,"Accept":"application/json"}});
-      const data=await response.json(); if(!response.ok)throw new Error(data.error||"Die enaio-Auswahl konnte nicht gestartet werden.");
+      const data=await readJson(response);
+      if(!response.ok)throw new Error(data.error||`Die enaio-Auswahl konnte nicht gestartet werden (HTTP ${response.status}).`);
+      if(!data.launch_url||!data.status_url)throw new Error("Die Serverantwort enthält keine vollständigen Startdaten für die enaio-Auswahl.");
       window.location.href=data.launch_url; status.textContent="Bitte wählen Sie den Ordner im geöffneten enaio-Client aus.";
       const deadline=Date.now()+120000;
       while(Date.now()<deadline){
         await new Promise(resolve=>setTimeout(resolve,2000));
-        const check=await fetch(data.status_url,{headers:{"Accept":"application/json"}}), result=await check.json();
+        const check=await fetch(data.status_url,{headers:{"Accept":"application/json"}});
+        const result=await readJson(check);
+        if(!check.ok)throw new Error(result.error||`Der Auswahlstatus konnte nicht geladen werden (HTTP ${check.status}).`);
         if(result.completed){window.location.reload();return;}
         if(result.expired)throw new Error("Die Auswahl ist abgelaufen. Bitte versuchen Sie es erneut.");
       }
