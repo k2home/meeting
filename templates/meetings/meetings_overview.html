@@ -125,6 +125,7 @@
   let cursor = new Date(today.getFullYear(), today.getMonth(), 1);
   let view = "month";
   const showPast = document.getElementById("calendar-show-past");
+  const hideFinalized = document.getElementById("calendar-hide-finalized");
   const dateFromIso = value => {
     const [year, month, day] = value.split("-").map(Number);
     return new Date(year, month - 1, day);
@@ -152,7 +153,7 @@
         const date = dateFromIso(event.date);
         return date >= monthStart && date <= monthEnd
           && (showPast.checked || date >= today)
-          && (!hideFinalized.checked || !event.finalized);
+          && (!hideFinalized?.checked || !event.finalized);
       }).sort((a, b) => a.date.localeCompare(b.date) || a.series.localeCompare(b.series, "de"));
       if (!visibleEvents.length) {
         const empty = document.createElement("p");
@@ -253,6 +254,7 @@
     render();
   }));
   showPast.addEventListener("change", render);
+  hideFinalized?.addEventListener("change", render);
   render();
 })();
 </script>
