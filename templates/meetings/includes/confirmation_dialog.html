@@ -51,6 +51,11 @@
     if (!pendingForm) { dialog.close(); return; }
     const form = pendingForm;
     const submitter = pendingSubmitter;
+    const fieldName = form.dataset.confirmSetField;
+    if (fieldName) {
+      const field = form.querySelector('[name="' + fieldName + '"]');
+      if (field) field.value = form.dataset.confirmSetValue || "1";
+    }
     reset();
     form.dataset.confirmApproved = "true";
     dialog.close();
