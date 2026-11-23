@@ -32,7 +32,7 @@
   {% endfor %}
 </section>
 {% if meeting.finalized_at %}
-<p class="muted">Gesicherter Stand vom {{ meeting.finalized_at|date:"d.m.Y H:i" }}</p>
+<p class="muted">Gesicherter Stand vom {{ meeting.finalized_at|date:"DATETIME_FORMAT" }}</p>
 {% else %}
 <p class="muted">Entwurf – noch nicht abgeschlossen. Der endgültige Stand wird beim Abschluss unveränderlich gesichert.</p>
 {% endif %}
