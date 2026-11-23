@@ -51,7 +51,7 @@
   if (!search || !options || !status) return;
 
   const labels = Array.from(options.querySelectorAll(".participant-group label"));
-  const normalize = value => value.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLocaleLowerCase("de");
+  const normalize = value => value.toLocaleLowerCase("de");
 
   search.addEventListener("input", () => {
     const query = normalize(search.value.trim());
@@ -65,7 +65,7 @@
       group.hidden = !group.querySelector("label:not([hidden])");
     });
     status.textContent = query
-      ? visible + (visible === 1 ? " Teilnehmer gefunden." : " Teilnehmer gefunden.")
+      ? visible + " Treffer gefunden."
       : "Alle Teilnehmer werden angezeigt.";
   });
 })();
