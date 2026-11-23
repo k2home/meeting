@@ -176,4 +176,28 @@
   window.addEventListener("resize", updateCurrentSection);
 })();
 </script>
+
+<!-- user-guide-print -->
+<style>
+@media print {
+  .sidebar, .page-header, .guide-index, .no-print { display: none !important; }
+  .guide-layout { display: block !important; }
+  .guide-content .card { break-inside: avoid; box-shadow: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  a { color: inherit !important; text-decoration: none !important; }
+}
+</style>
+<script>
+(() => {
+  const heading = document.querySelector("h1");
+  if (!heading || document.getElementById("print-user-guide")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "print-user-guide";
+  button.className = "secondary no-print";
+  button.textContent = "Anleitung drucken";
+  button.addEventListener("click", () => window.print());
+  heading.insertAdjacentElement("afterend", button);
+})();
+</script>
 {% endblock %}
