@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
@@ -104,7 +103,9 @@ def management_home(request):
 def management_users(request):
     _require_admin(request)
     users = User.objects.all().order_by("last_name", "first_name", "username")
-    return render(request, "meetings/management_users.html", {"users": users})
+    return render(request, "meetings/management_users.html", {
+        "users": [{"account": user, "is_administrator": is_admin(user)} for user in users]
+    })
 
 
 @login_required
@@ -189,3 +190,9 @@ def management_settings(request):
         messages.success(request, "Die Organisationseinstellungen wurden gespeichert.")
         return redirect("management_settings")
     return render(request, "meetings/management_settings.html", {"form": form})
+
+
+@login_required
+def management_data(request):
+    _require_admin(request)
+    return render(request, "meetings/management_data.html")
