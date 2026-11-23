@@ -295,7 +295,7 @@ Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisc
    sudo bash deploy/install-debian.sh
    ```
 
-3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
+3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY`, Datenbankpasswort und Einrichtungscode, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
 
 4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto mit dem vom Installer ausgegebenen Einrichtungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Den Einrichtungscode vertraulich behandeln.
 
