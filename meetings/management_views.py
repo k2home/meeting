@@ -593,6 +593,7 @@ def management_database_export(request):
     dump_path = archive_path = None
     try:
         env, database_name = _database_client_environment()
+        migrations_before_dump = _database_schema_migrations()
         with tempfile.NamedTemporaryFile(prefix="meeting-manager-", suffix=".dump", delete=False) as handle:
             dump_path = handle.name
         result = _run_database_client(
@@ -602,7 +603,6 @@ def management_database_export(request):
         if result.returncode != 0:
             raise RuntimeError(result.stderr.decode("utf-8", "replace")[-2000:] or "pg_dump ist fehlgeschlagen.")
 
-        migrations_before_dump = _database_schema_migrations()
         metadata = {
             "format_version": DATABASE_BACKUP_FORMAT_VERSION,
             "exported_at": timezone.now().isoformat(),
