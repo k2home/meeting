@@ -280,16 +280,30 @@ Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisc
 - SSH- bzw. Konsolenzugriff mit sudo-Rechten
 - Eine feste IP-Adresse oder ein DNS-Name für die Anwendung
 
-**Installation**
+**Schnellinstallation – alle Befehle nacheinander ausführen**
 
-1. Repository klonen:
+Für eine frische Debian-/Ubuntu-Installation genügt dieser Ablauf. Er installiert Git, lädt das Repository herunter und startet direkt den Installer:
+
+```bash
+sudo apt update
+sudo apt install git -y
+git clone https://github.com/k2home/meeting.git
+cd meeting
+sudo bash deploy/install-debian.sh
+```
+
+Danach fragt das Installationsskript nur noch nach dem Hostnamen bzw. der IP-Adresse. PostgreSQL, Nginx, Python-Abhängigkeiten und der systemd-Dienst werden automatisch eingerichtet. Die benötigten Secrets und der einmalige Browser-Einrichtungscode werden automatisch erzeugt. Den Einrichtungscode am Ende der Installation notieren und vertraulich aufbewahren.
+
+**Installation im Einzelnen**
+
+1. Repository klonen und in das Verzeichnis wechseln:
 
    ```bash
    git clone https://github.com/k2home/meeting.git
    cd meeting
    ```
 
-2. Installationsskript starten:
+2. Installationsskript mit Root-Rechten starten:
 
    ```bash
    sudo bash deploy/install-debian.sh
