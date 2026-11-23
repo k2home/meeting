@@ -8,6 +8,7 @@ fi
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_DIR="/opt/meeting-manager"
+cd "$APP_DIR"
 COMPOSE_FILE="$APP_DIR/docker/compose.yaml"
 
 if [[ "$SOURCE_DIR" != "$APP_DIR" ]]; then
@@ -21,6 +22,7 @@ if ! command -v docker >/dev/null 2>&1 || ! docker compose version >/dev/null 2>
 fi
 
 echo "==> Prüfe Docker"
+command -v openssl >/dev/null 2>&1 || { echo "openssl muss installiert sein." >&2; exit 1; }
 docker info >/dev/null
 
 if [[ ! -f "$APP_DIR/.env" ]]; then
@@ -78,7 +80,9 @@ docker compose -f "$COMPOSE_FILE" up -d
 
 echo
 echo "Installation abgeschlossen."
-echo "Webzugriff: http://<SERVER-IP>:$(sed -n 's/^WEB_PORT=//p' "$APP_DIR/.env" | tail -n 1 | tr -d '\r')/"
+WEB_PORT="$(sed -n 's/^WEB_PORT=//p' "$APP_DIR/.env" | tail -n 1 | tr -d '\r')"
+WEB_PORT="${WEB_PORT:-8080}"
+echo "Webzugriff: http://<SERVER-IP>:$WEB_PORT/"
 echo "Status:     docker compose -f $COMPOSE_FILE ps"
 echo "Logs:       docker compose -f $COMPOSE_FILE logs -f app"
 echo "Secrets:    $APP_DIR/.env (nur root lesbar)"
