@@ -2350,7 +2350,7 @@ class _UnixSocketHTTPConnection(http.client.HTTPConnection):
 
 
 def _updater_request(path, method="GET", payload=None):
-    connection = _UnixSocketHTTPConnection(UPDATE_SOCKET)
+    connection = _UnixSocketHTTPConnection(UPDATE_SOCKET, timeout=20)
     body = json.dumps(payload).encode("utf-8") if payload is not None else None
     headers = {"Content-Type": "application/json"} if body is not None else {}
     try:
