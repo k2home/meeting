@@ -5,8 +5,12 @@ if [[ "$EUID" -ne 0 ]]; then
   echo "Der Update-Runner muss als root laufen." >&2
   exit 1
 fi
-if [[ "$#" -ne 1 || ( "$1" != "beta" && "$1" != "main" ) ]]; then
-  echo "Unzulässiger Update-Branch." >&2
+if [[ "$#" -ne 1 || ! "$1" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$ || "$1" == *".."* || "$1" == */ || "$1" == *. ]]; then
+  echo "Ungültiger Update-Branch." >&2
+  exit 2
+fi
+if ! /usr/bin/git -C /opt/meeting-manager ls-remote --exit-code origin "refs/heads/$1" >/dev/null 2>&1; then
+  echo "Der ausgewählte Branch ist im Remote-Repository nicht verfügbar." >&2
   exit 2
 fi
 
