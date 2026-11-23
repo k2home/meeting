@@ -35,9 +35,25 @@ class DashboardDateRangeFilterTests(TestCase):
         self.assertNotContains(response, "Termin außerhalb")
         self.assertEqual(response.context["selected_due"], "")
 
-    def test_invalid_or_reversed_date_range_is_ignored(self):
+    def test_single_date_bound_can_be_used_and_invalid_other_bound_is_discarded(self):
+        today = timezone.localdate()
+        upper_bound = (today + timedelta(days=10)).isoformat()
         response = self.client.get(reverse("dashboard"), {
-            "from_date": "kein-datum", "to_date": "2026-01-01",
+            "from_date": "kein-datum", "to_date": upper_bound,
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Termin im Bereich")
+        self.assertNotContains(response, "Termin außerhalb")
+        self.assertEqual(response.context["selected_from_date"], "")
+        self.assertEqual(response.context["selected_to_date"], upper_bound)
+
+    def test_reversed_date_range_is_discarded(self):
+        today = timezone.localdate()
+        response = self.client.get(reverse("dashboard"), {
+            "from_date": (today + timedelta(days=10)).isoformat(),
+            "to_date": (today + timedelta(days=2)).isoformat(),
         })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["selected_from_date"], "")
+        self.assertEqual(response.context["selected_to_date"], "")
+        self.assertEqual(response.context["selected_due"], "next_week")
