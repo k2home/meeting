@@ -10,10 +10,10 @@ class AccessibleBrandButtonColorTests(SimpleTestCase):
         self.assertEqual(result["text"], "#FFFFFF")
         self.assertGreaterEqual(result["contrast"], 4.5)
 
-    def test_preserves_light_custom_color_and_uses_dark_text(self):
+    def test_preserves_light_custom_color_and_uses_highest_contrast_text(self):
         result = accessible_button_colors("#FFCC00")
         self.assertEqual(result["background"], "#FFCC00")
-        self.assertEqual(result["text"], "#243247")
+        self.assertEqual(result["text"], "#000000")
         self.assertGreaterEqual(result["contrast"], 4.5)
 
     def test_preserves_mid_gray_and_uses_black_text_for_wcag_aa(self):
