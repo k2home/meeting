@@ -1,0 +1,68 @@
+{% extends "meetings/base.html" %}
+{% block title %}Ersteinrichtung · Meeting Manager{% endblock %}
+{% block content %}
+<div style="max-width:760px;margin:2rem auto">
+  <div class="card">
+    <p class="muted">Meeting Manager · Ersteinrichtung</p>
+    <h1>Meeting Manager einrichten</h1>
+    <nav aria-label="Einrichtungsschritte" style="display:flex;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0">
+      {% for key,label in setup_steps %}
+        <span class="pill" {% if key == step %}aria-current="step" style="font-weight:700;background:var(--soft-bg)"{% endif %}>{{ forloop.counter }}. {{ label }}</span>
+      {% empty %}
+        <span class="muted">{% if step == "account" %}Schritt 1 von 4{% elif step == "organization" %}Schritt 2 von 4{% elif step == "system" %}Schritt 3 von 4{% else %}Schritt 4 von 4{% endif %}</span>
+      {% endfor %}
+    </nav>
+    {% if step == "account" %}
+      <h2>1. Administratorkonto anlegen</h2>
+      <p>Erstelle das erste Benutzerkonto. Es erhält automatisch globale Administratorrechte.</p>
+      <form method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="messages error">{{ form.non_field_errors }}</div>{% endif %}
+        {% for field in form %}<p>{{ field.label_tag }}{{ field }}{{ field.errors }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}</p>{% endfor %}
+        <button class="primary" type="submit">Administratorkonto erstellen</button>
+      </form>
+    {% elif step == "organization" %}
+      <h2>2. Organisation einrichten</h2>
+      <p>Name, Kurzbezeichnung, Zeitzone und Farben werden für die Oberfläche und Protokolle verwendet. Logo und individuelle Farben sind optional.</p>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="messages error">{{ form.non_field_errors }}</div>{% endif %}
+        {% for field in form %}
+          <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
+        {% endfor %}
+        <h3>Organisationslogo (optional)</h3>
+        {% if organization_settings.logo %}<p>Aktuelles Logo: <img src="{% url 'organization_logo' %}" alt="Organisationslogo" style="max-width:180px;max-height:70px;object-fit:contain"></p>{% endif %}
+        <p>{{ logo_form.logo.label_tag }}{{ logo_form.logo }}{{ logo_form.logo.errors }}<small class="muted">{{ logo_form.logo.help_text }}</small></p>
+        <button class="primary" type="submit">Organisation speichern und fortfahren</button>
+      </form>
+    {% elif step == "system" %}
+      <h2>3. Systemprüfung</h2>
+      <p>Prüfe Datenbank, Migrationen, Verzeichnisse, Sicherheitsschlüssel und Django-Konfiguration.</p>
+      <ul style="list-style:none;padding:0">
+        {% for check in checks %}
+          <li class="card" style="margin:.6rem 0">
+            <strong>{% if check.ok %}✓{% else %}⚠{% endif %} {{ check.label }}</strong>
+            <p class="muted" style="margin:.35rem 0 0">{{ check.detail }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+      {% if all_checks_ok %}
+        <form method="post">{% csrf_token %}<button class="primary" type="submit">Prüfung abschließen</button></form>
+      {% else %}
+        <p class="muted">Bitte behebe die angezeigten Probleme auf dem Server und prüfe erneut.</p>
+        <a class="btn secondary" href="{% url 'setup_wizard' %}?step=system">Erneut prüfen</a>
+      {% endif %}
+    {% else %}
+      <h2>4. Einrichtung abgeschlossen</h2>
+      <p>Das Administratorkonto und die Organisation sind eingerichtet. Die Systemprüfung wurde erfolgreich abgeschlossen.</p>
+      {% for check in checks %}<p>✓ {{ check.label }}</p>{% endfor %}
+      {% if all_checks_ok %}
+        <form method="post">{% csrf_token %}<button class="primary" type="submit">Meeting Manager öffnen</button></form>
+      {% else %}
+        <p>Die Systemprüfung meldet noch offene Punkte.</p>
+        <a class="btn secondary" href="{% url 'setup_wizard' %}?step=system">System erneut prüfen</a>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
