@@ -1819,6 +1819,7 @@ class DeploymentUpdatePermissionTests(TestCase):
         }
         self.client.force_login(self.admin)
         with patch("meetings.views._deployment_info", return_value=info), \
+             patch("meetings.views._available_update_branches", return_value=["beta", "main"]), \
              patch("meetings.views._read_update_status", return_value={"status": "idle"}), \
              patch("meetings.views.os.path.exists", return_value=False), \
              patch("meetings.views.subprocess.run") as start:
