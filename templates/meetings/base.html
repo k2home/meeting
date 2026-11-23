@@ -197,7 +197,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 {% if is_moderator %}<a class="nav-series" href="/admin/series/">Besprechungsreihen</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
-{% if is_admin %}<div class="sidebar-management">{% if is_admin %}<a class="nav-management" href="{% url 'management_home' %}">Verwaltung</a><a class="nav-updates" href="{% url 'deployment_updates' %}">Software aktualisieren</a>{% endif %}<a class="nav-help" href="{% url 'user_guide' %}">Hilfe &amp; Anleitung</a></div>
+<div class="sidebar-management">{% if is_admin %}<a class="nav-management" href="{% url 'management_home' %}">Verwaltung</a><a class="nav-updates" href="{% url 'deployment_updates' %}">Software aktualisieren</a>{% endif %}<a class="nav-help" href="{% url 'user_guide' %}">Hilfe &amp; Anleitung</a></div>
 <a class="username" href="{% url 'user_overview' %}" aria-label="Benutzerübersicht öffnen">{{ user|user_display }}</a>
 <form class="logout-form" method="post" action="/logout/">{% csrf_token %}<button class="secondary" type="submit">Abmelden</button></form>
 </div>
