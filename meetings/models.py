@@ -447,7 +447,6 @@ class EnaioSettings(models.Model):
 class EnaioFolderSelection(models.Model):
     """Kurzlebiger Auftrag zur Auswahl des zentralen enaio-Ablageordners."""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_folder_selections")
-    token_hash = models.CharField(max_length=64, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
     consumed_at = models.DateTimeField(null=True, blank=True)
