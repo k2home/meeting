@@ -60,6 +60,7 @@ USE_X_FORWARDED_HOST=0
 EOF
   chmod 600 "$APP_DIR/.env"
 else
+  chown root:root "$APP_DIR/.env"
   chmod 600 "$APP_DIR/.env"
   if ! grep -q '^SECRET_KEY=.' "$APP_DIR/.env" || ! grep -q '^POSTGRES_PASSWORD=.' "$APP_DIR/.env"; then
     echo "Die vorhandene .env benötigt gültige Werte für SECRET_KEY und POSTGRES_PASSWORD." >&2
