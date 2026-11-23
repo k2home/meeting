@@ -237,7 +237,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 2. Falls das Image nicht öffentlich abrufbar ist, einmalig bei GHCR anmelden:
 
    ```bash
-   docker login ghcr.io
+   sudo docker login ghcr.io
    ```
 
 3. Den Installer starten:
@@ -313,7 +313,7 @@ Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infra
 
 **HTTPS und Reverse Proxy**
 
-Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für produktiven Zugriff über HTTPS sollte ein vorgeschalteter Reverse Proxy verwendet werden. In diesem Fall müssen `CSRF_TRUSTED_ORIGINS`, `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1` sowie die sicheren Cookie- und Redirect-Optionen in `/opt/meeting-manager/.env` passend gesetzt werden. Der Proxy muss den `X-Forwarded-Proto`-Header zuverlässig setzen und darf nicht durch untrusted Clients umgangen werden. Nach Änderungen an `.env` den Dienst mit `sudo systemctl restart meeting-manager` neu starten.
+Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für produktiven Zugriff über HTTPS sollte ein vorgeschalteter Reverse Proxy verwendet werden. In diesem Fall müssen `CSRF_TRUSTED_ORIGINS`, `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1` sowie die sicheren Cookie- und Redirect-Optionen in `/opt/meeting-manager/.env` passend gesetzt werden. Der Proxy muss den `X-Forwarded-Proto`-Header zuverlässig setzen und darf nicht durch untrusted Clients umgangen werden. Bei Debian muss zusätzlich die lokale Nginx-Konfiguration so angepasst werden, dass nur die Proxy-IP/CIDR auf Port 80 zugreifen darf und der Header `X-Forwarded-Proto` vom Proxy übernommen wird (statt ihn mit `$scheme` zu überschreiben). Erst danach `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1` sowie die externe HTTPS-Adresse in `CSRF_TRUSTED_ORIGINS` setzen. Nach Änderungen an `.env` den Dienst mit `sudo systemctl restart meeting-manager` neu starten.
 
 ### Wichtige Pfade und Dienste
 
