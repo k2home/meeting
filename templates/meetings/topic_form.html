@@ -23,7 +23,7 @@
     <label for="new-topic-meeting">Erster Besprechungstermin</label>
     <select id="new-topic-meeting" name="meeting" required>
       <option value="">Besprechungstermin auswählen …</option>
-      {% for meeting in available_meetings %}<option value="{{ meeting.pk }}" {% if form.data.meeting == meeting.pk|stringformat:"s" %}selected{% endif %}>{{ meeting.series.name }} · {{ meeting.date|date:"d.m.Y" }}</option>{% endfor %}
+      {% for meeting in available_meetings %}<option value="{{ meeting.pk }}" {% if form.data.meeting == meeting.pk|stringformat:"s" %}selected{% endif %}>{{ meeting.series.name }} · {{ meeting.date|date:"DATE_FORMAT" }}</option>{% endfor %}
     </select>
     <button type="submit">Thema anlegen und auf Tagesordnung setzen</button>
   </form>
@@ -46,7 +46,7 @@
    {% for item in topic_agenda_items %}
     <article class="topic-meeting">
      <div class="topline">
-      <strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"d.m.Y" }}</strong>
+      <strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"DATE_FORMAT" }}</strong>
       {% if item.meeting.finalized_at %}<span class="pill">Protokoll abgeschlossen</span>{% else %}<span class="pill">In Bearbeitung</span>{% endif %}
      </div>
      {% if item.meeting.finalized_at %}
@@ -72,9 +72,9 @@
        <div class="topic-meeting-actions">
         <a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Zur Tagesordnung</a>
         <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll ansehen</a>
-        <form method="post" action="{% url 'agenda_item_delete' item.meeting_id item.pk %}" data-confirm-message="„{{ topic.title }}“ nur aus dem Besprechungstermin am {{ item.meeting.date|date:'d.m.Y' }} entfernen? Das Thema und andere Termine bleiben erhalten.">
+        <form method="post" action="{% url 'agenda_item_delete' item.meeting_id item.pk %}" data-confirm-message="„{{ topic.title }}“ nur aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen? Das Thema und andere Termine bleiben erhalten.">
           {% csrf_token %}
-          <button type="submit" class="secondary" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'d.m.Y' }} entfernen">Punkt aus diesem Termin entfernen</button>
+          <button type="submit" class="secondary" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen">Punkt aus diesem Termin entfernen</button>
         </form>
        </div>
      {% endif %}
@@ -87,8 +87,8 @@
    <dl class="topic-meta">
     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
     <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
-    <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"d.m.Y" }}</dd></div>
-    <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"d.m.Y" }}</dd></div>
+    <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
+    <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
    </dl>
    {% if can_archive_topic %}
    <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
