@@ -217,7 +217,7 @@ Unter **Verwaltung → Organisationseinstellungen** werden Organisationsname, Ku
 
 ### Docker Compose
 
-Das Anwendungsimage wird über Docker Hub unter [`k2home/meeting-manager`](https://hub.docker.com/r/k2home/meeting-manager) bereitgestellt. Die Veröffentlichung setzt ein einmalig angelegtes Docker-Hub-Repository sowie die GitHub-Repository-Secrets `DOCKERHUB_USERNAME` und `DOCKERHUB_TOKEN` voraus. GitHub Actions veröffentlicht `latest` bei Änderungen auf `main`, `beta` bei Änderungen auf `beta` sowie Versions-Tags bei veröffentlichten GitHub-Releases. Die Images werden für `linux/amd64` und `linux/arm64` gebaut. Die bisherige GHCR-Veröffentlichung bleibt parallel bestehen.
+Das Anwendungsimage wird über Docker Hub unter [`k2hadocker/meeting-manager`](https://hub.docker.com/r/k2hadocker/meeting-manager) bereitgestellt. GitHub Actions veröffentlicht das Image automatisch: `latest` bei Änderungen auf `main`, `beta` bei Änderungen auf `beta` sowie Versions-Tags bei veröffentlichten GitHub-Releases. Die Images werden für `linux/amd64` und `linux/arm64` gebaut. Die bisherige Veröffentlichung in der GitHub Container Registry (GHCR) bleibt parallel bestehen. Für ein öffentliches Docker-Hub-Repository ist beim Installieren keine Anmeldung erforderlich.
 
 Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten verwenden denselben Anwendungscode und dieselben Datenbankmigrationen.
 
@@ -236,11 +236,13 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
    cd /opt/meeting-manager
    ```
 
-2. Falls das Image nicht öffentlich abrufbar ist, einmalig bei GHCR anmelden:
+2. Das öffentliche Docker-Hub-Image kann ohne Anmeldung geladen werden. Falls das Repository in Docker Hub auf **privat** gestellt wurde, vorher als Docker-Hub-Benutzer `k2hadocker` anmelden:
 
    ```bash
-   sudo docker login ghcr.io
+   sudo docker login --username k2hadocker
    ```
+
+   Das Passwort bzw. den Docker-Hub-Access-Token anschließend interaktiv eingeben. Nicht als Klartext in den Befehl schreiben.
 
 3. Den Installer starten:
 
@@ -272,7 +274,7 @@ docker compose -f docker/compose.yaml restart app
 sudo systemctl status meeting-manager-docker-updater.service
 ```
 
-Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
+Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
 
 ### Debian / Ubuntu mit systemd und Nginx
 
