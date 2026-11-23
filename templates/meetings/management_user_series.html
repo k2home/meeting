@@ -1,0 +1,7 @@
+{% extends "meetings/base.html" %}
+{% load meeting_user_tags %}
+{% block title %}Besprechungsreihen-Zuordnungen{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Besprechungsreihen-Zuordnungen</h1><p class="muted">{{ account|user_display_with_login }}</p></div><a class="btn secondary" href="{% url 'management_user_edit' account.pk %}">Zurück zum Nutzer</a></div>
+<div class="card"><form method="post">{% csrf_token %}<div style="overflow-x:auto"><table><thead><tr><th>Besprechungsreihe</th><th>Zugeordnet</th><th>Rolle</th></tr></thead><tbody>{% for row in series_rows %}<tr><td>{{ row.series.name }}</td><td><input type="checkbox" name="series" value="{{ row.series.pk }}" {% if row.access %}checked{% endif %}></td><td><select name="role_{{ row.series.pk }}">{% for value,label in role_choices %}<option value="{{ value }}" {% if row.access and row.access.role == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></td></tr>{% endfor %}</tbody></table></div><div class="actions"><button class="primary" type="submit">Zuordnungen speichern</button></div></form></div>
+{% endblock %}
