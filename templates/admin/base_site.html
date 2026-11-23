@@ -24,28 +24,29 @@ a:hover { color: var(--hagen-blue-dark); }
 .module h2, .module caption, .inline-group h2 { background: var(--hagen-blue); color: #fff; }
 div.breadcrumbs { background: #e7eef6; color: #17436c; border-bottom: 1px solid #cfdae6; }
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
-  background: var(--secondary-color);
-  border: 1px solid var(--secondary-color);
-  color: #243247;
+  background: var(--secondary-button-bg);
+  border: 1px solid var(--secondary-button-bg);
+  color: var(--secondary-button-text);
   border-radius: 4px;
 }
 .button.secondary, input[type=submit].secondary, .submit-row input.secondary, a.button.secondary { background:#e9edf2; border-color:#d0d5dd; color:#344054; box-shadow:none; }
 .button.secondary:hover, input[type=submit].secondary:hover, a.button.secondary:hover { background:#dfe4ea; }
+.button.primary{background:var(--primary-button-bg);border-color:var(--primary-button-bg);color:var(--primary-button-text)}
 .button.default, input[type=submit].default, .submit-row input.default {
-  background: var(--secondary-color);
-  border-color: var(--secondary-color);
-  color: #243247;
+  background: var(--secondary-button-bg);
+  border-color: var(--secondary-button-bg);
+  color: var(--secondary-button-text);
   box-shadow: inset 0 -3px 0 var(--hagen-yellow);
 }
-.button:hover, input[type=submit]:hover, input[type=button]:hover { background: color-mix(in srgb, var(--secondary-color) 82%, #000); }
-.button.default:hover, input[type=submit].default:hover { background: color-mix(in srgb, var(--secondary-color) 82%, #000); }
+.button:hover, input[type=submit]:hover, input[type=button]:hover { background: var(--secondary-button-bg); color: var(--secondary-button-text); }
+.button.default:hover, input[type=submit].default:hover { background: var(--secondary-button-bg); color: var(--secondary-button-text); }
 .selector-chosen h2 { background: var(--hagen-blue-dark); }
 #changelist-filter h2 { background: var(--hagen-blue); }
 #changelist-filter li.selected a { color: var(--hagen-blue-dark); font-weight: 700; }
 .form-row, .module { border-radius: 4px; }
 input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); outline: 2px solid #c7def1; }
-.object-tools a:link, .object-tools a:visited { background: var(--secondary-color); color: #243247; border-radius: 4px; }
-.object-tools a:hover { background: color-mix(in srgb, var(--secondary-color) 82%, #000); color: #243247; }
+.object-tools a:link, .object-tools a:visited { background: var(--secondary-button-bg); color: var(--secondary-button-text); border-radius: 4px; }
+.object-tools a:hover { background: var(--secondary-button-bg); color: var(--secondary-button-text); }
 .messagelist li.success { border-left: 4px solid var(--hagen-yellow); }
 
 :root{--admin-bg:#f4f6f9;--admin-surface:#fff;--admin-text:#202735;--admin-muted:#667085;--admin-border:#cfd9e4}
@@ -93,8 +94,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 :root[data-theme="dark"] .quiet{color:var(--admin-muted)}
 :root[data-theme="dark"] .button.secondary,:root[data-theme="dark"] input[type=submit].secondary,:root[data-theme="dark"] a.button.secondary{background:#343d49;border-color:#475467;color:#e8edf3}
 :root[data-theme="dark"] .object-tools a:link,
-:root[data-theme="dark"] .object-tools a:visited{background:var(--secondary-color);color:#243247}
-:root[data-theme="dark"] .object-tools a:hover{background:color-mix(in srgb, var(--secondary-color) 82%, #000);color:#243247}
+:root[data-theme="dark"] .object-tools a:visited{background:var(--secondary-button-bg);color:var(--secondary-button-text)}
+:root[data-theme="dark"] .object-tools a:hover{background:var(--secondary-button-bg);color:var(--secondary-button-text)}
 :root[data-theme="dark"] .submit-row{background:var(--admin-surface);border-color:var(--admin-border)}
 :root[data-theme="dark"] .submit-row a:link,
 :root[data-theme="dark"] .submit-row a:visited{color:#8fc5ff}
@@ -122,10 +123,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
   --hagen-blue-dark: color-mix(in srgb, var(--primary-color) 78%, #000);
   --hagen-light-blue: var(--secondary-color);
   --hagen-yellow: var(--tertiary-color);
-
-
-
-
+  --primary-button-bg: {{ primary_button_bg_light }};
+  --primary-button-text: {{ primary_button_text_light }};
+  --secondary-button-bg: {{ secondary_button_bg_light }};
+  --secondary-button-text: {{ secondary_button_text_light }};
 }
 :root[data-theme="dark"] {
   --primary-color: {{ primary_color_dark }};
@@ -135,10 +136,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
   --hagen-blue-dark: color-mix(in srgb, var(--primary-color) 78%, #000);
   --hagen-light-blue: var(--secondary-color);
   --hagen-yellow: var(--tertiary-color);
-
-
-
-
+  --primary-button-bg: {{ primary_button_bg_dark }};
+  --primary-button-text: {{ primary_button_text_dark }};
+  --secondary-button-bg: {{ secondary_button_bg_dark }};
+  --secondary-button-text: {{ secondary_button_text_dark }};
 }
 .messages{background:color-mix(in srgb,var(--secondary-color) 16%,var(--surface))}
 
@@ -157,6 +158,42 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
   const sync = () => { if (!button) return; const dark = root.dataset.theme === 'dark'; button.textContent = dark ? '☀ Hellmodus' : '☾ Dunkelmodus'; button.setAttribute('aria-pressed', String(dark)); };
   sync();
   button?.addEventListener('click', () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('meeting-theme', root.dataset.theme); sync(); });
+})();
+</script>
+
+<script>
+(() => {
+  const form = document.querySelector('#content-main form');
+  if (!form || !document.getElementById('id_secondary_color_light')) return;
+  const preview = document.createElement('section');
+  preview.id = 'brand-button-contrast-preview';
+  preview.style.cssText = 'padding:1rem;margin:1rem 0;background:var(--admin-surface,#fff);border:1px solid var(--admin-border,#cfd9e4);border-radius:6px';
+  preview.innerHTML = '<h2>Schaltflächen-Vorschau</h2><p>Die gewählten Hintergrundfarben werden unverändert übernommen. Die Schriftfarbe wird für mindestens 4,5:1 Kontrast ausgewählt.</p><div style="display:flex;gap:1rem;flex-wrap:wrap"><div><strong>Hellmodus</strong><p><button type="button" data-preview="light">Primäre Schaltfläche</button> <button type="button" data-preview="light">Sekundäre Schaltfläche</button></p></div><div><strong>Dunkelmodus</strong><p><button type="button" data-preview="dark">Primäre Schaltfläche</button> <button type="button" data-preview="dark">Sekundäre Schaltfläche</button></p></div></div>';
+  form.prepend(preview);
+  const rgb = value => { const h=(value||'').trim().replace('#',''); if(!/^[0-9a-f]{6}$/i.test(h)) return [0,84,159]; return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16)); };
+  const lum = c => { const v=c.map(x=>x/255).map(x=>x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4)); return .2126*v[0]+.7152*v[1]+.0722*v[2]; };
+  const hex = c => '#'+c.map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
+  const ratio = (fg,bg) => { const a=lum(rgb(fg)),b=lum(rgb(bg)); return (Math.max(a,b)+.05)/(Math.min(a,b)+.05); };
+  const accessible = color => {
+    const bg=hex(rgb(color)), choices=['#FFFFFF','#243247','#000000'];
+    const fg=choices.sort((a,b)=>ratio(b,bg)-ratio(a,bg))[0];
+    return {bg,fg,contrast:ratio(fg,bg)};
+  };
+  const update = () => {
+    ['light','dark'].forEach(mode => {
+      ['primary','secondary'].forEach((kind,index) => {
+        const field=document.getElementById('id_'+kind+'_color_'+mode);
+        const fallback=document.getElementById('id_'+kind+'_color');
+        const color=field?.value || fallback?.value || (kind==='primary'?'#00549F':'#8FC5FF');
+        const result=accessible(color), button=preview.querySelectorAll('[data-preview="'+mode+'"]')[index];
+        button.style.background=result.bg; button.style.color=result.fg; button.style.border='1px solid '+result.bg;
+        button.title='Kontrastverhältnis: '+result.contrast.toFixed(2)+':1';
+        button.setAttribute('aria-label',button.textContent+', Kontrast '+result.contrast.toFixed(2)+':1');
+      });
+    });
+  };
+  form.querySelectorAll('input[id$="_color"],input[id$="_color_light"],input[id$="_color_dark"]').forEach(input=>input.addEventListener('input',update));
+  update();
 })();
 </script>
 {% endblock %}
