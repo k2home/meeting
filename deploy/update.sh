@@ -84,11 +84,6 @@ fi
 restore_env
 trap - EXIT
 
-# Keep the narrowly scoped web-update entry point current after switching
-# branches. The running wrapper process is unaffected; subsequent requests use
-# this installed, validated version.
-bash "$APP_DIR/deploy/install-debian-updater.sh"
-
 # Apply the cache policy to the active Nginx site without replacing local
 # reverse-proxy settings (for example, trusted-proxy allow/deny rules).
 ACTIVE_NGINX="/etc/nginx/sites-available/meeting-manager"
