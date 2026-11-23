@@ -576,4 +576,23 @@
   }
 })();
 </script>
+
+<!-- meeting-expand-collapse-details -->
+<script>
+(() => {
+  const details = [...document.querySelectorAll("details")];
+  if (details.length < 2 || document.getElementById("meeting-details-toggle")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "meeting-details-toggle";
+  button.className = "secondary";
+  button.textContent = "Alle Details aufklappen";
+  button.addEventListener("click", () => {
+    const expand = details.some(item => !item.open);
+    details.forEach(item => { item.open = expand; });
+    button.textContent = expand ? "Alle Details zuklappen" : "Alle Details aufklappen";
+  });
+  document.querySelector("h1")?.insertAdjacentElement("afterend", button);
+})();
+</script>
 {% endblock %}
