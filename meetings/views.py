@@ -2237,19 +2237,21 @@ def deployment_updates(request):
                 if code != 202:
                     raise RuntimeError(result.get("error", "Der Docker-Updater hat das Update abgelehnt."))
             else:
-                subprocess.Popen(
+                started = subprocess.run(
                     ["sudo", "-n", DEBIAN_UPDATE_COMMAND, branch],
                     stdin=subprocess.DEVNULL,
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
-                    close_fds=True,
-                    start_new_session=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    check=False,
                 )
+                if started.returncode != 0:
+                    raise RuntimeError(started.stderr.strip() or "Der Debian-Updater konnte nicht gestartet werden.")
             messages.success(
                 request,
                 f"Das Update auf {branch} wurde gestartet. Die Ausführung erfolgt unabhängig von dieser Webseite.",
             )
-        except (OSError, RuntimeError, http.client.HTTPException, ValueError) as exc:
+        except (OSError, RuntimeError, subprocess.SubprocessError, http.client.HTTPException, ValueError) as exc:
             messages.error(request, f"Das Update konnte nicht gestartet werden: {exc}")
         return redirect("deployment_updates")
 
