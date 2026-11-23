@@ -98,6 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
 ]
 LANGUAGE_CODE = "de-de"
+FORMAT_MODULE_PATH = ["config.formats"]
 DATE_FORMAT = "d.m.Y"
 SHORT_DATE_FORMAT = "d.m.Y"
 SHORT_DATE_WITH_WEEKDAY_FORMAT = "D, d.m.Y"
