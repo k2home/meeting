@@ -96,6 +96,10 @@ class OrganizationSettingsForm(forms.ModelForm):
             "tertiary_color", "tertiary_color_light", "tertiary_color_dark",
         )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["logo"].widget.attrs["accept"] = ".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml"
+
 
 @login_required
 def management_home(request):
