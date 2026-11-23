@@ -207,6 +207,7 @@ class AuditEvent(models.Model):
         ("reopened", "Wieder geöffnet"),
         ("transferred", "Übertragen"),
         ("attachment_added", "Anlage hinzugefügt"),
+        ("attachment_downloaded", "Anlage heruntergeladen"),
         ("agenda_edited", "Agendatext geändert"),
         ("finalized", "Besprechung abgeschlossen"),
         ("comment_added", "Kommentar hinzugefügt"),

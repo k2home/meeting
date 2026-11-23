@@ -1101,13 +1101,23 @@ def organization_logo(request):
     return serve_organization_logo(organization.logo)
 
 
+@login_required
 def attachment_download(request, pk):
     attachment = get_object_or_404(
         TopicAttachment.objects.select_related("topic__series"),
         pk=pk, topic__in=accessible_topics(request.user),
     )
     from .secure_files import serve_topic_upload
-    return serve_topic_upload(attachment)
+    response = serve_topic_upload(attachment)
+    if response.status_code == 200:
+        record_event(
+            actor=request.user,
+            action="attachment_downloaded",
+            summary=f"Anlage „{attachment.label}“ zu „{attachment.topic.title}“ heruntergeladen",
+            topic=attachment.topic,
+            changes={"Anlage": attachment.label},
+        )
+    return response
 
 
 def _protocol_entries(meeting):
