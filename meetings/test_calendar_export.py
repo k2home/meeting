@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Meeting, MeetingSeries, SeriesAccess
+from .models import ArchivedMeetingAccess, Meeting, MeetingSeries, SeriesAccess
 
 User = get_user_model()
 
@@ -17,6 +17,11 @@ class CalendarExportTests(TestCase):
         SeriesAccess.objects.create(user=self.user, series=self.visible, role=SeriesAccess.ROLE_READER)
         Meeting.objects.create(series=self.visible, date=date(2026, 12, 1), title="Planung,;Überblick")
         Meeting.objects.create(series=self.hidden, date=date(2026, 12, 2), title="Geheim")
+        archived = Meeting.objects.create(
+            series=None, archived_series_name="Ehemalige Reihe",
+            date=date(2026, 12, 3), title="Archivierter Termin",
+        )
+        ArchivedMeetingAccess.objects.create(meeting=archived, user=self.user, role="reader")
 
     def test_export_requires_login(self):
         response = self.client.get(reverse("calendar_export"))
@@ -30,13 +35,16 @@ class CalendarExportTests(TestCase):
         self.assertEqual(response["Content-Type"], "text/calendar; charset=utf-8")
         self.assertIn('attachment; filename="meeting-manager.ics"', response["Content-Disposition"])
         content = response.content.decode("utf-8")
-        self.assertIn(r"SUMMARY:Planung\,\;Überblick", content)
+        self.assertIn(r"SUMMARY:Planung\\,\\;Überblick", content)
         self.assertIn("DESCRIPTION:Sichtbare Reihe", content)
+        self.assertIn("SUMMARY:Archivierter Termin", content)
+        self.assertIn("DESCRIPTION:Ehemalige Reihe", content)
         self.assertNotIn("Vertrauliche Reihe", content)
         self.assertNotIn("Geheim", content)
         self.assertIn("DTSTART;VALUE=DATE:20261201", content)
         self.assertIn("DTEND;VALUE=DATE:20261202", content)
-        self.assertTrue(content.endswith("END:VCALENDAR\r\n"))
+        self.assertIn("DTSTART;VALUE=DATE:20261203", content)
+        self.assertTrue(content.endswith("END:VCALENDAR\\r\\n"))
 
     def test_administrator_can_export_all_series(self):
         self.user.is_superuser = True
