@@ -564,7 +564,7 @@ def _validate_backup_migrations(migrations):
     return normalized
 
 
-def _restore_database_dump(dump_path, database_name, env):
+def _clear_database_schemas(database_name, env):
     # pg_restore --clean only removes objects present in the archive. Remove all
     # application schemas first so tables introduced after an older backup do
     # not survive and collide with forward migrations.
@@ -587,11 +587,15 @@ BEGIN
 END
 $meeting_manager$;
 """
-    cleared = _run_database_client(
+    return _run_database_client(
         ["psql", "--set", "ON_ERROR_STOP=1", "--dbname", database_name, "--command", clear_schemas_sql],
         env,
         timeout=300,
     )
+
+
+def _restore_database_dump(dump_path, database_name, env):
+    cleared = _clear_database_schemas(database_name, env)
     if cleared.returncode != 0:
         return cleared
     return _run_database_client(
@@ -730,7 +734,18 @@ def management_database_import(request):
                 + backup.stderr.decode("utf-8", "replace")[-1200:]
             )
 
-        restored = _restore_database_dump(dump_path, database_name, env)
+        cleared = _clear_database_schemas(database_name, env)
+        if cleared.returncode != 0:
+            raise RuntimeError(
+                "Die vorhandenen Datenbankschemas konnten nicht sicher für den Import vorbereitet werden. "
+                "Die Datenbank wurde nicht ersetzt. "
+                + cleared.stderr.decode("utf-8", "replace")[-1200:]
+            )
+        restored = _run_database_client(
+            ["pg_restore", "--clean", "--if-exists", "--exit-on-error", "--single-transaction",
+             "--no-owner", "--no-acl", "--dbname", database_name, dump_path],
+            env,
+        )
         if restored.returncode != 0:
             _restore_previous_database(
                 safety_path, database_name, env,
