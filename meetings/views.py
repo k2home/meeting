@@ -1118,11 +1118,14 @@ def protocol_pdf(request, pk):
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib.units import mm
+    from reportlab.lib.utils import ImageReader
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether, Table, TableStyle, HRFlowable
+    from reportlab.pdfgen import canvas as pdf_canvas
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether, HRFlowable
 
-    organization_name = OrganizationSettings.current_name()
+    organization = OrganizationSettings.objects.filter(pk=1).first()
+    organization_name = organization.name.strip() if organization and organization.name else ""
     brand = OrganizationSettings.current_brand_colors()
 
     def brand_color(value, fallback):
@@ -1133,18 +1136,12 @@ def protocol_pdf(request, pk):
 
     primary = brand_color(brand.get("primary_color"), "#00549F")
     secondary = brand_color(brand.get("secondary_color"), "#8FC5FF")
-    tertiary = brand_color(brand.get("tertiary_color"), "#FFCC00")
-
-    def readable_text(background):
-        luminance = 0.2126 * background.red + 0.7152 * background.green + 0.0722 * background.blue
-        return colors.white if luminance < 0.52 else colors.HexColor("#17212B")
-
-    primary_text, secondary_text = readable_text(primary), readable_text(secondary)
     buffer = BytesIO()
     left_margin = right_margin = 20 * mm
+    top_margin, bottom_margin = 34 * mm, 25 * mm
     document = SimpleDocTemplate(
         buffer, pagesize=A4, rightMargin=right_margin, leftMargin=left_margin,
-        topMargin=25 * mm, bottomMargin=20 * mm,
+        topMargin=top_margin, bottomMargin=bottom_margin,
         title=f"Protokoll – {_meeting_series_name(meeting)}",
         author=f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager",
         subject=f"Besprechung vom {formats.date_format(meeting.date, 'DATE_FORMAT')}",
@@ -1160,14 +1157,6 @@ def protocol_pdf(request, pk):
         regular_font, bold_font = "MeetingDejaVu", "MeetingDejaVu-Bold"
 
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(
-        name="ProtocolHero", parent=styles["Title"], fontName=bold_font,
-        fontSize=23, leading=29, alignment=TA_LEFT, textColor=primary_text, spaceAfter=2 * mm,
-    ))
-    styles.add(ParagraphStyle(
-        name="ProtocolSeries", parent=styles["Normal"], fontName=regular_font,
-        fontSize=11, leading=16, textColor=primary_text,
-    ))
     styles.add(ParagraphStyle(
         name="ProtocolSection", parent=styles["Heading2"], fontName=bold_font,
         fontSize=13, leading=17, textColor=primary, spaceBefore=6 * mm,
@@ -1196,58 +1185,26 @@ def protocol_pdf(request, pk):
         fontSize=8.5, leading=12, textColor=colors.HexColor("#526170"),
     ))
 
-    page_width = A4[0] - left_margin - right_margin
-    hero = Table([[
-        Paragraph("PROTOKOLL", styles["ProtocolHero"]),
-        Paragraph(escape(_meeting_series_name(meeting)), styles["ProtocolSeries"]),
-    ]], colWidths=[page_width * 0.36, page_width * 0.64])
-    hero.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, -1), primary),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 7 * mm),
-        ("RIGHTPADDING", (0, 0), (-1, -1), 7 * mm),
-        ("TOPPADDING", (0, 0), (-1, -1), 7 * mm),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 7 * mm),
-    ]))
-    state_label = (
-        f"Gesicherter Stand · {formats.date_format(timezone.localtime(meeting.finalized_at), 'DATETIME_FORMAT')}"
+    created_at = timezone.localtime(timezone.now())
+    finalized_label = (
+        formats.date_format(timezone.localtime(meeting.finalized_at), "DATETIME_FORMAT")
         if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
     )
-    metadata = [
-        [Paragraph("<b>Datum</b>", styles["ProtocolMeta"]),
-         Paragraph(escape(formats.date_format(meeting.date, "DATE_FORMAT")), styles["ProtocolBody"])],
-        [Paragraph("<b>Status</b>", styles["ProtocolMeta"]),
-         Paragraph(escape(state_label), styles["ProtocolBody"])],
-    ]
-    if organization_name:
-        metadata.append([
-            Paragraph("<b>Organisation</b>", styles["ProtocolMeta"]),
-            Paragraph(escape(organization_name), styles["ProtocolBody"]),
-        ])
-    meta_table = Table(metadata, colWidths=[30 * mm, page_width - 30 * mm])
-    meta_table.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#F3F6F9")),
-        ("BACKGROUND", (0, 0), (0, -1), secondary),
-        ("TEXTCOLOR", (0, 0), (0, -1), secondary_text),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 4 * mm),
-        ("RIGHTPADDING", (0, 0), (-1, -1), 4 * mm),
-        ("TOPPADDING", (0, 0), (-1, -1), 2.5 * mm),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 1 * mm),
-        ("LINEBELOW", (0, 0), (-1, -1), 0.4, colors.HexColor("#DCE3EA")),
-    ]))
+    created_label = formats.date_format(created_at, "DATETIME_FORMAT")
+    series_name = _meeting_series_name(meeting)
+    meeting_date = formats.date_format(meeting.date, "DATE_FORMAT")
+    page_width = A4[0] - left_margin - right_margin
 
     story = [
-        hero, Spacer(1, 5 * mm), meta_table, Spacer(1, 4 * mm),
-        HRFlowable(width="100%", thickness=2, color=tertiary, spaceBefore=1 * mm, spaceAfter=2 * mm),
+        Paragraph("Teilnehmer", styles["ProtocolSection"]),
+        Paragraph(
+            " · ".join(escape(name) for name in _meeting_participant_names(meeting))
+            or "Keine Teilnehmer eingetragen.",
+            styles["ProtocolBody"],
+        ),
+        HRFlowable(width="100%", thickness=0.8, color=secondary, spaceBefore=1 * mm, spaceAfter=2 * mm),
+        Paragraph("Tagesordnung und Ergebnisse", styles["ProtocolSection"]),
     ]
-    participants = _meeting_participant_names(meeting)
-    story.append(Paragraph("Teilnehmer", styles["ProtocolSection"]))
-    story.append(Paragraph(
-        " · ".join(escape(name) for name in participants) if participants else "Keine Teilnehmer eingetragen.",
-        styles["ProtocolBody"] if participants else styles["ProtocolSmall"],
-    ))
-    story.append(Paragraph("Tagesordnung und Ergebnisse", styles["ProtocolSection"]))
     for index, entry in enumerate(entries, start=1):
         parts = [Paragraph(f"{index:02d} &nbsp; {escape(entry['title'])}", styles["ProtocolTopic"])]
         if entry.get("responsible"):
@@ -1262,24 +1219,78 @@ def protocol_pdf(request, pk):
     if not entries:
         story.append(Paragraph("Keine Tagesordnungspunkte vorhanden.", styles["ProtocolSmall"]))
 
-    def draw_page(canvas, doc):
-        canvas.saveState()
-        canvas.setFillColor(primary)
-        canvas.rect(0, A4[1] - 3 * mm, A4[0], 3 * mm, fill=1, stroke=0)
-        canvas.setStrokeColor(colors.HexColor("#DCE3EA"))
-        canvas.setLineWidth(0.5)
-        canvas.line(left_margin, 15 * mm, A4[0] - right_margin, 15 * mm)
-        canvas.setFont(regular_font, 7.5)
-        canvas.setFillColor(colors.HexColor("#687684"))
-        canvas.drawString(left_margin, 10.5 * mm, _meeting_series_name(meeting)[:90])
-        canvas.drawRightString(A4[0] - right_margin, 10.5 * mm, f"Seite {doc.page}")
-        canvas.restoreState()
+    class NumberedCanvas(pdf_canvas.Canvas):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self._saved_page_states = []
 
-    document.build(story, onFirstPage=draw_page, onLaterPages=draw_page)
+        def showPage(self):
+            self._saved_page_states.append(dict(self.__dict__))
+            self._startPage()
+
+        def save(self):
+            page_count = len(self._saved_page_states)
+            for state in self._saved_page_states:
+                self.__dict__.update(state)
+                self._draw_running_matter(page_count)
+                super().showPage()
+            super().save()
+
+        def _draw_running_matter(self, page_count):
+            self.saveState()
+            page_top = A4[1] - 11 * mm
+            logo_width, logo_height = 25 * mm, 15 * mm
+            text_left = left_margin
+            if organization and organization.logo:
+                try:
+                    with organization.logo.open("rb") as logo_file:
+                        self.drawImage(
+                            ImageReader(logo_file), left_margin, page_top - logo_height,
+                            width=logo_width, height=logo_height,
+                            preserveAspectRatio=True, anchor="c", mask="auto",
+                        )
+                    text_left += logo_width + 5 * mm
+                except (OSError, ValueError, TypeError):
+                    pass
+
+            self.setFillColor(colors.HexColor("#263445"))
+            self.setFont(bold_font, 8.5)
+            if organization_name:
+                self.drawString(text_left, page_top - 2 * mm, organization_name[:75])
+            self.setFillColor(colors.HexColor("#687684"))
+            self.setFont(regular_font, 7.5)
+            self.drawString(text_left, page_top - 7 * mm, "Meeting Manager")
+
+            right_edge = A4[0] - right_margin
+            self.setFillColor(primary)
+            self.setFont(bold_font, 10)
+            self.drawRightString(right_edge, page_top - 1 * mm, "PROTOKOLL")
+            self.setFillColor(colors.HexColor("#526170"))
+            self.setFont(regular_font, 8)
+            self.drawRightString(right_edge, page_top - 6 * mm, series_name[:70])
+            self.drawRightString(right_edge, page_top - 11 * mm, meeting_date)
+
+            self.setStrokeColor(primary)
+            self.setLineWidth(1.1)
+            self.line(left_margin, A4[1] - 30 * mm, right_edge, A4[1] - 30 * mm)
+
+            footer_y = 15 * mm
+            self.setStrokeColor(colors.HexColor("#DCE3EA"))
+            self.setLineWidth(0.5)
+            self.line(left_margin, footer_y + 4 * mm, right_edge, footer_y + 4 * mm)
+            self.setFillColor(colors.HexColor("#687684"))
+            self.setFont(regular_font, 7)
+            self.drawString(left_margin, footer_y, f"Protokollstand: {finalized_label}"[:105])
+            self.drawString(left_margin, footer_y - 4 * mm, f"PDF erstellt: {created_label}"[:105])
+            self.setFillColor(colors.HexColor("#263445"))
+            self.setFont(bold_font, 7.5)
+            self.drawRightString(right_edge, footer_y - 1 * mm, f"Seite {self._pageNumber} von {page_count}")
+            self.restoreState()
+
+    document.build(story, canvasmaker=NumberedCanvas)
     response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
     return response
-
 
 @login_required
 def protocol(request, pk):
