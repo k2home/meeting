@@ -218,3 +218,5 @@ class EnaioAgentLogTests(TestCase):
         allowed = self.client.get(reverse("enaio_agent_logs"))
         self.assertEqual(allowed.status_code, 200)
         self.assertEqual(allowed.json()["agents"][0]["device"], "Debug workstation")
+        self.assertTrue(allowed.json()["agents"][0]["paired"])
+        self.assertFalse(allowed.json()["agents"][0]["connected"])
