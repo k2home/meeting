@@ -3,7 +3,7 @@ set -euo pipefail
 APP_DIR="/opt/meeting-manager"
 TARGET_BRANCH="${1:-}"
 if [[ "$#" -gt 1 ]]; then
-  echo "Verwendung: $0 [beta|main]" >&2
+  echo "Verwendung: $0 [remote-branch]" >&2
   exit 2
 fi
 if [[ -n "$TARGET_BRANCH" && ( ! "$TARGET_BRANCH" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$ || "$TARGET_BRANCH" == *".."* || "$TARGET_BRANCH" == */ || "$TARGET_BRANCH" == *. ) ]]; then
