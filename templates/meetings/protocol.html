@@ -1,6 +1,12 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
+<header class="page-header">
+  <div>
+    <h1>Protokoll</h1>
+    <p class="muted">{% if meeting.series_id %}{{ meeting.series.name }}{% else %}{{ meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} · {{ meeting.date|date:"d.m.Y" }}</p>
+  </div>
+</header>
 <div class="no-print meeting-action-menu" aria-label="Protokollaktionen">
   {% if protocol_mail_recipients %}
   <a class="btn meeting-menu-button" href="{{ protocol_mailto }}">Protokoll verschicken</a>
