@@ -15,7 +15,7 @@ services:
       retries: 10
 
   app:
-    image: ${MEETING_IMAGE:-docker.io/k2home/meeting-manager:latest}
+    image: ${MEETING_IMAGE:-docker.io/k2hadocker/meeting-manager:latest}
     restart: unless-stopped
     env_file:
       - ../.env
