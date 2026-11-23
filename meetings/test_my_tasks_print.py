@@ -26,9 +26,11 @@ class PersonalTaskPrintTests(TestCase):
         response = self.client.get(reverse("my_tasks"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'onclick="window.print()"')
+        self.assertContains(response, 'id="print-personal-tasks"')
+        self.assertContains(response, 'addEventListener("click", () => window.print())')
         self.assertContains(response, "Aufgaben drucken")
         self.assertContains(response, "print-only")
+        self.assertContains(response, "break-inside: auto")
         self.assertContains(response, "Druckbare Aufgabe")
 
     def test_personal_tasks_print_action_is_not_exposed_to_anonymous_users(self):
