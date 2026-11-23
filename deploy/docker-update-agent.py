@@ -178,6 +178,9 @@ class Handler(BaseHTTPRequestHandler):
             UPDATE_LOCK.release()
             return self.respond(409, {"error": "Ein Update läuft bereits."})
 
+        started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
+
         def worker():
             try:
                 run_update(branch)
