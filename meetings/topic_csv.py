@@ -419,7 +419,7 @@ def import_topic_agenda_csv(request):
         pending = request.session.get(SESSION_KEY)
         if not pending or pending.get("token") != request.POST.get("token"):
             messages.error(request, "Die Importvorschau ist abgelaufen. Bitte lade die CSV-Datei erneut hoch.")
-            return redirect("admin:meetings_topic_csv_import")
+            return redirect("management_topic_csv_import") if request.path.startswith("/verwaltung/") else redirect("admin:meetings_topic_csv_import")
         rows, errors = parse_topic_agenda_csv(pending["text"])
         if errors:
             request.session.pop(SESSION_KEY, None)
@@ -514,7 +514,7 @@ def import_topic_agenda_csv(request):
             f"{created_meetings} Termine angelegt, {created_items} Tagesordnungspunkte angelegt und "
             f"{updated_items} aktualisiert.",
         )
-        return redirect("admin:meetings_topic_changelist")
+        return redirect("management_data") if request.path.startswith("/verwaltung/") else redirect("admin:meetings_topic_changelist")
 
     form = TopicAgendaCsvUploadForm(request.POST or None, request.FILES or None)
     preview = None
@@ -531,7 +531,7 @@ def import_topic_agenda_csv(request):
             token = secrets.token_urlsafe(18)
             request.session[SESSION_KEY] = {"token": token, "text": form.csv_text, "topic_ids": topic_ids}
             preview = {**_preview(rows, topic_ids), "token": token}
-    return render(request, "admin/meetings/topic_csv_import.html", {
+    return render(request, "meetings/management_topic_csv_import.html" if request.path.startswith("/verwaltung/") else "admin/meetings/topic_csv_import.html", {
         **admin.site.each_context(request), "form": form, "preview": preview,
         "errors": errors, "title": "Themen und Tagesordnungspunkte importieren",
         "opts": Topic._meta,
