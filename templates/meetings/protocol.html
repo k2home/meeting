@@ -77,7 +77,7 @@ document.addEventListener('submit', async (event) => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Die Übergabe konnte nicht gestartet werden.');
     status.textContent = 'Warte auf den enaio-Agenten auf diesem Arbeitsplatz …';
-    const deadline = Date.now() + 120000;
+    const deadline = Date.now() + Math.max(30000, (data.expires_in || 600) * 1000 - 15000);
     while (Date.now() < deadline) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       const check = await fetch(data.status_url, {credentials: 'same-origin', headers: {'Accept': 'application/json'}});
@@ -86,8 +86,16 @@ document.addEventListener('submit', async (event) => {
       if (result.expired) throw new Error('Der Ablageauftrag ist abgelaufen.');
       if (result.error) throw new Error(result.error);
     }
-    throw new Error('Keine Rückmeldung vom enaio-Agenten. Prüfen Sie, ob der Agent auf diesem Arbeitsplatz läuft.');
+    throw new Error('Keine Rückmeldung vom enaio-Agenten. Der Auftrag wird abgebrochen.');
   } catch (error) {
+    if (data?.cancel_url) {
+      try {
+        await fetch(data.cancel_url, {
+          method: 'POST', credentials: 'same-origin',
+          headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}
+        });
+      } catch (_cancelError) { /* Der Server lässt den Auftrag spätestens mit Ablauf verfallen. */ }
+    }
     status.textContent = error.message;
     button.disabled = false;
   }
