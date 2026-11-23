@@ -21,6 +21,8 @@
         <button type="button" class="secondary is-selected" data-calendar-view="month" aria-pressed="true">Monat</button>
         <button type="button" class="secondary" data-calendar-view="week" aria-pressed="false">Woche</button>
       </div>
+      <label for="calendar-series-filter">Besprechungsreihe</label>
+      <select id="calendar-series-filter" aria-label="Besprechungsreihe filtern"><option value="">Alle Reihen</option>{% for row in series_rows %}<option value="{{ row.series.pk }}">{{ row.series.name }}</option>{% endfor %}</select>
       <label class="past-toggle"><input type="checkbox" id="calendar-show-past" checked> Vergangene Termine anzeigen</label>
     </div>
   </div>
@@ -114,6 +116,7 @@
   let cursor = new Date(today.getFullYear(), today.getMonth(), 1);
   let view = "month";
   const showPast = document.getElementById("calendar-show-past");
+  const seriesFilter = document.getElementById("calendar-series-filter");
   const dateFromIso = value => {
     const [year, month, day] = value.split("-").map(Number);
     return new Date(year, month - 1, day);
@@ -147,7 +150,7 @@
       number.className = "calendar-day-number";
       number.textContent = date.getDate();
       cell.append(number);
-      const dayEvents = events.filter(event => (showPast.checked || dateFromIso(event.date) >= today) && event.date === iso(date));
+      const dayEvents = events.filter(event => (showPast.checked || dateFromIso(event.date) >= today) && event.date === iso(date) && (!seriesFilter.value || String(event.series_id) === seriesFilter.value));
       dayEvents.forEach(event => {
         const link = document.createElement("a");
         const isExpired = dateFromIso(event.date) < today;
@@ -195,6 +198,7 @@
     render();
   }));
   showPast.addEventListener("change", render);
+  seriesFilter.addEventListener("change", render);
   render();
 })();
 </script>

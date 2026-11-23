@@ -284,6 +284,7 @@ def meetings_overview(request):
             "date": meeting.date.isoformat(),
             "title": meeting.title or "Besprechung",
             "series": meeting.series.name,
+            "series_id": meeting.series_id,
             "role": role,
             "url": reverse("meeting", args=[meeting.pk]),
             "finalized": bool(meeting.finalized_at),

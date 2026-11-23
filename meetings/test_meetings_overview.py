@@ -41,6 +41,10 @@ class PersonalMeetingsOverviewTests(TestCase):
         self.assertNotContains(response, "Fremde Reihe")
         self.assertContains(response, "Vergangene Sitzung")
         self.assertContains(response, "calendar-show-past")
+        self.assertContains(response, "calendar-series-filter")
+        self.assertEqual({event["series_id"] for event in response.context["calendar_events"]}, {
+            self.participant_series.pk, self.reader_series.pk, self.moderator_series.pk,
+        })
 
     def test_series_table_shows_next_open_meeting_and_role(self):
         self.client.force_login(self.user)
