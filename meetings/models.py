@@ -510,3 +510,15 @@ class EnaioAgent(models.Model):
 
     def __str__(self):
         return f"enaio-Agent: {self.user}"
+
+
+class EnaioAgentLog(models.Model):
+    LEVEL_CHOICES = [("DEBUG", "Debug"), ("INFO", "Info"), ("WARNING", "Warning"), ("ERROR", "Error")]
+    agent = models.ForeignKey(EnaioAgent, on_delete=models.CASCADE, related_name="logs")
+    level = models.CharField(max_length=10, choices=LEVEL_CHOICES, default="INFO")
+    message = models.TextField(max_length=4000)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [models.Index(fields=["-created_at"], name="enaio_log_created_idx")]
