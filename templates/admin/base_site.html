@@ -24,26 +24,28 @@ a:hover { color: var(--hagen-blue-dark); }
 .module h2, .module caption, .inline-group h2 { background: var(--hagen-blue); color: #fff; }
 div.breadcrumbs { background: #e7eef6; color: #17436c; border-bottom: 1px solid #cfdae6; }
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
-  background: var(--hagen-blue);
-  border: 1px solid var(--hagen-blue);
+  background: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  color: #243247;
   border-radius: 4px;
 }
 .button.secondary, input[type=submit].secondary, .submit-row input.secondary, a.button.secondary { background:#e9edf2; border-color:#d0d5dd; color:#344054; box-shadow:none; }
 .button.secondary:hover, input[type=submit].secondary:hover, a.button.secondary:hover { background:#dfe4ea; }
 .button.default, input[type=submit].default, .submit-row input.default {
-  background: var(--hagen-blue-dark);
-  border-color: var(--hagen-yellow);
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: #243247;
   box-shadow: inset 0 -3px 0 var(--hagen-yellow);
 }
-.button:hover, input[type=submit]:hover, input[type=button]:hover { background: var(--hagen-blue-dark); }
-.button.default:hover, input[type=submit].default:hover { background: var(--hagen-blue); }
+.button:hover, input[type=submit]:hover, input[type=button]:hover { background: color-mix(in srgb, var(--secondary-color) 82%, #000); }
+.button.default:hover, input[type=submit].default:hover { background: color-mix(in srgb, var(--secondary-color) 82%, #000); }
 .selector-chosen h2 { background: var(--hagen-blue-dark); }
 #changelist-filter h2 { background: var(--hagen-blue); }
 #changelist-filter li.selected a { color: var(--hagen-blue-dark); font-weight: 700; }
 .form-row, .module { border-radius: 4px; }
 input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); outline: 2px solid #c7def1; }
-.object-tools a:link, .object-tools a:visited { background: var(--hagen-blue); border-radius: 4px; }
-.object-tools a:hover { background: var(--hagen-blue-dark); }
+.object-tools a:link, .object-tools a:visited { background: var(--secondary-color); color: #243247; border-radius: 4px; }
+.object-tools a:hover { background: color-mix(in srgb, var(--secondary-color) 82%, #000); color: #243247; }
 .messagelist li.success { border-left: 4px solid var(--hagen-yellow); }
 
 :root{--admin-bg:#f4f6f9;--admin-surface:#fff;--admin-text:#202735;--admin-muted:#667085;--admin-border:#cfd9e4}
@@ -91,8 +93,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 :root[data-theme="dark"] .quiet{color:var(--admin-muted)}
 :root[data-theme="dark"] .button.secondary,:root[data-theme="dark"] input[type=submit].secondary,:root[data-theme="dark"] a.button.secondary{background:#343d49;border-color:#475467;color:#e8edf3}
 :root[data-theme="dark"] .object-tools a:link,
-:root[data-theme="dark"] .object-tools a:visited{background:#174f7e;color:#fff}
-:root[data-theme="dark"] .object-tools a:hover{background:#23689f;color:#fff}
+:root[data-theme="dark"] .object-tools a:visited{background:var(--secondary-color);color:#243247}
+:root[data-theme="dark"] .object-tools a:hover{background:color-mix(in srgb, var(--secondary-color) 82%, #000);color:#243247}
 :root[data-theme="dark"] .submit-row{background:var(--admin-surface);border-color:var(--admin-border)}
 :root[data-theme="dark"] .submit-row a:link,
 :root[data-theme="dark"] .submit-row a:visited{color:#8fc5ff}
