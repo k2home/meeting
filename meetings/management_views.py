@@ -1,4 +1,7 @@
 from zoneinfo import available_timezones
+import hashlib
+import secrets
+from datetime import timedelta
 
 from django import forms
 from django.contrib import messages
@@ -7,14 +10,17 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import password_validation
 from django.core.mail import send_mail
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 from .access import is_admin
-from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings
+from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
@@ -111,13 +117,10 @@ class OrganizationLogoForm(forms.ModelForm):
 
 
 class EnaioSettingsForm(forms.Form):
-    root_folder_id = forms.CharField(label="Ordner-ID", max_length=64,
-        help_text="ID des enaio-Ordners, unter dem die Register der Besprechungsreihen liegen.")
-    root_folder_type = forms.IntegerField(label="Objekttyp des Ordners", min_value=0, required=False, initial=0,
-        help_text="Optionaler enaio-Objekttyp. 0 = nicht vorgegeben.")
-    root_folder_path = forms.CharField(label="Anzeigename / Pfad", max_length=1000, required=False,
-        help_text="Lesbarer Pfad zur Kontrolle in der Verwaltung.")
-    root_folder_name = forms.CharField(label="Ordnername", max_length=255, required=False)
+    root_folder_id = forms.CharField(label="enaio-Ordner-ID", max_length=64,
+        help_text="ID des zentralen enaio-Ordners. Sie können die ID direkt eingeben oder über den enaio-Client auswählen.")
+    root_folder_type = forms.IntegerField(label="enaio-Objekttyp", min_value=0, required=False, initial=0,
+        help_text="Wird bei einer Auswahl im enaio-Client automatisch übernommen. Bei manueller Eingabe normalerweise 0 belassen.")
 
 
 @login_required
@@ -127,21 +130,109 @@ def management_enaio_settings(request):
     initial = {
         "root_folder_id": instance.root_folder_id if instance else "",
         "root_folder_type": instance.root_folder_type if instance else 0,
-        "root_folder_path": instance.root_folder_path if instance else "",
-        "root_folder_name": instance.root_folder_name if instance else "",
     }
     form = EnaioSettingsForm(request.POST or None, initial=initial)
     if request.method == "POST" and form.is_valid():
         settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
-        for field in ("root_folder_id", "root_folder_type", "root_folder_path", "root_folder_name"):
-            value = form.cleaned_data.get(field)
-            setattr(settings_obj, field, value if value not in (None, "") else (0 if field == "root_folder_type" else ""))
+        new_folder_id = form.cleaned_data["root_folder_id"].strip()
+        if settings_obj.root_folder_id != new_folder_id:
+            settings_obj.root_folder_name = ""
+            settings_obj.root_folder_path = ""
+        settings_obj.root_folder_id = new_folder_id
+        settings_obj.root_folder_type = form.cleaned_data.get("root_folder_type") or 0
         settings_obj.save()
         messages.success(request, "Die enaio-Einstellungen wurden gespeichert.")
         return redirect("management_enaio_settings")
     return render(request, "meetings/management_enaio_settings.html", {
         "form": form, "configured": bool(instance and instance.root_folder_id),
+        "folder_name": instance.root_folder_name if instance else "",
+        "folder_path": instance.root_folder_path if instance else "",
     })
+
+
+@login_required
+@require_http_methods(["POST"])
+def enaio_folder_selection_start(request):
+    _require_admin(request)
+    raw_token = secrets.token_urlsafe(32)
+    selection = EnaioFolderSelection.objects.create(
+        user=request.user, token_hash=hashlib.sha256(raw_token.encode()).hexdigest(),
+        expires_at=timezone.now() + timedelta(minutes=5),
+    )
+    return JsonResponse({
+        "launch_url": "meetingmanager-enaio://select-folder/" + raw_token,
+        "status_url": reverse("enaio_folder_selection_status", args=[selection.pk]),
+        "expires_in": 300,
+    })
+
+
+@login_required
+@require_http_methods(["GET"])
+def enaio_folder_selection_status(request, pk):
+    _require_admin(request)
+    selection = get_object_or_404(EnaioFolderSelection, pk=pk, user=request.user)
+    if selection.consumed_at:
+        return JsonResponse({"completed": True})
+    if selection.expires_at <= timezone.now():
+        return JsonResponse({"completed": False, "expired": True}, status=410)
+    return JsonResponse({"completed": False})
+
+
+def _enaio_folder_selection_from_token(token):
+    digest = hashlib.sha256(token.encode()).hexdigest()
+    return EnaioFolderSelection.objects.filter(
+        token_hash=digest, consumed_at__isnull=True, expires_at__gt=timezone.now(),
+    ).first()
+
+
+@require_http_methods(["GET"])
+def enaio_folder_selection_details(request, token):
+    selection = _enaio_folder_selection_from_token(token)
+    if not selection:
+        return HttpResponseForbidden("Auswahlauftrag ungültig oder abgelaufen.")
+    response = JsonResponse({
+        "purpose": "select_root_folder",
+        "instructions": "Lassen Sie den Benutzer im geöffneten enaio-Client einen Ordner auswählen.",
+        "complete_url": request.build_absolute_uri(reverse("enaio_folder_selection_complete", args=[token])),
+    })
+    response["Cache-Control"] = "no-store"
+    return response
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def enaio_folder_selection_complete(request, token):
+    selection = _enaio_folder_selection_from_token(token)
+    if not selection:
+        return HttpResponseForbidden("Auswahlauftrag ungültig oder abgelaufen.")
+    try:
+        import json
+        payload = json.loads(request.body or b"{}")
+        folder_id = str(payload.get("folder_id", "")).strip()
+        folder_name = str(payload.get("folder_name", "")).strip()
+        folder_path = str(payload.get("folder_path", "")).strip()
+        folder_type = int(payload.get("folder_type", 0))
+    except (ValueError, TypeError, UnicodeDecodeError):
+        return JsonResponse({"error": "Ungültige enaio-Auswahldaten."}, status=400)
+    if not folder_id or len(folder_id) > 64 or not folder_name or len(folder_name) > 255 or len(folder_path) > 1000 or folder_type < 0:
+        return JsonResponse({"error": "Die enaio-Auswahl enthält keine gültige Ordner-ID und Ordnerbezeichnung."}, status=400)
+    with transaction.atomic():
+        selection = EnaioFolderSelection.objects.select_for_update().filter(pk=selection.pk).first()
+        if not selection or selection.consumed_at or selection.expires_at <= timezone.now():
+            return HttpResponseForbidden("Auswahlauftrag wurde bereits verwendet oder ist abgelaufen.")
+        settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
+        settings_obj.root_folder_id = folder_id
+        settings_obj.root_folder_type = folder_type
+        settings_obj.root_folder_name = folder_name
+        settings_obj.root_folder_path = folder_path
+        settings_obj.save()
+        selection.selected_folder_id = folder_id
+        selection.selected_folder_type = folder_type
+        selection.selected_folder_name = folder_name
+        selection.selected_folder_path = folder_path
+        selection.consumed_at = timezone.now()
+        selection.save(update_fields=["selected_folder_id", "selected_folder_type", "selected_folder_name", "selected_folder_path", "consumed_at"])
+    return JsonResponse({"ok": True})
 
 
 @login_required

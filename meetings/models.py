@@ -436,6 +436,22 @@ class EnaioSettings(models.Model):
         return self.root_folder_path or self.root_folder_id or "enaio-Einstellungen"
 
 
+class EnaioFolderSelection(models.Model):
+    """Kurzlebiger Auftrag zur Auswahl des zentralen enaio-Ablageordners."""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_folder_selections")
+    token_hash = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    consumed_at = models.DateTimeField(null=True, blank=True)
+    selected_folder_id = models.CharField(max_length=64, blank=True)
+    selected_folder_type = models.PositiveIntegerField(default=0)
+    selected_folder_name = models.CharField(max_length=255, blank=True)
+    selected_folder_path = models.CharField(max_length=1000, blank=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
 class EnaioFilingTarget(models.Model):
     """Persönliches enaio-Ablageziel eines Benutzers."""
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_filing_target")
