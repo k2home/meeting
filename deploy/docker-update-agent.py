@@ -2,6 +2,7 @@
 """Restricted Docker Compose updater exposed only through a Unix socket."""
 import json
 import os
+import grp
 import subprocess
 import threading
 import time
@@ -155,5 +156,6 @@ if __name__ == "__main__":
     if os.path.exists(socket_path):
         os.unlink(socket_path)
     with ThreadedUnixServer(socket_path, Handler) as server:
+        os.chown(socket_path, 0, grp.getgrnam('meeting-update').gr_gid)
         os.chmod(socket_path, 0o660)
         server.serve_forever()
