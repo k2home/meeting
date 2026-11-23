@@ -14,6 +14,12 @@
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
+  <form method="post" action="{% url 'enaio_transfer_start' meeting.id %}" data-enaio-transfer-form>
+    {% csrf_token %}
+    <button type="submit" class="btn">PDF in enaio ablegen</button>
+    <small class="muted">Zielordner und Register werden zentral in den enaio-Einstellungen festgelegt. Register: Name der Besprechungsreihe.</small>
+    <span class="muted" data-enaio-transfer-status role="status"></span>
+  </form>
   <a class="meeting-menu-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">
@@ -56,4 +62,26 @@
   <p>Keine Tagesordnungspunkte.</p>
   {% endfor %}
 {% endfor %}
+
+<script>
+document.addEventListener('submit', async (event) => {
+  const form = event.target.closest('[data-enaio-transfer-form]');
+  if (!form) return;
+  event.preventDefault();
+  const button = form.querySelector('button[type=submit]');
+  const status = form.querySelector('[data-enaio-transfer-status]');
+  button.disabled = true;
+  status.textContent = 'Übergabe wird vorbereitet …';
+  try {
+    const response = await fetch(form.action, {method: 'POST', credentials: 'same-origin', headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Die Übergabe konnte nicht gestartet werden.');
+    status.textContent = 'enaio-Übergabe wird geöffnet.';
+    window.location.href = data.launch_url;
+  } catch (error) {
+    status.textContent = error.message;
+    button.disabled = false;
+  }
+});
+</script>
 {% endblock %}

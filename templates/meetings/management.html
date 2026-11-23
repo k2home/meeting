@@ -6,6 +6,7 @@
 <a class="management-card" href="{% url 'management_users' %}"><span class="management-icon">👥</span><h2>Nutzerverwaltung</h2><p>Benutzerkonten anlegen, bearbeiten und aktivieren.</p><strong>{{ user_count }} Nutzer · {{ active_user_count }} aktiv</strong></a>
 <a class="management-card" href="{% url 'management_groups' %}"><span class="management-icon">🗂️</span><h2>Gruppenverwaltung</h2><p>Mitgliedschaften und Berechtigungen je Besprechungsreihe verwalten.</p><strong>{{ series_count }} Gruppen</strong></a>
 <a class="management-card" href="{% url 'management_settings' %}"><span class="management-icon">⚙️</span><h2>Organisationseinstellungen</h2><p>Name, Zeitzone, Farben und Anlagenlimits festlegen.</p><strong>Einstellungen öffnen</strong></a>
+<a class="management-card" href="{% url 'management_enaio_settings' %}"><span class="management-icon">📁</span><h2>enaio-Einstellungen</h2><p>Zentralen Ablageordner für Sitzungsprotokolle festlegen.</p><strong>Ablage konfigurieren</strong></a>
 <a class="management-card" href="{% url 'management_data' %}"><span class="management-icon">⇅</span><h2>Datenimport und -export</h2><p>Nutzer sowie Themen und Tagesordnungspunkte per CSV sichern und übernehmen.</p><strong>CSV-Funktionen öffnen</strong></a>
 </div>
 <style>

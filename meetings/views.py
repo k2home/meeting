@@ -1,5 +1,7 @@
 from datetime import date, datetime, timedelta
 from functools import wraps
+import hashlib
+import secrets
 from io import BytesIO
 import logging
 from pathlib import Path
@@ -10,6 +12,8 @@ from xml.sax.saxutils import escape
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
@@ -25,7 +29,7 @@ from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransfe
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
-from .models import SeriesAccess, SeriesAccessRequest
+from .models import SeriesAccess, SeriesAccessRequest, EnaioTransfer, EnaioSettings
 from .user_display import user_display_name
 
 logger = logging.getLogger(__name__)
@@ -1350,6 +1354,107 @@ def protocol_pdf(request, pk):
     response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
     return response
+
+@login_required
+def enaio_transfer_start(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden("Bitte die Ablage über die Protokollseite starten.")
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
+    filing_settings = EnaioSettings.objects.filter(pk=1).first()
+    if not filing_settings or not filing_settings.root_folder_id:
+        return JsonResponse({
+            "error": "Die zentrale enaio-Ordner-ID ist noch nicht unter Verwaltung → enaio-Einstellungen hinterlegt."
+        }, status=400)
+    raw_token = secrets.token_urlsafe(32)
+    EnaioTransfer.objects.create(
+        user=request.user, meeting=meeting,
+        token_hash=hashlib.sha256(raw_token.encode()).hexdigest(),
+        expires_at=timezone.now() + timedelta(minutes=10),
+    )
+    return JsonResponse({
+        "launch_url": "meetingmanager-enaio://transfer/" + raw_token,
+        "filing": {
+            "root_folder_id": filing_settings.root_folder_id,
+            "root_folder_type": filing_settings.root_folder_type,
+            "root_folder_path": filing_settings.root_folder_path,
+            "root_folder_name": filing_settings.root_folder_name,
+            "register_name": _meeting_series_name(meeting),
+            "document_type": "Standard",
+        },
+        "expires_in": 600,
+    })
+
+def _enaio_transfer_from_token(token):
+    digest = hashlib.sha256(token.encode()).hexdigest()
+    return EnaioTransfer.objects.select_related("meeting", "user").filter(
+        token_hash=digest, status="pending", consumed_at__isnull=True,
+        expires_at__gt=timezone.now(),
+    ).first()
+
+
+@require_http_methods(["GET"])
+def enaio_transfer_details(request, token):
+    transfer = _enaio_transfer_from_token(token)
+    if not transfer:
+        return HttpResponseForbidden("Übergabeauftrag ungültig oder abgelaufen.")
+    filing_settings = EnaioSettings.objects.filter(pk=1).first()
+    if not filing_settings or not filing_settings.root_folder_id:
+        return JsonResponse({"error": "Die zentrale enaio-Ordner-ID ist nicht konfiguriert."}, status=409)
+    response = JsonResponse({
+        "filing": {
+            "root_folder_id": filing_settings.root_folder_id,
+            "root_folder_type": filing_settings.root_folder_type,
+            "root_folder_path": filing_settings.root_folder_path,
+            "root_folder_name": filing_settings.root_folder_name,
+            "register_name": _meeting_series_name(transfer.meeting),
+            "document_type": "Standard",
+        },
+        "pdf_url": request.build_absolute_uri(reverse("enaio_transfer_pdf", args=[token])),
+        "complete_url": request.build_absolute_uri(reverse("enaio_transfer_complete", args=[token])),
+    })
+    response["Cache-Control"] = "no-store"
+    return response
+
+
+@require_http_methods(["GET"])
+def enaio_transfer_pdf(request, token):
+    transfer = _enaio_transfer_from_token(token)
+    if not transfer:
+        return HttpResponseForbidden("Übergabeauftrag ungültig oder abgelaufen.")
+    request.user = transfer.user
+    return protocol_pdf(request, transfer.meeting_id)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def enaio_transfer_complete(request, token):
+    transfer = _enaio_transfer_from_token(token)
+    if not transfer:
+        return HttpResponseForbidden("Übergabeauftrag ungültig oder abgelaufen.")
+    try:
+        import json
+        payload = json.loads(request.body or b"{}")
+    except (ValueError, UnicodeDecodeError):
+        return JsonResponse({"error": "Ungültige JSON-Daten."}, status=400)
+    if payload.get("uploaded") is not True:
+        return JsonResponse({"error": "Die enaio-Ablage wurde nicht als erfolgreich bestätigt."}, status=400)
+    object_id = str(payload.get("object_id", "")).strip()
+    display_path = str(payload.get("display_path", "")).strip()
+    display_name = str(payload.get("display_name", "")).strip()
+    try:
+        object_type = int(payload.get("object_type", 0))
+    except (TypeError, ValueError):
+        return JsonResponse({"error": "Ungültiger enaio-Objekttyp."}, status=400)
+    if not object_id or len(object_id) > 64 or not display_path or len(display_path) > 1000 or object_type < 0:
+        return JsonResponse({"error": "Ordner-ID, Pfad oder Objekttyp sind ungültig."}, status=400)
+    with transaction.atomic():
+        transfer = EnaioTransfer.objects.select_for_update().get(pk=transfer.pk)
+        if transfer.status != "pending" or transfer.consumed_at or transfer.expires_at <= timezone.now():
+            return HttpResponseForbidden("Übergabeauftrag wurde bereits verwendet oder ist abgelaufen.")
+        transfer.status = "completed"
+        transfer.consumed_at = timezone.now()
+        transfer.save(update_fields=["status", "consumed_at"])
+    return JsonResponse({"ok": True, "register_path": display_path})
 
 @login_required
 def protocol(request, pk):
