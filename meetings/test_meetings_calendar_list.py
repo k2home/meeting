@@ -32,3 +32,5 @@ class MeetingCalendarListViewTests(TestCase):
         self.assertContains(response, 'data-calendar-view="list"')
         self.assertContains(response, "calendar-list-item")
         self.assertContains(response, "Termin in Listenansicht")
+        self.assertContains(response, 'const hideFinalized = document.getElementById("calendar-hide-finalized")')
+        self.assertContains(response, 'hideFinalized?.checked')
