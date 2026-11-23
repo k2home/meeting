@@ -11,6 +11,7 @@ internal static class Program
     private static readonly string DataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MeetingManager", "EnaioAgent");
     private static readonly string CredentialsFile = Path.Combine(DataDirectory, "credentials.bin");
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
+    private static readonly string LogFile = Path.Combine(DataDirectory, "agent.log");
 
     [STAThread]
     private static int Main(string[] args)
@@ -33,14 +34,14 @@ internal static class Program
             var credentials = LoadCredentials();
             using var http = new HttpClient { BaseAddress = new Uri(credentials.BaseUrl.TrimEnd('/') + "/"), Timeout = TimeSpan.FromSeconds(45) };
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", credentials.DeviceToken);
-            Console.WriteLine("enaio-Agent läuft. COM-Aufrufe werden auf diesem STA-Thread ausgeführt. Beenden mit Strg+C.");
+            Log(http, "INFO", "enaio-Agent gestartet. COM-Aufrufe laufen auf dem STA-Hauptthread.");
             while (true)
             {
                 try
                 {
                     using var response = http.GetAsync("enaio/agent/jobs/next/").GetAwaiter().GetResult();
                     if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-                        Console.Error.WriteLine(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+                        Log(http, "ERROR", "Server lehnt Agent-Abfrage ab (HTTP 409): " + response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
                     else
                     {
                         response.EnsureSuccessStatusCode();
@@ -49,13 +50,13 @@ internal static class Program
                             ProcessJob(http, job);
                     }
                 }
-                catch (HttpRequestException ex) { Console.Error.WriteLine("Verbindungsfehler: " + ex.Message); }
-                catch (COMException ex) { Console.Error.WriteLine("enaio-COM-Fehler: " + ex.Message); }
-                catch (Exception ex) { Console.Error.WriteLine("Auftragsfehler: " + ex.Message); }
+                catch (HttpRequestException ex) { Log(http, "ERROR", "Verbindungsfehler: " + ex); }
+                catch (COMException ex) { Log(http, "ERROR", "enaio-COM-Fehler: " + ex); }
+                catch (Exception ex) { Log(http, "ERROR", "Auftragsfehler: " + ex); }
                 Thread.Sleep(TimeSpan.FromSeconds(5));
             }
         }
-        catch (Exception ex) { Console.Error.WriteLine(ex.Message); return 1; }
+        catch (Exception ex) { LogLocal("ERROR", "Agent konnte nicht gestartet werden: " + ex); return 1; }
     }
 
     private static void Pair(string baseUrl, string code)
@@ -74,6 +75,38 @@ internal static class Program
         finally { CryptographicOperations.ZeroMemory(plain); }
     }
 
+    private static void Log(HttpClient http, string level, string message)
+    {
+        LogLocal(level, message);
+        try
+        {
+            var payload = JsonSerializer.Serialize(new { level, message = message.Length > 3900 ? message[..3900] : message });
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+            using var response = http.PostAsync("enaio/agent/logs/write/", content, timeout.Token).GetAwaiter().GetResult();
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception ex)
+        {
+            LogLocal("WARNING", "Logeintrag konnte nicht an den Meeting Manager übertragen werden: " + ex.Message);
+        }
+    }
+
+    private static void LogLocal(string level, string message)
+    {
+        try
+        {
+            Directory.CreateDirectory(DataDirectory);
+            if (File.Exists(LogFile) && new FileInfo(LogFile).Length > 2 * 1024 * 1024)
+                File.WriteAllText(LogFile, "");
+            var line = $"[{DateTimeOffset.Now:O}] [{level}] {message}{Environment.NewLine}";
+            File.AppendAllText(LogFile, line, Encoding.UTF8);
+            if (level == "ERROR" || level == "WARNING") Console.Error.WriteLine(line);
+            else Console.WriteLine(line);
+        }
+        catch { }
+    }
+
     private static AgentCredentials LoadCredentials()
     {
         if (!File.Exists(CredentialsFile))
@@ -88,6 +121,7 @@ internal static class Program
         try
         {
             var kind = job.GetProperty("kind").GetString();
+            Log(http, "INFO", "Auftrag empfangen: " + kind + ".");
             var leaseToken = job.GetProperty("lease_token").GetString() ?? "";
             var statusUrl = job.GetProperty("status_url").GetString() ?? throw new InvalidOperationException("Der Auftrag enthält keine Statusadresse.");
             if (kind == "select_root_folder")
@@ -95,7 +129,7 @@ internal static class Program
                 var selection = EnaioClient.SelectRootFolder(() => IsJobActive(http, statusUrl, leaseToken));
                 using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(new { selection.folder_id, selection.folder_type, selection.folder_name, selection.folder_path, lease_token = job.GetProperty("lease_token").GetString() }), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                 response.EnsureSuccessStatusCode();
-                Console.WriteLine("Zentraler enaio-Stammordner wurde übermittelt.");
+                Log(http, "INFO", "Zentraler enaio-Stammordner wurde erfolgreich übermittelt.");
             }
             else if (kind == "file_protocol")
             {
@@ -112,20 +146,21 @@ internal static class Program
                     var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path, lease_token = job.GetProperty("lease_token").GetString() });
                     using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                     response.EnsureSuccessStatusCode();
-                    Console.WriteLine("Protokoll wurde in enaio abgelegt: " + result.Path);
+                    Log(http, "INFO", "Protokoll wurde in enaio abgelegt: " + result.Path);
                 }
                 finally { try { File.Delete(tempFile); } catch { } }
             }
         }
         catch (Exception ex)
         {
+            Log(http, "ERROR", "Auftragsverarbeitung fehlgeschlagen: " + ex);
             try
             {
                 var payload = JsonSerializer.Serialize(new { lease_token = job.GetProperty("lease_token").GetString(), error = ex.Message });
                 using var response = http.PostAsync(job.GetProperty("fail_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                 response.EnsureSuccessStatusCode();
             }
-            catch (Exception reportError) { Console.Error.WriteLine("Fehlerrückmeldung an den Server fehlgeschlagen: " + reportError.Message); }
+            catch (Exception reportError) { Log(http, "ERROR", "Fehlerrückmeldung an den Server fehlgeschlagen: " + reportError); }
             throw;
         }
     }

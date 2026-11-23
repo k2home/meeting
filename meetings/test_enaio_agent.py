@@ -177,3 +177,44 @@ class EnaioAgentLeaseTests(TestCase):
         )
         self.assertEqual(inactive.status_code, 200)
         self.assertFalse(inactive.json()["active"])
+
+
+
+class EnaioAgentLogTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="enaio-debug-user", password="strong-test-password")
+        self.raw_token = secrets.token_urlsafe(32)
+        EnaioAgent.objects.create(
+            user=self.user,
+            device_token_hash=hashlib.sha256(self.raw_token.encode()).hexdigest(),
+            device_name="Debug workstation",
+        )
+        self.auth = {"HTTP_AUTHORIZATION": "Bearer " + self.raw_token}
+
+    def test_agent_can_upload_logs_and_secrets_are_redacted(self):
+        response = self.client.post(
+            reverse("enaio_agent_log_write"),
+            data={"level": "ERROR", "message": "Request failed: Bearer very-secret-token device_token=another-secret"},
+            content_type="application/json",
+            **self.auth,
+        )
+        self.assertEqual(response.status_code, 200)
+        from .models import EnaioAgentLog
+        entry = EnaioAgentLog.objects.get(agent__user=self.user)
+        self.assertEqual(entry.level, "ERROR")
+        self.assertNotIn("very-secret-token", entry.message)
+        self.assertNotIn("another-secret", entry.message)
+        self.assertIn("[REDACTED]", entry.message)
+
+    def test_only_admin_can_read_agent_logs(self):
+        denied = self.client.get(reverse("enaio_agent_logs"))
+        self.assertEqual(denied.status_code, 302)
+        self.client.force_login(self.user)
+        forbidden = self.client.get(reverse("enaio_agent_logs"))
+        self.assertEqual(forbidden.status_code, 403)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        allowed = self.client.get(reverse("enaio_agent_logs"))
+        self.assertEqual(allowed.status_code, 200)
+        self.assertEqual(allowed.json()["agents"][0]["device"], "Debug workstation")

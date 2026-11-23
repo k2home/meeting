@@ -11,7 +11,8 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from .models import EnaioAgent, EnaioFolderSelection, EnaioSettings, EnaioTransfer
+from .models import EnaioAgent, EnaioAgentLog, EnaioFolderSelection, EnaioSettings, EnaioTransfer
+from .access import is_admin
 
 
 def _digest(value):
@@ -283,3 +284,57 @@ def enaio_agent_job_fail(request, kind, pk):
         else:
             return JsonResponse({"error": "Unbekannter Auftragstyp."}, status=404)
     return JsonResponse({"ok": True})
+
+
+def _redact_agent_log(message):
+    import re
+    value = str(message)[:4000]
+    value = re.sub(r"(?i)(bearer\s+)[A-Za-z0-9._~+/-]+=*", r"\1[REDACTED]", value)
+    value = re.sub(r"(?i)((?:device[_-]?token|access[_-]?token|refresh[_-]?token|lease(?:[_-]?token)?|token|password|secret|pairing[_-]?code)\s*[:=]\s*)[^\s,;]+", r"\1[REDACTED]", value)
+    return value
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def enaio_agent_log_write(request):
+    agent = _agent_from_request(request)
+    if not agent:
+        return HttpResponseForbidden("Agent nicht authentifiziert.")
+    try:
+        data = json.loads(request.body or b"{}")
+        level = str(data.get("level", "INFO")).upper()
+        message = _redact_agent_log(data.get("message", ""))
+    except (ValueError, TypeError, UnicodeDecodeError):
+        return JsonResponse({"error": "Ungültiger Logeintrag."}, status=400)
+    if level not in dict(EnaioAgentLog.LEVEL_CHOICES) or not message.strip():
+        return JsonResponse({"error": "Log-Level oder Meldung ungültig."}, status=400)
+    EnaioAgentLog.objects.create(agent=agent, level=level, message=message)
+    old_ids = list(EnaioAgentLog.objects.filter(agent=agent).order_by("-created_at").values_list("pk", flat=True)[500:])
+    if old_ids:
+        EnaioAgentLog.objects.filter(pk__in=old_ids).delete()
+    return JsonResponse({"ok": True})
+
+
+@login_required
+@require_http_methods(["GET"])
+def enaio_agent_logs(request):
+    from .access import is_admin
+    if not is_admin(request.user):
+        return HttpResponseForbidden("Keine Administratorberechtigung.")
+    agents = list(EnaioAgent.objects.select_related("user").all().order_by("user__username"))
+    logs = EnaioAgentLog.objects.select_related("agent", "agent__user").order_by("-created_at")[:300]
+    return JsonResponse({
+        "agents": [{
+            "user": agent.user.get_full_name() or agent.user.get_username(),
+            "device": agent.device_name or "Unbekannter Arbeitsplatz",
+            "last_seen_at": agent.last_seen_at.isoformat() if agent.last_seen_at else None,
+            "connected": bool(agent.last_seen_at and agent.last_seen_at >= timezone.now() - timedelta(seconds=30)),
+        } for agent in agents],
+        "logs": [{
+            "created_at": entry.created_at.isoformat(),
+            "user": entry.agent.user.get_username(),
+            "device": entry.agent.device_name or "Unbekannter Arbeitsplatz",
+            "level": entry.level,
+            "message": entry.message,
+        } for entry in logs],
+    })

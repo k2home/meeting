@@ -16,6 +16,10 @@ Der Agent läuft im angemeldeten Windows-Benutzerkonto, verwendet den dort geöf
 
 Das Gerätetoken wird mit Windows DPAPI für den aktuellen Benutzer verschlüsselt gespeichert. Der Kopplungscode ist zehn Minuten gültig und einmalig.
 
+## Diagnose und Logs
+
+Der Agent schreibt Diagnosemeldungen in die Debug-Console unter **Verwaltung → enaio-Einstellungen**. Die Anzeige aktualisiert sich automatisch und bietet Filter, Kopieren und Download. Lokal wird zusätzlich `%LOCALAPPDATA%\\MeetingManager\\EnaioAgent\\agent.log` geführt. Startfehler vor erfolgreicher Kopplung können naturgemäß nicht an den Server übertragen werden; in diesem Fall die lokale Logdatei prüfen. Zugangsdaten und Tokens werden vor der Server-Speicherung maskiert.
+
 ## enaio-Objektdefinition
 
 Die technischen Namen sind installationsabhängig und werden einmalig vom Administrator unter **Verwaltung → enaio-Einstellungen** hinterlegt:

@@ -73,4 +73,71 @@
   });
 })();
 </script>
+
+<section class="card" id="enaio-debug-console">
+  <div class="actions" style="justify-content:space-between;align-items:center">
+    <div><h2>enaio-Agent – Debug-Console</h2><p class="muted">Live-Protokoll des verbundenen Windows-Agenten. Aktualisiert sich automatisch alle drei Sekunden.</p></div>
+    <span id="enaio-agent-connection" class="muted" role="status">Status wird geladen …</span>
+  </div>
+  <div id="enaio-agent-devices" class="muted" aria-live="polite">Noch keine Agent-Verbindungen erfasst.</div>
+  <div class="actions" style="align-items:center;margin:1rem 0">
+    <label for="enaio-log-level">Log-Level</label>
+    <select id="enaio-log-level">
+      <option value="ALL">Alle</option><option value="DEBUG">Debug</option><option value="INFO">Info</option><option value="WARNING">Warning</option><option value="ERROR">Error</option>
+    </select>
+    <button type="button" class="secondary" id="enaio-log-refresh">Jetzt aktualisieren</button>
+    <button type="button" class="secondary" id="enaio-log-copy">Logs kopieren</button>
+    <button type="button" class="secondary" id="enaio-log-download">Logs herunterladen</button>
+  </div>
+  <pre id="enaio-agent-log-output" style="white-space:pre-wrap;overflow:auto;max-height:480px;background:var(--surface-muted, #f4f4f4);padding:1rem;border-radius:8px;font-size:.85rem" aria-live="polite">Warte auf Logdaten …</pre>
+  <p class="muted">Es werden maximal 300 aktuelle Einträge angezeigt. Zugangsdaten und Tokens werden vor der Speicherung maskiert. Wenn der Agent gar nicht startet oder nicht gekoppelt ist, kann er noch keine Server-Logs übertragen; in diesem Fall bitte zusätzlich die lokale Agent-Konsole bzw. die lokale Logdatei prüfen.</p>
+  <p id="enaio-log-error" class="muted" role="status"></p>
+</section>
+<script>
+(() => {
+  const endpoint = "{% url 'enaio_agent_logs' %}";
+  const output = document.getElementById("enaio-agent-log-output");
+  const devices = document.getElementById("enaio-agent-devices");
+  const connection = document.getElementById("enaio-agent-connection");
+  const error = document.getElementById("enaio-log-error");
+  const level = document.getElementById("enaio-log-level");
+  let latestText = "";
+  let busy = false;
+  function render(data) {
+    devices.textContent = data.agents.length ? data.agents.map(agent =>
+      (agent.connected ? "● Verbunden" : "○ Keine aktuelle Verbindung") + " · " + agent.user + " · " + agent.device +
+      " · letzter Kontakt: " + (agent.last_seen_at ? new Date(agent.last_seen_at).toLocaleString() : "nie")
+    ).join("\n") : "Noch kein enaio-Agent gekoppelt.";
+    const entries = data.logs.filter(entry => level.value === "ALL" || entry.level === level.value);
+    latestText = entries.map(entry => "[" + new Date(entry.created_at).toLocaleString() + "] [" + entry.level + "] [" + entry.user + "/" + entry.device + "] " + entry.message).join("\n");
+    output.textContent = latestText || "Für diesen Filter liegen noch keine Logs vor.";
+    connection.textContent = data.agents.some(agent => agent.connected) ? "Agent aktiv" : "Agent nicht erreichbar";
+  }
+  async function refresh() {
+    if (busy) return;
+    busy = true;
+    try {
+      const response = await fetch(endpoint, {credentials:"same-origin", headers:{"Accept":"application/json"}});
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "HTTP " + response.status);
+      render(data); error.textContent = "";
+    } catch (exception) { error.textContent = "Logs konnten nicht geladen werden: " + exception.message; }
+    finally { busy = false; }
+  }
+  document.getElementById("enaio-log-refresh").addEventListener("click", refresh);
+  level.addEventListener("change", refresh);
+  document.getElementById("enaio-log-copy").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(latestText); error.textContent = "Logs wurden in die Zwischenablage kopiert."; }
+    catch (_) { error.textContent = "Kopieren nicht möglich. Bitte Logs markieren und manuell kopieren."; }
+  });
+  document.getElementById("enaio-log-download").addEventListener("click", () => {
+    const blob = new Blob([latestText], {type:"text/plain;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a"); link.href = url; link.download = "enaio-agent-logs.txt"; link.click();
+    URL.revokeObjectURL(url);
+  });
+  refresh();
+  window.setInterval(refresh, 3000);
+})();
+</script>
 {% endblock %}
