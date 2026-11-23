@@ -1075,6 +1075,7 @@ def _protocol_entries(meeting):
                 "status": dict(Topic.STATUS).get(snapshot.status, snapshot.status),
                 "responsible": snapshot.responsible_name,
                 "followup_date": snapshot.followup_date,
+                "followup_series_name": snapshot.followup_series_name,
             }
             for snapshot in meeting.snapshots.all()
         ]
@@ -1085,6 +1086,10 @@ def _protocol_entries(meeting):
             "status": item.get_status_display(),
             "responsible": user_display_name(item.assigned_to) if item.assigned_to else "",
             "followup_date": item.followup_item.meeting.date if hasattr(item, "followup_item") else None,
+            "followup_series_name": (
+                _meeting_series_name(item.followup_item.meeting)
+                if hasattr(item, "followup_item") else ""
+            ),
         }
         for item in ensure_agenda(meeting)
     ]
@@ -1212,7 +1217,11 @@ def protocol_pdf(request, pk):
         parts.append(Paragraph(escape(entry["text"] or "—").replace("\n", "<br/>"), styles["ProtocolBody"]))
         if entry.get("followup_date"):
             followup_label = formats.date_format(entry["followup_date"], "DATE_FORMAT")
-            parts.append(Paragraph("<b>Wiedervorlage:</b> " + escape(followup_label), styles["ProtocolSmall"]))
+            followup_series = escape(entry.get("followup_series_name") or "Gelöschte Besprechungsreihe")
+            parts.append(Paragraph(
+                "<b>Wiedervorlage:</b> " + followup_series + " " + escape(followup_label),
+                styles["ProtocolSmall"],
+            ))
         parts.append(Spacer(1, 2 * mm))
         story.append(KeepTogether(parts))
     if not entries:
