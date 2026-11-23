@@ -1,4 +1,8 @@
-<div class="participant-options" role="group" aria-label="Teilnehmer auswählen">
+<label for="participant-search">Teilnehmer suchen</label>
+<input type="search" id="participant-search" class="participant-search" autocomplete="off"
+       placeholder="Name eingeben …" aria-controls="participant-option-groups">
+<p id="participant-search-status" class="muted" role="status" aria-live="polite">Alle Teilnehmer werden angezeigt.</p>
+<div class="participant-options" id="participant-option-groups" role="group" aria-label="Teilnehmer auswählen">
   <section class="participant-group">
     <h3>Der Besprechungsserie zugeordnet</h3>
     {% for group, options, index in widget.optgroups %}
@@ -39,3 +43,30 @@
     {% endfor %}
   </section>
 </div>
+<script>
+(() => {
+  const search = document.getElementById("participant-search");
+  const options = document.getElementById("participant-option-groups");
+  const status = document.getElementById("participant-search-status");
+  if (!search || !options || !status) return;
+
+  const labels = Array.from(options.querySelectorAll(".participant-group label"));
+  const normalize = value => value.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLocaleLowerCase("de");
+
+  search.addEventListener("input", () => {
+    const query = normalize(search.value.trim());
+    let visible = 0;
+    labels.forEach(label => {
+      const matches = !query || normalize(label.textContent).includes(query);
+      label.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    options.querySelectorAll(".participant-group").forEach(group => {
+      group.hidden = !group.querySelector("label:not([hidden])");
+    });
+    status.textContent = query
+      ? visible + (visible === 1 ? " Teilnehmer gefunden." : " Teilnehmer gefunden.")
+      : "Alle Teilnehmer werden angezeigt.";
+  });
+})();
+</script>
