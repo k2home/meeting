@@ -9,13 +9,13 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ## Inhaltsverzeichnis
 
+- [Installation](#installation)
+  - [Docker Compose](#docker-compose)
+  - [Debian / Ubuntu](#debian--ubuntu-mit-systemd-und-nginx)
 - [Funktionsübersicht](#funktionsübersicht)
 - [Rollen und Berechtigungen](#rollen-und-berechtigungen)
 - [Benutzer und Serienzuweisungen verwalten](#benutzer-und-serienzuweisungen-verwalten)
 - [Verwaltungsoberfläche](#verwaltungsoberfläche)
-- [Installation](#installation)
-  - [Docker Compose](#docker-compose)
-  - [Debian / Ubuntu](#debian--ubuntu-mit-systemd-und-nginx)
 - [Updates und Betrieb](#updates-und-betrieb)
 - [Arbeitsabläufe in der Anwendung](#arbeitsabläufe-in-der-anwendung)
 - [Netzwerkfreigaben und Anlagen](#netzwerkfreigaben-und-anlagen)
@@ -24,6 +24,117 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - [Entwicklung und Tests](#entwicklung-und-tests)
 - [Datenbankmigrationen](#datenbankmigrationen)
 - [Fehlerbehebung](#fehlerbehebung)
+
+## Installation
+
+### Docker Compose
+
+Das Anwendungsimage wird über Docker Hub unter [`k2hadocker/meeting-manager`](https://hub.docker.com/r/k2hadocker/meeting-manager) bereitgestellt. GitHub Actions veröffentlicht das Image automatisch: `latest` bei Änderungen auf `main`, `beta` bei Änderungen auf `beta` sowie Versions-Tags bei veröffentlichten GitHub-Releases. Die Images werden für `linux/amd64` und `linux/arm64` gebaut. Die bisherige Veröffentlichung in der GitHub Container Registry (GHCR) bleibt parallel bestehen. Für ein öffentliches Docker-Hub-Repository ist beim Installieren keine Anmeldung erforderlich.
+
+Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten verwenden denselben Anwendungscode und dieselben Datenbankmigrationen.
+
+**Voraussetzungen**
+
+- Linux-Host oder VM mit Docker Engine und Docker Compose v2
+- Netzwerkzugriff auf Docker Hub
+- Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
+
+**Installation**
+
+1. Repository nach `/opt/meeting-manager` klonen:
+
+   ```bash
+   sudo git clone https://github.com/k2home/meeting.git /opt/meeting-manager
+   cd /opt/meeting-manager
+   ```
+
+2. Das öffentliche Docker-Hub-Image kann ohne Anmeldung geladen werden. Falls das Repository in Docker Hub auf **privat** gestellt wurde, vorher als Docker-Hub-Benutzer `k2hadocker` anmelden:
+
+   ```bash
+   sudo docker login --username k2hadocker
+   ```
+
+   Das Passwort bzw. den Docker-Hub-Access-Token anschließend interaktiv eingeben. Nicht als Klartext in den Befehl schreiben.
+
+3. Den Installer starten:
+
+   ```bash
+   sudo bash deploy/install-docker.sh
+   ```
+
+   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Ein Aktivierungs- oder Einrichtungscode ist nicht erforderlich. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
+
+4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
+
+5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
+
+**Daten und Persistenz**
+
+- PostgreSQL-Daten liegen im benannten Volume `postgres_data`.
+- Hochgeladene Dateien liegen im Volume `media_data`.
+- Statische Dateien liegen im Volume `static_data` und werden vom Nginx-Container ausgeliefert.
+- Diese Daten bleiben beim Ersetzen oder Aktualisieren der Container erhalten. `docker compose down -v` löscht dagegen die benannten Volumes und damit Datenbank und Uploads – diesen Befehl nicht für normale Updates verwenden.
+
+**Updater und Betrieb**
+
+Der Installer richtet den lokalen Unix-Socket-Updater ein. Nur der Anwendungscontainer erhält Zugriff auf diesen Socket; der Docker-Socket des Hosts wird niemals in einen Container eingebunden. Der Updater akzeptiert ausschließlich die Branches `beta` und `main`.
+
+```bash
+docker compose -f docker/compose.yaml ps
+docker compose -f docker/compose.yaml logs -f app
+docker compose -f docker/compose.yaml restart app
+sudo systemctl status meeting-manager-docker-updater.service
+```
+
+Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
+
+### Debian / Ubuntu mit systemd und Nginx
+
+**Voraussetzungen**
+
+- Debian- oder Ubuntu-VM (beispielsweise unter Proxmox)
+- SSH- bzw. Konsolenzugriff mit sudo-Rechten
+- Eine feste IP-Adresse oder ein DNS-Name für die Anwendung
+
+**Installation**
+
+1. Repository klonen:
+
+   ```bash
+   git clone https://github.com/k2home/meeting.git
+   cd meeting
+   ```
+
+2. Installationsskript starten:
+
+   ```bash
+   sudo bash deploy/install-debian.sh
+   ```
+
+3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
+
+4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
+
+
+Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
+
+**HTTPS und Reverse Proxy**
+
+Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für produktiven Zugriff über HTTPS sollte ein vorgeschalteter Reverse Proxy verwendet werden. In diesem Fall müssen `CSRF_TRUSTED_ORIGINS`, `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1` sowie die sicheren Cookie- und Redirect-Optionen in `/opt/meeting-manager/.env` passend gesetzt werden. Der Proxy muss den `X-Forwarded-Proto`-Header zuverlässig setzen und darf nicht durch untrusted Clients umgangen werden. Bei Debian muss zusätzlich die lokale Nginx-Konfiguration so angepasst werden, dass nur die Proxy-IP/CIDR auf Port 80 zugreifen darf und der Header `X-Forwarded-Proto` vom Proxy übernommen wird (statt ihn mit `$scheme` zu überschreiben). Erst danach `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1` sowie die externe HTTPS-Adresse in `CSRF_TRUSTED_ORIGINS` setzen. Nach Änderungen an `.env` den Dienst mit `sudo systemctl restart meeting-manager` neu starten.
+
+### Wichtige Pfade und Dienste
+
+| Zweck | Pfad / Name |
+|---|---|
+| Installationsverzeichnis | `/opt/meeting-manager` |
+| Konfiguration und Zugangsdaten | `/opt/meeting-manager/.env` |
+| Hochgeladene Dateien | `/opt/meeting-manager/media` |
+| Statische Dateien | `/opt/meeting-manager/staticfiles` |
+| PostgreSQL-Datenbank | `meeting_manager` |
+| PostgreSQL-Benutzer | `meetingapp` |
+| systemd-Dienst | `meeting-manager` |
+| Nginx-Konfiguration | `/etc/nginx/sites-available/meeting-manager` |
+
 
 ## Funktionsübersicht
 
@@ -212,117 +323,6 @@ Für Themen- und Tagesordnungspunktdaten gilt: `record_type=topic` exportiert Th
 Unter **Verwaltung → Organisationseinstellungen** werden Organisationsname, Kurzname, Zeitzone, maximale Anlagengröße und die Farben der Benutzeroberfläche gepflegt. Für die Farbwerte stehen Farbwähler und HEX-Validierung zur Verfügung. Der zentrale Organisationseinstellungs-Datensatz ist gegen versehentliches Löschen geschützt.
 
 **Empfehlung:** Admin-Rechte nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten die Rolle je Besprechungsreihe passend festlegen und nur die benötigten Reihen zuweisen.
-
-## Installation
-
-### Docker Compose
-
-Das Anwendungsimage wird über Docker Hub unter [`k2hadocker/meeting-manager`](https://hub.docker.com/r/k2hadocker/meeting-manager) bereitgestellt. GitHub Actions veröffentlicht das Image automatisch: `latest` bei Änderungen auf `main`, `beta` bei Änderungen auf `beta` sowie Versions-Tags bei veröffentlichten GitHub-Releases. Die Images werden für `linux/amd64` und `linux/arm64` gebaut. Die bisherige Veröffentlichung in der GitHub Container Registry (GHCR) bleibt parallel bestehen. Für ein öffentliches Docker-Hub-Repository ist beim Installieren keine Anmeldung erforderlich.
-
-Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten verwenden denselben Anwendungscode und dieselben Datenbankmigrationen.
-
-**Voraussetzungen**
-
-- Linux-Host oder VM mit Docker Engine und Docker Compose v2
-- Netzwerkzugriff auf Docker Hub
-- Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
-
-**Installation**
-
-1. Repository nach `/opt/meeting-manager` klonen:
-
-   ```bash
-   sudo git clone https://github.com/k2home/meeting.git /opt/meeting-manager
-   cd /opt/meeting-manager
-   ```
-
-2. Das öffentliche Docker-Hub-Image kann ohne Anmeldung geladen werden. Falls das Repository in Docker Hub auf **privat** gestellt wurde, vorher als Docker-Hub-Benutzer `k2hadocker` anmelden:
-
-   ```bash
-   sudo docker login --username k2hadocker
-   ```
-
-   Das Passwort bzw. den Docker-Hub-Access-Token anschließend interaktiv eingeben. Nicht als Klartext in den Befehl schreiben.
-
-3. Den Installer starten:
-
-   ```bash
-   sudo bash deploy/install-docker.sh
-   ```
-
-   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Ein Aktivierungs- oder Einrichtungscode ist nicht erforderlich. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
-
-4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
-
-5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
-
-**Daten und Persistenz**
-
-- PostgreSQL-Daten liegen im benannten Volume `postgres_data`.
-- Hochgeladene Dateien liegen im Volume `media_data`.
-- Statische Dateien liegen im Volume `static_data` und werden vom Nginx-Container ausgeliefert.
-- Diese Daten bleiben beim Ersetzen oder Aktualisieren der Container erhalten. `docker compose down -v` löscht dagegen die benannten Volumes und damit Datenbank und Uploads – diesen Befehl nicht für normale Updates verwenden.
-
-**Updater und Betrieb**
-
-Der Installer richtet den lokalen Unix-Socket-Updater ein. Nur der Anwendungscontainer erhält Zugriff auf diesen Socket; der Docker-Socket des Hosts wird niemals in einen Container eingebunden. Der Updater akzeptiert ausschließlich die Branches `beta` und `main`.
-
-```bash
-docker compose -f docker/compose.yaml ps
-docker compose -f docker/compose.yaml logs -f app
-docker compose -f docker/compose.yaml restart app
-sudo systemctl status meeting-manager-docker-updater.service
-```
-
-Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
-
-### Debian / Ubuntu mit systemd und Nginx
-
-**Voraussetzungen**
-
-- Debian- oder Ubuntu-VM (beispielsweise unter Proxmox)
-- SSH- bzw. Konsolenzugriff mit sudo-Rechten
-- Eine feste IP-Adresse oder ein DNS-Name für die Anwendung
-
-**Installation**
-
-1. Repository klonen:
-
-   ```bash
-   git clone https://github.com/k2home/meeting.git
-   cd meeting
-   ```
-
-2. Installationsskript starten:
-
-   ```bash
-   sudo bash deploy/install-debian.sh
-   ```
-
-3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
-
-4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
-
-
-Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
-
-**HTTPS und Reverse Proxy**
-
-Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für produktiven Zugriff über HTTPS sollte ein vorgeschalteter Reverse Proxy verwendet werden. In diesem Fall müssen `CSRF_TRUSTED_ORIGINS`, `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1` sowie die sicheren Cookie- und Redirect-Optionen in `/opt/meeting-manager/.env` passend gesetzt werden. Der Proxy muss den `X-Forwarded-Proto`-Header zuverlässig setzen und darf nicht durch untrusted Clients umgangen werden. Bei Debian muss zusätzlich die lokale Nginx-Konfiguration so angepasst werden, dass nur die Proxy-IP/CIDR auf Port 80 zugreifen darf und der Header `X-Forwarded-Proto` vom Proxy übernommen wird (statt ihn mit `$scheme` zu überschreiben). Erst danach `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1` sowie die externe HTTPS-Adresse in `CSRF_TRUSTED_ORIGINS` setzen. Nach Änderungen an `.env` den Dienst mit `sudo systemctl restart meeting-manager` neu starten.
-
-### Wichtige Pfade und Dienste
-
-| Zweck | Pfad / Name |
-|---|---|
-| Installationsverzeichnis | `/opt/meeting-manager` |
-| Konfiguration und Zugangsdaten | `/opt/meeting-manager/.env` |
-| Hochgeladene Dateien | `/opt/meeting-manager/media` |
-| Statische Dateien | `/opt/meeting-manager/staticfiles` |
-| PostgreSQL-Datenbank | `meeting_manager` |
-| PostgreSQL-Benutzer | `meetingapp` |
-| systemd-Dienst | `meeting-manager` |
-| Nginx-Konfiguration | `/etc/nginx/sites-available/meeting-manager` |
-
 
 ## Updates und Betrieb
 
