@@ -25,9 +25,10 @@ write_state() {
   local message="$2"
   local started="$3"
   local finished="$4"
-  python3 - "$STATE_FILE" "$LOG_FILE" "$status" "$1" "$message" "$started" "$finished" "$2" <<'PY'
+  local branch="$5"
+  python3 - "$STATE_FILE" "$LOG_FILE" "$status" "$message" "$started" "$finished" "$branch" <<'PY'
 import json, os, pathlib, sys
-state_path, log_path, status, _unused, message, started, finished, branch = sys.argv[1:]
+state_path, log_path, status, message, started, finished, branch = sys.argv[1:]
 log = pathlib.Path(log_path).read_text(encoding="utf-8", errors="replace")[-16000:] if pathlib.Path(log_path).exists() else ""
 data = {"status": status, "branch": branch, "started_at": started or None, "finished_at": finished or None, "message": message, "log": log}
 tmp = pathlib.Path(state_path + ".tmp")
