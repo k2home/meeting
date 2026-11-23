@@ -14,7 +14,7 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .access import is_admin
-from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile
+from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
@@ -108,6 +108,40 @@ class OrganizationLogoForm(forms.ModelForm):
         self.fields["logo"].widget.attrs.update({
             "accept": ".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml",
         })
+
+
+class EnaioSettingsForm(forms.Form):
+    root_folder_id = forms.CharField(label="Ordner-ID", max_length=64,
+        help_text="ID des enaio-Ordners, unter dem die Register der Besprechungsreihen liegen.")
+    root_folder_type = forms.IntegerField(label="Objekttyp des Ordners", min_value=0, required=False, initial=0,
+        help_text="Optionaler enaio-Objekttyp. 0 = nicht vorgegeben.")
+    root_folder_path = forms.CharField(label="Anzeigename / Pfad", max_length=1000, required=False,
+        help_text="Lesbarer Pfad zur Kontrolle in der Verwaltung.")
+    root_folder_name = forms.CharField(label="Ordnername", max_length=255, required=False)
+
+
+@login_required
+def management_enaio_settings(request):
+    _require_admin(request)
+    instance = EnaioSettings.objects.filter(pk=1).first()
+    initial = {
+        "root_folder_id": instance.root_folder_id if instance else "",
+        "root_folder_type": instance.root_folder_type if instance else 0,
+        "root_folder_path": instance.root_folder_path if instance else "",
+        "root_folder_name": instance.root_folder_name if instance else "",
+    }
+    form = EnaioSettingsForm(request.POST or None, initial=initial)
+    if request.method == "POST" and form.is_valid():
+        settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
+        for field in ("root_folder_id", "root_folder_type", "root_folder_path", "root_folder_name"):
+            value = form.cleaned_data.get(field)
+            setattr(settings_obj, field, value if value not in (None, "") else (0 if field == "root_folder_type" else ""))
+        settings_obj.save()
+        messages.success(request, "Die enaio-Einstellungen wurden gespeichert.")
+        return redirect("management_enaio_settings")
+    return render(request, "meetings/management_enaio_settings.html", {
+        "form": form, "configured": bool(instance and instance.root_folder_id),
+    })
 
 
 @login_required

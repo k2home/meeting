@@ -1,0 +1,20 @@
+{% extends "meetings/base.html" %}
+{% block title %}enaio-Einstellungen{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>enaio-Einstellungen</h1>
+    <p class="muted">Zentralen Ablageordner für Sitzungsprotokolle konfigurieren.</p>
+  </div>
+  <a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a>
+</div>
+<div class="card">
+  <p>Alle Protokolle werden unterhalb dieses Ordners abgelegt. Innerhalb des Ordners wird je Besprechungsreihe ein gleichnamiges Register verwendet. Fehlt das Register, legt der enaio-Client es bei der Ablage an.</p>
+  {% if configured %}<p class="muted">Ein Ablageordner ist konfiguriert.</p>{% else %}<p class="muted">Noch kein Ablageordner konfiguriert. Die enaio-Ablage bleibt bis zur Einrichtung deaktiviert.</p>{% endif %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions"><button class="primary" type="submit">enaio-Einstellungen speichern</button></div>
+  </form>
+</div>
+{% endblock %}

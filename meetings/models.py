@@ -415,3 +415,55 @@ class SeriesAccessRequest(models.Model):
 
     def __str__(self):
         return f"{self.user} – {self.series} ({self.get_status_display()})"
+
+class EnaioSettings(models.Model):
+    """Zentrale enaio-Ablagekonfiguration."""
+    root_folder_id = models.CharField("enaio-Ordner-ID", max_length=64, blank=True)
+    root_folder_type = models.PositiveIntegerField("enaio-Objekttyp", default=0)
+    root_folder_path = models.CharField("Ordnerpfad", max_length=1000, blank=True)
+    root_folder_name = models.CharField("Ordnername", max_length=255, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "enaio-Einstellung"
+        verbose_name_plural = "enaio-Einstellungen"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.root_folder_path or self.root_folder_id or "enaio-Einstellungen"
+
+
+class EnaioFilingTarget(models.Model):
+    """Persönliches enaio-Ablageziel eines Benutzers."""
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_filing_target")
+    object_id = models.CharField("enaio-Ordner-ID", max_length=64)
+    object_type = models.PositiveIntegerField("enaio-Objekttyp", default=0)
+    display_path = models.CharField("Ordnerpfad", max_length=1000)
+    display_name = models.CharField("Ordnername", max_length=255, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Persönliches enaio-Ablageziel"
+        verbose_name_plural = "Persönliche enaio-Ablageziele"
+
+    def __str__(self):
+        return self.display_path
+
+
+class EnaioTransfer(models.Model):
+    STATUS_CHOICES = [("pending", "Ausstehend"), ("completed", "Abgeschlossen"), ("failed", "Fehlgeschlagen")]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_transfers")
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name="enaio_transfers")
+    token_hash = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    consumed_at = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="pending")
+    error_message = models.CharField(max_length=500, blank=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
