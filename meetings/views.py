@@ -327,7 +327,7 @@ def open_topics(request):
         if not allowed_series.exists():
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
-    selected_series = request.GET.get("series", "").strip()
+    selected_series = request.GET.get("series", request.POST.get("series", "")).strip()
     if selected_series.isdigit() and allowed_series.filter(pk=int(selected_series)).exists():
         items_series_filter = int(selected_series)
     else:
