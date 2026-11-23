@@ -1,6 +1,7 @@
 from django.db.models import Q
 
 from .models import Meeting, MeetingSeries, SeriesAccess, Topic
+from .brand_colors import accessible_button_colors
 
 ADMIN_GROUP = "Admin"
 
@@ -85,8 +86,17 @@ def organization_branding(request):
     """Stellt die zentrale Organisationseinheit in allen Templates bereit."""
     from .models import OrganizationSettings
 
+    colors = OrganizationSettings.current_brand_colors()
+    button_colors = {}
+    for palette in ("light", "dark"):
+        for name in ("primary", "secondary"):
+            result = accessible_button_colors(colors[f"{name}_color_{palette}"])
+            button_colors[f"{name}_button_bg_{palette}"] = result["background"]
+            button_colors[f"{name}_button_text_{palette}"] = result["text"]
+            button_colors[f"{name}_button_contrast_{palette}"] = result["contrast"]
     return {
         "organization_unit_name": OrganizationSettings.current_name(),
         "organization_unit_short_name": OrganizationSettings.current_short_name(),
-        **OrganizationSettings.current_brand_colors(),
+        **colors,
+        **button_colors,
     }
