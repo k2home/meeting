@@ -115,7 +115,7 @@
   {% endif %}
   {% if topic.transfer_history.exists %}
   <section class="card"><h2>Transferhistorie</h2>
-   {% for transfer in topic.transfer_history.all %}<p>{{ transfer.transferred_at|date:"d.m.Y H:i" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</p>{% endfor %}
+   {% for transfer in topic.transfer_history.all %}<p>{{ transfer.transferred_at|date:"DATETIME_FORMAT" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</p>{% endfor %}
   </section>
   {% endif %}
  </aside>
