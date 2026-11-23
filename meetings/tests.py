@@ -849,6 +849,29 @@ class OrganizationBrandColorTests(TestCase):
         self.admin = User.objects.create_superuser(username="brand-admin", email="brand-admin@example.com", password="strong-test-password")
         self.client.force_login(self.admin)
 
+    def test_logo_upload_has_dedicated_save_action_and_persists_file(self):
+        import tempfile
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        page = self.client.get(reverse("management_settings"))
+        self.assertContains(page, "Logo speichern")
+        with tempfile.TemporaryDirectory() as media_root, override_settings(MEDIA_ROOT=media_root):
+            response = self.client.post(reverse("management_settings"), {
+                "action": "save_logo",
+                "logo": SimpleUploadedFile(
+                    "organisation.svg",
+                    b'<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"></svg>',
+                    content_type="image/svg+xml",
+                ),
+            })
+            self.assertRedirects(response, reverse("management_settings"))
+            settings = OrganizationSettings.objects.get(pk=1)
+            self.assertTrue(settings.logo.name.endswith("organisation.svg"))
+            self.assertTrue(settings.logo.storage.exists(settings.logo.name))
+            settings.logo.delete(save=True)
+
     def test_brand_color_defaults_and_mode_overrides(self):
         from .models import OrganizationSettings
         settings = OrganizationSettings.objects.create(name="Test")
