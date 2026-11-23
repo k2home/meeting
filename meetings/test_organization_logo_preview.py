@@ -9,3 +9,5 @@ class OrganizationLogoPreviewTests(SimpleTestCase):
         self.assertIn("URL.createObjectURL(file)", content)
         self.assertIn("URL.revokeObjectURL", content)
         self.assertIn("preview.onerror", content)
+        self.assertIn("preview.dataset.objectUrl === objectUrl", content)
+        self.assertIn("delete preview.dataset.objectUrl", content)
