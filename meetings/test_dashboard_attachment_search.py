@@ -26,6 +26,22 @@ class DashboardAttachmentSearchTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Dokumentation")
 
+    def test_attachment_search_keeps_permissions_and_deduplicates_topics(self):
+        TopicAttachment.objects.create(
+            topic=self.topic, label="Brandschutzplan Kopie", network_path="",
+        )
+        other_user = User.objects.create_user(username="attachment-search-other", password="test-password")
+        private_series = MeetingSeries.objects.create(name="Private Anlagenreihe")
+        private_topic = Topic.objects.create(title="Vertrauliches Dokument", series=private_series)
+        TopicAttachment.objects.create(topic=private_topic, label="Brandschutzplan", network_path="")
+
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("dashboard"), {"q": "Brandschutzplan"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["topics"].count(), 1)
+        self.assertContains(response, "Dokumentation")
+        self.assertNotContains(response, "Vertrauliches Dokument")
+
     def test_dashboard_search_finds_attachment_paths(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse("dashboard"), {"q": "planung"})
