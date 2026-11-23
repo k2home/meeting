@@ -158,6 +158,7 @@ def management_enaio_settings(request):
         return redirect("management_enaio_settings")
     return render(request, "meetings/management_enaio_settings.html", {
         "form": form, "configured": bool(instance and instance.root_folder_id),
+        "object_definition_configured": bool(instance and instance.archive_name and instance.register_type_name and instance.register_name_field),
         "folder_name": instance.root_folder_name if instance else "",
         "folder_path": instance.root_folder_path if instance else "",
     })
