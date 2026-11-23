@@ -23,8 +23,6 @@
   </form>
   {% endif %}
 </div>
-<h1>Protokoll</h1>
-<p>{% if meeting.series_id %}{{ meeting.series.name }}{% else %}{{ meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} · {{ meeting.date|date:"d.m.Y" }}</p>
 <section class="card">
   <h2>Teilnehmer</h2>
   {% for participant in participants %}
