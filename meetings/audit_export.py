@@ -53,7 +53,10 @@ def audit_history_csv(request):
         writer.writerow([
             event.created_at.isoformat(),
             event.get_action_display(),
-            event.actor.get_full_name() or event.actor.get_username() if event.actor_id else "System / gelöschter Benutzer",
+            _safe_csv_cell(
+                event.actor.get_full_name() or event.actor.get_username()
+                if event.actor_id else "System / gelöschter Benutzer"
+            ),
             _safe_csv_cell(series_name),
             _safe_csv_cell(event.topic.title if event.topic_id else ""),
             _safe_csv_cell(meeting_label),
