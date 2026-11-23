@@ -45,6 +45,10 @@ class EnaioConnectionDiagnosticsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.json()["configuration"]["root_folder_configured"])
         self.assertFalse(response.json()["configuration"]["object_definition_configured"])
+        self.assertEqual(
+            {item["field"] for item in response.json()["configuration"]["missing_fields"]},
+            {"archive_name", "register_type_name", "register_name_field", "document_type_name"},
+        )
 
     def test_diagnostics_requires_administrator(self):
         regular_user = User.objects.create_user(
