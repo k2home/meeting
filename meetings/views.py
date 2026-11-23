@@ -188,7 +188,28 @@ def dashboard(request):
         next_meeting_date=Subquery(latest_agenda_item.values("meeting__date")[:1]),
         latest_agenda_status=Subquery(latest_agenda_item.values("status")[:1]),
     )
-    if selected_due == "next_week":
+    selected_from_date = request.GET.get("from_date", "").strip()
+    selected_to_date = request.GET.get("to_date", "").strip()
+    try:
+        parsed_from_date = date.fromisoformat(selected_from_date) if selected_from_date else None
+    except ValueError:
+        parsed_from_date = None
+        selected_from_date = ""
+    try:
+        parsed_to_date = date.fromisoformat(selected_to_date) if selected_to_date else None
+    except ValueError:
+        parsed_to_date = None
+        selected_to_date = ""
+    if parsed_from_date and parsed_to_date and parsed_from_date > parsed_to_date:
+        parsed_from_date = parsed_to_date = None
+        selected_from_date = selected_to_date = ""
+    if parsed_from_date or parsed_to_date:
+        if parsed_from_date:
+            topics = topics.filter(next_meeting_date__gte=parsed_from_date)
+        if parsed_to_date:
+            topics = topics.filter(next_meeting_date__lte=parsed_to_date)
+        selected_due = ""
+    elif selected_due == "next_week":
         topics = topics.filter(
             next_meeting_date__gte=today,
             next_meeting_date__lte=today + timedelta(days=7),
@@ -230,6 +251,7 @@ def dashboard(request):
         "meetings": meetings, "meeting_groups": meeting_groups, "topics": topics, "overdue_count": overdue_count, "today": today,
         "query": query, "selected_status": selected_status, "selected_series": selected_series,
         "selected_assignee": selected_assignee, "selected_due": selected_due,
+        "selected_from_date": selected_from_date, "selected_to_date": selected_to_date,
         "series_options": accessible_series(request.user).order_by("name"),
         "own_assignee_label": user_display_name(request.user),
         "assignee_options": sorted(
