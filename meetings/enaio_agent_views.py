@@ -96,6 +96,7 @@ def enaio_agent_next_job(request):
                 "id": f"folder-{selection.pk}", "kind": "select_root_folder",
                 "selection_id": selection.pk, "lease_token": lease,
                 "complete_url": request.build_absolute_uri(f"/enaio/agent/selection/{selection.pk}/complete/"),
+                "status_url": request.build_absolute_uri(f"/enaio/agent/jobs/selection/{selection.pk}/status/"),
                 "fail_url": request.build_absolute_uri(f"/enaio/agent/jobs/selection/{selection.pk}/fail/"),
             }}
         elif transfer:
@@ -124,7 +125,7 @@ def enaio_agent_next_job(request):
                     "register_name_field": settings_obj.register_name_field,
                     "document_type": "Standard",
                 },
-                "pdf_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/pdf/"),
+                "pdf_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/pdf/?lease={lease}"),
                 "complete_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/complete/"),
                 "fail_url": request.build_absolute_uri(f"/enaio/agent/jobs/transfer/{transfer.pk}/fail/"),
             }}
@@ -174,11 +175,39 @@ def enaio_agent_selection_complete(request, pk):
 
 
 @require_http_methods(["GET"])
+def enaio_agent_job_status(request, kind, pk):
+    agent = _agent_from_request(request)
+    if not agent:
+        return HttpResponseForbidden("Agent nicht authentifiziert.")
+    lease_token = request.GET.get("lease", "")
+    now = timezone.now()
+    if kind == "selection":
+        active = EnaioFolderSelection.objects.filter(
+            pk=pk, user=agent.user, consumed_at__isnull=True, expires_at__gt=now,
+            agent_lease_token=lease_token, agent_lease_expires_at__gt=now,
+        ).exists()
+    elif kind == "transfer":
+        active = EnaioTransfer.objects.filter(
+            pk=pk, user=agent.user, status="pending", consumed_at__isnull=True,
+            expires_at__gt=now, agent_lease_token=lease_token,
+            agent_lease_expires_at__gt=now,
+        ).exists()
+    else:
+        return JsonResponse({"error": "Unbekannter Auftragstyp."}, status=404)
+    return JsonResponse({"active": active})
+
+
+@require_http_methods(["GET"])
 def enaio_agent_transfer_pdf(request, pk):
     agent = _agent_from_request(request)
     if not agent:
         return HttpResponseForbidden("Agent nicht authentifiziert.")
-    transfer = get_object_or_404(EnaioTransfer, pk=pk, user=agent.user, status="pending", consumed_at__isnull=True, expires_at__gt=timezone.now())
+    lease_token = request.GET.get("lease", "")
+    transfer = get_object_or_404(
+        EnaioTransfer, pk=pk, user=agent.user, status="pending",
+        consumed_at__isnull=True, expires_at__gt=timezone.now(),
+        agent_lease_token=lease_token, agent_lease_expires_at__gt=timezone.now(),
+    )
     from .views import protocol_pdf
     request.user = agent.user
     return protocol_pdf(request, transfer.meeting_id)
