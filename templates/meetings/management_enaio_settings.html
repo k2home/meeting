@@ -80,6 +80,7 @@
     <span id="enaio-agent-connection" class="muted" role="status">Status wird geladen …</span>
   </div>
   <div id="enaio-agent-devices" class="muted" aria-live="polite">Noch keine Agent-Verbindungen erfasst.</div>
+  <div class="card" style="margin:1rem 0"><strong>Lokales Diagnoseprotokoll auf dem Windows-Arbeitsplatz</strong><p>Wenn der Agent nicht gekoppelt ist oder nicht startet, kann er keine Logs an diese Console senden. Öffne auf dem enaio-Arbeitsplatz den Windows-Explorer und gib diesen Pfad in die Adresszeile ein:</p><p><code>%LOCALAPPDATA%\MeetingManager\EnaioAgent\agent.log</code></p><p>Die Datei wird bereits beim Prozessstart geschrieben – auch wenn die Kopplungsdaten fehlen oder beschädigt sind. Bitte sende diese Datei, falls hier keine Server-Logs erscheinen.</p></div>
   <div class="actions" style="align-items:center;margin:1rem 0">
     <label for="enaio-log-level">Log-Level</label>
     <select id="enaio-log-level">
@@ -104,14 +105,20 @@
   let latestText = "";
   let busy = false;
   function render(data) {
-    devices.textContent = data.agents.length ? data.agents.map(agent =>
-      (agent.connected ? "● Verbunden" : "○ Keine aktuelle Verbindung") + " · " + agent.user + " · " + agent.device +
-      " · letzter Kontakt: " + (agent.last_seen_at ? new Date(agent.last_seen_at).toLocaleString() : "nie")
-    ).join("\n") : "Noch kein enaio-Agent gekoppelt.";
+    devices.textContent = data.agents.length ? data.agents.map(agent => {
+      const state = !agent.paired
+        ? (agent.pairing_pending ? "Kopplungscode erstellt – Agent noch nicht gekoppelt" : "Nicht gekoppelt")
+        : !agent.last_seen_at
+          ? "Gekoppelt, aber Agent hat sich noch nie gemeldet"
+          : agent.connected
+            ? "Verbunden"
+            : "Nicht erreichbar – letzter Kontakt: " + new Date(agent.last_seen_at).toLocaleString();
+      return state + " · " + agent.user + " · " + agent.device;
+    }).join("\n") : "Für dieses Konto wurde noch kein Agent registriert. Zuerst unter Konto → Arbeitsplatz mit enaio verbinden koppeln.";
     const entries = data.logs.filter(entry => level.value === "ALL" || entry.level === level.value);
     latestText = entries.map(entry => "[" + new Date(entry.created_at).toLocaleString() + "] [" + entry.level + "] [" + entry.user + "/" + entry.device + "] " + entry.message).join("\n");
     output.textContent = latestText || "Für diesen Filter liegen noch keine Logs vor.";
-    connection.textContent = data.agents.some(agent => agent.connected) ? "Agent aktiv" : "Agent nicht erreichbar";
+    connection.textContent = data.agents.some(agent => agent.connected) ? "Agent aktiv" : data.agents.some(agent => agent.paired) ? "Gekoppelt, aber nicht erreichbar" : "Noch nicht gekoppelt";
   }
   async function refresh() {
     if (busy) return;
