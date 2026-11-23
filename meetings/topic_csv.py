@@ -372,7 +372,7 @@ def parse_topic_agenda_csv(text):
                     errors.append(f"Zeile {row['row_number']}: Für den Quell-Tagesordnungspunkt existiert bereits eine andere Wiedervorlage.")
         meeting = Meeting.objects.filter(series_id=row["series_id"], date=row["meeting_date"]).first()
         if meeting and (meeting.finalized_at or meeting.snapshots.exists()):
-            errors.append(f"Zeile {row['row_number']}: Der Termin am {formats.date_format(row['meeting_date'], "DATE_FORMAT")} ist abgeschlossen und kann nicht importiert werden.")
+            errors.append(f"Zeile {row['row_number']}: Der Termin am {formats.date_format(row['meeting_date'], 'DATE_FORMAT')} ist abgeschlossen und kann nicht importiert werden.")
         row["existing_meeting_id"] = meeting.pk if meeting else None
     for topic_key, record in topic_records.items():
         data = record["topic"]
