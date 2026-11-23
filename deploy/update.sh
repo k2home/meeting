@@ -87,9 +87,7 @@ trap - EXIT
 # Keep the narrowly scoped web-update entry point current after switching
 # branches. The running wrapper process is unaffected; subsequent requests use
 # this installed, validated version.
-install -o root -g root -m 0755 "$APP_DIR/deploy/meeting-manager-update" /usr/local/sbin/meeting-manager-update
-install -o root -g root -m 0440 "$APP_DIR/deploy/meeting-manager-update.sudoers" /etc/sudoers.d/meeting-manager-update
-visudo -cf /etc/sudoers.d/meeting-manager-update
+bash "$APP_DIR/deploy/install-debian-updater.sh"
 
 # Apply the cache policy to the active Nginx site without replacing local
 # reverse-proxy settings (for example, trusted-proxy allow/deny rules).
