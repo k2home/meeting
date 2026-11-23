@@ -588,8 +588,34 @@
   button.className = "meeting-menu-button secondary";
   button.textContent = "Besprechungs-Link kopieren";
   button.addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(window.location.href); button.textContent = "Link kopiert"; }
-    catch { button.textContent = "Kopieren nicht möglich"; }
+    const originalText = button.textContent;
+    button.disabled = true;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(window.location.href);
+      } else {
+        const fallback = document.createElement("textarea");
+        const previousFocus = document.activeElement;
+        fallback.value = window.location.href;
+        fallback.setAttribute("readonly", "");
+        fallback.style.position = "fixed";
+        fallback.style.opacity = "0";
+        document.body.appendChild(fallback);
+        try {
+          fallback.select();
+          if (!document.execCommand("copy")) throw new Error("Clipboard copy failed");
+        } finally {
+          fallback.remove();
+          previousFocus?.focus?.();
+        }
+      }
+      button.textContent = "Link kopiert";
+    } catch {
+      button.textContent = "Kopieren nicht möglich";
+    } finally {
+      button.disabled = false;
+      window.setTimeout(() => { button.textContent = originalText; }, 2500);
+    }
   });
   menu.append(button);
 })();
