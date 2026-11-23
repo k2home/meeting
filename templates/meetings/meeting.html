@@ -184,11 +184,11 @@
         <div class="agenda-schedule-row agenda-schedule-form agenda-followup-form agenda-followup-controls" data-form-id="agenda-text-form-{{ item.id }}">
           <span class="agenda-followup-label">Termin</span>
           <select name="target_series" form="agenda-text-form-{{ item.id }}" aria-label="Besprechungsserie">
-            {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
+            {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.followup_item and item.followup_item.meeting.series_id == series.pk or not item.followup_item and item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
           </select>
           <select name="target_meeting" form="agenda-text-form-{{ item.id }}" aria-label="Termin der Wiedervorlage">
-            <option value="" selected>Keine Wiedervorlage</option>
-            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}">{{ target.date|date:"DATE_FORMAT" }}</option>{% endfor %}
+            <option value="" {% if not item.followup_item %}selected{% endif %}>Keine Wiedervorlage</option>
+            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.followup_item and item.followup_item.meeting_id == target.pk %}selected{% endif %}>{{ target.date|date:"DATE_FORMAT" }}</option>{% endfor %}
           </select>
         </div>
         {% endif %}
