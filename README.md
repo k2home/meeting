@@ -96,7 +96,21 @@ Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisc
 - SSH- bzw. Konsolenzugriff mit sudo-Rechten
 - Eine feste IP-Adresse oder ein DNS-Name für die Anwendung
 
-**Installation**
+**One-Click-Installation**
+
+Auf einer frischen Debian-/Ubuntu-Installation können Git installieren, Repository herunterladen und Installationsskript mit diesen Befehlen direkt nacheinander ausgeführt werden:
+
+```bash
+sudo apt update
+sudo apt install git -y
+git clone https://github.com/k2home/meeting.git
+cd meeting
+sudo bash deploy/install-debian.sh
+```
+
+Anschließend fragt der Installer nur noch nach dem Hostnamen bzw. der IP-Adresse und richtet die benötigten Komponenten automatisch ein.
+
+**Installation im Einzelnen**
 
 1. Repository klonen:
 
