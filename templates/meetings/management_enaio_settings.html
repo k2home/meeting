@@ -1,0 +1,326 @@
+{% extends "meetings/base.html" %}
+{% block title %}enaio-Einstellungen{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div><h1>enaio-Einstellungen</h1><p class="muted">Zentralen Ablageordner für Sitzungsprotokolle konfigurieren.</p></div>
+  <a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a>
+</div>
+<div class="card">
+  <p>Alle Protokolle werden unterhalb des zentralen enaio-Ablageordners abgelegt. Der Ordnername und Pfad werden nach der Auswahl aus enaio hier ausschließlich zur Information angezeigt. Die technische Schrank- und Registerdefinition soll später automatisch aus dem im enaio-Client geöffneten Ordner ermittelt werden; eine manuelle Eingabe ist dafür nicht vorgesehen.</p>
+  {% if configured %}<p class="muted">Ein Ablageordner ist konfiguriert.</p>{% else %}<p class="muted">Noch kein Ablageordner konfiguriert. Die enaio-Ablage bleibt bis zur Einrichtung deaktiviert.</p>{% endif %}
+  <form method="post" id="enaio-settings-form">
+    <p>{{ form.document_type_name.label_tag }} {{ form.document_type_name }}{% if form.document_type_name.help_text %}<small class="muted">{{ form.document_type_name.help_text }}</small>{% endif %}{{ form.document_type_name.errors }}</p>
+    {% csrf_token %}
+    <p>{{ form.root_folder_id.label_tag }} {{ form.root_folder_id }}
+      {% if form.root_folder_id.help_text %}<small class="muted">{{ form.root_folder_id.help_text }}</small>{% endif %}{{ form.root_folder_id.errors }}</p>
+    <p>{{ form.root_folder_type.label_tag }} {{ form.root_folder_type }}
+      {% if form.root_folder_type.help_text %}<small class="muted">{{ form.root_folder_type.help_text }}</small>{% endif %}{{ form.root_folder_type.errors }}</p>
+    <div class="card" style="margin:1rem 0">
+      <strong>Ausgewählter Ordner in enaio</strong>
+      {% if folder_name %}<p><strong>{{ folder_name }}</strong></p>{% else %}<p class="muted">Noch kein Ordnername aus enaio übernommen.</p>{% endif %}
+      {% if folder_path %}<small class="muted">{{ folder_path }}</small>{% endif %}
+      <small class="muted">Der Ordnername ist eine Information und wird nicht manuell eingegeben.</small>
+    </div>
+    <div class="actions">
+      <button class="secondary" type="button" id="enaio-select-folder">Ordner aus enaio auswählen</button>
+      <button class="primary" type="submit">enaio-Einstellungen speichern</button>
+    </div>
+    <p class="muted" id="enaio-selection-status" role="status" aria-live="polite"></p>
+  </form>
+</div>
+<script>
+(() => {
+  const button=document.getElementById("enaio-select-folder"), status=document.getElementById("enaio-selection-status");
+  const csrf=document.querySelector("#enaio-settings-form input[name=csrfmiddlewaretoken]")?.value;
+  if(!button||!csrf)return;
+  async function readJson(response){
+    const body=await response.text();
+    try{return JSON.parse(body);}
+    catch(_error){
+      const contentType=response.headers.get("content-type")||"unbekannt";
+      throw new Error(`Der Server hat keine JSON-Antwort geliefert (HTTP ${response.status}, ${contentType}). Bitte Anmeldung und Berechtigung prüfen; weitere Details stehen im Serverprotokoll.`);
+    }
+  }
+  button.addEventListener("click",async()=>{
+    button.disabled=true; status.textContent="enaio-Auswahl wird vorbereitet …";
+    let jobData=null;
+    try{
+      const response=await fetch("{% url 'enaio_folder_selection_start' %}",{method:"POST",headers:{"X-CSRFToken":csrf,"Accept":"application/json"}});
+      const data=await readJson(response);
+      jobData=data;
+      if(!response.ok)throw new Error(data.error||`Die enaio-Auswahl konnte nicht gestartet werden (HTTP ${response.status}).`);
+      if(!data.status_url)throw new Error("Die Serverantwort enthält keine Statusadresse für die enaio-Auswahl.");
+      status.textContent="Warte auf den enaio-Agenten auf diesem Arbeitsplatz. Bitte lassen Sie den gewünschten Ablageordner in enaio geöffnet. Wenn mehrere Ordner geöffnet sind, wählen Sie den richtigen Ordner im anschließenden Auswahldialog.";
+      const deadline=Date.now()+Math.max(30000,(data.expires_in||300)*1000-15000);
+      while(Date.now()<deadline){
+        await new Promise(resolve=>setTimeout(resolve,2000));
+        const check=await fetch(data.status_url,{headers:{"Accept":"application/json"}});
+        const result=await readJson(check);
+        if(!check.ok)throw new Error(result.error||`Der Auswahlstatus konnte nicht geladen werden (HTTP ${check.status}).`);
+        if(result.completed){window.location.reload();return;}
+        if(result.expired)throw new Error("Die Auswahl ist abgelaufen. Bitte versuchen Sie es erneut.");
+      }
+      throw new Error("Es wurde keine Rückmeldung vom enaio-Client empfangen. Der Auftrag wird abgebrochen.");
+    }catch(error){
+      if(jobData?.cancel_url){
+        try{await fetch(jobData.cancel_url,{method:"POST",credentials:"same-origin",headers:{"X-CSRFToken":csrf}});}
+        catch(_cancelError){/* Der Server lässt den Auftrag spätestens mit Ablauf verfallen. */}
+      }
+      status.textContent=error.message;button.disabled=false;
+    }
+  });
+})();
+</script>
+
+
+<section class="card" id="enaio-connection-diagnostics">
+  <h2>enaio-Verbindung prüfen</h2>
+  <p>Diese Diagnose prüft die Browser-Fähigkeiten und die Erreichbarkeit des Meeting-Manager-Servers. Sie versucht ausdrücklich nicht, COM-Objekte zu öffnen, lokale Ports abzufragen oder die enaio-Sitzung zu verändern. Dadurch ist der Test ohne Installation und ohne Änderung am Citrix- oder enaio-Client möglich.</p>
+  <div class="actions">
+    <button type="button" class="primary" id="enaio-diagnostics-run">Diagnose ausführen</button>
+    <button type="button" class="secondary" id="enaio-diagnostics-copy" disabled>Testergebnis kopieren</button>
+    <button type="button" class="secondary" id="enaio-diagnostics-download" disabled>Bericht herunterladen</button>
+  </div>
+  <p id="enaio-diagnostics-status" class="muted" role="status" aria-live="polite">Noch keine Diagnose ausgeführt.</p>
+  <p id="enaio-diagnostics-saved" class="muted" role="status">Gespeicherter Bericht wird geladen …</p>
+  <div id="enaio-diagnostics-analysis" class="card" style="margin:1rem 0" hidden></div>
+  <p><label for="enaio-diagnostics-log-file">Optional: lokale enaio-Agent-Logdatei einbeziehen</label><br><input type="file" id="enaio-diagnostics-log-file" accept=".log,.txt,text/plain"><small class="muted">Nur erforderlich, wenn bereits ein enaio-Agent vorhanden ist und lokal Logs erzeugt. Ohne Agent sind leere Agent-Logs erwartbar. Die Datei wird vor der Übertragung auf maximal 100 KB begrenzt und serverseitig redigiert.</small></p>
+  <pre id="enaio-diagnostics-result" style="white-space:pre-wrap;overflow:auto;max-height:560px;background:var(--surface-muted, #f4f4f4);padding:1rem;border-radius:8px;font-size:.85rem" aria-live="polite">Nach dem Start erscheint hier ein Bericht mit Browser-, Server- und Integrationsprüfungen.</pre>
+  <p class="muted">Der Bericht enthält keine Passwörter, Cookies, Session-GUIDs, Tokens oder Inhalte aus enaio. Er kann hier vollständig kopiert und zur Fehleranalyse zurückgesendet werden. Ein negatives COM-Ergebnis bedeutet nicht, dass die Windows-COM-Schnittstelle von enaio fehlt, sondern dass sie aus dieser Browserseite nicht direkt nachweisbar bzw. erreichbar ist.</p>
+</section>
+<script>
+(() => {
+  const runButton = document.getElementById("enaio-diagnostics-run");
+  const copyButton = document.getElementById("enaio-diagnostics-copy");
+  const downloadButton = document.getElementById("enaio-diagnostics-download");
+  const status = document.getElementById("enaio-diagnostics-status");
+  const output = document.getElementById("enaio-diagnostics-result");
+  const endpoint = "{% url 'enaio_connection_diagnostics' %}";
+  const saveEndpoint = "{% url 'enaio_diagnostic_report_save' %}";
+  const latestEndpoint = "{% url 'enaio_diagnostic_report_latest' %}";
+  const savedLabel = document.getElementById("enaio-diagnostics-saved");
+  const analysisOutput = document.getElementById("enaio-diagnostics-analysis");
+  const csrfToken = document.querySelector("#enaio-settings-form input[name=csrfmiddlewaretoken]")?.value || "";
+  const logFileInput = document.getElementById("enaio-diagnostics-log-file");
+  let reportText = "";
+
+  function renderSaved(data) {
+    reportText = JSON.stringify(data.report, null, 2);
+    output.textContent = reportText;
+    copyButton.disabled = false;
+    downloadButton.disabled = false;
+    savedLabel.textContent = "Zentral gespeicherter Bericht #" + data.id + " · " + new Date(data.created_at).toLocaleString() + " · in anderen Browsern abrufbar";
+    const a = data.analysis || {};
+    analysisOutput.hidden = false;
+    analysisOutput.textContent = "Automatische Auswertung: " + (a.diagnostic_errors || 0) + " Fehler, " + (a.diagnostic_warnings || 0) + " Hinweise, " + (a.agent_errors || 0) + " Agent-Fehler, " + (a.agent_warnings || 0) + " Agent-Warnungen, " + (a.local_log_errors || 0) + " Fehler und " + (a.local_log_warnings || 0) + " Warnungen aus lokaler Datei. " + (a.recommendation || "");
+  }
+  async function loadLatest() {
+    try {
+      const response = await fetch(latestEndpoint, {credentials:"same-origin", cache:"no-store", headers:{"Accept":"application/json"}});
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "HTTP " + response.status);
+      if (data.available) renderSaved(data);
+      else savedLabel.textContent = "Noch kein zentraler Diagnosebericht gespeichert.";
+    } catch (error) {
+      savedLabel.textContent = "Gespeicherter Bericht konnte nicht geladen werden: " + error.message;
+    }
+  }
+
+  function check(name, result, detail) {
+    return { test: name, result, detail };
+  }
+
+  function browserChecks() {
+    const ua = navigator.userAgent || "nicht verfügbar";
+    const isIE = /MSIE|Trident/i.test(ua);
+    const globals = Object.getOwnPropertyNames(window)
+      .filter(name => /enaio|ixos|axcdl|dms/i.test(name))
+      .sort();
+    let externalMembers = [];
+    let externalPresent = false;
+    try {
+      externalPresent = !!window.external;
+      if (externalPresent && (typeof window.external === "object" || typeof window.external === "function")) {
+        externalMembers = Object.getOwnPropertyNames(window.external).slice(0, 30);
+      }
+    } catch (_) {
+      externalPresent = false;
+      externalMembers = ["Zugriff durch Browser-Sicherheitsmodell blockiert"];
+    }
+    return [
+      check("JavaScript im Browser ausgeführt", "OK", "Die Diagnose läuft im Browser des Meeting Managers."),
+      check("Browsertyp", "INFO", ua),
+      check("Sichere Browserumgebung", window.isSecureContext ? "OK" : "HINWEIS",
+        window.isSecureContext ? "Secure Context verfügbar." : "Kein Secure Context; einige Browserfunktionen können eingeschränkt sein."),
+      check("ActiveX-Unterstützung", isIE && typeof window.ActiveXObject === "function" ? "VORHANDEN" : "NICHT VERFÜGBAR",
+        isIE ? "Internet-Explorer-Laufzeit erkannt." : "Kein Internet Explorer/Trident. Moderne Browser stellen ActiveX/COM-Webzugriff nicht bereit."),
+      check("COM-Automation aus JavaScript", "NICHT DIREKT VERFÜGBAR",
+        "Eine normale Webseite darf keine beliebigen Windows-COM-Objekte instanziieren oder den enaio-Prozess öffnen."),
+      check("enaio-bezogene Browser-Schnittstellen", globals.length ? "KANDIDATEN GEFUNDEN" : "NICHT GEFUNDEN",
+        globals.length ? "Erkannte globale Namen: " + globals.join(", ") : "Keine globalen Fensterobjekte mit enaio-/ixos-/AXCDL-/DMS-Namen gefunden."),
+      check("window.external", externalPresent ? "VORHANDEN" : "NICHT VORHANDEN",
+        externalMembers.length ? "Sichtbare Eigenschaftsnamen: " + externalMembers.join(", ") : "Keine enumerierbaren Eigenschaften. Das Vorhandensein allein belegt keine enaio-Schnittstelle."),
+      check("Citrix-Windows-Sitzung", "IM BROWSER NICHT PRÜFBAR",
+        "Der Browser stellt die Windows-Sitzungs-ID und die Zuordnung zum enaio-Prozess nicht als Web-API bereit.")
+    ];
+  }
+
+  async function run() {
+    runButton.disabled = true;
+    copyButton.disabled = true;
+    downloadButton.disabled = true;
+    status.textContent = "Diagnose läuft …";
+    const report = {
+      report_type: "Meeting Manager – enaio Browserdiagnose",
+      generated_at: new Date().toISOString(),
+      browser: browserChecks(),
+      server: [],
+      conclusion: []
+    };
+    try {
+      const selectedLog = logFileInput.files && logFileInput.files[0];
+      if (selectedLog) {
+        if (selectedLog.size > 100 * 1024) throw new Error("Die Logdatei ist größer als 100 KB. Bitte eine kleinere Datei auswählen.");
+        report.local_log_file = selectedLog.name;
+        report.local_log_text = await selectedLog.text();
+      }
+      const response = await fetch(endpoint, {
+        method: "GET",
+        credentials: "same-origin",
+        cache: "no-store",
+        headers: { "Accept": "application/json" }
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "HTTP " + response.status);
+      report.server.push(check("Meeting-Manager-Server erreichbar", "OK", "Authentifizierte Diagnose-API antwortet."));
+      report.server.push(check("Serververbindung HTTPS", data.server.https ? "OK" : "HINWEIS",
+        data.server.https ? "HTTPS wird verwendet." : "Die aktuelle Anfrage verwendet kein HTTPS."));
+      report.server.push(check("Zentraler enaio-Ablageordner", data.configuration.root_folder_configured ? "KONFIGURIERT" : "FEHLT",
+        data.configuration.root_folder_configured ? "Eine Ordner-ID ist hinterlegt." : "Es ist noch keine zentrale Ordner-ID hinterlegt."));
+      report.server.push(check("Technische Objektdefinition", data.configuration.object_definition_automatic ? "AUTOMATISCHE ERMITTLUNG VORGESEHEN" : "NICHT KONFIGURIERT",
+        data.configuration.object_definition_automatic ? "Die manuelle Eingabe entfällt. Schrank- und Registerinformationen sollen später aus dem im enaio-Client geöffneten Ordner ermittelt werden." : "Die automatische Ermittlung ist nicht aktiviert."));
+      report.server.push(check("Technischer Dokumenttyp", data.configuration.document_type_configured ? "KONFIGURIERT" : "FEHLT",
+        data.configuration.document_type_configured ? "Der Dokumenttyp für Protokoll-PDFs ist hinterlegt." : "Bitte den enaio-Dokumenttyp für Protokoll-PDFs konfigurieren."));
+      report.server.push(check("Session-/COM-Prüfung serverseitig", "NICHT MÖGLICH", data.note));
+      report.conclusion = data.checks_not_possible_from_server;
+      report.conclusion.push("Ein Browserbericht kann das Vorhandensein einer COM-Schnittstelle im enaio-Client nicht abschließend beweisen.");
+      report.conclusion.push("Für den nächsten Schritt benötigen wir ggf. die Herstellerdokumentation bzw. einen Citrix-seitigen Nachweis einer bereits vorhandenen lokalen Brücke.");
+      status.textContent = "Diagnose abgeschlossen. Bericht wird zentral gespeichert …";
+    } catch (error) {
+      report.server.push(check("Meeting-Manager-Diagnose-API", "FEHLER", error.message));
+      report.conclusion.push("Die Browserdiagnose konnte den Server-Endpunkt nicht vollständig erreichen.");
+      status.textContent = "Diagnose mit Fehler abgeschlossen. Bericht wird trotzdem gespeichert …";
+    } finally {
+      reportText = JSON.stringify(report, null, 2);
+      output.textContent = reportText;
+      copyButton.disabled = false;
+      downloadButton.disabled = false;
+      runButton.disabled = false;
+      try {
+        const saved = await fetch(saveEndpoint, {method:"POST", credentials:"same-origin", headers:{"Content-Type":"application/json","X-CSRFToken":csrfToken,"Accept":"application/json"}, body:reportText});
+        const savedData = await saved.json();
+        if (!saved.ok) throw new Error(savedData.error || "HTTP " + saved.status);
+        renderSaved(savedData);
+        status.textContent = "Diagnose abgeschlossen und zentral gespeichert. Sie ist jetzt auch in anderen Browsern verfügbar.";
+      } catch (saveError) {
+        status.textContent = "Diagnose lokal erstellt, aber NICHT zentral gespeichert: " + saveError.message;
+      }
+    }
+  }
+
+  runButton.addEventListener("click", run);
+  loadLatest();
+  copyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(reportText);
+      status.textContent = "Testergebnis wurde in die Zwischenablage kopiert.";
+    } catch (_) {
+      status.textContent = "Kopieren wurde vom Browser blockiert. Bitte den Bericht markieren und manuell kopieren.";
+    }
+  });
+  downloadButton.addEventListener("click", () => {
+    const blob = new Blob([reportText], {type:"application/json;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "enaio-browserdiagnose.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+})();
+</script>
+
+<section class="card" id="enaio-debug-console">
+  <div class="actions" style="justify-content:space-between;align-items:center">
+    <div><h2>enaio-Agent – Debug-Console</h2><p class="muted">Live-Protokoll des verbundenen Windows-Agenten. Aktualisiert sich automatisch alle drei Sekunden.</p></div>
+    <span id="enaio-agent-connection" class="muted" role="status">Status wird geladen …</span>
+  </div>
+  <div id="enaio-agent-devices" class="muted" aria-live="polite">Noch keine Agent-Verbindungen erfasst.</div>
+  <div class="card" style="margin:1rem 0"><strong>Lokales Diagnoseprotokoll auf dem Windows-Arbeitsplatz</strong><p>Wenn der Agent nicht gekoppelt ist oder nicht startet, kann er keine Logs an diese Console senden. Öffne auf dem enaio-Arbeitsplatz den Windows-Explorer und gib diesen Pfad in die Adresszeile ein:</p><p><code>%LOCALAPPDATA%\MeetingManager\EnaioAgent\agent.log</code></p><p>Die Datei wird bereits beim Prozessstart geschrieben – auch wenn die Kopplungsdaten fehlen oder beschädigt sind. Bitte sende diese Datei, falls hier keine Server-Logs erscheinen.</p></div>
+  <div class="actions" style="align-items:center;margin:1rem 0">
+    <label for="enaio-log-level">Log-Level</label>
+    <select id="enaio-log-level">
+      <option value="ALL">Alle</option><option value="DEBUG">Debug</option><option value="INFO">Info</option><option value="WARNING">Warning</option><option value="ERROR">Error</option>
+    </select>
+    <button type="button" class="secondary" id="enaio-log-refresh">Jetzt aktualisieren</button>
+    <button type="button" class="secondary" id="enaio-log-copy">Logs kopieren</button>
+    <button type="button" class="secondary" id="enaio-log-download">Logs herunterladen</button>
+  </div>
+  <pre id="enaio-agent-log-output" style="white-space:pre-wrap;overflow:auto;max-height:480px;background:var(--surface-muted, #f4f4f4);padding:1rem;border-radius:8px;font-size:.85rem" aria-live="polite">Warte auf Logdaten …</pre>
+  <p class="muted">Es werden maximal 300 aktuelle Einträge angezeigt. Zugangsdaten und Tokens werden vor der Speicherung maskiert. Wenn der Agent gar nicht startet oder nicht gekoppelt ist, kann er noch keine Server-Logs übertragen; in diesem Fall bitte zusätzlich die lokale Agent-Konsole bzw. die lokale Logdatei prüfen.</p>
+  <p id="enaio-log-error" class="muted" role="status"></p>
+</section>
+<script>
+(() => {
+  const endpoint = "{% url 'enaio_agent_logs' %}";
+  const output = document.getElementById("enaio-agent-log-output");
+  const devices = document.getElementById("enaio-agent-devices");
+  const connection = document.getElementById("enaio-agent-connection");
+  const error = document.getElementById("enaio-log-error");
+  const level = document.getElementById("enaio-log-level");
+  let latestText = "";
+  let busy = false;
+  function render(data) {
+    devices.textContent = data.agents.length ? data.agents.map(agent => {
+      const state = !agent.paired
+        ? (agent.pairing_pending ? "Kopplungscode erstellt – Agent noch nicht gekoppelt" : "Nicht gekoppelt")
+        : !agent.last_seen_at
+          ? "Gekoppelt, aber Agent hat sich noch nie gemeldet"
+          : agent.connected
+            ? "Verbunden"
+            : "Nicht erreichbar – letzter Kontakt: " + new Date(agent.last_seen_at).toLocaleString();
+      return state + " · " + agent.user + " · " + agent.device;
+    }).join("\n") : "Für dieses Konto wurde noch kein Agent registriert. Zuerst unter Konto → Arbeitsplatz mit enaio verbinden koppeln.";
+    const entries = data.logs.filter(entry => level.value === "ALL" || entry.level === level.value);
+    latestText = entries.map(entry => "[" + new Date(entry.created_at).toLocaleString() + "] [" + entry.level + "] [" + entry.user + "/" + entry.device + "] " + entry.message).join("\n");
+    output.textContent = latestText || "Für diesen Filter liegen noch keine Logs vor.";
+    connection.textContent = data.agents.some(agent => agent.connected) ? "Agent aktiv" : data.agents.some(agent => agent.paired) ? "Gekoppelt, aber nicht erreichbar" : "Noch nicht gekoppelt";
+  }
+  async function refresh() {
+    if (busy) return;
+    busy = true;
+    try {
+      const response = await fetch(endpoint, {credentials:"same-origin", headers:{"Accept":"application/json"}});
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "HTTP " + response.status);
+      render(data); error.textContent = "";
+    } catch (exception) { error.textContent = "Logs konnten nicht geladen werden: " + exception.message; }
+    finally { busy = false; }
+  }
+  document.getElementById("enaio-log-refresh").addEventListener("click", refresh);
+  level.addEventListener("change", refresh);
+  document.getElementById("enaio-log-copy").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(latestText); error.textContent = "Logs wurden in die Zwischenablage kopiert."; }
+    catch (_) { error.textContent = "Kopieren nicht möglich. Bitte Logs markieren und manuell kopieren."; }
+  });
+  document.getElementById("enaio-log-download").addEventListener("click", () => {
+    const blob = new Blob([latestText], {type:"text/plain;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a"); link.href = url; link.download = "enaio-agent-logs.txt"; link.click();
+    URL.revokeObjectURL(url);
+  });
+  refresh();
+  window.setInterval(refresh, 3000);
+})();
+</script>
+{% endblock %}

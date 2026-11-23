@@ -10,6 +10,8 @@ from xml.sax.saxutils import escape
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
@@ -25,7 +27,7 @@ from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransfe
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
-from .models import SeriesAccess, SeriesAccessRequest
+from .models import SeriesAccess, SeriesAccessRequest, EnaioTransfer, EnaioSettings
 from .user_display import user_display_name
 
 logger = logging.getLogger(__name__)
@@ -1150,8 +1152,14 @@ def _meeting_series_name(meeting):
 
 
 def _protocol_filename(meeting, extension):
-    series = slugify(_meeting_series_name(meeting)) or "besprechung"
-    return f"protokoll-{series}-{meeting.date:%Y-%m-%d}.{extension}"
+    # Keep the series name recognizable while removing characters that are
+    # invalid in Windows filenames. The meeting date is the agenda date,
+    # not the date on which the PDF is generated or downloaded.
+    series = "".join(
+        char if char.isalnum() or char in " _-" else "_"
+        for char in _meeting_series_name(meeting)
+    ).strip(" ._") or "Besprechung"
+    return f"Protokoll_{series}_{meeting.date:%Y-%m-%d}.{extension}"
 
 
 @login_required
@@ -1173,21 +1181,70 @@ def protocol_pdf(request, pk):
     organization_name = organization.name.strip() if organization and organization.name else ""
     brand = OrganizationSettings.current_brand_colors()
 
-    # Prepare the logo once from the configured storage backend. This also
-    # works when media files are stored outside the local filesystem.
+    # Resolve the logo from the configured Django storage and fail visibly if
+    # a configured logo cannot be embedded. A silent fallback produced PDFs
+    # that looked valid but unexpectedly omitted the organization's branding.
     organization_logo_image = None
-    if organization and organization.logo:
+    logo_is_configured = bool(organization and organization.logo and organization.logo.name)
+    if logo_is_configured:
+        logo_field = organization.logo
+        is_svg = logo_field.name.lower().endswith(".svg")
+        prepared_logo = organization.logo_png if is_svg else logo_field
+        if is_svg and not prepared_logo:
+            logger.error(
+                "Protokoll-PDF: Für das konfigurierte SVG-Logo (organization_id=%s, name=%s) "
+                "liegt keine vorbereitete PNG-Version vor.",
+                organization.pk, logo_field.name,
+            )
+            return HttpResponse(
+                "Das konfigurierte Organisationslogo konnte nicht geladen und in das "
+                "Protokoll-PDF eingebettet werden. Bitte laden Sie das Logo unter "
+                "Verwaltung erneut hoch oder entfernen Sie es vorübergehend.",
+                status=503,
+                content_type="text/plain; charset=utf-8",
+            )
+        logger.info(
+            "Protokoll-PDF: Organisationslogo konfiguriert (organization_id=%s, "
+            "name=%s, storage=%s).",
+            organization.pk, prepared_logo.name, prepared_logo.storage.__class__.__name__,
+        )
         try:
-            with organization.logo.storage.open(organization.logo.name, "rb") as logo_file:
-                logo_data = logo_file.read()
-            if organization.logo.name.lower().endswith(".svg"):
-                import cairosvg
-                logo_data = cairosvg.svg2png(bytestring=logo_data, output_height=600)
-            organization_logo_image = ImageReader(BytesIO(logo_data))
-            organization_logo_image.getSize()
-        except Exception:
-            logger.exception("Organisationslogo konnte für das Protokoll-PDF nicht geladen werden.")
-            organization_logo_image = None
+            prepared_logo.open("rb")
+            try:
+                logo_data = prepared_logo.read()
+            finally:
+                prepared_logo.close()
+
+            if not logo_data:
+                raise ValueError("Die gespeicherte Logodatei ist leer.")
+
+            logo_reader = ImageReader(BytesIO(logo_data))
+            logo_width_px, logo_height_px = logo_reader.getSize()
+            if not logo_width_px or not logo_height_px:
+                raise ValueError("Das Organisationslogo hat ungültige Abmessungen.")
+            organization_logo_image = logo_reader
+            logger.info(
+                "Protokoll-PDF: Organisationslogo erfolgreich dekodiert (%sx%s px).",
+                logo_width_px, logo_height_px,
+            )
+        except Exception as exc:
+            logger.exception(
+                "Protokoll-PDF: Organisationslogo %r (organization_id=%s) "
+                "konnte aus Storage %s nicht geladen/eingebettet werden.",
+                logo_field.name, organization.pk, logo_field.storage.__class__.__name__,
+            )
+            return HttpResponse(
+                "Das konfigurierte Organisationslogo konnte nicht geladen und in das "
+                "Protokoll-PDF eingebettet werden. Bitte laden Sie das Logo unter "
+                "Verwaltung erneut hoch oder entfernen Sie es vorübergehend.",
+                status=503,
+                content_type="text/plain; charset=utf-8",
+            )
+    else:
+        logger.warning(
+            "Protokoll-PDF: Kein Organisationslogo konfiguriert (organization_id=%s).",
+            organization.pk if organization else None,
+        )
 
     def brand_color(value, fallback):
         try:
@@ -1347,9 +1404,88 @@ def protocol_pdf(request, pk):
             self.restoreState()
 
     document.build(story, canvasmaker=NumberedCanvas)
-    response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
+    pdf_content = buffer.getvalue()
+    if logo_is_configured and b"/Subtype /Image" not in pdf_content:
+        logger.error(
+            "Protokoll-PDF: Logo %r wurde geladen, aber ReportLab hat kein Bildobjekt "
+            "in die PDF geschrieben (meeting_id=%s).",
+            organization.logo.name, meeting.pk,
+        )
+        return HttpResponse(
+            "Das Organisationslogo wurde geladen, aber nicht in die PDF eingebettet. "
+            "Bitte prüfen Sie die Logo-Datei und laden Sie sie erneut hoch.",
+            status=503,
+            content_type="text/plain; charset=utf-8",
+        )
+    response = HttpResponse(pdf_content, content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
     return response
+
+@login_required
+def enaio_transfer_start(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden("Bitte die Ablage über die Protokollseite starten.")
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
+    filing_settings = EnaioSettings.objects.filter(pk=1).first()
+    if not filing_settings or not filing_settings.root_folder_id:
+        return JsonResponse({
+            "error": "Die zentrale enaio-Ordner-ID ist noch nicht unter Verwaltung → enaio-Einstellungen hinterlegt."
+        }, status=400)
+    if not filing_settings.document_type_name:
+        return JsonResponse({
+            "error": "Der technische enaio-Dokumenttyp fehlt. Bitte den Dokumenttyp für Protokoll-PDFs unter Verwaltung → enaio-Einstellungen hinterlegen."
+        }, status=400)
+    transfer = EnaioTransfer.objects.create(
+        user=request.user, meeting=meeting,
+        expires_at=timezone.now() + timedelta(minutes=30),
+    )
+    return JsonResponse({
+        "status_url": reverse("enaio_transfer_status", args=[transfer.pk]),
+        "cancel_url": reverse("enaio_transfer_cancel", args=[transfer.pk]),
+        "message": "Der lokale enaio-Agent übernimmt den Auftrag, sobald er verbunden ist.",
+        "filing": {
+            "root_folder_id": filing_settings.root_folder_id,
+            "root_folder_type": filing_settings.root_folder_type,
+            "root_folder_path": filing_settings.root_folder_path,
+            "root_folder_name": filing_settings.root_folder_name,
+            "register_name": _meeting_series_name(meeting),
+            "document_type": filing_settings.document_type_name,
+        },
+        "expires_in": 1800,
+    })
+
+@login_required
+@require_http_methods(["GET"])
+def enaio_transfer_status(request, pk):
+    transfer = get_object_or_404(EnaioTransfer, pk=pk, user=request.user)
+    if transfer.status == "completed":
+        return JsonResponse({"completed": True})
+    if transfer.status == "failed":
+        return JsonResponse({"completed": False, "error": transfer.error_message or "enaio-Ablage fehlgeschlagen."})
+    if transfer.expires_at <= timezone.now():
+        EnaioTransfer.objects.filter(pk=transfer.pk, status="pending", consumed_at__isnull=True).update(
+            status="failed", consumed_at=timezone.now(),
+            error_message="Der Ablageauftrag ist abgelaufen.",
+        )
+        return JsonResponse({"completed": False, "expired": True}, status=410)
+    return JsonResponse({"completed": False})
+
+
+@login_required
+@require_http_methods(["POST"])
+def enaio_transfer_cancel(request, pk):
+    with transaction.atomic():
+        transfer = EnaioTransfer.objects.select_for_update().filter(pk=pk, user=request.user).first()
+        if not transfer:
+            return JsonResponse({"error": "Ablageauftrag nicht gefunden."}, status=404)
+        if transfer.status == "completed":
+            return JsonResponse({"ok": False, "completed": True}, status=409)
+        if transfer.status == "pending" and transfer.consumed_at is None:
+            transfer.status = "failed"
+            transfer.error_message = "Der Ablageauftrag wurde vom Benutzer abgebrochen."
+            transfer.consumed_at = timezone.now()
+            transfer.save(update_fields=["status", "error_message", "consumed_at"])
+    return JsonResponse({"ok": True})
 
 @login_required
 def protocol(request, pk):
@@ -1383,6 +1519,7 @@ def protocol(request, pk):
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
         "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
+        "protocol_filename": _protocol_filename(meeting, "pdf"),
         "can_reopen_meeting": is_admin(request.user) or (
             meeting.series_id is not None and is_moderator(request.user, meeting.series)
         ),

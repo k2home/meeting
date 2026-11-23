@@ -4,9 +4,20 @@ from . import views
 from . import agenda_topic_views
 from . import guide_views
 from . import management_views
+from . import enaio_agent_views
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
+    path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),
+    path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),
+    path("enaio/agent/logs/write/", enaio_agent_views.enaio_agent_log_write, name="enaio_agent_log_write"),
+    path("verwaltung/enaio/agent-logs/", enaio_agent_views.enaio_agent_logs, name="enaio_agent_logs"),
+    path("enaio/agent/jobs/next/", enaio_agent_views.enaio_agent_next_job, name="enaio_agent_next_job"),
+    path("enaio/agent/jobs/<str:kind>/<int:pk>/fail/", enaio_agent_views.enaio_agent_job_fail, name="enaio_agent_job_fail"),
+    path("enaio/agent/jobs/<str:kind>/<int:pk>/status/", enaio_agent_views.enaio_agent_job_status, name="enaio_agent_job_status"),
+    path("enaio/agent/selection/<int:pk>/complete/", enaio_agent_views.enaio_agent_selection_complete, name="enaio_agent_selection_complete"),
+    path("enaio/agent/transfer/<int:pk>/pdf/", enaio_agent_views.enaio_agent_transfer_pdf, name="enaio_agent_transfer_pdf"),
+    path("enaio/agent/transfer/<int:pk>/complete/", enaio_agent_views.enaio_agent_transfer_complete, name="enaio_agent_transfer_complete"),
     path("logout/", views.logout_view, name="logout"),
     path("", views.dashboard, name="dashboard"),
     path("hilfe/", guide_views.user_guide, name="user_guide"),
@@ -21,6 +32,9 @@ urlpatterns = [
     path("topics/suggestions/", views.topic_suggestions, name="topic_suggestions"),
     path("meeting/<int:pk>/protocol/", views.protocol, name="protocol"),
     path("meeting/<int:pk>/protocol/pdf/", views.protocol_pdf, name="protocol_pdf"),
+    path("meeting/<int:pk>/protocol/enaio/start/", views.enaio_transfer_start, name="enaio_transfer_start"),
+    path("enaio/transfer/<int:pk>/status/", views.enaio_transfer_status, name="enaio_transfer_status"),
+    path("enaio/transfer/<int:pk>/cancel/", views.enaio_transfer_cancel, name="enaio_transfer_cancel"),
     path("meeting/<int:pk>/finalize/", views.finalize, name="finalize"),
     path("meeting/<int:pk>/reopen/", views.meeting_reopen, name="meeting_reopen"),
     path("topics/new/", agenda_topic_views.topic_new, name="topic_new"),
@@ -42,6 +56,13 @@ urlpatterns = [
     path("verwaltung/nutzer/<int:pk>/", management_views.management_user_edit, name="management_user_edit"),
     path("verwaltung/gruppen/", management_views.management_groups, name="management_groups"),
     path("verwaltung/organisation/", management_views.management_settings, name="management_settings"),
+    path("verwaltung/enaio/diagnose/", management_views.enaio_connection_diagnostics, name="enaio_connection_diagnostics"),
+    path("verwaltung/enaio/diagnose/speichern/", management_views.enaio_diagnostic_report_save, name="enaio_diagnostic_report_save"),
+    path("verwaltung/enaio/diagnose/letzter-bericht/", management_views.enaio_diagnostic_report_latest, name="enaio_diagnostic_report_latest"),
+    path("verwaltung/enaio/auswahl/start/", management_views.enaio_folder_selection_start, name="enaio_folder_selection_start"),
+    path("verwaltung/enaio/auswahl/<int:pk>/status/", management_views.enaio_folder_selection_status, name="enaio_folder_selection_status"),
+    path("verwaltung/enaio/auswahl/<int:pk>/cancel/", management_views.enaio_folder_selection_cancel, name="enaio_folder_selection_cancel"),
+    path("verwaltung/enaio/", management_views.management_home, name="management_enaio_settings"),  # Legacy URL now returns the management overview.
     path("verwaltung/daten/", management_views.management_data, name="management_data"),
     path("verwaltung/nutzer/<int:pk>/reihen/", management_views.management_user_series, name="management_user_series"),
     path("verwaltung/nutzer/<int:pk>/passwort-zuruecksetzen/", management_views.management_user_password_reset, name="management_user_password_reset"),
