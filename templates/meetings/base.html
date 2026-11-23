@@ -446,7 +446,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
   document.querySelectorAll('.sidebar .nav-links a, .sidebar .sidebar-management a').forEach(link => {
     const target = new URL(link.href, window.location.origin).pathname.replace(/\/$/, '') || '/';
-    if (target === currentPath) link.setAttribute('aria-current', 'page');
+    const isManagementSection = link.classList.contains('nav-management') && (currentPath === target || currentPath.startsWith(target + '/'));\n    if (target === currentPath || isManagementSection) link.setAttribute('aria-current', 'page');
   });
   const themeButton = document.getElementById('theme-toggle');
   const root = document.documentElement;
