@@ -119,9 +119,9 @@ class OrganizationLogoForm(forms.ModelForm):
 
 
 class EnaioSettingsForm(forms.Form):
-    archive_name = forms.CharField(label="enaio-Schrankname", max_length=255, required=False, help_text="Technischer Schrankname aus der enaio-Objektdefinition.")
-    register_type_name = forms.CharField(label="Technischer Registertyp", max_length=255, required=False, help_text="Technischer Name des Registertyps, in dem die Besprechungsreihen angelegt werden.")
-    register_name_field = forms.CharField(label="Technisches Register-Namensfeld", max_length=255, required=False, help_text="Technischer Feldname, in dem der Name der Besprechungsreihe gespeichert wird.")
+    archive_name = forms.CharField(label="enaio-Schrankname", max_length=255, required=False, help_text="Im enaio® editor in der aktuellen Objektdefinition den Schrank markieren und den internen Namen aus den Eigenschaften übernehmen. Nicht die sichtbare Bezeichnung verwenden.")
+    register_type_name = forms.CharField(label="Technischer Registertyp", max_length=255, required=False, help_text="Im enaio® editor den Registertyp unter dem gewünschten Schrank markieren und seinen internen Namen aus den Eigenschaften übernehmen. Nicht die sichtbare Bezeichnung verwenden.")
+    register_name_field = forms.CharField(label="Technisches Register-Namensfeld", max_length=255, required=False, help_text="Im enaio® editor die Indexdatenmaske dieses Registertyps öffnen, das Textfeld für den Registernamen auswählen und dessen internen Namen aus den Eigenschaften übernehmen (nicht die Beschriftung auf der Maske).")
     document_type_name = forms.CharField(label="Technischer Dokumenttyp", max_length=255, required=True, help_text="Dokumenttyp, der in enaio für das Protokoll-PDF verwendet wird (z. B. Standard).")
     root_folder_id = forms.CharField(label="enaio-Ordner-ID", max_length=64,
         help_text="ID des zentralen enaio-Ordners. Sie können die ID direkt eingeben oder über den enaio-Client auswählen.")

@@ -87,7 +87,7 @@
   <p id="enaio-diagnostics-status" class="muted" role="status" aria-live="polite">Noch keine Diagnose ausgeführt.</p>
   <p id="enaio-diagnostics-saved" class="muted" role="status">Gespeicherter Bericht wird geladen …</p>
   <div id="enaio-diagnostics-analysis" class="card" style="margin:1rem 0" hidden></div>
-  <p><label for="enaio-diagnostics-log-file">Optional: lokale enaio-Agent-Logdatei einbeziehen</label><br><input type="file" id="enaio-diagnostics-log-file" accept=".log,.txt,text/plain"><small class="muted">Die Datei wird vor der Übertragung auf maximal 100 KB begrenzt und serverseitig redigiert.</small></p>
+  <p><label for="enaio-diagnostics-log-file">Optional: lokale enaio-Agent-Logdatei einbeziehen</label><br><input type="file" id="enaio-diagnostics-log-file" accept=".log,.txt,text/plain"><small class="muted">Nur erforderlich, wenn bereits ein enaio-Agent vorhanden ist und lokal Logs erzeugt. Ohne Agent sind leere Agent-Logs erwartbar. Die Datei wird vor der Übertragung auf maximal 100 KB begrenzt und serverseitig redigiert.</small></p>
   <pre id="enaio-diagnostics-result" style="white-space:pre-wrap;overflow:auto;max-height:560px;background:var(--surface-muted, #f4f4f4);padding:1rem;border-radius:8px;font-size:.85rem" aria-live="polite">Nach dem Start erscheint hier ein Bericht mit Browser-, Server- und Integrationsprüfungen.</pre>
   <p class="muted">Der Bericht enthält keine Passwörter, Cookies, Session-GUIDs, Tokens oder Inhalte aus enaio. Er kann hier vollständig kopiert und zur Fehleranalyse zurückgesendet werden. Ein negatives COM-Ergebnis bedeutet nicht, dass die Windows-COM-Schnittstelle von enaio fehlt, sondern dass sie aus dieser Browserseite nicht direkt nachweisbar bzw. erreichbar ist.</p>
 </section>
