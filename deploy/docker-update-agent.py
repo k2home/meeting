@@ -32,6 +32,7 @@ def write_state(**changes):
         STATE_FILE.parent.mkdir(mode=0o750, parents=True, exist_ok=True)
         temporary = STATE_FILE.with_suffix(".tmp")
         temporary.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
+        os.chown(temporary, 0, grp.getgrnam("meeting-update").gr_gid)
         os.chmod(temporary, 0o640)
         temporary.replace(STATE_FILE)
         return state
@@ -131,9 +132,31 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if self.path != "/status":
-            return self.respond(404, {"error": "Nicht gefunden."})
-        self.respond(200, read_state())
+        if self.path == "/status":
+            return self.respond(200, read_state())
+        if self.path == "/info":
+            result = compose("ps", "-q", "app", timeout=30)
+            if result.returncode or not result.stdout.strip():
+                return self.respond(503, {"error": "App-Container ist nicht verfügbar."})
+            container_id = result.stdout.strip().splitlines()[0]
+            inspect = subprocess.run(
+                ["/usr/bin/docker", "inspect", container_id],
+                text=True, capture_output=True, timeout=30, check=False,
+            )
+            if inspect.returncode:
+                return self.respond(503, {"error": "Image-Informationen sind nicht verfügbar."})
+            details = json.loads(inspect.stdout)[0]
+            labels = details.get("Config", {}).get("Labels") or {}
+            image = details.get("Config", {}).get("Image", "")
+            self.respond(200, {
+                "branch": "main" if image.endswith(":latest") else "beta",
+                "commit": labels.get("org.opencontainers.image.revision", ""),
+                "version": labels.get("org.opencontainers.image.version", ""),
+                "image": image,
+                "created": details.get("Created", ""),
+            })
+            return
+        return self.respond(404, {"error": "Nicht gefunden."})
 
     def do_POST(self):
         if self.path != "/update":
