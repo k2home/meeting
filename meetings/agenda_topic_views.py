@@ -63,11 +63,9 @@ def topic_new(request):
                 )
             messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {formats.date_format(meeting.date, 'DATE_FORMAT')} gesetzt.")
             return redirect("topic_edit", pk=topic.pk)
-    topic_comments = topic.comments.select_related("author").order_by("created_at", "pk")
     return render(request, "meetings/topic_form.html", {
         "form": form,
-        "comment_form": TopicCommentForm(),
-        "topic_comments": topic_comments, "available_meetings": meetings,
+        "available_meetings": meetings,
         "is_reader": not writable_series.exists(),
     })
 
@@ -162,11 +160,14 @@ def topic_detail(request, pk):
         item.snapshot_exists = snapshot is not None
 
 
+    topic_comments = topic.comments.select_related("author").order_by("created_at", "pk")
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
     return render(request, "meetings/topic_form.html", {
         "form": form,
+        "comment_form": TopicCommentForm(),
+        "topic_comments": topic_comments,
         "topic": topic,
         "can_archive_topic": is_admin(request.user) or (
             topic.series_id is not None and is_moderator(request.user, topic.series)
