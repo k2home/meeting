@@ -10,6 +10,7 @@ if [[ "$#" -ne 1 || ( "$1" != "beta" && "$1" != "main" ) ]]; then
   exit 2
 fi
 
+APP_DIR="/opt/meeting-manager"
 STATE_DIR="/var/lib/meeting-manager-updater"
 STATE_FILE="$STATE_DIR/status.json"
 LOG_FILE="$STATE_DIR/update.log"
@@ -46,9 +47,16 @@ chmod 0640 "$LOG_FILE"
 write_state "running" "Update auf $1 wird ausgeführt." "$STARTED_AT" "" "$1"
 
 set +e
-/usr/bin/bash /opt/meeting-manager/deploy/update.sh "$1" >>"$LOG_FILE" 2>&1
+/usr/bin/bash "$APP_DIR/deploy/update.sh" "$1" >>"$LOG_FILE" 2>&1
 RESULT=$?
+if [[ "$RESULT" -eq 0 ]]; then
+  # The updater lives outside the Git checkout. Refresh its privileged host
+  # components from the newly checked-out revision after the application update.
+  MEETING_UPDATER_SKIP_SERVICE_RESTART=1 /usr/bin/bash "$APP_DIR/deploy/install-debian-updater.sh" >>"$LOG_FILE" 2>&1
+  RESULT=$?
+fi
 set -e
+
 FINISHED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 if [[ "$RESULT" -eq 0 ]]; then
   write_state "success" "Update auf $1 erfolgreich." "$STARTED_AT" "$FINISHED_AT" "$1"
