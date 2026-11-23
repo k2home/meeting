@@ -492,14 +492,14 @@ def _schedule_agenda_followup(item, target_series, target_meeting, actor):
         next_position = (remaining.order_by("-position").values_list("position", flat=True).first() if remaining.exists() else -1) + 1
         if followup:
             followup.meeting = target_meeting
-            followup.working_text = item.working_text
+            followup.working_text = ""
             followup.status = item.status
             followup.assigned_to_id = item.assigned_to_id
             followup.position = next_position
             followup.carried_forward = True
             followup.save(update_fields=["meeting", "working_text", "status", "assigned_to", "position", "carried_forward"])
         else:
-            AgendaItem.objects.create(meeting=target_meeting, topic=topic, working_text=item.working_text, assigned_to_id=item.assigned_to_id, status=item.status, position=next_position, carried_forward=True, followup_of=item)
+            AgendaItem.objects.create(meeting=target_meeting, topic=topic, working_text="", assigned_to_id=item.assigned_to_id, status=item.status, position=next_position, carried_forward=True, followup_of=item)
         if old_series != target_series:
             TopicTransferHistory.objects.create(topic=topic, from_series=old_series, to_series=target_series, transferred_by=actor, note=f"Wiedervorlage für {formats.date_format(target_meeting.date, 'DATE_FORMAT')} festgelegt")
         transfer_changes = {"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}}
