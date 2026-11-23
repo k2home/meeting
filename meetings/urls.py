@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .archive_csv import archive_csv_export
 from . import agenda_topic_views
 from . import guide_views
 from . import management_views
@@ -48,6 +49,7 @@ urlpatterns = [
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
     path("organization/logo/", views.organization_logo, name="organization_logo"),
+    path("archive/csv/", archive_csv_export, name="archive_csv_export"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
     path("konto/passwort-zuruecksetzen/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(template_name="meetings/password_reset_confirm.html"), name="password_reset_confirm"),

@@ -1,7 +1,12 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
-<header class="page-header"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></header>
+<header class="page-header">
+ <div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div>
+ <div class="page-header-actions no-print">
+  <a class="btn secondary" href="{% url 'archive_csv_export' %}{% if selected_series %}?series={{ selected_series }}{% endif %}">Archiv als CSV exportieren</a>
+ </div>
+</header>
 <section class="card">
   <h2>Archivierte Themen</h2>
   {% for topic in archived_topics %}
