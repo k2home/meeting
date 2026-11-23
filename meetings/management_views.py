@@ -175,6 +175,7 @@ def enaio_folder_selection_start(request):
     )
     return JsonResponse({
         "status_url": reverse("enaio_folder_selection_status", args=[selection.pk]),
+        "cancel_url": reverse("enaio_folder_selection_cancel", args=[selection.pk]),
         "message": "Der lokale enaio-Agent übernimmt die Ordnerauswahl.",
         "expires_in": 300,
     })
@@ -190,8 +191,26 @@ def enaio_folder_selection_status(request, pk):
     if selection.consumed_at:
         return JsonResponse({"completed": True})
     if selection.expires_at <= timezone.now():
+        EnaioFolderSelection.objects.filter(pk=selection.pk, consumed_at__isnull=True).update(
+            consumed_at=timezone.now(), error_message="Die Ordnerauswahl ist abgelaufen."
+        )
         return JsonResponse({"completed": False, "expired": True}, status=410)
     return JsonResponse({"completed": False})
+
+
+@login_required
+@require_http_methods(["POST"])
+def enaio_folder_selection_cancel(request, pk):
+    _require_admin(request)
+    with transaction.atomic():
+        selection = EnaioFolderSelection.objects.select_for_update().filter(pk=pk, user=request.user).first()
+        if not selection:
+            return JsonResponse({"error": "Ordnerauswahl nicht gefunden."}, status=404)
+        if selection.consumed_at is None:
+            selection.error_message = "Die Ordnerauswahl wurde vom Benutzer abgebrochen."
+            selection.consumed_at = timezone.now()
+            selection.save(update_fields=["error_message", "consumed_at"])
+    return JsonResponse({"ok": True})
 
 
 def _enaio_folder_selection_from_token(token):
