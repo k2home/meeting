@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
-from django.utils import timezone
+from django.utils import formats, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
@@ -77,7 +77,7 @@ class Meeting(models.Model):
             self.series.name if self.series_id
             else self.archived_series_name or "Gelöschte Besprechungsreihe"
         )
-        return self.title or f"{series_name} – {self.date:%d.%m.%Y}"
+        return self.title or f"{series_name} – {formats.date_format(self.date, "DATE_FORMAT")}"
 
 class Topic(models.Model):
     STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt"), ("archived", "Archiviert")]
