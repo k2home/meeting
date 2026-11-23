@@ -68,4 +68,23 @@
 {% endfor %}
 {% if events|length == 250 %}<p class="muted">Es werden höchstens 250 Einträge angezeigt. Nutze den Themenfilter, um ältere Einträge gezielt zu finden.</p>{% endif %}
 {% endif %}
+
+<!-- audit-expand-collapse-details -->
+<script>
+(() => {
+  const details = [...document.querySelectorAll(".card details")];
+  if (!details.length || document.getElementById("audit-details-toggle")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "audit-details-toggle";
+  button.className = "secondary";
+  button.textContent = "Alle Änderungsdetails aufklappen";
+  button.addEventListener("click", () => {
+    const expand = details.some(item => !item.open);
+    details.forEach(item => { item.open = expand; });
+    button.textContent = expand ? "Alle Änderungsdetails zuklappen" : "Alle Änderungsdetails aufklappen";
+  });
+  document.querySelector(".audit-filter-grid")?.parentElement?.insertAdjacentElement("afterend", button);
+})();
+</script>
 {% endblock %}
