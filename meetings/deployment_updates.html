@@ -10,14 +10,14 @@
 
 <section class="card">
   <h2>Installierte Version</h2>
-  <table>
+  <table style="width:100%;table-layout:auto">
     <tbody>
-      <tr><th scope="row">Installationsart</th><td>{{ deployment_type }}</td></tr>
-      <tr><th scope="row">Aktiver Branch</th><td>{{ current_branch }}</td></tr>
-      <tr><th scope="row">Commit</th><td><code>{{ current_commit }}</code></td></tr>
-      {% if current_commit_message %}<tr><th scope="row">Commit-Beschreibung</th><td>{{ current_commit_message }}</td></tr>{% endif %}
-      {% if current_image %}<tr><th scope="row">Docker-Image</th><td><code>{{ current_image }}</code></td></tr>{% endif %}
-      {% if build_created %}<tr><th scope="row">Image erstellt</th><td>{{ build_created }}</td></tr>{% endif %}
+      <tr><th scope="row" style="width:1%;white-space:nowrap;padding-right:1.25rem">Installationsart</th><td>{{ deployment_type }}</td></tr>
+      <tr><th scope="row" style="width:1%;white-space:nowrap;padding-right:1.25rem">Aktiver Branch</th><td>{{ current_branch }}</td></tr>
+      <tr><th scope="row" style="width:1%;white-space:nowrap;padding-right:1.25rem">Commit</th><td><code>{{ current_commit }}</code></td></tr>
+      {% if current_commit_message %}<tr><th scope="row" style="width:1%;white-space:nowrap;padding-right:1.25rem">Commit-Beschreibung</th><td>{{ current_commit_message }}</td></tr>{% endif %}
+      {% if current_image %}<tr><th scope="row" style="width:1%;white-space:nowrap;padding-right:1.25rem">Docker-Image</th><td><code>{{ current_image }}</code></td></tr>{% endif %}
+      {% if build_created %}<tr><th scope="row" style="width:1%;white-space:nowrap;padding-right:1.25rem">Image erstellt</th><td>{{ build_created }}</td></tr>{% endif %}
     </tbody>
   </table>
   {% if availability_message %}
