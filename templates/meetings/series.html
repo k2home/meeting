@@ -170,10 +170,25 @@
   input.id = "series-admin-search";
   input.placeholder = "Besprechungsreihe suchen …";
   input.setAttribute("aria-label", "Besprechungsreihen durchsuchen");
-  document.querySelector(".series-list")?.before(input);
+  entries.forEach((entry, index) => { entry.id = "series-admin-entry-" + index; });
+  input.setAttribute("aria-controls", entries.map(entry => entry.id).join(" "));
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
+  const list = document.querySelector(".series-list");
+  if (!list) return;
+  list.before(input, feedback);
   input.addEventListener("input", () => {
     const term = input.value.trim().toLocaleLowerCase("de");
-    entries.forEach(entry => { entry.hidden = !!term && !entry.textContent.toLocaleLowerCase("de").includes(term); });
+    let visibleCount = 0;
+    entries.forEach(entry => {
+      const visible = !term || entry.textContent.toLocaleLowerCase("de").includes(term);
+      entry.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Besprechungsreihen gefunden.";
   });
 })();
 </script>
