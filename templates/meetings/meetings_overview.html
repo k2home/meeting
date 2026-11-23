@@ -202,9 +202,8 @@
 <!-- meetings-table-search -->
 <script>
 (() => {
-  const card = [...document.querySelectorAll(".card")].find(node => node.querySelector("table tbody tr"));
-  const table = card?.querySelector("table");
-  if (!table || card.querySelector("#meeting-series-search")) return;
+  const table = document.querySelector(".meetings-series-table");
+  if (!table || document.getElementById("meeting-series-search")) return;
   const label = document.createElement("label");
   label.htmlFor = "meeting-series-search";
   label.textContent = "Besprechungsreihe oder Termin suchen";
@@ -212,10 +211,11 @@
   input.type = "search";
   input.id = "meeting-series-search";
   input.placeholder = "Suchbegriff eingeben …";
+  input.setAttribute("aria-label", label.textContent);
   input.style.maxWidth = "28rem";
-  label.insertAdjacentElement("afterend", input);
-  table.parentElement.insertAdjacentElement("beforebegin", label);
+  input.style.marginBottom = ".75rem";
   table.parentElement.insertAdjacentElement("beforebegin", input);
+  table.parentElement.insertAdjacentElement("beforebegin", label);
   input.addEventListener("input", () => {
     const term = input.value.trim().toLocaleLowerCase("de");
     table.querySelectorAll("tbody tr").forEach(row => {
