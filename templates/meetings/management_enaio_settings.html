@@ -199,6 +199,8 @@
         data.configuration.root_folder_configured ? "Eine Ordner-ID ist hinterlegt." : "Es ist noch keine zentrale Ordner-ID hinterlegt."));
       report.server.push(check("Technische Objektdefinition", data.configuration.object_definition_automatic ? "AUTOMATISCHE ERMITTLUNG VORGESEHEN" : "NICHT KONFIGURIERT",
         data.configuration.object_definition_automatic ? "Die manuelle Eingabe entfällt. Schrank- und Registerinformationen sollen später aus dem im enaio-Client geöffneten Ordner ermittelt werden." : "Die automatische Ermittlung ist nicht aktiviert."));
+      report.server.push(check("Technischer Dokumenttyp", data.configuration.document_type_configured ? "KONFIGURIERT" : "FEHLT",
+        data.configuration.document_type_configured ? "Der Dokumenttyp für Protokoll-PDFs ist hinterlegt." : "Bitte den enaio-Dokumenttyp für Protokoll-PDFs konfigurieren."));
       report.server.push(check("Session-/COM-Prüfung serverseitig", "NICHT MÖGLICH", data.note));
       report.conclusion = data.checks_not_possible_from_server;
       report.conclusion.push("Ein Browserbericht kann das Vorhandensein einer COM-Schnittstelle im enaio-Client nicht abschließend beweisen.");
