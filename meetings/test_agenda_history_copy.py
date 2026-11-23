@@ -9,3 +9,5 @@ class AgendaHistoryCopyTests(SimpleTestCase):
         self.assertIn('window.isSecureContext', content)
         self.assertIn('document.execCommand("copy")', content)
         self.assertIn('button.disabled = true', content)
+        self.assertIn('finally', content)
+        self.assertIn('previousFocus?.focus?.()', content)
