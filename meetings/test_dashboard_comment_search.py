@@ -17,7 +17,7 @@ class DashboardCommentSearchTests(TestCase):
         SeriesAccess.objects.create(user=self.user, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT)
         self.topic = Topic.objects.create(title="Reguläres Thema", series=self.series)
         meeting = Meeting.objects.create(series=self.series, date=timezone.localdate() + timedelta(days=3))
-        AgendaItem.objects.create(meeting=meeting, topic=self.topic, working_text="Agenda")
+        AgendaItem.objects.create(meeting=meeting, topic=self.topic, working_text="Agenda", assigned_to=self.user)
         TopicComment.objects.create(topic=self.topic, author=self.user, body="Bitte Rückmeldung vom Brandschutz einholen.")
         self.client.force_login(self.user)
 
