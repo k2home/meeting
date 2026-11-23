@@ -2140,6 +2140,20 @@ def _read_update_status():
 
 def _deployment_info():
     if os.path.exists(UPDATE_SOCKET):
+        try:
+            code, _status = _updater_request("/status")
+            if code != 200:
+                raise RuntimeError("Der Docker-Updater antwortet nicht mit einem gültigen Status.")
+        except (OSError, ValueError, http.client.HTTPException, RuntimeError) as exc:
+            return {
+                "deployment_type": "Docker Compose",
+                "current_branch": os.getenv("MEETING_BUILD_BRANCH", "unbekannt"),
+                "current_commit": os.getenv("MEETING_BUILD_COMMIT", "nicht verfügbar"),
+                "current_image": "",
+                "build_created": "",
+                "update_available": False,
+                "availability_message": f"Der Docker-Updater ist nicht erreichbar: {exc}",
+            }
         return {
             "deployment_type": "Docker Compose",
             "current_branch": os.getenv("MEETING_BUILD_BRANCH", "Im Image nicht hinterlegt"),
