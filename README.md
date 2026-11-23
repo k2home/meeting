@@ -217,12 +217,14 @@ Unter **Verwaltung → Organisationseinstellungen** werden Organisationsname, Ku
 
 ### Docker Compose
 
+Das Anwendungsimage wird über Docker Hub unter [`k2home/meeting-manager`](https://hub.docker.com/r/k2home/meeting-manager) bereitgestellt. Die Veröffentlichung setzt ein einmalig angelegtes Docker-Hub-Repository sowie die GitHub-Repository-Secrets `DOCKERHUB_USERNAME` und `DOCKERHUB_TOKEN` voraus. GitHub Actions veröffentlicht `latest` bei Änderungen auf `main`, `beta` bei Änderungen auf `beta` sowie Versions-Tags bei veröffentlichten GitHub-Releases. Die Images werden für `linux/amd64` und `linux/arm64` gebaut. Die bisherige GHCR-Veröffentlichung bleibt parallel bestehen.
+
 Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten verwenden denselben Anwendungscode und dieselben Datenbankmigrationen.
 
 **Voraussetzungen**
 
 - Linux-Host oder VM mit Docker Engine und Docker Compose v2
-- Netzwerkzugriff auf GitHub Container Registry (`ghcr.io`)
+- Netzwerkzugriff auf Docker Hub
 - Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
 
 **Installation**
@@ -270,7 +272,7 @@ docker compose -f docker/compose.yaml restart app
 sudo systemctl status meeting-manager-docker-updater.service
 ```
 
-Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
+Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
 
 ### Debian / Ubuntu mit systemd und Nginx
 
