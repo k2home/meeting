@@ -896,6 +896,10 @@ class OrganizationBrandColorTests(TestCase):
         branding = organization_branding(None)
         self.assertTrue(branding["organization_logo_url"].endswith("/organization.svg"))
 
+        response = self.client.get(reverse("dashboard"))
+        self.assertContains(response, "organization-brand-logo")
+        self.assertContains(response, branding["organization_logo_url"])
+
     def test_admin_can_edit_all_colors_and_templates_receive_mode_palette(self):
         from .models import OrganizationSettings
         settings = OrganizationSettings.objects.create(name="Test")
