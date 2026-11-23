@@ -72,7 +72,7 @@ def run_update(branch):
             raise RuntimeError("Der Anwendungscontainer konnte nicht aktualisiert werden.")
         healthy = False
         for _ in range(12):
-            result = compose("exec", "-T", "app", "python", "manage.py", "check", timeout=30)
+            result = compose("exec", "-T", "app", "sh", "-c", "python manage.py check && python manage.py migrate --check && python -c 'import socket; socket.create_connection((\"127.0.0.1\", 8000), timeout=3).close()'", timeout=30)
             log.append(result.stdout + result.stderr)
             if result.returncode == 0:
                 healthy = True
