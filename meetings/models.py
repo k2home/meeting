@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import timezone
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 def validate_topic_attachment_size(uploaded_file):
@@ -296,6 +297,10 @@ class UserProfile(models.Model):
 class OrganizationSettings(models.Model):
     """Globale Bezeichnung der Organisationseinheit für den Meeting Manager."""
 
+    timezone = models.CharField(
+        "Zeitzone", max_length=64, default="Europe/Berlin",
+        help_text="Zeitzone für die Anzeige von Datums- und Uhrzeitangaben, z. B. Europe/Berlin.",
+    )
     attachment_max_size_mb = models.PositiveSmallIntegerField(
         "Maximale Dateigröße für Anlagen (MB)", default=20,
         validators=[MinValueValidator(1), MaxValueValidator(24)],
@@ -322,6 +327,13 @@ class OrganizationSettings(models.Model):
     class Meta:
         verbose_name = "Organisationseinstellung"
         verbose_name_plural = "Organisationseinstellungen"
+
+    def clean(self):
+        super().clean()
+        try:
+            ZoneInfo(self.timezone)
+        except (ZoneInfoNotFoundError, TypeError):
+            raise ValidationError({"timezone": "Bitte eine gültige Zeitzone auswählen."})
 
     def save(self, *args, **kwargs):
         # Es gibt genau einen globalen Konfigurationsdatensatz.
