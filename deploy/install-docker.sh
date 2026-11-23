@@ -65,7 +65,11 @@ else
   SETUP_TOKEN="$(sed -n 's/^SETUP_TOKEN=//p' "$APP_DIR/.env" | head -n 1)"
   if [[ -z "$SETUP_TOKEN" ]]; then
     SETUP_TOKEN="$(openssl rand -hex 32)"
-    printf '\nSETUP_TOKEN=%s\n' "$SETUP_TOKEN" >> "$APP_DIR/.env"
+    if grep -q '^SETUP_TOKEN=' "$APP_DIR/.env"; then
+      sed -i "s/^SETUP_TOKEN=.*/SETUP_TOKEN=$SETUP_TOKEN/" "$APP_DIR/.env"
+    else
+      printf '\nSETUP_TOKEN=%s\n' "$SETUP_TOKEN" >> "$APP_DIR/.env"
+    fi
   fi
   chown root:root "$APP_DIR/.env"
   chmod 600 "$APP_DIR/.env"
