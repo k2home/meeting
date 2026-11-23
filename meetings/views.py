@@ -1187,7 +1187,18 @@ def protocol_pdf(request, pk):
         is_svg = logo_field.name.lower().endswith(".svg")
         prepared_logo = organization.logo_png if is_svg else logo_field
         if is_svg and not prepared_logo:
-            raise ValueError("Für das SVG-Logo wurde noch keine PNG-Version erzeugt. Bitte laden Sie das Logo unter Verwaltung erneut hoch.")
+            logger.error(
+                "Protokoll-PDF: Für das konfigurierte SVG-Logo (organization_id=%s, name=%s) "
+                "liegt keine vorbereitete PNG-Version vor.",
+                organization.pk, logo_field.name,
+            )
+            return HttpResponse(
+                "Das konfigurierte Organisationslogo konnte nicht geladen und in das "
+                "Protokoll-PDF eingebettet werden. Bitte laden Sie das Logo unter "
+                "Verwaltung erneut hoch oder entfernen Sie es vorübergehend.",
+                status=503,
+                content_type="text/plain; charset=utf-8",
+            )
         logger.info(
             "Protokoll-PDF: Organisationslogo konfiguriert (organization_id=%s, "
             "name=%s, storage=%s).",
