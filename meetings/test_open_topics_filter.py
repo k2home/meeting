@@ -51,3 +51,5 @@ class OpenTopicsSeriesFilterTests(TestCase):
         self.assertContains(response, "Thema der ersten Reihe")
         self.assertContains(response, "Thema der zweiten Reihe")
         self.assertEqual(response.context["selected_series"], "")
+        visible_series_ids = set(response.context["series_choices"].values_list("pk", flat=True))
+        self.assertNotIn(outsider_series.pk, visible_series_ids)
