@@ -39,6 +39,7 @@ urlpatterns = [
     path("verwaltung/nutzer/<int:pk>/", management_views.management_user_edit, name="management_user_edit"),
     path("verwaltung/gruppen/", management_views.management_groups, name="management_groups"),
     path("verwaltung/organisation/", management_views.management_settings, name="management_settings"),
+    path("verwaltung/daten/", management_views.management_data, name="management_data"),
     path("admin/updates/", views.deployment_updates, name="deployment_updates"),
     path("admin/series/", views.series_admin, name="series_admin"),
     path("admin/series/<int:pk>/edit/", views.series_edit, name="series_edit"),
