@@ -11,6 +11,7 @@ urlpatterns = [
     path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),
     path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),
     path("enaio/agent/jobs/next/", enaio_agent_views.enaio_agent_next_job, name="enaio_agent_next_job"),
+    path("enaio/agent/jobs/<str:kind>/<int:pk>/fail/", enaio_agent_views.enaio_agent_job_fail, name="enaio_agent_job_fail"),
     path("enaio/agent/selection/<int:pk>/complete/", enaio_agent_views.enaio_agent_selection_complete, name="enaio_agent_selection_complete"),
     path("enaio/agent/transfer/<int:pk>/pdf/", enaio_agent_views.enaio_agent_transfer_pdf, name="enaio_agent_transfer_pdf"),
     path("enaio/agent/transfer/<int:pk>/complete/", enaio_agent_views.enaio_agent_transfer_complete, name="enaio_agent_transfer_complete"),
