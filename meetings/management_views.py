@@ -90,11 +90,24 @@ class OrganizationSettingsForm(forms.ModelForm):
     class Meta:
         model = OrganizationSettings
         fields = (
-            "name", "short_name", "logo", "timezone", "attachment_max_size_mb",
+            "name", "short_name", "timezone", "attachment_max_size_mb",
             "primary_color", "primary_color_light", "primary_color_dark",
             "secondary_color", "secondary_color_light", "secondary_color_dark",
             "tertiary_color", "tertiary_color_light", "tertiary_color_dark",
         )
+
+
+class OrganizationLogoForm(forms.ModelForm):
+    class Meta:
+        model = OrganizationSettings
+        fields = ("logo",)
+        labels = {"logo": "Organisationslogo auswählen"}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["logo"].widget.attrs.update({
+            "accept": ".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml",
+        })
 
 
 @login_required
@@ -205,14 +218,29 @@ def management_groups(request):
 def management_settings(request):
     _require_admin(request)
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
-    form = OrganizationSettingsForm(request.POST or None, request.FILES or None, instance=instance)
-    if request.method == "POST" and form.is_valid():
-        settings_obj = form.save(commit=False)
-        settings_obj.full_clean()
-        settings_obj.save()
-        messages.success(request, "Die Organisationseinstellungen wurden gespeichert.")
-        return redirect("management_settings")
-    return render(request, "meetings/management_settings.html", {"form": form})
+    logo_form = OrganizationLogoForm(instance=instance)
+    form = OrganizationSettingsForm(instance=instance)
+
+    if request.method == "POST" and request.POST.get("action") == "save_logo":
+        logo_form = OrganizationLogoForm(request.POST, request.FILES, instance=instance)
+        if logo_form.is_valid():
+            settings_obj = logo_form.save(commit=False)
+            settings_obj.full_clean()
+            settings_obj.save()
+            messages.success(request, "Das Organisationslogo wurde gespeichert.")
+            return redirect("management_settings")
+    elif request.method == "POST":
+        form = OrganizationSettingsForm(request.POST, instance=instance)
+        if form.is_valid():
+            settings_obj = form.save(commit=False)
+            settings_obj.full_clean()
+            settings_obj.save()
+            messages.success(request, "Die Organisationseinstellungen wurden gespeichert.")
+            return redirect("management_settings")
+
+    return render(request, "meetings/management_settings.html", {
+        "form": form, "logo_form": logo_form, "organization_settings": instance,
+    })
 
 
 @login_required

@@ -849,6 +849,29 @@ class OrganizationBrandColorTests(TestCase):
         self.admin = User.objects.create_superuser(username="brand-admin", email="brand-admin@example.com", password="strong-test-password")
         self.client.force_login(self.admin)
 
+    def test_logo_upload_has_dedicated_save_action_and_persists_file(self):
+        import tempfile
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        page = self.client.get(reverse("management_settings"))
+        self.assertContains(page, "Logo speichern")
+        with tempfile.TemporaryDirectory() as media_root, override_settings(MEDIA_ROOT=media_root):
+            response = self.client.post(reverse("management_settings"), {
+                "action": "save_logo",
+                "logo": SimpleUploadedFile(
+                    "organisation.svg",
+                    b'<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"></svg>',
+                    content_type="image/svg+xml",
+                ),
+            })
+            self.assertRedirects(response, reverse("management_settings"))
+            settings = OrganizationSettings.objects.get(pk=1)
+            self.assertTrue(settings.logo.name.endswith("organisation.svg"))
+            self.assertTrue(settings.logo.storage.exists(settings.logo.name))
+            settings.logo.delete(save=True)
+
     def test_brand_color_defaults_and_mode_overrides(self):
         from .models import OrganizationSettings
         settings = OrganizationSettings.objects.create(name="Test")
@@ -884,6 +907,21 @@ class OrganizationBrandColorTests(TestCase):
                 settings.full_clean()
             setattr(settings, field, "")
         settings.full_clean()
+
+    def test_uploaded_organization_logo_is_exposed_to_templates(self):
+        from django.core.files.base import ContentFile
+        from .access import organization_branding
+        from .models import OrganizationSettings
+
+        settings = OrganizationSettings.objects.create(name="Test")
+        settings.logo.save("organization.svg", ContentFile(b"<svg xmlns='http://www.w3.org/2000/svg'/>"), save=True)
+
+        branding = organization_branding(None)
+        self.assertEqual(branding["organization_logo_url"], reverse("organization_logo"))
+
+        response = self.client.get(reverse("dashboard"))
+        self.assertContains(response, "organization-brand-logo")
+        self.assertContains(response, branding["organization_logo_url"])
 
     def test_admin_can_edit_all_colors_and_templates_receive_mode_palette(self):
         from .models import OrganizationSettings
@@ -1793,3 +1831,62 @@ class DeploymentUpdatePermissionTests(TestCase):
             start.call_args.args[0],
             ["sudo", "-n", "/usr/local/sbin/meeting-manager-update", "beta"],
         )
+
+
+class OrganizationLogoDeliveryTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="logo-viewer", password="strong-test-password"
+        )
+        self.admin = User.objects.create_superuser(
+            username="logo-admin", email="logo-admin@example.test",
+            password="strong-test-password",
+        )
+
+    def test_logo_endpoint_requires_login(self):
+        response = self.client.get(reverse("organization_logo"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response.url)
+
+    def test_logo_is_served_from_private_media_storage_to_signed_in_users(self):
+        import tempfile
+        from pathlib import Path
+        from django.core.files.base import ContentFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                organization = OrganizationSettings.objects.create(name="Testorganisation")
+                organization.logo.save(
+                    "logo.svg",
+                    ContentFile(b'<svg xmlns="http://www.w3.org/2000/svg"></svg>'),
+                    save=True,
+                )
+                self.client.force_login(self.user)
+
+                response = self.client.get(reverse("organization_logo"))
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response["Content-Type"], "image/svg+xml")
+                self.assertEqual(response["Cache-Control"], "private, no-store")
+                self.assertEqual(b"".join(response.streaming_content), b'<svg xmlns="http://www.w3.org/2000/svg"></svg>')
+
+    def test_branding_context_uses_application_route_not_media_url(self):
+        import tempfile
+        from django.core.files.base import ContentFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                organization = OrganizationSettings.objects.create(name="Testorganisation")
+                organization.logo.save("logo.png", ContentFile(b"not-a-real-png"), save=True)
+                self.client.force_login(self.user)
+
+                response = self.client.get(reverse("dashboard"))
+
+                self.assertEqual(
+                    response.context["organization_logo_url"],
+                    reverse("organization_logo"),
+                )

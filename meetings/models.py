@@ -309,8 +309,8 @@ class OrganizationSettings(models.Model):
         help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 24 MB.",
     )
     logo = models.FileField(
-        "Organisationslogo", upload_to="organization/logo/", blank=True, validators=[FileExtensionValidator(["png", "jpg", "jpeg"])],
-        help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Empfohlenes Format: PNG oder JPEG.",
+        "Organisationslogo", upload_to="organization/logo/", blank=True, validators=[FileExtensionValidator(["png", "jpg", "jpeg", "svg"])],
+        help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Unterstützte Formate: PNG, JPEG und SVG.",
     )
     name = models.CharField(
         "Organisationseinheit", max_length=160, blank=True, default="",

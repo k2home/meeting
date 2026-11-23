@@ -2,7 +2,45 @@
 {% block title %}Organisationseinstellungen{% endblock %}
 {% block content %}
 <div class="page-header"><div><h1>Organisationseinstellungen</h1><p class="muted">Zentrale Darstellung und Verhalten der Organisation festlegen.</p></div><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a></div>
-<div class="card"><form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<div class="actions"><button class="primary" type="submit">Einstellungen speichern</button></div></form></div>
+<section class="card">
+  <h2>Logo</h2>
+  <p class="muted">Optionales Organisationslogo für die Seitenleiste und Protokoll-PDFs. PNG, JPEG und SVG werden unterstützt.</p>
+  {% if organization_settings.logo %}
+    <p class="muted">Aktuell verwendetes Logo:</p>
+    <p><img src="{% url "organization_logo" %}" alt="Aktuelles Organisationslogo" style="max-width:220px;max-height:90px;object-fit:contain"></p>
+  {% endif %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% with field=logo_form.logo %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
+    {% if logo_form.non_field_errors %}<div class="messages error">{{ logo_form.non_field_errors }}</div>{% endif %}
+    <div class="actions"><button class="primary" type="submit" name="action" value="save_logo">Logo speichern</button></div>
+  </form>
+</section>
+<form method="post">
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="card">{{ form.non_field_errors }}</div>{% endif %}
+  <section class="card">
+    <h2>Organisation</h2><p class="muted">Bezeichnungen für die Anwendung und ihre Navigation.</p>
+    {% for field in form %}{% if field.name == "name" or field.name == "short_name" %}
+      <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
+    {% endif %}{% endfor %}
+  </section>
+  <section class="card">
+    <h2>Region und Zeitzone</h2>
+    {% with field=form.timezone %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
+  </section>
+  <section class="card">
+    <h2>Dateianlagen</h2><p class="muted">Begrenzt die Größe hochgeladener Anlagen an Themen.</p>
+    {% with field=form.attachment_max_size_mb %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
+  </section>
+  <section class="card">
+    <h2>Markenfarben</h2><p class="muted">Grundfarben sowie optionale Abweichungen für Hell- und Dunkelmodus.</p>
+    {% for field in form %}{% if "_color" in field.name %}
+      <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
+    {% endif %}{% endfor %}
+  </section>
+  <div class="actions"><button class="primary" type="submit">Einstellungen speichern</button></div>
+</form>
 <script>
 document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],input[name$="_color_dark"]').forEach(function(input){
   input.setAttribute('pattern','^$|^#[0-9A-Fa-f]{6}$');

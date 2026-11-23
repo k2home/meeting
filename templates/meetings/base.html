@@ -444,7 +444,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 {% if user.is_authenticated %}
 <div class="mobile-header">
 <button class="menu-toggle secondary" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation" id="menu-toggle">☰</button>
-<a class="brand" href="/"><img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=8" alt=""><span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span><span class="brand-org-short">{{ organization_unit_short_name }}</span>{% endif %}</span></a>
+<a class="brand" href="/">{% if organization_logo_url %}<img class="brand-icon organization-brand-logo" src="{{ organization_logo_url }}" alt="{{ organization_unit_name|default:'Organisationslogo' }}">{% else %}{% if organization_logo_url %}<img class="brand-icon organization-brand-logo" src="{{ organization_logo_url }}" alt="{{ organization_unit_name|default:'Organisationslogo' }}">{% else %}<img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=8" alt="">{% endif %}{% endif %}<span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span><span class="brand-org-short">{{ organization_unit_short_name }}</span>{% endif %}</span></a>
 </div>
 <aside class="sidebar" id="main-navigation" aria-label="Hauptnavigation">
 <button class="desktop-menu-toggle" type="button" id="desktop-menu-toggle" aria-expanded="false" aria-label="Navigation aufklappen">☰</button>

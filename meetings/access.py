@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.urls import reverse
 
 from .models import Meeting, MeetingSeries, SeriesAccess, Topic
 from .brand_colors import accessible_button_colors
@@ -86,6 +87,8 @@ def organization_branding(request):
     """Stellt die zentrale Organisationseinheit in allen Templates bereit."""
     from .models import OrganizationSettings
 
+    settings = OrganizationSettings.objects.filter(pk=1).first()
+    logo_url = reverse("organization_logo") if settings and settings.logo else ""
     colors = OrganizationSettings.current_brand_colors()
     button_colors = {}
     for palette in ("light", "dark"):
@@ -97,6 +100,7 @@ def organization_branding(request):
     return {
         "organization_unit_name": OrganizationSettings.current_name(),
         "organization_unit_short_name": OrganizationSettings.current_short_name(),
+        "organization_logo_url": logo_url,
         **colors,
         **button_colors,
     }

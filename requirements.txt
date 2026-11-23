@@ -2,3 +2,4 @@ Django>=5.1,<6.0
 psycopg[binary]>=3.2,<4
 gunicorn>=23,<24
 reportlab>=4.2,<5
+CairoSVG>=2.7,<3
