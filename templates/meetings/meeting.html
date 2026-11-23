@@ -107,6 +107,7 @@
   </div>
 </details>{% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol' meeting.id %}">Protokoll / Drucken</a>
+  <a class="meeting-menu-link" href="{% url 'meeting_participants_csv' meeting.id %}">Teilnehmerliste als CSV exportieren</a>
   {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button secondary" type="button" id="toggle-agenda-reorder" aria-pressed="false">Reihenfolge ändern</button>{% endif %}
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" data-confirm-message="Besprechung wirklich abschließen?">{% csrf_token %}<button class="meeting-menu-button secondary finish-button" type="submit">Besprechung abschließen</button></form>
