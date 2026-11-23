@@ -327,6 +327,8 @@ def enaio_agent_logs(request):
         "agents": [{
             "user": agent.user.get_full_name() or agent.user.get_username(),
             "device": agent.device_name or "Unbekannter Arbeitsplatz",
+            "paired": bool(agent.device_token_hash),
+            "pairing_pending": bool(agent.pairing_code_hash and agent.pairing_expires_at and agent.pairing_expires_at > timezone.now()),
             "last_seen_at": agent.last_seen_at.isoformat() if agent.last_seen_at else None,
             "connected": bool(agent.last_seen_at and agent.last_seen_at >= timezone.now() - timedelta(seconds=30)),
         } for agent in agents],

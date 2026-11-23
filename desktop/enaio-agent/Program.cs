@@ -18,6 +18,8 @@ internal static class Program
     {
         try
         {
+            LogLocal("INFO", "Agent-Prozess gestartet. Windows-Benutzer: " + Environment.UserName + "; Betriebssystem: " + Environment.OSVersion + "; Arbeitsverzeichnis: " + Environment.CurrentDirectory);
+            LogLocal("INFO", "Lokales Diagnoseprotokoll: " + LogFile);
             if (args.Length == 3 && args[0].Equals("pair", StringComparison.OrdinalIgnoreCase))
             {
                 Pair(args[1], args[2]);
@@ -31,7 +33,9 @@ internal static class Program
                 return 2;
             }
 
+            LogLocal("INFO", "Lese lokale Agent-Kopplung und Zugangsdaten.");
             var credentials = LoadCredentials();
+            LogLocal("INFO", "Zugangsdaten geladen. Stelle Verbindung zum Meeting Manager her: " + new Uri(credentials.BaseUrl).Host);
             using var http = new HttpClient { BaseAddress = new Uri(credentials.BaseUrl.TrimEnd('/') + "/"), Timeout = TimeSpan.FromSeconds(45) };
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", credentials.DeviceToken);
             Log(http, "INFO", "enaio-Agent gestartet. COM-Aufrufe laufen auf dem STA-Hauptthread.");
@@ -63,6 +67,7 @@ internal static class Program
     {
         if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps)
             throw new InvalidOperationException("Bitte eine gültige HTTPS-Adresse des Meeting Managers angeben.");
+        LogLocal("INFO", "Starte Kopplung mit Meeting Manager: " + uri.Host);
         using var http = new HttpClient { BaseAddress = new Uri(uri.ToString().TrimEnd('/') + "/") };
         var body = JsonSerializer.Serialize(new { pairing_code = code, device_name = Environment.MachineName });
         using var response = http.PostAsync("enaio/agent/register/", new StringContent(body, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
@@ -73,6 +78,7 @@ internal static class Program
         var plain = JsonSerializer.SerializeToUtf8Bytes(new AgentCredentials(uri.ToString(), token));
         try { File.WriteAllBytes(CredentialsFile, ProtectedData.Protect(plain, null, DataProtectionScope.CurrentUser)); }
         finally { CryptographicOperations.ZeroMemory(plain); }
+        LogLocal("INFO", "Kopplung erfolgreich. Zugangsdaten wurden DPAPI-verschlüsselt gespeichert.");
     }
 
     private static void Log(HttpClient http, string level, string message)
@@ -104,7 +110,10 @@ internal static class Program
             if (level == "ERROR" || level == "WARNING") Console.Error.WriteLine(line);
             else Console.WriteLine(line);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            try { Console.Error.WriteLine("Lokales Agent-Log konnte nicht geschrieben werden: " + ex); } catch { }
+        }
     }
 
     private static AgentCredentials LoadCredentials()
