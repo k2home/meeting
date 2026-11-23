@@ -5,8 +5,10 @@ from datetime import timedelta
 import hashlib
 import secrets
 from django.urls import reverse
+from django.http import HttpResponse
+from unittest.mock import patch
 
-from .models import EnaioAgent, EnaioFolderSelection
+from .models import EnaioAgent, EnaioFolderSelection, EnaioTransfer, Meeting
 
 User = get_user_model()
 
@@ -130,6 +132,48 @@ class EnaioAgentLeaseTests(TestCase):
         inactive = self.client.get(
             reverse("enaio_agent_job_status", args=["selection", selection.pk]),
             {"lease": job["lease_token"]}, **self.auth,
+        )
+        self.assertEqual(inactive.status_code, 200)
+        self.assertFalse(inactive.json()["active"])
+
+
+    def test_transfer_pdf_requires_the_current_lease(self):
+        meeting = Meeting.objects.create(date=timezone.localdate(), title="Test meeting")
+        transfer = EnaioTransfer.objects.create(
+            user=self.user, meeting=meeting,
+            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
+            expires_at=timezone.now() + timedelta(minutes=10),
+            agent_lease_token="current-lease",
+            agent_lease_expires_at=timezone.now() + timedelta(minutes=5),
+        )
+        url = reverse("enaio_agent_transfer_pdf", args=[transfer.pk])
+        rejected = self.client.get(url, {"lease": "wrong-lease"}, **self.auth)
+        self.assertEqual(rejected.status_code, 404)
+
+        with patch("meetings.views.protocol_pdf", return_value=HttpResponse(b"%PDF-test")) as pdf_view:
+            accepted = self.client.get(url, {"lease": "current-lease"}, **self.auth)
+        self.assertEqual(accepted.status_code, 200)
+        pdf_view.assert_called_once()
+
+    def test_transfer_browser_cancel_invalidates_agent_lease(self):
+        meeting = Meeting.objects.create(date=timezone.localdate(), title="Test meeting")
+        transfer = EnaioTransfer.objects.create(
+            user=self.user, meeting=meeting,
+            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
+            expires_at=timezone.now() + timedelta(minutes=10),
+            agent_lease_token="current-lease",
+            agent_lease_expires_at=timezone.now() + timedelta(minutes=5),
+        )
+        self.client.force_login(self.user)
+        cancelled = self.client.post(reverse("enaio_transfer_cancel", args=[transfer.pk]))
+        self.assertEqual(cancelled.status_code, 200)
+        transfer.refresh_from_db()
+        self.assertEqual(transfer.status, "failed")
+        self.assertIsNotNone(transfer.consumed_at)
+
+        inactive = self.client.get(
+            reverse("enaio_agent_job_status", args=["transfer", transfer.pk]),
+            {"lease": "current-lease"}, **self.auth,
         )
         self.assertEqual(inactive.status_code, 200)
         self.assertFalse(inactive.json()["active"])
