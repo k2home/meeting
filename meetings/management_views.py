@@ -553,7 +553,10 @@ def _validate_backup_migrations(migrations):
             raise RuntimeError("Die Migrationshistorie der Sicherung enthält doppelte Einträge.")
         normalized.add(key)
 
-    current_migrations = MigrationLoader(None).graph.nodes
+    try:
+        current_migrations = MigrationLoader(None).graph.nodes
+    except Exception as exc:
+        raise RuntimeError("Die Datenbankmigrationen der aktuellen Programmversion sind nicht konsistent.") from exc
     unknown = sorted(normalized.difference(current_migrations))
     if unknown:
         details = ", ".join(f"{app}.{name}" for app, name in unknown[:10])
