@@ -4,6 +4,7 @@
 {% block content %}
 <header class="page-header">
   <div><h1>Besprechungen</h1><p class="muted">Alle Besprechungstermine deiner zugewiesenen Reihen.</p></div>
+  <a class="button secondary" href="{% url 'calendar_export' %}">Kalender exportieren (.ics)</a>
 </header>
 
 <section class="card meetings-calendar-card">
