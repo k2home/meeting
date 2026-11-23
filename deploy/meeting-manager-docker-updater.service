@@ -15,6 +15,7 @@ StateDirectory=meeting-manager-updater
 StateDirectoryMode=0750
 RuntimeDirectory=meeting-manager-updater
 RuntimeDirectoryMode=0750
+RuntimeDirectoryGroup=meeting-update
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectHome=true
