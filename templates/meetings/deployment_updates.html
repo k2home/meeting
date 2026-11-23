@@ -73,4 +73,19 @@
   window.setTimeout(() => window.location.reload(), 8000);
 </script>
 {% endif %}
+
+<!-- update-branch-confirmation -->
+<script>
+(() => {
+  const form = document.querySelector('form select[name="branch"]')?.form;
+  const select = form?.querySelector('select[name="branch"]');
+  if (!form || !select) return;
+  form.addEventListener("submit", event => {
+    if (event.submitter?.value === "disable-testing") return;
+    const active = [...document.querySelectorAll("tr")].find(row => row.cells[0]?.textContent.trim() === "Aktiver Branch")?.cells[1]?.textContent.trim();
+    if (select.value === active) return;
+    if (!window.confirm(`Meeting Manager wirklich von „${active || "unbekannt"}“ auf „${select.value}“ aktualisieren?`)) event.preventDefault();
+  });
+})();
+</script>
 {% endblock %}
