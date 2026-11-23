@@ -60,7 +60,7 @@ def topic_new(request):
                         "Erster Besprechungstermin": {"vorher": None, "nachher": meeting.date.isoformat()},
                     },
                 )
-            messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {formats.date_format(meeting.date, "DATE_FORMAT")} gesetzt.")
+            messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {formats.date_format(meeting.date, 'DATE_FORMAT')} gesetzt.")
             return redirect("topic_edit", pk=topic.pk)
     return render(request, "meetings/topic_form.html", {
         "form": form, "available_meetings": meetings,
@@ -214,7 +214,7 @@ def edit_topic_agenda_item(request, pk, item_pk):
             }
         record_event(
             actor=request.user, action="agenda_edited",
-            summary=f"Agenda-Punkt „{item.topic.title}“ am {formats.date_format(item.meeting.date, "DATE_FORMAT")} geändert",
+            summary=f"Agenda-Punkt „{item.topic.title}“ am {formats.date_format(item.meeting.date, 'DATE_FORMAT')} geändert",
             topic=item.topic, meeting=item.meeting, changes=changes,
         )
         messages.success(request, "Tagesordnungstext gespeichert.")
