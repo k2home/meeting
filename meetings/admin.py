@@ -178,7 +178,7 @@ class TopicSnapshotAdmin(admin.ModelAdmin):
             }
             AuditEvent.objects.create(
                 actor=request.user, meeting=obj.meeting, action="updated",
-                summary=f"Protokollkorrektur für „{obj.topic_title}“ am {formats.date_format(obj.meeting.date, "DATE_FORMAT")}",
+                summary=f"Protokollkorrektur für „{obj.topic_title}“ am {formats.date_format(obj.meeting.date, 'DATE_FORMAT')}",
                 changes={
                     "Protokollkorrektur": {
                         "Begründung": form.cleaned_data["correction_reason"],
