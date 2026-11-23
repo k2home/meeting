@@ -127,10 +127,10 @@ internal static class EnaioClient
         dynamic app = Connect();
         try
         {
-            var opened = Convert.ToString(app.GetAllOpenFolders()) ?? "";
-            var first = opened.Split(';', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()
+            string opened = Convert.ToString(app.GetAllOpenFolders()) ?? "";
+            string first = opened.Split(';', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()
                 ?? throw new InvalidOperationException("Bitte öffnen Sie in enaio zuerst einen Ordner oder ein Register.");
-            var parts = first.Split(',');
+            string[] parts = first.Split(',');
             if (parts.Length != 2 || !long.TryParse(parts[0], out var startId) || !int.TryParse(parts[1], out var startType))
                 throw new InvalidOperationException("enaio hat keine gültige Liste geöffneter Ordner zurückgegeben.");
             var started = Convert.ToInt32(app.SelectObject(startId, startType, false, "Ablage-Stammordner auswählen"));
