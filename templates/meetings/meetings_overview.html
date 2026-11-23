@@ -123,7 +123,12 @@
   let cursor = new Date(today.getFullYear(), today.getMonth(), 1);
   let view = "month";
   const showPast = document.getElementById("calendar-show-past");
+  const hideFinalized = document.getElementById("calendar-hide-finalized");
   const roleFilter = document.getElementById("calendar-role-filter");
+  const availableRoles = new Set(events.map(event => event.role));
+  Array.from(roleFilter.options).forEach(option => {
+    if (option.value && !availableRoles.has(option.value)) option.remove();
+  });
   const dateFromIso = value => {
     const [year, month, day] = value.split("-").map(Number);
     return new Date(year, month - 1, day);
@@ -157,7 +162,7 @@
       number.className = "calendar-day-number";
       number.textContent = date.getDate();
       cell.append(number);
-      const dayEvents = events.filter(event => (showPast.checked || dateFromIso(event.date) >= today) && event.date === iso(date) && (!hideFinalized.checked || !event.finalized) && (!roleFilter.value || event.role === roleFilter.value));
+      const dayEvents = events.filter(event => (showPast.checked || dateFromIso(event.date) >= today) && event.date === iso(date) && (!hideFinalized?.checked || !event.finalized) && (!roleFilter.value || event.role === roleFilter.value));
       dayEvents.forEach(event => {
         const link = document.createElement("a");
         const isExpired = dateFromIso(event.date) < today;
@@ -205,6 +210,8 @@
     render();
   }));
   showPast.addEventListener("change", render);
+  roleFilter.addEventListener("change", render);
+  hideFinalized?.addEventListener("change", render);
   render();
 })();
 </script>
