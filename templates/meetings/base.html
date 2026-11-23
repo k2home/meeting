@@ -202,7 +202,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 .sidebar:not(.is-expanded) .nav-links a::before,.sidebar:not(.is-expanded) .sidebar-management a::before{flex:0 0 20px;width:20px;height:20px;}
 
 /* Benutzerprofil und Abmelden bleiben auch in schmalen Sidebars einzeilig. */
-.sidebar-user{min-width:0}
+.sidebar-user{display:flex;align-items:center;gap:.55rem;min-width:0;width:100%}.sidebar-user .username{flex:1 1 auto;min-width:0}.sidebar-user .logout-form{flex:0 0 auto}.sidebar-user .logout-form button{width:auto;white-space:nowrap}
 .sidebar .username,.sidebar .logout-form button{white-space:nowrap;min-width:0}
 .sidebar .username{overflow:hidden;text-overflow:ellipsis}
 .sidebar .logout-form button{width:100%;flex-wrap:nowrap}
@@ -446,7 +446,8 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
   document.querySelectorAll('.sidebar .nav-links a, .sidebar .sidebar-management a').forEach(link => {
     const target = new URL(link.href, window.location.origin).pathname.replace(/\/$/, '') || '/';
-    const isManagementSection = link.classList.contains('nav-management') && (currentPath === target || currentPath.startsWith(target + '/'));\n    if (target === currentPath || isManagementSection) link.setAttribute('aria-current', 'page');
+    const isManagementSection = link.classList.contains('nav-management') && (currentPath === target || currentPath.startsWith(target + '/')); 
+    if (target === currentPath || isManagementSection) link.setAttribute('aria-current', 'page');
   });
   const themeButton = document.getElementById('theme-toggle');
   const root = document.documentElement;
