@@ -180,9 +180,10 @@
 <!-- user-guide-print -->
 <style>
 @media print {
-  .sidebar, .page-header, .guide-index, .no-print { display: none !important; }
+  .sidebar, .guide-index, .no-print { display: none !important; }
   .guide-layout { display: block !important; }
-  .guide-content .card { break-inside: avoid; box-shadow: none !important; }
+  .page-header { display: block !important; margin: 0 0 1rem !important; }
+  .guide-content .card { break-inside: auto; box-shadow: none !important; }
   body { background: #fff !important; color: #000 !important; }
   a { color: inherit !important; text-decoration: none !important; }
 }
