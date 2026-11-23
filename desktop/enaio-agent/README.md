@@ -18,7 +18,7 @@ Das Gerätetoken wird mit Windows DPAPI für den aktuellen Benutzer verschlüsse
 
 ## Diagnose und Logs
 
-Der Agent schreibt Diagnosemeldungen in die Debug-Console unter **Verwaltung → enaio-Einstellungen**. Die Anzeige aktualisiert sich automatisch und bietet Filter, Kopieren und Download. Lokal wird zusätzlich `%LOCALAPPDATA%\\MeetingManager\\EnaioAgent\\agent.log` geführt. Startfehler vor erfolgreicher Kopplung können naturgemäß nicht an den Server übertragen werden; in diesem Fall die lokale Logdatei prüfen. Zugangsdaten und Tokens werden vor der Server-Speicherung maskiert.
+Der Agent schreibt Diagnosemeldungen in die Debug-Console unter **Verwaltung → enaio-Einstellungen**. Die Anzeige aktualisiert sich automatisch und bietet Filter, Kopieren und Download. Lokal wird zusätzlich `%LOCALAPPDATA%\MeetingManager\EnaioAgent\agent.log` geführt. Startfehler vor erfolgreicher Kopplung können naturgemäß nicht an den Server übertragen werden; in diesem Fall die lokale Logdatei prüfen. Zugangsdaten und Tokens werden vor der Server-Speicherung maskiert.
 
 ## enaio-Objektdefinition
 
