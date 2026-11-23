@@ -1,4 +1,5 @@
 from django import forms
+from zoneinfo import available_timezones
 from django.contrib import admin, messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import (
@@ -417,9 +418,11 @@ admin.site.register(Group, MeetingGroupAdmin)
 @admin.register(OrganizationSettings)
 class OrganizationSettingsAdmin(admin.ModelAdmin):
     list_display = ("name",)
-    fields = ("name", "short_name", "attachment_max_size_mb", ("primary_color", "primary_color_light", "primary_color_dark"), ("secondary_color", "secondary_color_light", "secondary_color_dark"), ("tertiary_color", "tertiary_color_light", "tertiary_color_dark"))
+    fields = ("name", "short_name", "timezone", "attachment_max_size_mb", ("primary_color", "primary_color_light", "primary_color_dark"), ("secondary_color", "secondary_color_light", "secondary_color_dark"), ("tertiary_color", "tertiary_color_light", "tertiary_color_dark"))
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
+        if db_field.name == "timezone":
+            kwargs["choices"] = [(zone, zone) for zone in sorted(available_timezones())]
         formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name.endswith("_color") or db_field.name.endswith("_color_light") or db_field.name.endswith("_color_dark"):
             defaults = {
