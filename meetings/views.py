@@ -2179,7 +2179,7 @@ def _deployment_info():
         def git_value(*args):
             try:
                 result = subprocess.run(
-                    ["/usr/bin/git", "-C", "/opt/meeting-manager", *args],
+                    ["/usr/bin/git", "-c", "safe.directory=/opt/meeting-manager", "-C", "/opt/meeting-manager", *args],
                     text=True, capture_output=True, timeout=3, check=True,
                 )
                 return result.stdout.strip()
