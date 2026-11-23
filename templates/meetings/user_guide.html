@@ -2,14 +2,14 @@
 {% block title %}Hilfe &amp; Anleitung – Meeting Manager{% endblock %}
 {% block content %}
 <style>
-.guide-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:1.25rem;align-items:start}.guide-content{min-width:0}.guide-content p{text-align:justify;text-justify:inter-word}.guide-index{position:sticky;top:1rem}.guide-index a{display:block;padding:.28rem 0;color:var(--text);text-decoration:none}.guide-index a:hover{text-decoration:underline;color:var(--hagen-blue)}.guide-index .guide-index-sub{display:none;padding-left:.9rem;font-size:.9em;color:var(--muted)}.guide-index-group{margin:.2rem 0}.guide-index-group.is-current .guide-index-sub{display:block}.guide-content h2{margin-top:2rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}.guide-content h3{margin-top:1.4rem}.guide-content h4{margin-top:1rem}.guide-content li{margin:.3rem 0}.guide-note{padding:.8rem 1rem;border-left:4px solid var(--hagen-blue);background:var(--soft-bg);border-radius:4px}.guide-table{width:100%;border-collapse:collapse}.guide-table th,.guide-table td{padding:.55rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}@media(max-width:850px){.guide-layout{grid-template-columns:1fr}.guide-index{position:static;order:-1}}
+.guide-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:1.25rem;align-items:start}.guide-content{min-width:0}.guide-content p{text-align:justify;text-justify:inter-word}.guide-index{position:sticky;top:1rem}.guide-index a{display:block;padding:.28rem 0;color:var(--text);text-decoration:none}.guide-index a:hover{text-decoration:underline;color:var(--hagen-blue)}.guide-index .guide-index-sub{display:none;padding-left:.9rem;font-size:.9em;color:var(--muted)}.guide-index .guide-index-function{display:none;padding:.18rem 0 .18rem 1.8rem;font-size:.82em;color:var(--muted)}.guide-index-group.is-current .guide-index-function{display:block}.guide-index-group{margin:.2rem 0}.guide-index-group.is-current .guide-index-sub{display:block}.guide-content h2{margin-top:2rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}.guide-content h3{margin-top:1.4rem}.guide-content h4{margin-top:1rem}.guide-content li{margin:.3rem 0}.guide-note{padding:.8rem 1rem;border-left:4px solid var(--hagen-blue);background:var(--soft-bg);border-radius:4px}.guide-table{width:100%;border-collapse:collapse}.guide-table th,.guide-table td{padding:.55rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}@media(max-width:850px){.guide-layout{grid-template-columns:1fr}.guide-index{position:static;order:-1}}
 </style>
 <header class="page-header"><div><h1>Hilfe &amp; Bedienungsanleitung</h1><p class="muted">Anleitung nach Benutzerrolle und den Bereichen der Website</p></div></header>
 <div class="guide-layout">
 <article class="guide-content">
 <section class="card">
 <h2 style="margin-top:0">So ist diese Anleitung aufgebaut</h2>
-<p>Die Kapitel sind zuerst nach Berechtigungsgruppen und innerhalb jeder Gruppe nach den Bereichen der Website geordnet. Suche also zuerst deine Rolle und darin den Menüpunkt bzw. die Seite, zu der du Hilfe benötigst.</p>
+<p>Die Anleitung ist dreistufig aufgebaut: Zuerst wählst du deine Rolle, darunter den passenden Funktionsbereich und anschließend die konkrete Funktion innerhalb dieses Bereichs.</p>
 <p>Die Rolle gilt jeweils für eine Besprechungsreihe. Derselbe Benutzer kann in einer Reihe Leser und in einer anderen Teilnehmer oder Moderator sein. Administratoren haben globale Rechte.</p>
 <div class="guide-note"><strong>Wichtige Begriffe:</strong> Ein <em>Thema</em> ist ein fortlaufender Vorgang. Ein <em>Tagesordnungspunkt</em> ist die Behandlung dieses Themas in einem konkreten Besprechungstermin. Der Text und Status gehören zum jeweiligen Termin. Beim Abschluss wird der Protokollstand als Snapshot gesichert.</div>
 </section>
@@ -76,36 +76,37 @@
 
 <h2 id="moderator">4. Moderator</h2>
 <p>Als Moderator stehen dir alle Funktionen der Teilnehmer zur Verfügung. Zusätzlich verwaltest du Besprechungsreihen, Termine und den Sitzungsabschluss.</p>
-<h3 id="moderator-1">4.1 Besprechungsreihen anzeigen</h3><h4>4.1.1 Reihen anzeigen und auswählen</h4>
+<h3 id="moderator-1">4.1 Besprechungsreihen</h3>
+<h4>4.1.1 Reihen anzeigen und auswählen</h4>
 <p>Öffne „Besprechungsreihen“, um die Reihen zu sehen, die du moderieren darfst. Wähle eine Reihe, um ihre Termine und Einstellungen aufzurufen.</p>
-<h3 id="moderator-2">4.2 Besprechungsreihen anlegen</h3><h4>4.2.1 Reihe anlegen</h4>
+<h4>4.1.2 Reihe anlegen</h4>
 <ol><li>Öffne „Besprechungsreihen“ und klicke „+ Neu“.</li><li>Vergib eine eindeutige Bezeichnung und optional eine Beschreibung.</li><li>Lege den Rhythmus fest: wöchentlich oder monatlich. Das Intervall bestimmt, nach wie vielen Wochen bzw. Monaten der Termin wiederkehrt.</li><li>Wähle den Wochentag sowie Start- und optional Enddatum.</li><li>Prüfe die Angaben und klicke „Reihe anlegen“. Die Termine werden anhand des Rhythmus erzeugt.</li></ol>
 <p>Das Enddatum darf nicht vor dem Startdatum liegen. Doppelte Termine derselben Reihe am selben Datum werden verhindert.</p>
-<h3 id="moderator-3">4.3 Besprechungsreihen bearbeiten und verlängern</h3><h4>4.3.1 Reihe bearbeiten und Termine verlängern</h4>
+<h4>4.1.3 Reihe bearbeiten und Termine verlängern</h4>
 <p>Öffne „Reihe verwalten“ und dann „Einstellungen bearbeiten“. Du kannst Name, Beschreibung, Rhythmus, Intervall, Wochentag sowie Start- und Enddatum anpassen. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben erhalten. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
 <p>„Verlängern“ ergänzt fehlende Termine bis zum 31. Dezember des Folgejahres. Bestehende Termine bleiben unverändert.</p>
-<h3 id="moderator-4">4.4 Termine und Teilnehmerlisten</h3><h4>4.4.1 Teilnehmerlisten bearbeiten</h4>
+<h3 id="moderator-2">4.2 Termine und Teilnehmerlisten</h3>
+<h4>4.2.1 Teilnehmerlisten bearbeiten</h4>
 <p>Öffne den Termin über „Termin öffnen“. In der Teilnehmerliste kannst du bei einem offenen Termin Personen ergänzen oder abwählen und anschließend „Teilnehmer speichern“ wählen. Die vorausgewählten Serienmitglieder bilden die Ausgangsliste; zusätzliche aktive Benutzer sind ebenfalls auswählbar. Beim Abschluss wird die Teilnehmerliste zusammen mit dem Protokollstand festgeschrieben.</p>
-<h4>4.4.2 Termine verschieben, löschen und neu aufsetzen</h4>
+<h4>4.2.2 Termine verschieben, löschen und neu aufsetzen</h4>
 <p>In der Reihenübersicht findest du den nächsten Termin und unter „Alle weiteren Termine anzeigen“ die übrigen Termine. Bei noch nicht abgeschlossenen Terminen kannst du das Datum ändern oder den Termin löschen. Abgeschlossene Termine sind vor solchen Änderungen geschützt. Beim Löschen eines Termins werden vorhandene Tagesordnungspunkte und Teilnehmende auf einen späteren Termin derselben Reihe übertragen. Gibt es noch keinen passenden Folgetermin, versucht die Anwendung einen neuen Termin zu erzeugen. Wenn Inhalte nicht sicher übertragen werden können, bleibt der Ausgangstermin erhalten und du erhältst eine Fehlermeldung. Lies vor dem Löschen den Bestätigungstext sorgfältig.</p>
 <p>In den Einstellungen einer Reihe findest du „Termine neu aufsetzen“. Dabei werden alle zukünftigen, noch nicht abgeschlossenen Termine ab heute entfernt und anhand der aktuellen Serieneinstellungen neu angelegt. Die bisherigen Tagesordnungspunkte und Teilnehmerlisten werden auf die zeitlich nächstgelegenen neuen Termine verteilt; vorhandene Texte, Zuständigkeiten, Statuswerte und Wiedervorlageverknüpfungen werden soweit möglich übernommen. Abgeschlossene Termine und Protokolle bleiben erhalten. Diese Aktion betrifft mehrere Termine und sollte nur nach sorgfältiger Prüfung ausgeführt werden.</p>
-<h3 id="moderator-5">4.5 Protokolle</h3><h4>4.5.1 Besprechung abschließen und Snapshot sichern</h4>
+<h3 id="moderator-3">4.3 Protokolle und Sitzungsabschluss</h3>
+<h4>4.3.1 Besprechung abschließen und Snapshot sichern</h4>
 <ol><li>Öffne den Termin und prüfe Tagesordnung, Texte, Teilnehmer, Zuständigkeiten und Bearbeitungsstände.</li><li>Stelle sicher, dass alle Änderungen gespeichert sind.</li><li>Wähle „Besprechung abschließen“ und bestätige.</li><li>Die Anwendung sichert Themenbezeichnungen, Texte, Statuswerte und Verantwortlichkeiten als Protokollstand.</li><li>Das Protokoll ist anschließend als abgeschlossen gekennzeichnet und kann als PDF oder Word exportiert werden.</li></ol>
 <p>Nach dem Abschluss sind Tagesordnung und Protokoll-Snapshot gegen normale Bearbeitung geschützt. Die weitere Arbeit erfolgt in einem zukünftigen Termin.</p>
-<h3 id="moderator-6">4.6 Abgeschlossene Besprechungen wieder öffnen</h3><h4>4.6.1 Abgeschlossene Besprechung wieder öffnen</h4>
+<h4>4.3.2 Abgeschlossene Besprechung wieder öffnen</h4>
 <p>Wenn eine abgeschlossene Sitzung erneut bearbeitet werden muss, wähle in der Protokoll- oder Terminansicht „Besprechung wieder öffnen“ und bestätige. Die Sitzung ist danach wieder bearbeitbar; der bisherige Protokoll-Snapshot wird aus der aktiven Protokollansicht genommen, bleibt aber vollständig im Änderungsverlauf dokumentiert. Nach erneuter Bearbeitung kannst du die Sitzung wieder abschließen; dabei wird ein neuer Protokoll-Snapshot erzeugt. Das Wiederöffnen ersetzt also nicht stillschweigend die historische Dokumentation.</p>
-<h3 id="moderator-7">4.7 Themenverwaltung und Archiv</h3><h4>4.7.1 Thema archivieren und wieder öffnen</h4>
+<h3 id="moderator-4">4.4 Themenverwaltung und Archiv</h3>
+<h4>4.4.1 Thema archivieren und wieder öffnen</h4>
 <p>In der Themenansicht kannst du ein Thema archivieren, wenn es nicht mehr auf einer zukünftigen oder offenen Tagesordnung steht. Archivierte Themen bleiben erhalten und erscheinen im Archiv. Über „Thema wieder öffnen“ kannst du es später reaktivieren. Dabei wird der Status vor der Archivierung wiederhergestellt.</p>
-<h3 id="moderator-8">4.8 Änderungsverlauf</h3><h4>4.8.1 Änderungen anzeigen und filtern</h4>
+<h3 id="moderator-5">4.5 Änderungsverlauf</h3>
+<h4>4.5.1 Änderungen anzeigen und filtern</h4>
 <p>Öffne „Änderungsverlauf“, um protokollierte Aktionen wie Anlegen, Ändern, Archivieren, Übertragen, Hinzufügen einer Anlage, Abschluss und Wiederöffnung nachzuvollziehen. Du kannst nach Thema oder Besprechungsreihe filtern und einzelne Einträge aufklappen, um Details zu sehen. Einträge werden automatisch erzeugt und können hier nicht bearbeitet oder gelöscht werden.</p>
-<h3 id="moderator-9">4.9 Berechtigungen</h3><h4>4.9.1 Berechtigungsanträge prüfen und entscheiden</h4>
+<h3 id="moderator-6">4.6 Berechtigungen</h3>
+<h4>4.6.1 Berechtigungsanträge prüfen und entscheiden</h4>
 <p>Moderatoren bearbeiten Zugriffsanträge direkt auf der Seite „Besprechungsreihen“. Oben auf der Seite erscheint der Abschnitt „Offene Berechtigungsanträge“, sofern Anträge für deine Reihen vorliegen. Du siehst dort den Namen des Antragstellers, die Besprechungsreihe, die gewünschte Rolle und das Antragsdatum. Als Moderator siehst du ausschließlich Anträge für Reihen, in denen du Moderator bist.</p>
 <p>Prüfe die gewünschte Berechtigung. Optional kannst du eine Begründung eintragen und anschließend „Genehmigen“ oder „Ablehnen“ wählen. Bei einer Genehmigung wird die beantragte Rolle für diese Besprechungsreihe vergeben. Eine Herabstufung einer bestehenden Rolle erfolgt bereits bei der Antragstellung automatisch und erscheint nicht in der Liste offener Anträge. Bei einer Ablehnung wird keine neue Berechtigung vergeben. Die Entscheidung und eine eingetragene Begründung werden dem Antragsteller auf seiner Nutzerseite angezeigt.</p>
-
-
-
-
-
 
 <h2 id="admin">5. Admin</h2>
 <p>Administratoren haben die Moderatorfunktionen für alle Besprechungsreihen und zusätzlich Zugriff auf „Verwaltung“.</p>
@@ -141,7 +142,7 @@
 <a href="#rollen">1. Rollen im Überblick</a>
 <div class="guide-index-group"><a href="#leser">2. Leser</a><a class="guide-index-sub" href="#leser-1">2.1 Navigation und Orientierung</a><a class="guide-index-sub" href="#leser-2">2.2 Themen und Übersicht</a><a class="guide-index-sub" href="#leser-3">2.3 Besprechungen und Termine</a><a class="guide-index-sub" href="#leser-4">2.4 Teilnehmerlisten</a><a class="guide-index-sub" href="#leser-5">2.5 Tagesordnungen und Protokolle</a><a class="guide-index-sub" href="#leser-6">2.6 Themenverwaltung</a><a class="guide-index-sub" href="#leser-7">2.7 Archiv</a><a class="guide-index-sub" href="#leser-8">2.8 Aufgaben und Wiedervorlagen</a><a class="guide-index-sub" href="#leser-9">2.9 Benutzerkonto und Berechtigungen</a></div>
 <div class="guide-index-group"><a href="#teilnehmer">3. Teilnehmer</a><a class="guide-index-sub" href="#teilnehmer-1">3.1 Themenverwaltung</a><a class="guide-index-sub" href="#teilnehmer-2">3.2 Tagesordnungspunkte bearbeiten</a><a class="guide-index-sub" href="#teilnehmer-3">3.3 Aufgaben und offene Punkte</a><a class="guide-index-sub" href="#teilnehmer-4">3.4 Wiedervorlagen und Verschieben</a><a class="guide-index-sub" href="#teilnehmer-5">3.5 Protokolle</a></div>
-<div class="guide-index-group"><a href="#moderator">4. Moderator</a><a class="guide-index-sub" href="#moderator-1">4.1 Besprechungsreihen anzeigen</a><a class="guide-index-sub" href="#moderator-2">4.2 Besprechungsreihen anlegen</a><a class="guide-index-sub" href="#moderator-3">4.3 Besprechungsreihen bearbeiten und verlängern</a><a class="guide-index-sub" href="#moderator-4">4.4 Termine und Teilnehmerlisten</a><a class="guide-index-sub" href="#moderator-5">4.5 Protokolle</a><a class="guide-index-sub" href="#moderator-6">4.6 Abgeschlossene Besprechungen wieder öffnen</a><a class="guide-index-sub" href="#moderator-7">4.7 Themenverwaltung und Archiv</a><a class="guide-index-sub" href="#moderator-8">4.8 Änderungsverlauf</a><a class="guide-index-sub" href="#moderator-9">4.9 Berechtigungen</a></div>
+<div class="guide-index-group"><a href="#moderator">4. Moderator</a><a class="guide-index-sub" href="#moderator-1">4.1 Besprechungsreihen</a><a class="guide-index-sub" href="#moderator-2">4.2 Termine und Teilnehmerlisten</a><a class="guide-index-sub" href="#moderator-3">4.3 Protokolle und Sitzungsabschluss</a><a class="guide-index-sub" href="#moderator-4">4.4 Themenverwaltung und Archiv</a><a class="guide-index-sub" href="#moderator-5">4.5 Änderungsverlauf</a><a class="guide-index-sub" href="#moderator-6">4.6 Berechtigungen</a></div>
 <div class="guide-index-group"><a href="#admin">5. Admin</a><a class="guide-index-sub" href="#admin-1">5.1 Verwaltung</a><a class="guide-index-sub" href="#admin-2">5.2 Benutzerverwaltung</a><a class="guide-index-sub" href="#admin-3">5.3 Gruppen und Reihenberechtigungen</a><a class="guide-index-sub" href="#admin-4">5.4 Datenimport und -export</a><a class="guide-index-sub" href="#admin-5">5.5 Organisationseinstellungen</a><a class="guide-index-sub" href="#admin-6">5.6 Besprechungsreihen löschen und Historie erhalten</a><a class="guide-index-sub" href="#admin-7">5.7 Verwaltungsdaten und Protokolle</a></div>
 <div class="guide-index-group"><a href="#faq">6. Häufige Fragen</a><a class="guide-index-sub" href="#faq-1">6.1 Warum kann ich nichts bearbeiten?</a><a class="guide-index-sub" href="#faq-2">6.2 Warum kann ich ein Thema nicht archivieren?</a><a class="guide-index-sub" href="#faq-3">6.3 Warum weicht das Protokoll vom aktuellen Themenstand ab?</a><a class="guide-index-sub" href="#faq-4">6.4 Was ist der Unterschied zwischen Thema und Tagesordnungspunkt?</a><a class="guide-index-sub" href="#faq-5">6.5 Wen kontaktiere ich bei fehlendem Zugriff?</a><a class="guide-index-sub" href="#faq-6">6.6 Smartphone und Tablet</a></div>
 </aside>
@@ -156,6 +157,31 @@
     return link ? document.querySelector(link.getAttribute("href")) : null;
   }).filter(Boolean);
   if (!sections.length) return;
+
+  groups.forEach((group, groupIndex) => {
+    const role = sections[groupIndex];
+    if (!role) return;
+    const areaLinks = Array.from(group.querySelectorAll(":scope > .guide-index-sub"));
+    let area = null;
+    let functionNumber = 0;
+    let node = role.nextElementSibling;
+    while (node && !/^H2$/i.test(node.tagName)) {
+      if (/^H3$/i.test(node.tagName)) {
+        area = areaLinks.find(link => link.getAttribute("href") === "#" + node.id);
+        functionNumber = 0;
+      } else if (/^H4$/i.test(node.tagName) && area) {
+        functionNumber += 1;
+        if (!node.id) node.id = area.getAttribute("href").slice(1) + "-function-" + functionNumber;
+        const link = document.createElement("a");
+        link.className = "guide-index-function";
+        link.href = "#" + node.id;
+        link.textContent = node.textContent;
+        area.insertAdjacentElement("afterend", link);
+        area = link;
+      }
+      node = node.nextElementSibling;
+    }
+  });
 
   const updateCurrentSection = () => {
     let current = null;
