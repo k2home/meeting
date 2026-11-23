@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "$EUID" -ne 0 ]]; then
+  echo "Dieser Befehl muss über sudo aufgerufen werden." >&2
+  exit 1
+fi
+if [[ "$#" -ne 1 || ( "$1" != "beta" && "$1" != "main" ) ]]; then
+  echo "Verwendung: meeting-manager-update beta|main" >&2
+  exit 2
+fi
+
+exec /opt/meeting-manager/deploy/update.sh "$1"
