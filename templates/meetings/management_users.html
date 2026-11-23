@@ -18,10 +18,25 @@
   input.id = "management-user-search";
   input.placeholder = "Name, Anmeldename oder E-Mail suchen …";
   input.setAttribute("aria-label", "Nutzer suchen");
+  table.id = "management-users-table";
+  input.setAttribute("aria-controls", table.id);
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
   table.parentElement.parentElement.insertAdjacentElement("beforebegin", input);
+  input.insertAdjacentElement("afterend", feedback);
   input.addEventListener("input", () => {
     const term = input.value.trim().toLocaleLowerCase("de");
-    body.querySelectorAll("tr").forEach(row => { row.hidden = !!term && !row.textContent.toLocaleLowerCase("de").includes(term); });
+    const rows = [...body.querySelectorAll("tr")];
+    let visibleCount = 0;
+    rows.forEach(row => {
+      const visible = !term || row.textContent.toLocaleLowerCase("de").includes(term);
+      row.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Nutzer gefunden.";
   });
 })();
 </script>
