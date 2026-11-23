@@ -1137,7 +1137,7 @@ def protocol_pdf(request, pk):
     secondary = brand_color(brand.get("secondary_color"), "#8FC5FF")
     buffer = BytesIO()
     left_margin = right_margin = 20 * mm
-    top_margin, bottom_margin = 34 * mm, 25 * mm
+    top_margin, bottom_margin = 36 * mm, 25 * mm
     document = SimpleDocTemplate(
         buffer, pagesize=A4, rightMargin=right_margin, leftMargin=left_margin,
         topMargin=top_margin, bottomMargin=bottom_margin,
@@ -1205,14 +1205,14 @@ def protocol_pdf(request, pk):
     ]
     for index, entry in enumerate(entries, start=1):
         parts = [Paragraph(f"{index:02d} &nbsp; {escape(entry['title'])}", styles["ProtocolTopic"])]
-        if entry.get("followup_date"):
-            followup_label = formats.date_format(entry["followup_date"], "DATE_FORMAT")
-            parts.append(Paragraph("<b>Wiedervorlage:</b> " + escape(followup_label), styles["ProtocolSmall"]))
-        parts.append(Paragraph(escape(entry["text"] or "—").replace("\n", "<br/>"), styles["ProtocolBody"]))
         status_and_responsible = "<b>Status:</b> " + escape(entry["status"])
         if entry.get("responsible"):
             status_and_responsible += " &nbsp;&nbsp; <b>Verantwortlich:</b> " + escape(entry["responsible"])
         parts.append(Paragraph(status_and_responsible, styles["ProtocolStatus"]))
+        parts.append(Paragraph(escape(entry["text"] or "—").replace("\n", "<br/>"), styles["ProtocolBody"]))
+        if entry.get("followup_date"):
+            followup_label = formats.date_format(entry["followup_date"], "DATE_FORMAT")
+            parts.append(Paragraph("<b>Wiedervorlage:</b> " + escape(followup_label), styles["ProtocolSmall"]))
         parts.append(Spacer(1, 2 * mm))
         story.append(KeepTogether(parts))
     if not entries:
@@ -1258,18 +1258,18 @@ def protocol_pdf(request, pk):
                 self.drawString(text_left, page_top - 2 * mm, organization_name[:75])
             right_edge = A4[0] - right_margin
             self.setFillColor(primary)
-            self.setFont(bold_font, 10)
-            self.drawCentredString(A4[0] / 2, page_top - 1 * mm, "PROTOKOLL")
+            self.setFont(bold_font, 13)
+            self.drawCentredString(A4[0] / 2, page_top - 3 * mm, "PROTOKOLL")
             self.setFillColor(colors.HexColor("#526170"))
-            self.setFont(regular_font, 8)
+            self.setFont(regular_font, 9.5)
             self.drawCentredString(
-                A4[0] / 2, page_top - 6 * mm,
+                A4[0] / 2, page_top - 10 * mm,
                 f"{series_name} · {meeting_date}",
             )
 
             self.setStrokeColor(primary)
             self.setLineWidth(1.1)
-            self.line(left_margin, A4[1] - 30 * mm, right_edge, A4[1] - 30 * mm)
+            self.line(left_margin, A4[1] - 32 * mm, right_edge, A4[1] - 32 * mm)
 
             footer_y = 15 * mm
             self.setStrokeColor(colors.HexColor("#DCE3EA"))
