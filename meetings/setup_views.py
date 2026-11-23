@@ -20,6 +20,7 @@ from .user_roles import sync_admin_access
 logger = logging.getLogger(__name__)
 User = get_user_model()
 SETUP_LOCK_ID = 741029381
+SETUP_STEPS = (("account", "Administrator"), ("organization", "Organisation"), ("system", "Systemprüfung"), ("complete", "Abschluss"))
 
 
 def _setup_checks():
@@ -140,7 +141,7 @@ def setup_wizard(request):
                     form.add_error(None, "Das Administratorkonto konnte nicht angelegt werden. Bitte erneut versuchen.")
         else:
             form = InitialAdministratorForm()
-        return render(request, "meetings/setup_wizard.html", {"step": "account", "form": form})
+        return render(request, "meetings/setup_wizard.html", {"step": "account", "form": form, "setup_steps": SETUP_STEPS})
 
     setup_user_id = request.session.get("initial_setup_user_id")
     if not request.user.is_authenticated or not request.user.is_superuser or setup_user_id != request.user.pk:
@@ -157,7 +158,7 @@ def setup_wizard(request):
                 request.session["initial_setup_organization_saved"] = True
                 return redirect("/setup/?step=system")
         return render(request, "meetings/setup_wizard.html", {
-            "step": step, "form": form, "logo_form": logo_form, "organization_settings": instance,
+            "step": step, "form": form, "logo_form": logo_form, "organization_settings": instance, "setup_steps": SETUP_STEPS,
         })
 
     if step == "system":
@@ -166,7 +167,7 @@ def setup_wizard(request):
         if request.method == "POST" and all_ok:
             return redirect("/setup/?step=complete")
         return render(request, "meetings/setup_wizard.html", {
-            "step": step, "checks": checks, "all_checks_ok": all_ok,
+            "step": step, "checks": checks, "all_checks_ok": all_ok, "setup_steps": SETUP_STEPS,
         })
 
     if step == "complete":
