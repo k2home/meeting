@@ -1906,6 +1906,9 @@ def meeting_reopen(request, pk):
 
 @login_required
 def audit_history(request):
+    # Prevent autofocus from scrolling the account page to the password section.
+    password_form.fields["old_password"].widget.attrs.pop("autofocus", None)
+
     admin_access = is_admin(request.user)
     # Änderungsverläufe sind ausschließlich für Serien mit Moderatorrolle sichtbar.
     # Eine Teilnehmerrolle in einer anderen Serie darf die Ansicht nicht erweitern.
