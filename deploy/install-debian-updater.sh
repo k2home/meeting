@@ -14,6 +14,7 @@ fi
 getent group www-data >/dev/null
 
 install -d -o root -g www-data -m 0750 /var/lib/meeting-manager-updater
+install -o root -g root -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
 if [[ ! -x /usr/bin/systemd-run ]]; then
   echo "systemd-run ist nicht verfügbar; ein systemd-basierter Dienst wird benötigt." >&2
   exit 1
@@ -22,6 +23,10 @@ install -o root -g root -m 0755 "$APP_DIR/deploy/meeting-manager-update" /usr/lo
 install -o root -g root -m 0755 "$APP_DIR/deploy/meeting-manager-update-runner" /usr/local/sbin/meeting-manager-update-runner
 install -o root -g root -m 0440 "$APP_DIR/deploy/meeting-manager-update.sudoers" /etc/sudoers.d/meeting-manager-update
 visudo -cf /etc/sudoers.d/meeting-manager-update
+systemctl daemon-reload
+if systemctl is-active --quiet meeting-manager.service; then
+  systemctl restart meeting-manager.service
+fi
 
 echo "Debian-Web-Updater eingerichtet."
 echo "Erlaubte Ziele: beta und main. Der Dienst meetingapp darf ausschließlich diesen Wrapper aufrufen."
