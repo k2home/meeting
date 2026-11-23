@@ -9,7 +9,8 @@ from django.utils import formats, timezone
 
 from .access import accessible_meetings, accessible_series, accessible_topics, is_admin, is_moderator, is_reader
 from .audit import record_event
-from .models import AgendaItem, Meeting, SeriesAccess, Topic, TopicSnapshot
+from .models import AgendaItem, Meeting, SeriesAccess, Topic, TopicComment, TopicSnapshot
+from .forms import TopicCommentForm
 
 
 class TopicTitleForm(forms.ModelForm):
@@ -62,8 +63,11 @@ def topic_new(request):
                 )
             messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {formats.date_format(meeting.date, 'DATE_FORMAT')} gesetzt.")
             return redirect("topic_edit", pk=topic.pk)
+    topic_comments = topic.comments.select_related("author").order_by("created_at", "pk")
     return render(request, "meetings/topic_form.html", {
-        "form": form, "available_meetings": meetings,
+        "form": form,
+        "comment_form": TopicCommentForm(),
+        "topic_comments": topic_comments, "available_meetings": meetings,
         "is_reader": not writable_series.exists(),
     })
 

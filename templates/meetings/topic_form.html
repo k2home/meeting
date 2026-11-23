@@ -6,6 +6,12 @@
 .topic-main,.topic-side{min-width:0}.topic-layout>.topic-main{margin:0;padding:0;width:auto}.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
 .topic-meeting{padding:1rem 0;border-bottom:1px solid var(--border,#ddd)}
 .topic-meeting:last-child{border:0}.topic-meeting textarea{min-height:120px}
+.topic-comments .topic-comment{padding:.7rem 0;border-bottom:1px solid var(--border)}
+.topic-comments .topic-comment:last-of-type{margin-bottom:.8rem}
+.topic-comments .topic-comment p{margin:.45rem 0;overflow-wrap:anywhere}
+.topic-comments time{font-size:.85rem}
+.topic-comments textarea{min-height:90px}
+
 .topic-meeting-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
 .topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 .topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
@@ -80,6 +86,29 @@
      {% endif %}
     </article>
    {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
+  </section>
+  <section class="card topic-comments">
+   <h2>Kommentare und nächste Schritte</h2>
+   <p class="muted">Ergänzende Hinweise werden chronologisch am Thema gesammelt.</p>
+   {% for comment in topic_comments %}
+    <article class="topic-comment">
+     <div class="topline">
+      <strong>{% if comment.author %}{{ comment.author|user_display }}{% else %}System{% endif %}</strong>
+      <time class="muted" datetime="{{ comment.created_at|date:'c' }}">{{ comment.created_at|date:"DATETIME_FORMAT" }}</time>
+     </div>
+     <p>{{ comment.body|linebreaksbr }}</p>
+    </article>
+   {% empty %}
+    <p class="muted">Noch keine Kommentare vorhanden.</p>
+   {% endfor %}
+   {% if not is_reader %}
+    <form method="post" action="{% url 'topic_comment_add' topic.pk %}">
+     {% csrf_token %}
+     <label for="id_body">Kommentar oder nächste Schritte</label>
+     {{ comment_form.body }}
+     <button type="submit">Kommentar hinzufügen</button>
+    </form>
+   {% endif %}
   </section>
  </div>
  <aside class="topic-side">
