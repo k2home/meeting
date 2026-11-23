@@ -26,9 +26,37 @@ cp -a "$SOURCE_DIR/." "$APP_DIR/"
 chown -R root:www-data "$APP_DIR"
 chown -R meetingapp:www-data "$APP_DIR/media" "$APP_DIR/staticfiles"
 
+DEFAULT_HOST="$(hostname -f 2>/dev/null || hostname)"
+read -r -p "Hostname oder IP, unter der die Website erreichbar ist [$DEFAULT_HOST]: " SITE_HOST
+SITE_HOST="${SITE_HOST:-$DEFAULT_HOST}"
+if [[ ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
+  echo "Bitte einen gültigen Hostnamen oder eine IPv4-Adresse eingeben. IPv6 bitte über einen DNS-Namen verwenden." >&2
+  exit 1
+fi
+
+read_existing_env() {
+  local key="$1"
+  if [[ -f "$APP_DIR/.env" ]]; then
+    sed -n "s/^$key=//p" "$APP_DIR/.env" | head -n 1
+  fi
+}
+
+# Reuse existing infrastructure credentials on reinstalls; never rotate a
+# working database password or SECRET_KEY merely because the installer ran again.
+if [[ -f "$APP_DIR/.env" ]]; then
+  SECRET_KEY="$(read_existing_env SECRET_KEY)"
+  DB_PASSWORD="$(read_existing_env POSTGRES_PASSWORD)"
+  if [[ -z "$SECRET_KEY" || -z "$DB_PASSWORD" ]]; then
+    echo "Die vorhandene .env enthält keinen SECRET_KEY oder POSTGRES_PASSWORD. Bitte zuerst manuell sichern und korrigieren." >&2
+    exit 1
+  fi
+else
+  SECRET_KEY="$(openssl rand -hex 48)"
+  DB_PASSWORD="$(openssl rand -hex 24)"
+fi
+
 echo "==> Richte lokale PostgreSQL-Datenbank ein"
-# Hex values are safe to interpolate into the SQL statements below.
-DB_PASSWORD="$(openssl rand -hex 24)"
+# DB_PASSWORD is generated as hex on first install or reused from the protected .env.
 if ! runuser -u postgres -- psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='$DB_USER'" | grep -q 1; then
   runuser -u postgres -- psql -c "CREATE ROLE $DB_USER LOGIN PASSWORD '$DB_PASSWORD';"
 else
@@ -46,18 +74,9 @@ runuser -u meetingapp -- python3 -m venv "$APP_DIR/.venv"
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install --upgrade pip
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
 
-DEFAULT_HOST="$(hostname -f 2>/dev/null || hostname)"
-read -r -p "Hostname oder IP, unter der die Website erreichbar ist [$DEFAULT_HOST]: " SITE_HOST
-SITE_HOST="${SITE_HOST:-$DEFAULT_HOST}"
-if [[ ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
-  echo "Bitte einen gültigen Hostnamen oder eine IPv4-Adresse eingeben. IPv6 bitte über einen DNS-Namen verwenden." >&2
-  exit 1
-fi
-
-# Infrastructure secrets are generated automatically and never exposed in the browser.
-SECRET_KEY="$(openssl rand -hex 48)"
-umask 077
-cat > "$APP_DIR/.env" <<EOF
+if [[ ! -f "$APP_DIR/.env" ]]; then
+  umask 077
+  cat > "$APP_DIR/.env" <<EOF
 SECRET_KEY=$SECRET_KEY
 DEBUG=0
 ALLOWED_HOSTS=$SITE_HOST,localhost,127.0.0.1
@@ -77,6 +96,13 @@ SECURE_HSTS_PRELOAD=0
 TRUST_PROXY_SSL=0
 USE_X_FORWARDED_HOST=0
 EOF
+else
+  # Keep reverse-proxy, HTTPS and other local settings intact on existing systems.
+  CURRENT_HOSTS="$(read_existing_env ALLOWED_HOSTS)"
+  if [[ -n "$CURRENT_HOSTS" && ",$CURRENT_HOSTS," != *",$SITE_HOST,"* ]]; then
+    sed -i "s/^ALLOWED_HOSTS=.*/ALLOWED_HOSTS=$CURRENT_HOSTS,$SITE_HOST/" "$APP_DIR/.env"
+  fi
+fi
 chown root:www-data "$APP_DIR/.env"
 chmod 640 "$APP_DIR/.env"
 
