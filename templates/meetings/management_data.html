@@ -1,5 +1,10 @@
 {% extends "meetings/base.html" %}
-{% block title %}Datenimport und -export<div class="card"><h2>Vollständiger Datenbank-Export und -Import</h2>
+{% block title %}Datenimport und -export{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Datenimport und -export</h1><p class="muted">CSV-Sicherungen und Datenübernahme direkt in der neuen Verwaltung</p></div><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a></div>
+<div class="card"><h2>Nutzer</h2><p>Benutzerkonten einschließlich persönlicher Angaben, Aktivstatus, Administratorstatus und Zuordnungen zu Besprechungsreihen.</p><div class="actions"><a class="btn secondary" href="{% url 'management_user_csv_export' %}">Nutzer als CSV exportieren</a><a class="btn secondary" href="{% url 'management_user_csv_sample' %}">Muster-CSV herunterladen</a><a class="btn primary" href="{% url 'management_user_csv_import' %}">Nutzer per CSV importieren</a></div></div>
+<div class="card"><h2>Themen und Tagesordnungspunkte</h2><p>Themen, Termine, Tagesordnungspunkte, Zuständigkeiten, Status und Wiedervorlage-Verknüpfungen. Der Import bietet eine Vorschau und schützt abgeschlossene Protokolle.</p><div class="actions"><a class="btn secondary" href="{% url 'management_topic_csv_export' %}">Datenbank als CSV exportieren</a><a class="btn secondary" href="{% url 'management_topic_csv_sample' %}">Muster-CSV herunterladen</a><a class="btn primary" href="{% url 'management_topic_csv_import' %}">Themen und Punkte importieren</a></div></div>
+<div class="card"><h2>Vollständiger Datenbank-Export und -Import</h2>
 <p>Erstellt eine vollständige PostgreSQL-Sicherung mit allen Datenbanktabellen, Benutzerkonten, Besprechungen, Protokollen und gespeicherten Organisationseinstellungen. Die Sicherung eignet sich auch zur Übertragung auf eine andere Meeting-Manager-Installation.</p>
 <div class="actions"><a class="btn secondary" href="{% url 'management_database_export' %}">Vollständige Datenbank exportieren</a></div>
 <hr>
@@ -11,9 +16,4 @@
 <div class="form-row"><label for="database_confirmation">Zur Bestätigung DATENBANK ERSETZEN eingeben</label><input id="database_confirmation" name="confirmation" type="text" autocomplete="off" required></div>
 <button class="danger" type="submit">Datenbank vollständig importieren und ersetzen</button>
 </form></div>
-{% endblock %}
-{% block content %}
-<div class="page-header"><div><h1>Datenimport und -export</h1><p class="muted">CSV-Sicherungen und Datenübernahme direkt in der neuen Verwaltung</p></div><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a></div>
-<div class="card"><h2>Nutzer</h2><p>Benutzerkonten einschließlich persönlicher Angaben, Aktivstatus, Administratorstatus und Zuordnungen zu Besprechungsreihen.</p><div class="actions"><a class="btn secondary" href="{% url 'management_user_csv_export' %}">Nutzer als CSV exportieren</a><a class="btn secondary" href="{% url 'management_user_csv_sample' %}">Muster-CSV herunterladen</a><a class="btn primary" href="{% url 'management_user_csv_import' %}">Nutzer per CSV importieren</a></div></div>
-<div class="card"><h2>Themen und Tagesordnungspunkte</h2><p>Themen, Termine, Tagesordnungspunkte, Zuständigkeiten, Status und Wiedervorlage-Verknüpfungen. Der Import bietet eine Vorschau und schützt abgeschlossene Protokolle.</p><div class="actions"><a class="btn secondary" href="{% url 'management_topic_csv_export' %}">Datenbank als CSV exportieren</a><a class="btn secondary" href="{% url 'management_topic_csv_sample' %}">Muster-CSV herunterladen</a><a class="btn primary" href="{% url 'management_topic_csv_import' %}">Themen und Punkte importieren</a></div></div>
 {% endblock %}
