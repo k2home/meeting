@@ -59,7 +59,9 @@ jobs:
           POSTGRES_PORT: "5432"
         run: |
           bash -n deploy/*.sh
+          bash -n deploy/meeting-manager-update
           python -m compileall -q config meetings
+          python -m py_compile deploy/docker-update-agent.py
           python manage.py check
           SECRET_KEY="ci-only-secret-key-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" SECURE_SSL_REDIRECT=1 SECURE_HSTS_SECONDS=31536000 SESSION_COOKIE_SECURE=1 CSRF_COOKIE_SECURE=1 python manage.py check --deploy
           python manage.py makemigrations --check --dry-run
