@@ -164,7 +164,7 @@
       report.server.push(check("Zentraler enaio-Ablageordner", data.configuration.root_folder_configured ? "KONFIGURIERT" : "FEHLT",
         data.configuration.root_folder_configured ? "Eine Ordner-ID ist hinterlegt." : "Es ist noch keine zentrale Ordner-ID hinterlegt."));
       report.server.push(check("Technische Objektdefinition", data.configuration.object_definition_configured ? "KONFIGURIERT" : "UNVOLLSTÄNDIG",
-        data.configuration.object_definition_configured ? "Schrank, Registertyp, Namensfeld und Dokumenttyp sind hinterlegt." : "Mindestens eine technische Angabe fehlt."));
+        data.configuration.object_definition_configured ? "Schrank, Registertyp, Namensfeld und Dokumenttyp sind hinterlegt." : "Fehlende Angaben: " + (data.configuration.missing_fields || []).map(item => item.label).join(", ")));
       report.server.push(check("Session-/COM-Prüfung serverseitig", "NICHT MÖGLICH", data.note));
       report.conclusion = data.checks_not_possible_from_server;
       report.conclusion.push("Ein Browserbericht kann das Vorhandensein einer COM-Schnittstelle im enaio-Client nicht abschließend beweisen.");
