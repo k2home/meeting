@@ -1697,3 +1697,39 @@ class DashboardStatusFilterTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context["topics"]), [self.in_progress_topic])
         self.assertEqual(response.context["selected_status"], "in_progress")
+
+
+class DeploymentUpdatePermissionTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth.models import Group
+
+        self.admin = User.objects.create_user(
+            username="deployment-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        self.admin.groups.add(admin_group)
+        self.member = User.objects.create_user(
+            username="deployment-member", password="strong-test-password"
+        )
+
+    def test_only_global_admin_can_open_update_page(self):
+        self.client.force_login(self.member)
+        response = self.client.get(reverse("deployment_updates"))
+        self.assertEqual(response.status_code, 403)
+
+        self.client.force_login(self.admin)
+        response = self.client.get(reverse("deployment_updates"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Software aktualisieren")
+        self.assertContains(response, "Zielversion")
+
+    def test_non_admin_cannot_start_an_update(self):
+        self.client.force_login(self.member)
+        response = self.client.post(reverse("deployment_updates"), {"branch": "beta"})
+        self.assertEqual(response.status_code, 403)
+
+    def test_invalid_branch_is_rejected(self):
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("deployment_updates"), {"branch": "feature/other"})
+        self.assertRedirects(response, reverse("deployment_updates"))
+        self.assertContains(self.client.get(reverse("deployment_updates")), "ausschließlich beta oder main")
