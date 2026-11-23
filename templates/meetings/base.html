@@ -157,6 +157,109 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 }
 :root[data-theme="dark"] .sidebar-management a{background:color-mix(in srgb,var(--secondary-color) 30%,var(--nav-bg));color:#f4f7fb;border-color:color-mix(in srgb,var(--tertiary-color) 78%,var(--nav-bg));border-left-color:var(--tertiary-color);box-shadow:0 1px 3px #00000035}
 :root[data-theme="dark"] .sidebar-management a:hover,:root[data-theme="dark"] .sidebar-management a:focus-visible{background:color-mix(in srgb,var(--tertiary-color) 24%,var(--nav-bg));color:#fff}
+
+/* Sidebar-Farbkonzept: Hauptnavigation und untere Bereiche klar differenzieren. */
+.sidebar .nav-links:not(.nav-links-secondary) a{
+  min-height:44px;
+  margin:0;
+  padding:.68rem .8rem;
+  border:1px solid color-mix(in srgb,var(--tertiary-color) 48%,transparent);
+  border-left:4px solid var(--tertiary-color);
+  border-radius:7px;
+  background:color-mix(in srgb,var(--secondary-color) 30%,#fff);
+  color:color-mix(in srgb,var(--primary-color) 92%,#000);
+  font-weight:650;
+  box-shadow:0 1px 3px #00000018;
+  transition:background .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease;
+}
+.sidebar .nav-links:not(.nav-links-secondary) a::before{filter:none;opacity:1}
+.sidebar .nav-links:not(.nav-links-secondary) a:hover,
+.sidebar .nav-links:not(.nav-links-secondary) a:focus-visible{
+  background:color-mix(in srgb,var(--tertiary-color) 24%,var(--secondary-color));
+  color:color-mix(in srgb,var(--primary-color) 95%,#000);
+  border-color:var(--tertiary-color);
+  box-shadow:0 3px 8px #00000026;
+  transform:translateX(2px);
+}
+.sidebar .nav-links:not(.nav-links-secondary) a[aria-current="page"]{
+  background:var(--secondary-color);
+  border-color:var(--tertiary-color);
+  border-left-width:5px;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--primary-color) 14%,transparent),0 2px 6px #00000020;
+}
+.sidebar .nav-links-secondary{gap:.4rem;padding-top:1rem;border-top:1px solid color-mix(in srgb,var(--secondary-color) 40%,transparent)}
+.sidebar .nav-links-secondary a{
+  min-height:40px;
+  padding:.58rem .8rem;
+  border:1px solid color-mix(in srgb,var(--secondary-color) 24%,transparent);
+  border-left:3px solid color-mix(in srgb,var(--tertiary-color) 68%,var(--secondary-color));
+  border-radius:7px;
+  background:color-mix(in srgb,var(--secondary-color) 17%,var(--nav-bg));
+  color:#f2f6fb;
+  font-weight:550;
+  transition:background .16s ease,border-color .16s ease;
+}
+.sidebar .nav-links-secondary a:hover,
+.sidebar .nav-links-secondary a:focus-visible,
+.sidebar .nav-links-secondary a[aria-current="page"]{
+  background:color-mix(in srgb,var(--secondary-color) 32%,var(--nav-bg));
+  border-color:var(--tertiary-color);
+  color:#fff;
+}
+.sidebar .sidebar-management a{
+  background:color-mix(in srgb,var(--secondary-color) 23%,var(--nav-bg));
+  border-color:color-mix(in srgb,var(--tertiary-color) 58%,var(--nav-bg));
+  border-left-color:color-mix(in srgb,var(--tertiary-color) 76%,var(--secondary-color));
+  color:#f2f6fb;
+}
+.sidebar .sidebar-management a:hover,
+.sidebar .sidebar-management a:focus-visible{
+  background:color-mix(in srgb,var(--secondary-color) 38%,var(--nav-bg));
+  color:#fff;
+  border-color:var(--tertiary-color);
+}
+.sidebar .sidebar-footer{gap:.65rem}
+.sidebar .username{padding:.3rem .65rem}
+.sidebar .logout-form button{
+  background:color-mix(in srgb,var(--secondary-color) 18%,var(--nav-bg));
+  color:#f2f6fb;
+  border:1px solid color-mix(in srgb,var(--secondary-color) 35%,transparent);
+  border-radius:7px;
+}
+.sidebar .logout-form button:hover{background:color-mix(in srgb,var(--secondary-color) 30%,var(--nav-bg))}
+.sidebar a:focus-visible,.sidebar button:focus-visible{outline:2px solid var(--tertiary-color);outline-offset:2px}
+@media(max-width:1049px){
+  .sidebar:not(.is-expanded) .nav-links:not(.nav-links-secondary) a,
+  .sidebar:not(.is-expanded) .nav-links-secondary a,
+  .sidebar:not(.is-expanded) .sidebar-management a{border-left-width:1px}
+  .sidebar:not(.is-expanded) .nav-links:not(.nav-links-secondary) a::before{display:block}
+}
+:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a{
+  background:color-mix(in srgb,var(--secondary-color) 38%,var(--nav-bg));
+  color:#f7f9fc;
+  border-color:color-mix(in srgb,var(--tertiary-color) 62%,var(--nav-bg));
+}
+:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:hover,
+:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:focus-visible,
+:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a[aria-current="page"]{
+  background:color-mix(in srgb,var(--secondary-color) 54%,var(--nav-bg));
+  color:#fff;
+  border-color:var(--tertiary-color);
+}
+:root[data-theme="dark"] .sidebar .nav-links-secondary a,
+:root[data-theme="dark"] .sidebar .sidebar-management a,
+:root[data-theme="dark"] .sidebar .logout-form button{
+  background:color-mix(in srgb,var(--secondary-color) 25%,var(--nav-bg));
+  color:#f2f6fb;
+}
+:root[data-theme="dark"] .sidebar .nav-links-secondary a:hover,
+:root[data-theme="dark"] .sidebar .nav-links-secondary a:focus-visible,
+:root[data-theme="dark"] .sidebar .sidebar-management a:hover,
+:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible,
+:root[data-theme="dark"] .sidebar .logout-form button:hover{
+  background:color-mix(in srgb,var(--secondary-color) 42%,var(--nav-bg));
+  border-color:var(--tertiary-color);
+}
 :root[data-theme="dark"] {
   --primary-color: {{ primary_color_dark }};
   --secondary-color: {{ secondary_color_dark }};
