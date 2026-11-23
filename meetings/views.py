@@ -1439,6 +1439,7 @@ def enaio_transfer_start(request, pk):
     )
     return JsonResponse({
         "status_url": reverse("enaio_transfer_status", args=[transfer.pk]),
+        "cancel_url": reverse("enaio_transfer_cancel", args=[transfer.pk]),
         "message": "Der lokale enaio-Agent übernimmt den Auftrag, sobald er verbunden ist.",
         "filing": {
             "root_folder_id": filing_settings.root_folder_id,
@@ -1533,8 +1534,29 @@ def enaio_transfer_status(request, pk):
     if transfer.status == "failed":
         return JsonResponse({"completed": False, "error": transfer.error_message or "enaio-Ablage fehlgeschlagen."})
     if transfer.expires_at <= timezone.now():
+        EnaioTransfer.objects.filter(pk=transfer.pk, status="pending", consumed_at__isnull=True).update(
+            status="failed", consumed_at=timezone.now(),
+            error_message="Der Ablageauftrag ist abgelaufen.",
+        )
         return JsonResponse({"completed": False, "expired": True}, status=410)
     return JsonResponse({"completed": False})
+
+
+@login_required
+@require_http_methods(["POST"])
+def enaio_transfer_cancel(request, pk):
+    with transaction.atomic():
+        transfer = EnaioTransfer.objects.select_for_update().filter(pk=pk, user=request.user).first()
+        if not transfer:
+            return JsonResponse({"error": "Ablageauftrag nicht gefunden."}, status=404)
+        if transfer.status == "completed":
+            return JsonResponse({"ok": False, "completed": True}, status=409)
+        if transfer.status == "pending" and transfer.consumed_at is None:
+            transfer.status = "failed"
+            transfer.error_message = "Der Ablageauftrag wurde vom Benutzer abgebrochen."
+            transfer.consumed_at = timezone.now()
+            transfer.save(update_fields=["status", "error_message", "consumed_at"])
+    return JsonResponse({"ok": True})
 
 @login_required
 def protocol(request, pk):
