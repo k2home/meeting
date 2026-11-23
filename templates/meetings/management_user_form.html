@@ -4,4 +4,21 @@
 <div class="page-header"><div><h1>{{ page_title }}</h1><p class="muted">Kontodaten und Zugriffsrechte</p></div><a class="btn secondary" href="{% url 'management_users' %}">Zur Nutzerverwaltung</a></div>
 <div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="actions"><button class="primary" type="submit">Speichern</button><a class="btn secondary" href="{% url 'management_users' %}">Abbrechen</a></div></form></div>
 {% if not is_new %}<div class="card"><h2>Weitere Nutzerfunktionen</h2><div class="actions"><a class="btn secondary" href="{% url 'management_user_series' form.instance.pk %}">Besprechungsreihen-Zuordnungen</a><a class="btn secondary" href="{% url 'management_user_password_reset' form.instance.pk %}">Passwort zurücksetzen</a></div></div>{% endif %}
+
+<!-- management-user-password-visibility -->
+<script>
+document.querySelectorAll('form input[type="password"]').forEach((field, index) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "secondary";
+  button.textContent = "Passwort anzeigen";
+  button.setAttribute("aria-label", `Passwortfeld ${index + 1} anzeigen oder verbergen`);
+  button.addEventListener("click", () => {
+    const visible = field.type === "password";
+    field.type = visible ? "text" : "password";
+    button.textContent = visible ? "Passwort verbergen" : "Passwort anzeigen";
+  });
+  field.insertAdjacentElement("afterend", button);
+});
+</script>
 {% endblock %}
