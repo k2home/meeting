@@ -99,9 +99,37 @@
   </section>
   <section class="card"><h2>Dateien und Anlagen</h2>
    {% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
-   {% for a in topic.attachments.all %}
-    <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a>{% endif %}{% if a.network_path %}<br>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}{% endif %}</p>
-   {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
+   {% if topic.attachments.all %}
+    <label for="topic-attachment-search">Anlagen durchsuchen</label>
+    <input type="search" id="topic-attachment-search" autocomplete="off" placeholder="Bezeichnung oder Pfad eingeben …" aria-controls="topic-attachment-list">
+    <p id="topic-attachment-search-status" class="muted" role="status" aria-live="polite">Alle Anlagen werden angezeigt.</p>
+    <div id="topic-attachment-list">
+     {% for a in topic.attachments.all %}
+      <article class="topic-attachment" data-search-text="{{ a.label }} {% if a.uploaded_file %}{{ a.uploaded_file.name }}{% endif %} {{ a.network_path }}">
+       <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a>{% endif %}{% if a.network_path %}<br>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}{% endif %}</p>
+      </article>
+     {% endfor %}
+    </div>
+    <script>
+    (() => {
+      const search = document.getElementById("topic-attachment-search");
+      const list = document.getElementById("topic-attachment-list");
+      const status = document.getElementById("topic-attachment-search-status");
+      if (!search || !list || !status) return;
+      const attachments = Array.from(list.querySelectorAll(".topic-attachment"));
+      search.addEventListener("input", () => {
+        const query = search.value.trim().toLocaleLowerCase("de");
+        let visible = 0;
+        attachments.forEach(attachment => {
+          const matches = !query || attachment.dataset.searchText.toLocaleLowerCase("de").includes(query);
+          attachment.hidden = !matches;
+          if (matches) visible += 1;
+        });
+        status.textContent = query ? visible + " Treffer gefunden." : "Alle Anlagen werden angezeigt.";
+      });
+    })();
+    </script>
+   {% else %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endif %}
   </section>
   {% if not is_reader and transfer_series %}
   <section class="card"><h2>Besprechungsreihe wechseln</h2>
