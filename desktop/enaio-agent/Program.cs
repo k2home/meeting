@@ -81,7 +81,9 @@ internal static class Program
         try
         {
             var payload = JsonSerializer.Serialize(new { level, message = message.Length > 3900 ? message[..3900] : message });
-            using var response = http.PostAsync("enaio/agent/logs/write/", new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+            using var response = http.PostAsync("enaio/agent/logs/write/", content, timeout.Token).GetAwaiter().GetResult();
             response.EnsureSuccessStatusCode();
         }
         catch (Exception ex)
