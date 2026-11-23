@@ -304,3 +304,16 @@ def management_topic_csv_sample(request):
 def management_topic_csv_import(request):
     _require_admin(request)
     return import_topic_agenda_csv(request)
+
+
+@login_required
+def management_user_csv_sample(request):
+    _require_admin(request)
+    response = HttpResponse(content_type="text/csv; charset=utf-8")
+    response["Content-Disposition"] = 'attachment; filename="benutzer-muster.csv"'
+    response.write("\ufeff")
+    response.write(
+        "username;first_name;last_name;email;short_description;is_active;series;series_role\r\n"
+        "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;;\r\n"
+    )
+    return response
