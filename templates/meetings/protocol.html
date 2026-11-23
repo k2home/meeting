@@ -13,9 +13,8 @@
   {% else %}
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
-  <a class="meeting-menu-link" href="{% url 'protocol_pdf' meeting.id %}" download="{{ protocol_filename }}">PDF herunterladen</a>
   <div class="protocol-file-export">
-    <button type="button" class="btn" id="prepare-protocol-pdf">PDF zum Ziehen bereitstellen</button>
+    <button type="button" class="btn" id="prepare-protocol-pdf">PDF bereitstellen</button>
     <a id="protocol-pdf-drag-item" class="protocol-pdf-drag-icon" draggable="true" hidden
        href="{% url 'protocol_pdf' meeting.id %}" download="{{ protocol_filename }}"
        aria-label="Protokoll-PDF greifen und in enaio ziehen" title="PDF greifen und in enaio ziehen">
@@ -23,7 +22,7 @@
     </a>
     <span id="protocol-pdf-drag-status" class="visually-hidden" role="status" aria-live="polite"></span>
   </div>
-  <a class="meeting-menu-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
+  <a class="meeting-menu-link protocol-back-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">
     {% csrf_token %}
@@ -99,6 +98,7 @@
 </script>
 <style>
 .protocol-file-export{display:flex;flex-direction:row;align-items:center;gap:.5rem}
+.protocol-back-link{margin-left:auto}
 .protocol-file-export #prepare-protocol-pdf{min-height:44px}
 .protocol-pdf-drag-icon{box-sizing:border-box;width:44px;height:44px;flex:0 0 44px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:#c62828;text-decoration:none;cursor:grab;user-select:none}
 .protocol-pdf-drag-icon span{font-size:.68rem;font-weight:800;letter-spacing:.02em;border:2px solid currentColor;border-radius:3px;padding:.2rem .12rem;line-height:1}
