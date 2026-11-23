@@ -104,7 +104,7 @@ USE_X_FORWARDED_HOST=0
 EOF
 else
   if ! grep -q '^SETUP_TOKEN=.' "$APP_DIR/.env"; then
-    printf '\\nSETUP_TOKEN=%s\\n' "$SETUP_TOKEN" >> "$APP_DIR/.env"
+    printf '\nSETUP_TOKEN=%s\n' "$SETUP_TOKEN" >> "$APP_DIR/.env"
   fi
   # Keep reverse-proxy, HTTPS and other local settings intact on existing systems.
   CURRENT_HOSTS="$(read_existing_env ALLOWED_HOSTS)"
