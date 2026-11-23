@@ -617,7 +617,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
   const white = { r: 255, g: 255, b: 255, a: 1 };
 
   function parseColor(value) {
-    const match = value && value.match(/rgba?\\(([^)]+)\\)/);
+    const match = value && value.match(/rgba?\(([^)]+)\)/);
     if (!match) return null;
     const parts = match[1].split(",").map(part => parseFloat(part.trim()));
     if (parts.length < 3 || parts.slice(0, 3).some(Number.isNaN)) return null;
@@ -663,7 +663,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
     if (element.style.getPropertyValue("--computed-contrast-text") !== foreground) {
       element.style.setProperty("--computed-contrast-text", foreground);
     }
-    element.style.setProperty("color", "var(--computed-contrast-text)", "important");
+    if (element.style.getPropertyValue("color") !== "var(--computed-contrast-text)" ||\n        element.style.getPropertyPriority("color") !== "important") {\n      element.style.setProperty("color", "var(--computed-contrast-text)", "important");\n    }
   }
   function refresh(root) {
     if (root instanceof Element) update(root);
@@ -673,8 +673,8 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
   refresh(document);
   document.addEventListener("mouseover", event => refresh(event.target.closest && event.target.closest(selectors)));
   document.addEventListener("focusin", event => refresh(event.target.closest && event.target.closest(selectors)));
-  document.addEventListener("mouseout", event => refresh(event.target.closest && event.target.closest(selectors)));
-  document.addEventListener("focusout", event => refresh(event.target.closest && event.target.closest(selectors)));
+  document.addEventListener("mouseout", event => requestAnimationFrame(() => refresh(event.target.closest && event.target.closest(selectors))));
+  document.addEventListener("focusout", event => requestAnimationFrame(() => refresh(event.target.closest && event.target.closest(selectors))));
 
   const observer = new MutationObserver(records => {
     let refreshAll = false;
