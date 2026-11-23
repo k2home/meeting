@@ -30,7 +30,6 @@ class DashboardAttachmentSearchTests(TestCase):
         TopicAttachment.objects.create(
             topic=self.topic, label="Brandschutzplan Kopie", network_path="",
         )
-        other_user = User.objects.create_user(username="attachment-search-other", password="test-password")
         private_series = MeetingSeries.objects.create(name="Private Anlagenreihe")
         private_topic = Topic.objects.create(title="Vertrauliches Dokument", series=private_series)
         TopicAttachment.objects.create(topic=private_topic, label="Brandschutzplan", network_path="")
