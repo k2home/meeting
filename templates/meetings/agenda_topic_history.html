@@ -1,4 +1,5 @@
 <h3>{{ topic.title }}</h3>
+<button type="button" id="copy-agenda-history" class="secondary">Verlauf kopieren</button>
 {% if history_entries %}
   <p class="muted">{{ history_entries|length }} Besprechung(en) mit diesem Thema</p>
   {% for entry in history_entries %}
@@ -12,47 +13,4 @@
   <p class="muted">Zu diesem Thema sind noch keine weiteren Besprechungen dokumentiert.</p>
 {% endif %}
 
-<!-- agenda-history-copy -->
-<script>
-(() => {
-  const heading = document.querySelector("h3");
-  const entries = [...document.querySelectorAll(".agenda-history-entry")];
-  if (!heading || !entries.length || document.getElementById("copy-agenda-history")) return;
-  const button = document.createElement("button");
-  button.type = "button";
-  button.id = "copy-agenda-history";
-  button.className = "secondary";
-  button.textContent = "Verlauf kopieren";
-  button.addEventListener("click", async () => {
-    const text = [heading.textContent.trim(), ...entries.map(entry => entry.innerText.trim())].join("\n\n");
-    button.disabled = true;
-    button.textContent = "Kopiere Verlauf …";
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
-      } else {
-        const fallback = document.createElement("textarea");
-        const previousFocus = document.activeElement;
-        fallback.value = text;
-        fallback.setAttribute("readonly", "");
-        fallback.style.position = "fixed";
-        fallback.style.opacity = "0";
-        document.body.appendChild(fallback);
-        try {
-          fallback.select();
-          if (!document.execCommand("copy")) throw new Error("Clipboard copy failed");
-        } finally {
-          fallback.remove();
-          previousFocus?.focus?.();
-        }
-      }
-      button.textContent = "Verlauf kopiert";
-    } catch {
-      button.textContent = "Kopieren nicht möglich";
-    } finally {
-      button.disabled = false;
-    }
-  });
-  heading.insertAdjacentElement("afterend", button);
-})();
-</script>
+
