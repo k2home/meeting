@@ -337,7 +337,7 @@ internal static class EnaioClient
             var documentTypeId = ResolveObjectType(Convert.ToString(app.GetDocTypesFromArchive(archiveName)) ?? "", documentType, "Dokumenttyp");
 
             var query = "[ANFRAGE]\r\nSCHRANK=" + Ini(archiveName) + "\r\nREGISTER=" + Ini(registerType) +
-                "\r\nKLAUSEL1=" + Ini(registerType) + "@" + Ini(registerNameField) + "=" + Ini(series) +
+                "\r\nKLAUSEL1=" + Ini(registerType) + "@%" + Ini(registerNameField) + "%=" + Ini(series) +
                 "\r\nAUSDRUCK1=" + Ini(registerType) + "@1121^1^" + rootId + "~0~1122^1^0\r\nDATENFELDER=0\r\nDATENHEADER=0\r\nANFRAGEFENSTER=0\r\n";
             string resultFile = Convert.ToString(app.StartRegRequest(query)) ?? "";
             var registerId = 0L;
