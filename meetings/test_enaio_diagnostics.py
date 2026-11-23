@@ -134,3 +134,22 @@ class EnaioSharedDiagnosticReportTests(TestCase):
         denied_read = self.client.get(reverse("enaio_diagnostic_report_latest"))
         self.assertEqual(denied_save.status_code, 403)
         self.assertEqual(denied_read.status_code, 403)
+
+
+    def test_uploaded_local_log_is_analyzed_and_redacted(self):
+        payload = {
+            "report_type": "Meeting Manager – enaio Browserdiagnose",
+            "browser": [], "server": [], "conclusion": [],
+            "local_log_file": "agent.log",
+            "local_log_text": "2026-11-23 ERROR COM activation failed token=local-secret\\n2026-11-23 WARNING retry",
+        }
+        response = self.client.post(
+            reverse("enaio_diagnostic_report_save"),
+            data=__import__("json").dumps(payload),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["analysis"]["local_log_errors"], 1)
+        self.assertEqual(data["analysis"]["local_log_warnings"], 1)
+        self.assertNotIn("local-secret", response.content.decode())
