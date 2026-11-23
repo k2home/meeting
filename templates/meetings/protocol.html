@@ -13,12 +13,12 @@
   {% else %}
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
-  <a class="meeting-menu-link" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
+  <a class="meeting-menu-link" href="{% url 'protocol_pdf' meeting.id %}" download="{{ protocol_filename }}">PDF herunterladen</a>
   <div class="protocol-file-export">
     <button type="button" class="btn" id="prepare-protocol-pdf">PDF zum Ziehen bereitstellen</button>
     <div id="protocol-pdf-drag-area" class="protocol-pdf-drag-area" hidden>
       <a id="protocol-pdf-drag-item" class="protocol-pdf-file" draggable="true"
-         href="{% url 'protocol_pdf' meeting.id %}" download="protokoll-{{ meeting.date|date:'Y-m-d' }}.pdf"
+         href="{% url 'protocol_pdf' meeting.id %}" download="{{ protocol_filename }}"
          aria-label="Protokoll-PDF greifen und in enaio ziehen">
         <span class="protocol-pdf-file-icon" aria-hidden="true">📄</span>
         <span><strong>Protokoll.pdf</strong><small>PDF-Datei · zum Ziehen in enaio</small></span>
