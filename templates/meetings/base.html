@@ -289,13 +289,12 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 :root[data-theme="dark"] .sidebar .sidebar-management a{
   background:color-mix(in srgb,var(--secondary-color) 29%,var(--nav-bg));
 }
-:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:hover,
-:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:focus-visible,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a:hover,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a:focus-visible,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a[aria-current="page"],
+:root[data-theme="dark"] .sidebar .nav-links a:hover,
+:root[data-theme="dark"] .sidebar .nav-links a:focus-visible,
 :root[data-theme="dark"] .sidebar .sidebar-management a:hover,
-:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible{
+:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible,
+:root[data-theme="dark"] .sidebar .nav-links a[aria-current="page"],
+:root[data-theme="dark"] .sidebar .sidebar-management a[aria-current="page"]{
   background:color-mix(in srgb,var(--tertiary-color) 24%,var(--secondary-color));
   border-color:var(--tertiary-color);
 }
