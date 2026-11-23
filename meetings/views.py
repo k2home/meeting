@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
@@ -2149,6 +2149,14 @@ def _read_update_status():
         "log": "",
     }
 
+def _format_commit_timestamp(value):
+    try:
+        committed_at = datetime.fromisoformat(value)
+        return timezone.localtime(committed_at).strftime("%d.%m.%Y, %H:%M Uhr")
+    except (TypeError, ValueError):
+        return value
+
+
 def _deployment_info():
     if os.path.exists(UPDATE_SOCKET):
         try:
@@ -2159,7 +2167,7 @@ def _deployment_info():
             return {
                 "deployment_type": "Docker Compose",
                 "current_branch": os.getenv("MEETING_BUILD_BRANCH", "unbekannt"),
-                "current_commit_date": os.getenv("MEETING_BUILD_COMMIT_DATE", "nicht verfügbar"),
+                "current_commit_date": _format_commit_timestamp(os.getenv("MEETING_BUILD_COMMIT_DATE", "nicht verfügbar")),
                 "current_image": "",
                 "build_created": "",
                 "update_available": False,
@@ -2168,7 +2176,7 @@ def _deployment_info():
         return {
             "deployment_type": "Docker Compose",
             "current_branch": os.getenv("MEETING_BUILD_BRANCH", "Im Image nicht hinterlegt"),
-            "current_commit_date": os.getenv("MEETING_BUILD_COMMIT_DATE", "Im Image nicht hinterlegt"),
+            "current_commit_date": _format_commit_timestamp(os.getenv("MEETING_BUILD_COMMIT_DATE", "Im Image nicht hinterlegt")),
             "current_image": "",
             "build_created": "",
             "update_available": True,
@@ -2189,7 +2197,7 @@ def _deployment_info():
         return {
             "deployment_type": "Debian / systemd",
             "current_branch": git_value("branch", "--show-current"),
-            "current_commit_date": git_value("show", "-s", "--format=%cI", "HEAD"),
+            "current_commit_date": _format_commit_timestamp(git_value("show", "-s", "--format=%cI", "HEAD")),
             "current_commit_message": git_value("show", "-s", "--format=%s", "HEAD"),
             "current_image": "",
             "build_created": "",
