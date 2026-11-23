@@ -53,4 +53,24 @@ document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],inp
   input.insertAdjacentElement('afterend',picker);
 });
 </script>
+
+<!-- organization-logo-preview -->
+<script>
+(() => {
+  const field = document.getElementById("id_logo");
+  if (!field) return;
+  const preview = document.createElement("img");
+  preview.alt = "Vorschau des ausgewählten Organisationslogos";
+  preview.hidden = true;
+  preview.style.cssText = "display:block;max-width:220px;max-height:100px;object-fit:contain;margin:.75rem 0";
+  field.insertAdjacentElement("afterend", preview);
+  field.addEventListener("change", () => {
+    const file = field.files?.[0];
+    if (!file || !file.type.startsWith("image/")) { preview.hidden = true; preview.removeAttribute("src"); return; }
+    const reader = new FileReader();
+    reader.onload = () => { preview.src = reader.result; preview.hidden = false; };
+    reader.readAsDataURL(file);
+  });
+})();
+</script>
 {% endblock %}
