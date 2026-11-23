@@ -1,0 +1,67 @@
+{% extends "meetings/base.html" %}
+{% block title %}Software aktualisieren{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Software aktualisieren</h1>
+    <p class="muted">Serverlokales Update der Meeting-Manager-Installation</p>
+  </div>
+</div>
+
+<section class="card">
+  <h2>Installierte Version</h2>
+  <table>
+    <tbody>
+      <tr><th scope="row">Installationsart</th><td>{{ deployment_type }}</td></tr>
+      <tr><th scope="row">Aktiver Branch</th><td>{{ current_branch }}</td></tr>
+      <tr><th scope="row">Commit</th><td><code>{{ current_commit }}</code></td></tr>
+      {% if current_image %}<tr><th scope="row">Docker-Image</th><td><code>{{ current_image }}</code></td></tr>{% endif %}
+      {% if build_created %}<tr><th scope="row">Image erstellt</th><td>{{ build_created }}</td></tr>{% endif %}
+    </tbody>
+  </table>
+  {% if availability_message %}
+    <p class="messages">{{ availability_message }}</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Update starten</h2>
+  <p>Wähle den Ziel-Branch. Das Update betrifft ausschließlich diese Serverinstallation.</p>
+  <form method="post" class="actions">
+    {% csrf_token %}
+    <label for="update-branch">Zielversion</label>
+    <select id="update-branch" name="branch" required style="width:auto;min-width:12rem;margin:0">
+      <option value="beta">beta – Testversion</option>
+      <option value="main">main – Hauptversion</option>
+    </select>
+    <button class="primary" type="submit" {% if not update_available or update_status.status == "running" %}disabled{% endif %}>Update starten</button>
+  </form>
+  <p class="muted">Während des Updates kann die Anwendung kurzzeitig nicht erreichbar sein. Lokale Konfiguration und persistente Daten bleiben erhalten.</p>
+</section>
+
+<section class="card">
+  <h2>Letzter Update-Lauf</h2>
+  {% if update_status.status == "running" %}
+    <p><span class="pill">Läuft</span> Update auf {{ update_status.branch }} wird ausgeführt.</p>
+  {% elif update_status.status == "success" %}
+    <p><span class="pill">Erfolgreich</span> {{ update_status.message }}</p>
+  {% elif update_status.status == "error" %}
+    <p class="errornote">{{ update_status.message }}</p>
+  {% else %}
+    <p class="muted">{{ update_status.message }}</p>
+  {% endif %}
+  {% if update_status.started_at %}<p><strong>Gestartet:</strong> {{ update_status.started_at }}</p>{% endif %}
+  {% if update_status.finished_at %}<p><strong>Beendet:</strong> {{ update_status.finished_at }}</p>{% endif %}
+  {% if update_status.log %}
+    <details>
+      <summary>Protokoll anzeigen</summary>
+      <pre style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:32rem;overflow:auto;padding:1rem;background:var(--soft-bg);border:1px solid var(--border);border-radius:4px">{{ update_status.log }}</pre>
+    </details>
+  {% endif %}
+</section>
+{% if update_status.status == "running" %}
+<script>
+  window.setTimeout(() => window.location.reload(), 8000);
+</script>
+{% endif %}
+{% endblock %}
