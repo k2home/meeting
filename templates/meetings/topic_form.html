@@ -11,9 +11,10 @@
 .topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
 @media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
 </style>
-<div class="topline">
-  <div><h1>{% if topic %}Thema{% else %}Neues Thema anlegen{% endif %}</h1></div>
-</div>
+<header class="page-header">
+  <div><h1>{% if topic %}{{ topic.title }}{% else %}Neues Thema anlegen{% endif %}</h1></div>
+  {% if topic and not is_reader %}<div class="page-header-actions"><a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a></div>{% endif %}
+</header>
 {% if not topic %}
 <section class="card">
   <p class="muted">Ein Thema besteht aus seinem Titel. Die inhaltliche Bearbeitung und alle Besprechungstexte werden den jeweiligen Tagesordnungspunkten zugeordnet.</p>
@@ -28,10 +29,7 @@
   </form>
 </section>
 {% else %}
-<div class="card topic-hero">
-  <div><h1>{{ topic.title }}</h1></div>
-  {% if not is_reader %}<a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a>{% endif %}
-</div>
+
 <div class="topic-layout">
  <div class="topic-main">
   <section class="card">

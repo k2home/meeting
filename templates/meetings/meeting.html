@@ -82,8 +82,12 @@
 .agenda-history-entry{padding:.75rem 0;border-bottom:1px solid var(--border)}
 .agenda-history-entry:last-child{border-bottom:0}
 </style>
-<h1>{% if meeting.series_id %}{{ meeting.series.name }}{% else %}{{ meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} – {{ meeting.date|date:"d.m.Y" }}</h1>
-<p>{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
+<header class="page-header">
+  <div>
+    <h1>{% if meeting.series_id %}{{ meeting.series.name }}{% else %}{{ meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} – {{ meeting.date|date:"d.m.Y" }}</h1>
+    <p class="muted">{% if meeting.finalized_at %}<strong>Abgeschlossen</strong>{% else %}<strong>In Bearbeitung</strong>{% endif %}</p>
+  </div>
+</header>
 
 <nav class="meeting-action-menu no-print" aria-label="Aktionen für diese Besprechung">
   {% if is_reader %}<div class="meeting-menu-link">Teilnehmerliste <span class="menu-count">{{ participants.count }}</span><div class="participant-summary">{% for participant in participants %}<span class="pill">{{ participant|user_display_context }}</span>{% empty %}<span class="muted">Noch keine Teilnehmer eingetragen.</span>{% endfor %}</div></div>{% else %}<details class="meeting-menu-participants">

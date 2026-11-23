@@ -1,6 +1,6 @@
 {% extends "meetings/base.html" %}
 {% block content %}
-<div class="topline"><div><h1>Besprechungsreihe bearbeiten</h1><p class="muted">{{ series.name }}</p></div><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div>
+<header class="page-header"><div><h1>Besprechungsreihe bearbeiten</h1><p class="muted">{{ series.name }}</p></div><div class="page-header-actions"><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div></header>
 <div class="card">
   <form method="post">{% csrf_token %}{{ form.as_p }}
     <p class="muted">Rhythmus: {{ series.recurrence_interval }} × {{ series.get_recurrence_display|lower }} am {{ series.weekday_label }}. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
