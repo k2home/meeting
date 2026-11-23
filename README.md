@@ -14,7 +14,8 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - [Benutzer und Serienzuweisungen verwalten](#benutzer-und-serienzuweisungen-verwalten)
 - [Verwaltungsoberfläche](#verwaltungsoberfläche)
 - [Installation](#installation)
-  - [Docker Compose](#docker-compose-alternative)
+  - [Docker Compose](#docker-compose)
+  - [Debian / Ubuntu](#debian--ubuntu-mit-systemd-und-nginx)
 - [Updates und Betrieb](#updates-und-betrieb)
 - [Arbeitsabläufe in der Anwendung](#arbeitsabläufe-in-der-anwendung)
 - [Netzwerkfreigaben und Anlagen](#netzwerkfreigaben-und-anlagen)
@@ -214,61 +215,42 @@ Unter **Verwaltung → Organisationseinstellungen** werden Organisationsname, Ku
 
 ## Installation
 
-### Docker Compose (alternative)
+### Docker Compose
 
-Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installation mit Debian-/Ubuntu-VM, systemd und Nginx bleibt vollständig bestehen. Beide Varianten verwenden denselben Quellcode im Repository `k2home/meeting`; ein separater Fork ist nicht erforderlich.
+Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten verwenden denselben Anwendungscode und dieselben Datenbankmigrationen.
 
 **Voraussetzungen**
 
-- Linux-Host oder VM mit aktueller Docker Engine und Docker Compose v2
+- Linux-Host oder VM mit Docker Engine und Docker Compose v2
 - Netzwerkzugriff auf GitHub Container Registry (`ghcr.io`)
 - Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
 
-**Einrichtung**
+**Installation**
 
-1. Repository klonen und in das Verzeichnis wechseln:
+1. Repository nach `/opt/meeting-manager` klonen:
 
    ```bash
    sudo git clone https://github.com/k2home/meeting.git /opt/meeting-manager
    cd /opt/meeting-manager
    ```
 
-2. Für den Bezug des Images aus der GitHub Container Registry anmelden. Das Paket kann eine Anmeldung mit einem GitHub Personal Access Token mit mindestens `read:packages` erfordern:
+2. Falls das Image nicht öffentlich abrufbar ist, einmalig bei GHCR anmelden:
 
    ```bash
-   docker login ghcr.io
+   sudo docker login ghcr.io
    ```
 
-3. Konfiguration anlegen und bearbeiten:
+3. Den Installer starten:
 
    ```bash
-   cp .env.example .env
+   sudo bash deploy/install-docker.sh
    ```
 
-   Mindestens `SECRET_KEY`, `POSTGRES_PASSWORD` und `ALLOWED_HOSTS` durch individuelle Werte ersetzen. Für den Docker-Betrieb wird `POSTGRES_HOST=db` verwendet (Compose setzt diesen Wert für den Anwendungscontainer automatisch). `ALLOWED_HOSTS` muss den verwendeten Hostnamen enthalten. Bei HTTPS hinter einem vorgeschalteten Reverse Proxy zusätzlich `CSRF_TRUSTED_ORIGINS` passend setzen und `TRUST_PROXY_SSL=1` konfigurieren. Die HTTPS-Terminierung selbst übernimmt der vorgeschaltete Proxy.
+   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY`, Datenbankpasswort und ein einmaliger Einrichtungscode werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Den Einrichtungscode zeigt das Skript am Ende an; er wird beim ersten Browser-Aufruf benötigt und darf nicht weitergegeben werden. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
 
-4. Den eingeschränkten Host-Updater installieren:
+4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
 
-   ```bash
-   sudo bash deploy/install-docker-updater.sh
-   ```
-
-   Der Installer richtet einen lokalen Unix-Socket ein. Nur der Anwendungscontainer erhält Zugriff auf diesen Socket; der Docker-Socket des Hosts wird niemals in einen Container eingebunden. Der Updater akzeptiert ausschließlich die Branches `beta` und `main`.
-
-5. Container starten:
-
-   ```bash
-   docker compose -f docker/compose.yaml pull
-   docker compose -f docker/compose.yaml up -d
-   ```
-
-   Der Webzugriff erfolgt standardmäßig über Port `8080`, beispielsweise `http://SERVER-IP:8080/`. Für den produktiven Betrieb sollte dieser Port nur intern erreichbar sein und der Zugriff über einen HTTPS-Reverse-Proxy erfolgen.
-
-6. Administratorkonto anlegen:
-
-   ```bash
-   docker compose -f docker/compose.yaml exec app python manage.py createsuperuser
-   ```
+5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
 
 **Daten und Persistenz**
 
@@ -277,72 +259,52 @@ Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installatio
 - Statische Dateien liegen im Volume `static_data` und werden vom Nginx-Container ausgeliefert.
 - Diese Daten bleiben beim Ersetzen oder Aktualisieren der Container erhalten. `docker compose down -v` löscht dagegen die benannten Volumes und damit Datenbank und Uploads – diesen Befehl nicht für normale Updates verwenden.
 
-**Updates**
+**Updater und Betrieb**
 
-Der Host-Updater kann später durch die Webverwaltung angesteuert werden. Für die manuelle Kontrolle stehen der Socket-Dienst und sein Protokoll zur Verfügung:
-
-```bash
-sudo systemctl status meeting-manager-docker-updater.service
-sudo journalctl -u meeting-manager-docker-updater.service -f
-```
-
-Der Dienst nimmt ausschließlich `beta` oder `main` entgegen, lädt nur das passende App-Image und ersetzt ausschließlich den Dienst `app`. Datenbank, Nginx und persistente Volumes werden nicht neu erstellt. Nach dem Start prüft er Django; schlägt die Prüfung fehl, versucht er, das vorherige App-Image wiederherzustellen. Parallele Updates werden abgewiesen. Der lokale Status ist über den Unix-Socket unter `/run/meeting-manager-updater/control.sock` abrufbar. Der Socket ist nicht über TCP oder das öffentliche Netzwerk erreichbar.
-
-Status und manueller Start lassen sich auf dem Docker-Host so prüfen:
-
-```bash
-curl --unix-socket /run/meeting-manager-updater/control.sock http://localhost/status
-curl --unix-socket /run/meeting-manager-updater/control.sock -X POST \\
-  -H 'Content-Type: application/json' -d '{"branch":"beta"}' http://localhost/update
-```
-
-Vor jedem Update ist ein Backup von Datenbank und Upload-Volume anzulegen. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig.
-
-**Protokolle und Betrieb**
+Der Installer richtet den lokalen Unix-Socket-Updater ein. Nur der Anwendungscontainer erhält Zugriff auf diesen Socket; der Docker-Socket des Hosts wird niemals in einen Container eingebunden. Der Updater akzeptiert ausschließlich die Branches `beta` und `main`.
 
 ```bash
 docker compose -f docker/compose.yaml ps
 docker compose -f docker/compose.yaml logs -f app
 docker compose -f docker/compose.yaml restart app
+sudo systemctl status meeting-manager-docker-updater.service
 ```
 
-Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden. Die Anwendung greift nicht automatisch auf Freigaben des Hosts zu.
+Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
 
-### Voraussetzungen
+### Debian / Ubuntu mit systemd und Nginx
+
+**Voraussetzungen**
 
 - Debian- oder Ubuntu-VM (beispielsweise unter Proxmox)
 - SSH- bzw. Konsolenzugriff mit sudo-Rechten
 - Eine feste IP-Adresse oder ein DNS-Name für die Anwendung
-- Zugriff auf das interne Netzwerk, in dem die Anwendung genutzt werden soll
 
-Die Installation richtet PostgreSQL, Nginx, Python-Abhängigkeiten, eine virtuelle Python-Umgebung, den systemd-Dienst und die Verzeichnisse der Anwendung ein.
+**Installation**
 
-### Schnellinstallation
-
-1. Eine Debian-/Ubuntu-VM bereitstellen und per SSH anmelden.
-2. Repository klonen:
+1. Repository klonen:
 
    ```bash
    git clone https://github.com/k2home/meeting.git
    cd meeting
    ```
 
-3. Installationsskript starten:
+2. Installationsskript starten:
 
    ```bash
    sudo bash deploy/install-debian.sh
    ```
 
-4. Während der Installation Hostname/IP, `SECRET_KEY` und PostgreSQL-Passwort eingeben. Beide Secrets können leer gelassen werden, um sichere Zufallswerte zu erzeugen. Optional kann HTTPS-Terminierung über einen vorgeschalteten Reverse Proxy aktiviert werden; dessen IP/CIDR wird dann abgefragt.
-5. Ein erstes Administratorkonto anlegen:
+3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY`, Datenbankpasswort und Einrichtungscode, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
 
-   ```bash
-   sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec /opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py createsuperuser'
-   ```
+4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto mit dem vom Installer ausgegebenen Einrichtungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Den Einrichtungscode vertraulich behandeln.
 
-6. Bei direktem internem HTTP-Betrieb `http://SERVER-IP/` öffnen. Bei aktiviertem Reverse Proxy die HTTPS-Adresse verwenden.
 
-Das Installationsskript fragt `SECRET_KEY` und PostgreSQL-Passwort verdeckt ab (leere Eingabe erzeugt jeweils einen kryptografisch zufälligen Wert). Es erstellt `/opt/meeting-manager/.env` mit restriktiven Dateirechten. Die Datei wird nicht versioniert; `.env.example` dokumentiert die verfügbaren Variablen. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
+Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
+
+**HTTPS und Reverse Proxy**
+
+Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für produktiven Zugriff über HTTPS sollte ein vorgeschalteter Reverse Proxy verwendet werden. In diesem Fall müssen `CSRF_TRUSTED_ORIGINS`, `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1` sowie die sicheren Cookie- und Redirect-Optionen in `/opt/meeting-manager/.env` passend gesetzt werden. Der Proxy muss den `X-Forwarded-Proto`-Header zuverlässig setzen und darf nicht durch untrusted Clients umgangen werden. Bei Debian muss zusätzlich die lokale Nginx-Konfiguration so angepasst werden, dass nur die Proxy-IP/CIDR auf Port 80 zugreifen darf und der Header `X-Forwarded-Proto` vom Proxy übernommen wird (statt ihn mit `$scheme` zu überschreiben). Erst danach `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1` sowie die externe HTTPS-Adresse in `CSRF_TRUSTED_ORIGINS` setzen. Nach Änderungen an `.env` den Dienst mit `sudo systemctl restart meeting-manager` neu starten.
 
 ### Wichtige Pfade und Dienste
 
@@ -357,7 +319,6 @@ Das Installationsskript fragt `SECRET_KEY` und PostgreSQL-Passwort verdeckt ab (
 | systemd-Dienst | `meeting-manager` |
 | Nginx-Konfiguration | `/etc/nginx/sites-available/meeting-manager` |
 
-Die Datei `/opt/meeting-manager/.env` enthält Geheimnisse. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Die früher im Repository vorhandene `.env` wurde aus dem aktuellen Stand entfernt; das löscht sie nicht aus der Git-Historie. Falls einer der früher veröffentlichten Werte jemals produktiv oder anderweitig gültig war, muss er außerhalb von Git widerrufen bzw. ersetzt werden.
 
 ## Updates und Betrieb
 

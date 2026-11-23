@@ -30,6 +30,7 @@ class OrganizationSettingsTests(TestCase):
         self.assertContains(response, 'class="brand-short">FB20</span>')
 
     def test_organization_unit_is_visible_on_login_page(self):
+        get_user_model().objects.create_user(username="login-branding-user", password="strong-test-password")
         OrganizationSettings.objects.create(name="Fachbereich 20")
 
         response = self.client.get(reverse("login"))
