@@ -360,7 +360,7 @@ internal static class EnaioClient
                 LogLocal("INFO", "Register wurde vom Benutzer in enaio bestätigt (ID " + registerId + ").");
             }
 
-            documentHandoff = CreateHandoffFile("[Data]\r\n[Files]\r\nFile0=" + pdfPath.Replace("\\", "/") + "\r\n");
+            documentHandoff = CreateHandoffFile("[Data]\r\n[Files]\r\nFile0=" + pdfPath + "\r\n");
             LogLocal("INFO", "enaio öffnet jetzt die Indexdatenmaske zur bestätigten Ablage des Protokolls in Register " + series + ".");
             object newDocumentId = 0;
             var documentCode = Convert.ToInt32(app.InsertNewDMSObject(documentTypeId, registerId, documentHandoff, ref newDocumentId));
