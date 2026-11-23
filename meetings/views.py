@@ -223,7 +223,11 @@ def dashboard(request):
         "query": query, "selected_status": selected_status, "selected_series": selected_series,
         "selected_assignee": selected_assignee, "selected_due": selected_due,
         "series_options": accessible_series(request.user).order_by("name"),
-        "assignee_options": UserModel.objects.filter(is_active=True).order_by("username"),
+        "own_assignee_label": user_display_name(request.user),
+        "assignee_options": sorted(
+            UserModel.objects.filter(is_active=True).exclude(pk=request.user.pk),
+            key=lambda person: user_display_name(person).casefold(),
+        ),
         "new_topic_series": (
             accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
             if not is_admin(request.user) else accessible_series(request.user)
