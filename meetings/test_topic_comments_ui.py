@@ -38,6 +38,13 @@ class TopicCommentsPageTests(TestCase):
         self.assertContains(response, reverse("topic_comment_add", args=[self.topic.pk]))
         self.assertContains(response, "Kommentar hinzufügen")
 
+    def test_new_topic_form_still_loads_without_an_existing_topic(self):
+        self.client.force_login(self.member)
+
+        response = self.client.get(reverse("topic_new"))
+
+        self.assertEqual(response.status_code, 200)
+
     def test_reader_can_see_comments_but_cannot_submit_new_ones(self):
         self.client.force_login(self.reader)
 
