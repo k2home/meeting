@@ -8,7 +8,6 @@ fi
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 APP_DIR="/opt/meeting-manager"
-cd "$APP_DIR"
 COMPOSE_FILE="$APP_DIR/docker/compose.yaml"
 
 if [[ "$SOURCE_DIR" != "$APP_DIR" ]]; then
@@ -16,6 +15,7 @@ if [[ "$SOURCE_DIR" != "$APP_DIR" ]]; then
   echo "Beispiel: sudo git clone https://github.com/k2home/meeting.git $APP_DIR" >&2
   exit 1
 fi
+cd "$APP_DIR"
 if ! command -v docker >/dev/null 2>&1 || ! docker compose version >/dev/null 2>&1; then
   echo "Docker Engine und Docker Compose v2 müssen vor der Installation eingerichtet sein." >&2
   exit 1
