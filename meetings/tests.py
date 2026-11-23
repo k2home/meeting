@@ -1951,8 +1951,7 @@ class OrganizationLogoDeliveryTests(TestCase):
                 )
                 response = self.client.post(
                     reverse("management_settings"),
-                    {"action": "save_logo"},
-                    {"logo": SimpleUploadedFile("organization.svg", svg_data, content_type="image/svg+xml")},
+                    {"action": "save_logo", "logo": SimpleUploadedFile("organization.svg", svg_data, content_type="image/svg+xml")},
                 )
                 self.assertEqual(response.status_code, 302)
                 organization = OrganizationSettings.objects.get(pk=1)
@@ -1960,7 +1959,7 @@ class OrganizationLogoDeliveryTests(TestCase):
                 self.assertTrue(organization.logo_png.name.endswith(".png"))
                 organization.logo_png.open("rb")
                 try:
-                    self.assertTrue(organization.logo_png.read().startswith(b"\\x89PNG\\r\\n\\x1a\\n"))
+                    self.assertTrue(organization.logo_png.read().startswith(b"\x89PNG\r\n\x1a\n"))
                 finally:
                     organization.logo_png.close()
 
