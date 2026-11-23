@@ -76,8 +76,17 @@ document.addEventListener('submit', async (event) => {
     const response = await fetch(form.action, {method: 'POST', credentials: 'same-origin', headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}});
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Die Übergabe konnte nicht gestartet werden.');
-    status.textContent = 'enaio-Übergabe wird geöffnet.';
-    window.location.href = data.launch_url;
+    status.textContent = 'Warte auf den enaio-Agenten auf diesem Arbeitsplatz …';
+    const deadline = Date.now() + 120000;
+    while (Date.now() < deadline) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const check = await fetch(data.status_url, {credentials: 'same-origin', headers: {'Accept': 'application/json'}});
+      const result = await check.json();
+      if (result.completed) { status.textContent = 'Das Protokoll wurde in enaio abgelegt.'; return; }
+      if (result.expired) throw new Error('Der Ablageauftrag ist abgelaufen.');
+      if (result.error) throw new Error(result.error);
+    }
+    throw new Error('Keine Rückmeldung vom enaio-Agenten. Prüfen Sie, ob der Agent auf diesem Arbeitsplatz läuft.');
   } catch (error) {
     status.textContent = error.message;
     button.disabled = false;

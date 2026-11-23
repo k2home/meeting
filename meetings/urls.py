@@ -3,10 +3,10 @@ from django.contrib.auth import views as auth_views
 from . import views
 from . import agenda_topic_views
 from . import guide_views
-from . import management_views
+from . import management_views\nfrom . import enaio_agent_views
 
 urlpatterns = [
-    path("login/", views.login_view, name="login"),
+    path("login/", views.login_view, name="login"),\n    path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),\n    path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),\n    path("enaio/agent/jobs/next/", enaio_agent_views.enaio_agent_next_job, name="enaio_agent_next_job"),\n    path("enaio/agent/selection/<int:pk>/complete/", enaio_agent_views.enaio_agent_selection_complete, name="enaio_agent_selection_complete"),\n    path("enaio/agent/transfer/<int:pk>/pdf/", enaio_agent_views.enaio_agent_transfer_pdf, name="enaio_agent_transfer_pdf"),\n    path("enaio/agent/transfer/<int:pk>/complete/", enaio_agent_views.enaio_agent_transfer_complete, name="enaio_agent_transfer_complete"),
     path("logout/", views.logout_view, name="logout"),
     path("", views.dashboard, name="dashboard"),
     path("hilfe/", guide_views.user_guide, name="user_guide"),
@@ -22,6 +22,7 @@ urlpatterns = [
     path("meeting/<int:pk>/protocol/", views.protocol, name="protocol"),
     path("meeting/<int:pk>/protocol/pdf/", views.protocol_pdf, name="protocol_pdf"),
     path("meeting/<int:pk>/protocol/enaio/start/", views.enaio_transfer_start, name="enaio_transfer_start"),
+    path("enaio/transfer/<int:pk>/status/", views.enaio_transfer_status, name="enaio_transfer_status"),
     path("enaio/transfer/<str:token>/details/", views.enaio_transfer_details, name="enaio_transfer_details"),
     path("enaio/transfer/<str:token>/pdf/", views.enaio_transfer_pdf, name="enaio_transfer_pdf"),
     path("enaio/transfer/<str:token>/complete/", views.enaio_transfer_complete, name="enaio_transfer_complete"),

@@ -1428,13 +1428,14 @@ def enaio_transfer_start(request, pk):
             "error": "Die zentrale enaio-Ordner-ID ist noch nicht unter Verwaltung → enaio-Einstellungen hinterlegt."
         }, status=400)
     raw_token = secrets.token_urlsafe(32)
-    EnaioTransfer.objects.create(
+    transfer = EnaioTransfer.objects.create(
         user=request.user, meeting=meeting,
         token_hash=hashlib.sha256(raw_token.encode()).hexdigest(),
         expires_at=timezone.now() + timedelta(minutes=10),
     )
     return JsonResponse({
-        "launch_url": "meetingmanager-enaio://transfer/" + raw_token,
+        "status_url": reverse("enaio_transfer_status", args=[transfer.pk]),
+        "message": "Der lokale enaio-Agent übernimmt den Auftrag, sobald er verbunden ist.",
         "filing": {
             "root_folder_id": filing_settings.root_folder_id,
             "root_folder_type": filing_settings.root_folder_type,
@@ -1517,6 +1518,19 @@ def enaio_transfer_complete(request, token):
         transfer.consumed_at = timezone.now()
         transfer.save(update_fields=["status", "consumed_at"])
     return JsonResponse({"ok": True, "register_path": display_path})
+
+
+@login_required
+@require_http_methods(["GET"])
+def enaio_transfer_status(request, pk):
+    transfer = get_object_or_404(EnaioTransfer, pk=pk, user=request.user)
+    if transfer.status == "completed":
+        return JsonResponse({"completed": True})
+    if transfer.status == "failed":
+        return JsonResponse({"completed": False, "error": transfer.error_message or "enaio-Ablage fehlgeschlagen."})
+    if transfer.expires_at <= timezone.now():
+        return JsonResponse({"completed": False, "expired": True}, status=410)
+    return JsonResponse({"completed": False})
 
 @login_required
 def protocol(request, pk):
