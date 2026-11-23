@@ -5,4 +5,7 @@ from django.test import SimpleTestCase
 class TopicCommentAutoresizeTests(SimpleTestCase):
     def test_feature_is_present_in_template(self):
         template = Path(__file__).resolve().parent.parent / "templates/meetings/topic_form.html"
-        self.assertIn("topic-comment-autoresize", template.read_text(encoding="utf-8"))
+        content = template.read_text(encoding="utf-8")
+        self.assertIn('textarea[name="working_text"]', content)
+        self.assertIn('field.style.overflowY = "hidden"', content)
+        self.assertIn('window.addEventListener("resize", resize)', content)
