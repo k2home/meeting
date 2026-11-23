@@ -10,7 +10,7 @@ class DatabaseBackupMigrationMetadataTests(SimpleTestCase):
     @patch("meetings.management_views.MigrationLoader")
     def test_accepts_migrations_available_in_current_code(self, migration_loader):
         migration_loader.return_value = SimpleNamespace(
-            graph=SimpleNamespace(nodes={("meetings", "0001_initial"), ("meetings", "0002_example")})
+            graph=SimpleNamespace(nodes={("meetings", "0001_initial"): object(), ("meetings", "0002_example"): object()})
         )
 
         _validate_backup_migrations([
@@ -21,7 +21,7 @@ class DatabaseBackupMigrationMetadataTests(SimpleTestCase):
     @patch("meetings.management_views.MigrationLoader")
     def test_rejects_backup_from_newer_code_with_unknown_migration(self, migration_loader):
         migration_loader.return_value = SimpleNamespace(
-            graph=SimpleNamespace(nodes={("meetings", "0001_initial")})
+            graph=SimpleNamespace(nodes={("meetings", "0001_initial"): object()})
         )
 
         with self.assertRaisesRegex(RuntimeError, "neueren oder inkompatiblen"):
