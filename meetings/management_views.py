@@ -180,7 +180,11 @@ def enaio_connection_diagnostics(request):
         },
         "configuration": {
             "root_folder_configured": bool(config and config.root_folder_id),
-            "object_definition_configured": not missing_fields,
+            # Object metadata will be read from the selected folder in the
+            # already-running enaio client; it is intentionally not a
+            # manually configured server-side setting.
+            "object_definition_configured": False,
+            "object_definition_automatic": True,
             "document_type_configured": bool(config and config.document_type_name),
             "missing_fields": missing_fields,
         },
