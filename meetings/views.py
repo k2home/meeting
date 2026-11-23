@@ -837,56 +837,29 @@ def meeting_detail(request, pk):
                     )
                 if form.is_valid() and (schedule_form is None or schedule_form.is_valid()):
                     old_text = item.working_text
-                    with transaction.atomic():
-                        saved = form.save()
-                        if old_text != saved.working_text:
-                            record_event(actor=request.user, action="agenda_edited",
-                                summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
-                                topic=item.topic, meeting=meeting,
-                                changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
-                        if schedule_form is not None:
-                            topic = item.topic
-                            old_series = topic.series
-                            target_series = schedule_form.cleaned_data["target_series"]
-                            target_meeting = schedule_form.cleaned_data["target_meeting"]
-                            if old_series != target_series:
-                                try:
-                                    _move_future_agenda_items(topic, old_series, target_series, {item.pk})
-                                except ValueError as exc:
-                                    messages.error(request, str(exc))
-                                    return redirect("meeting", pk=pk)
-                            topic.series = target_series
-                            topic.save(update_fields=["series", "updated_at"])
-                            next_position = (target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if target_meeting.agenda_items.exists() else -1) + 1
-                            target_item, created = AgendaItem.objects.get_or_create(
-                                meeting=target_meeting, topic=topic,
-                                defaults={"working_text": "", "position": next_position, "assigned_to_id": item.assigned_to_id},
-                            )
-                            if not created and target_item.working_text:
-                                target_item.working_text = ""
-                                target_item.save(update_fields=["working_text"])
-                            if not created and item.assigned_to_id and not target_item.assigned_to_id:
-                                target_item.assigned_to_id = item.assigned_to_id
-                                target_item.save(update_fields=["assigned_to"])
-                            if old_series != target_series:
-                                TopicTransferHistory.objects.create(
-                                    topic=topic, from_series=old_series, to_series=target_series,
-                                    transferred_by=request.user,
-                                    note=f"Wiedervorlage für {target_meeting.date:%d.%m.%Y} festgelegt",
+                    try:
+                        with transaction.atomic():
+                            saved = form.save()
+                            if old_text != saved.working_text:
+                                record_event(actor=request.user, action="agenda_edited",
+                                    summary=f"Agendatext für „{item.topic.title}“ in {meeting.date:%d.%m.%Y} geändert",
+                                    topic=item.topic, meeting=meeting,
+                                    changes={"Text": {"vorher": old_text, "nachher": saved.working_text}})
+                            if schedule_form is not None:
+                                success_message = _schedule_agenda_followup(
+                                    saved,
+                                    schedule_form.cleaned_data["target_series"],
+                                    schedule_form.cleaned_data["target_meeting"],
+                                    request.user,
                                 )
-                            record_event(
-                                actor=request.user, action="transferred" if old_series != target_series else "updated",
-                                summary=f"Wiedervorlage für „{topic.title}“ auf {target_series.name} am {target_meeting.date:%d.%m.%Y} gesetzt",
-                                topic=topic, meeting=meeting,
-                                changes={
-                                    "Wiedervorlage": {"nachher": target_meeting.date.isoformat()},
-                                    "Besprechungsserie": {
-                                        "vorher": old_series.name if old_series else None,
-                                        "nachher": target_series.name,
-                                    },
-                                },
-                            )
-                    messages.success(request, "Agendatext und Wiedervorlage gespeichert." if schedule_form is not None else "Agendatext gespeichert.")
+                    except ValueError as exc:
+                        messages.error(request, f"{exc} Text und Wiedervorlage wurden nicht gespeichert.")
+                    else:
+                        messages.success(
+                            request,
+                            "Agendatext und Wiedervorlage gespeichert."
+                            if schedule_form is not None else "Agendatext gespeichert.",
+                        )
                 else:
                     messages.error(request, "Bitte prüfe den Text und die ausgewählte Wiedervorlage.")
         if request.POST.get("item_id") and not request.POST.get("save_all_working_texts"):
