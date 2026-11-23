@@ -129,4 +129,16 @@
     updateButton();
   });
 </script>
+
+<!-- series-role-change-confirmation -->
+<script>
+document.querySelectorAll(".series-role-request").forEach(form => {
+  form.addEventListener("submit", event => {
+    const select = form.querySelector("select[name='role']");
+    if (!select || select.value === select.dataset.currentRole) return;
+    const label = select.options[select.selectedIndex]?.text || select.value;
+    if (!window.confirm(`Möchtest du die Berechtigung „${label}“ für diese Besprechungsreihe beantragen?`)) event.preventDefault();
+  });
+});
+</script>
 {% endblock %}
