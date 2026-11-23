@@ -323,4 +323,24 @@
   window.setInterval(refresh, 3000);
 })();
 </script>
+
+<!-- enaio-folder-id-copy -->
+<script>
+(() => {
+  const fields = ["id_root_folder_id", "id_root_folder_type", "id_document_type_name"];
+  fields.forEach(id => {
+    const field = document.getElementById(id);
+    if (!field || field.disabled || field.readOnly) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "secondary";
+    button.textContent = "Wert kopieren";
+    button.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(field.value); button.textContent = "Kopiert"; }
+      catch { button.textContent = "Kopieren nicht möglich"; }
+    });
+    field.insertAdjacentElement("afterend", button);
+  });
+})();
+</script>
 {% endblock %}
