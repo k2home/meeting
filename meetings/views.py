@@ -2144,6 +2144,7 @@ def audit_history(request):
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
+    selected_actor = request.GET.get("actor", "")
 
     if has_history_permission:
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
@@ -2172,13 +2173,23 @@ def audit_history(request):
             events = events.filter(topic_id=topic_id)
         else:
             topic_id = ""
+        actors = UserModel.objects.filter(
+            pk__in=events.exclude(actor__isnull=True).values("actor_id")
+        ).order_by("last_name", "first_name", "username")
+        if selected_actor.isdigit() and actors.filter(pk=int(selected_actor)).exists():
+            events = events.filter(actor_id=int(selected_actor))
+        else:
+            selected_actor = ""
     else:
         topic_id = ""
         selected_series = ""
+        selected_actor = ""
+        actors = UserModel.objects.none()
 
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
+        "actors": actors, "selected_actor": selected_actor,
         "has_history_permission": has_history_permission,
     })
 

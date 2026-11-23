@@ -20,9 +20,15 @@
         {% for item in series %}<option value="{{ item.pk }}" {% if selected_series == item.pk|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>{% endfor %}
       </select>
     </div>
+    <div><label for="actor-filter">Nach Benutzer filtern</label>
+      <select id="actor-filter" name="actor">
+        <option value="">Alle Benutzer</option>
+        {% for actor in actors %}<option value="{{ actor.pk }}" {% if selected_actor == actor.pk|stringformat:"s" %}selected{% endif %}>{{ actor|user_display }}</option>{% endfor %}
+      </select>
+    </div>
     <div class="audit-filter-actions">
       <button type="submit" class="secondary">Filtern</button>
-      {% if selected_topic or selected_series %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
+      {% if selected_topic or selected_series or selected_actor %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
     </div>
   </form>
 </div>
