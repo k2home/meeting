@@ -68,10 +68,12 @@
   const statusElement = document.getElementById("deployment-update-status");
   const storageKey = "meetingManagerUpdatePending";
   let checking = false;
+  let pendingSince = 0;
 
   if (form) {
     form.addEventListener("submit", () => {
-      try { sessionStorage.setItem(storageKey, "1"); } catch (_) {}
+      pendingSince = Date.now();
+      try { sessionStorage.setItem(storageKey, String(pendingSince)); } catch (_) {}
       const button = form.querySelector('button[type="submit"]');
       if (button) {
         button.disabled = true;
@@ -81,9 +83,11 @@
   }
 
   const isPending = () => {
-    let submitted = false;
-    try { submitted = sessionStorage.getItem(storageKey) === "1"; } catch (_) {}
-    return submitted || (statusElement && statusElement.dataset.updateStatus === "running");
+    let submittedAt = 0;
+    try { submittedAt = Number(sessionStorage.getItem(storageKey)) || 0; } catch (_) {}
+    if (submittedAt) pendingSince = submittedAt;
+    if (!pendingSince && statusElement && statusElement.dataset.updateStatus === "running") pendingSince = Date.now();
+    return submittedAt > 0 || (statusElement && statusElement.dataset.updateStatus === "running");
   };
 
   const checkUpdate = async () => {
@@ -99,7 +103,7 @@
       const html = await response.text();
       const page = new DOMParser().parseFromString(html, "text/html");
       const freshStatus = page.getElementById("deployment-update-status");
-      if (freshStatus && freshStatus.dataset.updateStatus !== "running") {
+      if (freshStatus && freshStatus.dataset.updateStatus !== "running" && pendingSince && Date.now() - pendingSince >= 3000) {
         try { sessionStorage.removeItem(storageKey); } catch (_) {}
         window.location.reload();
         return;
