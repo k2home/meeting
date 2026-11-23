@@ -233,5 +233,5 @@ class PersonalProfileForm(forms.Form):
 class SeriesAccessRequestForm(forms.Form):
     role = forms.ChoiceField(
         label="Gewünschte Berechtigung",
-        choices=SeriesAccess.ROLE_CHOICES,
+        choices=SeriesAccess.REQUEST_ROLE_CHOICES,
     )

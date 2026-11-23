@@ -250,11 +250,13 @@ class SeriesAccess(models.Model):
     ROLE_PARTICIPANT = "participant"
     ROLE_MODERATOR = "moderator"
     ROLE_READER = "reader"
+    ROLE_NONE = "none"
     ROLE_CHOICES = [
         (ROLE_PARTICIPANT, "Teilnehmer*in"),
         (ROLE_MODERATOR, "Moderator*in"),
         (ROLE_READER, "Leser*in"),
     ]
+    REQUEST_ROLE_CHOICES = ROLE_CHOICES + [(ROLE_NONE, "Keine")]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name="meeting_series_access", verbose_name="Benutzer")
     series = models.ForeignKey(MeetingSeries, on_delete=models.CASCADE,
@@ -374,7 +376,7 @@ class SeriesAccessRequest(models.Model):
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="series_access_requests")
     series = models.ForeignKey(MeetingSeries, on_delete=models.CASCADE, related_name="access_requests")
-    requested_role = models.CharField("Beantragte Berechtigung", max_length=16, choices=SeriesAccess.ROLE_CHOICES)
+    requested_role = models.CharField("Beantragte Berechtigung", max_length=16, choices=SeriesAccess.REQUEST_ROLE_CHOICES)
     status = models.CharField("Status", max_length=12, choices=STATUS_CHOICES, default=STATUS_PENDING)
     decision_note = models.CharField("Begründung", max_length=500, blank=True)
     decided_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="decided_series_access_requests")
