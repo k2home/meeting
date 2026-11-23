@@ -1,3 +1,4 @@
+import django.core.validators
 from django.db import migrations, models
 
 
@@ -15,6 +16,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Empfohlenes Format: PNG oder JPEG.",
                 upload_to="organization/logo/",
+                validators=[django.core.validators.FileExtensionValidator(["png", "jpg", "jpeg"])],
                 verbose_name="Organisationslogo",
             ),
         ),
