@@ -374,9 +374,9 @@ internal static class EnaioClient
             var registerTypeId = ResolveObjectType(Convert.ToString(app.GetRegTypeFromArchive(archiveName)) ?? "", registerType, "Registertyp");
             var documentTypeId = ResolveObjectType(Convert.ToString(app.GetDocTypesFromArchive(archiveName)) ?? "", documentType, "Dokumenttyp");
 
-            var query = "[ANFRAGE]\\r\\nSCHRANK=" + Ini(archiveName) + "\\r\\nREGISTER=" + Ini(registerType) +
-                "\\r\\nKLAUSEL1=" + Ini(registerType) + "@" + Ini(registerNameField) + "=" + Ini(series) +
-                "\\r\\nAUSDRUCK1=" + Ini(registerType) + "@1121^1^" + rootId + "~0~1122^1^0\\r\\nDATENFELDER=0\\r\\nDATENHEADER=0\\r\\nANFRAGEFENSTER=0\\r\\n";
+            var query = "[ANFRAGE]\r\nSCHRANK=" + Ini(archiveName) + "\r\nREGISTER=" + Ini(registerType) +
+                "\r\nKLAUSEL1=" + Ini(registerType) + "@" + Ini(registerNameField) + "=" + Ini(series) +
+                "\r\nAUSDRUCK1=" + Ini(registerType) + "@1121^1^" + rootId + "~0~1122^1^0\r\nDATENFELDER=0\r\nDATENHEADER=0\r\nANFRAGEFENSTER=0\r\n";
             var resultFile = Convert.ToString(app.StartRegRequest(query)) ?? "";
             var registerId = 0L;
             if (string.IsNullOrWhiteSpace(resultFile) || resultFile == "READY" || !File.Exists(resultFile))
@@ -388,7 +388,7 @@ internal static class EnaioClient
             if (registerId == 0)
             {
                 LogLocal("INFO", "Das Register '" + series + "' fehlt. enaio öffnet jetzt die Indexdatenmaske zur bestätigten Registeranlage.");
-                registerHandoff = CreateHandoffFile("[Data]\\r\\nFeld0=" + Ini(registerNameField) + "=" + Ini(series) + "\\r\\n");
+                registerHandoff = CreateHandoffFile("[Data]\r\nFeld0=" + Ini(registerNameField) + "=" + Ini(series) + "\r\n");
                 object newRegisterId = 0;
                 var registerCode = Convert.ToInt32(app.InsertNewDMSObject(registerTypeId, rootId, registerHandoff, ref newRegisterId));
                 if (registerCode != 0)
@@ -400,7 +400,7 @@ internal static class EnaioClient
                 LogLocal("INFO", "Register wurde vom Benutzer in enaio bestätigt (ID " + registerId + ").");
             }
 
-            documentHandoff = CreateHandoffFile("[Data]\\r\\n[Files]\\r\\nFile0=" + pdfPath.Replace("\\\\", "/") + "\\r\\n");
+            documentHandoff = CreateHandoffFile("[Data]\r\n[Files]\r\nFile0=" + pdfPath.Replace("\\", "/") + "\r\n");
             LogLocal("INFO", "enaio öffnet jetzt die Indexdatenmaske zur bestätigten Ablage des Protokolls in Register " + series + ".");
             object newDocumentId = 0;
             var documentCode = Convert.ToInt32(app.InsertNewDMSObject(documentTypeId, registerId, documentHandoff, ref newDocumentId));
