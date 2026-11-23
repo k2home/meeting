@@ -1,0 +1,6 @@
+{% extends "meetings/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>{{ page_title }}</h1><p class="muted">Kontodaten und Zugriffsrechte</p></div><a class="btn secondary" href="{% url 'management_users' %}">Zur Nutzerverwaltung</a></div>
+<div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="actions"><button class="primary" type="submit">Speichern</button><a class="btn secondary" href="{% url 'management_users' %}">Abbrechen</a></div></form></div>
+{% endblock %}
