@@ -952,6 +952,39 @@ class AgendaFollowupLinkTests(TestCase):
         self.assertEqual(self.item.meeting, self.source_meeting)
         self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
     
+    def test_clearing_existing_followup_deletes_linked_future_agenda_item_after_confirmation(self):
+        self._schedule(self.first_target)
+        followup = AgendaItem.objects.get(followup_of=self.item)
+
+        response = self.client.post(reverse("meeting", args=[self.source_meeting.pk]), {
+            "item_id": self.item.pk,
+            "schedule_item": self.item.pk,
+            "working_text": "Aktualisierter Text",
+            "target_series": self.series.pk,
+            "target_meeting": "",
+            "confirm_clear_followup": "1",
+        })
+
+        self.assertRedirects(response, f"{reverse('meeting', args=[self.source_meeting.pk])}#agenda-item-{self.item.pk}")
+        self.item.refresh_from_db()
+        self.assertEqual(self.item.working_text, "Aktualisierter Text")
+        self.assertFalse(AgendaItem.objects.filter(pk=followup.pk).exists())
+        self.assertFalse(AgendaItem.objects.filter(followup_of=self.item).exists())
+
+    def test_clearing_followup_requires_confirmation(self):
+        self._schedule(self.first_target)
+        followup = AgendaItem.objects.get(followup_of=self.item)
+
+        self.client.post(reverse("meeting", args=[self.source_meeting.pk]), {
+            "item_id": self.item.pk,
+            "schedule_item": self.item.pk,
+            "working_text": self.item.working_text,
+            "target_series": self.series.pk,
+            "target_meeting": "",
+        })
+
+        self.assertTrue(AgendaItem.objects.filter(pk=followup.pk).exists())
+
     def test_saving_text_without_a_selected_date_does_not_create_followup(self):
         response = self.client.post(reverse("meeting", args=[self.source_meeting.pk]), {
             "item_id": self.item.pk,
