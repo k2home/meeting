@@ -139,17 +139,4 @@
 })();
 </script>
 
-<!-- dashboard-reset-filters -->
-<script>
-(() => {
-  const form = document.querySelector('form.filter-panel input[name="q"]')?.form;
-  if (!form || form.querySelector('[data-dashboard-reset]')) return;
-  const link = document.createElement("a");
-  link.href = window.location.pathname;
-  link.className = "btn secondary";
-  link.dataset.dashboardReset = "true";
-  link.textContent = "Alle Filter zurücksetzen";
-  form.append(link);
-})();
-</script>
 {% endblock %}
