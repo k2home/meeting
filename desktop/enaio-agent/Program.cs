@@ -215,6 +215,8 @@ internal static class EnaioClient
         dynamic app = Connect();
         try
         {
+            // GetAllOpenFolders returns every opened folder/register. It does not identify
+            // the active tab, so never silently assume that the first entry is the target.
             var opened = Convert.ToString(app.GetAllOpenFolders()) ?? "";
             var candidates = new List<OpenFolderCandidate>();
             foreach (var item in opened.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
@@ -238,57 +240,15 @@ internal static class EnaioClient
             if (candidates.Count == 0)
                 throw new InvalidOperationException("enaio meldet keine geöffneten Ordner oder Register. Bitte öffnen Sie zuerst den gewünschten Ablageordner in enaio.");
 
-            var startFolder = candidates.Count == 1 ? candidates[0] : ChooseOpenFolder(candidates);
+            var selected = candidates.Count == 1 ? candidates[0] : ChooseOpenFolder(candidates);
             if (!isJobActive())
                 throw new OperationCanceledException("Die Ordnerauswahl wurde im Meeting Manager abgebrochen oder ist abgelaufen.");
+            if (string.IsNullOrWhiteSpace(selected.Path))
+                throw new InvalidOperationException("enaio hat für den ausgewählten geöffneten Ordner keinen vollständigen Pfad geliefert.");
 
-            LogLocal("INFO", "enaio-Auswahl startet im geöffneten Kontext: " + startFolder.Label);
-            var started = Convert.ToInt32(app.SelectObject(startFolder.Id, startFolder.Type, false, "Ablageordner in enaio auswählen"));
-            if (started != 1)
-                throw new InvalidOperationException("enaio konnte die Objektauswahl nicht öffnen (Code " + started + "): " + Convert.ToString(app.GetLastError()));
-
-            object selected = "";
-            var result = 1;
-            var elapsed = Stopwatch.StartNew();
-            var nextLeaseCheck = TimeSpan.Zero;
-            while (result == 1)
-            {
-                Application.DoEvents();
-                if (elapsed.Elapsed >= TimeSpan.FromMinutes(4))
-                    throw new TimeoutException("Die enaio-Ordnerauswahl wurde nach vier Minuten ohne Auswahl beendet.");
-                if (elapsed.Elapsed >= nextLeaseCheck)
-                {
-                    if (!isJobActive())
-                        throw new OperationCanceledException("Die enaio-Ordnerauswahl wurde im Meeting Manager abgebrochen oder ist abgelaufen.");
-                    nextLeaseCheck = elapsed.Elapsed + TimeSpan.FromSeconds(2);
-                }
-                result = Convert.ToInt32(app.GetSelectedObject(ref selected));
-                Thread.Sleep(200);
-            }
-            if (result != 3)
-                throw new InvalidOperationException("Die enaio-Ordnerauswahl wurde abgebrochen (Code " + result + ").");
-
-            var chosen = Convert.ToString(selected)?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).FirstOrDefault()
-                ?? throw new InvalidOperationException("enaio hat kein ausgewähltes Objekt zurückgegeben.");
-            var selectedParts = chosen.Split(',');
-            if (selectedParts.Length != 2 || !long.TryParse(selectedParts[0], out var id) || !int.TryParse(selectedParts[1], out var objectType))
-                throw new InvalidOperationException("enaio hat eine ungültige Ordner-ID zurückgegeben.");
-
-            object name = "";
-            if (Convert.ToInt32(app.GetObjectName(id, ref name)) != 0)
-                throw new InvalidOperationException("Der ausgewählte Ordnername konnte nicht aus enaio gelesen werden: " + Convert.ToString(app.GetLastError()));
-            object readablePath = "";
-            var pathResult = Convert.ToInt32(app.GetObjectPatternPath(id, objectType, ref readablePath));
-            if (pathResult != 0)
-                throw new InvalidOperationException("Der lesbare enaio-Ordnerpfad konnte nicht ermittelt werden: " + Convert.ToString(app.GetLastError()));
-            var path = Convert.ToString(readablePath);
-            if (string.IsNullOrWhiteSpace(path))
-                path = Convert.ToString(app.GetObjectPath(id, objectType)) ?? "";
-            if (string.IsNullOrWhiteSpace(path))
-                throw new InvalidOperationException("enaio hat für den ausgewählten Ordner keinen vollständigen Pfad geliefert.");
-
-            LogLocal("INFO", "enaio-Zielordner bestätigt: " + path + " (ID " + id + ", Typ " + objectType + ").");
-            return new SelectedFolder(id.ToString(), objectType, Convert.ToString(name) ?? "", path);
+            LogLocal("INFO", "Geöffneter enaio-Ablageordner übernommen: " + selected.Path +
+                " (ID " + selected.Id + ", Typ " + selected.Type + ").");
+            return new SelectedFolder(selected.Id.ToString(), selected.Type, selected.Name, selected.Path);
         }
         finally { try { Marshal.FinalReleaseComObject((object)app); } catch { } }
     }
