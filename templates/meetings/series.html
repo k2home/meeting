@@ -159,4 +159,22 @@
 })();
 </script>
 {% if form.errors %}<script>document.addEventListener('DOMContentLoaded',function(){document.getElementById('new-series-dialog').showModal();});</script>{% endif %}
+
+<!-- series-admin-live-search -->
+<script>
+(() => {
+  const entries = [...document.querySelectorAll(".series-entry")];
+  if (!entries.length || document.getElementById("series-admin-search")) return;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.id = "series-admin-search";
+  input.placeholder = "Besprechungsreihe suchen …";
+  input.setAttribute("aria-label", "Besprechungsreihen durchsuchen");
+  document.querySelector(".series-list")?.before(input);
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    entries.forEach(entry => { entry.hidden = !!term && !entry.textContent.toLocaleLowerCase("de").includes(term); });
+  });
+})();
+</script>
 {% endblock %}
