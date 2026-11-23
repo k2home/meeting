@@ -28,6 +28,7 @@ class AccountSecurityTests(TestCase):
             validate_password("Abc1!")
 
     def test_unknown_username_does_not_create_account(self):
+        User.objects.create_user(username="existing-member", password="strong-test-password")
         response = self.client.post(reverse("login"), {"username": "not-a-user", "password": "wrong"})
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username="not-a-user").exists())

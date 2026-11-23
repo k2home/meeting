@@ -5,8 +5,10 @@ from . import agenda_topic_views
 from . import guide_views
 from . import management_views
 from . import enaio_agent_views
+from . import setup_views
 
 urlpatterns = [
+    path("setup/", setup_views.setup_wizard, name="setup_wizard"),
     path("login/", views.login_view, name="login"),
     path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),
     path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),
