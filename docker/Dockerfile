@@ -11,6 +11,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     MEETING_BUILD_COMMIT_DATE=${VCS_COMMIT_DATE} \
     MEETING_BUILD_BRANCH=${VCS_BRANCH}
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libcairo2 \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY requirements.txt requirements-constraints.txt ./
