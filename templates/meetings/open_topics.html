@@ -1,12 +1,12 @@
 {% extends "meetings/base.html" %}
 {% block title %}Offene Tagesordnungspunkte{% endblock %}
 {% block content %}
-<div class="topline">
+<header class="page-header">
   <div>
     <h1>Offene Tagesordnungspunkte</h1>
     <p class="muted">Hier findest du den jeweils letzten noch offenen Tagesordnungspunkt eines Themas, für den noch kein zukünftiger Besprechungstermin vorgesehen ist.</p>
   </div>
-</div>
+</header>
 {% for row in rows %}
   <section class="card">
     <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>
