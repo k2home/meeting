@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .meeting_csv import meeting_participants_csv
 from . import agenda_topic_views
 from . import guide_views
 from . import management_views
@@ -27,7 +28,7 @@ urlpatterns = [
     path("my-tasks/", views.my_tasks, name="my_tasks"),
     path("meetings/", views.meetings_overview, name="meetings_overview"),
     path("open-topics/", views.open_topics, name="open_topics"),
-    path("meeting/<int:pk>/participants.csv", views.meeting_participants_csv, name="meeting_participants_csv"),
+    path("meeting/<int:pk>/participants.csv", meeting_participants_csv, name="meeting_participants_csv"),
     path("meeting/<int:pk>/", views.meeting_detail, name="meeting"),
     path("meeting/<int:pk>/agenda/reorder/", views.agenda_reorder, name="agenda_reorder"),
     path("meeting/<int:pk>/agenda/<int:item_pk>/delete/", views.agenda_item_delete, name="agenda_item_delete"),
