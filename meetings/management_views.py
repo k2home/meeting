@@ -185,6 +185,8 @@ def enaio_folder_selection_start(request):
 def enaio_folder_selection_status(request, pk):
     _require_admin(request)
     selection = get_object_or_404(EnaioFolderSelection, pk=pk, user=request.user)
+    if selection.error_message:
+        return JsonResponse({"completed": False, "error": selection.error_message}, status=400)
     if selection.consumed_at:
         return JsonResponse({"completed": True})
     if selection.expires_at <= timezone.now():
