@@ -1,5 +1,6 @@
 {% extends "meetings/base.html" %}
-{% block title %}Verwaltung{% endblock %}
+{% block title %}Verwaltung<a class="management-card" href="{% url 'management_data' %}"><span class="management-icon">⇅</span><h2>Datenimport und -export</h2><p>Nutzer sowie Themen und Tagesordnungspunkte per CSV sichern und übernehmen.</p><strong>CSV-Funktionen öffnen</strong></a>
+{% endblock %}
 {% block content %}
 <div class="page-header"><div><h1>Verwaltung</h1><p class="muted">Zentrale Verwaltung des Meeting Managers</p></div><a class="btn secondary" href="/django-admin/">Django-Verwaltung (Backup)</a></div>
 <div class="management-grid">
