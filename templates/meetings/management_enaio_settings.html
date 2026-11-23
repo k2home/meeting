@@ -115,7 +115,7 @@
     savedLabel.textContent = "Zentral gespeicherter Bericht #" + data.id + " · " + new Date(data.created_at).toLocaleString() + " · in anderen Browsern abrufbar";
     const a = data.analysis || {};
     analysisOutput.hidden = false;
-    analysisOutput.textContent = "Automatische Auswertung: " + (a.diagnostic_errors || 0) + " Fehler, " + (a.diagnostic_warnings || 0) + " Hinweise, " + (a.agent_errors || 0) + " Agent-Fehler, " + (a.agent_warnings || 0) + " Agent-Warnungen. " + (a.recommendation || "");
+    analysisOutput.textContent = "Automatische Auswertung: " + (a.diagnostic_errors || 0) + " Fehler, " + (a.diagnostic_warnings || 0) + " Hinweise, " + (a.agent_errors || 0) + " Agent-Fehler, " + (a.agent_warnings || 0) + " Agent-Warnungen, " + (a.local_log_errors || 0) + " Fehler und " + (a.local_log_warnings || 0) + " Warnungen aus lokaler Datei. " + (a.recommendation || "");
   }
   async function loadLatest() {
     try {
