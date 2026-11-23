@@ -112,7 +112,8 @@ def management_users(request):
     _require_admin(request)
     users = User.objects.all().order_by("last_name", "first_name", "username")
     return render(request, "meetings/management_users.html", {
-        "users": [{"account": user, "is_administrator": is_admin(user)} for user in users]
+        "users": [{"account": user, "is_administrator": is_admin(user)} for user in users],
+        "role_choices": SeriesAccess.ROLE_CHOICES,
     })
 
 
