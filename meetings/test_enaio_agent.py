@@ -99,7 +99,6 @@ class EnaioAgentLeaseTests(TestCase):
     def test_agent_job_status_reports_active_lease(self):
         selection = EnaioFolderSelection.objects.create(
             user=self.user,
-            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
             expires_at=timezone.now() + timedelta(minutes=5),
         )
         job = self.client.get(reverse("enaio_agent_next_job"), **self.auth).json()["job"]
@@ -118,7 +117,6 @@ class EnaioAgentLeaseTests(TestCase):
     def test_browser_cancellation_invalidates_agent_lease(self):
         selection = EnaioFolderSelection.objects.create(
             user=self.user,
-            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
             expires_at=timezone.now() + timedelta(minutes=5),
         )
         job = self.client.get(reverse("enaio_agent_next_job"), **self.auth).json()["job"]
@@ -161,7 +159,6 @@ class EnaioAgentLeaseTests(TestCase):
         meeting = Meeting.objects.create(date=timezone.localdate(), title="Test meeting")
         transfer = EnaioTransfer.objects.create(
             user=self.user, meeting=meeting,
-            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
             expires_at=timezone.now() + timedelta(minutes=10),
             agent_lease_token="current-lease",
             agent_lease_expires_at=timezone.now() + timedelta(minutes=5),
