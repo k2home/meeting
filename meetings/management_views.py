@@ -227,6 +227,9 @@ def _analyze_enaio_report(report, logs):
     warnings = [item for item in tests if any(word in str(item.get("result", "")).upper() for word in ("FEHLT", "UNVOLLSTÄNDIG", "NICHT VERFÜGBAR", "NICHT MÖGLICH", "HINWEIS"))]
     agent_errors = [item for item in logs if item["level"] == "ERROR"]
     agent_warnings = [item for item in logs if item["level"] == "WARNING"]
+    local_lines = str(report.get("local_log_text", "")).splitlines()
+    local_errors = [line for line in local_lines if any(word in line.upper() for word in (" ERROR ", "[ERROR]", "EXCEPTION", "TRACEBACK", "FATAL"))]
+    local_warnings = [line for line in local_lines if any(word in line.upper() for word in (" WARNING ", "[WARN]", "[WARNING]"))]
     return {
         "browser_server_checks": len(tests),
         "diagnostic_errors": len(errors),
@@ -234,8 +237,12 @@ def _analyze_enaio_report(report, logs):
         "agent_log_entries": len(logs),
         "agent_errors": len(agent_errors),
         "agent_warnings": len(agent_warnings),
+        "local_log_lines": len(local_lines),
+        "local_log_errors": len(local_errors),
+        "local_log_warnings": len(local_warnings),
+        "local_log_findings": (local_errors + local_warnings)[:100],
         "findings": [{"test": item.get("test", "Unbekannter Test"), "result": item.get("result", ""), "detail": item.get("detail", "")} for item in errors + warnings],
-        "recommendation": "Kritische Fehler in den Agent-Logs zuerst beheben." if agent_errors else "Die erkannten Konfigurations- und Integrationshinweise prüfen." if warnings else "Keine auffälligen Diagnoseergebnisse erkannt.",
+        "recommendation": "Fehler in den lokalen oder übertragenen Agent-Logs zuerst prüfen." if agent_errors or local_errors else "Die erkannten Konfigurations- und Integrationshinweise prüfen." if warnings or local_warnings else "Keine auffälligen Diagnoseergebnisse erkannt.",
     }
 
 
@@ -252,7 +259,7 @@ def enaio_diagnostic_report_save(request):
         return JsonResponse({"error": "Ungültiger JSON-Bericht."}, status=400)
     if not isinstance(payload, dict) or payload.get("report_type") != "Meeting Manager – enaio Browserdiagnose":
         return JsonResponse({"error": "Unbekanntes Berichtsformat."}, status=400)
-    safe_report = _redact_diagnostic_value(payload)
+    if len(str(payload.get("local_log_text", ""))) > 100000:\n        return JsonResponse({"error": "Die lokale Logdatei überschreitet 100 KB."}, status=413)\n    safe_report = _redact_diagnostic_value(payload)
     logs = [{
         "created_at": item.created_at.isoformat(), "level": item.level,
         "device": item.agent.device_name or "Unbekannter Arbeitsplatz",
