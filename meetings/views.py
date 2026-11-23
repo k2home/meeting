@@ -1184,33 +1184,24 @@ def protocol_pdf(request, pk):
     logo_is_configured = bool(organization and organization.logo and organization.logo.name)
     if logo_is_configured:
         logo_field = organization.logo
+        is_svg = logo_field.name.lower().endswith(".svg")
+        prepared_logo = organization.logo_png if is_svg else logo_field
+        if is_svg and not prepared_logo:
+            raise ValueError("Für das SVG-Logo wurde noch keine PNG-Version erzeugt. Bitte laden Sie das Logo unter Verwaltung erneut hoch.")
         logger.info(
             "Protokoll-PDF: Organisationslogo konfiguriert (organization_id=%s, "
             "name=%s, storage=%s).",
-            organization.pk, logo_field.name, logo_field.storage.__class__.__name__,
+            organization.pk, prepared_logo.name, prepared_logo.storage.__class__.__name__,
         )
         try:
-            logo_field.open("rb")
+            prepared_logo.open("rb")
             try:
-                logo_data = logo_field.read()
+                logo_data = prepared_logo.read()
             finally:
-                logo_field.close()
+                prepared_logo.close()
 
             if not logo_data:
                 raise ValueError("Die gespeicherte Logodatei ist leer.")
-
-            is_svg = (
-                logo_field.name.lower().endswith(".svg")
-                or logo_data.lstrip().startswith(b"<?xml")
-                or b"<svg" in logo_data[:2048].lower()
-            )
-            if is_svg:
-                import cairosvg
-                logo_data = cairosvg.svg2png(
-                    bytestring=logo_data,
-                    output_width=1200,
-                    background_color="#ffffff",
-                )
 
             logo_reader = ImageReader(BytesIO(logo_data))
             logo_width_px, logo_height_px = logo_reader.getSize()
