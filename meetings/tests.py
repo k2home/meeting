@@ -1890,3 +1890,37 @@ class OrganizationLogoDeliveryTests(TestCase):
                     response.context["organization_logo_url"],
                     reverse("organization_logo"),
                 )
+
+                rendered = response.content.decode()
+                self.assertEqual(
+                    rendered.count('class="brand-icon organization-brand-logo"'),
+                    2,
+                )
+
+    def test_organization_logo_is_embedded_in_protocol_pdf(self):
+        import tempfile
+        from datetime import date
+        from django.core.files.base import ContentFile
+        from django.test import override_settings
+        from .models import Meeting, MeetingSeries, OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                organization = OrganizationSettings.objects.create(name="Testorganisation")
+                organization.logo.save(
+                    "logo.svg",
+                    ContentFile(
+                        b'<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40">'
+                        b'<rect width="120" height="40" fill="#00549f"/></svg>'
+                    ),
+                    save=True,
+                )
+                series = MeetingSeries.objects.create(name="Testreihe")
+                meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
+                self.client.force_login(self.admin)
+
+                response = self.client.get(reverse("protocol_pdf", args=[meeting.pk]))
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response["Content-Type"], "application/pdf")
+                self.assertIn(b"/Subtype /Image", response.content)
