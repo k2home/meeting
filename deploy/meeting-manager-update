@@ -5,8 +5,8 @@ if [[ "$EUID" -ne 0 ]]; then
   echo "Dieser Befehl muss über sudo aufgerufen werden." >&2
   exit 1
 fi
-if [[ "$#" -ne 1 || ( "$1" != "beta" && "$1" != "main" ) ]]; then
-  echo "Verwendung: meeting-manager-update beta|main" >&2
+if [[ "$#" -ne 1 || ! "$1" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$ || "$1" == *".."* || "$1" == */ || "$1" == *. ]]; then
+  echo "Ungültiger Update-Branch." >&2
   exit 2
 fi
 
