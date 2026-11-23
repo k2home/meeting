@@ -76,6 +76,7 @@ def _setup_checks():
 def _save_organization(request):
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
     form = OrganizationSettingsForm(request.POST, instance=instance)
+    form.fields["name"].required = True
     logo_form = OrganizationLogoForm(request.POST, request.FILES, instance=instance)
     if not form.is_valid() or not logo_form.is_valid():
         return form, logo_form, False
@@ -148,6 +149,7 @@ def setup_wizard(request):
 
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
     form = OrganizationSettingsForm(instance=instance)
+    form.fields["name"].required = True
     logo_form = OrganizationLogoForm(instance=instance)
 
     if step == "organization":
