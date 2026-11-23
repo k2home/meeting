@@ -521,3 +521,14 @@ class EnaioAgentLog(models.Model):
     class Meta:
         ordering = ["-created_at"]
         indexes = [models.Index(fields=["-created_at"], name="enaio_log_created_idx")]
+
+
+class EnaioDiagnosticReport(models.Model):
+    """Shared, administrator-readable snapshot of browser and enaio diagnostics."""
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    report = models.JSONField(default=dict)
+    analysis = models.JSONField(default=dict)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
