@@ -1873,6 +1873,7 @@ class OrganizationLogoDeliveryTests(TestCase):
                 self.assertEqual(b"".join(response.streaming_content), b'<svg xmlns="http://www.w3.org/2000/svg"></svg>')
 
     def test_branding_context_uses_application_route_not_media_url(self):
+        import tempfile
         from django.core.files.base import ContentFile
         from django.test import override_settings
         from .models import OrganizationSettings
