@@ -205,19 +205,47 @@ internal static class EnaioClient
         return instance;
     }
 
+    private sealed record OpenFolderCandidate(long Id, int Type, string Name, string Path)
+    {
+        public string Label => string.IsNullOrWhiteSpace(Path) ? Name + " (ID " + Id + ")" : Path + " (ID " + Id + ")";
+    }
+
     public static SelectedFolder SelectRootFolder(Func<bool> isJobActive)
     {
         dynamic app = Connect();
         try
         {
-            string opened = Convert.ToString(app.GetAllOpenFolders()) ?? "";
-            string first = opened.Split(';', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()
-                ?? throw new InvalidOperationException("Bitte öffnen Sie in enaio zuerst einen Ordner oder ein Register.");
-            string[] parts = first.Split(',');
-            if (parts.Length != 2 || !long.TryParse(parts[0], out var startId) || !int.TryParse(parts[1], out var startType))
-                throw new InvalidOperationException("enaio hat keine gültige Liste geöffneter Ordner zurückgegeben.");
-            var started = Convert.ToInt32(app.SelectObject(startId, startType, false, "Ablage-Stammordner auswählen"));
-            if (started != 1) throw new InvalidOperationException("enaio konnte die Ordnerauswahl nicht öffnen (Code " + started + ").");
+            var opened = Convert.ToString(app.GetAllOpenFolders()) ?? "";
+            var candidates = new List<OpenFolderCandidate>();
+            foreach (var item in opened.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            {
+                var parts = item.Split(',');
+                if (parts.Length != 2 || !long.TryParse(parts[0], out var candidateId) || !int.TryParse(parts[1], out var candidateType))
+                    continue;
+
+                object candidateName = "";
+                var nameResult = Convert.ToInt32(app.GetObjectName(candidateId, ref candidateName));
+                var name = nameResult == 0 ? Convert.ToString(candidateName) ?? "" : "";
+                object candidatePath = "";
+                var pathResult = Convert.ToInt32(app.GetObjectPatternPath(candidateId, candidateType, ref candidatePath));
+                var readablePath = pathResult == 0 ? Convert.ToString(candidatePath) ?? "" : "";
+                if (string.IsNullOrWhiteSpace(readablePath))
+                    readablePath = Convert.ToString(app.GetObjectPath(candidateId, candidateType)) ?? "";
+                candidates.Add(new OpenFolderCandidate(candidateId, candidateType,
+                    string.IsNullOrWhiteSpace(name) ? "Geöffneter enaio-Ordner" : name, readablePath));
+            }
+
+            if (candidates.Count == 0)
+                throw new InvalidOperationException("enaio meldet keine geöffneten Ordner oder Register. Bitte öffnen Sie zuerst den gewünschten Ablageordner in enaio.");
+
+            var startFolder = candidates.Count == 1 ? candidates[0] : ChooseOpenFolder(candidates);
+            if (!isJobActive())
+                throw new OperationCanceledException("Die Ordnerauswahl wurde im Meeting Manager abgebrochen oder ist abgelaufen.");
+
+            LogLocal("INFO", "enaio-Auswahl startet im geöffneten Kontext: " + startFolder.Label);
+            var started = Convert.ToInt32(app.SelectObject(startFolder.Id, startFolder.Type, false, "Ablageordner in enaio auswählen"));
+            if (started != 1)
+                throw new InvalidOperationException("enaio konnte die Objektauswahl nicht öffnen (Code " + started + "): " + Convert.ToString(app.GetLastError()));
 
             object selected = "";
             var result = 1;
@@ -237,74 +265,162 @@ internal static class EnaioClient
                 result = Convert.ToInt32(app.GetSelectedObject(ref selected));
                 Thread.Sleep(200);
             }
-            if (result != 3) throw new InvalidOperationException("Die enaio-Ordnerauswahl wurde abgebrochen (Code " + result + ").");
-            var chosen = Convert.ToString(selected)?.Split(';', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()
-                ?? throw new InvalidOperationException("Es wurde kein Ordner ausgewählt.");
+            if (result != 3)
+                throw new InvalidOperationException("Die enaio-Ordnerauswahl wurde abgebrochen (Code " + result + ").");
+
+            var chosen = Convert.ToString(selected)?.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).FirstOrDefault()
+                ?? throw new InvalidOperationException("enaio hat kein ausgewähltes Objekt zurückgegeben.");
             var selectedParts = chosen.Split(',');
             if (selectedParts.Length != 2 || !long.TryParse(selectedParts[0], out var id) || !int.TryParse(selectedParts[1], out var objectType))
                 throw new InvalidOperationException("enaio hat eine ungültige Ordner-ID zurückgegeben.");
+
             object name = "";
-            if (Convert.ToInt32(app.GetObjectName(id, ref name)) != 0) throw new InvalidOperationException("Der Ordnername konnte nicht aus enaio gelesen werden.");
-            var objectPath = Convert.ToString(app.GetObjectPath(id, objectType)) ?? "";
+            if (Convert.ToInt32(app.GetObjectName(id, ref name)) != 0)
+                throw new InvalidOperationException("Der ausgewählte Ordnername konnte nicht aus enaio gelesen werden: " + Convert.ToString(app.GetLastError()));
             object readablePath = "";
             var pathResult = Convert.ToInt32(app.GetObjectPatternPath(id, objectType, ref readablePath));
-            if (pathResult != 0) throw new InvalidOperationException("Der lesbare enaio-Ordnerpfad konnte nicht ermittelt werden: " + Convert.ToString(app.GetLastError()));
+            if (pathResult != 0)
+                throw new InvalidOperationException("Der lesbare enaio-Ordnerpfad konnte nicht ermittelt werden: " + Convert.ToString(app.GetLastError()));
             var path = Convert.ToString(readablePath);
-            if (string.IsNullOrWhiteSpace(path)) path = objectPath;
+            if (string.IsNullOrWhiteSpace(path))
+                path = Convert.ToString(app.GetObjectPath(id, objectType)) ?? "";
+            if (string.IsNullOrWhiteSpace(path))
+                throw new InvalidOperationException("enaio hat für den ausgewählten Ordner keinen vollständigen Pfad geliefert.");
+
+            LogLocal("INFO", "enaio-Zielordner bestätigt: " + path + " (ID " + id + ", Typ " + objectType + ").");
             return new SelectedFolder(id.ToString(), objectType, Convert.ToString(name) ?? "", path);
         }
         finally { try { Marshal.FinalReleaseComObject((object)app); } catch { } }
     }
 
+    private static OpenFolderCandidate ChooseOpenFolder(List<OpenFolderCandidate> candidates)
+    {
+        using var dialog = new Form
+        {
+            Text = "Geöffneten enaio-Kontext auswählen",
+            Width = 720,
+            Height = 190,
+            StartPosition = FormStartPosition.CenterScreen,
+            FormBorderStyle = FormBorderStyle.FixedDialog,
+            MaximizeBox = false,
+            MinimizeBox = false,
+            ShowInTaskbar = true
+        };
+        var label = new Label
+        {
+            Text = "In enaio sind mehrere Ordner/Register geöffnet. Von welchem geöffneten Ort soll die Auswahl gestartet werden?",
+            Left = 16,
+            Top = 16,
+            Width = 670,
+            Height = 42
+        };
+        var combo = new ComboBox
+        {
+            Left = 16,
+            Top = 64,
+            Width = 670,
+            DropDownStyle = ComboBoxStyle.DropDownList
+        };
+        combo.DataSource = candidates;
+        combo.DisplayMember = nameof(OpenFolderCandidate.Label);
+        combo.SelectedIndex = 0;
+        var ok = new Button { Text = "Weiter in enaio auswählen", Left = 420, Top = 108, Width = 170, DialogResult = DialogResult.OK };
+        var cancel = new Button { Text = "Abbrechen", Left = 596, Top = 108, Width = 90, DialogResult = DialogResult.Cancel };
+        dialog.Controls.AddRange(new Control[] { label, combo, ok, cancel });
+        dialog.AcceptButton = ok;
+        dialog.CancelButton = cancel;
+        if (dialog.ShowDialog() != DialogResult.OK || combo.SelectedItem is not OpenFolderCandidate selected)
+            throw new OperationCanceledException("Die Auswahl des geöffneten enaio-Kontexts wurde abgebrochen.");
+        return selected;
+    }
+
+    private static int ResolveObjectType(string definitions, string requestedName, string kind)
+    {
+        foreach (var entry in (definitions ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            var parts = entry.Split(',');
+            if (parts.Length == 2 && parts[0].Trim().Equals(requestedName.Trim(), StringComparison.OrdinalIgnoreCase)
+                && int.TryParse(parts[1].Trim(), out var objectType))
+                return objectType;
+        }
+        throw new InvalidOperationException("Der konfigurierte " + kind + " '" + requestedName + "' wurde im enaio-Schrank nicht gefunden. Bitte den technischen Namen unter Verwaltung → enaio-Einstellungen prüfen.");
+    }
+
+    private static string CreateHandoffFile(string content)
+    {
+        var path = Path.Combine(Path.GetTempPath(), "MeetingManager-enaio-" + Guid.NewGuid().ToString("N") + ".ini");
+        File.WriteAllText(path, content, new UTF8Encoding(false));
+        return path;
+    }
+
     public static FilingResult FileProtocol(JsonElement filing, string pdfPath)
     {
-        // Object-definition names differ per enaio installation. Never guess the archive or index field.
-        var registerType = filing.GetProperty("register_type_name").GetString();
-        var registerNameField = filing.GetProperty("register_name_field").GetString();
-        var archiveName = filing.GetProperty("archive_name").GetString();
+        var registerType = filing.GetProperty("register_type_name").GetString() ?? "";
+        var registerNameField = filing.GetProperty("register_name_field").GetString() ?? "";
+        var archiveName = filing.GetProperty("archive_name").GetString() ?? "";
+        var documentType = filing.GetProperty("document_type").GetString() ?? "Standard";
         if (string.IsNullOrWhiteSpace(registerType) || string.IsNullOrWhiteSpace(registerNameField) || string.IsNullOrWhiteSpace(archiveName))
-            throw new InvalidOperationException("Die enaio-Objektdefinition fehlt. Bitte MEETING_ENAIO_ARCHIVE_NAME, MEETING_ENAIO_REGISTER_TYPE und MEETING_ENAIO_REGISTER_NAME_FIELD gemäß Ihrer enaio-Konfiguration setzen.");
+            throw new InvalidOperationException("Die zentrale enaio-Objektdefinition ist unvollständig. Bitte Schrankname, Registertyp und Register-Namensfeld unter Verwaltung → enaio-Einstellungen hinterlegen.");
+        if (!File.Exists(pdfPath))
+            throw new FileNotFoundException("Das zu übergebende Protokoll-PDF wurde nicht gefunden.", pdfPath);
 
         dynamic app = Connect();
+        string? registerHandoff = null;
+        string? documentHandoff = null;
         try
         {
-            var rootId = filing.GetProperty("root_folder_id").GetString()!;
-            var series = filing.GetProperty("register_name").GetString()!;
-            var documentType = filing.GetProperty("document_type").GetString()!;
-            var query = "[ANFRAGE]\r\nSCHRANK=" + Ini(archiveName) + "\r\nREGISTER=" + Ini(registerType) +
-                "\r\nKLAUSEL1=" + Ini(registerType) + "@" + Ini(registerNameField) + "=" + Ini(series) +
-                "\r\nAUSDRUCK1=" + Ini(registerType) + "@1121^1^" + rootId + "~0~1122^1^0\r\nDATENFELDER=0\r\nDATENHEADER=0\r\nANFRAGEFENSTER=0\r\n";
+            var rootId = Convert.ToInt64(filing.GetProperty("root_folder_id").GetString());
+            var series = filing.GetProperty("register_name").GetString() ?? "";
+            var registerTypeId = ResolveObjectType(Convert.ToString(app.GetRegTypeFromArchive(archiveName)) ?? "", registerType, "Registertyp");
+            var documentTypeId = ResolveObjectType(Convert.ToString(app.GetDocTypesFromArchive(archiveName)) ?? "", documentType, "Dokumenttyp");
+
+            var query = "[ANFRAGE]\\r\\nSCHRANK=" + Ini(archiveName) + "\\r\\nREGISTER=" + Ini(registerType) +
+                "\\r\\nKLAUSEL1=" + Ini(registerType) + "@" + Ini(registerNameField) + "=" + Ini(series) +
+                "\\r\\nAUSDRUCK1=" + Ini(registerType) + "@1121^1^" + rootId + "~0~1122^1^0\\r\\nDATENFELDER=0\\r\\nDATENHEADER=0\\r\\nANFRAGEFENSTER=0\\r\\n";
             var resultFile = Convert.ToString(app.StartRegRequest(query)) ?? "";
-            var registerId = "";
-            var registerObjectType = 0;
+            var registerId = 0L;
             if (string.IsNullOrWhiteSpace(resultFile) || resultFile == "READY" || !File.Exists(resultFile))
-                throw new InvalidOperationException("Die Registersuche konnte nicht ausgeführt werden: " + Convert.ToString(app.GetLastError()));
+                throw new InvalidOperationException("Die Registersuche in enaio konnte nicht ausgeführt werden: " + Convert.ToString(app.GetLastError()));
+            var pair = File.ReadLines(resultFile).FirstOrDefault(line => !string.IsNullOrWhiteSpace(line))?.Split(',');
+            if (pair?.Length == 2)
+                long.TryParse(pair[0].Trim(), out registerId);
+
+            if (registerId == 0)
             {
-                var pair = File.ReadLines(resultFile).FirstOrDefault()?.Split(',');
-                if (pair?.Length == 2) { registerId = pair[0]; int.TryParse(pair[1], out registerObjectType); }
+                LogLocal("INFO", "Das Register '" + series + "' fehlt. enaio öffnet jetzt die Indexdatenmaske zur bestätigten Registeranlage.");
+                registerHandoff = CreateHandoffFile("[Data]\\r\\nFeld0=" + Ini(registerNameField) + "=" + Ini(series) + "\\r\\n");
+                object newRegisterId = 0;
+                var registerCode = Convert.ToInt32(app.InsertNewDMSObject(registerTypeId, rootId, registerHandoff, ref newRegisterId));
+                if (registerCode != 0)
+                    throw new InvalidOperationException(registerCode == -123
+                        ? "Die Registeranlage wurde in enaio abgebrochen."
+                        : "enaio konnte die Registermaske nicht erfolgreich abschließen (Code " + registerCode + "): " + Convert.ToString(app.GetLastError()));
+                if (!long.TryParse(Convert.ToString(newRegisterId), out registerId) || registerId <= 0)
+                    throw new InvalidOperationException("enaio hat die bestätigte Registeranlage nicht mit einer gültigen Register-ID quittiert.");
+                LogLocal("INFO", "Register wurde vom Benutzer in enaio bestätigt (ID " + registerId + ").");
             }
 
-            if (string.IsNullOrWhiteSpace(registerId))
-            {
-                object newId = 0; object newType = 0;
-                var insertRegister = "[EINFÜGEN]\r\nSCHRANK=" + Ini(archiveName) + "\r\nREGISTER=" + Ini(registerType) +
-                    "\r\nSCHRANK-ID=" + rootId + "\r\nREGISTER-ID=0\r\nFELD1=" + Ini(registerNameField) + "=" + Ini(series) + "\r\n";
-                var code = Convert.ToInt32(app.InsertIntoRegisterS(insertRegister, ref newId, ref newType));
-                if (code != 0) throw new InvalidOperationException("enaio konnte das Register nicht anlegen (Code " + code + "): " + Convert.ToString(app.GetLastError()));
-                registerId = Convert.ToString(newId) ?? "";
-                registerObjectType = Convert.ToInt32(newType);
-            }
+            documentHandoff = CreateHandoffFile("[Data]\\r\\n[Files]\\r\\nFile0=" + pdfPath.Replace("\\\\", "/") + "\\r\\n");
+            LogLocal("INFO", "enaio öffnet jetzt die Indexdatenmaske zur bestätigten Ablage des Protokolls in Register " + series + ".");
+            object newDocumentId = 0;
+            var documentCode = Convert.ToInt32(app.InsertNewDMSObject(documentTypeId, registerId, documentHandoff, ref newDocumentId));
+            if (documentCode != 0)
+                throw new InvalidOperationException(documentCode == -123
+                    ? "Die Dokumentablage wurde in enaio vom Benutzer abgebrochen."
+                    : "enaio konnte die Dokumentmaske nicht erfolgreich abschließen (Code " + documentCode + "): " + Convert.ToString(app.GetLastError()));
+            if (!long.TryParse(Convert.ToString(newDocumentId), out var documentId) || documentId <= 0)
+                throw new InvalidOperationException("enaio hat die bestätigte Dokumentablage nicht mit einer gültigen Dokument-ID quittiert.");
 
-            object documentId = 0; object documentObjectType = 0;
-            var insertDocument = "[EINFÜGEN]\r\nSCHRANK=" + Ini(archiveName) + "\r\nREGISTER=" + Ini(registerType) +
-                "\r\nDOKUMENT=" + Ini(documentType) + "\r\nSCHRANK-ID=" + rootId + "\r\nREGISTER-ID=" + registerId +
-                "\r\nDATEI1=" + pdfPath.Replace("\\", "/") + "\r\n";
-            var insertCode = Convert.ToInt32(app.InsertIntoDocumentS(insertDocument, ref documentId, ref documentObjectType));
-            if (insertCode != 0) throw new InvalidOperationException("enaio konnte das PDF nicht ablegen (Code " + insertCode + "): " + Convert.ToString(app.GetLastError()));
-            var path = Convert.ToString(app.GetObjectPath(Convert.ToInt64(documentId), Convert.ToInt32(documentObjectType))) ?? "";
-            return new FilingResult(Convert.ToString(documentId) ?? "", Convert.ToInt32(documentObjectType), path);
+            var path = Convert.ToString(app.GetObjectPath(documentId, documentTypeId)) ?? "";
+            LogLocal("INFO", "Protokollablage in enaio bestätigt: " + path + " (Dokument-ID " + documentId + ").");
+            return new FilingResult(documentId.ToString(), documentTypeId, path);
         }
-        finally { try { Marshal.FinalReleaseComObject((object)app); } catch { } }
+        finally
+        {
+            if (registerHandoff is not null) { try { File.Delete(registerHandoff); } catch { } }
+            if (documentHandoff is not null) { try { File.Delete(documentHandoff); } catch { } }
+            try { Marshal.FinalReleaseComObject((object)app); } catch { }
+        }
     }
 
     private static string Ini(string value) => value.Replace("\r", " ").Replace("\n", " ").Trim();
