@@ -2190,6 +2190,7 @@ def _deployment_info():
             "deployment_type": "Debian / systemd",
             "current_branch": git_value("branch", "--show-current"),
             "current_commit": git_value("rev-parse", "--short", "HEAD"),
+            "current_commit_message": git_value("show", "-s", "--format=%s", "HEAD"),
             "current_image": "",
             "build_created": "",
             "update_available": True,
