@@ -85,6 +85,9 @@
     <button type="button" class="secondary" id="enaio-diagnostics-download" disabled>Bericht herunterladen</button>
   </div>
   <p id="enaio-diagnostics-status" class="muted" role="status" aria-live="polite">Noch keine Diagnose ausgeführt.</p>
+  <p id="enaio-diagnostics-saved" class="muted" role="status">Gespeicherter Bericht wird geladen …</p>
+  <div id="enaio-diagnostics-analysis" class="card" style="margin:1rem 0" hidden></div>
+  <p><label for="enaio-diagnostics-log-file">Optional: lokale enaio-Agent-Logdatei einbeziehen</label><br><input type="file" id="enaio-diagnostics-log-file" accept=".log,.txt,text/plain"><small class="muted">Die Datei wird vor der Übertragung auf maximal 100 KB begrenzt und serverseitig redigiert.</small></p>
   <pre id="enaio-diagnostics-result" style="white-space:pre-wrap;overflow:auto;max-height:560px;background:var(--surface-muted, #f4f4f4);padding:1rem;border-radius:8px;font-size:.85rem" aria-live="polite">Nach dem Start erscheint hier ein Bericht mit Browser-, Server- und Integrationsprüfungen.</pre>
   <p class="muted">Der Bericht enthält keine Passwörter, Cookies, Session-GUIDs, Tokens oder Inhalte aus enaio. Er kann hier vollständig kopiert und zur Fehleranalyse zurückgesendet werden. Ein negatives COM-Ergebnis bedeutet nicht, dass die Windows-COM-Schnittstelle von enaio fehlt, sondern dass sie aus dieser Browserseite nicht direkt nachweisbar bzw. erreichbar ist.</p>
 </section>
@@ -96,7 +99,35 @@
   const status = document.getElementById("enaio-diagnostics-status");
   const output = document.getElementById("enaio-diagnostics-result");
   const endpoint = "{% url 'enaio_connection_diagnostics' %}";
+  const saveEndpoint = "{% url 'enaio_diagnostic_report_save' %}";
+  const latestEndpoint = "{% url 'enaio_diagnostic_report_latest' %}";
+  const savedLabel = document.getElementById("enaio-diagnostics-saved");
+  const analysisOutput = document.getElementById("enaio-diagnostics-analysis");
+  const csrfToken = document.querySelector("#enaio-settings-form input[name=csrfmiddlewaretoken]")?.value || "";
+  const logFileInput = document.getElementById("enaio-diagnostics-log-file");
   let reportText = "";
+
+  function renderSaved(data) {
+    reportText = JSON.stringify(data.report, null, 2);
+    output.textContent = reportText;
+    copyButton.disabled = false;
+    downloadButton.disabled = false;
+    savedLabel.textContent = "Zentral gespeicherter Bericht #" + data.id + " · " + new Date(data.created_at).toLocaleString() + " · in anderen Browsern abrufbar";
+    const a = data.analysis || {};
+    analysisOutput.hidden = false;
+    analysisOutput.textContent = "Automatische Auswertung: " + (a.diagnostic_errors || 0) + " Fehler, " + (a.diagnostic_warnings || 0) + " Hinweise, " + (a.agent_errors || 0) + " Agent-Fehler, " + (a.agent_warnings || 0) + " Agent-Warnungen, " + (a.local_log_errors || 0) + " Fehler und " + (a.local_log_warnings || 0) + " Warnungen aus lokaler Datei. " + (a.recommendation || "");
+  }
+  async function loadLatest() {
+    try {
+      const response = await fetch(latestEndpoint, {credentials:"same-origin", cache:"no-store", headers:{"Accept":"application/json"}});
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "HTTP " + response.status);
+      if (data.available) renderSaved(data);
+      else savedLabel.textContent = "Noch kein zentraler Diagnosebericht gespeichert.";
+    } catch (error) {
+      savedLabel.textContent = "Gespeicherter Bericht konnte nicht geladen werden: " + error.message;
+    }
+  }
 
   function check(name, result, detail) {
     return { test: name, result, detail };
@@ -150,6 +181,12 @@
       conclusion: []
     };
     try {
+      const selectedLog = logFileInput.files && logFileInput.files[0];
+      if (selectedLog) {
+        if (selectedLog.size > 100 * 1024) throw new Error("Die Logdatei ist größer als 100 KB. Bitte eine kleinere Datei auswählen.");
+        report.local_log_file = selectedLog.name;
+        report.local_log_text = await selectedLog.text();
+      }
       const response = await fetch(endpoint, {
         method: "GET",
         credentials: "same-origin",
@@ -169,21 +206,31 @@
       report.conclusion = data.checks_not_possible_from_server;
       report.conclusion.push("Ein Browserbericht kann das Vorhandensein einer COM-Schnittstelle im enaio-Client nicht abschließend beweisen.");
       report.conclusion.push("Für den nächsten Schritt benötigen wir ggf. die Herstellerdokumentation bzw. einen Citrix-seitigen Nachweis einer bereits vorhandenen lokalen Brücke.");
-      status.textContent = "Diagnose abgeschlossen. Bitte den Bericht kopieren oder herunterladen und zurückmelden.";
+      status.textContent = "Diagnose abgeschlossen. Bericht wird zentral gespeichert …";
     } catch (error) {
       report.server.push(check("Meeting-Manager-Diagnose-API", "FEHLER", error.message));
       report.conclusion.push("Die Browserdiagnose konnte den Server-Endpunkt nicht vollständig erreichen.");
-      status.textContent = "Diagnose mit Fehler abgeschlossen. Bitte den Bericht trotzdem zurückmelden.";
+      status.textContent = "Diagnose mit Fehler abgeschlossen. Bericht wird trotzdem gespeichert …";
     } finally {
       reportText = JSON.stringify(report, null, 2);
       output.textContent = reportText;
       copyButton.disabled = false;
       downloadButton.disabled = false;
       runButton.disabled = false;
+      try {
+        const saved = await fetch(saveEndpoint, {method:"POST", credentials:"same-origin", headers:{"Content-Type":"application/json","X-CSRFToken":csrfToken,"Accept":"application/json"}, body:reportText});
+        const savedData = await saved.json();
+        if (!saved.ok) throw new Error(savedData.error || "HTTP " + saved.status);
+        renderSaved(savedData);
+        status.textContent = "Diagnose abgeschlossen und zentral gespeichert. Sie ist jetzt auch in anderen Browsern verfügbar.";
+      } catch (saveError) {
+        status.textContent = "Diagnose lokal erstellt, aber NICHT zentral gespeichert: " + saveError.message;
+      }
     }
   }
 
   runButton.addEventListener("click", run);
+  loadLatest();
   copyButton.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(reportText);
