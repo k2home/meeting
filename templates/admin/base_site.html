@@ -113,6 +113,16 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 :root[data-theme="dark"] select:focus,
 :root[data-theme="dark"] textarea:focus{outline:2px solid #527fa8;border-color:#8fc5ff}
 :root[data-theme="dark"] ::selection{background:#315b80;color:#fff}
+
+:root{--admin-text:#202735;--admin-muted:#596579;--admin-link:#00549f}
+:root[data-theme="dark"]{--admin-text:#e8edf3;--admin-muted:#b8c5d3;--admin-link:#9bcfff}
+body,#container,#content,.main,.module,.inline-group,.results,
+.form-row,fieldset,td,th,label,.help,.quiet,.timezonewarning{
+  color:var(--admin-text);
+}
+a:link,a:visited,#changelist-filter li a{color:var(--admin-link)}
+.help,p.help,.quiet,.timezonewarning{color:var(--admin-muted)}
+#header,#header a:link,#header a:visited,#user-tools{color:#fff}
 </style>
 <style>
 :root {
