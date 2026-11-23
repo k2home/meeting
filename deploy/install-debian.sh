@@ -30,7 +30,7 @@ DEFAULT_HOST="$(hostname -f 2>/dev/null || hostname)"
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist [$DEFAULT_HOST]: " SITE_HOST
 SITE_HOST="${SITE_HOST:-$DEFAULT_HOST}"
 if [[ ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
-  echo "Bitte einen gültigen Hostnamen oder eine IPv4-Adresse eingeben. IPv6 bitte über einen DNS-Namen verwenden." >&2
+  echo "Bitte einen gültigen Hostnamen oder eine IPv4-Adresse eingeben. IPv6-Adressen bitte über einen DNS-Namen verwenden." >&2
   exit 1
 fi
 
