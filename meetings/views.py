@@ -2064,3 +2064,198 @@ def user_overview(request):
         "is_admin_user": admin_access,
         "request_role_choices": SeriesAccess.REQUEST_ROLE_CHOICES,
     })
+
+
+
+# ---------------------------------------------------------------------------
+# Server-local deployment updates (global administrators only)
+# ---------------------------------------------------------------------------
+import http.client
+import json
+import os
+import shutil
+import socket
+import subprocess
+from pathlib import Path
+
+from django.views.decorators.http import require_http_methods
+
+
+UPDATE_SOCKET = os.getenv(
+    "MEETING_UPDATER_SOCKET", "/run/meeting-manager-updater/control.sock"
+)
+UPDATE_STATUS_FILE = Path(
+    os.getenv("MEETING_UPDATER_STATUS_FILE", "/var/lib/meeting-manager-updater/status.json")
+)
+DEBIAN_UPDATE_COMMAND = "/usr/local/sbin/meeting-manager-update"
+UPDATE_BRANCHES = {"beta", "main"}
+
+
+class _UnixSocketHTTPConnection(http.client.HTTPConnection):
+    def __init__(self, socket_path, timeout=3):
+        super().__init__("localhost", timeout=timeout)
+        self.socket_path = socket_path
+
+    def connect(self):
+        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.sock.settimeout(self.timeout)
+        self.sock.connect(self.socket_path)
+
+
+def _updater_request(path, method="GET", payload=None):
+    connection = _UnixSocketHTTPConnection(UPDATE_SOCKET)
+    body = json.dumps(payload).encode("utf-8") if payload is not None else None
+    headers = {"Content-Type": "application/json"} if body is not None else {}
+    try:
+        connection.request(method, path, body=body, headers=headers)
+        response = connection.getresponse()
+        data = json.loads(response.read().decode("utf-8"))
+        return response.status, data
+    finally:
+        connection.close()
+
+
+def _read_update_status():
+    if os.path.exists(UPDATE_SOCKET):
+        try:
+            code, data = _updater_request("/status")
+            if code == 200 and isinstance(data, dict):
+                return data
+        except (OSError, ValueError, http.client.HTTPException):
+            pass
+    try:
+        data = json.loads(UPDATE_STATUS_FILE.read_text(encoding="utf-8"))
+        if isinstance(data, dict):
+            if data.get("status") == "running" and not os.path.exists(UPDATE_SOCKET):
+                active = subprocess.run(
+                    ["/usr/bin/systemctl", "is-active", "--quiet", "meeting-manager-update.service"],
+                    capture_output=True, timeout=3, check=False,
+                )
+                if active.returncode != 0:
+                    data = {
+                        **data,
+                        "status": "error",
+                        "message": "Der Update-Dienst ist nicht mehr aktiv. Bitte das Protokoll auf einen Abbruch prüfen.",
+                    }
+            return data
+    except (OSError, ValueError, subprocess.SubprocessError):
+        pass
+    return {
+        "status": "idle",
+        "branch": None,
+        "started_at": None,
+        "finished_at": None,
+        "message": "Noch kein Update ausgeführt.",
+        "log": "",
+    }
+
+def _deployment_info():
+    if os.path.exists(UPDATE_SOCKET):
+        try:
+            code, _status = _updater_request("/status")
+            if code != 200:
+                raise RuntimeError("Der Docker-Updater antwortet nicht mit einem gültigen Status.")
+        except (OSError, ValueError, http.client.HTTPException, RuntimeError) as exc:
+            return {
+                "deployment_type": "Docker Compose",
+                "current_branch": os.getenv("MEETING_BUILD_BRANCH", "unbekannt"),
+                "current_commit": os.getenv("MEETING_BUILD_COMMIT", "nicht verfügbar"),
+                "current_image": "",
+                "build_created": "",
+                "update_available": False,
+                "availability_message": f"Der Docker-Updater ist nicht erreichbar: {exc}",
+            }
+        return {
+            "deployment_type": "Docker Compose",
+            "current_branch": os.getenv("MEETING_BUILD_BRANCH", "Im Image nicht hinterlegt"),
+            "current_commit": os.getenv("MEETING_BUILD_COMMIT", "Im Image nicht hinterlegt"),
+            "current_image": "",
+            "build_created": "",
+            "update_available": True,
+            "availability_message": "",
+        }
+
+    if os.path.isfile(DEBIAN_UPDATE_COMMAND) and shutil.which("sudo"):
+        def git_value(*args):
+            try:
+                result = subprocess.run(
+                    ["/usr/bin/git", "-C", "/opt/meeting-manager", *args],
+                    text=True, capture_output=True, timeout=3, check=True,
+                )
+                return result.stdout.strip()
+            except (OSError, subprocess.SubprocessError):
+                return "nicht verfügbar"
+
+        return {
+            "deployment_type": "Debian / systemd",
+            "current_branch": git_value("branch", "--show-current"),
+            "current_commit": git_value("rev-parse", "--short", "HEAD"),
+            "current_image": "",
+            "build_created": "",
+            "update_available": True,
+            "availability_message": "",
+        }
+
+    return {
+        "deployment_type": "Nicht eingerichtet",
+        "current_branch": "unbekannt",
+        "current_commit": "nicht verfügbar",
+        "current_image": "",
+        "build_created": "",
+        "update_available": False,
+        "availability_message": (
+            "Es wurde kein lokaler Updater gefunden. Auf Debian muss die aktualisierte "
+            "Systemkonfiguration installiert sein; bei Docker muss der Host-Updater "
+            "eingerichtet und sein Socket in den App-Container eingebunden sein."
+        ),
+    }
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def deployment_updates(request):
+    if not is_admin(request.user):
+        return HttpResponseForbidden("Nur globale Administratoren dürfen Updates verwalten.")
+
+    info = _deployment_info()
+    if request.method == "POST":
+        branch = request.POST.get("branch", "")
+        if branch not in UPDATE_BRANCHES:
+            messages.error(request, "Bitte ausschließlich beta oder main auswählen.")
+            return redirect("deployment_updates")
+        if not info["update_available"]:
+            messages.error(request, info["availability_message"])
+            return redirect("deployment_updates")
+
+        status = _read_update_status()
+        if status.get("status") == "running":
+            messages.warning(request, "Es läuft bereits ein Update.")
+            return redirect("deployment_updates")
+
+        try:
+            if os.path.exists(UPDATE_SOCKET):
+                code, result = _updater_request("/update", method="POST", payload={"branch": branch})
+                if code != 202:
+                    raise RuntimeError(result.get("error", "Der Docker-Updater hat das Update abgelehnt."))
+            else:
+                started = subprocess.run(
+                    ["sudo", "-n", DEBIAN_UPDATE_COMMAND, branch],
+                    stdin=subprocess.DEVNULL,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    check=False,
+                )
+                if started.returncode != 0:
+                    raise RuntimeError(started.stderr.strip() or "Der Debian-Updater konnte nicht gestartet werden.")
+            messages.success(
+                request,
+                f"Das Update auf {branch} wurde gestartet. Die Ausführung erfolgt unabhängig von dieser Webseite.",
+            )
+        except (OSError, RuntimeError, subprocess.SubprocessError, http.client.HTTPException, ValueError) as exc:
+            messages.error(request, f"Das Update konnte nicht gestartet werden: {exc}")
+        return redirect("deployment_updates")
+
+    return render(request, "meetings/deployment_updates.html", {
+        **info,
+        "update_status": _read_update_status(),
+    })

@@ -3,9 +3,8 @@ name: Docker image
 on:
   push:
     branches:
+      - beta
       - main
-      - ui-sidebar-horizontal-brand-mobile-short-name
-      - fix-safari-icons-all-references
   pull_request:
 
 permissions:
@@ -37,15 +36,19 @@ jobs:
           images: ghcr.io/k2home/meeting
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=beta,enable=${{ github.ref == 'refs/heads/beta' }}
             type=sha,prefix=sha-
 
-      - name: Build (and publish on main)
+      - name: Build and publish branch image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: docker/Dockerfile
-          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          push: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/beta') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VCS_REF=${{ github.sha }}
+            VCS_BRANCH=${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

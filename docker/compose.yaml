@@ -15,10 +15,7 @@ services:
       retries: 10
 
   app:
-    image: ghcr.io/k2home/meeting:latest
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    image: ${MEETING_IMAGE:-ghcr.io/k2home/meeting:latest}
     restart: unless-stopped
     env_file:
       - ../.env
@@ -26,9 +23,12 @@ services:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
       DEBUG: "0"
+    group_add:
+      - "10002"
     volumes:
       - media_data:/app/media
       - static_data:/app/staticfiles
+      - /run/meeting-manager-updater:/run/meeting-manager-updater
     depends_on:
       db:
         condition: service_healthy

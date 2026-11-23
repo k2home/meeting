@@ -1,0 +1,2 @@
+# Allow the Django service account to request only the two supported update targets.
+meetingapp ALL=(root) NOPASSWD: /usr/local/sbin/meeting-manager-update beta, /usr/local/sbin/meeting-manager-update main

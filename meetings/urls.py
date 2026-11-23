@@ -32,6 +32,7 @@ urlpatterns = [
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
+    path("admin/updates/", views.deployment_updates, name="deployment_updates"),
     path("admin/series/", views.series_admin, name="series_admin"),
     path("admin/series/<int:pk>/edit/", views.series_edit, name="series_edit"),
     path("admin/series/<int:pk>/delete/", views.series_delete, name="series_delete"),

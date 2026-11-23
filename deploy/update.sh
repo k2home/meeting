@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 APP_DIR="/opt/meeting-manager"
+TARGET_BRANCH="${1:-}"
+if [[ "$#" -gt 1 ]]; then
+  echo "Verwendung: $0 [beta|main]" >&2
+  exit 2
+fi
+if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "beta" && "$TARGET_BRANCH" != "main" ]]; then
+  echo "Unzulässiger Update-Branch. Erlaubt sind ausschließlich beta und main." >&2
+  exit 2
+fi
 if [[ "$EUID" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo $APP_DIR/deploy/update.sh"
   exit 1
@@ -48,26 +57,95 @@ if [[ -n "$UNTRACKED_FILES" ]]; then
   exit 1
 fi
 
-# Preserve the live environment file while upgrading from releases where
-# .env was tracked in Git. Restore it after the repository removes that file.
+# Keep enough information to restore the previous source revision if the
+# checkout itself succeeded but a later pre-installation step fails. Once
+# dependency installation or migrations begin, automatic code rollback is
+# deliberately disabled because the virtualenv/database may already have
+# moved forward and an older application revision may no longer be compatible.
+PREVIOUS_BRANCH="$(git -C "$APP_DIR" branch --show-current)"
+PREVIOUS_COMMIT="$(git -C "$APP_DIR" rev-parse HEAD)"
+CODE_SWITCHED=0
+ROLLBACK_SAFE=1
 ENV_BACKUP=""
+
 restore_env() {
   if [[ -n "$ENV_BACKUP" && -f "$ENV_BACKUP" ]]; then
     install -o root -g www-data -m 0640 "$ENV_BACKUP" "$APP_DIR/.env"
     rm -f "$ENV_BACKUP"
+    ENV_BACKUP=""
   fi
 }
+
+handle_update_exit() {
+  local exit_code=$?
+  trap - EXIT
+
+  if [[ -n "$ENV_BACKUP" && -f "$ENV_BACKUP" ]]; then
+    if ! restore_env; then
+      echo "FEHLER: Die lokale .env-Datei konnte nicht wiederhergestellt werden." >&2
+    fi
+  fi
+
+  if [[ "$exit_code" -ne 0 && "$CODE_SWITCHED" -eq 1 ]]; then
+    if [[ "$ROLLBACK_SAFE" -eq 1 ]]; then
+      echo "Update fehlgeschlagen; stelle den vorherigen Quellcode-Stand wieder her." >&2
+      ROLLBACK_ENV_BACKUP=""
+      if [[ -f "$APP_DIR/.env" ]]; then
+        ROLLBACK_ENV_BACKUP="$(mktemp /root/meeting-manager-rollback-env.XXXXXX)"
+        cp -a "$APP_DIR/.env" "$ROLLBACK_ENV_BACKUP"
+      fi
+      if git -C "$APP_DIR" checkout --force --detach "$PREVIOUS_COMMIT"; then
+        if [[ -n "$PREVIOUS_BRANCH" ]]; then
+          if ! git -C "$APP_DIR" branch -f "$PREVIOUS_BRANCH" "$PREVIOUS_COMMIT" \
+            || ! git -C "$APP_DIR" switch "$PREVIOUS_BRANCH"; then
+            echo "FEHLER: Der vorherige Branch konnte nicht wieder aktiviert werden." >&2
+          fi
+        fi
+        if [[ -n "$ROLLBACK_ENV_BACKUP" && -f "$ROLLBACK_ENV_BACKUP" ]]; then
+          cp -a "$ROLLBACK_ENV_BACKUP" "$APP_DIR/.env"
+          rm -f "$ROLLBACK_ENV_BACKUP"
+        fi
+        systemctl restart meeting-manager || echo "FEHLER: Der Dienst konnte nach der Wiederherstellung nicht gestartet werden." >&2
+      else
+        if [[ -n "$ROLLBACK_ENV_BACKUP" && -f "$ROLLBACK_ENV_BACKUP" ]]; then
+          cp -a "$ROLLBACK_ENV_BACKUP" "$APP_DIR/.env"
+          rm -f "$ROLLBACK_ENV_BACKUP"
+        fi
+        echo "FEHLER: Der vorherige Git-Stand konnte nicht wiederhergestellt werden." >&2
+      fi
+    else
+      echo "Der Quellcode bleibt auf dem Zielstand: Abhängigkeiten oder Datenbankmigrationen wurden bereits begonnen. Bitte Protokoll prüfen und bei Bedarf aus einem Backup wiederherstellen." >&2
+    fi
+  fi
+  exit "$exit_code"
+}
+trap handle_update_exit EXIT
+
+# Preserve the live environment file while upgrading from releases where
+# .env was tracked in Git. Restore it after the repository removes that file.
 if [[ -f "$APP_DIR/.env" ]]; then
-  ENV_BACKUP="$(mktemp /root/meeting-manager-env.XXXXXX)"
-  install -m 0600 "$APP_DIR/.env" "$ENV_BACKUP"
-  trap restore_env EXIT
+  ENV_BACKUP_TMP="$(mktemp /root/meeting-manager-env.XXXXXX)"
+  if install -m 0600 "$APP_DIR/.env" "$ENV_BACKUP_TMP"; then
+    ENV_BACKUP="$ENV_BACKUP_TMP"
+  else
+    rm -f "$ENV_BACKUP_TMP"
+    echo "Die lokale .env-Datei konnte nicht gesichert werden; Update abgebrochen." >&2
+    exit 1
+  fi
   if git -C "$APP_DIR" ls-files --error-unmatch .env >/dev/null 2>&1; then
     git -C "$APP_DIR" checkout -- .env
   fi
 fi
-git -C "$APP_DIR" pull --ff-only
+if [[ -n "$TARGET_BRANCH" ]]; then
+  echo "==> Aktualisiere Quellcode aus Branch $TARGET_BRANCH"
+  git -C "$APP_DIR" fetch --prune origin "$TARGET_BRANCH"
+  CODE_SWITCHED=1
+  git -C "$APP_DIR" switch --force-create "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+else
+  CODE_SWITCHED=1
+  git -C "$APP_DIR" pull --ff-only
+fi
 restore_env
-trap - EXIT
 
 # Apply the cache policy to the active Nginx site without replacing local
 # reverse-proxy settings (for example, trusted-proxy allow/deny rules).
@@ -125,6 +203,9 @@ PY
   fi
 fi
 
+# From this point onward the environment or database may no longer be
+# compatible with the previous source revision; do not switch code back blindly.
+ROLLBACK_SAFE=0
 runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
 runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput

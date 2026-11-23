@@ -13,7 +13,7 @@ echo "==> Installiere Systempakete"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3 python3-venv python3-dev build-essential libpq-dev \
-  postgresql postgresql-contrib nginx git openssl
+  postgresql postgresql-contrib nginx git openssl sudo
 
 echo "==> Richte Dienstkonto und Verzeichnisse ein"
 if ! id meetingapp >/dev/null 2>&1; then
@@ -147,6 +147,7 @@ find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
+bash "$APP_DIR/deploy/install-debian-updater.sh"
 install -m 0644 "$NGINX_CONFIG" /etc/nginx/sites-available/meeting-manager
 ln -sfn /etc/nginx/sites-available/meeting-manager /etc/nginx/sites-enabled/meeting-manager
 rm -f /etc/nginx/sites-enabled/default
