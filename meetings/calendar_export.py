@@ -30,8 +30,8 @@ def _fold_ical_line(line):
 
 @login_required
 def calendar_export(request):
-    """Download all meetings from series the current user may access."""
-    meetings = (accessible_meetings(request.user).filter(series__isnull=False)
+    """Download all meetings the current user may access, including archived ones."""
+    meetings = (accessible_meetings(request.user)
                 .select_related("series").order_by("date", "series__name", "pk"))
     stamp = datetime.now(datetime_timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     lines = ["BEGIN:VCALENDAR", "VERSION:2.0",
@@ -39,11 +39,15 @@ def calendar_export(request):
              "METHOD:PUBLISH"]
     for meeting in meetings:
         end_date = meeting.date + timedelta(days=1)
+        series_name = (
+            meeting.series.name if meeting.series_id
+            else meeting.archived_series_name or "Gelöschte Besprechungsreihe"
+        )
         lines.extend(["BEGIN:VEVENT", f"UID:meeting-{meeting.pk}@meeting-manager",
                       f"DTSTAMP:{stamp}", f"DTSTART;VALUE=DATE:{meeting.date:%Y%m%d}",
                       f"DTEND;VALUE=DATE:{end_date:%Y%m%d}",
                       f"SUMMARY:{_escape_ical_text(meeting.title or 'Besprechung')}",
-                      f"DESCRIPTION:{_escape_ical_text(meeting.series.name)}", "END:VEVENT"])
+                      f"DESCRIPTION:{_escape_ical_text(series_name)}", "END:VEVENT"])
     lines.append("END:VCALENDAR")
     payload = "\r\n".join(_fold_ical_line(line) for line in lines) + "\r\n"
     response = HttpResponse(payload, content_type="text/calendar; charset=utf-8")
