@@ -213,8 +213,8 @@ def _redact_diagnostic_value(value):
         return [_redact_diagnostic_value(item) for item in value[:500]]
     if isinstance(value, str):
         text = value[:12000]
-        text = re.sub(r"(?i)(bearer\\s+)[A-Za-z0-9._~+/-]+=*", r"\\1[REDACTED]", text)
-        text = re.sub(r"(?i)((?:password|passwd|secret|token|cookie|authorization|session(?:id|_id)?|pairing[_-]?code)\\s*[:=]\\s*)[^\\s,;]+", r"\\1[REDACTED]", text)
+        text = re.sub(r"(?i)(bearer\s+)[A-Za-z0-9._~+/-]+=*", r"\1[REDACTED]", text)
+        text = re.sub(r"(?i)((?:password|passwd|secret|token|cookie|authorization|session(?:id|_id)?|pairing[_-]?code)\s*[:=]\s*)[^\s,;]+", r"\1[REDACTED]", text)
         return text
     if value is None or isinstance(value, (bool, int, float)):
         return value
