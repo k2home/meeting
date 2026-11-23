@@ -30,14 +30,10 @@ def meeting_participants_csv(request, pk):
 
     output = io.StringIO(newline="")
     writer = csv.writer(output, delimiter=";", lineterminator="\r\n")
-    writer.writerow(["Benutzername", "Vorname", "Nachname", "E-Mail", "Anzeigename"])
+    writer.writerow(["Teilnehmer"])
     for participant in participants:
         writer.writerow([
-            _spreadsheet_safe(participant.username),
-            _spreadsheet_safe(participant.first_name),
-            _spreadsheet_safe(participant.last_name),
-            _spreadsheet_safe(participant.email),
-            _spreadsheet_safe(user_display_name(participant, include_short_description=True)),
+            _spreadsheet_safe(user_display_name(participant, include_short_description=False)),
         ])
 
     series_name = meeting.series.name if meeting.series_id else meeting.archived_series_name
