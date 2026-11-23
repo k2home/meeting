@@ -23,4 +23,30 @@
     <button type="submit">Verlängern</button>
   </form>
 </div>
+
+<!-- series-recurrence-preview -->
+<script>
+(() => {
+  const form = document.querySelector("form");
+  if (!form) return;
+  const ids = ["id_recurrence", "id_recurrence_interval", "id_weekday", "id_start_date", "id_end_date"];
+  const fields = ids.map(id => document.getElementById(id));
+  if (!fields.some(Boolean)) return;
+  const preview = document.createElement("p");
+  preview.id = "series-recurrence-preview";
+  preview.className = "muted";
+  preview.setAttribute("aria-live", "polite");
+  form.querySelector("button[type='submit'], button:not([type])")?.before(preview);
+  const update = () => {
+    const recurrence = document.getElementById("id_recurrence")?.selectedOptions[0]?.textContent || "Wiederholung";
+    const interval = document.getElementById("id_recurrence_interval")?.value || "1";
+    const weekday = document.getElementById("id_weekday")?.selectedOptions[0]?.textContent || "";
+    const start = document.getElementById("id_start_date")?.value || "";
+    const end = document.getElementById("id_end_date")?.value || "ohne Enddatum";
+    preview.textContent = `Vorschau: alle ${interval} ${recurrence.toLocaleLowerCase("de")} · ${weekday} · von ${start || "Startdatum offen"} bis ${end}`;
+  };
+  fields.filter(Boolean).forEach(field => field.addEventListener("change", update));
+  update();
+})();
+</script>
 {% endblock %}
