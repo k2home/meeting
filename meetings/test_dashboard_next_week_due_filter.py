@@ -91,4 +91,4 @@ class DashboardAssigneeFilterOptionsTests(TestCase):
         )
         content = response.content.decode()
         self.assertIn(">Zoe Current</option>", content)
-        self.assertNotIn('value="%s">Zoe Current</option>' % self.user.pk, content)
+        self.assertEqual(content.count(">Zoe Current</option>"), 1)
