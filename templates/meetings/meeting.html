@@ -576,4 +576,27 @@
   }
 })();
 </script>
+
+<!-- meeting-print-view -->
+<style>
+@media print {
+  .sidebar, .page-header, .no-print, nav, footer { display: none !important; }
+  .app-main, main, .content { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+  .card { box-shadow: none !important; break-inside: avoid; border-color: #bbb !important; }
+  body { background: #fff !important; color: #000 !important; }
+}
+</style>
+<script>
+(() => {
+  const heading = document.querySelector("h1");
+  if (!heading || document.getElementById("print-meeting-agenda")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "print-meeting-agenda";
+  button.className = "secondary no-print";
+  button.textContent = "Tagesordnung drucken";
+  button.addEventListener("click", () => window.print());
+  heading.insertAdjacentElement("afterend", button);
+})();
+</script>
 {% endblock %}
