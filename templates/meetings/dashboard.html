@@ -4,6 +4,7 @@
 <header class="page-header"><div><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle Themen der zugewiesenen Besprechungsreihen auf einen Blick.</p></div></header>
 {% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }}{% if overdue_count == 1 %} überfälliges Thema{% else %} überfällige Themen{% endif %}</strong><span> — bitte geplante Termine prüfen.</span></div>{% endif %}
 <section class="card"><h2>Nächste Besprechungen</h2>
+<div class="upcoming-grid">
 {% for group in meeting_groups %}
   <div class="upcoming-series">
     <h3>{{ group.series.name|default:'Gelöschte Besprechungsreihe' }}</h3>
@@ -14,6 +15,7 @@
     </div>
   </div>
 {% empty %}<p class="muted">Keine zukünftigen Termine vorhanden. {% if is_moderator %}<a href="{% url 'series_admin' %}">Besprechungsreihe einrichten</a>{% endif %}</p>{% endfor %}
+</div>
 </section>
 <section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><div class="actions"><a href="{% url 'archive' %}">Zum Archiv</a>{% if not is_reader %}<button type="button" id="open-dashboard-new-topic">+ Neu</button>{% endif %}</div></div>
 <form method="get" class="card filter-panel" style="margin:.8rem 0">
@@ -68,11 +70,12 @@
 .dashboard-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 .dashboard-topic-dialog form>input,.dashboard-topic-dialog form>textarea,.dashboard-topic-dialog form>select{width:100%}
 .dashboard-topic-dialog .actions{justify-content:flex-end;margin-top:.75rem}
-.upcoming-series{padding:.55rem 0 .75rem;border-bottom:1px solid var(--border)}
-.upcoming-series:last-child{border-bottom:0}
-.upcoming-series h3{font-size:.94rem;margin:.1rem 0 .4rem;color:var(--muted);font-weight:650}
-.upcoming-dates{display:grid;grid-template-columns:max-content max-content;column-gap:.75rem;row-gap:.5rem}
+.upcoming-grid{display:grid;grid-template-columns:max-content max-content;column-gap:.75rem;row-gap:.35rem;align-items:start}
+.upcoming-series,.upcoming-dates{display:contents}
+.upcoming-series h3{grid-column:1/-1;font-size:.94rem;margin:.1rem 0 .05rem;color:var(--muted);font-weight:650}
+.upcoming-series+.upcoming-series h3{border-top:1px solid var(--border);padding-top:.55rem;margin-top:.2rem}
 .upcoming-dates>span{display:inline-flex;align-items:center;gap:.35rem}
+.upcoming-grid>p{grid-column:1/-1}
 .table-sort{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem 0;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}
 .table-sort:hover,.table-sort:focus-visible{color:var(--hagen-blue);text-decoration:underline}
 .table-sort span{font-size:.8em;opacity:.7}
