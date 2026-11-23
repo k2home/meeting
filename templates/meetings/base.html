@@ -245,6 +245,60 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   white-space:nowrap;
 }
 
+
+/* Barrierearme Textfarben: Inhalts-, Link- und Hinweistext bleiben unabhängig
+   von frei konfigurierbaren Organisations-Akzentfarben gut lesbar. */
+:root{
+  --text:#202735;
+  --muted:#596579;
+  --readable-link:#00549f;
+  --readable-heading:#17324d;
+}
+:root[data-theme="dark"]{
+  --text:#e8edf3;
+  --muted:#b8c5d3;
+  --readable-link:#9bcfff;
+  --readable-heading:#d8eaff;
+}
+body,main,.card,td,dd,dt,li,p,label,legend,summary,
+.management-card,.management-card p,.management-card strong{
+  color:var(--text);
+}
+h1,h2,h3,h4,h5,h6,
+.page-header h1,.management-card h2{
+  color:var(--readable-heading);
+}
+a:not(.btn):not(.nav-links a):not(.sidebar-management a):not(.brand),
+a:not(.btn):not(.nav-links a):not(.sidebar-management a):not(.brand):visited{
+  color:var(--readable-link);
+}
+a:not(.btn):hover{color:var(--readable-heading)}
+.field-help,.muted,small,.management-card p{color:var(--muted)}
+th{color:var(--readable-heading)}
+input,textarea,select{color:var(--text)}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
+
+/* Verwaltungsnavigation nutzt bewusst eine dunkle Fläche mit weißer Schrift.
+   Organisationsfarben bleiben Akzent für Rahmen und Hervorhebungen. */
+.sidebar .sidebar-management a,
+.sidebar .sidebar-management a:hover,
+.sidebar .sidebar-management a:focus-visible,
+.sidebar .sidebar-management a[aria-current="page"]{
+  background:var(--nav-bg);
+  color:#fff;
+}
+.sidebar .sidebar-management a:hover,
+.sidebar .sidebar-management a:focus-visible,
+.sidebar .sidebar-management a[aria-current="page"]{
+  background:var(--nav-hover);
+}
+:root[data-theme="dark"] .sidebar .sidebar-management a,
+:root[data-theme="dark"] .sidebar .sidebar-management a:hover,
+:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible,
+:root[data-theme="dark"] .sidebar .sidebar-management a[aria-current="page"]{
+  color:#fff;
+}
+:root[data-theme="dark"] .management-card h2{color:var(--readable-heading)}
 </style>
 <style>
 :root {
