@@ -250,7 +250,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
 4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
 
-5. Das erste Administratorkonto wird einmalig nach dem Start angelegt. Bis der Browser-Ersteinrichtungsassistent verfügbar ist, erfolgt dies über den vorhandenen Django-Befehl:
+5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
 
 **Daten und Persistenz**
 
