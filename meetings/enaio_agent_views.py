@@ -109,7 +109,7 @@ def enaio_agent_next_job(request):
                 return response
             lease = secrets.token_urlsafe(32)
             transfer.agent_lease_token = lease
-            transfer.agent_lease_expires_at = min(transfer.expires_at, now + timedelta(minutes=10))
+            transfer.agent_lease_expires_at = min(transfer.expires_at, now + timedelta(minutes=30))
             transfer.save(update_fields=["agent_lease_token", "agent_lease_expires_at"])
             from .views import _meeting_series_name
             data = {"job": {
