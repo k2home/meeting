@@ -1060,13 +1060,29 @@ def topic_transfer(request, pk):
 
 @login_required
 def archive(request):
+    series_choices = accessible_series(request.user).distinct().order_by("name")
+    selected_series = request.GET.get("series", "").strip()
+    valid_series = (
+        int(selected_series)
+        if selected_series.isdigit() and series_choices.filter(pk=int(selected_series)).exists()
+        else None
+    )
+    if valid_series is None:
+        selected_series = ""
+
     items = AgendaItem.objects.filter(
         meeting__in=accessible_meetings(request.user), status="done"
     ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
         "-meeting__date", "topic__title", "position"
     )
     archived_topics = accessible_topics(request.user).filter(status="archived").select_related("series").order_by("title")
-    return render(request, "meetings/archive.html", {"items": items, "archived_topics": archived_topics})
+    if valid_series is not None:
+        items = items.filter(meeting__series_id=valid_series)
+        archived_topics = archived_topics.filter(series_id=valid_series)
+    return render(request, "meetings/archive.html", {
+        "items": items, "archived_topics": archived_topics,
+        "series_choices": series_choices, "selected_series": selected_series,
+    })
 
 @login_required
 @reader_no_access

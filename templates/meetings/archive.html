@@ -2,6 +2,18 @@
 {% load meeting_user_tags %}
 {% block content %}
 <header class="page-header"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></header>
+<form method="get" class="card no-print" aria-label="Archiv nach Besprechungsreihe filtern">
+  <label for="archive-series-filter">Besprechungsreihe</label>
+  <div class="actions">
+    <select id="archive-series-filter" name="series" onchange="this.form.submit()">
+      <option value="">Alle Besprechungsreihen</option>
+      {% for series in series_choices %}
+        <option value="{{ series.pk }}" {% if selected_series == series.pk|stringformat:"s" %}selected{% endif %}>{{ series.name }}</option>
+      {% endfor %}
+    </select>
+    {% if selected_series %}<a class="btn secondary" href="{% url 'archive' %}">Filter zurücksetzen</a>{% endif %}
+  </div>
+</form>
 <section class="card">
   <h2>Archivierte Themen</h2>
   {% for topic in archived_topics %}
