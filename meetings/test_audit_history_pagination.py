@@ -33,6 +33,6 @@ class AuditHistoryPaginationTests(TestCase):
         self.assertEqual(len(response.context["events"]), 50)
 
     def test_invalid_page_falls_back_to_last_page(self):
-        response = self.client.get(reverse("audit_history"), {"page": "unbekannt"})
+        response = self.client.get(reverse("audit_history"), {"page": "999"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["events"].number, 3)
