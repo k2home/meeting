@@ -2126,6 +2126,17 @@ def _read_update_status():
     try:
         data = json.loads(UPDATE_STATUS_FILE.read_text(encoding="utf-8"))
         if isinstance(data, dict):
+            if data.get("status") == "running" and not os.path.exists(UPDATE_SOCKET):
+                active = subprocess.run(
+                    ["/usr/bin/systemctl", "is-active", "--quiet", "meeting-manager-update.service"],
+                    capture_output=True, timeout=3, check=False,
+                )
+                if active.returncode != 0:
+                    data = {
+                        **data,
+                        "status": "error",
+                        "message": "Der Update-Dienst ist nicht mehr aktiv. Bitte das Protokoll auf einen Abbruch prüfen.",
+                    }
             return data
     except (OSError, ValueError):
         pass
