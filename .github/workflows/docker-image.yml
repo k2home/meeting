@@ -6,6 +6,8 @@ on:
       - beta
       - main
   pull_request:
+  release:
+    types: [published]
 
 permissions:
   contents: read
