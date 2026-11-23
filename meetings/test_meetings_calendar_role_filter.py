@@ -40,6 +40,9 @@ class MeetingCalendarRoleFilterTests(TestCase):
         self.assertContains(response, 'id="calendar-role-filter"')
         self.assertContains(response, '<option value="Moderator">Moderator</option>')
         self.assertContains(response, '<option value="Teilnehmer">Teilnehmer</option>')
+        self.assertContains(response, 'roleFilter.addEventListener("change", render)')
+        self.assertContains(response, 'hideFinalized?.checked')
+        self.assertContains(response, 'availableRoles.has(option.value)')
         self.assertEqual(
             {event["role"] for event in response.context["calendar_events"]},
             {"Teilnehmer", "Moderator"},
