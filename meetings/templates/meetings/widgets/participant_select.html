@@ -65,8 +65,14 @@
       group.hidden = !group.querySelector("label:not([hidden])");
     });
     status.textContent = query
-      ? visible + " Treffer gefunden."
+      ? (visible === 0 ? "Keine Teilnehmer gefunden." : visible + (visible === 1 ? " Treffer gefunden." : " Treffer gefunden."))
       : "Alle Teilnehmer werden angezeigt.";
+  });
+  search.addEventListener("keydown", event => {
+    if (event.key === "Escape" && search.value) {
+      search.value = "";
+      search.dispatchEvent(new Event("input", {bubbles: true}));
+    }
   });
 })();
 </script>
