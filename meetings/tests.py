@@ -1897,6 +1897,30 @@ class OrganizationLogoDeliveryTests(TestCase):
                     2,
                 )
 
+    def test_invalid_configured_organization_logo_does_not_silently_disappear(self):
+        import tempfile
+        from datetime import date
+        from django.core.files.base import ContentFile
+        from django.test import override_settings
+        from .models import Meeting, MeetingSeries, OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                organization = OrganizationSettings.objects.create(name="Testorganisation")
+                organization.logo.save(
+                    "broken.svg",
+                    ContentFile(b"<svg><not-valid-svg"),
+                    save=True,
+                )
+                series = MeetingSeries.objects.create(name="Testreihe")
+                meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
+                self.client.force_login(self.admin)
+
+                with self.assertRaises(RuntimeError) as error:
+                    self.client.get(reverse("protocol_pdf", args=[meeting.pk]))
+
+                self.assertIn("Organisationslogo", str(error.exception))
+
     def test_organization_logo_is_embedded_in_protocol_pdf(self):
         import tempfile
         from datetime import date

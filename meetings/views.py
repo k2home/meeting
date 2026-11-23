@@ -1177,12 +1177,19 @@ def protocol_pdf(request, pk):
     organization_name = organization.name.strip() if organization and organization.name else ""
     brand = OrganizationSettings.current_brand_colors()
 
-    # Read through Django's FieldFile API so the configured storage backend
-    # (including remote storage) resolves the stored object consistently.
+    # Resolve the logo from the configured Django storage and fail visibly if
+    # a configured logo cannot be embedded. A silent fallback produced PDFs
+    # that looked valid but unexpectedly omitted the organization's branding.
     organization_logo_image = None
-    if organization and organization.logo and organization.logo.name:
+    logo_is_configured = bool(organization and organization.logo and organization.logo.name)
+    if logo_is_configured:
+        logo_field = organization.logo
+        logger.info(
+            "Protokoll-PDF: Organisationslogo konfiguriert (organization_id=%s, "
+            "name=%s, storage=%s).",
+            organization.pk, logo_field.name, logo_field.storage.__class__.__name__,
+        )
         try:
-            logo_field = organization.logo
             logo_field.open("rb")
             try:
                 logo_data = logo_field.read()
@@ -1192,10 +1199,8 @@ def protocol_pdf(request, pk):
             if not logo_data:
                 raise ValueError("Die gespeicherte Logodatei ist leer.")
 
-            # Some storage backends or upload flows do not preserve the file
-            # extension. Detect SVG by its content as well as by its filename.
             is_svg = (
-                organization.logo.name.lower().endswith(".svg")
+                logo_field.name.lower().endswith(".svg")
                 or logo_data.lstrip().startswith(b"<?xml")
                 or b"<svg" in logo_data[:2048].lower()
             )
@@ -1213,15 +1218,24 @@ def protocol_pdf(request, pk):
                 raise ValueError("Das Organisationslogo hat ungültige Abmessungen.")
             organization_logo_image = logo_reader
             logger.info(
-                "Organisationslogo für Protokoll-PDF geladen: %s (%sx%s px)",
-                organization.logo.name, logo_width_px, logo_height_px,
+                "Protokoll-PDF: Organisationslogo erfolgreich dekodiert (%sx%s px).",
+                logo_width_px, logo_height_px,
             )
-        except Exception:
+        except Exception as exc:
             logger.exception(
-                "Organisationslogo %r konnte für das Protokoll-PDF nicht geladen werden.",
-                organization.logo.name,
+                "Protokoll-PDF: Organisationslogo %r (organization_id=%s) "
+                "konnte aus Storage %s nicht geladen/eingebettet werden.",
+                logo_field.name, organization.pk, logo_field.storage.__class__.__name__,
             )
-            organization_logo_image = None
+            raise RuntimeError(
+                "Das konfigurierte Organisationslogo konnte nicht in das Protokoll-PDF "
+                "eingebettet werden. Bitte Logo und Dateispeicher prüfen."
+            ) from exc
+    else:
+        logger.warning(
+            "Protokoll-PDF: Kein Organisationslogo konfiguriert (organization_id=%s).",
+            organization.pk if organization else None,
+        )
 
     def brand_color(value, fallback):
         try:
@@ -1381,7 +1395,17 @@ def protocol_pdf(request, pk):
             self.restoreState()
 
     document.build(story, canvasmaker=NumberedCanvas)
-    response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
+    pdf_content = buffer.getvalue()
+    if logo_is_configured and b"/Subtype /Image" not in pdf_content:
+        logger.error(
+            "Protokoll-PDF: Logo %r wurde geladen, aber ReportLab hat kein Bildobjekt "
+            "in die PDF geschrieben (meeting_id=%s).",
+            organization.logo.name, meeting.pk,
+        )
+        raise RuntimeError(
+            "Das Organisationslogo wurde geladen, aber nicht in die PDF eingebettet."
+        )
+    response = HttpResponse(pdf_content, content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
     return response
 
