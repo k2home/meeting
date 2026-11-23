@@ -161,7 +161,8 @@ def run_update(branch):
     environment_backup = None
     try:
         previous_image = preserve_running_image()
-        target_image = f"ghcr.io/k2home/meeting:{'latest' if branch == 'main' else branch}"
+        image_tag = "latest" if branch == "main" else re.sub(r"[^a-z0-9_.-]+", "-", branch.lower()).strip("-")
+        target_image = f"ghcr.io/k2home/meeting:{image_tag}"
         result = compose("pull", "app", image=target_image, timeout=900)
         log.append(result.stdout + result.stderr)
         if result.returncode:
