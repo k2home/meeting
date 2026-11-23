@@ -106,9 +106,10 @@ class OrganizationSettingsTests(TestCase):
 
         with timezone.override("UTC"):
             active_timezone = middleware(RequestFactory().get("/"))
+            restored_timezone = timezone.get_current_timezone_name()
 
         self.assertEqual(active_timezone, "Europe/Paris")
-        self.assertEqual(timezone.get_current_timezone_name(), "UTC")
+        self.assertEqual(restored_timezone, "UTC")
 
     def test_central_datetime_format_includes_german_hour_suffix(self):
         from django.utils import formats
