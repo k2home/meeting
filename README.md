@@ -12,6 +12,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - [Funktionsübersicht](#funktionsübersicht)
 - [Rollen und Berechtigungen](#rollen-und-berechtigungen)
 - [Benutzer und Serienzuweisungen verwalten](#benutzer-und-serienzuweisungen-verwalten)
+- [Verwaltungsoberfläche](#verwaltungsoberfläche)
 - [Installation](#installation)
   - [Docker Compose](#docker-compose-alternative)
 - [Updates und Betrieb](#updates-und-betrieb)
@@ -58,6 +59,15 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 ### Änderungsverlauf
 
 Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Themenübertragungen, Änderungen an Tagesordnungstexten und Zuständigkeiten, Sortierungen, Anlagen, Kommentaren, Teilnehmerlisten, Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen und Einzelterminen werden mit Benutzer und Zeitpunkt protokolliert. Themenübertragungen sind in beiden beteiligten Serienverläufen sichtbar. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
+
+### Benutzer-, Rechte- und Organisationsverwaltung
+
+- Integrierte Verwaltungsoberfläche unter `/verwaltung/` für Benutzerkonten, Serienberechtigungen, Organisationseinstellungen und Datenimport/-export.
+- Benutzerkonten können angelegt, bearbeitet und aktiviert bzw. deaktiviert werden. Letzte Anmeldung und Erstellungszeitpunkt werden angezeigt.
+- Passwörter bestehender Benutzerkonten werden ausschließlich über einen E-Mail-Reset-Link zurückgesetzt; ein direktes Setzen oder Auslesen fremder Passwörter ist nicht vorgesehen.
+- Besprechungsreihen-Zuordnungen und die Rollen Leser*in, Teilnehmer*in und Moderator*in können direkt im Nutzerprofil verwaltet werden. Serienzuweisungen lassen sich außerdem suchen und filtern.
+- CSV-Import und -Export für Benutzerkonten sowie für Themen und Tagesordnungspunkte sind in die Verwaltungsoberfläche integriert. Der Themenimport bietet eine Vorschau; eine Muster-CSV steht bereit.
+- Organisationseinstellungen umfassen Name, Kurzname, Zeitzone, Anlagenlimit und das Farbschema mit validierten HEX-Farbwerten.
 
 ## Rollen und Berechtigungen
 
@@ -169,17 +179,38 @@ Neue Benutzerkonten benötigen eine Rolle und – sofern sie kein Admin sind –
 
 ## Benutzer und Serienzuweisungen verwalten
 
-Die Verwaltung befindet sich unter `/django-admin/` und ist nur für Admins bzw. Django-Superuser vorgesehen.
+Die integrierte Verwaltungsoberfläche ist über **Verwaltung** in der Seitenleiste bzw. unter `/verwaltung/` erreichbar. Sie steht ausschließlich globalen Administrator*innen und Django-Superusern zur Verfügung. Die Django-Administration unter `/django-admin/` bleibt als technische Rückfalloption vorhanden.
 
-1. Mit einem Admin-Konto anmelden und **Verwaltung** öffnen.
-2. Unter **Benutzer** ein neues Konto anlegen oder ein vorhandenes Konto öffnen.
-3. Im Inline-Bereich **Serienberechtigungen** jede Besprechungsreihe hinzufügen und dort die passende Rolle **Leser*in**, **Teilnehmer*in** oder **Moderator*in** festlegen.
-4. Die globale Gruppe **Admin** wird nur für Konten vergeben, die alle Reihen verwalten sollen.
-5. Änderungen speichern.
+### Nutzerverwaltung
 
-Die Serienzuweisungen können alternativ direkt an einer Besprechungsreihe im Bereich **Besprechungsreihen** gepflegt werden. Beide Ansichten bearbeiten dieselben Zuordnungen. Im Verwaltungsbereich stehen außerdem CSV-Import und -Export für Themen und Tagesordnungspunkte zur Verfügung. `record_type=topic` exportiert Themen ohne Tagesordnungspunkt; `record_type=agenda` enthält einen Terminbezug. Die Spalten `followup_series` und `followup_meeting_date` erhalten Wiedervorlage-Verknüpfungen.
+Unter **Verwaltung → Nutzerverwaltung** können Benutzerkonten angelegt und bearbeitet werden. Die Übersicht zeigt Aktivstatus, Administratorrolle, letzte Anmeldung und Erstellungsdatum. Im Nutzerprofil stehen unter anderem folgende Funktionen bereit:
 
-**Empfehlung:** Admin nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten die Rolle je Besprechungsreihe passend festlegen und nur die benötigten Reihen zuweisen.
+- Persönliche Angaben und Aktivstatus bearbeiten.
+- Globale Administratorrechte vergeben oder entziehen.
+- Besprechungsreihen-Zuordnungen direkt am Nutzerprofil öffnen und Rollen je Reihe festlegen.
+- Ein Passwort-Reset per E-Mail auslösen. Das bestehende Passwort wird nicht angezeigt oder direkt geändert; die betroffene Person erhält einen zeitlich begrenzten Link zum selbstständigen Zurücksetzen.
+
+### Serienzuweisungen und Rollen
+
+Im Bereich **Gruppenverwaltung** können Benutzer und Besprechungsreihen gesucht und gefiltert sowie Rollen zugewiesen werden. Alternativ können die Zuordnungen direkt aus dem jeweiligen Nutzerprofil bearbeitet werden. Beide Ansichten verwalten dieselben Serienberechtigungen.
+
+Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** gelten jeweils nur innerhalb der zugewiesenen Besprechungsreihe. Die globale Gruppe **Admin** gewährt Zugriff auf alle Reihen und Verwaltungsfunktionen.
+
+### CSV-Import und -Export
+
+Unter **Verwaltung → Datenimport und -export** stehen die CSV-Funktionen direkt in der Anwendung zur Verfügung:
+
+- **Nutzer:** Benutzerkonten einschließlich persönlicher Angaben, Aktivstatus, Administratorstatus und Serienzuordnungen exportieren bzw. importieren.
+- **Themen und Tagesordnungspunkte:** Themen, Termine, Tagesordnungspunkte, Zuständigkeiten, Status und Wiedervorlage-Verknüpfungen exportieren bzw. importieren.
+- Für Themen und Tagesordnungspunkte kann eine Muster-CSV heruntergeladen werden. Der Import bietet eine Vorschau und berücksichtigt den Schutz abgeschlossener Protokolle.
+
+Für Themen- und Tagesordnungspunktdaten gilt: `record_type=topic` exportiert Themen ohne Tagesordnungspunkt; `record_type=agenda` enthält einen Terminbezug. Die Spalten `followup_series` und `followup_meeting_date` erhalten Wiedervorlage-Verknüpfungen.
+
+### Organisationseinstellungen
+
+Unter **Verwaltung → Organisationseinstellungen** werden Organisationsname, Kurzname, Zeitzone, maximale Anlagengröße und die Farben der Benutzeroberfläche gepflegt. Für die Farbwerte stehen Farbwähler und HEX-Validierung zur Verfügung. Der zentrale Organisationseinstellungs-Datensatz ist gegen versehentliches Löschen geschützt.
+
+**Empfehlung:** Admin-Rechte nur an wenige verantwortliche Personen vergeben. Für alle anderen Konten die Rolle je Besprechungsreihe passend festlegen und nur die benötigten Reihen zuweisen.
 
 ## Installation
 
