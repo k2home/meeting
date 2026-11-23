@@ -138,4 +138,18 @@
   });
 })();
 </script>
+
+<!-- dashboard-search-shortcut -->
+<script>
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "/" || event.ctrlKey || event.metaKey || event.altKey) return;
+  const target = event.target;
+  if (target instanceof HTMLElement && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return;
+  const search = document.getElementById("topic-search");
+  if (!search) return;
+  event.preventDefault();
+  search.focus();
+  search.select();
+});
+</script>
 {% endblock %}
