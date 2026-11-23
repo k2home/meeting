@@ -32,4 +32,23 @@
 {% empty %}
   <div class="card">Keine offenen Tagesordnungspunkte ohne zukünftigen Termin gefunden.</div>
 {% endfor %}
+
+<!-- open-topics-live-search -->
+<script>
+(() => {
+  const cards = [...document.querySelectorAll("main section.card, #main-content section.card, body > section.card")];
+  const sections = [...document.querySelectorAll("section.card")].filter(section => section.querySelector("h2"));
+  if (!sections.length || document.getElementById("open-topics-search")) return;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.id = "open-topics-search";
+  input.placeholder = "Offene Tagesordnungspunkte durchsuchen …";
+  input.setAttribute("aria-label", "Offene Tagesordnungspunkte durchsuchen");
+  sections[0].before(input);
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    sections.forEach(section => { section.hidden = !!term && !section.textContent.toLocaleLowerCase("de").includes(term); });
+  });
+})();
+</script>
 {% endblock %}
