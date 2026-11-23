@@ -2334,7 +2334,7 @@ UPDATE_STATUS_FILE = Path(
     os.getenv("MEETING_UPDATER_STATUS_FILE", "/var/lib/meeting-manager-updater/status.json")
 )
 DEBIAN_UPDATE_COMMAND = "/usr/local/sbin/meeting-manager-update"
-UPDATE_BRANCHES = {"beta", "main"}
+BRANCH_NAME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$")
 
 
 class _UnixSocketHTTPConnection(http.client.HTTPConnection):
@@ -2359,6 +2359,36 @@ def _updater_request(path, method="GET", payload=None):
         return response.status, data
     finally:
         connection.close()
+
+
+def _available_update_branches():
+    """Return deployable branches currently advertised by the repository remote."""
+    try:
+        if os.path.exists(UPDATE_SOCKET):
+            code, data = _updater_request("/branches")
+            if code != 200:
+                raise RuntimeError(data.get("error", "Branches konnten nicht geladen werden."))
+            branches = data.get("branches", [])
+        elif os.path.isfile(DEBIAN_UPDATE_COMMAND):
+            result = subprocess.run(
+                ["/usr/bin/git", "-c", "safe.directory=/opt/meeting-manager", "-C",
+                 "/opt/meeting-manager", "ls-remote", "--heads", "origin"],
+                text=True, capture_output=True, timeout=15, check=True,
+            )
+            branches = [
+                line.split("\\t", 1)[1][len("refs/heads/"):]
+                for line in result.stdout.splitlines()
+                if "\\trefs/heads/" in line
+            ]
+        else:
+            return []
+        return sorted({
+            name for name in branches
+            if isinstance(name, str) and BRANCH_NAME_PATTERN.fullmatch(name)
+            and ".." not in name and not name.endswith(("/", "."))
+        }, key=str.casefold)
+    except (OSError, ValueError, http.client.HTTPException, subprocess.SubprocessError, RuntimeError):
+        return []
 
 
 def _read_update_status():
@@ -2482,10 +2512,11 @@ def deployment_updates(request):
         return HttpResponseForbidden("Nur globale Administratoren dürfen Updates verwalten.")
 
     info = _deployment_info()
+    available_branches = _available_update_branches()
     if request.method == "POST":
         branch = request.POST.get("branch", "")
-        if branch not in UPDATE_BRANCHES:
-            messages.error(request, "Bitte ausschließlich beta oder main auswählen.")
+        if branch not in available_branches:
+            messages.error(request, "Bitte einen aktuell verfügbaren Branch auswählen.")
             return redirect("deployment_updates")
         if not info["update_available"]:
             messages.error(request, info["availability_message"])
@@ -2525,7 +2556,11 @@ def deployment_updates(request):
         if update_status.get(timestamp_field):
             update_status[timestamp_field] = _format_commit_timestamp(update_status[timestamp_field])
 
+    if info["update_available"] and not available_branches:
+        info["update_available"] = False
+        info["availability_message"] = "Die verfügbaren Branches konnten nicht vom Repository geladen werden. Bitte Verbindung und Updater prüfen."
     return render(request, "meetings/deployment_updates.html", {
         **info,
+        "available_branches": available_branches,
         "update_status": update_status,
     })
