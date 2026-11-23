@@ -357,6 +357,7 @@ def management_settings(request):
             settings_obj.save()
             uploaded_logo = settings_obj.logo
             if uploaded_logo and uploaded_logo.name.lower().endswith(".svg"):
+                previous_png_name = settings_obj.logo_png.name if settings_obj.logo_png else ""
                 try:
                     import cairosvg
                     from django.core.files.base import ContentFile
@@ -371,8 +372,13 @@ def management_settings(request):
                     )
                     png_name = uploaded_logo.name.rsplit("/", 1)[-1].rsplit(".", 1)[0] + ".png"
                     settings_obj.logo_png.save(png_name, ContentFile(png_data), save=True)
+                    if previous_png_name and previous_png_name != settings_obj.logo_png.name:
+                        settings_obj.logo.storage.delete(previous_png_name)
                 except Exception:
                     logger.exception("Organisationslogo-SVG konnte beim Speichern nicht in PNG konvertiert werden.")
+                    if settings_obj.logo_png:
+                        settings_obj.logo_png.delete(save=False)
+                        settings_obj.save(update_fields=["logo_png"])
                     logo_form.add_error("logo", "Die SVG-Datei konnte nicht in eine PNG-Datei konvertiert werden. Bitte prüfen Sie die Datei oder laden Sie eine PNG-Version hoch.")
                     return render(request, "meetings/management_settings.html", {
                         "form": form, "logo_form": logo_form, "organization_settings": instance,
