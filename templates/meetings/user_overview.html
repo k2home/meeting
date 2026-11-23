@@ -129,4 +129,23 @@
     updateButton();
   });
 </script>
+
+<!-- profile-description-counter -->
+<script>
+(() => {
+  const field = document.getElementById("id_short_description");
+  if (!field || field.dataset.counterReady) return;
+  field.dataset.counterReady = "true";
+  const counter = document.createElement("small");
+  counter.className = "muted";
+  counter.setAttribute("aria-live", "polite");
+  field.insertAdjacentElement("afterend", counter);
+  const update = () => {
+    const max = Number(field.getAttribute("maxlength")) || 80;
+    counter.textContent = `${field.value.length}/${max} Zeichen · ${Math.max(0, max - field.value.length)} verbleibend`;
+  };
+  field.addEventListener("input", update);
+  update();
+})();
+</script>
 {% endblock %}
