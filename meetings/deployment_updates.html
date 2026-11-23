@@ -32,8 +32,11 @@
     {% csrf_token %}
     <label for="update-branch">Zielversion</label>
     <select id="update-branch" name="branch" required style="width:auto;min-width:12rem;margin:0">
-      <option value="beta" {% if current_branch == "beta" %}selected{% endif %}>beta – Testversion</option>
-      <option value="main" {% if current_branch == "main" %}selected{% endif %}>main – Hauptversion</option>
+      {% for branch in available_branches %}
+        <option value="{{ branch }}" {% if current_branch == branch %}selected{% endif %}>{{ branch }}{% if branch == "beta" %} – Testversion{% elif branch == "main" %} – Hauptversion{% endif %}</option>
+      {% empty %}
+        <option value="" disabled selected>Keine Branches verfügbar</option>
+      {% endfor %}
     </select>
     <button class="primary" type="submit" {% if not update_available or update_status.status == "running" %}disabled{% endif %}>Update starten</button>
   </form>
