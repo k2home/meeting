@@ -129,8 +129,14 @@
   if (!field || field.dataset.counterReady) return;
   field.dataset.counterReady = "true";
   const counter = document.createElement("small");
+  counter.id = "topic-title-character-counter";
   counter.className = "muted";
-  counter.setAttribute("aria-live", "polite");
+  counter.setAttribute("aria-live", "off");
+  const describedBy = field.getAttribute("aria-describedby");
+  field.setAttribute(
+    "aria-describedby",
+    [describedBy, counter.id].filter(Boolean).join(" ")
+  );
   field.insertAdjacentElement("afterend", counter);
   const update = () => {
     const max = Number(field.getAttribute("maxlength")) || 240;
