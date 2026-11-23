@@ -22,7 +22,7 @@ class OrganizationTimezoneMiddleware:
         )
         try:
             display_timezone = ZoneInfo(configured_timezone)
-        except (ZoneInfoNotFoundError, TypeError):
+        except (ZoneInfoNotFoundError, TypeError, ValueError):
             display_timezone = ZoneInfo(settings.TIME_ZONE)
 
         with timezone.override(display_timezone):
