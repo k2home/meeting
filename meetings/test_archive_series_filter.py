@@ -60,3 +60,5 @@ class ArchiveSeriesFilterTests(TestCase):
         self.assertContains(response, "Archiviertes Thema A")
         self.assertContains(response, "Archiviertes Thema B")
         self.assertEqual(response.context["selected_series"], "")
+        visible_series_ids = set(response.context["series_choices"].values_list("pk", flat=True))
+        self.assertNotIn(outsider_series.pk, visible_series_ids)
