@@ -2,7 +2,7 @@
 {% load meeting_user_tags %}
 {% block content %}
 <div class="topline"><div><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle Themen der zugewiesenen Besprechungsreihen auf einen Blick.</p></div></div>
-{% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }} überfällige {% if overdue_count == 1 %}Thema{% else %}Themen{% endif %}</strong><span> — bitte geplante Termine prüfen.</span></div>{% endif %}
+{% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }}{% if overdue_count == 1 %} überfälliges Thema{% else %}überfällige Themen{% endif %}</strong><span> — bitte geplante Termine prüfen.</span></div>{% endif %}
 <section class="card"><h2>Nächste Besprechungen</h2>
 {% for group in meeting_groups %}
   <div class="upcoming-series">
