@@ -1,3 +1,6 @@
+import os
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -13,20 +16,31 @@ class InitialSetupWizardTests(TestCase):
         self.assertRedirects(response, reverse("setup_wizard"))
 
     def test_first_administrator_is_created_and_logged_in(self):
-        response = self.client.post(reverse("setup_wizard"), {
+        with patch.dict(os.environ, {"SETUP_TOKEN": "test-setup-token"}):
+            response = self.client.post(reverse("setup_wizard"), {
             "username": "firstadmin",
             "first_name": "Erste",
             "last_name": "Administration",
             "email": "admin@example.org",
+            "setup_token": "test-setup-token",
             "password1": "StrongSetupPassword1!",
             "password2": "StrongSetupPassword1!",
-        })
+            })
         self.assertRedirects(response, "/setup/?step=organization")
         user = User.objects.get(username="firstadmin")
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
         self.assertTrue(user.groups.filter(name="Admin").exists())
         self.assertEqual(int(self.client.session["initial_setup_user_id"]), user.pk)
+
+    def test_first_administrator_requires_valid_setup_token(self):
+        response = self.client.post(reverse("setup_wizard"), {
+            "username": "attacker", "first_name": "Bad", "last_name": "Actor",
+            "email": "bad@example.org", "setup_token": "wrong",
+            "password1": "StrongSetupPassword1!", "password2": "StrongSetupPassword1!",
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(User.objects.exists())
 
     def test_setup_account_creation_is_disabled_after_first_user_exists(self):
         User.objects.create_user(username="existing", password="StrongPassword123!")
