@@ -1629,3 +1629,52 @@ class SeriesAccessRequestTests(TestCase):
         self.assertEqual(response.status_code, 403)
         access_request.refresh_from_db()
         self.assertEqual(access_request.status, self.SeriesAccessRequest.STATUS_PENDING)
+
+
+class DashboardStatusFilterTests(TestCase):
+    def setUp(self):
+        from datetime import date
+
+        self.user = User.objects.create_user(
+            username="dashboard-filter-user", password="strong-test-password"
+        )
+        self.series = MeetingSeries.objects.create(name="Dashboard-Filter-Reihe")
+        SeriesAccess.objects.create(user=self.user, series=self.series)
+        meeting = Meeting.objects.create(series=self.series, date=date(2026, 12, 1))
+        self.open_topic = Topic.objects.create(title="Status Offen", series=self.series)
+        self.in_progress_topic = Topic.objects.create(title="Status In Arbeit", series=self.series)
+        self.done_topic = Topic.objects.create(title="Status Erledigt", series=self.series)
+        AgendaItem.objects.create(
+            meeting=meeting, topic=self.open_topic, assigned_to=self.user, status="open"
+        )
+        AgendaItem.objects.create(
+            meeting=meeting, topic=self.in_progress_topic, assigned_to=self.user, status="in_progress"
+        )
+        AgendaItem.objects.create(
+            meeting=meeting, topic=self.done_topic, assigned_to=self.user, status="done"
+        )
+        self.client.force_login(self.user)
+
+    def test_dashboard_defaults_to_open_and_in_progress_agenda_items(self):
+        response = self.client.get(reverse("dashboard"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            set(response.context["topics"]),
+            {self.open_topic, self.in_progress_topic},
+        )
+        self.assertEqual(response.context["selected_status"], "active")
+        self.assertContains(response, "Offen oder in Arbeit")
+        self.assertNotContains(response, "Status Erledigt")
+
+    def test_dashboard_keeps_explicit_single_status_filters(self):
+        response = self.client.get(reverse("dashboard"), {"status": "open"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["topics"]), [self.open_topic])
+        self.assertEqual(response.context["selected_status"], "open")
+
+        response = self.client.get(reverse("dashboard"), {"status": "in_progress"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["topics"]), [self.in_progress_topic])
+        self.assertEqual(response.context["selected_status"], "in_progress")
