@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from . import agenda_topic_views
 from . import guide_views
+from . import management_views
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
@@ -32,6 +33,13 @@ urlpatterns = [
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
+    path("verwaltung/", management_views.management_home, name="management_home"),
+    path("verwaltung/nutzer/", management_views.management_users, name="management_users"),
+    path("verwaltung/nutzer/neu/", management_views.management_user_edit, name="management_user_new"),
+    path("verwaltung/nutzer/<int:pk>/", management_views.management_user_edit, name="management_user_edit"),
+    path("verwaltung/gruppen/", management_views.management_groups, name="management_groups"),
+    path("verwaltung/organisation/", management_views.management_settings, name="management_settings"),
+    path("verwaltung/daten/", management_views.management_data, name="management_data"),
     path("admin/updates/", views.deployment_updates, name="deployment_updates"),
     path("admin/series/", views.series_admin, name="series_admin"),
     path("admin/series/<int:pk>/edit/", views.series_edit, name="series_edit"),

@@ -1,0 +1,9 @@
+{% extends "meetings/base.html" %}
+{% load meeting_user_tags %}
+{% block title %}Nutzerverwaltung{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Nutzerverwaltung</h1><p class="muted">Benutzerkonten und Administratorrechte</p></div><div class="page-header-actions"><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a><a class="btn secondary" href="{% url 'management_data' %}">CSV-Import / Export</a><a class="btn primary" href="{% url 'management_user_new' %}">Nutzer hinzufügen</a></div></div>
+<div class="card"><div style="overflow-x:auto"><table><thead><tr><th>Name</th><th>Anmeldename</th><th>E-Mail</th><th>Status</th><th>Rolle</th><th></th></tr></thead><tbody>
+{% for item in users %}<tr><td>{{ item.account|user_display }}</td><td>{{ item.account.username }}</td><td>{{ item.account.email|default:"–" }}</td><td>{% if item.account.is_active %}<span class="pill">Aktiv</span>{% else %}<span class="pill">Deaktiviert</span>{% endif %}</td><td>{% if item.is_administrator %}Administrator{% else %}Nutzer{% endif %}</td><td><a class="btn secondary" href="{% url 'management_user_edit' item.account.pk %}">Bearbeiten</a></td></tr>{% empty %}<tr><td colspan="6">Noch keine Nutzer vorhanden.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}
