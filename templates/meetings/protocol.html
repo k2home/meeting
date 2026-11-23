@@ -72,9 +72,11 @@ document.addEventListener('submit', async (event) => {
   const status = form.querySelector('[data-enaio-transfer-status]');
   button.disabled = true;
   status.textContent = 'Übergabe wird vorbereitet …';
+  let jobData = null;
   try {
     const response = await fetch(form.action, {method: 'POST', credentials: 'same-origin', headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}});
     const data = await response.json();
+    jobData = data;
     if (!response.ok) throw new Error(data.error || 'Die Übergabe konnte nicht gestartet werden.');
     status.textContent = 'Warte auf den enaio-Agenten auf diesem Arbeitsplatz …';
     const deadline = Date.now() + Math.max(30000, (data.expires_in || 600) * 1000 - 15000);
@@ -88,9 +90,9 @@ document.addEventListener('submit', async (event) => {
     }
     throw new Error('Keine Rückmeldung vom enaio-Agenten. Der Auftrag wird abgebrochen.');
   } catch (error) {
-    if (data?.cancel_url) {
+    if (jobData?.cancel_url) {
       try {
-        await fetch(data.cancel_url, {
+        await fetch(jobData.cancel_url, {
           method: 'POST', credentials: 'same-origin',
           headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}
         });
