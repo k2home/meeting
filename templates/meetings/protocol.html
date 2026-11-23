@@ -14,7 +14,6 @@
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
-  <a class="meeting-menu-link" href="{% url 'protocol_docx' meeting.id %}">Word herunterladen</a>
   <a class="meeting-menu-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">
@@ -41,6 +40,7 @@
   <h2>{{ s.topic_title }}</h2>
   {% if s.responsible_name %}<p><strong>Verantwortlich:</strong> {{ s.responsible_name }}</p>{% endif %}
   <p>{{ s.text|linebreaksbr }}</p>
+  {% if s.followup_date %}<p><strong>Wiedervorlage:</strong> {{ s.followup_series_name|default:"Gelöschte Besprechungsreihe" }} {{ s.followup_date|date:"DATE_FORMAT" }}</p>{% endif %}
   <small>Status: {{ s.get_status_display|default:s.status }}</small>
 </article>
 {% empty %}
@@ -49,6 +49,7 @@
     <h2>{{ item.topic.title }}</h2>
     <p><strong>Verantwortlich:</strong> {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     <p>{{ item.working_text|linebreaksbr }}</p>
+    {% if item.followup_item %}<p><strong>Wiedervorlage:</strong> {{ item.followup_item.meeting.series.name|default:item.followup_item.meeting.archived_series_name|default:"Gelöschte Besprechungsreihe" }} {{ item.followup_item.meeting.date|date:"DATE_FORMAT" }}</p>{% endif %}
     <small>Bearbeitungsstand: {{ item.get_status_display }}</small>
   </article>
   {% empty %}

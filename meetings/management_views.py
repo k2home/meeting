@@ -90,7 +90,7 @@ class OrganizationSettingsForm(forms.ModelForm):
     class Meta:
         model = OrganizationSettings
         fields = (
-            "name", "short_name", "timezone", "attachment_max_size_mb",
+            "name", "short_name", "logo", "timezone", "attachment_max_size_mb",
             "primary_color", "primary_color_light", "primary_color_dark",
             "secondary_color", "secondary_color_light", "secondary_color_dark",
             "tertiary_color", "tertiary_color_light", "tertiary_color_dark",
@@ -205,7 +205,7 @@ def management_groups(request):
 def management_settings(request):
     _require_admin(request)
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
-    form = OrganizationSettingsForm(request.POST or None, instance=instance)
+    form = OrganizationSettingsForm(request.POST or None, request.FILES or None, instance=instance)
     if request.method == "POST" and form.is_valid():
         settings_obj = form.save(commit=False)
         settings_obj.full_clean()

@@ -1074,6 +1074,8 @@ def _protocol_entries(meeting):
                 "text": snapshot.text,
                 "status": dict(Topic.STATUS).get(snapshot.status, snapshot.status),
                 "responsible": snapshot.responsible_name,
+                "followup_date": snapshot.followup_date,
+                "followup_series_name": snapshot.followup_series_name,
             }
             for snapshot in meeting.snapshots.all()
         ]
@@ -1083,6 +1085,11 @@ def _protocol_entries(meeting):
             "text": item.working_text,
             "status": item.get_status_display(),
             "responsible": user_display_name(item.assigned_to) if item.assigned_to else "",
+            "followup_date": item.followup_item.meeting.date if hasattr(item, "followup_item") else None,
+            "followup_series_name": (
+                _meeting_series_name(item.followup_item.meeting)
+                if hasattr(item, "followup_item") else ""
+            ),
         }
         for item in ensure_agenda(meeting)
     ]
@@ -1112,25 +1119,39 @@ def protocol_pdf(request, pk):
     entries = _protocol_entries(meeting)
 
     from reportlab.lib import colors
-    from reportlab.lib.enums import TA_CENTER
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib.units import mm
+    from reportlab.lib.utils import ImageReader
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether
+    from reportlab.pdfgen import canvas as pdf_canvas
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether, HRFlowable
 
-    organization_name = OrganizationSettings.current_name()
+    organization = OrganizationSettings.objects.filter(pk=1).first()
+    organization_name = organization.name.strip() if organization and organization.name else ""
+    brand = OrganizationSettings.current_brand_colors()
+
+    def brand_color(value, fallback):
+        try:
+            return colors.HexColor(value)
+        except (TypeError, ValueError):
+            return colors.HexColor(fallback)
+
+    primary = brand_color(brand.get("primary_color"), "#00549F")
+    secondary = brand_color(brand.get("secondary_color"), "#8FC5FF")
     buffer = BytesIO()
+    left_margin = right_margin = 20 * mm
+    top_margin, bottom_margin = 36 * mm, 25 * mm
     document = SimpleDocTemplate(
-        buffer, pagesize=A4, rightMargin=20 * mm, leftMargin=20 * mm,
-        topMargin=20 * mm, bottomMargin=18 * mm,
+        buffer, pagesize=A4, rightMargin=right_margin, leftMargin=left_margin,
+        topMargin=top_margin, bottomMargin=bottom_margin,
         title=f"Protokoll – {_meeting_series_name(meeting)}",
         author=f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager",
+        subject=f"Besprechung vom {formats.date_format(meeting.date, 'DATE_FORMAT')}",
     )
-    styles = getSampleStyleSheet()
-    regular_font = "Helvetica"
-    bold_font = "Helvetica-Bold"
+
+    regular_font, bold_font = "Helvetica", "Helvetica-Bold"
     font_path = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
     bold_path = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
     if font_path.exists() and bold_path.exists():
@@ -1139,111 +1160,143 @@ def protocol_pdf(request, pk):
             pdfmetrics.registerFont(TTFont("MeetingDejaVu-Bold", str(bold_path)))
         regular_font, bold_font = "MeetingDejaVu", "MeetingDejaVu-Bold"
 
+    styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(
-        name="ProtocolTitle", parent=styles["Title"], fontName=bold_font,
-        alignment=TA_CENTER, fontSize=19, leading=24, spaceAfter=8 * mm,
+        name="ProtocolSection", parent=styles["Heading2"], fontName=bold_font,
+        fontSize=13, leading=17, textColor=primary, spaceBefore=6 * mm,
+        spaceAfter=2.5 * mm, keepWithNext=True,
     ))
     styles.add(ParagraphStyle(
         name="ProtocolTopic", parent=styles["Heading2"], fontName=bold_font,
-        fontSize=12, leading=16, spaceBefore=5 * mm, spaceAfter=2 * mm,
-        keepWithNext=True,
+        fontSize=12, leading=16, textColor=primary, spaceBefore=5 * mm,
+        spaceAfter=2 * mm, keepWithNext=True,
     ))
-    styles["Normal"].fontName = regular_font
-    styles["Normal"].leading = 14
+    styles.add(ParagraphStyle(
+        name="ProtocolBody", parent=styles["BodyText"], fontName=regular_font,
+        fontSize=9.5, leading=15, textColor=colors.HexColor("#263445"),
+        spaceAfter=2 * mm, splitLongWords=True,
+    ))
+    styles.add(ParagraphStyle(
+        name="ProtocolMeta", parent=styles["Normal"], fontName=regular_font,
+        fontSize=8.5, leading=12, textColor=colors.HexColor("#526170"),
+    ))
+    styles.add(ParagraphStyle(
+        name="ProtocolStatus", parent=styles["Normal"], fontName=bold_font,
+        fontSize=8, leading=11, textColor=primary,
+    ))
+    styles.add(ParagraphStyle(
+        name="ProtocolSmall", parent=styles["Normal"], fontName=regular_font,
+        fontSize=8.5, leading=12, textColor=colors.HexColor("#526170"),
+    ))
+
+    created_at = timezone.localtime(timezone.now())
+    finalized_label = (
+        "Gesicherter Protokollstand · " + formats.date_format(timezone.localtime(meeting.finalized_at), "DATETIME_FORMAT")
+        if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
+    )
+    created_label = formats.date_format(created_at, "DATETIME_FORMAT")
+    series_name = _meeting_series_name(meeting)
+    meeting_date = formats.date_format(meeting.date, "DATE_FORMAT")
 
     story = [
-        Paragraph("Protokoll", styles["ProtocolTitle"]),
-        Paragraph(escape(_meeting_series_name(meeting)), styles["Heading2"]),
-        *([Paragraph(escape(organization_name), styles["Normal"])] if organization_name else []),
-        Paragraph(f"Datum: {formats.date_format(meeting.date, 'DATE_FORMAT')}", styles["Normal"]),
+        Paragraph("Teilnehmer*innen", styles["ProtocolSection"]),
         Paragraph(
-            "Gesicherter Stand" if meeting.finalized_at else "Entwurf – nicht abgeschlossen",
-            styles["Normal"],
+            " · ".join(escape(name) for name in _meeting_participant_names(meeting))
+            or "Keine Teilnehmer eingetragen.",
+            styles["ProtocolBody"],
         ),
+        HRFlowable(width="100%", thickness=0.8, color=secondary, spaceBefore=1 * mm, spaceAfter=2 * mm),
+        Paragraph("Tagesordnung und Ergebnisse", styles["ProtocolSection"]),
     ]
-    participant_names = _meeting_participant_names(meeting)
-    story.append(Paragraph("Teilnehmer", styles["Heading2"]))
-    if participant_names:
-        for name in participant_names:
-            story.append(Paragraph(escape(name), styles["Normal"]))
-    else:
-        story.append(Paragraph("Keine Teilnehmer eingetragen.", styles["Normal"]))
-    story.append(Spacer(1, 5 * mm))
-    for entry in entries:
-        safe_text = escape(entry["text"] or "—").replace("\n", "<br/>")
-        story.append(KeepTogether([
-            Paragraph(escape(entry["title"]), styles["ProtocolTopic"]),
-            *([Paragraph("<b>Verantwortlich:</b> " + escape(entry["responsible"]), styles["Normal"])] if entry.get("responsible") else []),
-            Paragraph(safe_text, styles["Normal"]),
-            Paragraph(f"<i>Status: {escape(entry['status'])}</i>", styles["Normal"]),
-        ]))
+    for index, entry in enumerate(entries, start=1):
+        parts = [Paragraph(f"{index:02d} &nbsp; {escape(entry['title'])}", styles["ProtocolTopic"])]
+        status_and_responsible = "<b>Status:</b> " + escape(entry["status"])
+        if entry.get("responsible"):
+            status_and_responsible += " &nbsp;&nbsp; <b>Verantwortlich:</b> " + escape(entry["responsible"])
+        parts.append(Paragraph(status_and_responsible, styles["ProtocolStatus"]))
+        parts.append(Paragraph(escape(entry["text"] or "—").replace("\n", "<br/>"), styles["ProtocolBody"]))
+        if entry.get("followup_date"):
+            followup_label = formats.date_format(entry["followup_date"], "DATE_FORMAT")
+            followup_series = escape(entry.get("followup_series_name") or "Gelöschte Besprechungsreihe")
+            parts.append(Paragraph(
+                "<b>Wiedervorlage:</b> " + followup_series + " " + escape(followup_label),
+                styles["ProtocolSmall"],
+            ))
+        parts.append(Spacer(1, 2 * mm))
+        story.append(KeepTogether(parts))
     if not entries:
-        story.append(Paragraph("Keine Tagesordnungspunkte.", styles["Normal"]))
+        story.append(Paragraph("Keine Tagesordnungspunkte vorhanden.", styles["ProtocolSmall"]))
 
-    def add_page_number(canvas, doc):
-        canvas.saveState()
-        canvas.setFont(regular_font, 8)
-        canvas.setFillColor(colors.grey)
-        canvas.drawRightString(A4[0] - 20 * mm, 10 * mm, f"Seite {doc.page}")
-        canvas.restoreState()
+    class NumberedCanvas(pdf_canvas.Canvas):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self._saved_page_states = []
 
-    document.build(story, onFirstPage=add_page_number, onLaterPages=add_page_number)
+        def showPage(self):
+            self._saved_page_states.append(dict(self.__dict__))
+            self._startPage()
+
+        def save(self):
+            page_count = len(self._saved_page_states)
+            for state in self._saved_page_states:
+                self.__dict__.update(state)
+                self._draw_running_matter(page_count)
+                super().showPage()
+            super().save()
+
+        def _draw_running_matter(self, page_count):
+            self.saveState()
+            page_top = A4[1] - 11 * mm
+            logo_width, logo_height = 25 * mm, 15 * mm
+            text_left = left_margin
+            if organization and organization.logo:
+                try:
+                    with organization.logo.open("rb") as logo_file:
+                        self.drawImage(
+                            ImageReader(logo_file), left_margin, page_top - logo_height,
+                            width=logo_width, height=logo_height,
+                            preserveAspectRatio=True, anchor="c", mask="auto",
+                        )
+                    text_left += logo_width + 5 * mm
+                except Exception:
+                    pass
+
+            self.setFillColor(colors.HexColor("#263445"))
+            self.setFont(bold_font, 8.5)
+            if organization_name:
+                self.drawString(text_left, page_top - 2 * mm, organization_name[:75])
+            right_edge = A4[0] - right_margin
+            self.setFillColor(primary)
+            self.setFont(bold_font, 13)
+            self.drawCentredString(A4[0] / 2, page_top - 3 * mm, "PROTOKOLL")
+            self.setFillColor(colors.HexColor("#526170"))
+            self.setFont(regular_font, 9.5)
+            self.drawCentredString(
+                A4[0] / 2, page_top - 10 * mm,
+                f"{series_name} · {meeting_date}",
+            )
+
+            self.setStrokeColor(primary)
+            self.setLineWidth(1.1)
+            self.line(left_margin, A4[1] - 32 * mm, right_edge, A4[1] - 32 * mm)
+
+            footer_y = 15 * mm
+            self.setStrokeColor(colors.HexColor("#DCE3EA"))
+            self.setLineWidth(0.5)
+            self.line(left_margin, footer_y + 4 * mm, right_edge, footer_y + 4 * mm)
+            self.setFillColor(colors.HexColor("#687684"))
+            self.setFont(regular_font, 7)
+            self.drawString(left_margin, footer_y, f"Protokollstand: {finalized_label}"[:105])
+            self.drawString(left_margin, footer_y - 4 * mm, f"PDF erstellt: {created_label}"[:105])
+            self.setFillColor(colors.HexColor("#263445"))
+            self.setFont(bold_font, 7.5)
+            self.drawRightString(right_edge, footer_y - 1 * mm, f"Seite {self._pageNumber} von {page_count}")
+            self.restoreState()
+
+    document.build(story, canvasmaker=NumberedCanvas)
     response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
     return response
-
-
-@login_required
-def protocol_docx(request, pk):
-    meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
-    entries = _protocol_entries(meeting)
-
-    from docx import Document
-    from docx.shared import Pt, RGBColor
-
-    organization_name = OrganizationSettings.current_name()
-    document = Document()
-    document.core_properties.title = f"Protokoll – {_meeting_series_name(meeting)}"
-    document.core_properties.author = f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager"
-    document.core_properties.subject = f"Besprechung vom {formats.date_format(meeting.date, 'DATE_FORMAT')}"
-    document.add_heading("Protokoll", 0)
-    document.add_heading(_meeting_series_name(meeting), level=1)
-    if organization_name:
-        document.add_paragraph(organization_name)
-    document.add_paragraph(f"Datum: {formats.date_format(meeting.date, 'DATE_FORMAT')}")
-    document.add_paragraph(
-        f"Gesicherter Stand: {formats.date_format(timezone.localtime(meeting.finalized_at), 'DATETIME_FORMAT')}"
-        if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
-    )
-    document.add_heading("Teilnehmer", level=2)
-    participant_names = _meeting_participant_names(meeting)
-    if participant_names:
-        for name in participant_names:
-            document.add_paragraph(name, style="List Bullet")
-    else:
-        document.add_paragraph("Keine Teilnehmer eingetragen.")
-    for entry in entries:
-        document.add_heading(entry["title"], level=2)
-        if entry.get("responsible"):
-            document.add_paragraph("Verantwortlich: " + entry["responsible"])
-        document.add_paragraph(entry["text"] or "—")
-        status = document.add_paragraph()
-        run = status.add_run(f"Status: {entry['status']}")
-        run.italic = True
-        run.font.size = Pt(9)
-        run.font.color.rgb = RGBColor(100, 100, 100)
-    if not entries:
-        document.add_paragraph("Keine Tagesordnungspunkte.")
-
-    buffer = BytesIO()
-    document.save(buffer)
-    response = HttpResponse(
-        buffer.getvalue(),
-        content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    )
-    response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "docx")}"'
-    return response
-
 
 @login_required
 def protocol(request, pk):

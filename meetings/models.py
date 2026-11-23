@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
+from django.core.validators import FileExtensionValidator, MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import formats, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -148,6 +148,8 @@ class TopicSnapshot(models.Model):
     status = models.CharField(max_length=12)
     topic_id = models.PositiveBigIntegerField()
     responsible_name = models.CharField("Verantwortlich", max_length=255, blank=True)
+    followup_date = models.DateField("Wiedervorlage am", null=True, blank=True)
+    followup_series_name = models.CharField("Besprechungsreihe der Wiedervorlage", max_length=160, blank=True)
 
     class Meta:
         ordering = ["id"]
@@ -305,6 +307,10 @@ class OrganizationSettings(models.Model):
         "Maximale Dateigröße für Anlagen (MB)", default=20,
         validators=[MinValueValidator(1), MaxValueValidator(24)],
         help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 24 MB.",
+    )
+    logo = models.FileField(
+        "Organisationslogo", upload_to="organization/logo/", blank=True, validators=[FileExtensionValidator(["png", "jpg", "jpeg"])],
+        help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Empfohlenes Format: PNG oder JPEG.",
     )
     name = models.CharField(
         "Organisationseinheit", max_length=160, blank=True, default="",
