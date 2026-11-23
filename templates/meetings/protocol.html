@@ -16,16 +16,12 @@
   <a class="meeting-menu-link" href="{% url 'protocol_pdf' meeting.id %}" download="{{ protocol_filename }}">PDF herunterladen</a>
   <div class="protocol-file-export">
     <button type="button" class="btn" id="prepare-protocol-pdf">PDF zum Ziehen bereitstellen</button>
-    <div id="protocol-pdf-drag-area" class="protocol-pdf-drag-area" hidden>
-      <a id="protocol-pdf-drag-item" class="protocol-pdf-file" draggable="true"
-         href="{% url 'protocol_pdf' meeting.id %}" download="{{ protocol_filename }}"
-         aria-label="Protokoll-PDF greifen und in enaio ziehen">
-        <span class="protocol-pdf-file-icon" aria-hidden="true">📄</span>
-        <span><strong>Protokoll.pdf</strong><small>PDF-Datei · zum Ziehen in enaio</small></span>
-      </a>
-      <p class="muted" id="protocol-pdf-drag-status" role="status" aria-live="polite">Ziehe das PDF-Symbol mit gedrückter Maustaste in den gewünschten enaio-Ordner.</p>
-    </div>
-    <small class="muted">Das PDF wird im Browser als Datei-Symbol bereitgestellt. Alternativ kannst du es über „PDF herunterladen“ speichern und aus dem Download-Ordner nach enaio ziehen.</small>
+    <a id="protocol-pdf-drag-item" class="protocol-pdf-drag-icon" draggable="true" hidden
+       href="{% url 'protocol_pdf' meeting.id %}" download="{{ protocol_filename }}"
+       aria-label="Protokoll-PDF greifen und in enaio ziehen" title="PDF greifen und in enaio ziehen">
+      <span aria-hidden="true">PDF</span>
+    </a>
+    <span id="protocol-pdf-drag-status" class="visually-hidden" role="status" aria-live="polite"></span>
   </div>
   <a class="meeting-menu-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
@@ -73,15 +69,13 @@
 <script>
 (() => {
   const button = document.getElementById("prepare-protocol-pdf");
-  const area = document.getElementById("protocol-pdf-drag-area");
   const file = document.getElementById("protocol-pdf-drag-item");
   const status = document.getElementById("protocol-pdf-drag-status");
-  if (!button || !area || !file) return;
+  if (!button || !file) return;
 
   button.addEventListener("click", () => {
-    area.hidden = false;
-    button.textContent = "PDF ist zum Ziehen bereit";
-    status.textContent = "Ziehe das PDF-Symbol mit gedrückter Maustaste in den gewünschten enaio-Ordner.";
+    file.hidden = false;
+    status.textContent = "Das PDF-Symbol ist bereit. Ziehe es in den gewünschten enaio-Ordner.";
     file.focus();
   });
 
@@ -91,28 +85,26 @@
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = "copy";
       // Chromium/Edge interpretiert DownloadURL als Datei-Drag aus dem Browser.
-      // Das Ziel kann dadurch eine echte PDF-Datei statt nur einen Webseiten-Link erhalten.
       event.dataTransfer.setData("DownloadURL", "application/pdf:" + filename + ":" + downloadUrl);
       event.dataTransfer.setData("text/uri-list", downloadUrl);
       event.dataTransfer.setData("text/plain", downloadUrl);
     }
-    status.textContent = "PDF wird gezogen. Lege die Datei im enaio-Zielordner ab.";
+    status.textContent = "PDF wird in enaio gezogen.";
   });
 
   file.addEventListener("dragend", () => {
-    status.textContent = "Ziehvorgang beendet. Prüfe bitte, ob enaio das PDF übernommen hat.";
+    status.textContent = "Ziehvorgang beendet. Bitte prüfen, ob enaio das PDF übernommen hat.";
   });
 })();
 </script>
 <style>
-.protocol-file-export{display:flex;flex-direction:column;align-items:flex-start;gap:.65rem;max-width:32rem}
-.protocol-pdf-drag-area{padding:.85rem 1rem;border:1px dashed var(--border);border-radius:10px;background:var(--surface-muted, #f7f8fa);width:min(100%,30rem)}
-.protocol-pdf-drag-area[hidden]{display:none}
-.protocol-pdf-file{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);text-decoration:none;cursor:grab;user-select:none}
-.protocol-pdf-file:active{cursor:grabbing}
-.protocol-pdf-file:hover,.protocol-pdf-file:focus-visible{border-color:var(--primary);outline-offset:3px}
-.protocol-pdf-file-icon{font-size:2rem;line-height:1}
-.protocol-pdf-file strong,.protocol-pdf-file small{display:block}
-.protocol-pdf-file small{color:var(--muted);margin-top:.15rem}
+.protocol-file-export{display:flex;flex-direction:row;align-items:center;gap:.5rem}
+.protocol-file-export #prepare-protocol-pdf{min-height:44px}
+.protocol-pdf-drag-icon{box-sizing:border-box;width:44px;height:44px;flex:0 0 44px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:#c62828;text-decoration:none;cursor:grab;user-select:none}
+.protocol-pdf-drag-icon span{font-size:.68rem;font-weight:800;letter-spacing:.02em;border:2px solid currentColor;border-radius:3px;padding:.2rem .12rem;line-height:1}
+.protocol-pdf-drag-icon:active{cursor:grabbing}
+.protocol-pdf-drag-icon:hover,.protocol-pdf-drag-icon:focus-visible{border-color:var(--primary);outline-offset:3px}
+.protocol-pdf-drag-icon[hidden]{display:none}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 {% endblock %}
