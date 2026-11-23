@@ -7,6 +7,7 @@
   <p class="muted">Hier siehst du, wer wann welche Änderungen vorgenommen hat. Die Einträge werden automatisch erzeugt und können nicht über die Oberfläche bearbeitet werden.</p></div>
 </header>
 <div class="card no-print">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:.75rem"><a class="btn secondary" href="{% url 'audit_history_csv' %}">Änderungsverlauf als CSV exportieren</a></div>
   <form method="get" class="audit-filter-grid">
     <div><label for="topic-filter">Nach Thema filtern</label>
       <select id="topic-filter" name="topic">
