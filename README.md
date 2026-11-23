@@ -29,12 +29,14 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 
 ### Docker Compose
 
+Das Anwendungsimage wird über Docker Hub unter [`k2hadocker/meeting-manager`](https://hub.docker.com/r/k2hadocker/meeting-manager) bereitgestellt. GitHub Actions veröffentlicht das Image automatisch: `latest` bei Änderungen auf `main`, `beta` bei Änderungen auf `beta` sowie Versions-Tags bei veröffentlichten GitHub-Releases. Die Images werden für `linux/amd64` und `linux/arm64` gebaut. Die bisherige Veröffentlichung in der GitHub Container Registry (GHCR) bleibt parallel bestehen. Für ein öffentliches Docker-Hub-Repository ist beim Installieren keine Anmeldung erforderlich.
+
 Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten verwenden denselben Anwendungscode und dieselben Datenbankmigrationen.
 
 **Voraussetzungen**
 
 - Linux-Host oder VM mit Docker Engine und Docker Compose v2
-- Netzwerkzugriff auf GitHub Container Registry (`ghcr.io`)
+- Netzwerkzugriff auf Docker Hub
 - Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
 
 **Installation**
@@ -46,11 +48,13 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
    cd /opt/meeting-manager
    ```
 
-2. Falls das Image nicht öffentlich abrufbar ist, einmalig bei GHCR anmelden:
+2. Das öffentliche Docker-Hub-Image kann ohne Anmeldung geladen werden. Falls das Repository in Docker Hub auf **privat** gestellt wurde, vorher als Docker-Hub-Benutzer `k2hadocker` anmelden:
 
    ```bash
-   sudo docker login ghcr.io
+   sudo docker login --username k2hadocker
    ```
+
+   Das Passwort bzw. den Docker-Hub-Access-Token anschließend interaktiv eingeben. Nicht als Klartext in den Befehl schreiben.
 
 3. Den Installer starten:
 
@@ -58,7 +62,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
    sudo bash deploy/install-docker.sh
    ```
 
-   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY`, Datenbankpasswort und ein einmaliger Einrichtungscode werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Den Einrichtungscode zeigt das Skript am Ende an; er wird beim ersten Browser-Aufruf benötigt und darf nicht weitergegeben werden. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
+   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Ein Aktivierungs- oder Einrichtungscode ist nicht erforderlich. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
 
 4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
 
@@ -82,7 +86,7 @@ docker compose -f docker/compose.yaml restart app
 sudo systemctl status meeting-manager-docker-updater.service
 ```
 
-Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
+Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
 
 ### Debian / Ubuntu mit systemd und Nginx
 
@@ -92,38 +96,24 @@ Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisc
 - SSH- bzw. Konsolenzugriff mit sudo-Rechten
 - Eine feste IP-Adresse oder ein DNS-Name für die Anwendung
 
-**Schnellinstallation – alle Befehle nacheinander ausführen**
+**Installation**
 
-Für eine frische Debian-/Ubuntu-Installation genügt dieser Ablauf. Er installiert Git, lädt das Repository herunter und startet direkt den Installer:
-
-```bash
-sudo apt update
-sudo apt install git -y
-git clone https://github.com/k2home/meeting.git
-cd meeting
-sudo bash deploy/install-debian.sh
-```
-
-Danach fragt das Installationsskript nur noch nach dem Hostnamen bzw. der IP-Adresse. PostgreSQL, Nginx, Python-Abhängigkeiten und der systemd-Dienst werden automatisch eingerichtet. Die benötigten Secrets und der einmalige Browser-Einrichtungscode werden automatisch erzeugt. Den Einrichtungscode am Ende der Installation notieren und vertraulich aufbewahren.
-
-**Installation im Einzelnen**
-
-1. Repository klonen und in das Verzeichnis wechseln:
+1. Repository klonen:
 
    ```bash
    git clone https://github.com/k2home/meeting.git
    cd meeting
    ```
 
-2. Installationsskript mit Root-Rechten starten:
+2. Installationsskript starten:
 
    ```bash
    sudo bash deploy/install-debian.sh
    ```
 
-3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY`, Datenbankpasswort und Einrichtungscode, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
+3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
 
-4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto mit dem vom Installer ausgegebenen Einrichtungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Den Einrichtungscode vertraulich behandeln.
+4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
 
 
 Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
@@ -144,6 +134,7 @@ Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für pro
 | PostgreSQL-Benutzer | `meetingapp` |
 | systemd-Dienst | `meeting-manager` |
 | Nginx-Konfiguration | `/etc/nginx/sites-available/meeting-manager` |
+
 
 ## Funktionsübersicht
 
