@@ -55,3 +55,10 @@ class StyledConfirmationDialogTests(SimpleTestCase):
                 self.assertIn(expected_text, source)
         meeting_source = (REPOSITORY_ROOT / "templates/meetings/meeting.html").read_text(encoding="utf-8")
         self.assertIn("Besprechung wirklich abschließen?", meeting_source)
+
+    def test_confirmation_buttons_use_theme_aware_accessible_colors(self):
+        shared = (REPOSITORY_ROOT / "templates/meetings/includes/confirmation_dialog.html").read_text(encoding="utf-8")
+        self.assertIn("background:var(--primary-button-bg", shared)
+        self.assertIn("color:var(--primary-button-text,#fff)", shared)
+        self.assertIn("background:var(--soft-bg,var(--admin-surface,#e9edf2))", shared)
+        self.assertIn("color:var(--text,var(--admin-text,#344054))", shared)
