@@ -917,7 +917,7 @@ class OrganizationBrandColorTests(TestCase):
         settings.logo.save("organization.svg", ContentFile(b"<svg xmlns='http://www.w3.org/2000/svg'/>"), save=True)
 
         branding = organization_branding(None)
-        self.assertTrue(branding["organization_logo_url"].endswith("/organization.svg"))
+        self.assertEqual(branding["organization_logo_url"], reverse("organization_logo"))
 
         response = self.client.get(reverse("dashboard"))
         self.assertContains(response, "organization-brand-logo")
