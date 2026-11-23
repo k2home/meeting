@@ -21,7 +21,6 @@ urlpatterns = [
     path("topics/suggestions/", views.topic_suggestions, name="topic_suggestions"),
     path("meeting/<int:pk>/protocol/", views.protocol, name="protocol"),
     path("meeting/<int:pk>/protocol/pdf/", views.protocol_pdf, name="protocol_pdf"),
-    path("meeting/<int:pk>/protocol/word/", views.protocol_docx, name="protocol_docx"),
     path("meeting/<int:pk>/finalize/", views.finalize, name="finalize"),
     path("meeting/<int:pk>/reopen/", views.meeting_reopen, name="meeting_reopen"),
     path("topics/new/", agenda_topic_views.topic_new, name="topic_new"),

@@ -1074,6 +1074,7 @@ def _protocol_entries(meeting):
                 "text": snapshot.text,
                 "status": dict(Topic.STATUS).get(snapshot.status, snapshot.status),
                 "responsible": snapshot.responsible_name,
+                "followup_date": snapshot.followup_date,
             }
             for snapshot in meeting.snapshots.all()
         ]
@@ -1083,6 +1084,7 @@ def _protocol_entries(meeting):
             "text": item.working_text,
             "status": item.get_status_display(),
             "responsible": user_display_name(item.assigned_to) if item.assigned_to else "",
+            "followup_date": item.followup_item.meeting.date if hasattr(item, "followup_item") else None,
         }
         for item in ensure_agenda(meeting)
     ]
@@ -1250,6 +1252,9 @@ def protocol_pdf(request, pk):
         parts = [Paragraph(f"{index:02d} &nbsp; {escape(entry['title'])}", styles["ProtocolTopic"])]
         if entry.get("responsible"):
             parts.append(Paragraph("<b>Verantwortlich:</b> " + escape(entry["responsible"]), styles["ProtocolSmall"]))
+        if entry.get("followup_date"):
+            followup_label = formats.date_format(entry["followup_date"], "DATE_FORMAT")
+            parts.append(Paragraph("<b>Wiedervorlage:</b> " + escape(followup_label), styles["ProtocolSmall"]))
         parts.append(Paragraph(escape(entry["text"] or "—").replace("\n", "<br/>"), styles["ProtocolBody"]))
         parts.append(Paragraph("STATUS&nbsp;&nbsp; " + escape(entry["status"]), styles["ProtocolStatus"]))
         parts.append(Spacer(1, 2 * mm))
@@ -1273,58 +1278,6 @@ def protocol_pdf(request, pk):
     document.build(story, onFirstPage=draw_page, onLaterPages=draw_page)
     response = HttpResponse(buffer.getvalue(), content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
-    return response
-
-
-@login_required
-def protocol_docx(request, pk):
-    meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
-    entries = _protocol_entries(meeting)
-
-    from docx import Document
-    from docx.shared import Pt, RGBColor
-
-    organization_name = OrganizationSettings.current_name()
-    document = Document()
-    document.core_properties.title = f"Protokoll – {_meeting_series_name(meeting)}"
-    document.core_properties.author = f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager"
-    document.core_properties.subject = f"Besprechung vom {formats.date_format(meeting.date, 'DATE_FORMAT')}"
-    document.add_heading("Protokoll", 0)
-    document.add_heading(_meeting_series_name(meeting), level=1)
-    if organization_name:
-        document.add_paragraph(organization_name)
-    document.add_paragraph(f"Datum: {formats.date_format(meeting.date, 'DATE_FORMAT')}")
-    document.add_paragraph(
-        f"Gesicherter Stand: {formats.date_format(timezone.localtime(meeting.finalized_at), 'DATETIME_FORMAT')}"
-        if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
-    )
-    document.add_heading("Teilnehmer", level=2)
-    participant_names = _meeting_participant_names(meeting)
-    if participant_names:
-        for name in participant_names:
-            document.add_paragraph(name, style="List Bullet")
-    else:
-        document.add_paragraph("Keine Teilnehmer eingetragen.")
-    for entry in entries:
-        document.add_heading(entry["title"], level=2)
-        if entry.get("responsible"):
-            document.add_paragraph("Verantwortlich: " + entry["responsible"])
-        document.add_paragraph(entry["text"] or "—")
-        status = document.add_paragraph()
-        run = status.add_run(f"Status: {entry['status']}")
-        run.italic = True
-        run.font.size = Pt(9)
-        run.font.color.rgb = RGBColor(100, 100, 100)
-    if not entries:
-        document.add_paragraph("Keine Tagesordnungspunkte.")
-
-    buffer = BytesIO()
-    document.save(buffer)
-    response = HttpResponse(
-        buffer.getvalue(),
-        content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    )
-    response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "docx")}"'
     return response
 
 
