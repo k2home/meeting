@@ -89,3 +89,47 @@ class EnaioAgentLeaseTests(TestCase):
         self.assertEqual(completed.status_code, 200)
         selection.refresh_from_db()
         self.assertIsNotNone(selection.consumed_at)
+
+
+    def test_agent_job_status_reports_active_lease(self):
+        selection = EnaioFolderSelection.objects.create(
+            user=self.user,
+            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
+            expires_at=timezone.now() + timedelta(minutes=5),
+        )
+        job = self.client.get(reverse("enaio_agent_next_job"), **self.auth).json()["job"]
+        status_url = reverse("enaio_agent_job_status", args=["selection", selection.pk])
+        active = self.client.get(status_url, {"lease": job["lease_token"]}, **self.auth)
+        self.assertEqual(active.status_code, 200)
+        self.assertTrue(active.json()["active"])
+
+        selection.refresh_from_db()
+        selection.consumed_at = timezone.now()
+        selection.save(update_fields=["consumed_at"])
+        inactive = self.client.get(status_url, {"lease": job["lease_token"]}, **self.auth)
+        self.assertEqual(inactive.status_code, 200)
+        self.assertFalse(inactive.json()["active"])
+
+    def test_browser_cancellation_invalidates_agent_lease(self):
+        selection = EnaioFolderSelection.objects.create(
+            user=self.user,
+            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
+            expires_at=timezone.now() + timedelta(minutes=5),
+        )
+        job = self.client.get(reverse("enaio_agent_next_job"), **self.auth).json()["job"]
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        cancelled = self.client.post(reverse("enaio_folder_selection_cancel", args=[selection.pk]))
+        self.assertEqual(cancelled.status_code, 200)
+        selection.refresh_from_db()
+        self.assertIsNotNone(selection.consumed_at)
+        self.assertIn("abgebrochen", selection.error_message)
+
+        inactive = self.client.get(
+            reverse("enaio_agent_job_status", args=["selection", selection.pk]),
+            {"lease": job["lease_token"]}, **self.auth,
+        )
+        self.assertEqual(inactive.status_code, 200)
+        self.assertFalse(inactive.json()["active"])
