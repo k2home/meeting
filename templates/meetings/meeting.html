@@ -187,7 +187,8 @@
             {% for series in writable_series %}<option value="{{ series.pk }}" {% if item.topic.series_id == series.pk %}selected{% endif %}>{{ series.name }}</option>{% endfor %}
           </select>
           <select name="target_meeting" form="agenda-text-form-{{ item.id }}" aria-label="Termin der Wiedervorlage">
-            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}" {% if item.followup_item and item.followup_item.meeting_id == target.pk %}selected{% endif %}>{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
+            <option value="" selected>Keine Wiedervorlage</option>
+            {% for target in target_meetings %}<option value="{{ target.pk }}" data-series-id="{{ target.series_id }}">{{ target.date|date:"d.m.Y" }}</option>{% endfor %}
           </select>
         </div>
         {% endif %}
@@ -470,21 +471,27 @@
     const ownerForm = formId ? document.getElementById(formId) : form;
     const scheduleFlag = ownerForm ? ownerForm.querySelector('[name="schedule_item"]') : null;
     function markFollowupChanged() {
-      if (scheduleFlag) scheduleFlag.disabled = false;
+      if (scheduleFlag) scheduleFlag.disabled = !meeting.value;
     }
     function filterMeetings() {
-      let firstVisible = null;
       Array.from(meeting.options).forEach((option) => {
+        if (!option.value) {
+          option.hidden = false;
+          option.disabled = false;
+          return;
+        }
         const visible = option.dataset.seriesId === series.value;
         option.hidden = !visible;
         option.disabled = !visible;
-        if (visible && !firstVisible) firstVisible = option;
       });
-      if (!meeting.selectedOptions.length || meeting.selectedOptions[0].disabled) meeting.value = firstVisible ? firstVisible.value : "";
+      if (meeting.value && meeting.selectedOptions[0] && meeting.selectedOptions[0].disabled) {
+        meeting.value = "";
+      }
+      markFollowupChanged();
     }
     series.addEventListener("change", () => {
+      meeting.value = "";
       filterMeetings();
-      markFollowupChanged();
     });
     meeting.addEventListener("change", markFollowupChanged);
     filterMeetings();
