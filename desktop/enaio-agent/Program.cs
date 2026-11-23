@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -87,20 +88,26 @@ internal static class Program
         try
         {
             var kind = job.GetProperty("kind").GetString();
+            var leaseToken = job.GetProperty("lease_token").GetString() ?? "";
+            var statusUrl = job.GetProperty("status_url").GetString() ?? throw new InvalidOperationException("Der Auftrag enthält keine Statusadresse.");
             if (kind == "select_root_folder")
             {
-                var selection = EnaioClient.SelectRootFolder();
+                var selection = EnaioClient.SelectRootFolder(() => IsJobActive(http, statusUrl, leaseToken));
                 using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(new { selection.folder_id, selection.folder_type, selection.folder_name, selection.folder_path, lease_token = job.GetProperty("lease_token").GetString() }), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                 response.EnsureSuccessStatusCode();
                 Console.WriteLine("Zentraler enaio-Stammordner wurde übermittelt.");
             }
             else if (kind == "file_protocol")
             {
+                if (!IsJobActive(http, statusUrl, leaseToken))
+                    throw new InvalidOperationException("Der Ablageauftrag wurde abgebrochen oder ist abgelaufen.");
                 var pdf = http.GetByteArrayAsync(job.GetProperty("pdf_url").GetString()).GetAwaiter().GetResult();
                 var tempFile = Path.Combine(Path.GetTempPath(), "MeetingManager-" + Guid.NewGuid().ToString("N") + ".pdf");
                 try
                 {
                     File.WriteAllBytes(tempFile, pdf);
+                    if (!IsJobActive(http, statusUrl, leaseToken))
+                        throw new InvalidOperationException("Der Ablageauftrag wurde vor dem enaio-Import abgebrochen oder ist abgelaufen.");
                     var result = EnaioClient.FileProtocol(job.GetProperty("filing"), tempFile);
                     var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path, lease_token = job.GetProperty("lease_token").GetString() });
                     using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
@@ -123,6 +130,15 @@ internal static class Program
         }
     }
 
+    private static bool IsJobActive(HttpClient http, string statusUrl, string leaseToken)
+    {
+        var separator = statusUrl.Contains('?') ? "&" : "?";
+        using var response = http.GetAsync(statusUrl + separator + "lease=" + Uri.EscapeDataString(leaseToken)).GetAwaiter().GetResult();
+        response.EnsureSuccessStatusCode();
+        using var document = JsonDocument.Parse(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+        return document.RootElement.TryGetProperty("active", out var active) && active.GetBoolean();
+    }
+
     private sealed record AgentCredentials(string BaseUrl, string DeviceToken);
 }
 
@@ -137,7 +153,7 @@ internal static class EnaioClient
         return Activator.CreateInstance(type) ?? throw new InvalidOperationException("Die enaio-COM-Anwendung konnte nicht geöffnet werden.");
     }
 
-    public static SelectedFolder SelectRootFolder()
+    public static SelectedFolder SelectRootFolder(Func<bool> isJobActive)
     {
         dynamic app = Connect();
         try
@@ -153,9 +169,19 @@ internal static class EnaioClient
 
             object selected = "";
             var result = 1;
+            var elapsed = Stopwatch.StartNew();
+            var nextLeaseCheck = TimeSpan.Zero;
             while (result == 1)
             {
                 Application.DoEvents();
+                if (elapsed.Elapsed >= TimeSpan.FromMinutes(4))
+                    throw new TimeoutException("Die enaio-Ordnerauswahl wurde nach vier Minuten ohne Auswahl beendet.");
+                if (elapsed.Elapsed >= nextLeaseCheck)
+                {
+                    if (!isJobActive())
+                        throw new OperationCanceledException("Die enaio-Ordnerauswahl wurde im Meeting Manager abgebrochen oder ist abgelaufen.");
+                    nextLeaseCheck = elapsed.Elapsed + TimeSpan.FromSeconds(2);
+                }
                 result = Convert.ToInt32(app.GetSelectedObject(ref selected));
                 Thread.Sleep(200);
             }
