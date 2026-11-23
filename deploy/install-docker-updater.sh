@@ -27,6 +27,9 @@ if [[ "$(getent group "$GROUP_NAME" | cut -d: -f3)" != "$GROUP_ID" ]]; then
 fi
 
 install -d -o root -g "$GROUP_NAME" -m 0750 /run/meeting-manager-updater
+install -d -o root -g root -m 0755 /usr/local/lib/meeting-manager
+install -o root -g root -m 0644 "$APP_DIR/deploy/meeting-manager-updater.tmpfiles" /etc/tmpfiles.d/meeting-manager-updater.conf
+systemd-tmpfiles --create /etc/tmpfiles.d/meeting-manager-updater.conf
 install -d -o root -g root -m 0750 /var/lib/meeting-manager-updater
 install -o root -g root -m 0755 "$APP_DIR/deploy/docker-update-agent.py" /usr/local/lib/meeting-manager/docker-update-agent.py
 install -o root -g root -m 0644 "$APP_DIR/deploy/meeting-manager-docker-updater.service" /etc/systemd/system/meeting-manager-docker-updater.service
