@@ -11,11 +11,6 @@
   const form = document.querySelector("form");
   const field = form?.querySelector('input[type="date"], input[name="date"]');
   if (!field) return;
-  if (field.type === "date") {
-    const today = new Date();
-    const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-    field.min = localToday;
-  }
   form.addEventListener("submit", event => {
     if (!field.value) return;
     const parsed = new Date(field.value);
