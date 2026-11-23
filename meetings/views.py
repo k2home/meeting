@@ -692,6 +692,33 @@ def meeting_detail(request, pk):
                     messages.success(request, f"„{topic.title}“ wurde aus dieser Tagesordnung entfernt und auf den {formats.date_format(target_meeting.date, 'DATE_FORMAT')} verschoben.")
             else:
                 messages.error(request, "Bitte wähle eine gültige Besprechungsserie und einen dazugehörigen späteren Termin.")
+        elif request.POST.get("schedule_item") and not request.POST.get("save_all_working_texts") and not request.POST.get("target_meeting"):
+            item = get_object_or_404(
+                AgendaItem.objects.select_related("topic"),
+                pk=request.POST.get("schedule_item"), meeting=meeting,
+            )
+            item.working_text = request.POST.get("working_text", item.working_text)
+            followup = AgendaItem.objects.filter(followup_of=item).first()
+            if followup and request.POST.get("confirm_clear_followup") != "1":
+                messages.error(request, "Bitte bestätige das Entfernen der bestehenden Wiedervorlage.")
+            else:
+                with transaction.atomic():
+                    item.save(update_fields=["working_text"])
+                    if followup:
+                        followup_meeting = followup.meeting
+                        followup.delete()
+                        record_event(
+                            actor=request.user, action="updated",
+                            summary=f"Wiedervorlage für „{item.topic.title}“ entfernt",
+                            topic=item.topic, meeting=meeting,
+                            changes={"Wiedervorlage": {
+                                "vorher": followup_meeting.date.isoformat(),
+                                "nachher": None,
+                            }},
+                        )
+                        messages.success(request, f"Die Wiedervorlage für „{item.topic.title}“ wurde entfernt.")
+                    else:
+                        messages.success(request, "Text gespeichert.")
         elif request.POST.get("schedule_item") and not request.POST.get("save_all_working_texts"):
             item = get_object_or_404(AgendaItem.objects.select_related("topic", "topic__series"), pk=request.POST.get("schedule_item"), meeting=meeting)
             schedule_form = AgendaScheduleForm(request.POST, series_queryset=writable_series, meeting_queryset=target_meetings)

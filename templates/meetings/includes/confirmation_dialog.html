@@ -35,6 +35,7 @@
       return;
     }
     event.preventDefault();
+    if (form.dataset.confirmSetField) event.stopImmediatePropagation();
     pendingForm = form;
     pendingSubmitter = event.submitter || form.querySelector('button[type="submit"],input[type="submit"],button:not([type])');
     let text = form.dataset.confirmMessage || "Möchtest du diese Aktion wirklich ausführen?";
@@ -51,6 +52,11 @@
     if (!pendingForm) { dialog.close(); return; }
     const form = pendingForm;
     const submitter = pendingSubmitter;
+    const fieldName = form.dataset.confirmSetField;
+    if (fieldName) {
+      const field = form.querySelector('[name="' + fieldName + '"]');
+      if (field) field.value = form.dataset.confirmSetValue || "1";
+    }
     reset();
     form.dataset.confirmApproved = "true";
     dialog.close();
