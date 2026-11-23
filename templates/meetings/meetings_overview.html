@@ -20,6 +20,7 @@
       <div class="calendar-view-switch" role="group" aria-label="Kalenderansicht">
         <button type="button" class="secondary is-selected" data-calendar-view="month" aria-pressed="true">Monat</button>
         <button type="button" class="secondary" data-calendar-view="week" aria-pressed="false">Woche</button>
+        <button type="button" class="secondary" data-calendar-view="list" aria-pressed="false">Liste</button>
       </div>
       <label class="past-toggle"><input type="checkbox" id="calendar-show-past" checked> Vergangene Termine anzeigen</label>
     </div>
@@ -82,6 +83,16 @@
 .calendar-event strong,.calendar-event span{display:block}
 .calendar-event span{color:var(--muted)}
 .calendar-day-empty{font-size:.75rem;color:var(--muted)}
+.meetings-calendar.is-list-view{display:block}
+.calendar-list{display:grid;gap:.35rem}
+.calendar-list-item{display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr);gap:.8rem;padding:.75rem;border:1px solid var(--border);border-radius:6px;background:var(--surface)}
+.calendar-list-date{font-weight:700;white-space:nowrap}
+.calendar-list-item a{display:block;text-decoration:none}
+.calendar-list-item strong,.calendar-list-item span{display:block}
+.calendar-list-item span{margin-top:.15rem;color:var(--muted);font-size:.85rem}
+.calendar-list-empty{padding:1rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted)}
+@media(max-width:650px){.calendar-list-item{grid-template-columns:1fr;gap:.25rem}}
+
 .calendar-legend{display:flex;align-items:center;gap:.4rem;font-size:.8rem;margin:.7rem 0 0}
 .calendar-dot{width:9px;height:9px;border-radius:50%;background:var(--hagen-blue);display:inline-block}
 .calendar-dot.finalized{background:var(--muted);margin-left:.5rem}
@@ -127,6 +138,53 @@
   const sameDay = (a, b) => iso(a) === iso(b);
 
   const render = () => {
+    const weekdays = document.querySelector(".calendar-weekdays");
+    calendar.classList.toggle("is-list-view", view === "list");
+    if (weekdays) weekdays.hidden = view === "list";
+    if (view === "list") {
+      const monthStart = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+      const monthEnd = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0);
+      title.textContent = cursor.toLocaleDateString("de-DE", {month:"long", year:"numeric"});
+      calendar.replaceChildren();
+      const list = document.createElement("div");
+      list.className = "calendar-list";
+      const visibleEvents = events.filter(event => {
+        const date = dateFromIso(event.date);
+        return date >= monthStart && date <= monthEnd
+          && (showPast.checked || date >= today)
+          && (!hideFinalized.checked || !event.finalized);
+      }).sort((a, b) => a.date.localeCompare(b.date) || a.series.localeCompare(b.series, "de"));
+      if (!visibleEvents.length) {
+        const empty = document.createElement("p");
+        empty.className = "calendar-list-empty";
+        empty.textContent = "Keine Besprechungen in diesem Zeitraum.";
+        list.append(empty);
+      }
+      visibleEvents.forEach(event => {
+        const item = document.createElement("article");
+        item.className = "calendar-list-item";
+        const dateLabel = document.createElement("div");
+        dateLabel.className = "calendar-list-date";
+        dateLabel.textContent = dateFromIso(event.date).toLocaleDateString("de-DE", {
+          weekday:"short", day:"2-digit", month:"long", year:"numeric"
+        });
+        const link = document.createElement("a");
+        link.href = event.url;
+        const seriesName = document.createElement("strong");
+        seriesName.textContent = event.series;
+        const detail = document.createElement("span");
+        detail.textContent = event.title + " · " + event.role;
+        const status = document.createElement("span");
+        status.textContent = event.finalized
+          ? "Abgeschlossen"
+          : event.open_agenda_count + " offene Tagesordnungspunkte";
+        link.append(seriesName, detail, status);
+        item.append(dateLabel, link);
+        list.append(item);
+      });
+      calendar.append(list);
+      return;
+    }
     const start = view === "month" ? monday(new Date(cursor.getFullYear(), cursor.getMonth(), 1)) : monday(cursor);
     const days = view === "month" ? Math.ceil((Math.ceil((new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0).getDate() + (new Date(cursor.getFullYear(), cursor.getMonth(), 1).getDay() + 6) % 7) / 7)) * 7) : 7;
     const end = new Date(start);
@@ -170,17 +228,17 @@
     }
   };
   document.getElementById("calendar-previous").addEventListener("click", () => {
-    if (view === "month") cursor.setMonth(cursor.getMonth() - 1);
-    else cursor.setDate(cursor.getDate() - 7);
+    if (view === "week") cursor.setDate(cursor.getDate() - 7);
+    else cursor.setMonth(cursor.getMonth() - 1);
     render();
   });
   document.getElementById("calendar-next").addEventListener("click", () => {
-    if (view === "month") cursor.setMonth(cursor.getMonth() + 1);
-    else cursor.setDate(cursor.getDate() + 7);
+    if (view === "week") cursor.setDate(cursor.getDate() + 7);
+    else cursor.setMonth(cursor.getMonth() + 1);
     render();
   });
   document.getElementById("calendar-today").addEventListener("click", () => {
-    cursor = view === "month" ? new Date(today.getFullYear(), today.getMonth(), 1) : new Date(today);
+    cursor = view === "week" ? new Date(today) : new Date(today.getFullYear(), today.getMonth(), 1);
     render();
   });
   document.querySelectorAll("[data-calendar-view]").forEach(button => button.addEventListener("click", () => {
