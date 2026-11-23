@@ -259,7 +259,9 @@ def enaio_diagnostic_report_save(request):
         return JsonResponse({"error": "Ungültiger JSON-Bericht."}, status=400)
     if not isinstance(payload, dict) or payload.get("report_type") != "Meeting Manager – enaio Browserdiagnose":
         return JsonResponse({"error": "Unbekanntes Berichtsformat."}, status=400)
-    if len(str(payload.get("local_log_text", ""))) > 100000:\n        return JsonResponse({"error": "Die lokale Logdatei überschreitet 100 KB."}, status=413)\n    safe_report = _redact_diagnostic_value(payload)
+    if len(str(payload.get("local_log_text", ""))) > 100000:
+        return JsonResponse({"error": "Die lokale Logdatei überschreitet 100 KB."}, status=413)
+    safe_report = _redact_diagnostic_value(payload)
     logs = [{
         "created_at": item.created_at.isoformat(), "level": item.level,
         "device": item.agent.device_name or "Unbekannter Arbeitsplatz",
