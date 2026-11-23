@@ -73,10 +73,13 @@ def preserve_running_image():
 
 def remove_rollback_image(image_ref):
     if image_ref:
-        subprocess.run(
-            ["/usr/bin/docker", "image", "rm", image_ref],
-            text=True, capture_output=True, timeout=30, check=False,
-        )
+        try:
+            subprocess.run(
+                ["/usr/bin/docker", "image", "rm", image_ref],
+                text=True, capture_output=True, timeout=30, check=False,
+            )
+        except subprocess.SubprocessError:
+            pass
 
 
 def persist_selected_image(image_ref):
@@ -130,6 +133,7 @@ def recover_environment_backup():
                 os.fsync(target.fileno())
     backup.unlink(missing_ok=True)
 
+
 def run_update(branch):
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
@@ -160,7 +164,10 @@ def run_update(branch):
         environment_backup = persist_selected_image(target_image)
         write_state(status="success", branch=branch, started_at=started, finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), message=f"Update auf {branch} erfolgreich.", log="\n".join(log)[-16000:])
         if environment_backup:
-            environment_backup.unlink(missing_ok=True)
+            try:
+                environment_backup.unlink(missing_ok=True)
+            except OSError:
+                pass
         remove_rollback_image(previous_image)
     except Exception as exc:
         log.append(str(exc))
