@@ -1487,6 +1487,11 @@ class UserOverviewTests(TestCase):
         self.assertContains(response, "Leser")
         self.assertNotContains(response, "Admin – globaler Zugriff")
 
+    def test_user_overview_does_not_autofocus_old_password_field(self):
+        response = self.client.get(reverse("user_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'name="old_password" autofocus')
+
     def test_series_role_and_request_share_one_column_with_hidden_submit_button(self):
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
