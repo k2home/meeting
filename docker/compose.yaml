@@ -29,6 +29,7 @@ services:
       - media_data:/app/media
       - static_data:/app/staticfiles
       - /run/meeting-manager-updater:/run/meeting-manager-updater
+      - /var/lib/meeting-manager-updater:/var/lib/meeting-manager-updater:ro
     depends_on:
       db:
         condition: service_healthy
