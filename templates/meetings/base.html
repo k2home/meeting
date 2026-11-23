@@ -478,14 +478,23 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 </style>
 <script>
 (() => {
+  const main = document.querySelector("main");
+  if (main) {
+    if (!main.id) main.id = "meeting-main-content";
+    if (!main.hasAttribute("tabindex")) main.setAttribute("tabindex", "-1");
+  }
   const button = document.createElement("button");
   button.type = "button";
   button.id = "meeting-back-to-top";
   button.className = "secondary";
   button.textContent = "Nach oben ↑";
   button.setAttribute("aria-label", "Zum Seitenanfang springen");
+  if (main) button.setAttribute("aria-controls", main.id);
   button.hidden = true;
-  button.addEventListener("click", () => window.scrollTo({top: 0, behavior: "smooth"}));
+  button.addEventListener("click", () => {
+    window.scrollTo({top: 0, behavior: "smooth"});
+    main?.focus({preventScroll: true});
+  });
   document.body.append(button);
   const update = () => { button.hidden = window.scrollY < 500; };
   window.addEventListener("scroll", update, {passive: true});
