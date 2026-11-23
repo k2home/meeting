@@ -172,15 +172,13 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 :root[data-theme="dark"] .sidebar .logout-form button{
   border-color:color-mix(in srgb,var(--secondary-color) 35%,transparent);
 }
-:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:hover,
-:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:focus-visible,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a:hover,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a:focus-visible,
+:root[data-theme="dark"] .sidebar .nav-links a:hover,
+:root[data-theme="dark"] .sidebar .nav-links a:focus-visible,
 :root[data-theme="dark"] .sidebar .sidebar-management a:hover,
 :root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible,
-:root[data-theme="dark"] .sidebar .logout-form button:hover,
-:root[data-theme="dark"] .sidebar .logout-form button:focus-visible{
-  background:color-mix(in srgb,var(--tertiary-color) 24%,var(--nav-bg));
+:root[data-theme="dark"] .sidebar .nav-links a[aria-current="page"],
+:root[data-theme="dark"] .sidebar .sidebar-management a[aria-current="page"]{
+  background:color-mix(in srgb,var(--tertiary-color) 24%,var(--secondary-color));
   border-color:var(--tertiary-color);
 }
 
@@ -202,7 +200,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 .sidebar:not(.is-expanded) .nav-links a::before,.sidebar:not(.is-expanded) .sidebar-management a::before{flex:0 0 20px;width:20px;height:20px;}
 
 /* Benutzerprofil und Abmelden bleiben auch in schmalen Sidebars einzeilig. */
-.sidebar-user{display:flex;align-items:center;gap:.55rem;min-width:0;width:100%}.sidebar-user .username{flex:1 1 auto;min-width:0}.sidebar-user .logout-form{flex:0 0 auto}.sidebar-user .logout-form button{width:auto;white-space:nowrap}
+.sidebar-user{min-width:0}
 .sidebar .username,.sidebar .logout-form button{white-space:nowrap;min-width:0}
 .sidebar .username{overflow:hidden;text-overflow:ellipsis}
 .sidebar .logout-form button{width:100%;flex-wrap:nowrap}
@@ -271,48 +269,32 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 }
 
 
-/* Drei Sidebar-Bereiche: abgestufte Flächen auf Basis der Organisations-Sekundärfarbe. */
-.sidebar .nav-links:not(.nav-links-secondary) a{
-  background:color-mix(in srgb,var(--secondary-color) 34%,var(--nav-bg));
-  border-color:color-mix(in srgb,var(--tertiary-color) 48%,transparent);
-  border-left-color:var(--tertiary-color);
-}
-.sidebar .nav-links-secondary a{
+/* Einheitliches Design für alle drei Sidebar-Bereiche – orientiert an „Weitere Funktionen“. */
+.sidebar .nav-links a,
+.sidebar .sidebar-management a{
   background:color-mix(in srgb,var(--secondary-color) 25%,var(--nav-bg));
   border-color:color-mix(in srgb,var(--secondary-color) 30%,transparent);
   border-left-color:color-mix(in srgb,var(--tertiary-color) 68%,var(--secondary-color));
 }
-.sidebar .sidebar-management a{
-  background:color-mix(in srgb,var(--secondary-color) 17%,var(--nav-bg));
-  border-color:color-mix(in srgb,var(--secondary-color) 24%,transparent);
-  border-left-color:color-mix(in srgb,var(--tertiary-color) 68%,var(--secondary-color));
-}
-.sidebar .nav-links:not(.nav-links-secondary) a:hover,
-.sidebar .nav-links:not(.nav-links-secondary) a:focus-visible,
-.sidebar .nav-links-secondary a:hover,
-.sidebar .nav-links-secondary a:focus-visible,
-.sidebar .nav-links-secondary a[aria-current="page"],
+.sidebar .nav-links a:hover,
+.sidebar .nav-links a:focus-visible,
 .sidebar .sidebar-management a:hover,
-.sidebar .sidebar-management a:focus-visible{
+.sidebar .sidebar-management a:focus-visible,
+.sidebar .nav-links a[aria-current="page"],
+.sidebar .sidebar-management a[aria-current="page"]{
   background:color-mix(in srgb,var(--tertiary-color) 24%,var(--secondary-color));
   border-color:var(--tertiary-color);
 }
-:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a{
-  background:color-mix(in srgb,var(--secondary-color) 38%,var(--nav-bg));
-}
-:root[data-theme="dark"] .sidebar .nav-links-secondary a{
+:root[data-theme="dark"] .sidebar .nav-links a,
+:root[data-theme="dark"] .sidebar .sidebar-management a{
   background:color-mix(in srgb,var(--secondary-color) 29%,var(--nav-bg));
 }
-:root[data-theme="dark"] .sidebar .sidebar-management a{
-  background:color-mix(in srgb,var(--secondary-color) 21%,var(--nav-bg));
-}
-:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:hover,
-:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:focus-visible,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a:hover,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a:focus-visible,
-:root[data-theme="dark"] .sidebar .nav-links-secondary a[aria-current="page"],
+:root[data-theme="dark"] .sidebar .nav-links a:hover,
+:root[data-theme="dark"] .sidebar .nav-links a:focus-visible,
 :root[data-theme="dark"] .sidebar .sidebar-management a:hover,
-:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible{
+:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible,
+:root[data-theme="dark"] .sidebar .nav-links a[aria-current="page"],
+:root[data-theme="dark"] .sidebar .sidebar-management a[aria-current="page"]{
   background:color-mix(in srgb,var(--tertiary-color) 24%,var(--secondary-color));
   border-color:var(--tertiary-color);
 }
