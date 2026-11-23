@@ -2057,6 +2057,9 @@ def user_overview(request):
             return redirect("user_overview")
         messages.error(request, "Bitte prüfe die Angaben zum Passwort.")
 
+    # Prevent autofocus from scrolling the account page to the password section.
+    password_form.fields["old_password"].widget.attrs.pop("autofocus", None)
+
     admin_access = is_admin(request.user)
     assignments = {
         assignment.series_id: assignment
