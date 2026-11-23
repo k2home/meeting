@@ -151,6 +151,7 @@ def dashboard(request):
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "active")
     selected_series = request.GET.get("series", "")
+    selected_action = request.GET.get("action", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
     selected_due = request.GET.get("due", "next_week")
 
@@ -2168,6 +2169,11 @@ def audit_history(request):
             topics = topics.filter(series_id=int(selected_series))
         else:
             selected_series = ""
+        valid_actions = {value for value, label in AuditEvent.ACTIONS}
+        if selected_action in valid_actions:
+            events = events.filter(action=selected_action)
+        else:
+            selected_action = ""
         if topic_id and topics.filter(pk=topic_id).exists():
             events = events.filter(topic_id=topic_id)
         else:
@@ -2178,7 +2184,7 @@ def audit_history(request):
 
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
-        "topics": topics, "series": series, "selected_series": selected_series,
+        "topics": topics, "series": series, "selected_series": selected_series,\n        "actions": AuditEvent.ACTIONS, "selected_action": selected_action,
         "has_history_permission": has_history_permission,
     })
 
