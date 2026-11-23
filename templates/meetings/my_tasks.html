@@ -7,6 +7,19 @@
     <p class="muted">Hauptzuständigkeiten und ausdrücklich zugewiesene Tagesordnungspunkte werden getrennt dargestellt.</p>
   </div>
 </header>
+<form method="get" class="card no-print" aria-label="Meine Aufgaben filtern">
+  <label for="personal-task-due-filter">Fälligkeit / Termin</label>
+  <div class="actions">
+    <select id="personal-task-due-filter" name="due" onchange="this.form.submit()">
+      <option value="all" {% if selected_due == "all" %}selected{% endif %}>Alle Aufgaben</option>
+      <option value="overdue" {% if selected_due == "overdue" %}selected{% endif %}>Überfällig</option>
+      <option value="today" {% if selected_due == "today" %}selected{% endif %}>Heute</option>
+      <option value="upcoming" {% if selected_due == "upcoming" %}selected{% endif %}>Kommend</option>
+      <option value="without_meeting" {% if selected_due == "without_meeting" %}selected{% endif %}>Ohne geplanten Termin</option>
+    </select>
+    {% if selected_due != "all" %}<a class="btn secondary" href="{% url 'my_tasks' %}">Filter zurücksetzen</a>{% endif %}
+  </div>
+</form>
 <section class="card">
   <div class="topline">
     <h2>Hauptzuständigkeit</h2>

@@ -421,6 +421,25 @@ def my_tasks(request):
         .order_by("meeting__date", "meeting__series__name", "position", "pk")
     )
 
+    selected_due = request.GET.get("due", "all")
+    if selected_due not in {"all", "overdue", "today", "upcoming", "without_meeting"}:
+        selected_due = "all"
+    overdue_count = sum(1 for topic in main_topics if topic.next_meeting_date and topic.next_meeting_date < today)
+    due_today_count = sum(1 for topic in main_topics if topic.next_meeting_date == today)
+    without_meeting_count = sum(1 for topic in main_topics if topic.next_meeting_date is None)
+    if selected_due == "overdue":
+        main_topics = [topic for topic in main_topics if topic.next_meeting_date and topic.next_meeting_date < today]
+        agenda_tasks = []
+    elif selected_due == "today":
+        main_topics = [topic for topic in main_topics if topic.next_meeting_date == today]
+        agenda_tasks = [item for item in agenda_tasks if item.meeting.date == today]
+    elif selected_due == "upcoming":
+        main_topics = [topic for topic in main_topics if topic.next_meeting_date and topic.next_meeting_date > today]
+        agenda_tasks = [item for item in agenda_tasks if item.meeting.date > today]
+    elif selected_due == "without_meeting":
+        main_topics = [topic for topic in main_topics if topic.next_meeting_date is None]
+        agenda_tasks = []
+
     # Keep the historical context key for integrations/tests while rendering
     # the two responsibility types in distinct sections.
     return render(request, "meetings/my_tasks.html", {
@@ -428,9 +447,10 @@ def my_tasks(request):
         "main_topics": main_topics,
         "agenda_tasks": agenda_tasks,
         "today": today,
-        "overdue_count": sum(1 for topic in main_topics if topic.next_meeting_date and topic.next_meeting_date < today),
-        "due_today_count": sum(1 for topic in main_topics if topic.next_meeting_date == today),
-        "without_meeting_count": sum(1 for topic in main_topics if topic.next_meeting_date is None),
+        "selected_due": selected_due,
+        "overdue_count": overdue_count,
+        "due_today_count": due_today_count,
+        "without_meeting_count": without_meeting_count,
     })
 
 @login_required
