@@ -2371,9 +2371,15 @@ def _available_update_branches():
     """Return branches supported by this deployment and its active update mode."""
     try:
         if os.path.exists(UPDATE_SOCKET):
-            # Docker deployments deliberately expose only the stable channels.
-            return ["beta", "main"]
-        if os.path.isfile(DEBIAN_UPDATE_COMMAND):
+            # Docker keeps its existing dynamic branch behavior; -testing is Debian-only.
+            code, data = _updater_request("/branches")
+            if code == 404:
+                branches = ["beta", "main"]
+            elif code != 200:
+                raise RuntimeError(data.get("error", "Branches konnten nicht geladen werden."))
+            else:
+                branches = data.get("branches", [])
+        elif os.path.isfile(DEBIAN_UPDATE_COMMAND):
             result = subprocess.run(
                 ["/usr/bin/git", "-c", "safe.directory=/opt/meeting-manager", "-C",
                  "/opt/meeting-manager", "ls-remote", "--heads", "origin"],
