@@ -1,3 +1,6 @@
+import csv
+from io import StringIO
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -28,6 +31,18 @@ class AuditHistoryCsvExportTests(TestCase):
         self.assertIn("Sichtbarer Eintrag", content)
         self.assertNotIn("Privater Eintrag", content)
         self.assertIn("Freigegebene Reihe", content)
+
+    def test_export_neutralizes_spreadsheet_formulas(self):
+        AuditEvent.objects.create(
+            topic=self.own_topic, series=self.own_series, action="updated",
+            summary="=HYPERLINK(\"https://example.invalid\",\"Klick\")",
+            changes={"Notiz": "=1+1"},
+        )
+        self.client.force_login(self.moderator)
+        response = self.client.get(reverse("audit_history_csv"))
+        rows = list(csv.reader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
+        self.assertTrue(any(row[6].startswith("'=HYPERLINK(") for row in rows[1:]))
+        self.assertTrue(any(row[7].startswith("'{") for row in rows[1:]))
 
     def test_participant_cannot_export_audit_history(self):
         self.client.force_login(self.participant)
