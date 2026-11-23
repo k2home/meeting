@@ -90,8 +90,16 @@ handle_update_exit() {
     if [[ "$ROLLBACK_SAFE" -eq 1 ]]; then
       echo "Update fehlgeschlagen; stelle den vorherigen Quellcode-Stand wieder her." >&2
       if [[ -n "$PREVIOUS_BRANCH" ]]; then
-        if git -C "$APP_DIR" branch -f "$PREVIOUS_BRANCH" "$PREVIOUS_COMMIT" \
-          && git -C "$APP_DIR" switch "$PREVIOUS_BRANCH"; then
+        CURRENT_BRANCH="$(git -C "$APP_DIR" branch --show-current)"
+        if [[ "$CURRENT_BRANCH" == "$PREVIOUS_BRANCH" ]]; then
+          RESTORED="$(git -C "$APP_DIR" reset --hard "$PREVIOUS_COMMIT")"
+        elif git -C "$APP_DIR" branch -f "$PREVIOUS_BRANCH" "$PREVIOUS_COMMIT" \
+          && RESTORED="$(git -C "$APP_DIR" switch "$PREVIOUS_BRANCH")"; then
+          :
+        else
+          RESTORED=""
+        fi
+        if [[ -n "$RESTORED" ]]; then
           systemctl restart meeting-manager || echo "FEHLER: Der Dienst konnte nach der Wiederherstellung nicht gestartet werden." >&2
         else
           echo "FEHLER: Der vorherige Git-Stand konnte nicht vollständig wiederhergestellt werden." >&2
