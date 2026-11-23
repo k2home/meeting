@@ -66,13 +66,17 @@ document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],inp
   field.insertAdjacentElement("afterend", preview);
   field.addEventListener("change", () => {
     const file = field.files?.[0];
-    if (!file || !file.type.startsWith("image/")) { preview.hidden = true; preview.removeAttribute("src"); return; }
     const previousUrl = preview.dataset.objectUrl;
     if (previousUrl) URL.revokeObjectURL(previousUrl);
+    delete preview.dataset.objectUrl;
+    if (!file || !file.type.startsWith("image/")) { preview.hidden = true; preview.removeAttribute("src"); return; }
     const objectUrl = URL.createObjectURL(file);
     preview.dataset.objectUrl = objectUrl;
-    preview.onload = () => { preview.hidden = false; };
+    preview.onload = () => {
+      if (preview.dataset.objectUrl === objectUrl) preview.hidden = false;
+    };
     preview.onerror = () => {
+      if (preview.dataset.objectUrl !== objectUrl) return;
       preview.hidden = true;
       preview.removeAttribute("src");
       URL.revokeObjectURL(objectUrl);
