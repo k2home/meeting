@@ -89,25 +89,28 @@ handle_update_exit() {
   if [[ "$exit_code" -ne 0 && "$CODE_SWITCHED" -eq 1 ]]; then
     if [[ "$ROLLBACK_SAFE" -eq 1 ]]; then
       echo "Update fehlgeschlagen; stelle den vorherigen Quellcode-Stand wieder her." >&2
-      if [[ -n "$PREVIOUS_BRANCH" ]]; then
-        CURRENT_BRANCH="$(git -C "$APP_DIR" branch --show-current)"
-        RESTORE_OK=0
-        if [[ "$CURRENT_BRANCH" == "$PREVIOUS_BRANCH" ]]; then
-          if git -C "$APP_DIR" reset --hard "$PREVIOUS_COMMIT"; then
-            RESTORE_OK=1
+      ROLLBACK_ENV_BACKUP=""
+      if [[ -f "$APP_DIR/.env" ]]; then
+        ROLLBACK_ENV_BACKUP="$(mktemp /root/meeting-manager-rollback-env.XXXXXX)"
+        cp -a "$APP_DIR/.env" "$ROLLBACK_ENV_BACKUP"
+      fi
+      if git -C "$APP_DIR" checkout --force --detach "$PREVIOUS_COMMIT"; then
+        if [[ -n "$PREVIOUS_BRANCH" ]]; then
+          if ! git -C "$APP_DIR" branch -f "$PREVIOUS_BRANCH" "$PREVIOUS_COMMIT" \
+            || ! git -C "$APP_DIR" switch "$PREVIOUS_BRANCH"; then
+            echo "FEHLER: Der vorherige Branch konnte nicht wieder aktiviert werden." >&2
           fi
-        elif git -C "$APP_DIR" branch -f "$PREVIOUS_BRANCH" "$PREVIOUS_COMMIT" \
-          && git -C "$APP_DIR" switch "$PREVIOUS_BRANCH"; then
-          RESTORE_OK=1
         fi
-        if [[ "$RESTORE_OK" -eq 1 ]]; then
-          systemctl restart meeting-manager || echo "FEHLER: Der Dienst konnte nach der Wiederherstellung nicht gestartet werden." >&2
-        else
-          echo "FEHLER: Der vorherige Git-Stand konnte nicht vollständig wiederhergestellt werden." >&2
+        if [[ -n "$ROLLBACK_ENV_BACKUP" && -f "$ROLLBACK_ENV_BACKUP" ]]; then
+          cp -a "$ROLLBACK_ENV_BACKUP" "$APP_DIR/.env"
+          rm -f "$ROLLBACK_ENV_BACKUP"
         fi
-      elif git -C "$APP_DIR" checkout --detach "$PREVIOUS_COMMIT"; then
         systemctl restart meeting-manager || echo "FEHLER: Der Dienst konnte nach der Wiederherstellung nicht gestartet werden." >&2
       else
+        if [[ -n "$ROLLBACK_ENV_BACKUP" && -f "$ROLLBACK_ENV_BACKUP" ]]; then
+          cp -a "$ROLLBACK_ENV_BACKUP" "$APP_DIR/.env"
+          rm -f "$ROLLBACK_ENV_BACKUP"
+        fi
         echo "FEHLER: Der vorherige Git-Stand konnte nicht wiederhergestellt werden." >&2
       fi
     else
