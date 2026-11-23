@@ -3,7 +3,8 @@ from django.contrib.auth import views as auth_views
 from . import views
 from . import agenda_topic_views
 from . import guide_views
-from . import management_views\nfrom . import enaio_agent_views
+from . import management_views
+from . import enaio_agent_views
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),\n    path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),\n    path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),\n    path("enaio/agent/jobs/next/", enaio_agent_views.enaio_agent_next_job, name="enaio_agent_next_job"),\n    path("enaio/agent/selection/<int:pk>/complete/", enaio_agent_views.enaio_agent_selection_complete, name="enaio_agent_selection_complete"),\n    path("enaio/agent/transfer/<int:pk>/pdf/", enaio_agent_views.enaio_agent_transfer_pdf, name="enaio_agent_transfer_pdf"),\n    path("enaio/agent/transfer/<int:pk>/complete/", enaio_agent_views.enaio_agent_transfer_complete, name="enaio_agent_transfer_complete"),
