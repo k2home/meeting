@@ -4,7 +4,7 @@ import secrets
 from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
+from django.db import transaction, models
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -72,34 +72,46 @@ def enaio_agent_next_job(request):
     agent = _agent_from_request(request)
     if not agent:
         return HttpResponseForbidden("Agent nicht authentifiziert.")
-    selection = EnaioFolderSelection.objects.filter(
-        user=agent.user, consumed_at__isnull=True, expires_at__gt=timezone.now()
-    ).order_by("created_at").first()
-    transfer = EnaioTransfer.objects.filter(
-        user=agent.user, status="pending", consumed_at__isnull=True,
-        expires_at__gt=timezone.now(),
-    ).order_by("created_at").first()
+    now = timezone.now()
+    with transaction.atomic():
+        selection = EnaioFolderSelection.objects.select_for_update().filter(
+            user=agent.user, consumed_at__isnull=True, expires_at__gt=now,
+        ).filter(
+            models.Q(agent_lease_token="") | models.Q(agent_lease_expires_at__isnull=True) |
+            models.Q(agent_lease_expires_at__lte=now)
+        ).order_by("created_at").first()
+        transfer = EnaioTransfer.objects.select_for_update().filter(
+            user=agent.user, status="pending", consumed_at__isnull=True, expires_at__gt=now,
+        ).filter(
+            models.Q(agent_lease_token="") | models.Q(agent_lease_expires_at__isnull=True) |
+            models.Q(agent_lease_expires_at__lte=now)
+        ).order_by("created_at").first()
 
-    if selection and (not transfer or selection.created_at <= transfer.created_at):
-        data = {
-            "job": {
+        if selection and (not transfer or selection.created_at <= transfer.created_at):
+            lease = secrets.token_urlsafe(32)
+            selection.agent_lease_token = lease
+            selection.agent_lease_expires_at = min(selection.expires_at, now + timedelta(minutes=10))
+            selection.save(update_fields=["agent_lease_token", "agent_lease_expires_at"])
+            data = {"job": {
                 "id": f"folder-{selection.pk}", "kind": "select_root_folder",
-                "selection_id": selection.pk,
+                "selection_id": selection.pk, "lease_token": lease,
                 "complete_url": request.build_absolute_uri(f"/enaio/agent/selection/{selection.pk}/complete/"),
-            }
-        }
-    elif transfer:
-        settings_obj = EnaioSettings.objects.filter(pk=1).first()
-        if not settings_obj or not settings_obj.root_folder_id:
-            data = {"job": None, "configuration_error": "Der zentrale enaio-Stammordner ist nicht konfiguriert."}
-            response = JsonResponse(data, status=409)
-            response["Cache-Control"] = "no-store"
-            return response
-        from .views import _meeting_series_name
-        data = {
-            "job": {
+            }}
+        elif transfer:
+            settings_obj = EnaioSettings.objects.filter(pk=1).first()
+            if not settings_obj or not settings_obj.root_folder_id:
+                data = {"job": None, "configuration_error": "Der zentrale enaio-Stammordner ist nicht konfiguriert."}
+                response = JsonResponse(data, status=409)
+                response["Cache-Control"] = "no-store"
+                return response
+            lease = secrets.token_urlsafe(32)
+            transfer.agent_lease_token = lease
+            transfer.agent_lease_expires_at = min(transfer.expires_at, now + timedelta(minutes=10))
+            transfer.save(update_fields=["agent_lease_token", "agent_lease_expires_at"])
+            from .views import _meeting_series_name
+            data = {"job": {
                 "id": f"transfer-{transfer.pk}", "kind": "file_protocol",
-                "transfer_id": transfer.pk,
+                "transfer_id": transfer.pk, "lease_token": lease,
                 "filing": {
                     "root_folder_id": settings_obj.root_folder_id,
                     "root_folder_type": settings_obj.root_folder_type,
@@ -113,14 +125,12 @@ def enaio_agent_next_job(request):
                 },
                 "pdf_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/pdf/"),
                 "complete_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/complete/"),
-            }
-        }
-    else:
-        data = {"job": None}
+            }}
+        else:
+            data = {"job": None}
     response = JsonResponse(data)
     response["Cache-Control"] = "no-store"
     return response
-
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -130,6 +140,7 @@ def enaio_agent_selection_complete(request, pk):
         return HttpResponseForbidden("Agent nicht authentifiziert.")
     try:
         data = json.loads(request.body or b"{}")
+        lease_token = str(data.get("lease_token", ""))
         folder_id = str(data.get("folder_id", "")).strip()
         folder_name = str(data.get("folder_name", "")).strip()
         folder_path = str(data.get("folder_path", "")).strip()
@@ -140,7 +151,8 @@ def enaio_agent_selection_complete(request, pk):
         return JsonResponse({"error": "Ordner-ID, Name, Pfad oder Objekttyp ungültig."}, status=400)
     with transaction.atomic():
         selection = EnaioFolderSelection.objects.select_for_update().filter(
-            pk=pk, user=agent.user, consumed_at__isnull=True, expires_at__gt=timezone.now()
+            pk=pk, user=agent.user, consumed_at__isnull=True, expires_at__gt=timezone.now(),
+            agent_lease_token=lease_token, agent_lease_expires_at__gt=timezone.now()
         ).first()
         if not selection:
             return HttpResponseForbidden("Auswahlauftrag ungültig oder bereits verwendet.")
@@ -178,6 +190,7 @@ def enaio_agent_transfer_complete(request, pk):
         return HttpResponseForbidden("Agent nicht authentifiziert.")
     try:
         data = json.loads(request.body or b"{}")
+        lease_token = str(data.get("lease_token", ""))
         uploaded = data.get("uploaded") is True
         object_id = str(data.get("object_id", "")).strip()
         display_path = str(data.get("display_path", "")).strip()
@@ -188,7 +201,8 @@ def enaio_agent_transfer_complete(request, pk):
         return JsonResponse({"error": "Ablage nicht erfolgreich bestätigt oder Rückmeldedaten ungültig."}, status=400)
     with transaction.atomic():
         transfer = EnaioTransfer.objects.select_for_update().filter(
-            pk=pk, user=agent.user, status="pending", consumed_at__isnull=True, expires_at__gt=timezone.now()
+            pk=pk, user=agent.user, status="pending", consumed_at__isnull=True, expires_at__gt=timezone.now(),
+            agent_lease_token=lease_token, agent_lease_expires_at__gt=timezone.now()
         ).first()
         if not transfer:
             return HttpResponseForbidden("Ablageauftrag ungültig oder bereits verwendet.")
