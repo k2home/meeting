@@ -201,7 +201,7 @@
         </div>
       </div>
       {% if not meeting.finalized_at and not is_reader %}
-      <form method="post" id="agenda-text-form-{{ item.id }}" class="agenda-text-form" data-item-id="{{ item.id }}" data-confirm-message="{% if item.followup_item %}Die bestehende Wiedervorlage auf der zukünftigen Tagesordnung wirklich löschen?{% endif %}"{% if item.followup_item %} data-confirm-set-field="confirm_clear_followup" data-confirm-set-value="1"{% endif %}>
+      <form method="post" id="agenda-text-form-{{ item.id }}" class="agenda-text-form" data-item-id="{{ item.id }}" {% if item.followup_item %}data-confirm-message="Die bestehende Wiedervorlage auf der zukünftigen Tagesordnung wirklich löschen?" data-confirm-set-field="confirm_clear_followup" data-confirm-set-value="1"{% endif %}>
         {% csrf_token %}<input type="hidden" name="item_id" value="{{ item.id }}"><input type="hidden" name="schedule_item" value="{{ item.id }}" disabled><input type="hidden" name="confirm_clear_followup" value="0">
         <label for="working-text-{{ item.id }}">Text für dieses Protokoll</label>
         <textarea id="working-text-{{ item.id }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
