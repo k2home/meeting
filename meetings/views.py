@@ -995,7 +995,8 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
                 raise ValueError("Zusammenführung abgebrochen: unterschiedliche Wiedervorlage-Vorgänger.")
             if source_child and target_child and source_child.pk != target_child.pk:
                 raise ValueError("Zusammenführung abgebrochen: unterschiedliche Wiedervorlage-Nachfolger.")
-            target_item.working_text = "\n".join(x for x in [target_item.working_text, item.working_text] if x)
+            target_item.working_text = "
+".join(x for x in [target_item.working_text, item.working_text] if x)
             if item.assigned_to_id and not target_item.assigned_to_id:
                 target_item.assigned_to_id = item.assigned_to_id
             target_item.status = item.status
@@ -1331,7 +1332,8 @@ def protocol_pdf(request, pk):
         if entry.get("responsible"):
             status_and_responsible += " &nbsp;&nbsp; <b>Verantwortlich:</b> " + escape(entry["responsible"])
         parts.append(Paragraph(status_and_responsible, styles["ProtocolStatus"]))
-        parts.append(Paragraph(escape(entry["text"] or "—").replace("\n", "<br/>"), styles["ProtocolBody"]))
+        parts.append(Paragraph(escape(entry["text"] or "—").replace("
+", "<br/>"), styles["ProtocolBody"]))
         if entry.get("followup_date"):
             followup_label = formats.date_format(entry["followup_date"], "DATE_FORMAT")
             followup_series = escape(entry.get("followup_series_name") or "Gelöschte Besprechungsreihe")
@@ -1507,12 +1509,16 @@ def protocol(request, pk):
     protocol_url = request.build_absolute_uri(reverse("protocol", args=[meeting.pk]))
     subject = f"Protokoll {series_name} {formats.date_format(meeting.date, 'DATE_FORMAT')}"
     body = (
-        "Hallo zusammen,\n\n"
+        "Hallo zusammen,
+
+"
         f"das Protokoll für die Sitzung {series_name} am {formats.date_format(meeting.date, 'DATE_FORMAT')} "
-        f"ist unter {protocol_url} verfügbar.\n"
+        f"ist unter {protocol_url} verfügbar.
+"
     )
     mailto_query = urlencode(
-        {"subject": subject, "body": body + "\n"},
+        {"subject": subject, "body": body + "
+"},
         quote_via=quote,
     )
     mailto_url = (
@@ -1814,7 +1820,9 @@ def series_reset_meetings(request, pk):
                 )
                 existing = target.agenda_items.filter(topic=saved["topic"]).first()
                 if existing:
-                    existing.working_text = "\n\n".join(dict.fromkeys(
+                    existing.working_text = "
+
+".join(dict.fromkeys(
                         text for text in (existing.working_text, saved["working_text"]) if text
                     ))
                     if not existing.assigned_to_id and saved["assigned_to_id"]:
@@ -2018,7 +2026,8 @@ def meeting_delete(request, pk):
                 existing = target.agenda_items.filter(topic=item.topic).first()
                 if existing:
                     if item.working_text:
-                        existing.working_text = "\n".join(
+                        existing.working_text = "
+".join(
                             part for part in [existing.working_text, item.working_text] if part
                         )
                         existing.save(update_fields=["working_text"])
@@ -2186,7 +2195,8 @@ def audit_history(request):
 
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
-        "topics": topics, "series": series, "selected_series": selected_series,\n        "actions": AuditEvent.ACTIONS, "selected_action": selected_action,
+        "topics": topics, "series": series, "selected_series": selected_series,
+        "actions": AuditEvent.ACTIONS, "selected_action": selected_action,
         "has_history_permission": has_history_permission,
     })
 
