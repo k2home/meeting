@@ -244,7 +244,7 @@ def import_users_csv(request):
         if errors:
             request.session.pop(SESSION_IMPORT_KEY, None)
             messages.error(request, "Die CSV-Datei ist nicht mehr gültig. Bitte erneut hochladen.")
-            return redirect("admin:auth_user_csv_import")
+            return redirect("management_user_csv_import") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_csv_import")
         created = updated = 0
         with transaction.atomic():
             for username, record in grouped:
