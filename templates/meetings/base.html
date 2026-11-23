@@ -38,8 +38,8 @@ label{font-weight:600}
 table{width:100%;border-collapse:collapse}
 td,th{text-align:left;padding:.65rem;border-bottom:1px solid var(--border);vertical-align:top}
 th{color:#4b5563;font-size:.9rem}
-.btn,button{background:var(--secondary-color);color:white;border:0;border-radius:4px;padding:.72rem 1rem;cursor:pointer;text-decoration:none;display:inline-block;font:inherit;font-weight:600}
-.btn:not(.secondary):not(.danger),button:not(.secondary):not(.danger){color:#243247}
+.btn,button{background:var(--secondary-button-bg);color:var(--secondary-button-text);border:0;border-radius:4px;padding:.72rem 1rem;cursor:pointer;text-decoration:none;display:inline-block;font:inherit;font-weight:600}
+.btn:not(.secondary):not(.danger),button:not(.secondary):not(.danger){color:var(--secondary-button-text)}
 .btn.secondary,button.secondary{background:#fff3bf;color:#243247}
 .btn.danger,button.danger{background:#a12626}
 .btn:hover,button:hover{filter:brightness(.94)}
@@ -145,6 +145,10 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   --hagen-border: color-mix(in srgb, var(--secondary-color) 42%, #fff);
   --nav-bg: color-mix(in srgb, var(--primary-color) 78%, #000);
   --nav-hover: var(--primary-color);
+  --primary-button-bg: {{ primary_button_bg_light }};
+  --primary-button-text: {{ primary_button_text_light }};
+  --secondary-button-bg: {{ secondary_button_bg_light }};
+  --secondary-button-text: {{ secondary_button_text_light }};
 }
 :root[data-theme="dark"] {
   --primary-color: {{ primary_color_dark }};
@@ -158,6 +162,10 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   --hagen-border: color-mix(in srgb, var(--secondary-color) 35%, #39495b);
   --nav-bg: color-mix(in srgb, var(--primary-color) 45%, #101d2b);
   --nav-hover: color-mix(in srgb, var(--primary-color) 75%, #101d2b);
+  --primary-button-bg: {{ primary_button_bg_dark }};
+  --primary-button-text: {{ primary_button_text_dark }};
+  --secondary-button-bg: {{ secondary_button_bg_dark }};
+  --secondary-button-text: {{ secondary_button_text_dark }};
 }
 .messages{background:color-mix(in srgb,var(--secondary-color) 16%,var(--surface))}
 </style>
