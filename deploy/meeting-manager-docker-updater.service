@@ -13,6 +13,7 @@ Restart=on-failure
 RestartSec=3
 StateDirectory=meeting-manager-updater
 StateDirectoryMode=0750
+StateDirectoryGroup=meeting-update
 RuntimeDirectory=meeting-manager-updater
 RuntimeDirectoryMode=0750
 RuntimeDirectoryGroup=meeting-update
