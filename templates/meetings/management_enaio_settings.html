@@ -51,7 +51,7 @@
       if(!response.ok)throw new Error(data.error||`Die enaio-Auswahl konnte nicht gestartet werden (HTTP ${response.status}).`);
       if(!data.status_url)throw new Error("Die Serverantwort enthält keine Statusadresse für die enaio-Auswahl.");
       status.textContent="Warte auf den enaio-Agenten auf diesem Arbeitsplatz. Bitte wählen Sie den Ordner im geöffneten enaio-Client aus.";
-      const deadline=Date.now()+120000;
+      const deadline=Date.now()+Math.max(30000,(data.expires_in||300)*1000-15000);
       while(Date.now()<deadline){
         await new Promise(resolve=>setTimeout(resolve,2000));
         const check=await fetch(data.status_url,{headers:{"Accept":"application/json"}});
@@ -60,8 +60,14 @@
         if(result.completed){window.location.reload();return;}
         if(result.expired)throw new Error("Die Auswahl ist abgelaufen. Bitte versuchen Sie es erneut.");
       }
-      throw new Error("Es wurde keine Rückmeldung vom enaio-Client empfangen.");
-    }catch(error){status.textContent=error.message;button.disabled=false;}
+      throw new Error("Es wurde keine Rückmeldung vom enaio-Client empfangen. Der Auftrag wird abgebrochen.");
+    }catch(error){
+      if(data?.cancel_url){
+        try{await fetch(data.cancel_url,{method:"POST",credentials:"same-origin",headers:{"X-CSRFToken":csrf}});}
+        catch(_cancelError){/* Der Server lässt den Auftrag spätestens mit Ablauf verfallen. */}
+      }
+      status.textContent=error.message;button.disabled=false;
+    }
   });
 })();
 </script>
