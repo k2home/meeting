@@ -45,7 +45,7 @@ div.breadcrumbs { background: #e7eef6; color: #17436c; border-bottom: 1px solid 
 #changelist-filter li.selected a { color: var(--hagen-blue-dark); font-weight: 700; }
 .form-row, .module { border-radius: 4px; }
 input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); outline: 2px solid #c7def1; }
-.object-tools a:link, .object-tools a:visited { background: var(--secondary-color); color: #243247; border-radius: 4px; }
+.object-tools a:link, .object-tools a:visited { background: var(--secondary-button-bg); color: var(--secondary-button-text); border-radius: 4px; }
 .object-tools a:hover { background: var(--secondary-button-bg); color: var(--secondary-button-text); }
 .messagelist li.success { border-left: 4px solid var(--hagen-yellow); }
 
@@ -94,7 +94,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
 :root[data-theme="dark"] .quiet{color:var(--admin-muted)}
 :root[data-theme="dark"] .button.secondary,:root[data-theme="dark"] input[type=submit].secondary,:root[data-theme="dark"] a.button.secondary{background:#343d49;border-color:#475467;color:#e8edf3}
 :root[data-theme="dark"] .object-tools a:link,
-:root[data-theme="dark"] .object-tools a:visited{background:var(--secondary-color);color:#243247}
+:root[data-theme="dark"] .object-tools a:visited{background:var(--secondary-button-bg);color:var(--secondary-button-text)}
 :root[data-theme="dark"] .object-tools a:hover{background:var(--secondary-button-bg);color:var(--secondary-button-text)}
 :root[data-theme="dark"] .submit-row{background:var(--admin-surface);border-color:var(--admin-border)}
 :root[data-theme="dark"] .submit-row a:link,
@@ -168,19 +168,16 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
   const preview = document.createElement('section');
   preview.id = 'brand-button-contrast-preview';
   preview.style.cssText = 'padding:1rem;margin:1rem 0;background:var(--admin-surface,#fff);border:1px solid var(--admin-border,#cfd9e4);border-radius:6px';
-  preview.innerHTML = '<h2>Schaltflächen-Vorschau</h2><p>Die Vorschau berücksichtigt die Kontrastanpassung für beide Farbmodi.</p><div style="display:flex;gap:1rem;flex-wrap:wrap"><div><strong>Hellmodus</strong><p><button type="button" data-preview="light">Primäre Schaltfläche</button> <button type="button" data-preview="light">Sekundäre Schaltfläche</button></p></div><div><strong>Dunkelmodus</strong><p><button type="button" data-preview="dark">Primäre Schaltfläche</button> <button type="button" data-preview="dark">Sekundäre Schaltfläche</button></p></div></div>';
+  preview.innerHTML = '<h2>Schaltflächen-Vorschau</h2><p>Die gewählten Hintergrundfarben werden unverändert übernommen. Die Schriftfarbe wird für mindestens 4,5:1 Kontrast ausgewählt.</p><div style="display:flex;gap:1rem;flex-wrap:wrap"><div><strong>Hellmodus</strong><p><button type="button" data-preview="light">Primäre Schaltfläche</button> <button type="button" data-preview="light">Sekundäre Schaltfläche</button></p></div><div><strong>Dunkelmodus</strong><p><button type="button" data-preview="dark">Primäre Schaltfläche</button> <button type="button" data-preview="dark">Sekundäre Schaltfläche</button></p></div></div>';
   form.prepend(preview);
   const rgb = value => { const h=(value||'').trim().replace('#',''); if(!/^[0-9a-f]{6}$/i.test(h)) return [0,84,159]; return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16)); };
   const lum = c => { const v=c.map(x=>x/255).map(x=>x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4)); return .2126*v[0]+.7152*v[1]+.0722*v[2]; };
   const hex = c => '#'+c.map(x=>Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,'0')).join('');
   const ratio = (fg,bg) => { const a=lum(rgb(fg)),b=lum(rgb(bg)); return (Math.max(a,b)+.05)/(Math.min(a,b)+.05); };
   const accessible = color => {
-    const original=rgb(color), choices=[['#FFFFFF',ratio('#FFFFFF',hex(original))],['#243247',ratio('#243247',hex(original))]];
-    const [fg,start]=choices.sort((a,b)=>b[1]-a[1])[0];
-    if(start>=4.5) return {bg:hex(original),fg};
-    const target=fg==='#FFFFFF'?[0,0,0]:[255,255,255]; let lo=0,hi=1;
-    for(let i=0;i<24;i++){const m=(lo+hi)/2,c=original.map((v,j)=>v+(target[j]-v)*m); if(ratio(fg,hex(c))>=4.5) hi=m; else lo=m;}
-    return {bg:hex(original.map((v,j)=>v+(target[j]-v)*hi)),fg};
+    const bg=hex(rgb(color)), choices=['#FFFFFF','#243247','#000000'];
+    const fg=choices.sort((a,b)=>ratio(b,bg)-ratio(a,bg))[0];
+    return {bg,fg,contrast:ratio(fg,bg)};
   };
   const update = () => {
     ['light','dark'].forEach(mode => {
@@ -190,7 +187,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
         const color=field?.value || fallback?.value || (kind==='primary'?'#00549F':'#8FC5FF');
         const result=accessible(color), button=preview.querySelectorAll('[data-preview="'+mode+'"]')[index];
         button.style.background=result.bg; button.style.color=result.fg; button.style.border='1px solid '+result.bg;
-        button.title='Kontrastverhältnis: '+ratio(result.fg,result.bg).toFixed(2)+':1';
+        button.title='Kontrastverhältnis: '+result.contrast.toFixed(2)+':1';
+        button.setAttribute('aria-label',button.textContent+', Kontrast '+result.contrast.toFixed(2)+':1');
       });
     });
   };
