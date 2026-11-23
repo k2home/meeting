@@ -6,4 +6,23 @@
 <div class="card"><div style="overflow-x:auto"><table><thead><tr><th>Name</th><th>Anmeldename</th><th>E-Mail</th><th>Status</th><th>Rolle</th><th>Letzte Anmeldung</th><th>Erstellt am</th><th></th></tr></thead><tbody>
 {% for item in users %}<tr><td>{{ item.account|user_display }}</td><td>{{ item.account.username }}</td><td>{{ item.account.email|default:"–" }}</td><td>{% if item.account.is_active %}<span class="pill">Aktiv</span>{% else %}<span class="pill">Deaktiviert</span>{% endif %}</td><td>{% if item.is_administrator %}Administrator{% else %}Nutzer{% endif %}</td><td>{{ item.account.last_login|date:"d.m.Y, H:i"|default:"Noch nie" }}</td><td>{{ item.account.date_joined|date:"d.m.Y, H:i" }}</td><td><a class="btn secondary" href="{% url 'management_user_edit' item.account.pk %}">Bearbeiten</a></td></tr>{% empty %}<tr><td colspan="8">Noch keine Nutzer vorhanden.</td></tr>{% endfor %}
 </tbody></table></div></div>
+
+<!-- management-users-live-search -->
+<script>
+(() => {
+  const table = document.querySelector(".card table");
+  const body = table?.querySelector("tbody");
+  if (!body || document.getElementById("management-user-search")) return;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.id = "management-user-search";
+  input.placeholder = "Name, Anmeldename oder E-Mail suchen …";
+  input.setAttribute("aria-label", "Nutzer suchen");
+  table.parentElement.parentElement.insertAdjacentElement("beforebegin", input);
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    body.querySelectorAll("tr").forEach(row => { row.hidden = !!term && !row.textContent.toLocaleLowerCase("de").includes(term); });
+  });
+})();
+</script>
 {% endblock %}
