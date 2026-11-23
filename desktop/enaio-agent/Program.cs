@@ -84,28 +84,42 @@ internal static class Program
 
     private static void ProcessJob(HttpClient http, JsonElement job)
     {
-        var kind = job.GetProperty("kind").GetString();
-        if (kind == "select_root_folder")
+        try
         {
-            var selection = EnaioClient.SelectRootFolder();
-            using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(new { selection.folder_id, selection.folder_type, selection.folder_name, selection.folder_path, lease_token = job.GetProperty("lease_token").GetString() }), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
-            response.EnsureSuccessStatusCode();
-            Console.WriteLine("Zentraler enaio-Stammordner wurde übermittelt.");
+            var kind = job.GetProperty("kind").GetString();
+            if (kind == "select_root_folder")
+            {
+                var selection = EnaioClient.SelectRootFolder();
+                using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(new { selection.folder_id, selection.folder_type, selection.folder_name, selection.folder_path, lease_token = job.GetProperty("lease_token").GetString() }), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
+                response.EnsureSuccessStatusCode();
+                Console.WriteLine("Zentraler enaio-Stammordner wurde übermittelt.");
+            }
+            else if (kind == "file_protocol")
+            {
+                var pdf = http.GetByteArrayAsync(job.GetProperty("pdf_url").GetString()).GetAwaiter().GetResult();
+                var tempFile = Path.Combine(Path.GetTempPath(), "MeetingManager-" + Guid.NewGuid().ToString("N") + ".pdf");
+                try
+                {
+                    File.WriteAllBytes(tempFile, pdf);
+                    var result = EnaioClient.FileProtocol(job.GetProperty("filing"), tempFile);
+                    var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path, lease_token = job.GetProperty("lease_token").GetString() });
+                    using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
+                    response.EnsureSuccessStatusCode();
+                    Console.WriteLine("Protokoll wurde in enaio abgelegt: " + result.Path);
+                }
+                finally { try { File.Delete(tempFile); } catch { } }
+            }
         }
-        else if (kind == "file_protocol")
+        catch (Exception ex)
         {
-            var pdf = http.GetByteArrayAsync(job.GetProperty("pdf_url").GetString()).GetAwaiter().GetResult();
-            var tempFile = Path.Combine(Path.GetTempPath(), "MeetingManager-" + Guid.NewGuid().ToString("N") + ".pdf");
             try
             {
-                File.WriteAllBytes(tempFile, pdf);
-                var result = EnaioClient.FileProtocol(job.GetProperty("filing"), tempFile);
-                var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path, lease_token = job.GetProperty("lease_token").GetString() });
-                using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
+                var payload = JsonSerializer.Serialize(new { lease_token = job.GetProperty("lease_token").GetString(), error = ex.Message });
+                using var response = http.PostAsync(job.GetProperty("fail_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                 response.EnsureSuccessStatusCode();
-                Console.WriteLine("Protokoll wurde in enaio abgelegt: " + result.Path);
             }
-            finally { try { File.Delete(tempFile); } catch { } }
+            catch (Exception reportError) { Console.Error.WriteLine("Fehlerrückmeldung an den Server fehlgeschlagen: " + reportError.Message); }
+            throw;
         }
     }
 
