@@ -11,6 +11,14 @@ from .access import accessible_meetings, accessible_topics
 from .models import AgendaItem
 
 
+def _safe_csv_cell(value):
+    """Prevent spreadsheet formula execution from user-controlled CSV values."""
+    text = str(value or "")
+    if text.lstrip(" \\t\\r\\n").startswith(("=", "+", "-", "@", "\\t", "\\r")):
+        return "'" + text
+    return text
+
+
 @login_required
 def personal_tasks_csv(request):
     today = timezone.localdate()
@@ -35,15 +43,20 @@ def personal_tasks_csv(request):
     writer.writerow(["Aufgabentyp", "Thema", "Besprechungsreihe", "Nächster Termin", "Status", "Protokolltext"])
     for topic in topics:
         writer.writerow([
-            "Hauptzuständigkeit", topic.title, topic.series.name if topic.series else "",
+            "Hauptzuständigkeit", _safe_csv_cell(topic.title),
+            _safe_csv_cell(topic.series.name if topic.series else ""),
             topic.next_meeting_date.isoformat() if topic.next_meeting_date else "",
             topic.get_status_display(), "",
         ])
     for item in agenda_items:
         writer.writerow([
-            "Tagesordnungspunkt", item.topic.title,
-            item.topic.series.name if item.topic.series else item.meeting.series.name if item.meeting.series else "",
-            item.meeting.date.isoformat(), item.get_status_display(), item.working_text,
+            "Tagesordnungspunkt", _safe_csv_cell(item.topic.title),
+            _safe_csv_cell(
+                item.topic.series.name if item.topic.series else
+                item.meeting.series.name if item.meeting.series else ""
+            ),
+            item.meeting.date.isoformat(), item.get_status_display(),
+            _safe_csv_cell(item.working_text),
         ])
     response = HttpResponse("\ufeff" + output.getvalue(), content_type="text/csv; charset=utf-8")
     response["Content-Disposition"] = 'attachment; filename="meine-aufgaben.csv"'
