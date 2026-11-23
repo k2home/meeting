@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from unittest.mock import patch
 
-from .models import EnaioAgent, EnaioFolderSelection, EnaioTransfer, Meeting
+from .models import EnaioAgent, EnaioFolderSelection, EnaioSettings, EnaioTransfer, Meeting
 
 User = get_user_model()
 
@@ -75,7 +75,6 @@ class EnaioAgentLeaseTests(TestCase):
     def test_folder_selection_completion_requires_current_lease(self):
         selection = EnaioFolderSelection.objects.create(
             user=self.user,
-            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
             expires_at=timezone.now() + timedelta(minutes=5),
         )
         claimed = self.client.get(reverse("enaio_agent_next_job"), **self.auth).json()["job"]
@@ -90,6 +89,11 @@ class EnaioAgentLeaseTests(TestCase):
         self.assertEqual(completed.status_code, 200)
         selection.refresh_from_db()
         self.assertIsNotNone(selection.consumed_at)
+        settings_obj = EnaioSettings.objects.get(pk=1)
+        self.assertEqual(settings_obj.root_folder_id, "123")
+        self.assertEqual(settings_obj.root_folder_path, "/Ablage/Protokolle")
+        other_user = User.objects.create_user(username="other-user", password="strong-test-password")
+        self.assertEqual(EnaioSettings.objects.get(pk=1).root_folder_id, settings_obj.root_folder_id)
 
 
     def test_agent_job_status_reports_active_lease(self):
