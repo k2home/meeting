@@ -8,7 +8,7 @@
   </div>
 </header>
 {% for row in rows %}
-  <section class="card open-topic-card">
+  <section class="card open-topic-card" id="open-topic-{{ row.item.pk }}">
     <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>
     <p><strong>Besprechungsreihe:</strong> {{ row.item.topic.series.name }}</p>
     <p><strong>Letzte Besprechung:</strong> {{ row.item.meeting.date|date:"DATE_FORMAT" }}</p>
@@ -43,7 +43,7 @@
   input.id = "open-topics-search";
   input.placeholder = "Offene Tagesordnungspunkte durchsuchen …";
   input.setAttribute("aria-label", "Offene Tagesordnungspunkte durchsuchen");
-  input.setAttribute("aria-controls", sections.map(section => section.id).filter(Boolean).join(" "));
+  input.setAttribute("aria-controls", sections.map(section => section.id).join(" "));
   const feedback = document.createElement("p");
   feedback.className = "muted";
   feedback.setAttribute("aria-live", "polite");
