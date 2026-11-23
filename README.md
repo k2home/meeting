@@ -251,7 +251,7 @@ Docker ist eine zusätzliche Bereitstellungsvariante. Die klassische Installatio
 Der Host-Updater kann später durch die Webverwaltung angesteuert werden. Für die manuelle Kontrolle stehen der Socket-Dienst und sein Protokoll zur Verfügung:
 
 ```bash
-sudo systemctl status meeting-manager-docker-updater.socket
+sudo systemctl status meeting-manager-docker-updater.service
 sudo journalctl -u meeting-manager-docker-updater.service -f
 ```
 
