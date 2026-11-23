@@ -103,7 +103,7 @@
       const html = await response.text();
       const page = new DOMParser().parseFromString(html, "text/html");
       const freshStatus = page.getElementById("deployment-update-status");
-      if (freshStatus && freshStatus.dataset.updateStatus !== "running" && pendingSince && Date.now() - pendingSince >= 5000) {
+      if (freshStatus && freshStatus.dataset.updateStatus !== "running" && pendingSince && Date.now() - pendingSince >= 3000) {
         try { sessionStorage.removeItem(storageKey); } catch (_) {}
         window.location.reload();
         return;
