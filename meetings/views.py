@@ -1247,25 +1247,31 @@ def protocol_pdf(request, pk):
         def _draw_running_matter(self, page_count):
             self.saveState()
             page_top = A4[1] - 11 * mm
-            logo_width, logo_height = 25 * mm, 15 * mm
-            text_left = left_margin
+            right_edge = A4[0] - right_margin
             if organization and organization.logo:
                 try:
                     with organization.logo.open("rb") as logo_file:
-                        self.drawImage(
-                            ImageReader(logo_file), left_margin, page_top - logo_height,
-                            width=logo_width, height=logo_height,
-                            preserveAspectRatio=True, anchor="c", mask="auto",
-                        )
-                    text_left += logo_width + 5 * mm
+                        logo_data = logo_file.read()
+                    if organization.logo.name.lower().endswith(".svg"):
+                        import cairosvg
+                        logo_data = cairosvg.svg2png(bytestring=logo_data, output_height=600)
+                    logo_image = ImageReader(BytesIO(logo_data))
+                    source_width, source_height = logo_image.getSize()
+                    max_logo_height, max_logo_width = 18 * mm, 42 * mm
+                    scale = min(max_logo_height / source_height, max_logo_width / source_width)
+                    logo_width, logo_height = source_width * scale, source_height * scale
+                    self.drawImage(
+                        logo_image, right_edge - logo_width, page_top - logo_height,
+                        width=logo_width, height=logo_height, mask="auto",
+                    )
                 except Exception:
+                    # Ein nicht lesbares Logo darf den PDF-Export nicht verhindern.
                     pass
 
             self.setFillColor(colors.HexColor("#263445"))
             self.setFont(bold_font, 8.5)
             if organization_name:
-                self.drawString(text_left, page_top - 2 * mm, organization_name[:75])
-            right_edge = A4[0] - right_margin
+                self.drawString(left_margin, page_top - 2 * mm, organization_name[:75])
             self.setFillColor(primary)
             self.setFont(bold_font, 13)
             self.drawCentredString(A4[0] / 2, page_top - 3 * mm, "PROTOKOLL")
