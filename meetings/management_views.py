@@ -561,6 +561,7 @@ def _validate_backup_migrations(migrations):
             "Dieses Backup stammt aus einer neueren oder inkompatiblen Datenbankversion. "
             f"Die benötigten Migrationen sind im aktuellen Programm nicht vorhanden: {details}"
         )
+    return normalized
 
 
 def _restore_database_dump(dump_path, database_name, env):
@@ -676,7 +677,7 @@ def management_database_import(request):
             metadata = json.loads(archive.read(metadata_info).decode("utf-8"))
             if not isinstance(metadata, dict) or metadata.get("format_version") != DATABASE_BACKUP_FORMAT_VERSION:
                 raise RuntimeError("Die Backup-Formatversion wird von dieser Anwendung nicht unterstützt.")
-            _validate_backup_migrations(metadata.get("schema_migrations"))
+            backup_migrations = _validate_backup_migrations(metadata.get("schema_migrations"))
 
             with tempfile.NamedTemporaryFile(prefix="meeting-manager-restore-", suffix=".dump", delete=False) as handle:
                 dump_path = handle.name
@@ -709,6 +710,16 @@ def management_database_import(request):
 
         try:
             connection.close()
+            restored_migrations = set(MigrationRecorder(connection).applied_migrations())
+            if restored_migrations != backup_migrations:
+                raise RuntimeError(
+                    "Die im Backup gespeicherte Migrationshistorie stimmt nicht mit der wiederhergestellten "
+                    "Datenbank überein. Der Import wird zurückgerollt."
+                )
+            _validate_backup_migrations([
+                {"app": app_label, "name": migration_name}
+                for app_label, migration_name in sorted(restored_migrations)
+            ])
             call_command("migrate", interactive=False, verbosity=0)
             executor = MigrationExecutor(connection)
             pending = executor.migration_plan(executor.loader.graph.leaf_nodes())
