@@ -2367,9 +2367,13 @@ def _available_update_branches():
     try:
         if os.path.exists(UPDATE_SOCKET):
             code, data = _updater_request("/branches")
-            if code != 200:
+            if code == 404:
+                # Compatibility with host agents installed before dynamic branch discovery.
+                branches = ["beta", "main"]
+            elif code != 200:
                 raise RuntimeError(data.get("error", "Branches konnten nicht geladen werden."))
-            branches = data.get("branches", [])
+            else:
+                branches = data.get("branches", [])
         elif os.path.isfile(DEBIAN_UPDATE_COMMAND):
             result = subprocess.run(
                 ["/usr/bin/git", "-c", "safe.directory=/opt/meeting-manager", "-C",
