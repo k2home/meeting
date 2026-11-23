@@ -422,7 +422,12 @@ class OrganizationSettingsAdmin(admin.ModelAdmin):
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == "timezone":
-            kwargs["choices"] = [(zone, zone) for zone in sorted(available_timezones())]
+            return forms.ChoiceField(
+                label=db_field.verbose_name,
+                help_text=db_field.help_text,
+                required=not db_field.blank,
+                choices=[(zone, zone) for zone in sorted(available_timezones())],
+            )
         formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name.endswith("_color") or db_field.name.endswith("_color_light") or db_field.name.endswith("_color_dark"):
             defaults = {
