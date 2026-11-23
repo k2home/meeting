@@ -947,7 +947,7 @@ class AgendaFollowupLinkTests(TestCase):
         self.item.refresh_from_db()
         followup = AgendaItem.objects.get(followup_of=self.item)
         self.assertEqual(followup.meeting, self.first_target)
-        self.assertEqual(followup.working_text, self.item.working_text)
+        self.assertEqual(followup.working_text, "")
         self.assertEqual(self.item.status, "in_progress")
         self.assertEqual(self.item.meeting, self.source_meeting)
         self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
@@ -985,7 +985,7 @@ class AgendaFollowupLinkTests(TestCase):
         self.assertEqual(self.item.working_text, "Aktualisierter Sachstand")
         self.assertEqual(other_item.working_text, "Aktualisierter weiterer Text")
         followup = AgendaItem.objects.get(followup_of=self.item)
-        self.assertEqual(followup.working_text, "Aktualisierter Sachstand")
+        self.assertEqual(followup.working_text, "")
 
     def test_followup_conflict_does_not_partially_change_topic_or_source_text(self):
         target_series = MeetingSeries.objects.create(name="Andere Wiedervorlage-Reihe")
