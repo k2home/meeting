@@ -13,11 +13,10 @@ ExecStart=/opt/meeting-manager/.venv/bin/gunicorn --workers 3 --bind 127.0.0.1:8
 Restart=on-failure
 RestartSec=5
 UMask=0007
-NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
 ProtectHome=true
-ReadWritePaths=/opt/meeting-manager/media /opt/meeting-manager/staticfiles
+ReadWritePaths=/opt/meeting-manager /etc/nginx/sites-available/meeting-manager
 
 [Install]
 WantedBy=multi-user.target
