@@ -126,6 +126,7 @@ def enaio_agent_next_job(request):
                     "document_type": "Standard",
                 },
                 "pdf_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/pdf/?lease={lease}"),
+                "status_url": request.build_absolute_uri(f"/enaio/agent/jobs/transfer/{transfer.pk}/status/"),
                 "complete_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/complete/"),
                 "fail_url": request.build_absolute_uri(f"/enaio/agent/jobs/transfer/{transfer.pk}/fail/"),
             }}
