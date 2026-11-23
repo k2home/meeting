@@ -1831,3 +1831,61 @@ class DeploymentUpdatePermissionTests(TestCase):
             start.call_args.args[0],
             ["sudo", "-n", "/usr/local/sbin/meeting-manager-update", "beta"],
         )
+
+
+class OrganizationLogoDeliveryTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="logo-viewer", password="strong-test-password"
+        )
+        self.admin = User.objects.create_superuser(
+            username="logo-admin", email="logo-admin@example.test",
+            password="strong-test-password",
+        )
+
+    def test_logo_endpoint_requires_login(self):
+        response = self.client.get(reverse("organization_logo"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response.url)
+
+    def test_logo_is_served_from_private_media_storage_to_signed_in_users(self):
+        import tempfile
+        from pathlib import Path
+        from django.core.files.base import ContentFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                organization = OrganizationSettings.objects.create(name="Testorganisation")
+                organization.logo.save(
+                    "logo.svg",
+                    ContentFile(b'<svg xmlns="http://www.w3.org/2000/svg"></svg>'),
+                    save=True,
+                )
+                self.client.force_login(self.user)
+
+                response = self.client.get(reverse("organization_logo"))
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response["Content-Type"], "image/svg+xml")
+                self.assertEqual(response["Cache-Control"], "private, no-store")
+                self.assertEqual(b"".join(response.streaming_content), b'<svg xmlns="http://www.w3.org/2000/svg"></svg>')
+
+    def test_branding_context_uses_application_route_not_media_url(self):
+        from django.core.files.base import ContentFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                organization = OrganizationSettings.objects.create(name="Testorganisation")
+                organization.logo.save("logo.png", ContentFile(b"not-a-real-png"), save=True)
+                self.client.force_login(self.user)
+
+                response = self.client.get(reverse("dashboard"))
+
+                self.assertEqual(
+                    response.context["organization_logo_url"],
+                    reverse("organization_logo"),
+                )
