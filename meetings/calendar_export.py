@@ -1,5 +1,5 @@
 """iCalendar export for meetings visible to the signed-in user."""
-from datetime import datetime, timezone as datetime_timezone
+from datetime import datetime, timedelta, timezone as datetime_timezone
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -38,7 +38,7 @@ def calendar_export(request):
              "PRODID:-//Meeting Manager//Meeting Calendar//DE", "CALSCALE:GREGORIAN",
              "METHOD:PUBLISH"]
     for meeting in meetings:
-        end_date = meeting.date + __import__("datetime").timedelta(days=1)
+        end_date = meeting.date + timedelta(days=1)
         lines.extend(["BEGIN:VEVENT", f"UID:meeting-{meeting.pk}@meeting-manager",
                       f"DTSTAMP:{stamp}", f"DTSTART;VALUE=DATE:{meeting.date:%Y%m%d}",
                       f"DTEND;VALUE=DATE:{end_date:%Y%m%d}",
