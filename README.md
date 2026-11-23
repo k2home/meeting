@@ -355,7 +355,7 @@ Das Skript aktualisiert den Branch, der auf dem Server ausgecheckt ist. Für den
 
 Globale Administrator*innen öffnen in der Seitenleiste **Software aktualisieren**. Dort werden Installationsart, installierter Branch und Commit angezeigt. Das Ziel kann auf `beta` oder `main` gestellt und das Update direkt gestartet werden. Status und Protokoll des letzten Laufs werden auf diesem Server angezeigt; die Ausführung läuft unabhängig von der Browseranfrage.
 
-- **Debian/systemd:** Die Webanwendung startet ausschließlich den fest installierten Wrapper `meeting-manager-update` über eine eng begrenzte sudoers-Regel. Der Wrapper akzeptiert nur `beta` und `main`, verhindert parallele Läufe und protokolliert Status und Ausgabe.
+- **Debian/systemd:** Die Webanwendung startet ausschließlich den fest installierten Wrapper `meeting-manager-update` über eine eng begrenzte sudoers-Regel. Dieser startet den eigentlichen Lauf als eigenständigen transienten systemd-Dienst. Dadurch überlebt das Update den Neustart des Django-Dienstes. Der Runner akzeptiert nur `beta` und `main`, verhindert parallele Läufe und protokolliert Status und Ausgabe.
 - **Docker Compose:** Die Webanwendung spricht den bereits eingerichteten Host-Updater ausschließlich über den lokalen Unix-Socket an. Der App-Container erhält weiterhin keinen Docker-Socket.
 - Beide Varianten aktualisieren nur die jeweilige lokale Installation. Die Server beeinflussen sich nicht gegenseitig.
 
