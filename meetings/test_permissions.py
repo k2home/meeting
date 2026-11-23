@@ -31,7 +31,7 @@ class SeriesRolePermissionTests(TestCase):
         self.client.force_login(reader)
         meeting_response = self.client.get(reverse("meeting", args=[self.meeting.pk]))
         self.assertEqual(meeting_response.status_code, 200)
-        dashboard_response = self.client.get(reverse("dashboard"))
+        dashboard_response = self.client.get(reverse("dashboard"), {"due": ""})
         self.assertContains(dashboard_response, self.topic.title)
         self.meeting.refresh_from_db()
         self.assertFalse(self.meeting.participants.filter(pk=reader.pk).exists())
