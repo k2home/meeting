@@ -1,4 +1,5 @@
-from django.db.models import Q\nfrom django.urls import reverse
+from django.db.models import Q
+from django.urls import reverse
 
 from .models import Meeting, MeetingSeries, SeriesAccess, Topic
 from .brand_colors import accessible_button_colors
