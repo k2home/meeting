@@ -290,7 +290,7 @@ def _redact_agent_log(message):
     import re
     value = str(message)[:4000]
     value = re.sub(r"(?i)(bearer\s+)[A-Za-z0-9._~+/-]+=*", r"\1[REDACTED]", value)
-    value = re.sub(r"(?i)((?:device[_-]?token|access[_-]?token|refresh[_-]?token|password|secret|pairing[_-]?code)\s*[:=]\s*)[^\s,;]+", r"\1[REDACTED]", value)
+    value = re.sub(r"(?i)((?:device[_-]?token|access[_-]?token|refresh[_-]?token|lease[_-]?token|password|secret|pairing[_-]?code)\s*[:=]\s*)[^\s,;]+", r"\1[REDACTED]", value)
     return value
 
 
