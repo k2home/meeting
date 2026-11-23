@@ -5,4 +5,20 @@
 <div class="card"><p>UTF-8, Semikolon-getrennt. Mehrere Zeilen mit demselben Benutzernamen bilden einen Benutzer mit mehreren Serienzuordnungen.</p>
 {% if errors %}<ul class="errorlist">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
 {% if preview %}<h2>Importvorschau</h2><p>{{ preview.users }} Benutzer: {{ preview.new_users }} neu, {{ preview.updated_users }} Aktualisierungen, {{ preview.assignments }} Zuordnungen.</p><p>Bestehende Zuordnungen der importierten Benutzer werden durch die CSV-Zuordnungen ersetzt.</p><form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="token" value="{{ preview.token }}"><button class="primary">Import jetzt durchführen</button></form>{% else %}<form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button class="primary">CSV prüfen</button></form>{% endif %}
-</div>{% endblock %}
+</div>
+<!-- user-csv-file-preview -->
+<script>
+(() => {
+  const file = document.querySelector('form[enctype="multipart/form-data"] input[type="file"]');
+  if (!file) return;
+  const status = document.createElement("p");
+  status.className = "muted";
+  status.setAttribute("aria-live", "polite");
+  file.insertAdjacentElement("afterend", status);
+  file.addEventListener("change", () => {
+    const selected = file.files?.[0];
+    status.textContent = selected ? `Ausgewählt: ${selected.name} · ${(selected.size / 1024).toLocaleString("de-DE", {maximumFractionDigits: 0})} KB` : "";
+  });
+})();
+</script>
+{% endblock %}
