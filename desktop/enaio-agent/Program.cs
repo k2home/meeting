@@ -12,13 +12,13 @@ internal static class Program
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     [STAThread]
-    private static async Task<int> Main(string[] args)
+    private static int Main(string[] args)
     {
         try
         {
             if (args.Length == 3 && args[0].Equals("pair", StringComparison.OrdinalIgnoreCase))
             {
-                await PairAsync(args[1], args[2]);
+                Pair(args[1], args[2]);
                 Console.WriteLine("Dieser Arbeitsplatz ist jetzt mit dem Meeting-Manager-Konto verbunden.");
                 Console.WriteLine("Zum Start des Hintergrundbetriebs dieses Programm ohne Argumente ausführen.");
                 return 0;
@@ -32,44 +32,44 @@ internal static class Program
             var credentials = LoadCredentials();
             using var http = new HttpClient { BaseAddress = new Uri(credentials.BaseUrl.TrimEnd('/') + "/"), Timeout = TimeSpan.FromSeconds(45) };
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", credentials.DeviceToken);
-            Console.WriteLine("enaio-Agent läuft. Beenden mit Strg+C.");
+            Console.WriteLine("enaio-Agent läuft. COM-Aufrufe werden auf diesem STA-Thread ausgeführt. Beenden mit Strg+C.");
             while (true)
             {
                 try
                 {
-                    using var response = await http.GetAsync("enaio/agent/jobs/next/");
+                    using var response = http.GetAsync("enaio/agent/jobs/next/").GetAwaiter().GetResult();
                     if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-                        Console.Error.WriteLine(await response.Content.ReadAsStringAsync());
+                        Console.Error.WriteLine(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
                     else
                     {
                         response.EnsureSuccessStatusCode();
-                        using var doc = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+                        using var doc = JsonDocument.Parse(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
                         if (doc.RootElement.TryGetProperty("job", out var job) && job.ValueKind == JsonValueKind.Object)
-                            await ProcessJobAsync(http, job);
+                            ProcessJob(http, job);
                     }
                 }
                 catch (HttpRequestException ex) { Console.Error.WriteLine("Verbindungsfehler: " + ex.Message); }
                 catch (COMException ex) { Console.Error.WriteLine("enaio-COM-Fehler: " + ex.Message); }
                 catch (Exception ex) { Console.Error.WriteLine("Auftragsfehler: " + ex.Message); }
-                await Task.Delay(TimeSpan.FromSeconds(5));
+                Thread.Sleep(TimeSpan.FromSeconds(5));
             }
         }
         catch (Exception ex) { Console.Error.WriteLine(ex.Message); return 1; }
     }
 
-    private static async Task PairAsync(string baseUrl, string code)
+    private static void Pair(string baseUrl, string code)
     {
         if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps)
             throw new InvalidOperationException("Bitte eine gültige HTTPS-Adresse des Meeting Managers angeben.");
         using var http = new HttpClient { BaseAddress = new Uri(uri.ToString().TrimEnd('/') + "/") };
         var body = JsonSerializer.Serialize(new { pairing_code = code, device_name = Environment.MachineName });
-        using var response = await http.PostAsync("enaio/agent/register/", new StringContent(body, Encoding.UTF8, "application/json"));
+        using var response = http.PostAsync("enaio/agent/register/", new StringContent(body, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
         response.EnsureSuccessStatusCode();
-        using var doc = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+        using var doc = JsonDocument.Parse(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
         var token = doc.RootElement.GetProperty("device_token").GetString() ?? throw new InvalidOperationException("Der Server hat kein Gerätetoken geliefert.");
         Directory.CreateDirectory(DataDirectory);
         var plain = JsonSerializer.SerializeToUtf8Bytes(new AgentCredentials(uri.ToString(), token));
-        try { await File.WriteAllBytesAsync(CredentialsFile, ProtectedData.Protect(plain, null, DataProtectionScope.CurrentUser)); }
+        try { File.WriteAllBytes(CredentialsFile, ProtectedData.Protect(plain, null, DataProtectionScope.CurrentUser)); }
         finally { CryptographicOperations.ZeroMemory(plain); }
     }
 
@@ -78,29 +78,30 @@ internal static class Program
         if (!File.Exists(CredentialsFile))
             throw new InvalidOperationException("Dieser Arbeitsplatz ist noch nicht gekoppelt. Zuerst 'pair <URL> <Kopplungscode>' ausführen.");
         var plain = ProtectedData.Unprotect(File.ReadAllBytes(CredentialsFile), null, DataProtectionScope.CurrentUser);
-        return JsonSerializer.Deserialize<AgentCredentials>(plain, JsonOptions) ?? throw new InvalidOperationException("Die gespeicherten Agent-Zugangsdaten sind ungültig.");
+        try { return JsonSerializer.Deserialize<AgentCredentials>(plain, JsonOptions) ?? throw new InvalidOperationException("Die gespeicherten Agent-Zugangsdaten sind ungültig."); }
+        finally { CryptographicOperations.ZeroMemory(plain); }
     }
 
-    private static async Task ProcessJobAsync(HttpClient http, JsonElement job)
+    private static void ProcessJob(HttpClient http, JsonElement job)
     {
         var kind = job.GetProperty("kind").GetString();
         if (kind == "select_root_folder")
         {
             var selection = EnaioClient.SelectRootFolder();
-            using var response = await http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json"));
+            using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(selection), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
             response.EnsureSuccessStatusCode();
             Console.WriteLine("Zentraler enaio-Stammordner wurde übermittelt.");
         }
         else if (kind == "file_protocol")
         {
-            var pdf = await http.GetByteArrayAsync(job.GetProperty("pdf_url").GetString());
+            var pdf = http.GetByteArrayAsync(job.GetProperty("pdf_url").GetString()).GetAwaiter().GetResult();
             var tempFile = Path.Combine(Path.GetTempPath(), "MeetingManager-" + Guid.NewGuid().ToString("N") + ".pdf");
             try
             {
-                await File.WriteAllBytesAsync(tempFile, pdf);
+                File.WriteAllBytes(tempFile, pdf);
                 var result = EnaioClient.FileProtocol(job.GetProperty("filing"), tempFile);
                 var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path });
-                using var response = await http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json"));
+                using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                 response.EnsureSuccessStatusCode();
                 Console.WriteLine("Protokoll wurde in enaio abgelegt: " + result.Path);
             }
