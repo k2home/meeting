@@ -8,5 +8,7 @@ class OpenTopicsLiveSearchTests(SimpleTestCase):
         content = template.read_text(encoding="utf-8")
         self.assertIn('class="card open-topic-card"', content)
         self.assertIn('querySelectorAll(".open-topic-card")', content)
+        self.assertIn('id="open-topic-{{ row.item.pk }}"', content)
+        self.assertIn('aria-controls', content)
         self.assertIn('aria-live', content)
         self.assertNotIn('querySelectorAll("section.card")', content)
