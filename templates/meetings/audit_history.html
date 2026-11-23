@@ -78,12 +78,19 @@
   button.type = "button";
   button.id = "audit-details-toggle";
   button.className = "secondary";
-  button.textContent = "Alle Änderungsdetails aufklappen";
+  const updateButton = () => {
+    const allOpen = details.every(item => item.open);
+    button.textContent = allOpen ? "Alle Änderungsdetails zuklappen" : "Alle Änderungsdetails aufklappen";
+    button.setAttribute("aria-pressed", String(allOpen));
+  };
+  button.setAttribute("aria-pressed", "false");
   button.addEventListener("click", () => {
     const expand = details.some(item => !item.open);
     details.forEach(item => { item.open = expand; });
-    button.textContent = expand ? "Alle Änderungsdetails zuklappen" : "Alle Änderungsdetails aufklappen";
+    updateButton();
   });
+  details.forEach(item => item.addEventListener("toggle", updateButton));
+  updateButton();
   document.querySelector(".audit-filter-grid")?.parentElement?.insertAdjacentElement("afterend", button);
 })();
 </script>
