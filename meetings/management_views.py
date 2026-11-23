@@ -165,6 +165,37 @@ def management_enaio_settings(request):
     })
 
 
+
+@login_required
+@require_http_methods(["GET"])
+def enaio_connection_diagnostics(request):
+    """Return safe server-side facts for the browser-based enaio diagnostics."""
+    _require_admin(request)
+    config = EnaioSettings.objects.filter(pk=1).first()
+    return JsonResponse({
+        "server": {
+            "authenticated_request": True,
+            "https": request.is_secure(),
+            "same_origin_api": True,
+        },
+        "configuration": {
+            "root_folder_configured": bool(config and config.root_folder_id),
+            "object_definition_configured": bool(
+                config and config.archive_name and config.register_type_name
+                and config.register_name_field and config.document_type_name
+            ),
+            "document_type_configured": bool(config and config.document_type_name),
+        },
+        "checks_not_possible_from_server": [
+            "COM-Zugriff auf den enaio-Prozess des Citrix-Benutzers",
+            "Auslesen der aktiven enaio-Session-GUID",
+            "Ermitteln der im enaio-Client geöffneten Ordner",
+            "Erreichbarkeit lokaler Citrix-Prozesse aus dem Browser",
+        ],
+        "note": "Der Server kann die lokale Windows-/Citrix-Sitzung des Browserbenutzers nicht einsehen.",
+    })
+
+
 @login_required
 @require_http_methods(["POST"])
 def enaio_folder_selection_start(request):
