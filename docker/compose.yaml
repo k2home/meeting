@@ -15,10 +15,7 @@ services:
       retries: 10
 
   app:
-    image: ghcr.io/k2home/meeting:latest
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
+    image: ${MEETING_IMAGE:-ghcr.io/k2home/meeting:latest}
     restart: unless-stopped
     env_file:
       - ../.env
