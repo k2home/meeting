@@ -1,4 +1,6 @@
+import csv
 from datetime import date
+from io import StringIO
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -35,7 +37,18 @@ class MeetingParticipantsCsvTests(TestCase):
         self.assertIn("attachment;", response["Content-Disposition"])
         self.assertTrue(response.content.startswith(b"\xef\xbb\xbf"))
         self.assertIn("Ada".encode(), response.content)
-        self.assertIn("ada@example.test".encode(), response.content)
+        self.assertIn("Ada".encode(), response.content)
+        self.assertNotIn("ada@example.test".encode(), response.content)
+
+    def test_export_neutralizes_whitespace_prefixed_spreadsheet_formulas(self):
+        self.participant.first_name = " =HYPERLINK(\"https://example.invalid\",\"Klick\")"
+        self.participant.save(update_fields=["first_name"])
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("meeting_participants_csv", args=[self.meeting.pk]))
+        rows = list(csv.reader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
+
+        self.assertTrue(rows[1][0].startswith("' =HYPERLINK("))
 
     def test_user_without_series_access_cannot_export_participants(self):
         outsider = User.objects.create_user(
