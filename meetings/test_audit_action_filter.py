@@ -25,6 +25,19 @@ class AuditActionFilterTests(TestCase):
         self.assertNotContains(response, "Thema geändert")
         self.assertContains(response, "action-filter")
 
+    def test_action_filter_combines_with_series_and_topic_filters(self):
+        response = self.client.get(reverse("audit_history"), {
+            "action": "updated", "series": self.series.pk, "topic": self.topic.pk,
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["selected_action"], "updated")
+        self.assertEqual(response.context["selected_series"], str(self.series.pk))
+        self.assertEqual(response.context["selected_topic"], str(self.topic.pk))
+        self.assertEqual(
+            list(response.context["events"]),
+            [AuditEvent.objects.get(action="updated")],
+        )
+
     def test_invalid_action_filter_is_ignored(self):
         response = self.client.get(reverse("audit_history"), {"action": "not-a-real-action"})
         self.assertEqual(response.status_code, 200)
