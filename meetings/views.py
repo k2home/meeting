@@ -995,8 +995,7 @@ def _move_future_agenda_items(topic, from_series, to_series, exclude_item_ids=No
                 raise ValueError("Zusammenführung abgebrochen: unterschiedliche Wiedervorlage-Vorgänger.")
             if source_child and target_child and source_child.pk != target_child.pk:
                 raise ValueError("Zusammenführung abgebrochen: unterschiedliche Wiedervorlage-Nachfolger.")
-            target_item.working_text = "
-".join(x for x in [target_item.working_text, item.working_text] if x)
+            target_item.working_text = "\n".join(x for x in [target_item.working_text, item.working_text] if x)
             if item.assigned_to_id and not target_item.assigned_to_id:
                 target_item.assigned_to_id = item.assigned_to_id
             target_item.status = item.status
