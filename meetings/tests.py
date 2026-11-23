@@ -396,7 +396,7 @@ class OpenTopicsViewTests(TestCase):
         })
         self.assertRedirects(response, reverse("open_topics"))
         new_item = AgendaItem.objects.get(meeting=self.future_meeting, topic=topic)
-        self.assertEqual(new_item.working_text, "Weiter beraten")
+        self.assertEqual(new_item.working_text, "")
         self.assertEqual(new_item.status, "in_progress")
 
     def test_reader_cannot_access_open_topics_and_does_not_see_menu_item(self):
