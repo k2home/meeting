@@ -53,7 +53,7 @@
       jobData=data;
       if(!response.ok)throw new Error(data.error||`Die enaio-Auswahl konnte nicht gestartet werden (HTTP ${response.status}).`);
       if(!data.status_url)throw new Error("Die Serverantwort enthält keine Statusadresse für die enaio-Auswahl.");
-      status.textContent="Warte auf den enaio-Agenten auf diesem Arbeitsplatz. Bitte wählen Sie den Ordner im geöffneten enaio-Client aus.";
+      status.textContent="Warte auf den enaio-Agenten auf diesem Arbeitsplatz. Bitte lassen Sie den gewünschten Ablageordner in enaio geöffnet. Wenn mehrere Ordner geöffnet sind, wählen Sie den richtigen Ordner im anschließenden Auswahldialog.";
       const deadline=Date.now()+Math.max(30000,(data.expires_in||300)*1000-15000);
       while(Date.now()<deadline){
         await new Promise(resolve=>setTimeout(resolve,2000));
