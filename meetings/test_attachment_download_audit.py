@@ -38,6 +38,19 @@ class AttachmentDownloadAuditTests(TestCase):
         self.assertEqual(event.actor, self.user)
         self.assertIn("Sitzungsunterlage", event.summary)
 
+    @patch("meetings.secure_files.serve_topic_upload", return_value=HttpResponse("not found", status=404))
+    def test_failed_download_does_not_create_audit_event(self, serve_file):
+        self.client.force_login(self.user)
+
+        response = self.client.get(
+            reverse("attachment_download", args=[self.attachment.pk])
+        )
+
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(
+            AuditEvent.objects.filter(action="attachment_downloaded").exists()
+        )
+
     def test_user_without_topic_access_cannot_download_or_create_audit_event(self):
         outsider = User.objects.create_user(
             username="attachment-outsider-audit", password="strong-test-password"
