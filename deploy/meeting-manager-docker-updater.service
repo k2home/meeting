@@ -1,0 +1,29 @@
+[Unit]
+Description=Meeting Manager Docker Update Agent
+Requires=docker.service
+After=docker.service
+Documentation=https://github.com/k2home/meeting
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/python3 /opt/meeting-manager/deploy/docker-update-agent.py
+Restart=on-failure
+RestartSec=3
+StateDirectory=meeting-manager-updater
+StateDirectoryMode=0750
+RuntimeDirectory=meeting-manager-updater
+RuntimeDirectoryMode=0750
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+ReadWritePaths=/run/meeting-manager-updater /var/lib/meeting-manager-updater
+ReadOnlyPaths=/opt/meeting-manager
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target
