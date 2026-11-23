@@ -77,7 +77,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
 **Updater und Betrieb**
 
-Der Installer richtet den lokalen Unix-Socket-Updater ein. Nur der Anwendungscontainer erhält Zugriff auf diesen Socket; der Docker-Socket des Hosts wird niemals in einen Container eingebunden. Der Updater akzeptiert ausschließlich die Branches `beta` und `main`.
+Der Installer richtet den lokalen Unix-Socket-Updater ein. Nur der Anwendungscontainer erhält Zugriff auf diesen Socket; der Docker-Socket des Hosts wird niemals in einen Container eingebunden. Der Updater listet alle aktuell im Git-Remote verfügbaren Branches. Für jeden gepushten Branch wird ein passendes Image veröffentlicht; Schrägstriche im Branch-Namen werden im Image-Tag durch Bindestriche ersetzt.
 
 ```bash
 docker compose -f docker/compose.yaml ps
