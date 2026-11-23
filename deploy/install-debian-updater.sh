@@ -14,7 +14,12 @@ fi
 getent group www-data >/dev/null
 
 install -d -o root -g www-data -m 0750 /var/lib/meeting-manager-updater
+if [[ ! -x /usr/bin/systemd-run ]]; then
+  echo "systemd-run ist nicht verfügbar; ein systemd-basierter Dienst wird benötigt." >&2
+  exit 1
+fi
 install -o root -g root -m 0755 "$APP_DIR/deploy/meeting-manager-update" /usr/local/sbin/meeting-manager-update
+install -o root -g root -m 0755 "$APP_DIR/deploy/meeting-manager-update-runner" /usr/local/sbin/meeting-manager-update-runner
 install -o root -g root -m 0440 "$APP_DIR/deploy/meeting-manager-update.sudoers" /etc/sudoers.d/meeting-manager-update
 visudo -cf /etc/sudoers.d/meeting-manager-update
 
