@@ -20,4 +20,24 @@
 </article>
 {% empty %}<p class="muted">Es gibt noch keine erledigten Tagesordnungspunkte.</p>{% endfor %}
 </section>
+
+<!-- archive-live-search -->
+<script>
+(() => {
+  const lists = [...document.querySelectorAll("section.card")];
+  if (!lists.length || document.getElementById("archive-search")) return;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.id = "archive-search";
+  input.placeholder = "Archiv durchsuchen …";
+  input.setAttribute("aria-label", "Archiv durchsuchen");
+  lists[0].before(input);
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    lists.forEach(section => section.querySelectorAll("article").forEach(article => {
+      article.hidden = !!term && !article.textContent.toLocaleLowerCase("de").includes(term);
+    }));
+  });
+})();
+</script>
 {% endblock %}
