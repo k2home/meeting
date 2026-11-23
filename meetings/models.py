@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
+from django.core.validators import FileExtensionValidator, MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils import formats, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -308,7 +308,7 @@ class OrganizationSettings(models.Model):
         help_text="Gilt für hochgeladene Themenanlagen. Zulässig sind 1 bis 24 MB.",
     )
     logo = models.FileField(
-        "Organisationslogo", upload_to="organization/logo/", blank=True,
+        "Organisationslogo", upload_to="organization/logo/", blank=True, validators=[FileExtensionValidator(["png", "jpg", "jpeg"])],
         help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Empfohlenes Format: PNG oder JPEG.",
     )
     name = models.CharField(
