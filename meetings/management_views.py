@@ -1,6 +1,10 @@
 from zoneinfo import available_timezones
 import logging
 from datetime import timedelta
+import os
+import subprocess
+import tempfile
+from pathlib import Path
 
 from django import forms
 from django.contrib import messages
@@ -9,7 +13,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import password_validation
 from django.core.mail import send_mail
 from django.conf import settings
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
+from django.http import FileResponse, HttpResponse, JsonResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -491,6 +495,130 @@ def management_settings(request):
     return render(request, "meetings/management_settings.html", {
         "form": form, "logo_form": logo_form, "organization_settings": instance,
     })
+
+
+DATABASE_BACKUP_MAX_BYTES = 1024 * 1024 * 1024  # 1 GiB
+
+
+def _database_client_environment():
+    database = settings.DATABASES["default"]
+    if database.get("ENGINE") != "django.db.backends.postgresql":
+        raise RuntimeError("Der vollständige Datenbankexport wird derzeit nur für PostgreSQL unterstützt.")
+    env = os.environ.copy()
+    env.update({
+        "PGHOST": str(database.get("HOST") or ""),
+        "PGPORT": str(database.get("PORT") or "5432"),
+        "PGUSER": str(database.get("USER") or ""),
+        "PGPASSWORD": str(database.get("PASSWORD") or ""),
+    })
+    return env, str(database["NAME"])
+
+
+def _run_database_client(command, env, timeout=1800):
+    return subprocess.run(
+        command, env=env, stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        timeout=timeout, check=False,
+    )
+
+
+@login_required
+@require_http_methods(["GET"])
+def management_database_export(request):
+    _require_admin(request)
+    path = None
+    try:
+        env, database_name = _database_client_environment()
+        handle = tempfile.NamedTemporaryFile(prefix="meeting-manager-", suffix=".dump", delete=False)
+        path = handle.name
+        handle.close()
+        result = _run_database_client(
+            ["pg_dump", "--format=custom", "--no-owner", "--no-acl", "--file", path, "--dbname", database_name],
+            env,
+        )
+        if result.returncode != 0:
+            raise RuntimeError(result.stderr.decode("utf-8", "replace")[-2000:] or "pg_dump ist fehlgeschlagen.")
+        stream = open(path, "rb")
+        response = FileResponse(stream, as_attachment=True, filename="meeting-manager-vollbackup.dump",
+                                content_type="application/octet-stream")
+        response._resource_closers.append(lambda: Path(path).unlink(missing_ok=True))
+        return response
+    except (OSError, RuntimeError, subprocess.TimeoutExpired) as exc:
+        if path:
+            Path(path).unlink(missing_ok=True)
+        logger.exception("Vollständiger Datenbankexport fehlgeschlagen.")
+        messages.error(request, f"Der Datenbankexport ist fehlgeschlagen: {exc}")
+        return redirect("management_data")
+
+
+@login_required
+@require_http_methods(["POST"])
+def management_database_import(request):
+    _require_admin(request)
+    uploaded = request.FILES.get("database_backup")
+    if not uploaded:
+        messages.error(request, "Bitte eine Datenbanksicherung auswählen.")
+        return redirect("management_data")
+    if uploaded.size > DATABASE_BACKUP_MAX_BYTES:
+        messages.error(request, "Die Sicherungsdatei ist größer als das erlaubte Limit von 1 GiB.")
+        return redirect("management_data")
+    if request.POST.get("confirmation") != "DATENBANK ERSETZEN":
+        messages.error(request, "Bitte bestätige den Import durch die Eingabe von DATENBANK ERSETZEN.")
+        return redirect("management_data")
+
+    uploaded_path = safety_path = None
+    try:
+        env, database_name = _database_client_environment()
+        with tempfile.NamedTemporaryFile(prefix="meeting-manager-upload-", suffix=".dump", delete=False) as handle:
+            uploaded_path = handle.name
+            for chunk in uploaded.chunks():
+                handle.write(chunk)
+
+        listing = _run_database_client(["pg_restore", "--list", uploaded_path], env, timeout=120)
+        if listing.returncode != 0:
+            raise RuntimeError("Die Datei ist kein gültiges PostgreSQL-Datenbank-Backup.")
+
+        with tempfile.NamedTemporaryFile(prefix="meeting-manager-before-restore-", suffix=".dump", delete=False) as handle:
+            safety_path = handle.name
+        backup = _run_database_client(
+            ["pg_dump", "--format=custom", "--no-owner", "--no-acl", "--file", safety_path, "--dbname", database_name],
+            env,
+        )
+        if backup.returncode != 0:
+            raise RuntimeError("Die aktuelle Datenbank konnte vor dem Import nicht gesichert werden. Import abgebrochen.")
+
+        restored = _run_database_client(
+            ["pg_restore", "--clean", "--if-exists", "--exit-on-error", "--single-transaction",
+             "--no-owner", "--no-acl", "--dbname", database_name, uploaded_path],
+            env,
+        )
+        if restored.returncode != 0:
+            rollback = _run_database_client(
+                ["pg_restore", "--clean", "--if-exists", "--exit-on-error", "--single-transaction",
+                 "--no-owner", "--no-acl", "--dbname", database_name, safety_path],
+                env,
+            )
+            if rollback.returncode != 0:
+                raise RuntimeError(
+                    "Import fehlgeschlagen und auch die automatische Wiederherstellung der vorherigen Datenbank "
+                    "ist fehlgeschlagen. Bitte den Serverzustand sofort prüfen. "
+                    + restored.stderr.decode("utf-8", "replace")[-1200:]
+                )
+            raise RuntimeError("Der Import ist fehlgeschlagen. Die vorherige Datenbank wurde automatisch wiederhergestellt. "
+                               + restored.stderr.decode("utf-8", "replace")[-1200:])
+
+        messages.success(request, "Die vollständige Datenbank wurde importiert. Bitte melde dich erneut an.")
+        from django.contrib.auth import logout
+        logout(request)
+        return redirect("login")
+    except (OSError, RuntimeError, subprocess.TimeoutExpired) as exc:
+        logger.exception("Vollständiger Datenbankimport fehlgeschlagen.")
+        messages.error(request, f"Der Datenbankimport ist fehlgeschlagen: {exc}")
+        return redirect("management_data")
+    finally:
+        for path in (uploaded_path, safety_path):
+            if path:
+                Path(path).unlink(missing_ok=True)
 
 
 @login_required
