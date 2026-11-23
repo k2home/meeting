@@ -135,7 +135,7 @@ internal static class Program
             var statusUrl = job.GetProperty("status_url").GetString() ?? throw new InvalidOperationException("Der Auftrag enthält keine Statusadresse.");
             if (kind == "select_root_folder")
             {
-                var selection = EnaioClient.SelectRootFolder(() => IsJobActive(http, statusUrl, leaseToken));
+                var selection = EnaioClient.SelectRootFolder(() => IsJobActive(http, statusUrl, leaseToken), (level, message) => Log(http, level, message));
                 using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(JsonSerializer.Serialize(new { selection.folder_id, selection.folder_type, selection.folder_name, selection.folder_path, lease_token = job.GetProperty("lease_token").GetString() }), Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                 response.EnsureSuccessStatusCode();
                 Log(http, "INFO", "Zentraler enaio-Stammordner wurde erfolgreich übermittelt.");
@@ -151,7 +151,7 @@ internal static class Program
                     File.WriteAllBytes(tempFile, pdf);
                     if (!IsJobActive(http, statusUrl, leaseToken))
                         throw new InvalidOperationException("Der Ablageauftrag wurde vor dem enaio-Import abgebrochen oder ist abgelaufen.");
-                    var result = EnaioClient.FileProtocol(job.GetProperty("filing"), tempFile);
+                    var result = EnaioClient.FileProtocol(job.GetProperty("filing"), tempFile, (level, message) => Log(http, level, message));
                     var payload = JsonSerializer.Serialize(new { uploaded = true, object_id = result.ObjectId, object_type = result.ObjectType, display_path = result.Path, lease_token = job.GetProperty("lease_token").GetString() });
                     using var response = http.PostAsync(job.GetProperty("complete_url").GetString(), new StringContent(payload, Encoding.UTF8, "application/json")).GetAwaiter().GetResult();
                     response.EnsureSuccessStatusCode();
@@ -210,7 +210,7 @@ internal static class EnaioClient
         public string Label => string.IsNullOrWhiteSpace(Path) ? Name + " (ID " + Id + ")" : Path + " (ID " + Id + ")";
     }
 
-    public static SelectedFolder SelectRootFolder(Func<bool> isJobActive)
+    public static SelectedFolder SelectRootFolder(Func<bool> isJobActive, Action<string, string> log)
     {
         dynamic app = Connect();
         try
@@ -248,7 +248,7 @@ internal static class EnaioClient
             if (string.IsNullOrWhiteSpace(selected.Path))
                 throw new InvalidOperationException("enaio hat für den ausgewählten geöffneten Ordner keinen vollständigen Pfad geliefert.");
 
-            Program.LogLocal("INFO", "Geöffneter enaio-Ablageordner übernommen: " + selected.Path +
+            log("INFO", "Geöffneter enaio-Ablageordner übernommen: " + selected.Path +
                 " (ID " + selected.Id + ", Typ " + selected.Type + ").");
             return new SelectedFolder(selected.Id.ToString(), selected.Type, selected.Name, selected.Path);
         }
@@ -315,7 +315,7 @@ internal static class EnaioClient
         return path;
     }
 
-    public static FilingResult FileProtocol(JsonElement filing, string pdfPath)
+    public static FilingResult FileProtocol(JsonElement filing, string pdfPath, Action<string, string> log)
     {
         var registerType = filing.GetProperty("register_type_name").GetString() ?? "";
         var registerNameField = filing.GetProperty("register_name_field").GetString() ?? "";
@@ -349,7 +349,7 @@ internal static class EnaioClient
 
             if (registerId == 0)
             {
-                Program.LogLocal("INFO", "Das Register '" + series + "' fehlt. enaio öffnet jetzt die Indexdatenmaske zur bestätigten Registeranlage.");
+                log("INFO", "Das Register '" + series + "' fehlt. enaio öffnet jetzt die Indexdatenmaske zur bestätigten Registeranlage.");
                 registerHandoff = CreateHandoffFile("[Data]\r\nFeld0=" + Ini(registerNameField) + "=" + Ini(series) + "\r\n");
                 object newRegisterId = 0;
                 var registerCode = Convert.ToInt32(app.InsertNewDMSObject(registerTypeId, rootId, registerHandoff, ref newRegisterId));
@@ -359,11 +359,11 @@ internal static class EnaioClient
                         : "enaio konnte die Registermaske nicht erfolgreich abschließen (Code " + registerCode + "): " + Convert.ToString(app.GetLastError()));
                 if (!long.TryParse(Convert.ToString(newRegisterId), out registerId) || registerId <= 0)
                     throw new InvalidOperationException("enaio hat die bestätigte Registeranlage nicht mit einer gültigen Register-ID quittiert.");
-                Program.LogLocal("INFO", "Register wurde vom Benutzer in enaio bestätigt (ID " + registerId + ").");
+                log("INFO", "Register wurde vom Benutzer in enaio bestätigt (ID " + registerId + ").");
             }
 
             documentHandoff = CreateHandoffFile("[Data]\r\n[Files]\r\nFile0=" + pdfPath + "\r\n");
-            Program.LogLocal("INFO", "enaio öffnet jetzt die Indexdatenmaske zur bestätigten Ablage des Protokolls in Register " + series + ".");
+            log("INFO", "enaio öffnet jetzt die Indexdatenmaske zur bestätigten Ablage des Protokolls in Register " + series + ".");
             object newDocumentId = 0;
             var documentCode = Convert.ToInt32(app.InsertNewDMSObject(documentTypeId, registerId, documentHandoff, ref newDocumentId));
             if (documentCode != 0)
@@ -374,7 +374,7 @@ internal static class EnaioClient
                 throw new InvalidOperationException("enaio hat die bestätigte Dokumentablage nicht mit einer gültigen Dokument-ID quittiert.");
 
             var path = Convert.ToString(app.GetObjectPath(documentId, documentTypeId)) ?? "";
-            Program.LogLocal("INFO", "Protokollablage in enaio bestätigt: " + path + " (Dokument-ID " + documentId + ").");
+            log("INFO", "Protokollablage in enaio bestätigt: " + path + " (Dokument-ID " + documentId + ").");
             return new FilingResult(documentId.ToString(), documentTypeId, path);
         }
         finally
