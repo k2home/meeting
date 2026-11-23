@@ -172,6 +172,17 @@ def enaio_connection_diagnostics(request):
     """Return safe server-side facts for the browser-based enaio diagnostics."""
     _require_admin(request)
     config = EnaioSettings.objects.filter(pk=1).first()
+    required_fields = [
+        ("archive_name", "enaio-Schrankname"),
+        ("register_type_name", "Technischer Registertyp"),
+        ("register_name_field", "Technisches Register-Namensfeld"),
+        ("document_type_name", "Technischer Dokumenttyp"),
+    ]
+    missing_fields = [
+        {"field": field, "label": label}
+        for field, label in required_fields
+        if not config or not (getattr(config, field, "") or "").strip()
+    ]
     return JsonResponse({
         "server": {
             "authenticated_request": True,
@@ -180,11 +191,9 @@ def enaio_connection_diagnostics(request):
         },
         "configuration": {
             "root_folder_configured": bool(config and config.root_folder_id),
-            "object_definition_configured": bool(
-                config and config.archive_name and config.register_type_name
-                and config.register_name_field and config.document_type_name
-            ),
+            "object_definition_configured": not missing_fields,
             "document_type_configured": bool(config and config.document_type_name),
+            "missing_fields": missing_fields,
         },
         "checks_not_possible_from_server": [
             "COM-Zugriff auf den enaio-Prozess des Citrix-Benutzers",
