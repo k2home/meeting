@@ -155,7 +155,8 @@ def finalize_meeting(meeting):
         topic = item.topic
         TopicSnapshot.objects.get_or_create(meeting=meeting, topic_id=topic.pk, defaults={
             "topic_title": topic.title, "text": item.working_text, "status": item.status,
-            "responsible_name": user_display_name(item.assigned_to) if item.assigned_to else ""
+            "responsible_name": user_display_name(item.assigned_to) if item.assigned_to else "",
+            "followup_date": item.followup_item.meeting.date if hasattr(item, "followup_item") else None,
         })
     meeting.finalized_at = timezone.now()
     meeting.save(update_fields=["finalized_at"])
