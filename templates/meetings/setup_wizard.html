@@ -74,10 +74,13 @@ document.querySelectorAll('input[type="password"]').forEach((field, index) => {
   button.className = "secondary";
   button.textContent = "Passwort anzeigen";
   button.setAttribute("aria-label", `Passwortfeld ${index + 1} anzeigen oder verbergen`);
+  button.setAttribute("aria-pressed", "false");
+  if (field.id) button.setAttribute("aria-controls", field.id);
   button.addEventListener("click", () => {
     const visible = field.type === "password";
     field.type = visible ? "text" : "password";
     button.textContent = visible ? "Passwort verbergen" : "Passwort anzeigen";
+    button.setAttribute("aria-pressed", String(visible));
   });
   field.insertAdjacentElement("afterend", button);
 });
