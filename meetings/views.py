@@ -347,7 +347,7 @@ def open_topics(request):
             ) + 1
             if followup:
                 followup.meeting = target_meeting
-                followup.working_text = source_item.working_text
+                followup.working_text = ""
                 followup.assigned_to_id = source_item.assigned_to_id
                 followup.status = source_item.status
                 followup.position = next_position
@@ -355,7 +355,7 @@ def open_topics(request):
             else:
                 AgendaItem.objects.create(
                     meeting=target_meeting, topic=source_item.topic,
-                    working_text=source_item.working_text,
+                    working_text="",
                     assigned_to_id=source_item.assigned_to_id,
                     status=source_item.status,
                     position=next_position, carried_forward=True, followup_of=source_item,
