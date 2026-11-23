@@ -313,7 +313,20 @@ def management_user_csv_sample(request):
     response["Content-Disposition"] = 'attachment; filename="benutzer-muster.csv"'
     response.write("\ufeff")
     response.write(
-        "username;first_name;last_name;email;short_description;is_active;series;series_role\r\n"
-        "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;;\r\n"
+        "# Musterdatei fuer den Nutzerimport. UTF-8-Kodierung, Semikolon als Trennzeichen.\r\n"
+        "# Kommentarzeilen mit # werden beim Import ignoriert und koennen in der Datei stehen bleiben.\r\n"
+        "# username: Pflichtfeld; eindeutiger Anmeldename, maximal 150 Zeichen.\r\n"
+        "# first_name: Vorname; optionaler Freitext.\r\n"
+        "# last_name: Nachname; optionaler Freitext.\r\n"
+        "# email: E-Mail-Adresse; optional, muss bei Angabe eindeutig sein.\r\n"
+        "# short_description: Kurzbeschreibung; optional, maximal 80 Zeichen.\r\n"
+        "# is_active: Konto aktivieren; erlaubt: true/false, 1/0, ja/nein, yes/no, aktiv/inaktiv, aktiviert/deaktiviert.\r\n"
+        "# series: Name einer bereits vorhandenen Besprechungsreihe; optional, Schreibweise muss exakt uebereinstimmen.\r\n"
+        "# series_role: Rolle fuer die angegebene Reihe; erlaubt: participant, teilnehmer*in, moderator, moderator*in, reader, leser*in.\r\n"
+        "# series_role bleibt leer, wenn keine series angegeben ist. Bei mehreren Reihen je Benutzer eine Zeile verwenden; Nutzerdaten identisch halten.\r\n"
+        "# is_administrator: Optionale globale Administratorrolle; erlaubt dieselben Ja/Nein-Werte wie is_active. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
+        "# Neue Benutzer erhalten ein zufaelliges Startpasswort; anschliessend ist die Passwort-zuruecksetzen-Funktion zu verwenden.\r\n"
+        "username;first_name;last_name;email;short_description;is_active;series;series_role;is_administrator\r\n"
+        "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;;;false\r\n"
     )
     return response
