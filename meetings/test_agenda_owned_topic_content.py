@@ -122,7 +122,7 @@ class AgendaOwnedTopicContentTests(TestCase):
             meeting=meeting, topic=self.topic,
             working_text="Einmaliger historischer Suchbegriff", assigned_to=self.user,
         )
-        response = self.client.get(reverse("dashboard"), {"q": "historischer Suchbegriff"})
+        response = self.client.get(reverse("dashboard"), {"q": "historischer Suchbegriff", "due": ""})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.topic.title)
 
