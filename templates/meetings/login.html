@@ -27,6 +27,7 @@
   button.className = "secondary";
   button.textContent = "Passwort anzeigen";
   button.setAttribute("aria-pressed", "false");
+  if (field.id) button.setAttribute("aria-controls", field.id);
   button.addEventListener("click", () => {
     const visible = field.type === "password";
     field.type = visible ? "text" : "password";
