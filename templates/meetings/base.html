@@ -472,6 +472,31 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
     const isManagementSection = link.classList.contains('nav-management') && (currentPath === target || currentPath.startsWith(target + '/')); 
     if (target === currentPath || isManagementSection) link.setAttribute('aria-current', 'page');
   });
+  // Ensure active navigation text and its icon remain readable on the selected highlight.
+  const updateActiveLinkContrast = link => {
+    if (!link || link.getAttribute('aria-current') !== 'page') return;
+    const background = getComputedStyle(link).backgroundColor;
+    const channels = background.match(/[\d.]+/g);
+    if (!channels || channels.length < 3) return;
+    const linear = channels.slice(0, 3).map(value => {
+      const channel = Number(value) / 255;
+      return channel <= 0.04045 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+    });
+    const luminance = 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    link.style.color = luminance > 0.179 ? '#17212b' : '#ffffff';
+  };
+  const activeSidebarLinks = [...document.querySelectorAll('.sidebar a[aria-current="page"]')];
+  activeSidebarLinks.forEach(link => {
+    updateActiveLinkContrast(link);
+    link.addEventListener('mouseenter', () => updateActiveLinkContrast(link));
+    link.addEventListener('focusin', () => updateActiveLinkContrast(link));
+    link.addEventListener('mouseleave', () => updateActiveLinkContrast(link));
+    link.addEventListener('focusout', () => updateActiveLinkContrast(link));
+  });
+  if ('MutationObserver' in window) {
+    new MutationObserver(() => activeSidebarLinks.forEach(updateActiveLinkContrast))
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
   const themeButton = document.getElementById('theme-toggle');
   const root = document.documentElement;
   const savedTheme = localStorage.getItem('meeting-theme');
