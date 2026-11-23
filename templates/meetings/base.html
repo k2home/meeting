@@ -136,6 +136,54 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
 :root[data-theme="dark"] .series-entry,:root[data-theme="dark"] .content-divider{border-color:var(--border)}
 :root[data-theme="dark"] details>summary{color:var(--text)}
 :root[data-theme="dark"] pre{color:var(--text)}
+
+
+/* Sidebar: dezente Sekundärfarb-Rahmen, Hover-Highlight in Tertiärfarbe. */
+.sidebar .nav-links:not(.nav-links-secondary) a{
+  border:1px solid color-mix(in srgb,var(--secondary-color) 42%,transparent);
+  border-left:4px solid color-mix(in srgb,var(--secondary-color) 58%,transparent);
+}
+.sidebar .nav-links-secondary a{
+  border:1px solid color-mix(in srgb,var(--secondary-color) 32%,transparent);
+  border-left:3px solid color-mix(in srgb,var(--secondary-color) 46%,transparent);
+}
+.sidebar .sidebar-management a{
+  border:1px solid color-mix(in srgb,var(--secondary-color) 25%,transparent);
+  border-left:3px solid color-mix(in srgb,var(--secondary-color) 38%,transparent);
+}
+.sidebar .logout-form button{
+  border:1px solid color-mix(in srgb,var(--secondary-color) 28%,transparent);
+}
+.sidebar .nav-links:not(.nav-links-secondary) a:hover,
+.sidebar .nav-links:not(.nav-links-secondary) a:focus-visible,
+.sidebar .nav-links-secondary a:hover,
+.sidebar .nav-links-secondary a:focus-visible,
+.sidebar .sidebar-management a:hover,
+.sidebar .sidebar-management a:focus-visible,
+.sidebar .logout-form button:hover,
+.sidebar .logout-form button:focus-visible{
+  background:color-mix(in srgb,var(--tertiary-color) 22%,var(--secondary-color));
+  border-color:var(--tertiary-color);
+  box-shadow:0 2px 7px #00000020;
+}
+:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a,
+:root[data-theme="dark"] .sidebar .nav-links-secondary a,
+:root[data-theme="dark"] .sidebar .sidebar-management a,
+:root[data-theme="dark"] .sidebar .logout-form button{
+  border-color:color-mix(in srgb,var(--secondary-color) 35%,transparent);
+}
+:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:hover,
+:root[data-theme="dark"] .sidebar .nav-links:not(.nav-links-secondary) a:focus-visible,
+:root[data-theme="dark"] .sidebar .nav-links-secondary a:hover,
+:root[data-theme="dark"] .sidebar .nav-links-secondary a:focus-visible,
+:root[data-theme="dark"] .sidebar .sidebar-management a:hover,
+:root[data-theme="dark"] .sidebar .sidebar-management a:focus-visible,
+:root[data-theme="dark"] .sidebar .logout-form button:hover,
+:root[data-theme="dark"] .sidebar .logout-form button:focus-visible{
+  background:color-mix(in srgb,var(--tertiary-color) 24%,var(--nav-bg));
+  border-color:var(--tertiary-color);
+}
+
 </style>
 <style>
 :root {
