@@ -96,6 +96,36 @@ class EnaioAgentLeaseTests(TestCase):
         self.assertEqual(EnaioSettings.objects.get(pk=1).root_folder_id, settings_obj.root_folder_id)
 
 
+    def test_transfer_job_uses_shared_filing_target_and_configured_document_type(self):
+        meeting = Meeting.objects.create(date=timezone.localdate(), title="Test meeting")
+        EnaioSettings.objects.create(
+            root_folder_id="123",
+            root_folder_type=1,
+            root_folder_name="Protokolle",
+            root_folder_path="/Ablage/Protokolle",
+            archive_name="Sitzungsarchiv",
+            register_type_name="Besprechungsreihe",
+            register_name_field="Reihenname",
+            document_type_name="Sitzungsprotokoll",
+        )
+        transfer = EnaioTransfer.objects.create(
+            user=self.user,
+            meeting=meeting,
+            expires_at=timezone.now() + timedelta(minutes=10),
+        )
+
+        response = self.client.get(reverse("enaio_agent_next_job"), **self.auth)
+
+        self.assertEqual(response.status_code, 200)
+        filing = response.json()["job"]["filing"]
+        self.assertEqual(filing["root_folder_id"], "123")
+        self.assertEqual(filing["root_folder_path"], "/Ablage/Protokolle")
+        self.assertEqual(filing["archive_name"], "Sitzungsarchiv")
+        self.assertEqual(filing["register_type_name"], "Besprechungsreihe")
+        self.assertEqual(filing["register_name_field"], "Reihenname")
+        self.assertEqual(filing["document_type"], "Sitzungsprotokoll")
+        self.assertEqual(response.json()["job"]["transfer_id"], transfer.pk)
+
     def test_agent_job_status_reports_active_lease(self):
         selection = EnaioFolderSelection.objects.create(
             user=self.user,
