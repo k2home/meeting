@@ -2138,7 +2138,7 @@ def _read_update_status():
                         "message": "Der Update-Dienst ist nicht mehr aktiv. Bitte das Protokoll auf einen Abbruch prüfen.",
                     }
             return data
-    except (OSError, ValueError):
+    except (OSError, ValueError, subprocess.SubprocessError):
         pass
     return {
         "status": "idle",
