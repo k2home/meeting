@@ -476,7 +476,7 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
   const updateActiveLinkContrast = link => {
     if (!link || link.getAttribute('aria-current') !== 'page') return;
     const background = getComputedStyle(link).backgroundColor;
-    const channels = background.match(/[\\d.]+/g);
+    const channels = background.match(/[\d.]+/g);
     if (!channels || channels.length < 3) return;
     const linear = channels.slice(0, 3).map(value => {
       const channel = Number(value) / 255;
@@ -497,7 +497,6 @@ hr{border:0;border-top:1px solid var(--hagen-border)}
     new MutationObserver(() => activeSidebarLinks.forEach(updateActiveLinkContrast))
       .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
-  });
   const themeButton = document.getElementById('theme-toggle');
   const root = document.documentElement;
   const savedTheme = localStorage.getItem('meeting-theme');
