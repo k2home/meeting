@@ -2380,9 +2380,9 @@ def _available_update_branches():
                 text=True, capture_output=True, timeout=15, check=True,
             )
             branches = [
-                line.split("\\t", 1)[1][len("refs/heads/"):]
+                line.split("\t", 1)[1][len("refs/heads/"):]
                 for line in result.stdout.splitlines()
-                if "\\trefs/heads/" in line
+                if "\trefs/heads/" in line
             ]
             if not _debian_testing_mode_enabled():
                 branches = [name for name in branches if name in {"main", "beta"}]
