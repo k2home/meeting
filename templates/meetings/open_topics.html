@@ -8,7 +8,7 @@
   </div>
 </header>
 {% for row in rows %}
-  <section class="card">
+  <section class="card open-topic-card">
     <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>
     <p><strong>Besprechungsreihe:</strong> {{ row.item.topic.series.name }}</p>
     <p><strong>Letzte Besprechung:</strong> {{ row.item.meeting.date|date:"DATE_FORMAT" }}</p>
@@ -36,18 +36,29 @@
 <!-- open-topics-live-search -->
 <script>
 (() => {
-  const cards = [...document.querySelectorAll("main section.card, #main-content section.card, body > section.card")];
-  const sections = [...document.querySelectorAll("section.card")].filter(section => section.querySelector("h2"));
+  const sections = [...document.querySelectorAll(".open-topic-card")];
   if (!sections.length || document.getElementById("open-topics-search")) return;
   const input = document.createElement("input");
   input.type = "search";
   input.id = "open-topics-search";
   input.placeholder = "Offene Tagesordnungspunkte durchsuchen …";
   input.setAttribute("aria-label", "Offene Tagesordnungspunkte durchsuchen");
-  sections[0].before(input);
+  input.setAttribute("aria-controls", sections.map(section => section.id).filter(Boolean).join(" "));
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
+  sections[0].before(input, feedback);
   input.addEventListener("input", () => {
     const term = input.value.trim().toLocaleLowerCase("de");
-    sections.forEach(section => { section.hidden = !!term && !section.textContent.toLocaleLowerCase("de").includes(term); });
+    let visibleCount = 0;
+    sections.forEach(section => {
+      const visible = !term || section.textContent.toLocaleLowerCase("de").includes(term);
+      section.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Tagesordnungspunkte gefunden.";
   });
 })();
 </script>
