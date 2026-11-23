@@ -580,10 +580,12 @@
 <!-- meeting-print-view -->
 <style>
 @media print {
-  .sidebar, .page-header, .no-print, nav, footer { display: none !important; }
+  .sidebar, .no-print, nav, footer { display: none !important; }
   .app-main, main, .content { margin: 0 !important; padding: 0 !important; width: 100% !important; }
-  .card { box-shadow: none !important; break-inside: avoid; border-color: #bbb !important; }
+  .card { box-shadow: none !important; break-inside: auto; border-color: #bbb !important; }
+  .page-header { display: block !important; margin: 0 0 1rem !important; }
   body { background: #fff !important; color: #000 !important; }
+  a { color: #000 !important; text-decoration: none !important; }
 }
 </style>
 <script>
