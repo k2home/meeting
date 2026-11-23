@@ -257,6 +257,14 @@ sudo journalctl -u meeting-manager-docker-updater.service -f
 
 Der Dienst nimmt ausschließlich `beta` oder `main` entgegen, lädt nur das passende App-Image und ersetzt ausschließlich den Dienst `app`. Datenbank, Nginx und persistente Volumes werden nicht neu erstellt. Nach dem Start prüft er Django; schlägt die Prüfung fehl, versucht er, das vorherige App-Image wiederherzustellen. Parallele Updates werden abgewiesen. Der lokale Status ist über den Unix-Socket unter `/run/meeting-manager-updater/control.sock` abrufbar. Der Socket ist nicht über TCP oder das öffentliche Netzwerk erreichbar.
 
+Status und manueller Start lassen sich auf dem Docker-Host so prüfen:
+
+```bash
+curl --unix-socket /run/meeting-manager-updater/control.sock http://localhost/status
+curl --unix-socket /run/meeting-manager-updater/control.sock -X POST \\
+  -H 'Content-Type: application/json' -d '{"branch":"beta"}' http://localhost/update
+```
+
 Vor jedem Update ist ein Backup von Datenbank und Upload-Volume anzulegen. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig.
 
 **Protokolle und Betrieb**
