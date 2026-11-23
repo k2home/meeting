@@ -3,6 +3,8 @@
 import json
 import os
 import grp
+import re
+import stat
 import subprocess
 import threading
 import time
@@ -75,6 +77,29 @@ def remove_rollback_image(image_ref):
             ["/usr/bin/docker", "image", "rm", image_ref],
             text=True, capture_output=True, timeout=30, check=False,
         )
+def persist_selected_image(image_ref):
+    env_file = APP_DIR / ".env"
+    if env_file.is_symlink() or not env_file.is_file():
+        raise RuntimeError("Die lokale Docker-.env-Datei fehlt oder ist kein reguläres File.")
+    metadata = env_file.stat()
+    lines = env_file.read_text(encoding="utf-8").splitlines()
+    replacement = "MEETING_IMAGE=" + image_ref
+    found = False
+    updated = []
+    for line in lines:
+        if re.match(r"^\\s*MEETING_IMAGE\\s*=", line):
+            if not found:
+                updated.append(replacement)
+                found = True
+        else:
+            updated.append(line)
+    if not found:
+        updated.append(replacement)
+    temporary = env_file.with_name(".env.meeting-image.tmp")
+    temporary.write_text("\\n".join(updated) + "\\n", encoding="utf-8")
+    os.chown(temporary, metadata.st_uid, metadata.st_gid)
+    os.chmod(temporary, stat.S_IMODE(metadata.st_mode))
+    temporary.replace(env_file)
 def run_update(branch):
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
@@ -101,6 +126,7 @@ def run_update(branch):
             time.sleep(5)
         if not healthy:
             raise RuntimeError("Die Django-Prüfung war nach dem Update nicht erfolgreich.")
+        persist_selected_image(target_image)
         write_state(status="success", branch=branch, started_at=started, finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), message=f"Update auf {branch} erfolgreich.", log="\n".join(log)[-16000:])
         remove_rollback_image(previous_image)
     except Exception as exc:
