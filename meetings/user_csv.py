@@ -163,7 +163,7 @@ def _parse_bool(value, field, row_number, errors):
 
 def _csv_data_text(text):
     """Ignore explanatory comment lines in documented CSV templates."""
-    return "\\n".join(line for line in text.splitlines() if not line.lstrip().startswith("#"))
+    return "\n".join(line for line in text.splitlines() if not line.lstrip().startswith("#"))
 
 
 def _parse_csv(text):
