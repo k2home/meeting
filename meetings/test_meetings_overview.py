@@ -27,6 +27,10 @@ class PersonalMeetingsOverviewTests(TestCase):
         self.next_meeting = Meeting.objects.create(series=self.participant_series, date=today + timedelta(days=7), title="Nächste Sitzung")
         self.reader_meeting = Meeting.objects.create(series=self.reader_series, date=today + timedelta(days=10))
         self.moderator_meeting = Meeting.objects.create(series=self.moderator_series, date=today + timedelta(days=14))
+        self.finalized_meeting = Meeting.objects.create(
+            series=self.participant_series, date=today + timedelta(days=21),
+            finalized_at=timezone.now(), title="Abgeschlossene Sitzung",
+        )
         self.private_meeting = Meeting.objects.create(series=self.private_series, date=today + timedelta(days=2))
         topic = Topic.objects.create(title="Offener Tagesordnungspunkt", series=self.participant_series)
         AgendaItem.objects.create(meeting=self.next_meeting, topic=topic, status="open")
@@ -42,6 +46,16 @@ class PersonalMeetingsOverviewTests(TestCase):
         self.assertContains(response, "Vergangene Sitzung")
         self.assertContains(response, "calendar-show-past")
         self.assertContains(response, "calendar-hide-finalized")
+
+    def test_completed_toggle_starts_disabled_and_calendar_marks_finalized_events(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("meetings_overview"))
+        self.assertContains(response, 'id="calendar-hide-finalized"')
+        event_by_id = {
+            event["id"]: event for event in response.context["calendar_events"]
+        }
+        self.assertFalse(event_by_id[self.next_meeting.pk]["finalized"])
+        self.assertTrue(event_by_id[self.finalized_meeting.pk]["finalized"])
 
     def test_series_table_shows_next_open_meeting_and_role(self):
         self.client.force_login(self.user)
