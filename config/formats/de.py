@@ -1,5 +1,0 @@
-DATE_FORMAT = "d.m.Y"
-SHORT_DATE_FORMAT = "d.m.Y"
-SHORT_DATE_WITH_WEEKDAY_FORMAT = "D, d.m.Y"
-DATETIME_FORMAT = r"d.m.Y, H:i \U\h\r"
-SHORT_DATETIME_FORMAT = r"d.m.Y, H:i \U\h\r"
