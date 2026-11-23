@@ -93,3 +93,35 @@ class OrganizationSettingsTests(TestCase):
             _format_commit_timestamp("2026-11-23T12:12:00+00:00"),
             "23.11.2026, 13:12 Uhr",
         )
+
+    def test_request_uses_the_organization_timezone_globally(self):
+        from django.test import RequestFactory
+        from django.utils import timezone
+        from .middleware import OrganizationTimezoneMiddleware
+
+        OrganizationSettings.objects.create(timezone="Europe/Paris")
+        middleware = OrganizationTimezoneMiddleware(
+            lambda request: timezone.get_current_timezone_name()
+        )
+
+        with timezone.override("UTC"):
+            active_timezone = middleware(RequestFactory().get("/"))
+
+        self.assertEqual(active_timezone, "Europe/Paris")
+        self.assertEqual(timezone.get_current_timezone_name(), "UTC")
+
+    def test_central_datetime_format_includes_german_hour_suffix(self):
+        from django.utils import formats
+        from django.utils import timezone
+        from datetime import datetime
+        from zoneinfo import ZoneInfo
+
+        value = timezone.make_aware(
+            datetime(2026, 11, 23, 12, 12), ZoneInfo("UTC")
+        )
+        with timezone.override("Europe/Paris"):
+            rendered = formats.date_format(
+                timezone.localtime(value), "DATETIME_FORMAT"
+            )
+
+        self.assertEqual(rendered, "23.11.2026, 13:12 Uhr")
