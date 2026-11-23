@@ -125,7 +125,15 @@
           attachment.hidden = !matches;
           if (matches) visible += 1;
         });
-        status.textContent = query ? visible + " Treffer gefunden." : "Alle Anlagen werden angezeigt.";
+        status.textContent = query
+          ? (visible ? visible + " Treffer gefunden." : "Keine passenden Anlagen gefunden.")
+          : "Alle Anlagen werden angezeigt.";
+      });
+      search.addEventListener("keydown", event => {
+        if (event.key === "Escape" && search.value) {
+          search.value = "";
+          search.dispatchEvent(new Event("input", {bubbles: true}));
+        }
       });
     })();
     </script>
