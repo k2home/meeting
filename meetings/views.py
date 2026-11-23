@@ -1173,20 +1173,50 @@ def protocol_pdf(request, pk):
     organization_name = organization.name.strip() if organization and organization.name else ""
     brand = OrganizationSettings.current_brand_colors()
 
-    # Prepare the logo once from the configured storage backend. This also
-    # works when media files are stored outside the local filesystem.
+    # Read through Django's FieldFile API so the configured storage backend
+    # (including remote storage) resolves the stored object consistently.
     organization_logo_image = None
-    if organization and organization.logo:
+    if organization and organization.logo and organization.logo.name:
         try:
-            with organization.logo.storage.open(organization.logo.name, "rb") as logo_file:
-                logo_data = logo_file.read()
-            if organization.logo.name.lower().endswith(".svg"):
+            logo_field = organization.logo
+            logo_field.open("rb")
+            try:
+                logo_data = logo_field.read()
+            finally:
+                logo_field.close()
+
+            if not logo_data:
+                raise ValueError("Die gespeicherte Logodatei ist leer.")
+
+            # Some storage backends or upload flows do not preserve the file
+            # extension. Detect SVG by its content as well as by its filename.
+            is_svg = (
+                organization.logo.name.lower().endswith(".svg")
+                or logo_data.lstrip().startswith(b"<?xml")
+                or b"<svg" in logo_data[:2048].lower()
+            )
+            if is_svg:
                 import cairosvg
-                logo_data = cairosvg.svg2png(bytestring=logo_data, output_height=600)
-            organization_logo_image = ImageReader(BytesIO(logo_data))
-            organization_logo_image.getSize()
+                logo_data = cairosvg.svg2png(
+                    bytestring=logo_data,
+                    output_width=1200,
+                    background_color="#ffffff",
+                )
+
+            logo_reader = ImageReader(BytesIO(logo_data))
+            logo_width_px, logo_height_px = logo_reader.getSize()
+            if not logo_width_px or not logo_height_px:
+                raise ValueError("Das Organisationslogo hat ungültige Abmessungen.")
+            organization_logo_image = logo_reader
+            logger.info(
+                "Organisationslogo für Protokoll-PDF geladen: %s (%sx%s px)",
+                organization.logo.name, logo_width_px, logo_height_px,
+            )
         except Exception:
-            logger.exception("Organisationslogo konnte für das Protokoll-PDF nicht geladen werden.")
+            logger.exception(
+                "Organisationslogo %r konnte für das Protokoll-PDF nicht geladen werden.",
+                organization.logo.name,
+            )
             organization_logo_image = None
 
     def brand_color(value, fallback):
