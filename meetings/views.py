@@ -1152,8 +1152,14 @@ def _meeting_series_name(meeting):
 
 
 def _protocol_filename(meeting, extension):
-    series = slugify(_meeting_series_name(meeting)) or "besprechung"
-    return f"protokoll-{series}-{meeting.date:%Y-%m-%d}.{extension}"
+    # Keep the series name recognizable while removing characters that are
+    # invalid in Windows filenames. The meeting date is the agenda date,
+    # not the date on which the PDF is generated or downloaded.
+    series = "".join(
+        char if char.isalnum() or char in " _-" else "_"
+        for char in _meeting_series_name(meeting)
+    ).strip(" ._") or "Besprechung"
+    return f"Protokoll_{series}_{meeting.date:%Y-%m-%d}.{extension}"
 
 
 @login_required
@@ -1513,6 +1519,7 @@ def protocol(request, pk):
     return render(request, "meetings/protocol.html", {
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
         "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
+        "protocol_filename": _protocol_filename(meeting, "pdf"),
         "can_reopen_meeting": is_admin(request.user) or (
             meeting.series_id is not None and is_moderator(request.user, meeting.series)
         ),
