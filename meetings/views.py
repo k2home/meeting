@@ -1075,6 +1075,7 @@ def _protocol_entries(meeting):
                 "text": snapshot.text,
                 "status": dict(Topic.STATUS).get(snapshot.status, snapshot.status),
                 "responsible": snapshot.responsible_name,
+                "followup_date": snapshot.followup_date,
             }
             for snapshot in meeting.snapshots.all()
         ]
