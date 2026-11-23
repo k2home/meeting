@@ -504,3 +504,5 @@ Das Datenbankschema wird mit versionierten Django-Migrationen verwaltet. Neue Mi
 Die Migration `0006_series_access_and_roles` ergänzt die Serienzuweisungen. Die Migration `0009_series_roles` überführt die bisherigen globalen Rollen in Rollen je Serienzuordnung und entfernt die nicht mehr benötigten globalen Gruppen. Admin bleibt global.
 
 Migrationen nicht manuell aus der Datenbank löschen und nicht mit `migrate --fake` überspringen, außer wenn ein bewusst geplanter und geprüfter Reparaturvorgang dies erfordert.
+
+<!-- Harmloser PR-Test: keine funktionalen Änderungen. -->
