@@ -31,6 +31,10 @@ class ProtocolAndAgendaIntegrityTests(TestCase):
         response = self.client.get(reverse("protocol", args=[meeting.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Besprechung wieder öffnen")
+        self.assertContains(
+            response,
+            "data-confirm-message=\"Besprechung vom 01.12.2026 wieder öffnen?",
+        )
 
     def test_finalized_meeting_does_not_receive_carried_agenda_items(self):
         previous = Meeting.objects.create(
