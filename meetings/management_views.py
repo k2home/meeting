@@ -214,6 +214,48 @@ def enaio_folder_selection_cancel(request, pk):
 
 
 @login_required
+def management_home(request):
+    _require_admin(request)
+    return render(request, "meetings/management.html", {
+        "user_count": User.objects.count(),
+        "active_user_count": User.objects.filter(is_active=True).count(),
+        "series_count": MeetingSeries.objects.count(),
+    })
+
+
+@login_required
+def management_users(request):
+    _require_admin(request)
+    users = User.objects.all().order_by("last_name", "first_name", "username")
+    return render(request, "meetings/management_users.html", {
+        "users": [{"account": user, "is_administrator": is_admin(user)} for user in users],
+        "role_choices": SeriesAccess.ROLE_CHOICES,
+    })
+
+
+@login_required
+def management_user_edit(request, pk=None):
+    _require_admin(request)
+    instance = get_object_or_404(User, pk=pk) if pk else None
+    if instance:
+        form = ManagedUserEditForm(request.POST or None, instance=instance)
+    else:
+        form = ManagedUserCreateForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        if instance and instance.pk == request.user.pk and not form.cleaned_data["is_active"]:
+            form.add_error("is_active", "Das eigene Administratorkonto kann hier nicht deaktiviert werden.")
+        else:
+            with transaction.atomic():
+                user = form.save()
+            messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
+            return redirect("management_users")
+    return render(request, "meetings/management_user_form.html", {
+        "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
+        "is_new": instance is None,
+    })
+
+
+@login_required
 def management_groups(request):
     _require_admin(request)
     if request.method == "POST":
