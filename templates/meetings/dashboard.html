@@ -1,7 +1,7 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
-<header class="page-header"><div><h1>Ich bin beta Übersicht</h1><p class="muted">Die nächsten Termine und alle Themen der zugewiesenen Besprechungsreihen auf einen Blick.</p></div></header>
+<header class="page-header"><div><h1>Übersicht</h1><p class="muted">Die nächsten Termine und alle Themen der zugewiesenen Besprechungsreihen auf einen Blick.</p></div></header>
 {% if overdue_count %}<div class="card"><strong class="overdue">{{ overdue_count }}{% if overdue_count == 1 %} überfälliges Thema{% else %} überfällige Themen{% endif %}</strong><span> — bitte geplante Termine prüfen.</span></div>{% endif %}
 <section class="card"><h2>Nächste Besprechungen</h2>
 <div class="upcoming-grid">
