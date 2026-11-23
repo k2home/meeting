@@ -246,7 +246,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
    sudo bash deploy/install-docker.sh
    ```
 
-   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
+   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY`, Datenbankpasswort und ein einmaliger Einrichtungscode werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Den Einrichtungscode zeigt das Skript am Ende an; er wird beim ersten Browser-Aufruf benötigt und darf nicht weitergegeben werden. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
 
 4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
 
@@ -297,7 +297,7 @@ Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisc
 
 3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
 
-4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich.
+4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Den Einrichtungscode vertraulich behandeln.
 
 
 Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
