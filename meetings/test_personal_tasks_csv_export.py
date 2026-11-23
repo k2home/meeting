@@ -1,3 +1,5 @@
+import csv
+from io import StringIO
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
@@ -35,6 +37,18 @@ class PersonalTasksCsvExportTests(TestCase):
         self.assertIn("Vorbereiten", content)
         self.assertNotIn("Fremde Aufgabe", content)
         self.assertNotIn("Privat", content)
+
+    def test_export_neutralizes_spreadsheet_formulas(self):
+        self.topic.title = " =HYPERLINK(\"https://example.invalid\",\"Klick\")"
+        self.topic.save(update_fields=["title"])
+        item = AgendaItem.objects.get(topic=self.topic)
+        item.working_text = "=1+1"
+        item.save(update_fields=["working_text"])
+
+        response = self.client.get(reverse("personal_tasks_csv"))
+        rows = list(csv.reader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
+        self.assertTrue(any(row[1].startswith("' =HYPERLINK(") for row in rows[1:]))
+        self.assertTrue(any(row[5] == "'=1+1" for row in rows[1:]))
 
     def test_export_requires_login(self):
         self.client.logout()
