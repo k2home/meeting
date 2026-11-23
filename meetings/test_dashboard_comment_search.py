@@ -21,10 +21,15 @@ class DashboardCommentSearchTests(TestCase):
         TopicComment.objects.create(topic=self.topic, author=self.user, body="Bitte Rückmeldung vom Brandschutz einholen.")
         self.client.force_login(self.user)
 
-    def test_dashboard_search_finds_terms_in_topic_comments(self):
+    def test_dashboard_search_finds_terms_in_topic_comments_without_duplicates(self):
+        TopicComment.objects.create(
+            topic=self.topic, author=self.user,
+            body="Brandschutz-Unterlagen bitte ebenfalls prüfen.",
+        )
         response = self.client.get(reverse("dashboard"), {"q": "Brandschutz"})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Reguläres Thema")
+        self.assertEqual(response.context["topics"].count(), 1)
 
     def test_dashboard_comment_search_keeps_series_permissions(self):
         other_user = User.objects.create_user(username="comment-search-other", password="test-password")
