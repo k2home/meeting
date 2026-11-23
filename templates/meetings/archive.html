@@ -1,7 +1,7 @@
 {% extends "meetings/base.html" %}
 {% load meeting_user_tags %}
 {% block content %}
-<div class="topline"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></div>
+<header class="page-header"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></header>
 <section class="card">
   <h2>Archivierte Themen</h2>
   {% for topic in archived_topics %}
