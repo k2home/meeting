@@ -576,4 +576,29 @@
   }
 })();
 </script>
+
+<!-- meeting-participant-select-all -->
+<script>
+(() => {
+  const form = document.querySelector(".participant-form");
+  if (!form) return;
+  const checkboxes = [...form.querySelectorAll('input[type="checkbox"]')];
+  if (!checkboxes.length) return;
+  const controls = document.createElement("div");
+  controls.className = "actions";
+  const makeButton = (label, checked) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "secondary";
+    button.textContent = label;
+    button.addEventListener("click", () => {
+      checkboxes.forEach(field => { if (!field.disabled) { field.checked = checked; field.dispatchEvent(new Event("change", {bubbles: true})); } });
+    });
+    controls.append(button);
+  };
+  makeButton("Alle auswählen", true);
+  makeButton("Alle abwählen", false);
+  form.querySelector("button[type='submit']")?.before(controls);
+})();
+</script>
 {% endblock %}
