@@ -25,8 +25,29 @@
   button.textContent = "Verlauf kopieren";
   button.addEventListener("click", async () => {
     const text = [heading.textContent.trim(), ...entries.map(entry => entry.innerText.trim())].join("\n\n");
-    try { await navigator.clipboard.writeText(text); button.textContent = "Verlauf kopiert"; }
-    catch { button.textContent = "Kopieren nicht möglich"; }
+    button.disabled = true;
+    button.textContent = "Kopiere Verlauf …";
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const fallback = document.createElement("textarea");
+        fallback.value = text;
+        fallback.setAttribute("readonly", "");
+        fallback.style.position = "fixed";
+        fallback.style.opacity = "0";
+        document.body.appendChild(fallback);
+        fallback.select();
+        const copied = document.execCommand("copy");
+        fallback.remove();
+        if (!copied) throw new Error("Clipboard copy failed");
+      }
+      button.textContent = "Verlauf kopiert";
+    } catch {
+      button.textContent = "Kopieren nicht möglich";
+    } finally {
+      button.disabled = false;
+    }
   });
   heading.insertAdjacentElement("afterend", button);
 })();
