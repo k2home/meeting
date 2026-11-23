@@ -90,7 +90,7 @@ class OrganizationSettingsForm(forms.ModelForm):
     class Meta:
         model = OrganizationSettings
         fields = (
-            "name", "short_name", "timezone", "attachment_max_size_mb",
+            "name", "short_name", "logo", "timezone", "attachment_max_size_mb",
             "primary_color", "primary_color_light", "primary_color_dark",
             "secondary_color", "secondary_color_light", "secondary_color_dark",
             "tertiary_color", "tertiary_color_light", "tertiary_color_dark",
