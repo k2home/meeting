@@ -62,6 +62,7 @@ urlpatterns = [
     path("verwaltung/enaio/auswahl/start/", management_views.enaio_folder_selection_start, name="enaio_folder_selection_start"),
     path("verwaltung/enaio/auswahl/<int:pk>/status/", management_views.enaio_folder_selection_status, name="enaio_folder_selection_status"),
     path("verwaltung/enaio/auswahl/<int:pk>/cancel/", management_views.enaio_folder_selection_cancel, name="enaio_folder_selection_cancel"),
+    path("verwaltung/enaio/", management_views.management_home, name="management_enaio_settings"),  # Legacy URL now returns the management overview.
     path("verwaltung/daten/", management_views.management_data, name="management_data"),
     path("verwaltung/nutzer/<int:pk>/reihen/", management_views.management_user_series, name="management_user_series"),
     path("verwaltung/nutzer/<int:pk>/passwort-zuruecksetzen/", management_views.management_user_password_reset, name="management_user_password_reset"),
