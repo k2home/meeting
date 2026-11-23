@@ -36,6 +36,21 @@ class UploadedAttachmentMetadataTests(TestCase):
         self.assertContains(response, "Datei öffnen")
         self.assertContains(response, f'data-file-size="{len(b"PDF-Dateiinhalt")}"')
 
+    def test_network_path_attachment_is_not_shown_as_uploaded_file(self):
+        TopicAttachment.objects.create(
+            topic=self.topic,
+            label="Netzwerkordner",
+            network_path=r"\\server\freigabe\unterlage",
+        )
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, r"\\server\freigabe\unterlage")
+        self.assertContains(response, f'data-file-size="{len(b"PDF-Dateiinhalt")}"')
+        self.assertNotContains(response, 'data-file-size="0"')
+
     def test_user_without_topic_access_cannot_view_attachment_metadata(self):
         outsider = User.objects.create_user(
             username="attachment-outsider", password="strong-test-password"
