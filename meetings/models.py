@@ -312,6 +312,10 @@ class OrganizationSettings(models.Model):
         "Organisationslogo", upload_to="organization/logo/", blank=True, validators=[FileExtensionValidator(["png", "jpg", "jpeg", "svg"])],
         help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Unterstützte Formate: PNG, JPEG und SVG.",
     )
+    logo_png = models.FileField(
+        "Organisationslogo (PNG)", upload_to="organization/logo/converted/", blank=True,
+        help_text="Automatisch erzeugte PNG-Version für den PDF-Export.",
+    )
     name = models.CharField(
         "Organisationseinheit", max_length=160, blank=True, default="",
         help_text='Zum Beispiel „Fachbereich 20“. Die Angabe erscheint in der Anwendungs-Kopfzeile und in Protokollen.',

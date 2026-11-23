@@ -1,4 +1,5 @@
 from zoneinfo import available_timezones
+import logging
 import hashlib
 import secrets
 from datetime import timedelta
@@ -26,6 +27,8 @@ from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
 from .user_roles import sync_admin_access
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -353,7 +356,39 @@ def management_settings(request):
             settings_obj = logo_form.save(commit=False)
             settings_obj.full_clean()
             settings_obj.save()
-            messages.success(request, "Das Organisationslogo wurde gespeichert.")
+            uploaded_logo = settings_obj.logo
+            if uploaded_logo and uploaded_logo.name.lower().endswith(".svg"):
+                previous_png_name = settings_obj.logo_png.name if settings_obj.logo_png else ""
+                try:
+                    import cairosvg
+                    from django.core.files.base import ContentFile
+                    uploaded_logo.open("rb")
+                    try:
+                        svg_data = uploaded_logo.read()
+                    finally:
+                        uploaded_logo.close()
+                    png_data = cairosvg.svg2png(
+                        bytestring=svg_data, output_width=1600,
+                        background_color="#ffffff",
+                    )
+                    png_name = uploaded_logo.name.rsplit("/", 1)[-1].rsplit(".", 1)[0] + ".png"
+                    settings_obj.logo_png.save(png_name, ContentFile(png_data), save=True)
+                    if previous_png_name and previous_png_name != settings_obj.logo_png.name:
+                        settings_obj.logo.storage.delete(previous_png_name)
+                except Exception:
+                    logger.exception("Organisationslogo-SVG konnte beim Speichern nicht in PNG konvertiert werden.")
+                    if settings_obj.logo_png:
+                        settings_obj.logo_png.delete(save=False)
+                        settings_obj.save(update_fields=["logo_png"])
+                    logo_form.add_error("logo", "Die SVG-Datei konnte nicht in eine PNG-Datei konvertiert werden. Bitte prüfen Sie die Datei oder laden Sie eine PNG-Version hoch.")
+                    return render(request, "meetings/management_settings.html", {
+                        "form": form, "logo_form": logo_form, "organization_settings": instance,
+                    })
+            else:
+                if settings_obj.logo_png:
+                    settings_obj.logo_png.delete(save=False)
+                    settings_obj.save(update_fields=["logo_png"])
+            messages.success(request, "Das Organisationslogo wurde gespeichert und für den PDF-Export vorbereitet.")
             return redirect("management_settings")
     elif request.method == "POST":
         form = OrganizationSettingsForm(request.POST, instance=instance)
