@@ -1194,7 +1194,7 @@ def protocol_pdf(request, pk):
     meeting_date = formats.date_format(meeting.date, "DATE_FORMAT")
 
     story = [
-        Paragraph("Teilnehmer", styles["ProtocolSection"]),
+        Paragraph("Teilnehmer*innen", styles["ProtocolSection"]),
         Paragraph(
             " · ".join(escape(name) for name in _meeting_participant_names(meeting))
             or "Keine Teilnehmer eingetragen.",
@@ -1205,13 +1205,14 @@ def protocol_pdf(request, pk):
     ]
     for index, entry in enumerate(entries, start=1):
         parts = [Paragraph(f"{index:02d} &nbsp; {escape(entry['title'])}", styles["ProtocolTopic"])]
-        if entry.get("responsible"):
-            parts.append(Paragraph("<b>Verantwortlich:</b> " + escape(entry["responsible"]), styles["ProtocolSmall"]))
         if entry.get("followup_date"):
             followup_label = formats.date_format(entry["followup_date"], "DATE_FORMAT")
             parts.append(Paragraph("<b>Wiedervorlage:</b> " + escape(followup_label), styles["ProtocolSmall"]))
         parts.append(Paragraph(escape(entry["text"] or "—").replace("\n", "<br/>"), styles["ProtocolBody"]))
-        parts.append(Paragraph("STATUS&nbsp;&nbsp; " + escape(entry["status"]), styles["ProtocolStatus"]))
+        status_and_responsible = "<b>Status:</b> " + escape(entry["status"])
+        if entry.get("responsible"):
+            status_and_responsible += " &nbsp;&nbsp; <b>Verantwortlich:</b> " + escape(entry["responsible"])
+        parts.append(Paragraph(status_and_responsible, styles["ProtocolStatus"]))
         parts.append(Spacer(1, 2 * mm))
         story.append(KeepTogether(parts))
     if not entries:
@@ -1258,11 +1259,13 @@ def protocol_pdf(request, pk):
             right_edge = A4[0] - right_margin
             self.setFillColor(primary)
             self.setFont(bold_font, 10)
-            self.drawRightString(right_edge, page_top - 1 * mm, "PROTOKOLL")
+            self.drawCentredString(A4[0] / 2, page_top - 1 * mm, "PROTOKOLL")
             self.setFillColor(colors.HexColor("#526170"))
             self.setFont(regular_font, 8)
-            self.drawRightString(right_edge, page_top - 6 * mm, series_name[:70])
-            self.drawRightString(right_edge, page_top - 11 * mm, meeting_date)
+            self.drawCentredString(
+                A4[0] / 2, page_top - 6 * mm,
+                f"{series_name} · {meeting_date}",
+            )
 
             self.setStrokeColor(primary)
             self.setLineWidth(1.1)
