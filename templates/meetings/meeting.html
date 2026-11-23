@@ -586,19 +586,39 @@
   if (!checkboxes.length) return;
   const controls = document.createElement("div");
   controls.className = "actions";
+  const status = document.createElement("small");
+  status.className = "muted";
+  status.setAttribute("aria-live", "polite");
+  const buttons = [];
+  const updateControls = () => {
+    const selected = checkboxes.filter(field => field.checked).length;
+    status.textContent = selected + " von " + checkboxes.length + " Teilnehmer ausgewählt.";
+    buttons[0].disabled = selected === checkboxes.length;
+    buttons[1].disabled = selected === 0;
+  };
   const makeButton = (label, checked) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "secondary";
     button.textContent = label;
     button.addEventListener("click", () => {
-      checkboxes.forEach(field => { if (!field.disabled) { field.checked = checked; field.dispatchEvent(new Event("change", {bubbles: true})); } });
+      checkboxes.forEach(field => {
+        if (!field.disabled) {
+          field.checked = checked;
+          field.dispatchEvent(new Event("change", {bubbles: true}));
+        }
+      });
+      updateControls();
     });
+    buttons.push(button);
     controls.append(button);
   };
   makeButton("Alle auswählen", true);
   makeButton("Alle abwählen", false);
+  checkboxes.forEach(field => field.addEventListener("change", updateControls));
   form.querySelector("button[type='submit']")?.before(controls);
+  controls.insertAdjacentElement("afterend", status);
+  updateControls();
 })();
 </script>
 {% endblock %}
