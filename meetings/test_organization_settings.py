@@ -66,3 +66,63 @@ class OrganizationSettingsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Organisationseinheit")
         self.assertContains(response, "Fachbereich 10")
+
+    def test_administrator_can_select_organization_timezone(self):
+        setting = OrganizationSettings.objects.create(name="Fachbereich 10")
+        admin_user = get_user_model().objects.create_superuser(
+            username="timezone-admin",
+            password="strong-test-password",
+            email="timezone-admin@example.com",
+        )
+        self.client.force_login(admin_user)
+
+        response = self.client.get(
+            reverse("admin:meetings_organizationsettings_change", args=[setting.pk])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Zeitzone")
+        self.assertContains(response, 'value="Europe/Berlin"')
+
+    def test_commit_timestamp_uses_organization_timezone(self):
+        from .views import _format_commit_timestamp
+
+        OrganizationSettings.objects.create(timezone="Europe/Paris")
+
+        self.assertEqual(
+            _format_commit_timestamp("2026-11-23T12:12:00+00:00"),
+            "23.11.2026, 13:12 Uhr",
+        )
+
+    def test_request_uses_the_organization_timezone_globally(self):
+        from django.test import RequestFactory
+        from django.utils import timezone
+        from .middleware import OrganizationTimezoneMiddleware
+
+        OrganizationSettings.objects.create(timezone="Europe/Paris")
+        middleware = OrganizationTimezoneMiddleware(
+            lambda request: timezone.get_current_timezone_name()
+        )
+
+        with timezone.override("UTC"):
+            active_timezone = middleware(RequestFactory().get("/"))
+            restored_timezone = timezone.get_current_timezone_name()
+
+        self.assertEqual(active_timezone, "Europe/Paris")
+        self.assertEqual(restored_timezone, "UTC")
+
+    def test_central_datetime_format_includes_german_hour_suffix(self):
+        from django.utils import formats
+        from django.utils import timezone
+        from datetime import datetime
+        from zoneinfo import ZoneInfo
+
+        value = timezone.make_aware(
+            datetime(2026, 11, 23, 12, 12), ZoneInfo("UTC")
+        )
+        with timezone.override("Europe/Paris"):
+            rendered = formats.date_format(
+                timezone.localtime(value), "DATETIME_FORMAT"
+            )
+
+        self.assertEqual(rendered, "23.11.2026, 13:12 Uhr")

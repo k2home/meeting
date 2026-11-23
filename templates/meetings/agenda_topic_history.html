@@ -3,7 +3,7 @@
   <p class="muted">{{ history_entries|length }} Besprechung(en) mit diesem Thema</p>
   {% for entry in history_entries %}
     <article class="agenda-history-entry">
-      <strong>{{ entry.series }}</strong> · {{ entry.date|date:"d.m.Y" }}
+      <strong>{{ entry.series }}</strong> · {{ entry.date|date:"DATE_FORMAT" }}
       {% if entry.responsible %}<p><strong>Verantwortlich:</strong> {{ entry.responsible }}</p>{% endif %}
       <p>{{ entry.text|default:"Kein Protokolltext hinterlegt."|linebreaksbr }}</p>
     </article>

@@ -11,7 +11,7 @@
   <section class="card">
     <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>
     <p><strong>Besprechungsreihe:</strong> {{ row.item.topic.series.name }}</p>
-    <p><strong>Letzte Besprechung:</strong> {{ row.item.meeting.date|date:"d.m.Y" }}</p>
+    <p><strong>Letzte Besprechung:</strong> {{ row.item.meeting.date|date:"DATE_FORMAT" }}</p>
     {% if row.item.assigned_to %}<p><strong>Verantwortlich:</strong> {{ row.item.assigned_to.get_full_name|default:row.item.assigned_to.username }}</p>{% endif %}
     {% if row.item.working_text %}<p>{{ row.item.working_text|linebreaksbr }}</p>{% endif %}
     <p><a href="{% url 'topic_edit' row.item.topic.pk %}">Themenansicht öffnen</a></p>
@@ -21,7 +21,7 @@
         <input type="hidden" name="schedule_item" value="{{ row.item.pk }}">
         <label for="target-meeting-{{ row.item.pk }}">Zukünftiger Termin</label>
         <select id="target-meeting-{{ row.item.pk }}" name="target_meeting" required>
-          {% for meeting in row.future_meetings %}<option value="{{ meeting.pk }}">{{ meeting.date|date:"d.m.Y" }}{% if meeting.title %} – {{ meeting.title }}{% endif %}</option>{% endfor %}
+          {% for meeting in row.future_meetings %}<option value="{{ meeting.pk }}">{{ meeting.date|date:"DATE_FORMAT" }}{% if meeting.title %} – {{ meeting.title }}{% endif %}</option>{% endfor %}
         </select>
         <button type="submit">Auf Tagesordnung setzen</button>
       </form>
