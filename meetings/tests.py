@@ -1936,6 +1936,34 @@ class OrganizationLogoDeliveryTests(TestCase):
         self.assertEqual(response["Content-Type"], "application/pdf")
         self.assertTrue(response.content.startswith(b"%PDF"))
 
+    def test_logo_settings_upload_creates_png_copy_for_svg(self):
+        import tempfile
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                self.client.force_login(self.admin)
+                svg_data = (
+                    b'<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40">'
+                    b'<rect width="120" height="40" fill="#00549f"/></svg>'
+                )
+                response = self.client.post(
+                    reverse("management_settings"),
+                    {"action": "save_logo"},
+                    {"logo": SimpleUploadedFile("organization.svg", svg_data, content_type="image/svg+xml")},
+                )
+                self.assertEqual(response.status_code, 302)
+                organization = OrganizationSettings.objects.get(pk=1)
+                self.assertTrue(organization.logo.name.endswith(".svg"))
+                self.assertTrue(organization.logo_png.name.endswith(".png"))
+                organization.logo_png.open("rb")
+                try:
+                    self.assertTrue(organization.logo_png.read().startswith(b"\\x89PNG\\r\\n\\x1a\\n"))
+                finally:
+                    organization.logo_png.close()
+
     def test_organization_logo_is_embedded_in_protocol_pdf(self):
         import tempfile
         from datetime import date
@@ -1946,12 +1974,15 @@ class OrganizationLogoDeliveryTests(TestCase):
         with tempfile.TemporaryDirectory() as media_dir:
             with override_settings(MEDIA_ROOT=media_dir):
                 organization = OrganizationSettings.objects.create(name="Testorganisation")
-                organization.logo.save(
-                    "logo.svg",
-                    ContentFile(
-                        b'<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40">'
-                        b'<rect width="120" height="40" fill="#00549f"/></svg>'
-                    ),
+                svg_data = (
+                    b'<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40">'
+                    b'<rect width="120" height="40" fill="#00549f"/></svg>'
+                )
+                organization.logo.save("logo.svg", ContentFile(svg_data), save=True)
+                import cairosvg
+                organization.logo_png.save(
+                    "logo.png",
+                    ContentFile(cairosvg.svg2png(bytestring=svg_data, output_width=1600)),
                     save=True,
                 )
                 series = MeetingSeries.objects.create(name="Testreihe")
