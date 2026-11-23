@@ -205,7 +205,7 @@ def management_groups(request):
 def management_settings(request):
     _require_admin(request)
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
-    form = OrganizationSettingsForm(request.POST or None, instance=instance)
+    form = OrganizationSettingsForm(request.POST or None, request.FILES or None, instance=instance)
     if request.method == "POST" and form.is_valid():
         settings_obj = form.save(commit=False)
         settings_obj.full_clean()
