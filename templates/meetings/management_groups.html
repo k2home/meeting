@@ -14,16 +14,27 @@
 <script>
 (() => {
   const sections = [...document.querySelectorAll("section.card")].filter(section => section.querySelector("h2"));
-  if (!sections.length || document.getElementById("management-group-search")) return;
-  const input = document.createElement("input");
-  input.type = "search";
-  input.id = "management-group-search";
-  input.placeholder = "Besprechungsreihe oder Mitglied suchen …";
-  input.setAttribute("aria-label", "Gruppen suchen");
-  sections[0].before(input);
+  const input = document.querySelector('form[method="get"] input[name="q"]');
+  if (!sections.length || !input || input.dataset.liveSearchReady) return;
+  input.dataset.liveSearchReady = "true";
+  input.setAttribute("aria-label", "Besprechungsreihe oder Mitglied suchen");
+  sections.forEach((section, index) => { section.id = "management-group-" + index; });
+  input.setAttribute("aria-controls", sections.map(section => section.id).join(" "));
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
+  input.form.insertAdjacentElement("afterend", feedback);
   input.addEventListener("input", () => {
     const term = input.value.trim().toLocaleLowerCase("de");
-    sections.forEach(section => { section.hidden = !!term && !section.textContent.toLocaleLowerCase("de").includes(term); });
+    let visibleCount = 0;
+    sections.forEach(section => {
+      const visible = !term || section.textContent.toLocaleLowerCase("de").includes(term);
+      section.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Besprechungsreihen oder Mitglieder gefunden.";
   });
 })();
 </script>
