@@ -1,18 +1,43 @@
 #!/usr/bin/env bash
 set -euo pipefail
 APP_DIR="/opt/meeting-manager"
-TARGET_BRANCH="${1:-}"
-if [[ "$#" -gt 1 ]]; then
-  echo "Verwendung: $0 [beta|main]" >&2
-  exit 2
-fi
-if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "beta" && "$TARGET_BRANCH" != "main" ]]; then
-  echo "Unzulässiger Update-Branch. Erlaubt sind ausschließlich beta und main." >&2
+TARGET_BRANCH=""
+TESTING_MODE=0
+for argument in "$@"; do
+  if [[ "$argument" == "-testing" ]]; then
+    TESTING_MODE=1
+  elif [[ -z "$TARGET_BRANCH" ]]; then
+    TARGET_BRANCH="$argument"
+  else
+    echo "Verwendung: $0 [-testing] [remote-branch]" >&2
+    exit 2
+  fi
+done
+if [[ -n "$TARGET_BRANCH" && ( ! "$TARGET_BRANCH" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$ || "$TARGET_BRANCH" == *".."* || "$TARGET_BRANCH" == */ || "$TARGET_BRANCH" == *. ) ]]; then
+  echo "Ungültiger Update-Branch." >&2
   exit 2
 fi
 if [[ "$EUID" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo $APP_DIR/deploy/update.sh"
   exit 1
+fi
+
+# Persist the selected mode outside the Git checkout so web-triggered updates
+# can keep it enabled across application upgrades.
+TESTING_MODE_FILE="/var/lib/meeting-manager-updater/testing-mode"
+install -d -o root -g www-data -m 0750 "$(dirname "$TESTING_MODE_FILE")"
+if [[ "$TESTING_MODE" -eq 1 ]]; then
+  install -o root -g www-data -m 0640 /dev/null "$TESTING_MODE_FILE"
+else
+  rm -f "$TESTING_MODE_FILE"
+fi
+if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "main" && "$TARGET_BRANCH" != "beta" && "$TESTING_MODE" -ne 1 ]]; then
+  echo "Zusätzliche Branches sind nur mit -testing verfügbar. Der Testing-Modus wurde deaktiviert." >&2
+  exit 2
+fi
+if [[ -n "$TARGET_BRANCH" ]] && ! git -C "$APP_DIR" ls-remote --exit-code origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
+  echo "Der ausgewählte Branch ist im Remote-Repository nicht verfügbar." >&2
+  exit 2
 fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
@@ -180,6 +205,26 @@ root_match = re.search(root_pattern, content, re.S)
 root_body = root_match.group(2)
 root_body = re.sub(r'^\s*add_header Cache-Control "[^"]+"(?:\s+always)?;\s*$', "", root_body, flags=re.M)
 root_body = root_body.rstrip() + "\n" + policy
+content = content[:root_match.start(2)] + root_body + content[root_match.end(2):]
+
+# Full database backups can exceed the previous CSV upload limit. Preserve
+# custom proxy rules while raising the application site's upload and request timeouts.
+server_match = re.search(r"(^server\s*\{)(.*?)(^\})", content, re.S | re.M)
+if not server_match:
+    print("Nginx-Serverblock konnte nicht sicher erkannt werden.", file=sys.stderr)
+    sys.exit(2)
+server_body = server_match.group(2)
+if re.search(r"^\s*client_max_body_size\s+[^;]+;", server_body, re.M):
+    server_body = re.sub(r"^\s*client_max_body_size\s+[^;]+;", "    client_max_body_size 1g;", server_body, flags=re.M)
+else:
+    server_body = "\n    client_max_body_size 1g;" + server_body
+content = content[:server_match.start(2)] + server_body + content[server_match.end(2):]
+root_match = re.search(root_pattern, content, re.S)
+root_body = root_match.group(2)
+if re.search(r"^\s*proxy_read_timeout\s+[^;]+;", root_body, re.M):
+    root_body = re.sub(r"^\s*proxy_read_timeout\s+[^;]+;", "        proxy_read_timeout 1800s;", root_body, flags=re.M)
+else:
+    root_body = root_body.rstrip() + "\n        proxy_read_timeout 1800s;"
 content = content[:root_match.start(2)] + root_body + content[root_match.end(2):]
 path.write_text(content, encoding="utf-8")
 PY

@@ -3,8 +3,7 @@ name: Docker image
 on:
   push:
     branches:
-      - beta
-      - main
+      - "**"
   pull_request:
   release:
     types: [published]
@@ -39,6 +38,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=beta,enable=${{ github.ref == 'refs/heads/beta' }}
+            type=ref,event=branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
@@ -54,7 +54,7 @@ jobs:
           context: .
           file: docker/Dockerfile
           platforms: linux/amd64,linux/arm64
-          push: ${{ (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/beta')) || github.event_name == 'release' }}
+          push: ${{ github.event_name == 'push' || github.event_name == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
@@ -65,7 +65,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   publish-dockerhub:
-    if: github.event_name == 'release' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/beta'
+    if: github.event_name == 'push' || github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -88,6 +88,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=raw,value=beta,enable=${{ github.ref == 'refs/heads/beta' }}
+            type=ref,event=branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}

@@ -40,4 +40,4 @@ if [[ "${MEETING_UPDATER_SKIP_SERVICE_RESTART:-0}" != "1" ]] && systemctl is-act
 fi
 
 echo "Debian-Web-Updater eingerichtet."
-echo "Erlaubte Ziele: beta und main. Der Dienst meetingapp darf ausschließlich diesen Wrapper aufrufen."
+echo "Erlaubte Ziele: alle im Git-Remote vorhandenen Branches. Der Wrapper validiert den Branch vor dem Start."
