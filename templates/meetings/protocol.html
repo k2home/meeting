@@ -40,7 +40,7 @@
   <h2>{{ s.topic_title }}</h2>
   {% if s.responsible_name %}<p><strong>Verantwortlich:</strong> {{ s.responsible_name }}</p>{% endif %}
   <p>{{ s.text|linebreaksbr }}</p>
-  {% if s.followup_date %}<p><strong>Wiedervorlage:</strong> {{ s.followup_date|date:"DATE_FORMAT" }}</p>{% endif %}
+  {% if s.followup_date %}<p><strong>Wiedervorlage:</strong> {{ s.followup_series_name|default:"Gelöschte Besprechungsreihe" }} {{ s.followup_date|date:"DATE_FORMAT" }}</p>{% endif %}
   <small>Status: {{ s.get_status_display|default:s.status }}</small>
 </article>
 {% empty %}
@@ -49,7 +49,7 @@
     <h2>{{ item.topic.title }}</h2>
     <p><strong>Verantwortlich:</strong> {% if item.assigned_to %}{{ item.assigned_to|user_display }}{% else %}Nicht zugewiesen{% endif %}</p>
     <p>{{ item.working_text|linebreaksbr }}</p>
-    {% if item.followup_item %}<p><strong>Wiedervorlage:</strong> {{ item.followup_item.meeting.date|date:"DATE_FORMAT" }}</p>{% endif %}
+    {% if item.followup_item %}<p><strong>Wiedervorlage:</strong> {{ item.followup_item.meeting.series.name|default:item.followup_item.meeting.archived_series_name|default:"Gelöschte Besprechungsreihe" }} {{ item.followup_item.meeting.date|date:"DATE_FORMAT" }}</p>{% endif %}
     <small>Bearbeitungsstand: {{ item.get_status_display }}</small>
   </article>
   {% empty %}
