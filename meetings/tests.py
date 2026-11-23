@@ -1731,5 +1731,30 @@ class DeploymentUpdatePermissionTests(TestCase):
     def test_invalid_branch_is_rejected(self):
         self.client.force_login(self.admin)
         response = self.client.post(reverse("deployment_updates"), {"branch": "feature/other"})
-        self.assertRedirects(response, reverse("deployment_updates"))
-        self.assertContains(self.client.get(reverse("deployment_updates")), "ausschließlich beta oder main")
+        self.assertEqual(response.status_code, 302)
+
+    def test_admin_starts_only_the_selected_supported_branch(self):
+        from unittest.mock import patch
+
+        info = {
+            "deployment_type": "Debian / systemd",
+            "current_branch": "beta",
+            "current_commit": "abc1234",
+            "current_image": "",
+            "build_created": "",
+            "update_available": True,
+            "availability_message": "",
+        }
+        self.client.force_login(self.admin)
+        with patch("meetings.views._deployment_info", return_value=info), \
+             patch("meetings.views._read_update_status", return_value={"status": "idle"}), \
+             patch("meetings.views.os.path.exists", return_value=False), \
+             patch("meetings.views.subprocess.Popen") as start:
+            response = self.client.post(reverse("deployment_updates"), {"branch": "beta"})
+
+        self.assertEqual(response.status_code, 302)
+        start.assert_called_once()
+        self.assertEqual(
+            start.call_args.args[0],
+            ["sudo", "-n", "/usr/local/sbin/meeting-manager-update", "beta"],
+        )
