@@ -32,6 +32,16 @@ class AuditHistoryPaginationTests(TestCase):
         self.assertEqual(response.context["events"].number, 2)
         self.assertEqual(len(response.context["events"]), 50)
 
+    def test_pagination_links_preserve_active_filters(self):
+        response = self.client.get(reverse("audit_history"), {
+            "page": 1, "series": self.series.pk, "topic": self.topic.pk,
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            f'?page=2&series={self.series.pk}&topic={self.topic.pk}',
+        )
+
     def test_invalid_page_falls_back_to_last_page(self):
         response = self.client.get(reverse("audit_history"), {"page": "999"})
         self.assertEqual(response.status_code, 200)
