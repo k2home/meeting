@@ -35,3 +35,5 @@ class TopicAttachmentSearchTests(TestCase):
         self.assertContains(response, 'id="topic-attachment-search-status"')
         self.assertContains(response, "Sitzungsunterlage")
         self.assertContains(response, "Beschlussvorlage")
+        self.assertContains(response, "Keine passenden Anlagen gefunden.")
+        self.assertContains(response, 'event.key === "Escape"')
