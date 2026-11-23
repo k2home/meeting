@@ -1433,7 +1433,7 @@ def enaio_transfer_start(request, pk):
         }, status=400)
     transfer = EnaioTransfer.objects.create(
         user=request.user, meeting=meeting,
-        expires_at=timezone.now() + timedelta(minutes=10),
+        expires_at=timezone.now() + timedelta(minutes=30),
     )
     return JsonResponse({
         "status_url": reverse("enaio_transfer_status", args=[transfer.pk]),
@@ -1447,7 +1447,7 @@ def enaio_transfer_start(request, pk):
             "register_name": _meeting_series_name(meeting),
             "document_type": filing_settings.document_type_name,
         },
-        "expires_in": 600,
+        "expires_in": 1800,
     })
 
 @login_required
