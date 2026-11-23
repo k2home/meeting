@@ -91,6 +91,18 @@ jobs:
           python -m py_compile deploy/docker-update-agent.py
           python manage.py check
           SECRET_KEY="ci-only-secret-key-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" SECURE_SSL_REDIRECT=1 SECURE_HSTS_SECONDS=31536000 SESSION_COOKIE_SECURE=1 CSRF_COOKIE_SECURE=1 python manage.py check --deploy
+          # Every model change in every PR must ship its Django migration files.
           python manage.py makemigrations --check --dry-run
+          python - <<'PY'
+          import os
+          os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+          import django
+          django.setup()
+          from django.db.migrations.loader import MigrationLoader
+          conflicts = MigrationLoader(None).detect_conflicts()
+          if conflicts:
+              details = "; ".join(f"{app}: {', '.join(names)}" for app, names in conflicts.items())
+              raise SystemExit("Conflicting Django migrations: " + details)
+          PY
           python manage.py migrate --noinput
           python manage.py test meetings
