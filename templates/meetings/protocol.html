@@ -14,12 +14,19 @@
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
   <a class="meeting-menu-link" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
-  <form method="post" action="{% url 'enaio_transfer_start' meeting.id %}" data-enaio-transfer-form>
-    {% csrf_token %}
-    <button type="submit" class="btn">PDF in enaio ablegen</button>
-    <small class="muted">Zielordner und Register werden zentral in den enaio-Einstellungen festgelegt. Register: Name der Besprechungsreihe.</small>
-    <span class="muted" data-enaio-transfer-status role="status"></span>
-  </form>
+  <div class="protocol-file-export">
+    <button type="button" class="btn" id="prepare-protocol-pdf">PDF zum Ziehen bereitstellen</button>
+    <div id="protocol-pdf-drag-area" class="protocol-pdf-drag-area" hidden>
+      <a id="protocol-pdf-drag-item" class="protocol-pdf-file" draggable="true"
+         href="{% url 'protocol_pdf' meeting.id %}" download="protokoll-{{ meeting.date|date:'Y-m-d' }}.pdf"
+         aria-label="Protokoll-PDF greifen und in enaio ziehen">
+        <span class="protocol-pdf-file-icon" aria-hidden="true">📄</span>
+        <span><strong>Protokoll.pdf</strong><small>PDF-Datei · zum Ziehen in enaio</small></span>
+      </a>
+      <p class="muted" id="protocol-pdf-drag-status" role="status" aria-live="polite">Ziehe das PDF-Symbol mit gedrückter Maustaste in den gewünschten enaio-Ordner.</p>
+    </div>
+    <small class="muted">Das PDF wird im Browser als Datei-Symbol bereitgestellt. Alternativ kannst du es über „PDF herunterladen“ speichern und aus dem Download-Ordner nach enaio ziehen.</small>
+  </div>
   <a class="meeting-menu-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">
@@ -64,43 +71,48 @@
 {% endfor %}
 
 <script>
-document.addEventListener('submit', async (event) => {
-  const form = event.target.closest('[data-enaio-transfer-form]');
-  if (!form) return;
-  event.preventDefault();
-  const button = form.querySelector('button[type=submit]');
-  const status = form.querySelector('[data-enaio-transfer-status]');
-  button.disabled = true;
-  status.textContent = 'Übergabe wird vorbereitet …';
-  let jobData = null;
-  try {
-    const response = await fetch(form.action, {method: 'POST', credentials: 'same-origin', headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}});
-    const data = await response.json();
-    jobData = data;
-    if (!response.ok) throw new Error(data.error || 'Die Übergabe konnte nicht gestartet werden.');
-    status.textContent = 'Warte auf den enaio-Agenten auf diesem Arbeitsplatz …';
-    const deadline = Date.now() + Math.max(30000, (data.expires_in || 600) * 1000 - 15000);
-    while (Date.now() < deadline) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      const check = await fetch(data.status_url, {credentials: 'same-origin', headers: {'Accept': 'application/json'}});
-      const result = await check.json();
-      if (result.completed) { status.textContent = 'Das Protokoll wurde in enaio abgelegt.'; return; }
-      if (result.expired) throw new Error('Der Ablageauftrag ist abgelaufen.');
-      if (result.error) throw new Error(result.error);
+(() => {
+  const button = document.getElementById("prepare-protocol-pdf");
+  const area = document.getElementById("protocol-pdf-drag-area");
+  const file = document.getElementById("protocol-pdf-drag-item");
+  const status = document.getElementById("protocol-pdf-drag-status");
+  if (!button || !area || !file) return;
+
+  button.addEventListener("click", () => {
+    area.hidden = false;
+    button.textContent = "PDF ist zum Ziehen bereit";
+    status.textContent = "Ziehe das PDF-Symbol mit gedrückter Maustaste in den gewünschten enaio-Ordner.";
+    file.focus();
+  });
+
+  file.addEventListener("dragstart", (event) => {
+    const filename = file.getAttribute("download") || "protokoll.pdf";
+    const downloadUrl = new URL(file.href, window.location.href).href;
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = "copy";
+      // Chromium/Edge interpretiert DownloadURL als Datei-Drag aus dem Browser.
+      // Das Ziel kann dadurch eine echte PDF-Datei statt nur einen Webseiten-Link erhalten.
+      event.dataTransfer.setData("DownloadURL", "application/pdf:" + filename + ":" + downloadUrl);
+      event.dataTransfer.setData("text/uri-list", downloadUrl);
+      event.dataTransfer.setData("text/plain", downloadUrl);
     }
-    throw new Error('Keine Rückmeldung vom enaio-Agenten. Der Auftrag wird abgebrochen.');
-  } catch (error) {
-    if (jobData?.cancel_url) {
-      try {
-        await fetch(jobData.cancel_url, {
-          method: 'POST', credentials: 'same-origin',
-          headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}
-        });
-      } catch (_cancelError) { /* Der Server lässt den Auftrag spätestens mit Ablauf verfallen. */ }
-    }
-    status.textContent = error.message;
-    button.disabled = false;
-  }
-});
+    status.textContent = "PDF wird gezogen. Lege die Datei im enaio-Zielordner ab.";
+  });
+
+  file.addEventListener("dragend", () => {
+    status.textContent = "Ziehvorgang beendet. Prüfe bitte, ob enaio das PDF übernommen hat.";
+  });
+})();
 </script>
+<style>
+.protocol-file-export{display:flex;flex-direction:column;align-items:flex-start;gap:.65rem;max-width:32rem}
+.protocol-pdf-drag-area{padding:.85rem 1rem;border:1px dashed var(--border);border-radius:10px;background:var(--surface-muted, #f7f8fa);width:min(100%,30rem)}
+.protocol-pdf-drag-area[hidden]{display:none}
+.protocol-pdf-file{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);text-decoration:none;cursor:grab;user-select:none}
+.protocol-pdf-file:active{cursor:grabbing}
+.protocol-pdf-file:hover,.protocol-pdf-file:focus-visible{border-color:var(--primary);outline-offset:3px}
+.protocol-pdf-file-icon{font-size:2rem;line-height:1}
+.protocol-pdf-file strong,.protocol-pdf-file small{display:block}
+.protocol-pdf-file small{color:var(--muted);margin-top:.15rem}
+</style>
 {% endblock %}
