@@ -1114,7 +1114,6 @@ def protocol_pdf(request, pk):
     entries = _protocol_entries(meeting)
 
     from reportlab.lib import colors
-    from reportlab.lib.enums import TA_LEFT
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib.units import mm
@@ -1187,13 +1186,12 @@ def protocol_pdf(request, pk):
 
     created_at = timezone.localtime(timezone.now())
     finalized_label = (
-        formats.date_format(timezone.localtime(meeting.finalized_at), "DATETIME_FORMAT")
+        "Gesicherter Protokollstand · " + formats.date_format(timezone.localtime(meeting.finalized_at), "DATETIME_FORMAT")
         if meeting.finalized_at else "Entwurf – nicht abgeschlossen"
     )
     created_label = formats.date_format(created_at, "DATETIME_FORMAT")
     series_name = _meeting_series_name(meeting)
     meeting_date = formats.date_format(meeting.date, "DATE_FORMAT")
-    page_width = A4[0] - left_margin - right_margin
 
     story = [
         Paragraph("Teilnehmer", styles["ProtocolSection"]),
@@ -1250,17 +1248,13 @@ def protocol_pdf(request, pk):
                             preserveAspectRatio=True, anchor="c", mask="auto",
                         )
                     text_left += logo_width + 5 * mm
-                except (OSError, ValueError, TypeError):
+                except Exception:
                     pass
 
             self.setFillColor(colors.HexColor("#263445"))
             self.setFont(bold_font, 8.5)
             if organization_name:
                 self.drawString(text_left, page_top - 2 * mm, organization_name[:75])
-            self.setFillColor(colors.HexColor("#687684"))
-            self.setFont(regular_font, 7.5)
-            self.drawString(text_left, page_top - 7 * mm, "Meeting Manager")
-
             right_edge = A4[0] - right_margin
             self.setFillColor(primary)
             self.setFont(bold_font, 10)
