@@ -1,7 +1,5 @@
 from zoneinfo import available_timezones
 import logging
-import hashlib
-import secrets
 from datetime import timedelta
 
 from django import forms
@@ -171,9 +169,8 @@ def management_enaio_settings(request):
 @require_http_methods(["POST"])
 def enaio_folder_selection_start(request):
     _require_admin(request)
-    raw_token = secrets.token_urlsafe(32)
     selection = EnaioFolderSelection.objects.create(
-        user=request.user, token_hash=hashlib.sha256(raw_token.encode()).hexdigest(),
+        user=request.user,
         expires_at=timezone.now() + timedelta(minutes=5),
     )
     return JsonResponse({
@@ -214,105 +211,6 @@ def enaio_folder_selection_cancel(request, pk):
             selection.consumed_at = timezone.now()
             selection.save(update_fields=["error_message", "consumed_at"])
     return JsonResponse({"ok": True})
-
-
-def _enaio_folder_selection_from_token(token):
-    digest = hashlib.sha256(token.encode()).hexdigest()
-    return EnaioFolderSelection.objects.filter(
-        token_hash=digest, consumed_at__isnull=True, expires_at__gt=timezone.now(),
-    ).first()
-
-
-@require_http_methods(["GET"])
-def enaio_folder_selection_details(request, token):
-    selection = _enaio_folder_selection_from_token(token)
-    if not selection:
-        return HttpResponseForbidden("Auswahlauftrag ungültig oder abgelaufen.")
-    response = JsonResponse({
-        "purpose": "select_root_folder",
-        "instructions": "Lassen Sie den Benutzer im geöffneten enaio-Client einen Ordner auswählen.",
-        "complete_url": request.build_absolute_uri(reverse("enaio_folder_selection_complete", args=[token])),
-    })
-    response["Cache-Control"] = "no-store"
-    return response
-
-
-@csrf_exempt
-@require_http_methods(["POST"])
-def enaio_folder_selection_complete(request, token):
-    selection = _enaio_folder_selection_from_token(token)
-    if not selection:
-        return HttpResponseForbidden("Auswahlauftrag ungültig oder abgelaufen.")
-    try:
-        import json
-        payload = json.loads(request.body or b"{}")
-        folder_id = str(payload.get("folder_id", "")).strip()
-        folder_name = str(payload.get("folder_name", "")).strip()
-        folder_path = str(payload.get("folder_path", "")).strip()
-        folder_type = int(payload.get("folder_type", 0))
-    except (ValueError, TypeError, UnicodeDecodeError):
-        return JsonResponse({"error": "Ungültige enaio-Auswahldaten."}, status=400)
-    if not folder_id or len(folder_id) > 64 or not folder_name or len(folder_name) > 255 or len(folder_path) > 1000 or folder_type < 0:
-        return JsonResponse({"error": "Die enaio-Auswahl enthält keine gültige Ordner-ID und Ordnerbezeichnung."}, status=400)
-    with transaction.atomic():
-        selection = EnaioFolderSelection.objects.select_for_update().filter(pk=selection.pk).first()
-        if not selection or selection.consumed_at or selection.expires_at <= timezone.now():
-            return HttpResponseForbidden("Auswahlauftrag wurde bereits verwendet oder ist abgelaufen.")
-        settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
-        settings_obj.root_folder_id = folder_id
-        settings_obj.root_folder_type = folder_type
-        settings_obj.root_folder_name = folder_name
-        settings_obj.root_folder_path = folder_path
-        settings_obj.save()
-        selection.selected_folder_id = folder_id
-        selection.selected_folder_type = folder_type
-        selection.selected_folder_name = folder_name
-        selection.selected_folder_path = folder_path
-        selection.consumed_at = timezone.now()
-        selection.save(update_fields=["selected_folder_id", "selected_folder_type", "selected_folder_name", "selected_folder_path", "consumed_at"])
-    return JsonResponse({"ok": True})
-
-
-@login_required
-def management_home(request):
-    _require_admin(request)
-    return render(request, "meetings/management.html", {
-        "user_count": User.objects.count(),
-        "active_user_count": User.objects.filter(is_active=True).count(),
-        "series_count": MeetingSeries.objects.count(),
-    })
-
-
-@login_required
-def management_users(request):
-    _require_admin(request)
-    users = User.objects.all().order_by("last_name", "first_name", "username")
-    return render(request, "meetings/management_users.html", {
-        "users": [{"account": user, "is_administrator": is_admin(user)} for user in users],
-        "role_choices": SeriesAccess.ROLE_CHOICES,
-    })
-
-
-@login_required
-def management_user_edit(request, pk=None):
-    _require_admin(request)
-    instance = get_object_or_404(User, pk=pk) if pk else None
-    if instance:
-        form = ManagedUserEditForm(request.POST or None, instance=instance)
-    else:
-        form = ManagedUserCreateForm(request.POST or None)
-    if request.method == "POST" and form.is_valid():
-        if instance and instance.pk == request.user.pk and not form.cleaned_data["is_active"]:
-            form.add_error("is_active", "Das eigene Administratorkonto kann hier nicht deaktiviert werden.")
-        else:
-            with transaction.atomic():
-                user = form.save()
-            messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
-            return redirect("management_users")
-    return render(request, "meetings/management_user_form.html", {
-        "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
-        "is_new": instance is None,
-    })
 
 
 @login_required
