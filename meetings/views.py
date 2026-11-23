@@ -916,7 +916,6 @@ def agenda_topic_history(request, pk, topic_pk):
             "date": snapshot.meeting.date,
             "text": snapshot.text,
             "responsible": snapshot.responsible_name,
-                "followup_date": snapshot.followup_date,
         }
     # Include a planned follow-up meeting even if its agenda item has not
     # yet been materialized by opening that meeting's agenda.
