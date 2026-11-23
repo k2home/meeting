@@ -601,24 +601,36 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 
 
 <script>
-/* Berechnet Textkontrast aus der tatsächlich sichtbaren Hintergrundfarbe.
-   Dadurch funktionieren auch frei gewählte Organisationsfarben und beide Themes. */
+/* Kontrast wird nur für farbige Aktionsflächen dynamisch berechnet.
+   Normale Inhalts-, Link- und Hinweisfarben bleiben den Theme-CSS-Regeln überlassen.
+   Bei Theme-, Klassen- und Zustandswechseln wird der tatsächliche Hintergrund neu bewertet. */
 (function () {
-  const TRANSPARENT = "rgba(0, 0, 0, 0)";
+  const selectors = [
+    ".sidebar .nav-links a",
+    ".sidebar .sidebar-management a",
+    ".sidebar .logout-form button",
+    ".btn.primary", "button.primary",
+    ".btn.danger", "button.danger",
+    ".app-confirm-accept"
+  ].join(",");
+  const black = { r: 0, g: 0, b: 0, a: 1 };
+  const white = { r: 255, g: 255, b: 255, a: 1 };
+
   function parseColor(value) {
-    const match = value.match(/rgba?\(([^)]+)\)/);
+    const match = value && value.match(/rgba?\\(([^)]+)\\)/);
     if (!match) return null;
     const parts = match[1].split(",").map(part => parseFloat(part.trim()));
+    if (parts.length < 3 || parts.slice(0, 3).some(Number.isNaN)) return null;
     return { r: parts[0], g: parts[1], b: parts[2], a: parts.length > 3 ? parts[3] : 1 };
   }
   function composite(fg, bg) {
-    const a = fg.a + bg.a * (1 - fg.a);
-    if (!a) return { r: 255, g: 255, b: 255, a: 1 };
+    const alpha = fg.a + bg.a * (1 - fg.a);
+    if (!alpha) return bg;
     return {
-      r: (fg.r * fg.a + bg.r * bg.a * (1 - fg.a)) / a,
-      g: (fg.g * fg.a + bg.g * bg.a * (1 - fg.a)) / a,
-      b: (fg.b * fg.a + bg.b * bg.a * (1 - fg.a)) / a,
-      a
+      r: (fg.r * fg.a + bg.r * bg.a * (1 - fg.a)) / alpha,
+      g: (fg.g * fg.a + bg.g * bg.a * (1 - fg.a)) / alpha,
+      b: (fg.b * fg.a + bg.b * bg.a * (1 - fg.a)) / alpha,
+      a: alpha
     };
   }
   function luminance(color) {
@@ -628,61 +640,64 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
     };
     return .2126 * channel(color.r) + .7152 * channel(color.g) + .0722 * channel(color.b);
   }
-  function contrast(a, b) {
-    const values = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  function contrast(first, second) {
+    const values = [luminance(first), luminance(second)].sort((a, b) => b - a);
     return (values[0] + .05) / (values[1] + .05);
   }
-  const black = { r: 0, g: 0, b: 0, a: 1 };
-  const white = { r: 255, g: 255, b: 255, a: 1 };
   function effectiveBackground(element) {
-    const stack = [];
-    for (let node = element; node && node !== document.documentElement; node = node.parentElement) {
+    const ancestors = [];
+    for (let node = element; node; node = node.parentElement) {
       const color = parseColor(getComputedStyle(node).backgroundColor);
-      if (color && color.a > 0) stack.push(color);
+      if (color && color.a > 0) ancestors.push(color);
     }
-    let result = { r: 255, g: 255, b: 255, a: 1 };
-    for (let i = stack.length - 1; i >= 0; i--) result = composite(stack[i], result);
-    return result;
+    let background = white;
+    for (let index = ancestors.length - 1; index >= 0; index--) {
+      background = composite(ancestors[index], background);
+    }
+    return background;
   }
-  function apply(root) {
-    const elements = [];
-    if (root.nodeType === Node.ELEMENT_NODE) elements.push(root);
-    if (root.querySelectorAll) elements.push(...root.querySelectorAll("*"));
-    for (const element of elements) {
-      if (element.closest("[data-preserve-text-color]")) continue;
-      const hasText = Array.from(element.childNodes).some(node =>
-        node.nodeType === Node.TEXT_NODE && node.textContent.trim()
-      );
-      const isControl = /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(element.tagName);
-      if (!hasText && !isControl) continue;
-      const background = effectiveBackground(element);
-      const textColor = contrast(black, background) >= contrast(white, background) ? "#000" : "#fff";
-      if (element.style.getPropertyValue("color") !== textColor ||
-          element.style.getPropertyPriority("color") !== "important") {
-        element.style.setProperty("color", textColor, "important");
+  function update(element) {
+    if (!(element instanceof Element) || !element.matches(selectors)) return;
+    const background = effectiveBackground(element);
+    const foreground = contrast(black, background) >= contrast(white, background) ? "#000000" : "#FFFFFF";
+    if (element.style.getPropertyValue("--computed-contrast-text") !== foreground) {
+      element.style.setProperty("--computed-contrast-text", foreground);
+    }
+    element.style.setProperty("color", "var(--computed-contrast-text)", "important");
+  }
+  function refresh(root) {
+    if (root instanceof Element) update(root);
+    if (root && root.querySelectorAll) root.querySelectorAll(selectors).forEach(update);
+  }
+
+  refresh(document);
+  document.addEventListener("mouseover", event => refresh(event.target.closest && event.target.closest(selectors)));
+  document.addEventListener("focusin", event => refresh(event.target.closest && event.target.closest(selectors)));
+  document.addEventListener("mouseout", event => refresh(event.target.closest && event.target.closest(selectors)));
+  document.addEventListener("focusout", event => refresh(event.target.closest && event.target.closest(selectors)));
+
+  const observer = new MutationObserver(records => {
+    let refreshAll = false;
+    for (const record of records) {
+      if (record.type === "childList") {
+        record.addedNodes.forEach(node => { if (node instanceof Element) refresh(node); });
+      } else if (record.type === "attributes") {
+        if (record.target === document.documentElement &&
+            (record.attributeName === "data-theme" || record.attributeName === "class")) {
+          refreshAll = true;
+        } else if (record.target instanceof Element) {
+          update(record.target);
+          if (record.attributeName === "class" || record.attributeName === "style") refresh(record.target);
+        }
       }
     }
-  }
-  function refresh() { apply(document.body); }
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", refresh, { once: true });
-  } else {
-    refresh();
-  }
-  const observer = new MutationObserver(records => {
-    for (const record of records) {
-      if (record.type === "childList") record.addedNodes.forEach(node => {
-        if (node.nodeType === Node.ELEMENT_NODE) apply(node);
-      });
-      else if (record.type === "attributes" && record.target !== document.documentElement) apply(record.target);
-    }
+    if (refreshAll) refresh(document);
   });
   observer.observe(document.documentElement, {
-    subtree: true, childList: true, attributes: true, attributeFilter: ["class", "data-theme", "hidden", "style"]
+    subtree: true, childList: true, attributes: true,
+    attributeFilter: ["class", "data-theme", "hidden", "style"]
   });
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 })();
-</script>
 
 </body>
 </html>
