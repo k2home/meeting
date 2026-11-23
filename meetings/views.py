@@ -2144,6 +2144,21 @@ def audit_history(request):
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
+    start_date_value = request.GET.get("start_date", "").strip()
+    end_date_value = request.GET.get("end_date", "").strip()
+    try:
+        start_date = date.fromisoformat(start_date_value) if start_date_value else None
+    except ValueError:
+        start_date = None
+        start_date_value = ""
+    try:
+        end_date = date.fromisoformat(end_date_value) if end_date_value else None
+    except ValueError:
+        end_date = None
+        end_date_value = ""
+    if start_date and end_date and end_date < start_date:
+        start_date = end_date = None
+        start_date_value = end_date_value = ""
 
     if has_history_permission:
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
@@ -2168,6 +2183,10 @@ def audit_history(request):
             topics = topics.filter(series_id=int(selected_series))
         else:
             selected_series = ""
+        if start_date:
+            events = events.filter(created_at__date__gte=start_date)
+        if end_date:
+            events = events.filter(created_at__date__lte=end_date)
         if topic_id and topics.filter(pk=topic_id).exists():
             events = events.filter(topic_id=topic_id)
         else:
@@ -2175,11 +2194,14 @@ def audit_history(request):
     else:
         topic_id = ""
         selected_series = ""
+        start_date_value = end_date_value = ""
 
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
         "has_history_permission": has_history_permission,
+        "selected_start_date": start_date_value,
+        "selected_end_date": end_date_value,
     })
 
 
