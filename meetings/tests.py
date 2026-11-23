@@ -1739,7 +1739,7 @@ class DeploymentUpdatePermissionTests(TestCase):
         info = {
             "deployment_type": "Debian / systemd",
             "current_branch": "beta",
-            "current_commit": "abc1234",
+            "current_commit_date": "2026-11-23T12:00:00+00:00",
             "current_image": "",
             "build_created": "",
             "update_available": True,
