@@ -149,6 +149,7 @@ class TopicSnapshot(models.Model):
     topic_id = models.PositiveBigIntegerField()
     responsible_name = models.CharField("Verantwortlich", max_length=255, blank=True)
     followup_date = models.DateField("Wiedervorlage am", null=True, blank=True)
+    followup_series_name = models.CharField("Besprechungsreihe der Wiedervorlage", max_length=160, blank=True)
 
     class Meta:
         ordering = ["id"]
