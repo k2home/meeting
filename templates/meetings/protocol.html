@@ -107,4 +107,19 @@
 .protocol-pdf-drag-icon[hidden]{display:none}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
+
+<!-- protocol-print-action -->
+<script>
+(() => {
+  const menu = document.querySelector(".meeting-action-menu");
+  if (!menu || document.getElementById("protocol-print")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "protocol-print";
+  button.className = "meeting-menu-button";
+  button.textContent = "Protokoll drucken";
+  button.addEventListener("click", () => window.print());
+  menu.append(button);
+})();
+</script>
 {% endblock %}
