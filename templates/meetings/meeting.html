@@ -470,8 +470,9 @@
     if (!series || !meeting) return;
     const ownerForm = formId ? document.getElementById(formId) : form;
     const scheduleFlag = ownerForm ? ownerForm.querySelector('[name="schedule_item"]') : null;
+    const initialMeetingValue = meeting.value;
     function markFollowupChanged() {
-      if (scheduleFlag) scheduleFlag.disabled = !meeting.value;
+      if (scheduleFlag) scheduleFlag.disabled = meeting.value === initialMeetingValue;
     }
     function filterMeetings() {
       Array.from(meeting.options).forEach((option) => {
