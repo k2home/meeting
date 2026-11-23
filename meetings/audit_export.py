@@ -10,6 +10,14 @@ from .access import is_admin
 from .models import AuditEvent, MeetingSeries, SeriesAccess, Topic
 
 
+def _safe_csv_cell(value):
+    """Prevent spreadsheet formula execution from user-controlled audit data."""
+    text = str(value or "")
+    if text.lstrip(" \\t\\r\\n")[:1] in ("=", "+", "-", "@"):
+        return "'" + text
+    return text
+
+
 @login_required
 def audit_history_csv(request):
     admin_access = is_admin(request.user)
@@ -46,11 +54,11 @@ def audit_history_csv(request):
             event.created_at.isoformat(),
             event.get_action_display(),
             event.actor.get_full_name() or event.actor.get_username() if event.actor_id else "System / gelöschter Benutzer",
-            series_name,
-            event.topic.title if event.topic_id else "",
-            meeting_label,
-            event.summary,
-            json.dumps(event.changes, ensure_ascii=False, sort_keys=True),
+            _safe_csv_cell(series_name),
+            _safe_csv_cell(event.topic.title if event.topic_id else ""),
+            _safe_csv_cell(meeting_label),
+            _safe_csv_cell(event.summary),
+            _safe_csv_cell(json.dumps(event.changes, ensure_ascii=False, sort_keys=True)),
         ])
     response = HttpResponse("\ufeff" + output.getvalue(), content_type="text/csv; charset=utf-8")
     response["Content-Disposition"] = 'attachment; filename="aenderungsverlauf.csv"'
