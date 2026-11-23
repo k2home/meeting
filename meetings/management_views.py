@@ -554,7 +554,7 @@ def _validate_backup_migrations(migrations):
         normalized.add(key)
 
     current_migrations = MigrationLoader(None).graph.nodes
-    unknown = sorted(normalized - current_migrations)
+    unknown = sorted(normalized.difference(current_migrations))
     if unknown:
         details = ", ".join(f"{app}.{name}" for app, name in unknown[:10])
         raise RuntimeError(
