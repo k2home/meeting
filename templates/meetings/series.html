@@ -19,7 +19,7 @@
           <td>{{ item.user.get_full_name|default:item.user.username }}</td>
           <td>{{ item.series.name }}</td>
           <td>{{ item.get_requested_role_display }}</td>
-          <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
+          <td>{{ item.created_at|date:"DATETIME_FORMAT" }}</td>
           <td>
             <form method="post" style="min-width:15rem">
               {% csrf_token %}
