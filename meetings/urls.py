@@ -47,6 +47,7 @@ urlpatterns = [
     path("verwaltung/nutzer/<int:pk>/passwort-zuruecksetzen/", management_views.management_user_password_reset, name="management_user_password_reset"),
     path("verwaltung/nutzer/csv-export/", management_views.management_user_csv_export, name="management_user_csv_export"),
     path("verwaltung/nutzer/csv-import/", management_views.management_user_csv_import, name="management_user_csv_import"),
+    path("verwaltung/nutzer/csv-muster/", management_views.management_user_csv_sample, name="management_user_csv_sample"),
     path("verwaltung/themen/csv-export/", management_views.management_topic_csv_export, name="management_topic_csv_export"),
     path("verwaltung/themen/csv-import/", management_views.management_topic_csv_import, name="management_topic_csv_import"),
     path("verwaltung/themen/csv-muster/", management_views.management_topic_csv_sample, name="management_topic_csv_sample"),
