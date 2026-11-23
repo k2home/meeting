@@ -42,9 +42,17 @@ class PersonalMeetingsOverviewTests(TestCase):
         self.assertContains(response, "Vergangene Sitzung")
         self.assertContains(response, "calendar-show-past")
         self.assertContains(response, "calendar-series-filter")
-        self.assertEqual({event["series_id"] for event in response.context["calendar_events"]}, {
+        visible_series_ids = {
             self.participant_series.pk, self.reader_series.pk, self.moderator_series.pk,
-        })
+        }
+        self.assertEqual(
+            {event["series_id"] for event in response.context["calendar_events"]},
+            visible_series_ids,
+        )
+        self.assertEqual(
+            {row["series"].pk for row in response.context["series_rows"]},
+            visible_series_ids,
+        )
 
     def test_series_table_shows_next_open_meeting_and_role(self):
         self.client.force_login(self.user)
