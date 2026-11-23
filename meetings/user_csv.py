@@ -161,9 +161,14 @@ def _parse_bool(value, field, row_number, errors):
     return None
 
 
+def _csv_data_text(text):
+    """Ignore explanatory comment lines in documented CSV templates."""
+    return "\\n".join(line for line in text.splitlines() if not line.lstrip().startswith("#"))
+
+
 def _parse_csv(text):
     errors = []
-    reader = csv.DictReader(io.StringIO(text, newline=""), delimiter=";")
+    reader = csv.DictReader(io.StringIO(_csv_data_text(text), newline=""), delimiter=";")
     headers = reader.fieldnames or []
     if not headers:
         return [], ["Die CSV-Datei enthält keine Kopfzeile."]
@@ -291,7 +296,7 @@ def import_users_csv(request):
         grouped, errors = _parse_csv(text)
         resolved_users, identity_errors = _resolve_existing_users(grouped)
         errors.extend(identity_errors)
-        headers = next(csv.reader(io.StringIO(text), delimiter=";"))
+        headers = next(csv.reader(io.StringIO(_csv_data_text(text)), delimiter=";"))
         if "is_administrator" in headers and not (
             request.user.is_superuser or request.user.groups.filter(name="Admin").exists()
         ):
