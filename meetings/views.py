@@ -2159,7 +2159,7 @@ def _deployment_info():
             return {
                 "deployment_type": "Docker Compose",
                 "current_branch": os.getenv("MEETING_BUILD_BRANCH", "unbekannt"),
-                "current_commit": os.getenv("MEETING_BUILD_COMMIT", "nicht verfügbar"),
+                "current_commit_date": os.getenv("MEETING_BUILD_COMMIT_DATE", "nicht verfügbar"),
                 "current_image": "",
                 "build_created": "",
                 "update_available": False,
@@ -2168,7 +2168,7 @@ def _deployment_info():
         return {
             "deployment_type": "Docker Compose",
             "current_branch": os.getenv("MEETING_BUILD_BRANCH", "Im Image nicht hinterlegt"),
-            "current_commit": os.getenv("MEETING_BUILD_COMMIT", "Im Image nicht hinterlegt"),
+            "current_commit_date": os.getenv("MEETING_BUILD_COMMIT_DATE", "Im Image nicht hinterlegt"),
             "current_image": "",
             "build_created": "",
             "update_available": True,
@@ -2189,7 +2189,7 @@ def _deployment_info():
         return {
             "deployment_type": "Debian / systemd",
             "current_branch": git_value("branch", "--show-current"),
-            "current_commit": git_value("rev-parse", "--short", "HEAD"),
+            "current_commit_date": git_value("show", "-s", "--format=%cI", "HEAD"),
             "current_commit_message": git_value("show", "-s", "--format=%s", "HEAD"),
             "current_image": "",
             "build_created": "",
@@ -2200,7 +2200,7 @@ def _deployment_info():
     return {
         "deployment_type": "Nicht eingerichtet",
         "current_branch": "unbekannt",
-        "current_commit": "nicht verfügbar",
+        "current_commit_date": "nicht verfügbar",
         "current_image": "",
         "build_created": "",
         "update_available": False,
