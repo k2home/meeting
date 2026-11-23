@@ -1,5 +1,7 @@
 import os
 from unittest.mock import patch
+import subprocess
+from pathlib import Path
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -75,3 +77,27 @@ class InitialSetupWizardTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(reverse("setup_wizard"), {"step": "organization"})
         self.assertRedirects(response, reverse("dashboard"))
+
+    def test_system_check_and_completion_steps(self):
+        user = User.objects.create_superuser(username="root", email="root@example.org", password="StrongPassword123!")
+        self.client.force_login(user)
+        session = self.client.session
+        session["initial_setup_user_id"] = user.pk
+        session["initial_setup_organization_saved"] = True
+        session.save()
+        checks = [{"label": "Testprüfung", "ok": True, "detail": "OK"}]
+        with patch("meetings.setup_views._setup_checks", return_value=checks):
+            response = self.client.get("/setup/?step=system")
+            self.assertEqual(response.status_code, 200)
+            response = self.client.post("/setup/?step=system")
+            self.assertRedirects(response, "/setup/?step=complete")
+            response = self.client.post("/setup/?step=complete")
+        self.assertRedirects(response, reverse("dashboard"))
+        self.assertNotIn("initial_setup_user_id", self.client.session)
+
+    def test_installation_scripts_have_valid_bash_syntax(self):
+        root = Path(__file__).resolve().parent.parent
+        for script in ("deploy/install-debian.sh", "deploy/install-docker.sh"):
+            with self.subTest(script=script):
+                result = subprocess.run(["bash", "-n", str(root / script)], capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
