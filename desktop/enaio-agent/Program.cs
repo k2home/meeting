@@ -98,7 +98,7 @@ internal static class Program
         }
     }
 
-    private static void LogLocal(string level, string message)
+    internal static void LogLocal(string level, string message)
     {
         try
         {
@@ -217,12 +217,14 @@ internal static class EnaioClient
         {
             // GetAllOpenFolders returns every opened folder/register. It does not identify
             // the active tab, so never silently assume that the first entry is the target.
-            var opened = Convert.ToString(app.GetAllOpenFolders()) ?? "";
+            string opened = Convert.ToString(app.GetAllOpenFolders()) ?? "";
             var candidates = new List<OpenFolderCandidate>();
             foreach (var item in opened.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             {
-                var parts = item.Split(',');
-                if (parts.Length != 2 || !long.TryParse(parts[0], out var candidateId) || !int.TryParse(parts[1], out var candidateType))
+                string[] parts = item.Split(',');
+                long candidateId;
+                int candidateType;
+                if (parts.Length != 2 || !long.TryParse(parts[0], out candidateId) || !int.TryParse(parts[1], out candidateType))
                     continue;
 
                 object candidateName = "";
@@ -246,7 +248,7 @@ internal static class EnaioClient
             if (string.IsNullOrWhiteSpace(selected.Path))
                 throw new InvalidOperationException("enaio hat für den ausgewählten geöffneten Ordner keinen vollständigen Pfad geliefert.");
 
-            LogLocal("INFO", "Geöffneter enaio-Ablageordner übernommen: " + selected.Path +
+            Program.LogLocal("INFO", "Geöffneter enaio-Ablageordner übernommen: " + selected.Path +
                 " (ID " + selected.Id + ", Typ " + selected.Type + ").");
             return new SelectedFolder(selected.Id.ToString(), selected.Type, selected.Name, selected.Path);
         }
@@ -337,7 +339,7 @@ internal static class EnaioClient
             var query = "[ANFRAGE]\r\nSCHRANK=" + Ini(archiveName) + "\r\nREGISTER=" + Ini(registerType) +
                 "\r\nKLAUSEL1=" + Ini(registerType) + "@" + Ini(registerNameField) + "=" + Ini(series) +
                 "\r\nAUSDRUCK1=" + Ini(registerType) + "@1121^1^" + rootId + "~0~1122^1^0\r\nDATENFELDER=0\r\nDATENHEADER=0\r\nANFRAGEFENSTER=0\r\n";
-            var resultFile = Convert.ToString(app.StartRegRequest(query)) ?? "";
+            string resultFile = Convert.ToString(app.StartRegRequest(query)) ?? "";
             var registerId = 0L;
             if (string.IsNullOrWhiteSpace(resultFile) || resultFile == "READY" || !File.Exists(resultFile))
                 throw new InvalidOperationException("Die Registersuche in enaio konnte nicht ausgeführt werden: " + Convert.ToString(app.GetLastError()));
@@ -347,7 +349,7 @@ internal static class EnaioClient
 
             if (registerId == 0)
             {
-                LogLocal("INFO", "Das Register '" + series + "' fehlt. enaio öffnet jetzt die Indexdatenmaske zur bestätigten Registeranlage.");
+                Program.LogLocal("INFO", "Das Register '" + series + "' fehlt. enaio öffnet jetzt die Indexdatenmaske zur bestätigten Registeranlage.");
                 registerHandoff = CreateHandoffFile("[Data]\r\nFeld0=" + Ini(registerNameField) + "=" + Ini(series) + "\r\n");
                 object newRegisterId = 0;
                 var registerCode = Convert.ToInt32(app.InsertNewDMSObject(registerTypeId, rootId, registerHandoff, ref newRegisterId));
@@ -357,11 +359,11 @@ internal static class EnaioClient
                         : "enaio konnte die Registermaske nicht erfolgreich abschließen (Code " + registerCode + "): " + Convert.ToString(app.GetLastError()));
                 if (!long.TryParse(Convert.ToString(newRegisterId), out registerId) || registerId <= 0)
                     throw new InvalidOperationException("enaio hat die bestätigte Registeranlage nicht mit einer gültigen Register-ID quittiert.");
-                LogLocal("INFO", "Register wurde vom Benutzer in enaio bestätigt (ID " + registerId + ").");
+                Program.LogLocal("INFO", "Register wurde vom Benutzer in enaio bestätigt (ID " + registerId + ").");
             }
 
             documentHandoff = CreateHandoffFile("[Data]\r\n[Files]\r\nFile0=" + pdfPath + "\r\n");
-            LogLocal("INFO", "enaio öffnet jetzt die Indexdatenmaske zur bestätigten Ablage des Protokolls in Register " + series + ".");
+            Program.LogLocal("INFO", "enaio öffnet jetzt die Indexdatenmaske zur bestätigten Ablage des Protokolls in Register " + series + ".");
             object newDocumentId = 0;
             var documentCode = Convert.ToInt32(app.InsertNewDMSObject(documentTypeId, registerId, documentHandoff, ref newDocumentId));
             if (documentCode != 0)
@@ -372,7 +374,7 @@ internal static class EnaioClient
                 throw new InvalidOperationException("enaio hat die bestätigte Dokumentablage nicht mit einer gültigen Dokument-ID quittiert.");
 
             var path = Convert.ToString(app.GetObjectPath(documentId, documentTypeId)) ?? "";
-            LogLocal("INFO", "Protokollablage in enaio bestätigt: " + path + " (Dokument-ID " + documentId + ").");
+            Program.LogLocal("INFO", "Protokollablage in enaio bestätigt: " + path + " (Dokument-ID " + documentId + ").");
             return new FilingResult(documentId.ToString(), documentTypeId, path);
         }
         finally
