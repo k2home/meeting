@@ -72,13 +72,32 @@ document.addEventListener('submit', async (event) => {
   const status = form.querySelector('[data-enaio-transfer-status]');
   button.disabled = true;
   status.textContent = 'Übergabe wird vorbereitet …';
+  let jobData = null;
   try {
     const response = await fetch(form.action, {method: 'POST', credentials: 'same-origin', headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}});
     const data = await response.json();
+    jobData = data;
     if (!response.ok) throw new Error(data.error || 'Die Übergabe konnte nicht gestartet werden.');
-    status.textContent = 'enaio-Übergabe wird geöffnet.';
-    window.location.href = data.launch_url;
+    status.textContent = 'Warte auf den enaio-Agenten auf diesem Arbeitsplatz …';
+    const deadline = Date.now() + Math.max(30000, (data.expires_in || 600) * 1000 - 15000);
+    while (Date.now() < deadline) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const check = await fetch(data.status_url, {credentials: 'same-origin', headers: {'Accept': 'application/json'}});
+      const result = await check.json();
+      if (result.completed) { status.textContent = 'Das Protokoll wurde in enaio abgelegt.'; return; }
+      if (result.expired) throw new Error('Der Ablageauftrag ist abgelaufen.');
+      if (result.error) throw new Error(result.error);
+    }
+    throw new Error('Keine Rückmeldung vom enaio-Agenten. Der Auftrag wird abgebrochen.');
   } catch (error) {
+    if (jobData?.cancel_url) {
+      try {
+        await fetch(jobData.cancel_url, {
+          method: 'POST', credentials: 'same-origin',
+          headers: {'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value}
+        });
+      } catch (_cancelError) { /* Der Server lässt den Auftrag spätestens mit Ablauf verfallen. */ }
+    }
     status.textContent = error.message;
     button.disabled = false;
   }

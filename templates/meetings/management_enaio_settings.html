@@ -8,7 +8,11 @@
 <div class="card">
   <p>Alle Protokolle werden unterhalb dieses Ordners abgelegt. Innerhalb des Ordners wird je Besprechungsreihe ein gleichnamiges Register verwendet. Fehlt das Register, legt der enaio-Client es bei der Ablage an.</p>
   {% if configured %}<p class="muted">Ein Ablageordner ist konfiguriert.</p>{% else %}<p class="muted">Noch kein Ablageordner konfiguriert. Die enaio-Ablage bleibt bis zur Einrichtung deaktiviert.</p>{% endif %}
+  {% if not object_definition_configured %}<p class="muted">Die technische Schrank-/Registerdefinition fehlt noch. Protokollablagen bleiben deaktiviert, bis alle drei technischen Angaben hinterlegt sind.</p>{% endif %}
   <form method="post" id="enaio-settings-form">
+    <p>{{ form.archive_name.label_tag }} {{ form.archive_name }}{% if form.archive_name.help_text %}<small class="muted">{{ form.archive_name.help_text }}</small>{% endif %}{{ form.archive_name.errors }}</p>
+    <p>{{ form.register_type_name.label_tag }} {{ form.register_type_name }}{% if form.register_type_name.help_text %}<small class="muted">{{ form.register_type_name.help_text }}</small>{% endif %}{{ form.register_type_name.errors }}</p>
+    <p>{{ form.register_name_field.label_tag }} {{ form.register_name_field }}{% if form.register_name_field.help_text %}<small class="muted">{{ form.register_name_field.help_text }}</small>{% endif %}{{ form.register_name_field.errors }}</p>
     {% csrf_token %}
     <p>{{ form.root_folder_id.label_tag }} {{ form.root_folder_id }}
       {% if form.root_folder_id.help_text %}<small class="muted">{{ form.root_folder_id.help_text }}</small>{% endif %}{{ form.root_folder_id.errors }}</p>
@@ -41,13 +45,15 @@
   }
   button.addEventListener("click",async()=>{
     button.disabled=true; status.textContent="enaio-Auswahl wird vorbereitet …";
+    let jobData=null;
     try{
       const response=await fetch("{% url 'enaio_folder_selection_start' %}",{method:"POST",headers:{"X-CSRFToken":csrf,"Accept":"application/json"}});
       const data=await readJson(response);
+      jobData=data;
       if(!response.ok)throw new Error(data.error||`Die enaio-Auswahl konnte nicht gestartet werden (HTTP ${response.status}).`);
-      if(!data.launch_url||!data.status_url)throw new Error("Die Serverantwort enthält keine vollständigen Startdaten für die enaio-Auswahl.");
-      window.location.href=data.launch_url; status.textContent="Bitte wählen Sie den Ordner im geöffneten enaio-Client aus.";
-      const deadline=Date.now()+120000;
+      if(!data.status_url)throw new Error("Die Serverantwort enthält keine Statusadresse für die enaio-Auswahl.");
+      status.textContent="Warte auf den enaio-Agenten auf diesem Arbeitsplatz. Bitte wählen Sie den Ordner im geöffneten enaio-Client aus.";
+      const deadline=Date.now()+Math.max(30000,(data.expires_in||300)*1000-15000);
       while(Date.now()<deadline){
         await new Promise(resolve=>setTimeout(resolve,2000));
         const check=await fetch(data.status_url,{headers:{"Accept":"application/json"}});
@@ -56,8 +62,14 @@
         if(result.completed){window.location.reload();return;}
         if(result.expired)throw new Error("Die Auswahl ist abgelaufen. Bitte versuchen Sie es erneut.");
       }
-      throw new Error("Es wurde keine Rückmeldung vom enaio-Client empfangen.");
-    }catch(error){status.textContent=error.message;button.disabled=false;}
+      throw new Error("Es wurde keine Rückmeldung vom enaio-Client empfangen. Der Auftrag wird abgebrochen.");
+    }catch(error){
+      if(jobData?.cancel_url){
+        try{await fetch(jobData.cancel_url,{method:"POST",credentials:"same-origin",headers:{"X-CSRFToken":csrf}});}
+        catch(_cancelError){/* Der Server lässt den Auftrag spätestens mit Ablauf verfallen. */}
+      }
+      status.textContent=error.message;button.disabled=false;
+    }
   });
 })();
 </script>

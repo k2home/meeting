@@ -426,6 +426,9 @@ class EnaioSettings(models.Model):
     root_folder_type = models.PositiveIntegerField("enaio-Objekttyp", default=0)
     root_folder_path = models.CharField("Ordnerpfad", max_length=1000, blank=True)
     root_folder_name = models.CharField("Ordnername", max_length=255, blank=True)
+    archive_name = models.CharField("enaio-Schrankname", max_length=255, blank=True)
+    register_type_name = models.CharField("Technischer Registertyp", max_length=255, blank=True)
+    register_name_field = models.CharField("Technisches Register-Namensfeld", max_length=255, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -451,6 +454,9 @@ class EnaioFolderSelection(models.Model):
     selected_folder_type = models.PositiveIntegerField(default=0)
     selected_folder_name = models.CharField(max_length=255, blank=True)
     selected_folder_path = models.CharField(max_length=1000, blank=True)
+    agent_lease_token = models.CharField(max_length=64, blank=True)
+    agent_lease_expires_at = models.DateTimeField(null=True, blank=True)
+    error_message = models.CharField(max_length=500, blank=True)
 
     class Meta:
         ordering = ["-created_at"]
@@ -483,7 +489,24 @@ class EnaioTransfer(models.Model):
     consumed_at = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="pending")
     error_message = models.CharField(max_length=500, blank=True)
+    agent_lease_token = models.CharField(max_length=64, blank=True)
+    agent_lease_expires_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]
 
+
+
+class EnaioAgent(models.Model):
+    """One locally installed enaio bridge per Meeting Manager account."""
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_agent")
+    device_token_hash = models.CharField(max_length=64, blank=True)
+    pairing_code_hash = models.CharField(max_length=64, blank=True)
+    pairing_expires_at = models.DateTimeField(null=True, blank=True)
+    device_name = models.CharField(max_length=120, blank=True)
+    last_seen_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"enaio-Agent: {self.user}"
