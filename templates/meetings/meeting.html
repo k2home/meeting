@@ -576,4 +576,22 @@
   }
 })();
 </script>
+
+<!-- agenda-history-copy-handler -->
+<script>
+(() => {
+  const content = document.getElementById("agenda-history-content");
+  if (!content) return;
+  content.addEventListener("click", async event => {
+    const button = event.target.closest("#copy-agenda-history");
+    if (!button) return;
+    try {
+      await navigator.clipboard.writeText(content.innerText.trim());
+      button.textContent = "Verlauf kopiert";
+    } catch {
+      button.textContent = "Kopieren nicht möglich";
+    }
+  });
+})();
+</script>
 {% endblock %}
