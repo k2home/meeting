@@ -309,7 +309,9 @@ def enaio_agent_log_write(request):
     if level not in dict(EnaioAgentLog.LEVEL_CHOICES) or not message.strip():
         return JsonResponse({"error": "Log-Level oder Meldung ungültig."}, status=400)
     EnaioAgentLog.objects.create(agent=agent, level=level, message=message)
-    EnaioAgentLog.objects.filter(agent=agent).order_by("-created_at")[500:].delete()
+    old_ids = list(EnaioAgentLog.objects.filter(agent=agent).order_by("-created_at").values_list("pk", flat=True)[500:])
+    if old_ids:
+        EnaioAgentLog.objects.filter(pk__in=old_ids).delete()
     return JsonResponse({"ok": True})
 
 
