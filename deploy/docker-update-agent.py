@@ -83,8 +83,8 @@ def persist_selected_image(image_ref):
     env_file = APP_DIR / ".env"
     if env_file.is_symlink() or not env_file.is_file():
         raise RuntimeError("Die lokale Docker-.env-Datei fehlt oder ist kein reguläres File.")
-    metadata = env_file.stat()
-    lines = env_file.read_text(encoding="utf-8").splitlines()
+    original = env_file.read_text(encoding="utf-8")
+    lines = original.splitlines()
     replacement = "MEETING_IMAGE=" + image_ref
     found = False
     updated = []
@@ -97,18 +97,45 @@ def persist_selected_image(image_ref):
             updated.append(line)
     if not found:
         updated.append(replacement)
-    temporary = env_file.with_name(".env.meeting-image.tmp")
-    temporary.write_text("\n".join(updated) + "\n", encoding="utf-8")
-    os.chown(temporary, metadata.st_uid, metadata.st_gid)
-    os.chmod(temporary, stat.S_IMODE(metadata.st_mode))
-    temporary.replace(env_file)
 
+    backup = STATE_FILE.parent / "compose-env.backup"
+    backup.write_text(original, encoding="utf-8")
+    os.chmod(backup, 0o600)
+    try:
+        with env_file.open("w", encoding="utf-8") as target:
+            target.write("\n".join(updated) + "\n")
+            target.flush()
+            os.fsync(target.fileno())
+    except Exception:
+        with env_file.open("w", encoding="utf-8") as target:
+            target.write(original)
+            target.flush()
+            os.fsync(target.fileno())
+        backup.unlink(missing_ok=True)
+        raise
+    return backup
+
+
+def recover_environment_backup():
+    backup = STATE_FILE.parent / "compose-env.backup"
+    if not backup.is_file():
+        return
+    previous_state = read_state()
+    if previous_state.get("status") != "success":
+        env_file = APP_DIR / ".env"
+        if env_file.is_file() and not env_file.is_symlink():
+            with env_file.open("w", encoding="utf-8") as target:
+                target.write(backup.read_text(encoding="utf-8"))
+                target.flush()
+                os.fsync(target.fileno())
+    backup.unlink(missing_ok=True)
 
 def run_update(branch):
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
     log = []
     previous_image = None
+    environment_backup = None
     try:
         previous_image = preserve_running_image()
         target_image = f"ghcr.io/k2home/meeting:{'latest' if branch == 'main' else 'beta'}"
@@ -130,11 +157,22 @@ def run_update(branch):
             time.sleep(5)
         if not healthy:
             raise RuntimeError("Die Django-Prüfung war nach dem Update nicht erfolgreich.")
-        persist_selected_image(target_image)
+        environment_backup = persist_selected_image(target_image)
         write_state(status="success", branch=branch, started_at=started, finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), message=f"Update auf {branch} erfolgreich.", log="\n".join(log)[-16000:])
+        if environment_backup:
+            environment_backup.unlink(missing_ok=True)
         remove_rollback_image(previous_image)
     except Exception as exc:
         log.append(str(exc))
+        if environment_backup and environment_backup.exists():
+            try:
+                with (APP_DIR / ".env").open("w", encoding="utf-8") as target:
+                    target.write(environment_backup.read_text(encoding="utf-8"))
+                    target.flush()
+                    os.fsync(target.fileno())
+                environment_backup.unlink(missing_ok=True)
+            except Exception as restore_exc:
+                log.append("Wiederherstellung der .env fehlgeschlagen: " + str(restore_exc))
         rollback_message = ""
         if previous_image:
             try:
@@ -230,6 +268,7 @@ class ThreadedUnixServer(ThreadingMixIn, UnixStreamServer):
 
 
 if __name__ == "__main__":
+    recover_environment_backup()
     previous_state = read_state()
     if previous_state.get("status") == "running":
         write_state(
