@@ -332,7 +332,7 @@ class OrganizationSettings(models.Model):
         super().clean()
         try:
             ZoneInfo(self.timezone)
-        except (ZoneInfoNotFoundError, TypeError):
+        except (ZoneInfoNotFoundError, TypeError, ValueError):
             raise ValidationError({"timezone": "Bitte eine gültige Zeitzone auswählen."})
 
     def save(self, *args, **kwargs):
