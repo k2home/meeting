@@ -1656,7 +1656,7 @@ class DashboardStatusFilterTests(TestCase):
         self.client.force_login(self.user)
 
     def test_dashboard_defaults_to_open_and_in_progress_agenda_items(self):
-        response = self.client.get(reverse("dashboard"))
+        response = self.client.get(reverse("dashboard"), {"due": ""})
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -1668,13 +1668,13 @@ class DashboardStatusFilterTests(TestCase):
         self.assertNotContains(response, "Status Erledigt")
 
     def test_dashboard_keeps_explicit_single_status_filters(self):
-        response = self.client.get(reverse("dashboard"), {"status": "open"})
+        response = self.client.get(reverse("dashboard"), {"status": "open", "due": ""})
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context["topics"]), [self.open_topic])
         self.assertEqual(response.context["selected_status"], "open")
 
-        response = self.client.get(reverse("dashboard"), {"status": "in_progress"})
+        response = self.client.get(reverse("dashboard"), {"status": "in_progress", "due": ""})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context["topics"]), [self.in_progress_topic])
         self.assertEqual(response.context["selected_status"], "in_progress")
