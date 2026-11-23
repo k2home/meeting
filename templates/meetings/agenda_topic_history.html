@@ -11,3 +11,23 @@
 {% else %}
   <p class="muted">Zu diesem Thema sind noch keine weiteren Besprechungen dokumentiert.</p>
 {% endif %}
+
+<!-- agenda-history-copy -->
+<script>
+(() => {
+  const heading = document.querySelector("h3");
+  const entries = [...document.querySelectorAll(".agenda-history-entry")];
+  if (!heading || !entries.length || document.getElementById("copy-agenda-history")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "copy-agenda-history";
+  button.className = "secondary";
+  button.textContent = "Verlauf kopieren";
+  button.addEventListener("click", async () => {
+    const text = [heading.textContent.trim(), ...entries.map(entry => entry.innerText.trim())].join("\n\n");
+    try { await navigator.clipboard.writeText(text); button.textContent = "Verlauf kopiert"; }
+    catch { button.textContent = "Kopieren nicht möglich"; }
+  });
+  heading.insertAdjacentElement("afterend", button);
+})();
+</script>
