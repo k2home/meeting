@@ -24,17 +24,17 @@ a:hover { color: var(--hagen-blue-dark); }
 .module h2, .module caption, .inline-group h2 { background: var(--hagen-blue); color: #fff; }
 div.breadcrumbs { background: #e7eef6; color: #17436c; border-bottom: 1px solid #cfdae6; }
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
-  background: var(--secondary-color);
-  border: 1px solid var(--secondary-color);
-  color: #243247;
+  background: var(--secondary-button-bg);
+  border: 1px solid var(--secondary-button-bg);
+  color: var(--secondary-button-text);
   border-radius: 4px;
 }
 .button.secondary, input[type=submit].secondary, .submit-row input.secondary, a.button.secondary { background:#e9edf2; border-color:#d0d5dd; color:#344054; box-shadow:none; }
 .button.secondary:hover, input[type=submit].secondary:hover, a.button.secondary:hover { background:#dfe4ea; }
 .button.default, input[type=submit].default, .submit-row input.default {
-  background: var(--secondary-color);
-  border-color: var(--secondary-color);
-  color: #243247;
+  background: var(--secondary-button-bg);
+  border-color: var(--secondary-button-bg);
+  color: var(--secondary-button-text);
   box-shadow: inset 0 -3px 0 var(--hagen-yellow);
 }
 .button:hover, input[type=submit]:hover, input[type=button]:hover { background: color-mix(in srgb, var(--secondary-color) 82%, #000); }
@@ -122,10 +122,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
   --hagen-blue-dark: color-mix(in srgb, var(--primary-color) 78%, #000);
   --hagen-light-blue: var(--secondary-color);
   --hagen-yellow: var(--tertiary-color);
-
-
-
-
+  --primary-button-bg: {{ primary_button_bg_light }};
+  --primary-button-text: {{ primary_button_text_light }};
+  --secondary-button-bg: {{ secondary_button_bg_light }};
+  --secondary-button-text: {{ secondary_button_text_light }};
 }
 :root[data-theme="dark"] {
   --primary-color: {{ primary_color_dark }};
@@ -135,10 +135,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--hagen-blue); out
   --hagen-blue-dark: color-mix(in srgb, var(--primary-color) 78%, #000);
   --hagen-light-blue: var(--secondary-color);
   --hagen-yellow: var(--tertiary-color);
-
-
-
-
+  --primary-button-bg: {{ primary_button_bg_dark }};
+  --primary-button-text: {{ primary_button_text_dark }};
+  --secondary-button-bg: {{ secondary_button_bg_dark }};
+  --secondary-button-text: {{ secondary_button_text_dark }};
 }
 .messages{background:color-mix(in srgb,var(--secondary-color) 16%,var(--surface))}
 
