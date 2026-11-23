@@ -17,10 +17,6 @@ if [[ -n "$TARGET_BRANCH" && ( ! "$TARGET_BRANCH" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]
   echo "Ungültiger Update-Branch." >&2
   exit 2
 fi
-if [[ -n "$TARGET_BRANCH" ]] && ! git -C "$APP_DIR" ls-remote --exit-code origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
-  echo "Der ausgewählte Branch ist im Remote-Repository nicht verfügbar." >&2
-  exit 2
-fi
 if [[ "$EUID" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo $APP_DIR/deploy/update.sh"
   exit 1
@@ -37,6 +33,10 @@ else
 fi
 if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "main" && "$TARGET_BRANCH" != "beta" && "$TESTING_MODE" -ne 1 ]]; then
   echo "Zusätzliche Branches sind nur mit -testing verfügbar. Der Testing-Modus wurde deaktiviert." >&2
+  exit 2
+fi
+if [[ -n "$TARGET_BRANCH" ]] && ! git -C "$APP_DIR" ls-remote --exit-code origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
+  echo "Der ausgewählte Branch ist im Remote-Repository nicht verfügbar." >&2
   exit 2
 fi
 
