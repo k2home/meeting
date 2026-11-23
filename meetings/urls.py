@@ -30,7 +30,7 @@ urlpatterns = [
     path("topics/<int:pk>/comments/add/", views.topic_comment_add, name="topic_comment_add"),
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
-    path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
+    path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),\n    path("organization/logo/", views.organization_logo, name="organization_logo"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
     path("konto/passwort-zuruecksetzen/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(template_name="meetings/password_reset_confirm.html"), name="password_reset_confirm"),
