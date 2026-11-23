@@ -6,8 +6,12 @@ if [[ "$#" -gt 1 ]]; then
   echo "Verwendung: $0 [beta|main]" >&2
   exit 2
 fi
-if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "beta" && "$TARGET_BRANCH" != "main" ]]; then
-  echo "Unzulässiger Update-Branch. Erlaubt sind ausschließlich beta und main." >&2
+if [[ -n "$TARGET_BRANCH" && ( ! "$TARGET_BRANCH" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$ || "$TARGET_BRANCH" == *".."* || "$TARGET_BRANCH" == */ || "$TARGET_BRANCH" == *. ) ]]; then
+  echo "Ungültiger Update-Branch." >&2
+  exit 2
+fi
+if [[ -n "$TARGET_BRANCH" ]] && ! git -C "$APP_DIR" ls-remote --exit-code origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
+  echo "Der ausgewählte Branch ist im Remote-Repository nicht verfügbar." >&2
   exit 2
 fi
 if [[ "$EUID" -ne 0 ]]; then
