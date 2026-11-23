@@ -41,9 +41,17 @@
     const recurrence = document.getElementById("id_recurrence")?.selectedOptions[0]?.textContent || "Wiederholung";
     const interval = document.getElementById("id_recurrence_interval")?.value || "1";
     const weekday = document.getElementById("id_weekday")?.selectedOptions[0]?.textContent || "";
-    const start = document.getElementById("id_start_date")?.value || "";
-    const end = document.getElementById("id_end_date")?.value || "ohne Enddatum";
-    preview.textContent = `Vorschau: alle ${interval} ${recurrence.toLocaleLowerCase("de")} · ${weekday} · von ${start || "Startdatum offen"} bis ${end}`;
+    const startValue = document.getElementById("id_start_date")?.value || "";
+    const endValue = document.getElementById("id_end_date")?.value || "";
+    const formatDate = value => {
+      if (!value) return "";
+      const date = new Date(value + "T00:00:00");
+      return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("de-DE").format(date);
+    };
+    const start = formatDate(startValue) || "Startdatum offen";
+    const end = formatDate(endValue) || "ohne Enddatum";
+    const unit = interval === "1" ? recurrence.toLocaleLowerCase("de") : recurrence.toLocaleLowerCase("de") + " (Intervall " + interval + ")";
+    preview.textContent = `Vorschau: ${unit} · ${weekday} · von ${start} bis ${end}`;
   };
   fields.filter(Boolean).forEach(field => field.addEventListener("change", update));
   update();
