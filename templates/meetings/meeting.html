@@ -576,4 +576,22 @@
   }
 })();
 </script>
+
+<!-- meeting-copy-link -->
+<script>
+(() => {
+  const menu = document.querySelector(".meeting-action-menu");
+  if (!menu || document.getElementById("meeting-copy-link")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "meeting-copy-link";
+  button.className = "meeting-menu-button secondary";
+  button.textContent = "Besprechungs-Link kopieren";
+  button.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(window.location.href); button.textContent = "Link kopiert"; }
+    catch { button.textContent = "Kopieren nicht möglich"; }
+  });
+  menu.append(button);
+})();
+</script>
 {% endblock %}
