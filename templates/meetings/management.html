@@ -22,10 +22,25 @@
   input.id = "management-shortcut-search";
   input.placeholder = "Verwaltungsbereich suchen …";
   input.setAttribute("aria-label", "Verwaltungsbereiche suchen");
-  document.querySelector(".management-grid")?.before(input);
+  cards.forEach((card, index) => { card.id = "management-shortcut-" + index; });
+  input.setAttribute("aria-controls", cards.map(card => card.id).join(" "));
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
+  const grid = document.querySelector(".management-grid");
+  if (!grid) return;
+  grid.before(input, feedback);
   input.addEventListener("input", () => {
     const term = input.value.trim().toLocaleLowerCase("de");
-    cards.forEach(card => { card.hidden = !!term && !card.textContent.toLocaleLowerCase("de").includes(term); });
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const visible = !term || card.textContent.toLocaleLowerCase("de").includes(term);
+      card.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Verwaltungsbereiche gefunden.";
   });
 })();
 </script>
