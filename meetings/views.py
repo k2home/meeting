@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 from functools import wraps
 from io import BytesIO
+import logging
 from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from urllib.parse import quote, urlencode
@@ -26,6 +27,8 @@ from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
 from .models import SeriesAccess, SeriesAccessRequest
 from .user_display import user_display_name
+
+logger = logging.getLogger(__name__)
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -1170,6 +1173,22 @@ def protocol_pdf(request, pk):
     organization_name = organization.name.strip() if organization and organization.name else ""
     brand = OrganizationSettings.current_brand_colors()
 
+    # Prepare the logo once from the configured storage backend. This also
+    # works when media files are stored outside the local filesystem.
+    organization_logo_image = None
+    if organization and organization.logo:
+        try:
+            with organization.logo.storage.open(organization.logo.name, "rb") as logo_file:
+                logo_data = logo_file.read()
+            if organization.logo.name.lower().endswith(".svg"):
+                import cairosvg
+                logo_data = cairosvg.svg2png(bytestring=logo_data, output_height=600)
+            organization_logo_image = ImageReader(BytesIO(logo_data))
+            organization_logo_image.getSize()
+        except Exception:
+            logger.exception("Organisationslogo konnte für das Protokoll-PDF nicht geladen werden.")
+            organization_logo_image = None
+
     def brand_color(value, fallback):
         try:
             return colors.HexColor(value)
@@ -1286,25 +1305,15 @@ def protocol_pdf(request, pk):
             self.saveState()
             page_top = A4[1] - 11 * mm
             right_edge = A4[0] - right_margin
-            if organization and organization.logo:
-                try:
-                    with organization.logo.open("rb") as logo_file:
-                        logo_data = logo_file.read()
-                    if organization.logo.name.lower().endswith(".svg"):
-                        import cairosvg
-                        logo_data = cairosvg.svg2png(bytestring=logo_data, output_height=600)
-                    logo_image = ImageReader(BytesIO(logo_data))
-                    source_width, source_height = logo_image.getSize()
-                    max_logo_height, max_logo_width = 18 * mm, 42 * mm
-                    scale = min(max_logo_height / source_height, max_logo_width / source_width)
-                    logo_width, logo_height = source_width * scale, source_height * scale
-                    self.drawImage(
-                        logo_image, right_edge - logo_width, page_top - logo_height,
-                        width=logo_width, height=logo_height, mask="auto",
-                    )
-                except Exception:
-                    # Ein nicht lesbares Logo darf den PDF-Export nicht verhindern.
-                    pass
+            if organization_logo_image:
+                source_width, source_height = organization_logo_image.getSize()
+                max_logo_height, max_logo_width = 18 * mm, 42 * mm
+                scale = min(max_logo_height / source_height, max_logo_width / source_width)
+                logo_width, logo_height = source_width * scale, source_height * scale
+                self.drawImage(
+                    organization_logo_image, right_edge - logo_width, page_top - logo_height,
+                    width=logo_width, height=logo_height, mask="auto",
+                )
 
             self.setFillColor(colors.HexColor("#263445"))
             self.setFont(bold_font, 8.5)
