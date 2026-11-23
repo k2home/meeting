@@ -1916,10 +1916,25 @@ class OrganizationLogoDeliveryTests(TestCase):
                 meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
                 self.client.force_login(self.admin)
 
-                with self.assertRaises(RuntimeError) as error:
-                    self.client.get(reverse("protocol_pdf", args=[meeting.pk]))
+                response = self.client.get(reverse("protocol_pdf", args=[meeting.pk]))
 
-                self.assertIn("Organisationslogo", str(error.exception))
+                self.assertEqual(response.status_code, 503)
+                self.assertIn("Organisationslogo", response.content.decode("utf-8"))
+                self.assertNotEqual(response.status_code, 500)
+
+    def test_protocol_pdf_without_configured_logo_still_downloads(self):
+        from datetime import date
+        from .models import Meeting, MeetingSeries
+
+        series = MeetingSeries.objects.create(name="Testreihe")
+        meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
+        self.client.force_login(self.admin)
+
+        response = self.client.get(reverse("protocol_pdf", args=[meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/pdf")
+        self.assertTrue(response.content.startswith(b"%PDF"))
 
     def test_organization_logo_is_embedded_in_protocol_pdf(self):
         import tempfile

@@ -1227,10 +1227,13 @@ def protocol_pdf(request, pk):
                 "konnte aus Storage %s nicht geladen/eingebettet werden.",
                 logo_field.name, organization.pk, logo_field.storage.__class__.__name__,
             )
-            raise RuntimeError(
-                "Das konfigurierte Organisationslogo konnte nicht in das Protokoll-PDF "
-                "eingebettet werden. Bitte Logo und Dateispeicher prüfen."
-            ) from exc
+            return HttpResponse(
+                "Das konfigurierte Organisationslogo konnte nicht geladen und in das "
+                "Protokoll-PDF eingebettet werden. Bitte laden Sie das Logo unter "
+                "Verwaltung erneut hoch oder entfernen Sie es vorübergehend.",
+                status=503,
+                content_type="text/plain; charset=utf-8",
+            )
     else:
         logger.warning(
             "Protokoll-PDF: Kein Organisationslogo konfiguriert (organization_id=%s).",
@@ -1402,8 +1405,11 @@ def protocol_pdf(request, pk):
             "in die PDF geschrieben (meeting_id=%s).",
             organization.logo.name, meeting.pk,
         )
-        raise RuntimeError(
-            "Das Organisationslogo wurde geladen, aber nicht in die PDF eingebettet."
+        return HttpResponse(
+            "Das Organisationslogo wurde geladen, aber nicht in die PDF eingebettet. "
+            "Bitte prüfen Sie die Logo-Datei und laden Sie sie erneut hoch.",
+            status=503,
+            content_type="text/plain; charset=utf-8",
         )
     response = HttpResponse(pdf_content, content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="{_protocol_filename(meeting, "pdf")}"'
