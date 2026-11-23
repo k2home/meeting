@@ -33,7 +33,7 @@
   <article class="card">
     <div class="topline">
       <strong>{{ event.get_action_display }}</strong>
-      <span class="muted">{{ event.created_at|date:"d.m.Y H:i" }}</span>
+      <span class="muted">{{ event.created_at|date:"DATETIME_FORMAT" }}</span>
     </div>
     <p>{{ event.summary|audit_text|linebreaksbr }}</p>
     <p class="muted">Von {% if event.actor %}{{ event.actor|user_display }}{% else %}System / gelöschtem Benutzer{% endif %}
