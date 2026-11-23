@@ -2145,6 +2145,7 @@ def audit_history(request):
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
+    selected_action = request.GET.get("action", "")
 
     if has_history_permission:
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
@@ -2181,6 +2182,7 @@ def audit_history(request):
     else:
         topic_id = ""
         selected_series = ""
+        selected_action = ""
 
     return render(request, "meetings/audit_history.html", {
         "events": events[:250], "selected_topic": topic_id,
