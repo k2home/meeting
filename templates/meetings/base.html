@@ -656,10 +656,11 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
       const isControl = /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(element.tagName);
       if (!hasText && !isControl) continue;
       const background = effectiveBackground(element);
-      element.style.setProperty("color",
-        contrast(black, background) >= contrast(white, background) ? "#000" : "#fff",
-        "important"
-      );
+      const textColor = contrast(black, background) >= contrast(white, background) ? "#000" : "#fff";
+      if (element.style.getPropertyValue("color") !== textColor ||
+          element.style.getPropertyPriority("color") !== "important") {
+        element.style.setProperty("color", textColor, "important");
+      }
     }
   }
   function refresh() { apply(document.body); }
@@ -677,7 +678,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
     }
   });
   observer.observe(document.documentElement, {
-    subtree: true, childList: true, attributes: true, attributeFilter: ["class", "data-theme", "hidden"]
+    subtree: true, childList: true, attributes: true, attributeFilter: ["class", "data-theme", "hidden", "style"]
   });
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 })();
