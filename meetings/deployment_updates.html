@@ -1,0 +1,123 @@
+{% extends "meetings/base.html" %}
+{% block title %}Software aktualisieren{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Software aktualisieren</h1>
+    <p class="muted">Serverlokales Update der Meeting-Manager-Installation</p>
+  </div>
+</div>
+
+<section class="card">
+  <h2>Installierte Version</h2>
+  <table>
+    <tbody>
+      <tr><th scope="row">Installationsart</th><td>{{ deployment_type }}</td></tr>
+      <tr><th scope="row">Aktiver Branch</th><td>{{ current_branch }}</td></tr>
+      <tr><th scope="row">Commit</th><td><code>{{ current_commit }}</code></td></tr>
+      {% if current_commit_message %}<tr><th scope="row">Commit-Beschreibung</th><td>{{ current_commit_message }}</td></tr>{% endif %}
+      {% if current_image %}<tr><th scope="row">Docker-Image</th><td><code>{{ current_image }}</code></td></tr>{% endif %}
+      {% if build_created %}<tr><th scope="row">Image erstellt</th><td>{{ build_created }}</td></tr>{% endif %}
+    </tbody>
+  </table>
+  {% if availability_message %}
+    <p class="messages">{{ availability_message }}</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Update starten</h2>
+  <p>Wähle den Ziel-Branch. Das Update betrifft ausschließlich diese Serverinstallation.</p>
+  <form method="post" class="actions" id="deployment-update-form">
+    {% csrf_token %}
+    <label for="update-branch">Zielversion</label>
+    <select id="update-branch" name="branch" required style="width:auto;min-width:12rem;margin:0">
+      <option value="beta" {% if current_branch == "beta" %}selected{% endif %}>beta – Testversion</option>
+      <option value="main" {% if current_branch == "main" %}selected{% endif %}>main – Hauptversion</option>
+    </select>
+    <button class="primary" type="submit" {% if not update_available or update_status.status == "running" %}disabled{% endif %}>Update starten</button>
+  </form>
+  <p class="muted">Während des Updates kann die Anwendung kurzzeitig nicht erreichbar sein. Lokale Konfiguration und persistente Daten bleiben erhalten.</p>
+</section>
+
+<section class="card" id="deployment-update-status" data-update-status="{{ update_status.status|default:'idle' }}">
+  <h2>Letzter Update-Lauf</h2>
+  {% if update_status.status == "running" %}
+    <p><span class="pill">Läuft</span> Update auf {{ update_status.branch }} wird ausgeführt.</p>
+    <p class="muted" id="deployment-update-wait">Diese Seite aktualisiert sich automatisch nach Abschluss des Updates.</p>
+  {% elif update_status.status == "success" %}
+    <p><span class="pill">Erfolgreich</span> {{ update_status.message }}</p>
+  {% elif update_status.status == "error" %}
+    <p class="errornote">{{ update_status.message }}</p>
+  {% else %}
+    <p class="muted">{{ update_status.message }}</p>
+  {% endif %}
+  {% if update_status.started_at %}<p><strong>Gestartet:</strong> {{ update_status.started_at }}</p>{% endif %}
+  {% if update_status.finished_at %}<p><strong>Beendet:</strong> {{ update_status.finished_at }}</p>{% endif %}
+  {% if update_status.log %}
+    <details>
+      <summary>Protokoll anzeigen</summary>
+      <pre style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:32rem;overflow:auto;padding:1rem;background:var(--soft-bg);border:1px solid var(--border);border-radius:4px">{{ update_status.log }}</pre>
+    </details>
+  {% endif %}
+</section>
+
+<script>
+(() => {
+  const form = document.getElementById("deployment-update-form");
+  const statusElement = document.getElementById("deployment-update-status");
+  const storageKey = "meetingManagerUpdatePending";
+  let checking = false;
+
+  if (form) {
+    form.addEventListener("submit", () => {
+      try { sessionStorage.setItem(storageKey, "1"); } catch (_) {}
+      const button = form.querySelector('button[type="submit"]');
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Update wird gestartet …";
+      }
+    });
+  }
+
+  const isPending = () => {
+    let submitted = false;
+    try { submitted = sessionStorage.getItem(storageKey) === "1"; } catch (_) {}
+    return submitted || (statusElement && statusElement.dataset.updateStatus === "running");
+  };
+
+  const checkUpdate = async () => {
+    if (checking || !isPending()) return;
+    checking = true;
+    try {
+      const response = await fetch(window.location.href, {
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+      });
+      if (!response.ok) throw new Error("Update-Status vorübergehend nicht erreichbar");
+      const html = await response.text();
+      const page = new DOMParser().parseFromString(html, "text/html");
+      const freshStatus = page.getElementById("deployment-update-status");
+      if (freshStatus && freshStatus.dataset.updateStatus !== "running") {
+        try { sessionStorage.removeItem(storageKey); } catch (_) {}
+        window.location.reload();
+        return;
+      }
+    } catch (_) {
+      // The application may be restarting during the update. Keep checking
+      // from this already loaded page until it responds again.
+    } finally {
+      checking = false;
+    }
+    window.setTimeout(checkUpdate, 3000);
+  };
+
+  if (isPending()) {
+    const wait = document.getElementById("deployment-update-wait");
+    if (wait) wait.textContent = "Die Seite prüft den Update-Status automatisch. Auch bei einem vorübergehenden Neustart wird weiter gewartet.";
+    window.setTimeout(checkUpdate, 1000);
+  }
+})();
+</script>
+{% endblock %}
