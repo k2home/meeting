@@ -10,7 +10,8 @@
     <h3>{{ group.series.name|default:'Gelöschte Besprechungsreihe' }}</h3>
     <div class="upcoming-dates">
       {% for m in group.meetings %}
-        <span><a href="{% url 'meeting' m.id %}">{{ m.date|date:"D, d.m.Y" }}</a> {% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</span>
+        <span class="upcoming-date"><a href="{% url 'meeting' m.id %}">{{ m.date|date:"D, d.m.Y" }}</a></span>
+        <span class="upcoming-status">{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</span>
       {% endfor %}
     </div>
   </div>
@@ -70,11 +71,11 @@
 .dashboard-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 .dashboard-topic-dialog form>input,.dashboard-topic-dialog form>textarea,.dashboard-topic-dialog form>select{width:100%}
 .dashboard-topic-dialog .actions{justify-content:flex-end;margin-top:.75rem}
-.upcoming-grid{display:grid;grid-template-columns:max-content max-content;column-gap:.75rem;row-gap:.35rem;align-items:start}
+.upcoming-grid{display:grid;grid-template-columns:max-content max-content max-content max-content;column-gap:.55rem;row-gap:.35rem;align-items:start}
 .upcoming-series,.upcoming-dates{display:contents}
 .upcoming-series h3{grid-column:1/-1;font-size:.94rem;margin:.1rem 0 .05rem;color:var(--muted);font-weight:650}
 .upcoming-series+.upcoming-series h3{border-top:1px solid var(--border);padding-top:.55rem;margin-top:.2rem}
-.upcoming-dates>span{display:inline-flex;align-items:center;gap:.35rem}
+.upcoming-date,.upcoming-status{display:inline-flex;align-items:center;white-space:nowrap}
 .upcoming-grid>p{grid-column:1/-1}
 .table-sort{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem 0;border:0;background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}
 .table-sort:hover,.table-sort:focus-visible{color:var(--hagen-blue);text-decoration:underline}
