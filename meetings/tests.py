@@ -1963,6 +1963,50 @@ class OrganizationLogoDeliveryTests(TestCase):
                 finally:
                     organization.logo_png.close()
 
+    def test_reuploading_svg_replaces_previous_png_and_removes_old_file(self):
+        import tempfile
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from django.test import override_settings
+        from .models import OrganizationSettings
+
+        with tempfile.TemporaryDirectory() as media_dir:
+            with override_settings(MEDIA_ROOT=media_dir):
+                self.client.force_login(self.admin)
+
+                def upload_svg(fill):
+                    svg_data = (
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40">'
+                        f'<rect width="120" height="40" fill="{fill}"/></svg>'
+                    ).encode()
+                    return self.client.post(
+                        reverse("management_settings"),
+                        {"action": "save_logo", "logo": SimpleUploadedFile(
+                            "organization.svg", svg_data, content_type="image/svg+xml"
+                        )},
+                    )
+
+                self.assertEqual(upload_svg("#00549f").status_code, 302)
+                organization = OrganizationSettings.objects.get(pk=1)
+                first_png_name = organization.logo_png.name
+                organization.logo_png.open("rb")
+                try:
+                    first_png_data = organization.logo_png.read()
+                finally:
+                    organization.logo_png.close()
+
+                self.assertEqual(upload_svg("#ff0000").status_code, 302)
+                organization.refresh_from_db()
+                self.assertNotEqual(organization.logo_png.name, first_png_name)
+                organization.logo_png.open("rb")
+                try:
+                    second_png_data = organization.logo_png.read()
+                finally:
+                    organization.logo_png.close()
+
+                self.assertNotEqual(second_png_data, first_png_data)
+                self.assertFalse(organization.logo.storage.exists(first_png_name))
+                self.assertTrue(organization.logo.storage.exists(organization.logo_png.name))
+
     def test_organization_logo_is_embedded_in_protocol_pdf(self):
         import tempfile
         from datetime import date
