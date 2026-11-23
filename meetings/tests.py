@@ -885,6 +885,17 @@ class OrganizationBrandColorTests(TestCase):
             setattr(settings, field, "")
         settings.full_clean()
 
+    def test_uploaded_organization_logo_is_exposed_to_templates(self):
+        from django.core.files.base import ContentFile
+        from .access import organization_branding
+        from .models import OrganizationSettings
+
+        settings = OrganizationSettings.objects.create(name="Test")
+        settings.logo.save("organization.svg", ContentFile(b"<svg xmlns='http://www.w3.org/2000/svg'/>"), save=True)
+
+        branding = organization_branding(None)
+        self.assertTrue(branding["organization_logo_url"].endswith("/organization.svg"))
+
     def test_admin_can_edit_all_colors_and_templates_receive_mode_palette(self):
         from .models import OrganizationSettings
         settings = OrganizationSettings.objects.create(name="Test")
