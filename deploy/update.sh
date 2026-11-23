@@ -112,9 +112,14 @@ trap handle_update_exit EXIT
 # Preserve the live environment file while upgrading from releases where
 # .env was tracked in Git. Restore it after the repository removes that file.
 if [[ -f "$APP_DIR/.env" ]]; then
-  ENV_BACKUP="$(mktemp /root/meeting-manager-env.XXXXXX)"
-  install -m 0600 "$APP_DIR/.env" "$ENV_BACKUP"
-  trap restore_env EXIT
+  ENV_BACKUP_TMP="$(mktemp /root/meeting-manager-env.XXXXXX)"
+  if install -m 0600 "$APP_DIR/.env" "$ENV_BACKUP_TMP"; then
+    ENV_BACKUP="$ENV_BACKUP_TMP"
+  else
+    rm -f "$ENV_BACKUP_TMP"
+    echo "Die lokale .env-Datei konnte nicht gesichert werden; Update abgebrochen." >&2
+    exit 1
+  fi
   if git -C "$APP_DIR" ls-files --error-unmatch .env >/dev/null 2>&1; then
     git -C "$APP_DIR" checkout -- .env
   fi
@@ -122,11 +127,12 @@ fi
 if [[ -n "$TARGET_BRANCH" ]]; then
   echo "==> Aktualisiere Quellcode aus Branch $TARGET_BRANCH"
   git -C "$APP_DIR" fetch --prune origin "$TARGET_BRANCH"
+  CODE_SWITCHED=1
   git -C "$APP_DIR" switch --force-create "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
 else
+  CODE_SWITCHED=1
   git -C "$APP_DIR" pull --ff-only
 fi
-CODE_SWITCHED=1
 restore_env
 
 # Apply the cache policy to the active Nginx site without replacing local
