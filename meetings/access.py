@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.urls import reverse
 
 from .models import Meeting, MeetingSeries, SeriesAccess, Topic
 from .brand_colors import accessible_button_colors
@@ -87,7 +88,7 @@ def organization_branding(request):
     from .models import OrganizationSettings
 
     settings = OrganizationSettings.objects.filter(pk=1).first()
-    logo_url = settings.logo.url if settings and settings.logo else ""
+    logo_url = reverse("organization_logo") if settings and settings.logo else ""
     colors = OrganizationSettings.current_brand_colors()
     button_colors = {}
     for palette in ("light", "dark"):

@@ -1083,6 +1083,17 @@ def attachment_add(request, pk):
 
 
 @login_required
+@login_required
+def organization_logo(request):
+    """Serve the configured organization logo to signed-in application users."""
+    organization = OrganizationSettings.objects.filter(pk=1).first()
+    if not organization or not organization.logo:
+        from django.http import Http404
+        raise Http404("Es ist kein Organisationslogo hinterlegt.")
+    from .secure_files import serve_organization_logo
+    return serve_organization_logo(organization.logo)
+
+
 def attachment_download(request, pk):
     attachment = get_object_or_404(
         TopicAttachment.objects.select_related("topic__series"),
