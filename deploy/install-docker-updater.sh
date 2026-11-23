@@ -26,18 +26,14 @@ if [[ "$(getent group "$GROUP_NAME" | cut -d: -f3)" != "$GROUP_ID" ]]; then
   exit 1
 fi
 
-install -d -o root -g "$GROUP_NAME" -m 0750 /run/meeting-manager-updater
 install -d -o root -g root -m 0755 /usr/local/lib/meeting-manager
-install -o root -g root -m 0644 "$APP_DIR/deploy/meeting-manager-updater.tmpfiles" /etc/tmpfiles.d/meeting-manager-updater.conf
-systemd-tmpfiles --create /etc/tmpfiles.d/meeting-manager-updater.conf
 install -d -o root -g root -m 0750 /var/lib/meeting-manager-updater
 install -o root -g root -m 0755 "$APP_DIR/deploy/docker-update-agent.py" /usr/local/lib/meeting-manager/docker-update-agent.py
 install -o root -g root -m 0644 "$APP_DIR/deploy/meeting-manager-docker-updater.service" /etc/systemd/system/meeting-manager-docker-updater.service
-install -o root -g root -m 0644 "$APP_DIR/deploy/meeting-manager-docker-updater.socket" /etc/systemd/system/meeting-manager-docker-updater.socket
 
 # The agent is deliberately installed outside the application checkout.
 sed -i 's|/opt/meeting-manager/deploy/docker-update-agent.py|/usr/local/lib/meeting-manager/docker-update-agent.py|' /etc/systemd/system/meeting-manager-docker-updater.service
 systemctl daemon-reload
-systemctl enable --now meeting-manager-docker-updater.socket
+systemctl enable --now meeting-manager-docker-updater.service
 echo "Docker-Updater installiert. Der Socket ist nur für root und die Gruppe $GROUP_NAME zugänglich."
 echo "Der App-Container benötigt group_add: $GROUP_ID und den Socket-Verzeichnis-Mount aus docker/compose.yaml."
