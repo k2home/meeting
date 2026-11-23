@@ -951,6 +951,20 @@ class AgendaFollowupLinkTests(TestCase):
         self.assertEqual(self.item.status, "in_progress")
         self.assertEqual(self.item.meeting, self.source_meeting)
         self.assertEqual(AgendaItem.objects.filter(topic=self.topic).count(), 2)
+    
+    def test_saving_text_without_a_selected_date_does_not_create_followup(self):
+        response = self.client.post(reverse("meeting", args=[self.source_meeting.pk]), {
+            "item_id": self.item.pk,
+            "working_text": "Neuer Sachstand",
+        })
+        self.assertRedirects(response, f"{reverse('meeting', args=[self.source_meeting.pk])}#agenda-item-{self.item.pk}")
+        self.item.refresh_from_db()
+        self.assertEqual(self.item.working_text, "Neuer Sachstand")
+        self.assertFalse(AgendaItem.objects.filter(followup_of=self.item).exists())
+
+    def test_followup_date_is_blank_by_default(self):
+        response = self.client.get(reverse("meeting", args=[self.source_meeting.pk]))
+        self.assertContains(response, '<option value="" selected>Keine Wiedervorlage</option>', html=True)
 
     def test_save_all_texts_can_also_schedule_followup(self):
         other_topic = Topic.objects.create(title="Weiterer Punkt", series=self.series)
