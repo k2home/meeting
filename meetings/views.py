@@ -2,6 +2,7 @@ from datetime import date, datetime, timedelta
 from functools import wraps
 from io import BytesIO
 from pathlib import Path
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from urllib.parse import quote, urlencode
 from xml.sax.saxutils import escape
 
@@ -2152,7 +2153,17 @@ def _read_update_status():
 def _format_commit_timestamp(value):
     try:
         committed_at = datetime.fromisoformat(value)
-        return timezone.localtime(committed_at).strftime("%d.%m.%Y, %H:%M Uhr")
+        configured_timezone = (
+            OrganizationSettings.objects.filter(pk=1)
+            .values_list("timezone", flat=True)
+            .first()
+            or "Europe/Berlin"
+        )
+        try:
+            display_timezone = ZoneInfo(configured_timezone)
+        except (ZoneInfoNotFoundError, TypeError):
+            display_timezone = ZoneInfo("Europe/Berlin")
+        return timezone.localtime(committed_at, display_timezone).strftime("%d.%m.%Y, %H:%M Uhr")
     except (TypeError, ValueError):
         return value
 
