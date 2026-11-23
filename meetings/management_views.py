@@ -565,6 +565,35 @@ def _validate_backup_migrations(migrations):
 
 
 def _restore_database_dump(dump_path, database_name, env):
+    # pg_restore --clean only removes objects present in the archive. Remove all
+    # application schemas first so tables introduced after an older backup do
+    # not survive and collide with forward migrations.
+    clear_schemas_sql = """
+DO $meeting_manager$
+DECLARE
+    schema_record record;
+BEGIN
+    FOR schema_record IN
+        SELECT nspname
+        FROM pg_namespace
+        WHERE nspname <> 'information_schema'
+          AND nspname !~ '^pg_'
+    LOOP
+        EXECUTE format('DROP SCHEMA %I CASCADE', schema_record.nspname);
+    END LOOP;
+    EXECUTE 'CREATE SCHEMA public AUTHORIZATION CURRENT_USER';
+    EXECUTE 'GRANT ALL ON SCHEMA public TO CURRENT_USER';
+    EXECUTE 'GRANT USAGE ON SCHEMA public TO PUBLIC';
+END
+$meeting_manager$;
+"""
+    cleared = _run_database_client(
+        ["psql", "--set", "ON_ERROR_STOP=1", "--dbname", database_name, "--command", clear_schemas_sql],
+        env,
+        timeout=300,
+    )
+    if cleared.returncode != 0:
+        return cleared
     return _run_database_client(
         ["pg_restore", "--clean", "--if-exists", "--exit-on-error", "--single-transaction",
          "--no-owner", "--no-acl", "--dbname", database_name, dump_path],
