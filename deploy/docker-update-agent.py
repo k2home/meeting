@@ -87,7 +87,7 @@ def persist_selected_image(image_ref):
     found = False
     updated = []
     for line in lines:
-        if re.match(r"^\\s*MEETING_IMAGE\\s*=", line):
+        if re.match(r"^\s*MEETING_IMAGE\s*=", line):
             if not found:
                 updated.append(replacement)
                 found = True
@@ -96,7 +96,7 @@ def persist_selected_image(image_ref):
     if not found:
         updated.append(replacement)
     temporary = env_file.with_name(".env.meeting-image.tmp")
-    temporary.write_text("\\n".join(updated) + "\\n", encoding="utf-8")
+    temporary.write_text("\n".join(updated) + "\n", encoding="utf-8")
     os.chown(temporary, metadata.st_uid, metadata.st_gid)
     os.chmod(temporary, stat.S_IMODE(metadata.st_mode))
     temporary.replace(env_file)
