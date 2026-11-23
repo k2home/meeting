@@ -30,9 +30,6 @@ install -d -o root -g root -m 0755 /usr/local/lib/meeting-manager
 install -d -o root -g root -m 0750 /var/lib/meeting-manager-updater
 install -o root -g root -m 0755 "$APP_DIR/deploy/docker-update-agent.py" /usr/local/lib/meeting-manager/docker-update-agent.py
 install -o root -g root -m 0644 "$APP_DIR/deploy/meeting-manager-docker-updater.service" /etc/systemd/system/meeting-manager-docker-updater.service
-
-# The agent is deliberately installed outside the application checkout.
-sed -i 's|/opt/meeting-manager/deploy/docker-update-agent.py|/usr/local/lib/meeting-manager/docker-update-agent.py|' /etc/systemd/system/meeting-manager-docker-updater.service
 systemctl daemon-reload
 systemctl enable --now meeting-manager-docker-updater.service
 echo "Docker-Updater installiert. Der Socket ist nur für root und die Gruppe $GROUP_NAME zugänglich."
