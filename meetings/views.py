@@ -390,44 +390,53 @@ def my_tasks(request):
     """Separate topic-level ownership from explicit agenda-item assignments."""
     today = timezone.localdate()
     visible_meetings = accessible_meetings(request.user)
+    series_options = accessible_series(request.user).order_by("name")
+    selected_series = request.GET.get("series", "")
+    selected_series_id = None
+    if selected_series.isdigit() and series_options.filter(pk=int(selected_series)).exists():
+        selected_series_id = int(selected_series)
+    else:
+        selected_series = ""
 
-    main_topics = list(
-        accessible_topics(request.user)
-        .filter(assigned_to=request.user, status__in=["open", "in_progress"])
-        .select_related("series")
-        .annotate(
-            next_meeting_date=Min(
-                "agenda_items__meeting__date",
-                filter=Q(agenda_items__meeting__in=visible_meetings)
-                & Q(agenda_items__meeting__finalized_at__isnull=True),
-            ),
-            latest_agenda_text=Subquery(
-                AgendaItem.objects.filter(topic=OuterRef("pk"), meeting__in=visible_meetings)
-                .order_by("-meeting__date", "-pk").values("working_text")[:1]
-            ),
-        )
-        .distinct()
-        .order_by(F("next_meeting_date").asc(nulls_last=True), "title")
+    main_topics_query = accessible_topics(request.user).filter(
+        assigned_to=request.user, status__in=["open", "in_progress"]
+    ).select_related("series").annotate(
+        next_meeting_date=Min(
+            "agenda_items__meeting__date",
+            filter=Q(agenda_items__meeting__in=visible_meetings)
+            & Q(agenda_items__meeting__finalized_at__isnull=True),
+        ),
+        latest_agenda_text=Subquery(
+            AgendaItem.objects.filter(topic=OuterRef("pk"), meeting__in=visible_meetings)
+            .order_by("-meeting__date", "-pk").values("working_text")[:1]
+        ),
     )
+    if selected_series_id:
+        main_topics_query = main_topics_query.filter(series_id=selected_series_id)
+    main_topics = list(main_topics_query.distinct().order_by(
+        F("next_meeting_date").asc(nulls_last=True), "title"
+    ))
 
-    agenda_tasks = list(
-        AgendaItem.objects.filter(
-            meeting__in=visible_meetings,
-            meeting__date__gte=today,
-            meeting__finalized_at__isnull=True,
-            assigned_to=request.user,
-            status__in=["open", "in_progress"],
-        ).select_related("topic", "topic__series", "meeting")
-        .order_by("meeting__date", "meeting__series__name", "position", "pk")
-    )
+    agenda_tasks_query = AgendaItem.objects.filter(
+        meeting__in=visible_meetings,
+        meeting__date__gte=today,
+        meeting__finalized_at__isnull=True,
+        assigned_to=request.user,
+        status__in=["open", "in_progress"],
+    ).select_related("topic", "topic__series", "meeting")
+    if selected_series_id:
+        agenda_tasks_query = agenda_tasks_query.filter(meeting__series_id=selected_series_id)
+    agenda_tasks = list(agenda_tasks_query.order_by(
+        "meeting__date", "meeting__series__name", "position", "pk"
+    ))
 
-    # Keep the historical context key for integrations/tests while rendering
-    # the two responsibility types in distinct sections.
     return render(request, "meetings/my_tasks.html", {
         "topics": main_topics,
         "main_topics": main_topics,
         "agenda_tasks": agenda_tasks,
         "today": today,
+        "selected_series": selected_series,
+        "series_options": series_options,
         "overdue_count": sum(1 for topic in main_topics if topic.next_meeting_date and topic.next_meeting_date < today),
         "due_today_count": sum(1 for topic in main_topics if topic.next_meeting_date == today),
         "without_meeting_count": sum(1 for topic in main_topics if topic.next_meeting_date is None),
