@@ -66,3 +66,30 @@ class OrganizationSettingsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Organisationseinheit")
         self.assertContains(response, "Fachbereich 10")
+
+    def test_administrator_can_select_organization_timezone(self):
+        setting = OrganizationSettings.objects.create(name="Fachbereich 10")
+        admin_user = get_user_model().objects.create_superuser(
+            username="timezone-admin",
+            password="strong-test-password",
+            email="timezone-admin@example.com",
+        )
+        self.client.force_login(admin_user)
+
+        response = self.client.get(
+            reverse("admin:meetings_organizationsettings_change", args=[setting.pk])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Zeitzone")
+        self.assertContains(response, 'value="Europe/Berlin"')
+
+    def test_commit_timestamp_uses_organization_timezone(self):
+        from .views import _format_commit_timestamp
+
+        OrganizationSettings.objects.create(timezone="Europe/Paris")
+
+        self.assertEqual(
+            _format_commit_timestamp("2026-11-23T12:12:00+00:00"),
+            "23.11.2026, 13:12 Uhr",
+        )
