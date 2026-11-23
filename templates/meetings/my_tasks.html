@@ -62,4 +62,24 @@
     </div>
   {% else %}<p>Für zukünftige Termine sind dir aktuell keine einzelnen Tagesordnungspunkte ausdrücklich zugewiesen.</p>{% endif %}
 </section>
+
+<!-- my-tasks-live-search -->
+<script>
+(() => {
+  const tables = [...document.querySelectorAll("section.card table")];
+  if (!tables.length || document.getElementById("my-tasks-search")) return;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.id = "my-tasks-search";
+  input.placeholder = "Meine Aufgaben durchsuchen …";
+  input.setAttribute("aria-label", "Meine Aufgaben durchsuchen");
+  document.querySelector("header.page-header")?.insertAdjacentElement("afterend", input);
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    tables.forEach(table => table.querySelectorAll("tbody tr").forEach(row => {
+      row.hidden = !!term && !row.textContent.toLocaleLowerCase("de").includes(term);
+    }));
+  });
+})();
+</script>
 {% endblock %}
