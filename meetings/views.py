@@ -170,9 +170,18 @@ def dashboard(request):
         topics = topics.filter(agenda_items__assigned_to_id=int(selected_assignee)).distinct()
     else:
         selected_assignee = ""
-    topics = topics.annotate(next_meeting_date=Min("agenda_items__meeting__date", filter=Q(agenda_items__meeting__finalized_at__isnull=True)))
+    latest_agenda_item = AgendaItem.objects.filter(
+        topic_id=OuterRef("pk")
+    ).order_by("-meeting__date", "-pk")
+    topics = topics.annotate(
+        next_meeting_date=Subquery(latest_agenda_item.values("meeting__date")[:1]),
+        latest_agenda_status=Subquery(latest_agenda_item.values("status")[:1]),
+    )
     if selected_due == "overdue":
-        topics = topics.filter(next_meeting_date__lt=today, agenda_items__status__in=["open", "in_progress"])
+        topics = topics.filter(
+            next_meeting_date__lt=today,
+            latest_agenda_status__in=["open", "in_progress"],
+        )
     elif selected_due == "today":
         topics = topics.filter(next_meeting_date=today)
     elif selected_due == "without_date":
@@ -181,7 +190,18 @@ def dashboard(request):
         topics = topics.filter(next_meeting_date__gt=today)
 
     topics = topics.distinct()
-    overdue_count = accessible_topics(request.user).filter(agenda_items__status__in=["open", "in_progress"], agenda_items__meeting__date__lt=today, agenda_items__meeting__finalized_at__isnull=True).distinct().count()
+    overdue_count = (
+        accessible_topics(request.user)
+        .annotate(
+            latest_agenda_date=Subquery(latest_agenda_item.values("meeting__date")[:1]),
+            latest_agenda_status=Subquery(latest_agenda_item.values("status")[:1]),
+        )
+        .filter(
+            latest_agenda_date__lt=today,
+            latest_agenda_status__in=["open", "in_progress"],
+        )
+        .count()
+    )
     return render(request, "meetings/dashboard.html", {
         "meetings": meetings, "meeting_groups": meeting_groups, "topics": topics, "overdue_count": overdue_count, "today": today,
         "query": query, "selected_status": selected_status, "selected_series": selected_series,
