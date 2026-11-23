@@ -29,10 +29,7 @@
   </form>
 </section>
 {% else %}
-<div class="card topic-hero">
-  <div><h1>{{ topic.title }}</h1></div>
-  {% if not is_reader %}<a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a>{% endif %}
-</div>
+
 <div class="topic-layout">
  <div class="topic-main">
   <section class="card">
