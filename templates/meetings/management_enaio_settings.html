@@ -109,11 +109,14 @@
       .filter(name => /enaio|ixos|axcdl|dms/i.test(name))
       .sort();
     let externalMembers = [];
+    let externalPresent = false;
     try {
-      if (window.external && (typeof window.external === "object" || typeof window.external === "function")) {
+      externalPresent = !!window.external;
+      if (externalPresent && (typeof window.external === "object" || typeof window.external === "function")) {
         externalMembers = Object.getOwnPropertyNames(window.external).slice(0, 30);
       }
     } catch (_) {
+      externalPresent = false;
       externalMembers = ["Zugriff durch Browser-Sicherheitsmodell blockiert"];
     }
     return [
@@ -127,7 +130,7 @@
         "Eine normale Webseite darf keine beliebigen Windows-COM-Objekte instanziieren oder den enaio-Prozess öffnen."),
       check("enaio-bezogene Browser-Schnittstellen", globals.length ? "KANDIDATEN GEFUNDEN" : "NICHT GEFUNDEN",
         globals.length ? "Erkannte globale Namen: " + globals.join(", ") : "Keine globalen Fensterobjekte mit enaio-/ixos-/AXCDL-/DMS-Namen gefunden."),
-      check("window.external", window.external ? "VORHANDEN" : "NICHT VORHANDEN",
+      check("window.external", externalPresent ? "VORHANDEN" : "NICHT VORHANDEN",
         externalMembers.length ? "Sichtbare Eigenschaftsnamen: " + externalMembers.join(", ") : "Keine enumerierbaren Eigenschaften. Das Vorhandensein allein belegt keine enaio-Schnittstelle."),
       check("Citrix-Windows-Sitzung", "IM BROWSER NICHT PRÜFBAR",
         "Der Browser stellt die Windows-Sitzungs-ID und die Zuordnung zum enaio-Prozess nicht als Web-API bereit.")
