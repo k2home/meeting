@@ -1,12 +1,12 @@
 {% extends "meetings/base.html" %}
-{% block title %}Verwaltung<a class="management-card" href="{% url 'management_data' %}"><span class="management-icon">⇅</span><h2>Datenimport und -export</h2><p>Nutzer sowie Themen und Tagesordnungspunkte per CSV sichern und übernehmen.</p><strong>CSV-Funktionen öffnen</strong></a>
-{% endblock %}
+{% block title %}Verwaltung{% endblock %}
 {% block content %}
 <div class="page-header"><div><h1>Verwaltung</h1><p class="muted">Zentrale Verwaltung des Meeting Managers</p></div><a class="btn secondary" href="/django-admin/">Django-Verwaltung (Backup)</a></div>
 <div class="management-grid">
 <a class="management-card" href="{% url 'management_users' %}"><span class="management-icon">👥</span><h2>Nutzerverwaltung</h2><p>Benutzerkonten anlegen, bearbeiten und aktivieren.</p><strong>{{ user_count }} Nutzer · {{ active_user_count }} aktiv</strong></a>
 <a class="management-card" href="{% url 'management_groups' %}"><span class="management-icon">🗂️</span><h2>Gruppenverwaltung</h2><p>Mitgliedschaften und Berechtigungen je Besprechungsreihe verwalten.</p><strong>{{ series_count }} Gruppen</strong></a>
 <a class="management-card" href="{% url 'management_settings' %}"><span class="management-icon">⚙️</span><h2>Organisationseinstellungen</h2><p>Name, Zeitzone, Farben und Anlagenlimits festlegen.</p><strong>Einstellungen öffnen</strong></a>
+<a class="management-card" href="{% url 'management_data' %}"><span class="management-icon">⇅</span><h2>Datenimport und -export</h2><p>Nutzer sowie Themen und Tagesordnungspunkte per CSV sichern und übernehmen.</p><strong>CSV-Funktionen öffnen</strong></a>
 </div>
 <style>
 .management-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.5rem}.management-card{display:block;padding:1.35rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--text);text-decoration:none;box-shadow:0 1px 2px #15223808}.management-card:hover{border-color:var(--hagen-blue);text-decoration:none}.management-card h2{margin:.5rem 0;font-size:1.15rem}.management-card p{color:var(--muted);min-height:3rem}.management-card strong{font-size:.9rem;color:var(--hagen-blue)}.management-icon{font-size:1.8rem}
