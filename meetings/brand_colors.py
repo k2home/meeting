@@ -1,6 +1,7 @@
 """WCAG contrast helpers for organization-defined button colors."""
 MINIMUM_CONTRAST = 4.5
 DARK_TEXT = "#243247"
+BLACK_TEXT = "#000000"
 WHITE_TEXT = "#FFFFFF"
 
 def _rgb(value):
@@ -25,22 +26,12 @@ def contrast_ratio(foreground, background):
     return (first + 0.05) / (second + 0.05)
 
 def accessible_button_colors(background):
-    """Return a minimally adjusted background and legible foreground (WCAG AA)."""
-    original = _rgb(background)
-    candidates = [(WHITE_TEXT, contrast_ratio(WHITE_TEXT, _hex(original))),
-                  (DARK_TEXT, contrast_ratio(DARK_TEXT, _hex(original)))]
-    foreground, ratio = max(candidates, key=lambda item: item[1])
-    if ratio >= MINIMUM_CONTRAST:
-        return {"background": _hex(original), "text": foreground, "contrast": round(ratio, 2)}
-    target = (0, 0, 0) if foreground == WHITE_TEXT else (255, 255, 255)
-    low, high = 0.0, 1.0
-    for _ in range(24):
-        amount = (low + high) / 2
-        candidate = tuple(original[i] + (target[i] - original[i]) * amount for i in range(3))
-        if contrast_ratio(foreground, _hex(candidate)) >= MINIMUM_CONTRAST:
-            high = amount
-        else:
-            low = amount
-    adjusted = tuple(original[i] + (target[i] - original[i]) * high for i in range(3))
-    result = _hex(adjusted)
-    return {"background": result, "text": foreground, "contrast": round(contrast_ratio(foreground, result), 2)}
+    """Preserve the configured background and choose a WCAG AA text color."""
+    original = _hex(_rgb(background))
+    foreground = max(
+        (WHITE_TEXT, DARK_TEXT, BLACK_TEXT),
+        key=lambda color: contrast_ratio(color, original),
+    )
+    ratio = contrast_ratio(foreground, original)
+    return {"background": original, "text": foreground,
+            "contrast": round(ratio, 2), "meets_wcag_aa": ratio >= MINIMUM_CONTRAST}
