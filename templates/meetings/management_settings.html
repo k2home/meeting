@@ -38,19 +38,98 @@
     {% for field in form %}{% if "_color" in field.name %}
       <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
     {% endif %}{% endfor %}
+    <div class="brand-color-preview">
+      <div class="topline">
+        <h3>Live-Vorschau und Textkontrast</h3>
+        <label for="brand-color-preview-mode">Darstellung
+          <select id="brand-color-preview-mode">
+            <option value="light">Hellmodus</option>
+            <option value="dark">Dunkelmodus</option>
+          </select>
+        </label>
+      </div>
+      <p class="muted">Die Vorschau verwendet dieselbe automatische Textfarbauswahl wie die Anwendung und zeigt das WCAG-AA-Kontrastverhältnis.</p>
+      <div class="brand-color-preview-grid">
+        <article class="brand-color-preview-card" data-color-preview="primary">
+          <strong>Primärfarbe</strong><div class="brand-color-swatch">Meeting Manager</div><p class="muted" data-contrast-result></p>
+        </article>
+        <article class="brand-color-preview-card" data-color-preview="secondary">
+          <strong>Sekundärfarbe</strong><div class="brand-color-swatch">Meeting Manager</div><p class="muted" data-contrast-result></p>
+        </article>
+        <article class="brand-color-preview-card" data-color-preview="tertiary">
+          <strong>Tertiärfarbe</strong><div class="brand-color-swatch">Meeting Manager</div><p class="muted" data-contrast-result></p>
+        </article>
+      </div>
+    </div>
   </section>
   <div class="actions"><button class="primary" type="submit">Einstellungen speichern</button></div>
 </form>
+<style>
+.brand-color-preview{margin-top:1.2rem;padding:1rem;border:1px solid var(--border);border-radius:8px;background:var(--soft-bg)}
+.brand-color-preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem}
+.brand-color-preview-card{min-width:0;padding:.75rem;border:1px solid var(--border);border-radius:7px;background:var(--surface)}
+.brand-color-swatch{margin-top:.5rem;min-height:68px;display:flex;align-items:center;justify-content:center;padding:.8rem;border-radius:5px;font-weight:750}
+.brand-color-preview-card [data-contrast-result]{margin:.5rem 0 0;font-size:.85rem}
+</style>
 <script>
-document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],input[name$="_color_dark"]').forEach(function(input){
-  input.setAttribute('pattern','^$|^#[0-9A-Fa-f]{6}$');
-  input.setAttribute('placeholder','#RRGGBB');
-  var picker=document.createElement('input');
-  picker.type='color';
-  picker.setAttribute('aria-label','Farbe auswählen');
-  picker.value=/^#[0-9A-Fa-f]{6}$/.test(input.value)?input.value:'#00549F';
-  picker.addEventListener('input',function(){input.value=picker.value.toUpperCase();});
-  input.insertAdjacentElement('afterend',picker);
-});
+(() => {
+  const colorInputs = Array.from(document.querySelectorAll(
+    'input[name$="_color"],input[name$="_color_light"],input[name$="_color_dark"]'
+  ));
+  const mode = document.getElementById("brand-color-preview-mode");
+  const cards = Array.from(document.querySelectorAll("[data-color-preview]"));
+  if (!mode || !cards.length) return;
+
+  const validHex = value => /^#[0-9a-f]{6}$/i.test(value || "");
+  const rgb = hex => [1, 3, 5].map(index => parseInt(hex.slice(index, index + 2), 16) / 255);
+  const luminance = hex => rgb(hex).map(value =>
+    value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4)
+  ).reduce((sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index], 0);
+  const contrast = (foreground, background) => {
+    const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+    return (values[0] + 0.05) / (values[1] + 0.05);
+  };
+  const chooseText = background => ["#FFFFFF", "#243247", "#000000"]
+    .sort((a, b) => contrast(b, background) - contrast(a, background))[0];
+
+  const inputValue = name => document.querySelector('[name="' + name + '"]')?.value.trim() || "";
+  const updatePreview = () => {
+    cards.forEach(card => {
+      const key = card.dataset.colorPreview;
+      const base = inputValue(key + "_color");
+      const variant = inputValue(key + "_color_" + mode.value);
+      const candidate = variant || base;
+      const background = validHex(candidate) ? candidate.toUpperCase() : "#00549F";
+      const foreground = chooseText(background);
+      const ratio = contrast(foreground, background);
+      const swatch = card.querySelector(".brand-color-swatch");
+      const result = card.querySelector("[data-contrast-result]");
+      swatch.style.backgroundColor = background;
+      swatch.style.color = foreground;
+      result.textContent = "Text " + foreground + " · Kontrast " + ratio.toFixed(2) + ":1 · " +
+        (ratio >= 4.5 ? "WCAG AA erfüllt" : "WCAG AA nicht erfüllt");
+    });
+  };
+
+  colorInputs.forEach(input => {
+    input.setAttribute("pattern", "^$|^#[0-9A-Fa-f]{6}$");
+    input.setAttribute("placeholder", "#RRGGBB");
+    const picker = document.createElement("input");
+    picker.type = "color";
+    picker.setAttribute("aria-label", "Farbe auswählen");
+    picker.value = validHex(input.value) ? input.value : "#00549F";
+    picker.addEventListener("input", () => {
+      input.value = picker.value.toUpperCase();
+      updatePreview();
+    });
+    input.addEventListener("input", () => {
+      if (validHex(input.value)) picker.value = input.value;
+      updatePreview();
+    });
+    input.insertAdjacentElement("afterend", picker);
+  });
+  mode.addEventListener("change", updatePreview);
+  updatePreview();
+})();
 </script>
 {% endblock %}
