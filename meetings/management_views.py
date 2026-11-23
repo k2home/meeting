@@ -224,7 +224,7 @@ def _redact_diagnostic_value(value):
 def _analyze_enaio_report(report, logs):
     tests = [item for section in ("browser", "server") for item in report.get(section, []) if isinstance(item, dict)]
     errors = [item for item in tests if str(item.get("result", "")).upper() in {"FEHLER", "ERROR", "FAILED"}]
-    warnings = [item for item in tests if any(word in str(item.get("result", "")).upper() for word in ("FEHLT", "UNVOLLSTÄNDIG", "NICHT VERFÜGBAR", "NICHT MÖGLICH", "HINWEIS"))]
+    warnings = [item for item in tests if any(word in str(item.get("result", "")).upper() for word in ("FEHLT", "UNVOLLSTÄNDIG", "NICHT VERFÜGBAR", "NICHT DIREKT VERFÜGBAR", "NICHT MÖGLICH", "HINWEIS"))]
     agent_errors = [item for item in logs if item["level"] == "ERROR"]
     agent_warnings = [item for item in logs if item["level"] == "WARNING"]
     local_lines = str(report.get("local_log_text", "")).splitlines()
