@@ -1,16 +1,19 @@
 from datetime import timedelta
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import AgendaItem, Meeting, MeetingSeries, SeriesAccess, Topic, UserModel
+from .models import AgendaItem, Meeting, MeetingSeries, SeriesAccess, Topic
+
+User = get_user_model()
 
 
 class DashboardNextWeekDueFilterTests(TestCase):
     def setUp(self):
         self.today = timezone.localdate()
-        self.user = UserModel.objects.create_user(
+        self.user = User.objects.create_user(
             username="next-week-user", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="Nächste-Woche-Reihe")
