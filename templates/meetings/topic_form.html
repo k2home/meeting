@@ -124,9 +124,14 @@
 
 <!-- topic-comment-autoresize -->
 <script>
-document.querySelectorAll('textarea[name="body"], textarea[name="comment"]').forEach(field => {
-  const resize = () => { field.style.height = "auto"; field.style.height = field.scrollHeight + "px"; };
+document.querySelectorAll('textarea[name="working_text"], textarea[name="body"], textarea[name="comment"]').forEach(field => {
+  const resize = () => {
+    field.style.height = "auto";
+    field.style.height = field.scrollHeight + "px";
+  };
+  field.style.overflowY = "hidden";
   field.addEventListener("input", resize);
+  window.addEventListener("resize", resize);
   resize();
 });
 </script>
