@@ -144,7 +144,7 @@ def dashboard(request):
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "active")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
-    selected_due = request.GET.get("due", "")
+    selected_due = request.GET.get("due", "next_week")
 
     if selected_status == "active":
         topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
@@ -180,7 +180,12 @@ def dashboard(request):
         next_meeting_date=Subquery(latest_agenda_item.values("meeting__date")[:1]),
         latest_agenda_status=Subquery(latest_agenda_item.values("status")[:1]),
     )
-    if selected_due == "overdue":
+    if selected_due == "next_week":
+        topics = topics.filter(
+            next_meeting_date__gte=today,
+            next_meeting_date__lte=today + timedelta(days=7),
+        )
+    elif selected_due == "overdue":
         topics = topics.filter(
             next_meeting_date__lt=today,
             latest_agenda_status__in=["open", "in_progress"],
