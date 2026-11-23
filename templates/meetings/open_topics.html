@@ -7,6 +7,18 @@
     <p class="muted">Hier findest du den jeweils letzten noch offenen Tagesordnungspunkt eines Themas, für den noch kein zukünftiger Besprechungstermin vorgesehen ist.</p>
   </div>
 </header>
+<form method="get" class="card" aria-label="Offene Tagesordnungspunkte filtern">
+  <label for="open-topics-series">Besprechungsreihe</label>
+  <div class="actions">
+    <select id="open-topics-series" name="series" onchange="this.form.submit()">
+      <option value="">Alle Besprechungsreihen</option>
+      {% for series in series_choices %}
+        <option value="{{ series.pk }}" {% if selected_series == series.pk|stringformat:"s" %}selected{% endif %}>{{ series.name }}</option>
+      {% endfor %}
+    </select>
+    {% if selected_series %}<a class="btn secondary" href="{% url 'open_topics' %}">Filter zurücksetzen</a>{% endif %}
+  </div>
+</form>
 {% for row in rows %}
   <section class="card">
     <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>
@@ -18,6 +30,7 @@
     {% if row.future_meetings %}
       <form method="post" class="actions">
         {% csrf_token %}
+        {% if selected_series %}<input type="hidden" name="series" value="{{ selected_series }}">{% endif %}
         <input type="hidden" name="schedule_item" value="{{ row.item.pk }}">
         <label for="target-meeting-{{ row.item.pk }}">Zukünftiger Termin</label>
         <select id="target-meeting-{{ row.item.pk }}" name="target_meeting" required>

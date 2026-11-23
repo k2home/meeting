@@ -327,6 +327,13 @@ def open_topics(request):
         if not allowed_series.exists():
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
+    selected_series = request.GET.get("series", "").strip()
+    if selected_series.isdigit() and allowed_series.filter(pk=int(selected_series)).exists():
+        items_series_filter = int(selected_series)
+    else:
+        selected_series = ""
+        items_series_filter = None
+
     latest_item_ids = AgendaItem.objects.filter(
         topic_id=OuterRef("topic_id")
     ).order_by("-meeting__date", "-pk").values("pk")[:1]
@@ -335,7 +342,10 @@ def open_topics(request):
         topic__status__in=["open", "in_progress", "done"],
         status__in=["open", "in_progress"],
         meeting__date__lte=today,
-    ).filter(pk__in=Subquery(latest_item_ids)).select_related(
+    ).filter(pk__in=Subquery(latest_item_ids))
+    if items_series_filter is not None:
+        items = items.filter(topic__series_id=items_series_filter)
+    items = items.select_related(
         "topic", "topic__series", "meeting", "assigned_to"
     ).order_by("topic__series__name", "topic__title")
 
@@ -375,7 +385,7 @@ def open_topics(request):
                 changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}},
             )
         messages.success(request, f"„{item.topic.title}“ wurde auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt.")
-        return redirect("open_topics")
+        return redirect(f"{reverse('open_topics')}?{urlencode({'series': selected_series})}" if selected_series else "open_topics")
 
     rows = []
     for item in items:
@@ -383,7 +393,11 @@ def open_topics(request):
             series=item.topic.series, date__gt=today, finalized_at__isnull=True
         ).order_by("date")
         rows.append({"item": item, "future_meetings": future_meetings})
-    return render(request, "meetings/open_topics.html", {"rows": rows, "today": today})
+    return render(request, "meetings/open_topics.html", {
+        "rows": rows, "today": today,
+        "series_choices": allowed_series.order_by("name"),
+        "selected_series": selected_series,
+    })
 
 @login_required
 def my_tasks(request):
