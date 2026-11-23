@@ -147,9 +147,7 @@ find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
-install -o root -g root -m 0755 "$APP_DIR/deploy/meeting-manager-update" /usr/local/sbin/meeting-manager-update
-install -o root -g root -m 0440 "$APP_DIR/deploy/meeting-manager-update.sudoers" /etc/sudoers.d/meeting-manager-update
-visudo -cf /etc/sudoers.d/meeting-manager-update
+bash "$APP_DIR/deploy/install-debian-updater.sh"
 install -m 0644 "$NGINX_CONFIG" /etc/nginx/sites-available/meeting-manager
 ln -sfn /etc/nginx/sites-available/meeting-manager /etc/nginx/sites-enabled/meeting-manager
 rm -f /etc/nginx/sites-enabled/default

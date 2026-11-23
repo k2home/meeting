@@ -3,6 +3,8 @@
 import json
 import os
 import grp
+import re
+import stat
 import subprocess
 import threading
 import time
@@ -32,6 +34,7 @@ def write_state(**changes):
         STATE_FILE.parent.mkdir(mode=0o750, parents=True, exist_ok=True)
         temporary = STATE_FILE.with_suffix(".tmp")
         temporary.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
+        os.chown(temporary, 0, grp.getgrnam("meeting-update").gr_gid)
         os.chmod(temporary, 0o640)
         temporary.replace(STATE_FILE)
         return state
@@ -70,15 +73,73 @@ def preserve_running_image():
 
 def remove_rollback_image(image_ref):
     if image_ref:
-        subprocess.run(
-            ["/usr/bin/docker", "image", "rm", image_ref],
-            text=True, capture_output=True, timeout=30, check=False,
-        )
+        try:
+            subprocess.run(
+                ["/usr/bin/docker", "image", "rm", image_ref],
+                text=True, capture_output=True, timeout=30, check=False,
+            )
+        except subprocess.SubprocessError:
+            pass
+
+
+def persist_selected_image(image_ref):
+    env_file = APP_DIR / ".env"
+    if env_file.is_symlink() or not env_file.is_file():
+        raise RuntimeError("Die lokale Docker-.env-Datei fehlt oder ist kein reguläres File.")
+    original = env_file.read_text(encoding="utf-8")
+    lines = original.splitlines()
+    replacement = "MEETING_IMAGE=" + image_ref
+    found = False
+    updated = []
+    for line in lines:
+        if re.match(r"^\s*MEETING_IMAGE\s*=", line):
+            if not found:
+                updated.append(replacement)
+                found = True
+        else:
+            updated.append(line)
+    if not found:
+        updated.append(replacement)
+
+    backup = STATE_FILE.parent / "compose-env.backup"
+    backup.write_text(original, encoding="utf-8")
+    os.chmod(backup, 0o600)
+    try:
+        with env_file.open("w", encoding="utf-8") as target:
+            target.write("\n".join(updated) + "\n")
+            target.flush()
+            os.fsync(target.fileno())
+    except Exception:
+        with env_file.open("w", encoding="utf-8") as target:
+            target.write(original)
+            target.flush()
+            os.fsync(target.fileno())
+        backup.unlink(missing_ok=True)
+        raise
+    return backup
+
+
+def recover_environment_backup():
+    backup = STATE_FILE.parent / "compose-env.backup"
+    if not backup.is_file():
+        return
+    previous_state = read_state()
+    if previous_state.get("status") != "success":
+        env_file = APP_DIR / ".env"
+        if env_file.is_file() and not env_file.is_symlink():
+            with env_file.open("w", encoding="utf-8") as target:
+                target.write(backup.read_text(encoding="utf-8"))
+                target.flush()
+                os.fsync(target.fileno())
+    backup.unlink(missing_ok=True)
+
+
 def run_update(branch):
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
     log = []
     previous_image = None
+    environment_backup = None
     try:
         previous_image = preserve_running_image()
         target_image = f"ghcr.io/k2home/meeting:{'latest' if branch == 'main' else 'beta'}"
@@ -100,10 +161,25 @@ def run_update(branch):
             time.sleep(5)
         if not healthy:
             raise RuntimeError("Die Django-Prüfung war nach dem Update nicht erfolgreich.")
+        environment_backup = persist_selected_image(target_image)
         write_state(status="success", branch=branch, started_at=started, finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), message=f"Update auf {branch} erfolgreich.", log="\n".join(log)[-16000:])
+        if environment_backup:
+            try:
+                environment_backup.unlink(missing_ok=True)
+            except OSError:
+                pass
         remove_rollback_image(previous_image)
     except Exception as exc:
         log.append(str(exc))
+        if environment_backup and environment_backup.exists():
+            try:
+                with (APP_DIR / ".env").open("w", encoding="utf-8") as target:
+                    target.write(environment_backup.read_text(encoding="utf-8"))
+                    target.flush()
+                    os.fsync(target.fileno())
+                environment_backup.unlink(missing_ok=True)
+            except Exception as restore_exc:
+                log.append("Wiederherstellung der .env fehlgeschlagen: " + str(restore_exc))
         rollback_message = ""
         if previous_image:
             try:
@@ -131,9 +207,31 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if self.path != "/status":
-            return self.respond(404, {"error": "Nicht gefunden."})
-        self.respond(200, read_state())
+        if self.path == "/status":
+            return self.respond(200, read_state())
+        if self.path == "/info":
+            result = compose("ps", "-q", "app", timeout=30)
+            if result.returncode or not result.stdout.strip():
+                return self.respond(503, {"error": "App-Container ist nicht verfügbar."})
+            container_id = result.stdout.strip().splitlines()[0]
+            inspect = subprocess.run(
+                ["/usr/bin/docker", "inspect", container_id],
+                text=True, capture_output=True, timeout=30, check=False,
+            )
+            if inspect.returncode:
+                return self.respond(503, {"error": "Image-Informationen sind nicht verfügbar."})
+            details = json.loads(inspect.stdout)[0]
+            labels = details.get("Config", {}).get("Labels") or {}
+            image = details.get("Config", {}).get("Image", "")
+            self.respond(200, {
+                "branch": "main" if image.endswith(":latest") else "beta",
+                "commit": labels.get("org.opencontainers.image.revision", ""),
+                "version": labels.get("org.opencontainers.image.version", ""),
+                "image": image,
+                "created": details.get("Created", ""),
+            })
+            return
+        return self.respond(404, {"error": "Nicht gefunden."})
 
     def do_POST(self):
         if self.path != "/update":
@@ -155,6 +253,9 @@ class Handler(BaseHTTPRequestHandler):
             UPDATE_LOCK.release()
             return self.respond(409, {"error": "Ein Update läuft bereits."})
 
+        started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        write_state(status="running", branch=branch, started_at=started, finished_at=None, message="Update wird ausgeführt.", log="")
+
         def worker():
             try:
                 run_update(branch)
@@ -174,6 +275,15 @@ class ThreadedUnixServer(ThreadingMixIn, UnixStreamServer):
 
 
 if __name__ == "__main__":
+    recover_environment_backup()
+    previous_state = read_state()
+    if previous_state.get("status") == "running":
+        write_state(
+            status="error",
+            finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            message="Der Docker-Updater wurde neu gestartet; der vorherige Lauf wurde unterbrochen.",
+            log=(previous_state.get("log", "") + "\\nUpdater-Neustart erkannt.").strip(),
+        )
     socket_path = "/run/meeting-manager-updater/control.sock"
     if os.path.exists(socket_path):
         os.unlink(socket_path)

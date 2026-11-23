@@ -10,4 +10,7 @@ if [[ "$#" -ne 1 || ( "$1" != "beta" && "$1" != "main" ) ]]; then
   exit 2
 fi
 
-exec /opt/meeting-manager/deploy/update.sh "$1"
+# Run outside the Django service cgroup. The application restarts during an
+# update; a transient systemd service keeps the updater alive across that restart.
+exec /usr/bin/systemd-run --quiet --collect --unit=meeting-manager-update \
+  /usr/local/sbin/meeting-manager-update-runner "$1"

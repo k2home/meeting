@@ -1697,3 +1697,66 @@ class DashboardStatusFilterTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context["topics"]), [self.in_progress_topic])
         self.assertEqual(response.context["selected_status"], "in_progress")
+
+
+class DeploymentUpdatePermissionTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth.models import Group
+
+        self.admin = User.objects.create_user(
+            username="deployment-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        self.admin.groups.add(admin_group)
+        self.member = User.objects.create_user(
+            username="deployment-member", password="strong-test-password"
+        )
+
+    def test_only_global_admin_can_open_update_page(self):
+        self.client.force_login(self.member)
+        response = self.client.get(reverse("deployment_updates"))
+        self.assertEqual(response.status_code, 403)
+
+        self.client.force_login(self.admin)
+        response = self.client.get(reverse("deployment_updates"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Software aktualisieren")
+        self.assertContains(response, "Zielversion")
+
+    def test_non_admin_cannot_start_an_update(self):
+        self.client.force_login(self.member)
+        response = self.client.post(reverse("deployment_updates"), {"branch": "beta"})
+        self.assertEqual(response.status_code, 403)
+
+    def test_invalid_branch_is_rejected(self):
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("deployment_updates"), {"branch": "feature/other"})
+        self.assertEqual(response.status_code, 302)
+
+    def test_admin_starts_only_the_selected_supported_branch(self):
+        from unittest.mock import patch
+
+        info = {
+            "deployment_type": "Debian / systemd",
+            "current_branch": "beta",
+            "current_commit": "abc1234",
+            "current_image": "",
+            "build_created": "",
+            "update_available": True,
+            "availability_message": "",
+        }
+        self.client.force_login(self.admin)
+        with patch("meetings.views._deployment_info", return_value=info), \
+             patch("meetings.views._read_update_status", return_value={"status": "idle"}), \
+             patch("meetings.views.os.path.exists", return_value=False), \
+             patch("meetings.views.subprocess.run") as start:
+            start.return_value.returncode = 0
+            start.return_value.stderr = ""
+            response = self.client.post(reverse("deployment_updates"), {"branch": "beta"})
+
+        self.assertEqual(response.status_code, 302)
+        start.assert_called_once()
+        self.assertEqual(
+            start.call_args.args[0],
+            ["sudo", "-n", "/usr/local/sbin/meeting-manager-update", "beta"],
+        )

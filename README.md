@@ -351,6 +351,24 @@ Nach dem Update laden Browser und iOS-Web-Apps beim nächsten Seitenaufruf HTML 
 
 Das Skript aktualisiert den Branch, der auf dem Server ausgecheckt ist. Für den regulären Betrieb sollte das der freigegebene Hauptbranch sein.
 
+### Updates über die Weboberfläche
+
+Globale Administrator*innen öffnen in der Seitenleiste **Software aktualisieren**. Dort werden Installationsart, installierter Branch und Commit angezeigt. Das Ziel kann auf `beta` oder `main` gestellt und das Update direkt gestartet werden. Status und Protokoll des letzten Laufs werden auf diesem Server angezeigt; die Ausführung läuft unabhängig von der Browseranfrage.
+
+- **Debian/systemd:** Die Webanwendung startet ausschließlich den fest installierten Wrapper `meeting-manager-update` über eine eng begrenzte sudoers-Regel. Dieser startet den eigentlichen Lauf als eigenständigen transienten systemd-Dienst. Dadurch überlebt das Update den Neustart des Django-Dienstes. Der Runner akzeptiert nur `beta` und `main`, verhindert parallele Läufe und protokolliert Status und Ausgabe.
+- **Docker Compose:** Die Webanwendung spricht den bereits eingerichteten Host-Updater ausschließlich über den lokalen Unix-Socket an. Der App-Container erhält weiterhin keinen Docker-Socket.
+- Beide Varianten aktualisieren nur die jeweilige lokale Installation. Die Server beeinflussen sich nicht gegenseitig.
+
+**Einmalige Aktivierung auf bestehenden Debian-Installationen:** Nach dem Einspielen des aktuellen Anwendungsstands den sicheren Updater-Installer einmalig ausführen:
+
+```bash
+sudo bash /opt/meeting-manager/deploy/install-debian-updater.sh
+```
+
+Das Skript aktualisiert die systemd-Dienstdefinition, richtet den eingeschränkten Wrapper samt Runner ein und startet den Anwendungsdienst bei Bedarf einmal neu. Datenbank, `.env` und Python-Umgebung bleiben unverändert. Danach sind reguläre Updates über die Weboberfläche möglich. Bei bestehenden Docker-Installationen muss der Host-Updater nach dem Aktualisieren des Repository-Checkouts einmalig mit `sudo bash deploy/install-docker-updater.sh` aktualisiert werden. Das installiert den aktuellen eingeschränkten Agenten und startet ihn neu. Der Agent merkt sich anschließend den ausgewählten Image-Branch in der lokalen `.env`; andere Einstellungen in dieser Datei bleiben unverändert. Die App-Images enthalten Commit- und Branch-Metadaten.
+
+Vor Updates sollten weiterhin regelmäßige Backups von Datenbank und hochgeladenen Dateien vorhanden sein. Ein Docker-Rollback stellt das vorherige App-Image wieder her; bereits erfolgreich ausgeführte Datenbankmigrationen werden dabei nicht automatisch zurückgesetzt.
+
 ### Dienste und Protokolle
 
 ```bash
