@@ -36,9 +36,11 @@ if [[ ! -f "$APP_DIR/.env" ]]; then
 
   SECRET_KEY="$(openssl rand -hex 48)"
   DB_PASSWORD="$(openssl rand -hex 24)"
+  SETUP_TOKEN="$(openssl rand -hex 32)"
   umask 077
   cat > "$APP_DIR/.env" <<EOF
 SECRET_KEY=$SECRET_KEY
+SETUP_TOKEN=$SETUP_TOKEN
 DEBUG=0
 ALLOWED_HOSTS=$SITE_HOST,localhost,127.0.0.1
 CSRF_TRUSTED_ORIGINS=
@@ -60,6 +62,11 @@ USE_X_FORWARDED_HOST=0
 EOF
   chmod 600 "$APP_DIR/.env"
 else
+  SETUP_TOKEN="$(sed -n 's/^SETUP_TOKEN=//p' "$APP_DIR/.env" | head -n 1)"
+  if [[ -z "$SETUP_TOKEN" ]]; then
+    SETUP_TOKEN="$(openssl rand -hex 32)"
+    printf '\\nSETUP_TOKEN=%s\\n' "$SETUP_TOKEN" >> "$APP_DIR/.env"
+  fi
   chown root:root "$APP_DIR/.env"
   chmod 600 "$APP_DIR/.env"
   if ! grep -q '^SECRET_KEY=.' "$APP_DIR/.env" || ! grep -q '^POSTGRES_PASSWORD=.' "$APP_DIR/.env"; then
@@ -88,4 +95,5 @@ echo "Status:     docker compose -f $COMPOSE_FILE ps"
 echo "Logs:       docker compose -f $COMPOSE_FILE logs -f app"
 echo "Secrets:    $APP_DIR/.env (nur root lesbar)"
 echo "HTTPS: Für produktiven Zugriff HTTPS über einen vorgeschalteten Reverse Proxy konfigurieren."
-echo "Admin: Das erste Administratorkonto muss nach dem Start einmalig angelegt werden (siehe README)."
+echo "Einrichtungscode für den ersten Browser-Aufruf: $SETUP_TOKEN"
+echo "Bitte den Einrichtungscode vertraulich behandeln und nach Abschluss der Einrichtung sicher verwahren oder löschen."
