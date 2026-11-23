@@ -193,9 +193,17 @@ def dashboard(request):
         topics = topics.filter(next_meeting_date__gt=today)
 
     topics = topics.distinct()
+    overdue_topics = accessible_topics(request.user)
+    if not is_admin(request.user):
+        overdue_topics = overdue_topics.filter(
+            series__user_access__user=request.user,
+            series__user_access__role__in=[
+                SeriesAccess.ROLE_PARTICIPANT,
+                SeriesAccess.ROLE_MODERATOR,
+            ],
+        )
     overdue_count = (
-        accessible_topics(request.user)
-        .annotate(
+        overdue_topics.annotate(
             latest_agenda_date=Subquery(latest_agenda_item.values("meeting__date")[:1]),
             latest_agenda_status=Subquery(latest_agenda_item.values("status")[:1]),
         )
@@ -1307,6 +1315,7 @@ def series_admin(request):
             access_request = SeriesAccessRequest.objects.select_for_update().get(pk=access_request.pk, status=SeriesAccessRequest.STATUS_PENDING)
             if decision == SeriesAccessRequest.STATUS_APPROVED:
                 role_rank = {
+                    SeriesAccess.ROLE_NONE: -1,
                     SeriesAccess.ROLE_READER: 0,
                     SeriesAccess.ROLE_PARTICIPANT: 1,
                     SeriesAccess.ROLE_MODERATOR: 2,
@@ -1314,7 +1323,10 @@ def series_admin(request):
                 current_access = SeriesAccess.objects.filter(
                     user=access_request.user, series=access_request.series
                 ).first()
-                if current_access is None or role_rank[access_request.requested_role] > role_rank[current_access.role]:
+                if access_request.requested_role == SeriesAccess.ROLE_NONE:
+                    if current_access:
+                        current_access.delete()
+                elif current_access is None or role_rank[access_request.requested_role] > role_rank[current_access.role]:
                     SeriesAccess.objects.update_or_create(
                         user=access_request.user, series=access_request.series,
                         defaults={"role": access_request.requested_role},
@@ -1972,20 +1984,26 @@ def user_overview(request):
         request_form = SeriesAccessRequestForm(request.POST)
         if request_form.is_valid():
             role_rank = {
+                SeriesAccess.ROLE_NONE: -1,
                 SeriesAccess.ROLE_READER: 0,
                 SeriesAccess.ROLE_PARTICIPANT: 1,
                 SeriesAccess.ROLE_MODERATOR: 2,
             }
             current_access = SeriesAccess.objects.filter(user=request.user, series=series).first()
             requested_role = request_form.cleaned_data["role"]
-            if current_access and role_rank[current_access.role] == role_rank[requested_role]:
+            if current_access and current_access.role == requested_role:
                 messages.info(request, "Du hast diese Berechtigung bereits.")
+            elif not current_access and requested_role == SeriesAccess.ROLE_NONE:
+                messages.info(request, "Du hast für diese Besprechungsreihe bereits keine Berechtigung.")
             elif SeriesAccessRequest.objects.filter(user=request.user, series=series, status=SeriesAccessRequest.STATUS_PENDING).exists():
                 messages.error(request, "Für diese Besprechungsreihe liegt bereits ein offener Antrag vor.")
             elif current_access and role_rank[current_access.role] > role_rank[requested_role]:
-                # Herabstufungen werden automatisch genehmigt und sofort wirksam.
+                # Herabstufungen einschließlich vollständigem Entzug werden automatisch genehmigt.
                 with transaction.atomic():
-                    SeriesAccess.objects.filter(pk=current_access.pk).update(role=requested_role)
+                    if requested_role == SeriesAccess.ROLE_NONE:
+                        current_access.delete()
+                    else:
+                        SeriesAccess.objects.filter(pk=current_access.pk).update(role=requested_role)
                     SeriesAccessRequest.objects.create(
                         user=request.user, series=series,
                         requested_role=requested_role,
@@ -1993,7 +2011,12 @@ def user_overview(request):
                         decision_note="Automatisch genehmigt: Herabstufung der bestehenden Berechtigung.",
                         decided_at=timezone.now(),
                     )
-                messages.success(request, "Deine niedrigere Berechtigung wurde automatisch genehmigt und ist jetzt wirksam.")
+                messages.success(
+                    request,
+                    "Deine Berechtigung wurde automatisch herabgestuft und ist jetzt wirksam."
+                    if requested_role != SeriesAccess.ROLE_NONE
+                    else "Deine Berechtigung für diese Besprechungsreihe wurde entfernt.",
+                )
             else:
                 SeriesAccessRequest.objects.create(
                     user=request.user, series=series,
@@ -2054,5 +2077,5 @@ def user_overview(request):
         "password_form": password_form,
         "series_rows": series_rows,
         "is_admin_user": admin_access,
-        "request_role_choices": SeriesAccess.ROLE_CHOICES,
+        "request_role_choices": SeriesAccess.REQUEST_ROLE_CHOICES,
     })
