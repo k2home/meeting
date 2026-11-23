@@ -2116,6 +2116,13 @@ def _updater_request(path, method="GET", payload=None):
 
 
 def _read_update_status():
+    if os.path.exists(UPDATE_SOCKET):
+        try:
+            code, data = _updater_request("/status")
+            if code == 200 and isinstance(data, dict):
+                return data
+        except (OSError, ValueError, http.client.HTTPException):
+            pass
     try:
         data = json.loads(UPDATE_STATUS_FILE.read_text(encoding="utf-8"))
         if isinstance(data, dict):
@@ -2131,40 +2138,17 @@ def _read_update_status():
         "log": "",
     }
 
-
 def _deployment_info():
     if os.path.exists(UPDATE_SOCKET):
-        try:
-            code, info = _updater_request("/info")
-            if code == 200:
-                return {
-                    "deployment_type": "Docker Compose",
-                    "current_branch": info.get("branch") or "unbekannt",
-                    "current_commit": info.get("commit") or "Im Image nicht hinterlegt",
-                    "current_image": info.get("image", ""),
-                    "build_created": info.get("created", ""),
-                    "update_available": True,
-                    "availability_message": "",
-                }
-            return {
-                "deployment_type": "Docker Compose",
-                "current_branch": "unbekannt",
-                "current_commit": "nicht verfügbar",
-                "current_image": "",
-                "build_created": "",
-                "update_available": False,
-                "availability_message": info.get("error", "Der Docker-Updater antwortet nicht."),
-            }
-        except (OSError, ValueError, http.client.HTTPException) as exc:
-            return {
-                "deployment_type": "Docker Compose",
-                "current_branch": "unbekannt",
-                "current_commit": "nicht verfügbar",
-                "current_image": "",
-                "build_created": "",
-                "update_available": False,
-                "availability_message": f"Der Docker-Updater ist nicht erreichbar: {exc}",
-            }
+        return {
+            "deployment_type": "Docker Compose",
+            "current_branch": os.getenv("MEETING_BUILD_BRANCH", "Im Image nicht hinterlegt"),
+            "current_commit": os.getenv("MEETING_BUILD_COMMIT", "Im Image nicht hinterlegt"),
+            "current_image": "",
+            "build_created": "",
+            "update_available": True,
+            "availability_message": "",
+        }
 
     if os.path.isfile(DEBIAN_UPDATE_COMMAND) and shutil.which("sudo"):
         def git_value(*args):
@@ -2200,7 +2184,6 @@ def _deployment_info():
             "eingerichtet und sein Socket in den App-Container eingebunden sein."
         ),
     }
-
 
 @login_required
 @require_http_methods(["GET", "POST"])
