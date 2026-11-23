@@ -96,6 +96,7 @@ def enaio_agent_next_job(request):
                 "id": f"folder-{selection.pk}", "kind": "select_root_folder",
                 "selection_id": selection.pk, "lease_token": lease,
                 "complete_url": request.build_absolute_uri(f"/enaio/agent/selection/{selection.pk}/complete/"),
+                "fail_url": request.build_absolute_uri(f"/enaio/agent/jobs/selection/{selection.pk}/fail/"),
             }}
         elif transfer:
             settings_obj = EnaioSettings.objects.filter(pk=1).first()
@@ -125,6 +126,7 @@ def enaio_agent_next_job(request):
                 },
                 "pdf_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/pdf/"),
                 "complete_url": request.build_absolute_uri(f"/enaio/agent/transfer/{transfer.pk}/complete/"),
+                "fail_url": request.build_absolute_uri(f"/enaio/agent/jobs/transfer/{transfer.pk}/fail/"),
             }}
         else:
             data = {"job": None}
@@ -210,3 +212,44 @@ def enaio_agent_transfer_complete(request, pk):
         transfer.consumed_at = timezone.now()
         transfer.save(update_fields=["status", "consumed_at"])
     return JsonResponse({"ok": True, "register_path": display_path})
+
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def enaio_agent_job_fail(request, kind, pk):
+    agent = _agent_from_request(request)
+    if not agent:
+        return HttpResponseForbidden("Agent nicht authentifiziert.")
+    try:
+        data = json.loads(request.body or b"{}")
+        lease_token = str(data.get("lease_token", ""))
+        message = str(data.get("error", "enaio-Auftrag fehlgeschlagen.")).strip()[:500]
+    except (ValueError, TypeError, UnicodeDecodeError):
+        return JsonResponse({"error": "Ungültige Fehlerrückmeldung."}, status=400)
+    now = timezone.now()
+    with transaction.atomic():
+        if kind == "selection":
+            job = EnaioFolderSelection.objects.select_for_update().filter(
+                pk=pk, user=agent.user, consumed_at__isnull=True,
+                agent_lease_token=lease_token, agent_lease_expires_at__gt=now,
+            ).first()
+            if not job:
+                return HttpResponseForbidden("Auftrag ungültig oder Lease abgelaufen.")
+            job.error_message = message
+            job.consumed_at = now
+            job.save(update_fields=["error_message", "consumed_at"])
+        elif kind == "transfer":
+            job = EnaioTransfer.objects.select_for_update().filter(
+                pk=pk, user=agent.user, status="pending", consumed_at__isnull=True,
+                agent_lease_token=lease_token, agent_lease_expires_at__gt=now,
+            ).first()
+            if not job:
+                return HttpResponseForbidden("Auftrag ungültig oder Lease abgelaufen.")
+            job.status = "failed"
+            job.error_message = message
+            job.consumed_at = now
+            job.save(update_fields=["status", "error_message", "consumed_at"])
+        else:
+            return JsonResponse({"error": "Unbekannter Auftragstyp."}, status=404)
+    return JsonResponse({"ok": True})
