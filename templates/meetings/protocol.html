@@ -109,6 +109,14 @@
 </style>
 
 <!-- protocol-print-action -->
+<style>
+@media print {
+  .sidebar, .meeting-action-menu, .no-print, nav, footer { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .card { box-shadow: none !important; border-color: #bbb !important; break-inside: auto; }
+  a { color: #000 !important; text-decoration: none !important; }
+}
+</style>
 <script>
 (() => {
   const menu = document.querySelector(".meeting-action-menu");
