@@ -230,6 +230,14 @@ class ThreadedUnixServer(ThreadingMixIn, UnixStreamServer):
 
 
 if __name__ == "__main__":
+    previous_state = read_state()
+    if previous_state.get("status") == "running":
+        write_state(
+            status="error",
+            finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            message="Der Docker-Updater wurde neu gestartet; der vorherige Lauf wurde unterbrochen.",
+            log=(previous_state.get("log", "") + "\\nUpdater-Neustart erkannt.").strip(),
+        )
     socket_path = "/run/meeting-manager-updater/control.sock"
     if os.path.exists(socket_path):
         os.unlink(socket_path)
