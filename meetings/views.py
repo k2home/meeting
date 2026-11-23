@@ -16,7 +16,7 @@ from django.db.models.functions import RowNumber
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import formats, timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
@@ -2161,9 +2161,9 @@ def _format_commit_timestamp(value):
         )
         try:
             display_timezone = ZoneInfo(configured_timezone)
-        except (ZoneInfoNotFoundError, TypeError):
+        except (ZoneInfoNotFoundError, TypeError, ValueError):
             display_timezone = ZoneInfo("Europe/Berlin")
-        return timezone.localtime(committed_at, display_timezone).strftime("%d.%m.%Y, %H:%M Uhr")
+        return formats.date_format(timezone.localtime(committed_at, display_timezone), "DATETIME_FORMAT")
     except (TypeError, ValueError):
         return value
 
@@ -2275,7 +2275,12 @@ def deployment_updates(request):
             messages.error(request, f"Das Update konnte nicht gestartet werden: {exc}")
         return redirect("deployment_updates")
 
+    update_status = _read_update_status()
+    for timestamp_field in ("started_at", "finished_at"):
+        if update_status.get(timestamp_field):
+            update_status[timestamp_field] = _format_commit_timestamp(update_status[timestamp_field])
+
     return render(request, "meetings/deployment_updates.html", {
         **info,
-        "update_status": _read_update_status(),
+        "update_status": update_status,
     })
