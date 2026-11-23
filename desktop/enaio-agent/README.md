@@ -27,8 +27,9 @@ Die technischen Namen sind installationsabhängig und werden einmalig vom Admini
 - enaio-Schrankname
 - technischer Registertyp
 - technisches Register-Namensfeld (interner Feldname für den Namen der Besprechungsreihe)
+- technischer Dokumenttyp für das Protokoll-PDF
 
-Der Dokumenttyp ist serverseitig fest auf **Standard** gesetzt. Fehlen diese Angaben, verweigert der Agent die Ablage statt einen falschen Zielort zu verwenden.
+Der Dokumenttyp wird ebenfalls zentral konfiguriert. Der Agent ermittelt die zugehörige Typ-ID direkt aus der enaio-Objektdefinition. Fehlen diese Angaben oder stimmen technische Namen nicht, verweigert er die Ablage statt einen falschen Zielort zu verwenden. Register-Neuanlage und Dokumentablage erfolgen ausschließlich über die bestätigungspflichtige enaio-Indexdatenmaske.
 
 ## Build
 
