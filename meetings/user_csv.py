@@ -233,7 +233,7 @@ def import_users_csv(request):
         pending = request.session.get(SESSION_IMPORT_KEY)
         if not pending or pending.get("token") != request.POST.get("token"):
             messages.error(request, "Die Importvorschau ist abgelaufen. Bitte lade die CSV-Datei erneut hoch.")
-            return redirect("admin:auth_user_csv_import")
+            return redirect("management_user_csv_import") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_csv_import")
         grouped, errors = _parse_csv(pending["text"])
         resolved_users, identity_errors = _resolve_existing_users(grouped)
         errors.extend(identity_errors)
@@ -244,7 +244,7 @@ def import_users_csv(request):
         if errors:
             request.session.pop(SESSION_IMPORT_KEY, None)
             messages.error(request, "Die CSV-Datei ist nicht mehr gültig. Bitte erneut hochladen.")
-            return redirect("admin:auth_user_csv_import")
+            return redirect("management_user_csv_import") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_csv_import")
         created = updated = 0
         with transaction.atomic():
             for username, record in grouped:
@@ -281,7 +281,7 @@ def import_users_csv(request):
             request,
             f"CSV-Import abgeschlossen: {created} Benutzer neu angelegt, {updated} Benutzer aktualisiert.",
         )
-        return redirect("admin:auth_user_changelist")
+        return redirect("management_users") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_changelist")
 
     form = UserCsvUploadForm(request.POST or None, request.FILES or None)
     preview = None
@@ -310,7 +310,7 @@ def import_users_csv(request):
                 "updated_users": sum(resolved_users.get(username) is not None for username, record in grouped),
                 "assignments": sum(len(record["series"]) for _, record in grouped),
             }
-    return render(request, "admin/auth/user/csv_import.html", {
+    return render(request, "meetings/management_user_csv_import.html" if request.path.startswith("/verwaltung/") else "admin/auth/user/csv_import.html", {
         **admin.site.each_context(request),
         "form": form, "preview": preview, "errors": errors,
         "title": "Benutzer per CSV importieren",
