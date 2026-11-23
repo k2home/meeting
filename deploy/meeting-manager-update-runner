@@ -46,7 +46,7 @@ chmod 0640 "$LOG_FILE"
 write_state "running" "Update auf $1 wird ausgeführt." "$STARTED_AT" "" "$1"
 
 set +e
-/opt/meeting-manager/deploy/update.sh "$1" >>"$LOG_FILE" 2>&1
+/usr/bin/bash /opt/meeting-manager/deploy/update.sh "$1" >>"$LOG_FILE" 2>&1
 RESULT=$?
 set -e
 FINISHED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
