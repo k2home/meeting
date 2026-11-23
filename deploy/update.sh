@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 APP_DIR="/opt/meeting-manager"
+TARGET_BRANCH="${1:-}"
+if [[ "$#" -gt 1 ]]; then
+  echo "Verwendung: $0 [beta|main]" >&2
+  exit 2
+fi
+if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "beta" && "$TARGET_BRANCH" != "main" ]]; then
+  echo "Unzulässiger Update-Branch. Erlaubt sind ausschließlich beta und main." >&2
+  exit 2
+fi
 if [[ "$EUID" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo $APP_DIR/deploy/update.sh"
   exit 1
@@ -65,7 +74,13 @@ if [[ -f "$APP_DIR/.env" ]]; then
     git -C "$APP_DIR" checkout -- .env
   fi
 fi
-git -C "$APP_DIR" pull --ff-only
+if [[ -n "$TARGET_BRANCH" ]]; then
+  echo "==> Aktualisiere Quellcode aus Branch $TARGET_BRANCH"
+  git -C "$APP_DIR" fetch --prune origin "$TARGET_BRANCH"
+  git -C "$APP_DIR" switch --force-create "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+else
+  git -C "$APP_DIR" pull --ff-only
+fi
 restore_env
 trap - EXIT
 
