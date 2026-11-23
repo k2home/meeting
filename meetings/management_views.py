@@ -602,10 +602,11 @@ def management_database_export(request):
         if result.returncode != 0:
             raise RuntimeError(result.stderr.decode("utf-8", "replace")[-2000:] or "pg_dump ist fehlgeschlagen.")
 
+        migrations_before_dump = _database_schema_migrations()
         metadata = {
             "format_version": DATABASE_BACKUP_FORMAT_VERSION,
             "exported_at": timezone.now().isoformat(),
-            "schema_migrations": _database_schema_migrations(),
+            "schema_migrations": migrations_before_dump,
         }
         with tempfile.NamedTemporaryFile(prefix="meeting-manager-backup-", suffix=".zip", delete=False) as handle:
             archive_path = handle.name
@@ -614,6 +615,11 @@ def management_database_export(request):
             archive.writestr(
                 "metadata.json",
                 json.dumps(metadata, ensure_ascii=False, indent=2).encode("utf-8"),
+            )
+        if _database_schema_migrations() != migrations_before_dump:
+            raise RuntimeError(
+                "Die Datenbankstruktur hat sich während des Exports geändert. "
+                "Bitte den Export erneut starten."
             )
 
         stream = open(archive_path, "rb")
