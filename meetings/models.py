@@ -77,7 +77,7 @@ class Meeting(models.Model):
             self.series.name if self.series_id
             else self.archived_series_name or "Gelöschte Besprechungsreihe"
         )
-        return self.title or f"{series_name} – {formats.date_format(self.date, "DATE_FORMAT")}"
+        return self.title or f"{series_name} – {formats.date_format(self.date, 'DATE_FORMAT')}"
 
 class Topic(models.Model):
     STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt"), ("archived", "Archiviert")]
