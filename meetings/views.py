@@ -2336,6 +2336,7 @@ UPDATE_STATUS_FILE = Path(
 )
 DEBIAN_UPDATE_COMMAND = "/usr/local/sbin/meeting-manager-update"
 BRANCH_NAME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,119}$")
+TESTING_MODE_FILE = Path("/var/lib/meeting-manager-updater/testing-mode")
 
 
 class _UnixSocketHTTPConnection(http.client.HTTPConnection):
@@ -2362,29 +2363,29 @@ def _updater_request(path, method="GET", payload=None):
         connection.close()
 
 
+def _debian_testing_mode_enabled():
+    return os.path.isfile(TESTING_MODE_FILE)
+
+
 def _available_update_branches():
-    """Return deployable branches currently advertised by the repository remote."""
+    """Return branches supported by this deployment and its active update mode."""
     try:
         if os.path.exists(UPDATE_SOCKET):
-            code, data = _updater_request("/branches")
-            if code == 404:
-                # Compatibility with host agents installed before dynamic branch discovery.
-                branches = ["beta", "main"]
-            elif code != 200:
-                raise RuntimeError(data.get("error", "Branches konnten nicht geladen werden."))
-            else:
-                branches = data.get("branches", [])
-        elif os.path.isfile(DEBIAN_UPDATE_COMMAND):
+            # Docker deployments deliberately expose only the stable channels.
+            return ["beta", "main"]
+        if os.path.isfile(DEBIAN_UPDATE_COMMAND):
             result = subprocess.run(
                 ["/usr/bin/git", "-c", "safe.directory=/opt/meeting-manager", "-C",
                  "/opt/meeting-manager", "ls-remote", "--heads", "origin"],
                 text=True, capture_output=True, timeout=15, check=True,
             )
             branches = [
-                line.split("\t", 1)[1][len("refs/heads/"):]
+                line.split("\\t", 1)[1][len("refs/heads/"):]
                 for line in result.stdout.splitlines()
-                if "\trefs/heads/" in line
+                if "\\trefs/heads/" in line
             ]
+            if not _debian_testing_mode_enabled():
+                branches = [name for name in branches if name in {"main", "beta"}]
         else:
             return []
         return sorted({
@@ -2517,8 +2518,31 @@ def deployment_updates(request):
         return HttpResponseForbidden("Nur globale Administratoren dürfen Updates verwalten.")
 
     info = _deployment_info()
+    is_debian_deployment = info["deployment_type"] == "Debian / systemd"
+    testing_mode = is_debian_deployment and _debian_testing_mode_enabled()
     available_branches = _available_update_branches()
     if request.method == "POST":
+        if request.POST.get("action") == "disable-testing":
+            if not testing_mode:
+                messages.error(request, "Der Testing-Modus ist nicht aktiviert.")
+                return redirect("deployment_updates")
+            status = _read_update_status()
+            if status.get("status") == "running":
+                messages.warning(request, "Der Testing-Modus kann während eines laufenden Updates nicht deaktiviert werden.")
+                return redirect("deployment_updates")
+            try:
+                disabled = subprocess.run(
+                    ["sudo", "-n", DEBIAN_UPDATE_COMMAND, "--disable-testing"],
+                    stdin=subprocess.DEVNULL, capture_output=True, text=True,
+                    timeout=10, check=False,
+                )
+                if disabled.returncode != 0:
+                    raise RuntimeError(disabled.stderr.strip() or "Der Testing-Modus konnte nicht deaktiviert werden.")
+                messages.success(request, "Testing-Modus wurde deaktiviert. Es stehen wieder nur main und beta zur Verfügung.")
+            except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
+                messages.error(request, f"Testing-Modus konnte nicht deaktiviert werden: {exc}")
+            return redirect("deployment_updates")
+
         branch = request.POST.get("branch", "")
         if branch not in available_branches:
             messages.error(request, "Bitte einen aktuell verfügbaren Branch auswählen.")
@@ -2567,5 +2591,7 @@ def deployment_updates(request):
     return render(request, "meetings/deployment_updates.html", {
         **info,
         "available_branches": available_branches,
+        "testing_mode": testing_mode,
+        "is_debian_deployment": is_debian_deployment,
         "update_status": update_status,
     })
