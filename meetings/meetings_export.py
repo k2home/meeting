@@ -13,7 +13,7 @@ from .models import ArchivedMeetingAccess, SeriesAccess
 def _safe_csv_cell(value):
     """Prevent spreadsheet formula execution from user-controlled CSV values."""
     text = str(value or "")
-    if text.lstrip(" \\t\\r\\n")[:1] in ("=", "+", "-", "@"):
+    if text.lstrip(" \t\r\n")[:1] in ("=", "+", "-", "@"):
         return "'" + text
     return text
 
