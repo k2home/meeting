@@ -1,16 +1,7 @@
 {% extends "meetings/base.html" %}
 {% block title %}Datenimport und -export{% endblock %}
 {% block content %}
-<div class="page-header"><div><h1>Datenimport und -export</h1><p class="muted">CSV-Sicherungen und Datenübernahme</p></div><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a></div>
-<div class="card">
-<h2>Nutzer</h2>
-<p>Benutzerkonten einschließlich persönlicher Angaben, Aktivstatus, Administratorstatus und Zuordnungen zu Besprechungsreihen exportieren oder per CSV importieren. Der Import prüft die Datei zunächst in einer Vorschau. Bestehende Reihen-Zuordnungen der importierten Konten werden durch die CSV-Zuordnungen ersetzt.</p>
-<div class="actions"><a class="btn secondary" href="/django-admin/auth/user/csv-export/">Nutzer als CSV exportieren</a><a class="btn primary" href="/django-admin/auth/user/csv-import/">Nutzer per CSV importieren</a></div>
-</div>
-<div class="card">
-<h2>Themen und Tagesordnungspunkte</h2>
-<p>Themen, Termine, Tagesordnungspunkte, Zuständigkeiten, Status und Wiedervorlage-Verknüpfungen exportieren oder importieren. Der Import zeigt vor dem Übernehmen eine Vorschau; abgeschlossene Protokolle werden nicht verändert.</p>
-<div class="actions"><a class="btn secondary" href="/django-admin/meetings/topic/csv-export/">Datenbank als CSV exportieren</a><a class="btn secondary" href="/django-admin/meetings/topic/csv-sample/">Muster-CSV herunterladen</a><a class="btn primary" href="/django-admin/meetings/topic/csv-import/">Themen und Punkte importieren</a></div>
-</div>
-<p class="muted">Die CSV-Verarbeitung verwendet dieselben geprüften Import- und Exportfunktionen wie die bisherige Verwaltung. Der eigentliche Importdialog wird derzeit noch von der Django-Verwaltung bereitgestellt.</p>
+<div class="page-header"><div><h1>Datenimport und -export</h1><p class="muted">CSV-Sicherungen und Datenübernahme direkt in der neuen Verwaltung</p></div><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a></div>
+<div class="card"><h2>Nutzer</h2><p>Benutzerkonten einschließlich persönlicher Angaben, Aktivstatus, Administratorstatus und Zuordnungen zu Besprechungsreihen.</p><div class="actions"><a class="btn secondary" href="{% url 'management_user_csv_export' %}">Nutzer als CSV exportieren</a><a class="btn primary" href="{% url 'management_user_csv_import' %}">Nutzer per CSV importieren</a></div></div>
+<div class="card"><h2>Themen und Tagesordnungspunkte</h2><p>Themen, Termine, Tagesordnungspunkte, Zuständigkeiten, Status und Wiedervorlage-Verknüpfungen. Der Import bietet eine Vorschau und schützt abgeschlossene Protokolle.</p><div class="actions"><a class="btn secondary" href="{% url 'management_topic_csv_export' %}">Datenbank als CSV exportieren</a><a class="btn secondary" href="{% url 'management_topic_csv_sample' %}">Muster-CSV herunterladen</a><a class="btn primary" href="{% url 'management_topic_csv_import' %}">Themen und Punkte importieren</a></div></div>
 {% endblock %}
