@@ -1,6 +1,6 @@
 # Meeting Manager – enaio Windows-Agent
 
-Der Agent läuft im angemeldeten Windows-Benutzerkonto, verwendet den dort geöffneten enaio-classic-Client über COM und fragt Aufträge des zugehörigen Meeting-Manager-Kontos über HTTPS ab. Es wird kein URL-Protokoll registriert.
+Der Agent läuft im angemeldeten Windows-Benutzerkonto, verwendet den dort geöffneten enaio-classic-Client über COM und fragt Aufträge des zugehörigen Meeting-Manager-Kontos über HTTPS ab. Für die Zielordnerwahl muss der gewünschte Ordner in enaio geöffnet sein. Bei mehreren geöffneten Ordnern zeigt der Agent einen Auswahldialog, statt willkürlich den ersten Eintrag zu verwenden. Es wird kein URL-Protokoll registriert.
 
 ## Voraussetzungen
 
@@ -27,8 +27,9 @@ Die technischen Namen sind installationsabhängig und werden einmalig vom Admini
 - enaio-Schrankname
 - technischer Registertyp
 - technisches Register-Namensfeld (interner Feldname für den Namen der Besprechungsreihe)
+- technischer Dokumenttyp für das Protokoll-PDF
 
-Der Dokumenttyp ist serverseitig fest auf **Standard** gesetzt. Fehlen diese Angaben, verweigert der Agent die Ablage statt einen falschen Zielort zu verwenden.
+Der Dokumenttyp wird ebenfalls zentral konfiguriert. Der Agent ermittelt die zugehörige Typ-ID direkt aus der enaio-Objektdefinition. Fehlen diese Angaben oder stimmen technische Namen nicht, verweigert er die Ablage statt einen falschen Zielort zu verwenden. Register-Neuanlage und Dokumentablage erfolgen ausschließlich über die bestätigungspflichtige enaio-Indexdatenmaske.
 
 ## Build
 

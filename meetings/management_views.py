@@ -1,7 +1,5 @@
 from zoneinfo import available_timezones
 import logging
-import hashlib
-import secrets
 from datetime import timedelta
 
 from django import forms
@@ -124,6 +122,7 @@ class EnaioSettingsForm(forms.Form):
     archive_name = forms.CharField(label="enaio-Schrankname", max_length=255, required=False, help_text="Technischer Schrankname aus der enaio-Objektdefinition.")
     register_type_name = forms.CharField(label="Technischer Registertyp", max_length=255, required=False, help_text="Technischer Name des Registertyps, in dem die Besprechungsreihen angelegt werden.")
     register_name_field = forms.CharField(label="Technisches Register-Namensfeld", max_length=255, required=False, help_text="Technischer Feldname, in dem der Name der Besprechungsreihe gespeichert wird.")
+    document_type_name = forms.CharField(label="Technischer Dokumenttyp", max_length=255, required=True, help_text="Dokumenttyp, der in enaio für das Protokoll-PDF verwendet wird (z. B. Standard).")
     root_folder_id = forms.CharField(label="enaio-Ordner-ID", max_length=64,
         help_text="ID des zentralen enaio-Ordners. Sie können die ID direkt eingeben oder über den enaio-Client auswählen.")
     root_folder_type = forms.IntegerField(label="enaio-Objekttyp", min_value=0, required=False, initial=0,
@@ -138,6 +137,7 @@ def management_enaio_settings(request):
         "archive_name": instance.archive_name if instance else "",
         "register_type_name": instance.register_type_name if instance else "",
         "register_name_field": instance.register_name_field if instance else "",
+        "document_type_name": instance.document_type_name if instance else "Standard",
         "root_folder_id": instance.root_folder_id if instance else "",
         "root_folder_type": instance.root_folder_type if instance else 0,
     }
@@ -151,6 +151,7 @@ def management_enaio_settings(request):
         settings_obj.archive_name = form.cleaned_data["archive_name"].strip()
         settings_obj.register_type_name = form.cleaned_data["register_type_name"].strip()
         settings_obj.register_name_field = form.cleaned_data["register_name_field"].strip()
+        settings_obj.document_type_name = form.cleaned_data["document_type_name"].strip()
         settings_obj.root_folder_id = new_folder_id
         settings_obj.root_folder_type = form.cleaned_data.get("root_folder_type") or 0
         settings_obj.save()
@@ -158,7 +159,7 @@ def management_enaio_settings(request):
         return redirect("management_enaio_settings")
     return render(request, "meetings/management_enaio_settings.html", {
         "form": form, "configured": bool(instance and instance.root_folder_id),
-        "object_definition_configured": bool(instance and instance.archive_name and instance.register_type_name and instance.register_name_field),
+        "object_definition_configured": bool(instance and instance.archive_name and instance.register_type_name and instance.register_name_field and instance.document_type_name),
         "folder_name": instance.root_folder_name if instance else "",
         "folder_path": instance.root_folder_path if instance else "",
     })
@@ -168,9 +169,8 @@ def management_enaio_settings(request):
 @require_http_methods(["POST"])
 def enaio_folder_selection_start(request):
     _require_admin(request)
-    raw_token = secrets.token_urlsafe(32)
     selection = EnaioFolderSelection.objects.create(
-        user=request.user, token_hash=hashlib.sha256(raw_token.encode()).hexdigest(),
+        user=request.user,
         expires_at=timezone.now() + timedelta(minutes=5),
     )
     return JsonResponse({
@@ -210,63 +210,6 @@ def enaio_folder_selection_cancel(request, pk):
             selection.error_message = "Die Ordnerauswahl wurde vom Benutzer abgebrochen."
             selection.consumed_at = timezone.now()
             selection.save(update_fields=["error_message", "consumed_at"])
-    return JsonResponse({"ok": True})
-
-
-def _enaio_folder_selection_from_token(token):
-    digest = hashlib.sha256(token.encode()).hexdigest()
-    return EnaioFolderSelection.objects.filter(
-        token_hash=digest, consumed_at__isnull=True, expires_at__gt=timezone.now(),
-    ).first()
-
-
-@require_http_methods(["GET"])
-def enaio_folder_selection_details(request, token):
-    selection = _enaio_folder_selection_from_token(token)
-    if not selection:
-        return HttpResponseForbidden("Auswahlauftrag ungültig oder abgelaufen.")
-    response = JsonResponse({
-        "purpose": "select_root_folder",
-        "instructions": "Lassen Sie den Benutzer im geöffneten enaio-Client einen Ordner auswählen.",
-        "complete_url": request.build_absolute_uri(reverse("enaio_folder_selection_complete", args=[token])),
-    })
-    response["Cache-Control"] = "no-store"
-    return response
-
-
-@csrf_exempt
-@require_http_methods(["POST"])
-def enaio_folder_selection_complete(request, token):
-    selection = _enaio_folder_selection_from_token(token)
-    if not selection:
-        return HttpResponseForbidden("Auswahlauftrag ungültig oder abgelaufen.")
-    try:
-        import json
-        payload = json.loads(request.body or b"{}")
-        folder_id = str(payload.get("folder_id", "")).strip()
-        folder_name = str(payload.get("folder_name", "")).strip()
-        folder_path = str(payload.get("folder_path", "")).strip()
-        folder_type = int(payload.get("folder_type", 0))
-    except (ValueError, TypeError, UnicodeDecodeError):
-        return JsonResponse({"error": "Ungültige enaio-Auswahldaten."}, status=400)
-    if not folder_id or len(folder_id) > 64 or not folder_name or len(folder_name) > 255 or len(folder_path) > 1000 or folder_type < 0:
-        return JsonResponse({"error": "Die enaio-Auswahl enthält keine gültige Ordner-ID und Ordnerbezeichnung."}, status=400)
-    with transaction.atomic():
-        selection = EnaioFolderSelection.objects.select_for_update().filter(pk=selection.pk).first()
-        if not selection or selection.consumed_at or selection.expires_at <= timezone.now():
-            return HttpResponseForbidden("Auswahlauftrag wurde bereits verwendet oder ist abgelaufen.")
-        settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
-        settings_obj.root_folder_id = folder_id
-        settings_obj.root_folder_type = folder_type
-        settings_obj.root_folder_name = folder_name
-        settings_obj.root_folder_path = folder_path
-        settings_obj.save()
-        selection.selected_folder_id = folder_id
-        selection.selected_folder_type = folder_type
-        selection.selected_folder_name = folder_name
-        selection.selected_folder_path = folder_path
-        selection.consumed_at = timezone.now()
-        selection.save(update_fields=["selected_folder_id", "selected_folder_type", "selected_folder_name", "selected_folder_path", "consumed_at"])
     return JsonResponse({"ok": True})
 
 

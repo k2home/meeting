@@ -429,6 +429,7 @@ class EnaioSettings(models.Model):
     archive_name = models.CharField("enaio-Schrankname", max_length=255, blank=True)
     register_type_name = models.CharField("Technischer Registertyp", max_length=255, blank=True)
     register_name_field = models.CharField("Technisches Register-Namensfeld", max_length=255, blank=True)
+    document_type_name = models.CharField("Technischer Dokumenttyp", max_length=255, default="Standard")
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -446,7 +447,6 @@ class EnaioSettings(models.Model):
 class EnaioFolderSelection(models.Model):
     """Kurzlebiger Auftrag zur Auswahl des zentralen enaio-Ablageordners."""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_folder_selections")
-    token_hash = models.CharField(max_length=64, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
     consumed_at = models.DateTimeField(null=True, blank=True)
@@ -483,7 +483,6 @@ class EnaioTransfer(models.Model):
     STATUS_CHOICES = [("pending", "Ausstehend"), ("completed", "Abgeschlossen"), ("failed", "Fehlgeschlagen")]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_transfers")
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name="enaio_transfers")
-    token_hash = models.CharField(max_length=64, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
     consumed_at = models.DateTimeField(null=True, blank=True)

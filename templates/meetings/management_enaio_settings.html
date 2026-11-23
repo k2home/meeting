@@ -6,13 +6,14 @@
   <a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a>
 </div>
 <div class="card">
-  <p>Alle Protokolle werden unterhalb dieses Ordners abgelegt. Innerhalb des Ordners wird je Besprechungsreihe ein gleichnamiges Register verwendet. Fehlt das Register, legt der enaio-Client es bei der Ablage an.</p>
+  <p>Alle Protokolle werden unterhalb dieses Ordners abgelegt. Innerhalb des Ordners wird je Besprechungsreihe ein gleichnamiges Register verwendet. Fehlt das Register, öffnet enaio die Indexdatenmaske. Die Anlage und jede Dokumentablage müssen im enaio-Client bestätigt werden.</p>
   {% if configured %}<p class="muted">Ein Ablageordner ist konfiguriert.</p>{% else %}<p class="muted">Noch kein Ablageordner konfiguriert. Die enaio-Ablage bleibt bis zur Einrichtung deaktiviert.</p>{% endif %}
-  {% if not object_definition_configured %}<p class="muted">Die technische Schrank-/Registerdefinition fehlt noch. Protokollablagen bleiben deaktiviert, bis alle drei technischen Angaben hinterlegt sind.</p>{% endif %}
+  {% if not object_definition_configured %}<p class="muted">Die technische Schrank-/Registerdefinition fehlt noch. Protokollablagen bleiben deaktiviert, bis alle vier technischen Angaben hinterlegt sind.</p>{% endif %}
   <form method="post" id="enaio-settings-form">
     <p>{{ form.archive_name.label_tag }} {{ form.archive_name }}{% if form.archive_name.help_text %}<small class="muted">{{ form.archive_name.help_text }}</small>{% endif %}{{ form.archive_name.errors }}</p>
     <p>{{ form.register_type_name.label_tag }} {{ form.register_type_name }}{% if form.register_type_name.help_text %}<small class="muted">{{ form.register_type_name.help_text }}</small>{% endif %}{{ form.register_type_name.errors }}</p>
     <p>{{ form.register_name_field.label_tag }} {{ form.register_name_field }}{% if form.register_name_field.help_text %}<small class="muted">{{ form.register_name_field.help_text }}</small>{% endif %}{{ form.register_name_field.errors }}</p>
+    <p>{{ form.document_type_name.label_tag }} {{ form.document_type_name }}{% if form.document_type_name.help_text %}<small class="muted">{{ form.document_type_name.help_text }}</small>{% endif %}{{ form.document_type_name.errors }}</p>
     {% csrf_token %}
     <p>{{ form.root_folder_id.label_tag }} {{ form.root_folder_id }}
       {% if form.root_folder_id.help_text %}<small class="muted">{{ form.root_folder_id.help_text }}</small>{% endif %}{{ form.root_folder_id.errors }}</p>
@@ -52,7 +53,7 @@
       jobData=data;
       if(!response.ok)throw new Error(data.error||`Die enaio-Auswahl konnte nicht gestartet werden (HTTP ${response.status}).`);
       if(!data.status_url)throw new Error("Die Serverantwort enthält keine Statusadresse für die enaio-Auswahl.");
-      status.textContent="Warte auf den enaio-Agenten auf diesem Arbeitsplatz. Bitte wählen Sie den Ordner im geöffneten enaio-Client aus.";
+      status.textContent="Warte auf den enaio-Agenten auf diesem Arbeitsplatz. Bitte lassen Sie den gewünschten Ablageordner in enaio geöffnet. Wenn mehrere Ordner geöffnet sind, wählen Sie den richtigen Ordner im anschließenden Auswahldialog.";
       const deadline=Date.now()+Math.max(30000,(data.expires_in||300)*1000-15000);
       while(Date.now()<deadline){
         await new Promise(resolve=>setTimeout(resolve,2000));
