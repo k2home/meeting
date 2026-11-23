@@ -147,10 +147,18 @@ internal sealed record FilingResult(string ObjectId, int ObjectType, string Path
 
 internal static class EnaioClient
 {
+    [DllImport("oleaut32.dll", PreserveSig = true)]
+    private static extern int GetActiveObject(ref Guid rclsid, IntPtr reserved, [MarshalAs(UnmanagedType.IUnknown)] out object instance);
+
     private static dynamic Connect()
     {
-        var type = Type.GetTypeFromProgID("optimal_AS.Application") ?? throw new InvalidOperationException("enaio classic ist nicht installiert oder die COM-Schnittstelle ist nicht registriert.");
-        return Activator.CreateInstance(type) ?? throw new InvalidOperationException("Die enaio-COM-Anwendung konnte nicht geöffnet werden.");
+        var type = Type.GetTypeFromProgID("optimal_AS.Application")
+            ?? throw new InvalidOperationException("enaio classic ist nicht installiert oder die COM-Schnittstelle ist nicht registriert.");
+        var clsid = type.GUID;
+        var hr = GetActiveObject(ref clsid, IntPtr.Zero, out var instance);
+        if (hr < 0 || instance is null)
+            throw new InvalidOperationException("Es wurde keine bereits laufende enaio-COM-Instanz gefunden. Bitte enaio classic im selben Windows-Benutzerkonto öffnen und erneut versuchen. Es wird absichtlich keine neue enaio-Instanz gestartet.");
+        return instance;
     }
 
     public static SelectedFolder SelectRootFolder(Func<bool> isJobActive)
