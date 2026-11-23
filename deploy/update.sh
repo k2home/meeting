@@ -17,10 +17,6 @@ if [[ -n "$TARGET_BRANCH" && ( ! "$TARGET_BRANCH" =~ ^[A-Za-z0-9][A-Za-z0-9._/-]
   echo "Ungültiger Update-Branch." >&2
   exit 2
 fi
-if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "main" && "$TARGET_BRANCH" != "beta" && "$TESTING_MODE" -ne 1 ]]; then
-  echo "Zusätzliche Branches sind nur mit -testing verfügbar." >&2
-  exit 2
-fi
 if [[ -n "$TARGET_BRANCH" ]] && ! git -C "$APP_DIR" ls-remote --exit-code origin "refs/heads/$TARGET_BRANCH" >/dev/null 2>&1; then
   echo "Der ausgewählte Branch ist im Remote-Repository nicht verfügbar." >&2
   exit 2
@@ -38,6 +34,10 @@ if [[ "$TESTING_MODE" -eq 1 ]]; then
   install -o root -g www-data -m 0640 /dev/null "$TESTING_MODE_FILE"
 else
   rm -f "$TESTING_MODE_FILE"
+fi
+if [[ -n "$TARGET_BRANCH" && "$TARGET_BRANCH" != "main" && "$TARGET_BRANCH" != "beta" && "$TESTING_MODE" -ne 1 ]]; then
+  echo "Zusätzliche Branches sind nur mit -testing verfügbar. Der Testing-Modus wurde deaktiviert." >&2
+  exit 2
 fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
