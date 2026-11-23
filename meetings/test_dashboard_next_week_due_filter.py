@@ -62,3 +62,33 @@ class DashboardNextWeekDueFilterTests(TestCase):
             set(response.context["topics"]),
             set(self.topics.values()),
         )
+
+
+class DashboardAssigneeFilterOptionsTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="current-user", first_name="Zoe", last_name="Current",
+            password="strong-test-password",
+        )
+        User.objects.create_user(
+            username="anna-user", first_name="Anna", last_name="Example",
+            password="strong-test-password",
+        )
+        User.objects.create_user(
+            username="bernd-user", first_name="Bernd", last_name="Example",
+            password="strong-test-password",
+        )
+        self.client.force_login(self.user)
+
+    def test_own_person_is_a_separate_option_and_others_are_alphabetical(self):
+        response = self.client.get(reverse("dashboard"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["own_assignee_label"], "Zoe Current")
+        self.assertEqual(
+            [person.get_full_name() for person in response.context["assignee_options"]],
+            ["Anna Example", "Bernd Example"],
+        )
+        content = response.content.decode()
+        self.assertIn(">Zoe Current</option>", content)
+        self.assertNotIn('value="%s">Zoe Current</option>' % self.user.pk, content)
