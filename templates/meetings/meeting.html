@@ -586,13 +586,20 @@
   button.type = "button";
   button.id = "meeting-details-toggle";
   button.className = "secondary";
-  button.textContent = "Alle Details aufklappen";
+  const updateButton = () => {
+    const allOpen = details.every(item => item.open);
+    button.textContent = allOpen ? "Alle Details zuklappen" : "Alle Details aufklappen";
+    button.setAttribute("aria-pressed", String(allOpen));
+  };
+  button.setAttribute("aria-pressed", "false");
   button.addEventListener("click", () => {
     const expand = details.some(item => !item.open);
     details.forEach(item => { item.open = expand; });
-    button.textContent = expand ? "Alle Details zuklappen" : "Alle Details aufklappen";
+    updateButton();
   });
+  details.forEach(item => item.addEventListener("toggle", updateButton));
   document.querySelector("h1")?.insertAdjacentElement("afterend", button);
+  updateButton();
 })();
 </script>
 {% endblock %}
