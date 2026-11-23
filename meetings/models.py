@@ -429,6 +429,7 @@ class EnaioSettings(models.Model):
     archive_name = models.CharField("enaio-Schrankname", max_length=255, blank=True)
     register_type_name = models.CharField("Technischer Registertyp", max_length=255, blank=True)
     register_name_field = models.CharField("Technisches Register-Namensfeld", max_length=255, blank=True)
+    document_type_name = models.CharField("Technischer Dokumenttyp", max_length=255, default="Standard")
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
