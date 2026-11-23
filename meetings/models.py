@@ -483,7 +483,6 @@ class EnaioTransfer(models.Model):
     STATUS_CHOICES = [("pending", "Ausstehend"), ("completed", "Abgeschlossen"), ("failed", "Fehlgeschlagen")]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="enaio_transfers")
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name="enaio_transfers")
-    token_hash = models.CharField(max_length=64, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
     consumed_at = models.DateTimeField(null=True, blank=True)
