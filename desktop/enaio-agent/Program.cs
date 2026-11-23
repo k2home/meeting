@@ -268,7 +268,7 @@ internal static class EnaioClient
         };
         var label = new Label
         {
-            Text = "In enaio sind mehrere Ordner/Register geöffnet. Von welchem geöffneten Ort soll die Auswahl gestartet werden?",
+            Text = "In enaio sind mehrere Ordner/Register geöffnet. Welcher geöffnete Ordner soll als zentraler Protokoll-Ablageort verwendet werden?",
             Left = 16,
             Top = 16,
             Width = 670,
@@ -284,7 +284,7 @@ internal static class EnaioClient
         combo.DataSource = candidates;
         combo.DisplayMember = nameof(OpenFolderCandidate.Label);
         combo.SelectedIndex = 0;
-        var ok = new Button { Text = "Weiter in enaio auswählen", Left = 420, Top = 108, Width = 170, DialogResult = DialogResult.OK };
+        var ok = new Button { Text = "Diesen Ordner verwenden", Left = 420, Top = 108, Width = 170, DialogResult = DialogResult.OK };
         var cancel = new Button { Text = "Abbrechen", Left = 596, Top = 108, Width = 90, DialogResult = DialogResult.Cancel };
         dialog.Controls.AddRange(new Control[] { label, combo, ok, cancel });
         dialog.AcceptButton = ok;
@@ -319,8 +319,8 @@ internal static class EnaioClient
         var registerNameField = filing.GetProperty("register_name_field").GetString() ?? "";
         var archiveName = filing.GetProperty("archive_name").GetString() ?? "";
         var documentType = filing.GetProperty("document_type").GetString() ?? "Standard";
-        if (string.IsNullOrWhiteSpace(registerType) || string.IsNullOrWhiteSpace(registerNameField) || string.IsNullOrWhiteSpace(archiveName))
-            throw new InvalidOperationException("Die zentrale enaio-Objektdefinition ist unvollständig. Bitte Schrankname, Registertyp und Register-Namensfeld unter Verwaltung → enaio-Einstellungen hinterlegen.");
+        if (string.IsNullOrWhiteSpace(registerType) || string.IsNullOrWhiteSpace(registerNameField) || string.IsNullOrWhiteSpace(archiveName) || string.IsNullOrWhiteSpace(documentType))
+            throw new InvalidOperationException("Die zentrale enaio-Objektdefinition ist unvollständig. Bitte Schrankname, Registertyp, Register-Namensfeld und Dokumenttyp unter Verwaltung → enaio-Einstellungen hinterlegen.");
         if (!File.Exists(pdfPath))
             throw new FileNotFoundException("Das zu übergebende Protokoll-PDF wurde nicht gefunden.", pdfPath);
 
