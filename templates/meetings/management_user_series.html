@@ -15,10 +15,25 @@
   input.type = "search";
   input.id = "user-series-search";
   input.placeholder = "Besprechungsreihe suchen …";
+  input.setAttribute("aria-label", "Besprechungsreihen suchen");
+  table.id = "user-series-assignment-table";
+  input.setAttribute("aria-controls", table.id);
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
   table.parentElement.insertAdjacentElement("beforebegin", input);
+  input.insertAdjacentElement("afterend", feedback);
   input.addEventListener("input", () => {
     const term = input.value.trim().toLocaleLowerCase("de");
-    rows.forEach(row => { row.hidden = !!term && !row.cells[0]?.textContent.toLocaleLowerCase("de").includes(term); });
+    let visibleCount = 0;
+    rows.forEach(row => {
+      const visible = !term || (row.cells[0]?.textContent || "").toLocaleLowerCase("de").includes(term);
+      row.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Besprechungsreihen gefunden.";
   });
 })();
 </script>
