@@ -1749,7 +1749,7 @@ class DeploymentUpdatePermissionTests(TestCase):
         with patch("meetings.views._deployment_info", return_value=info), \
              patch("meetings.views._read_update_status", return_value={"status": "idle"}), \
              patch("meetings.views.os.path.exists", return_value=False), \
-             patch("meetings.views.subprocess.Popen") as start:
+             patch("meetings.views.subprocess.run") as start:
             response = self.client.post(reverse("deployment_updates"), {"branch": "beta"})
 
         self.assertEqual(response.status_code, 302)
