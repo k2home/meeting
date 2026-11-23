@@ -60,7 +60,6 @@ class EnaioAgentLeaseTests(TestCase):
     def test_folder_selection_is_leased_to_only_one_poll(self):
         selection = EnaioFolderSelection.objects.create(
             user=self.user,
-            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
             expires_at=timezone.now() + timedelta(minutes=5),
         )
 
@@ -141,7 +140,6 @@ class EnaioAgentLeaseTests(TestCase):
         meeting = Meeting.objects.create(date=timezone.localdate(), title="Test meeting")
         transfer = EnaioTransfer.objects.create(
             user=self.user, meeting=meeting,
-            token_hash=hashlib.sha256(secrets.token_urlsafe(32).encode()).hexdigest(),
             expires_at=timezone.now() + timedelta(minutes=10),
             agent_lease_token="current-lease",
             agent_lease_expires_at=timezone.now() + timedelta(minutes=5),
