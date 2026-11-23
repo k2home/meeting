@@ -41,6 +41,9 @@
       {% endfor %}
     </select>
     <button class="primary" type="submit" {% if not update_available or update_status.status == "running" %}disabled{% endif %}>Update starten</button>
+    {% if testing_mode %}
+      <button type="submit" name="action" value="disable-testing" formnovalidate {% if update_status.status == "running" %}disabled{% endif %} style="background:#c62828;color:#fff;border:1px solid #b71c1c">Testing Modus beenden</button>
+    {% endif %}
   </form>
   <p class="muted">Während des Updates kann die Anwendung kurzzeitig nicht erreichbar sein. Lokale Konfiguration und persistente Daten bleiben erhalten.</p>
 </section>
