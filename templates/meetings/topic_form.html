@@ -121,4 +121,13 @@
  </aside>
 </div>
 {% endif %}
+
+<!-- topic-comment-autoresize -->
+<script>
+document.querySelectorAll('textarea[name="body"], textarea[name="comment"]').forEach(field => {
+  const resize = () => { field.style.height = "auto"; field.style.height = field.scrollHeight + "px"; };
+  field.addEventListener("input", resize);
+  resize();
+});
+</script>
 {% endblock %}
