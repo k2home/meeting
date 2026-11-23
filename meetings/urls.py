@@ -7,7 +7,13 @@ from . import management_views
 from . import enaio_agent_views
 
 urlpatterns = [
-    path("login/", views.login_view, name="login"),\n    path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),\n    path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),\n    path("enaio/agent/jobs/next/", enaio_agent_views.enaio_agent_next_job, name="enaio_agent_next_job"),\n    path("enaio/agent/selection/<int:pk>/complete/", enaio_agent_views.enaio_agent_selection_complete, name="enaio_agent_selection_complete"),\n    path("enaio/agent/transfer/<int:pk>/pdf/", enaio_agent_views.enaio_agent_transfer_pdf, name="enaio_agent_transfer_pdf"),\n    path("enaio/agent/transfer/<int:pk>/complete/", enaio_agent_views.enaio_agent_transfer_complete, name="enaio_agent_transfer_complete"),
+    path("login/", views.login_view, name="login"),
+    path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),
+    path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),
+    path("enaio/agent/jobs/next/", enaio_agent_views.enaio_agent_next_job, name="enaio_agent_next_job"),
+    path("enaio/agent/selection/<int:pk>/complete/", enaio_agent_views.enaio_agent_selection_complete, name="enaio_agent_selection_complete"),
+    path("enaio/agent/transfer/<int:pk>/pdf/", enaio_agent_views.enaio_agent_transfer_pdf, name="enaio_agent_transfer_pdf"),
+    path("enaio/agent/transfer/<int:pk>/complete/", enaio_agent_views.enaio_agent_transfer_complete, name="enaio_agent_transfer_complete"),
     path("logout/", views.logout_view, name="logout"),
     path("", views.dashboard, name="dashboard"),
     path("hilfe/", guide_views.user_guide, name="user_guide"),
