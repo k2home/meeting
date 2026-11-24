@@ -89,7 +89,7 @@ class ForcedPasswordChangeTests(TestCase):
             password_setup_expires_at=timezone.now() - timedelta(seconds=1),
         )
         response = self.client.post(reverse("login"), {
-            "username": account.username, "password": "Neu",
+            "username": f" {account.username} ", "password": "Neu",
         })
         self.assertEqual(response.status_code, 200)
         account.refresh_from_db()
