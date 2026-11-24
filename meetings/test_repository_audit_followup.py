@@ -74,9 +74,30 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
         )
         self.client.force_login(self.admin)
 
-    def test_series_creation_and_edit_are_audited(self):
+    def test_admin_must_select_a_moderator_when_creating_a_series(self):
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Moderator der Besprechungsreihe")
         today = timezone.localdate()
         response = self.client.post(reverse("series_admin"), {
+            "name": "Reihe ohne Moderator",
+            "description": "",
+            "recurrence": "weekly",
+            "recurrence_interval": 1,
+            "weekday": today.weekday(),
+            "start_date": today.isoformat(),
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(MeetingSeries.objects.filter(name="Reihe ohne Moderator").exists())
+
+    def test_series_creation_and_edit_are_audited(self):
+        today = timezone.localdate()
+        moderator = User.objects.create_user(
+            username="initial-series-moderator", first_name="Ada", last_name="Lovelace",
+            password="test-password",
+        )
+        response = self.client.post(reverse("series_admin"), {
+            "initial_moderator": moderator.pk,
             "name": "Auditierte Reihe",
             "description": "Vorher",
             "recurrence": "weekly",
@@ -89,7 +110,13 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
         series = MeetingSeries.objects.get(name="Auditierte Reihe")
         created_event = AuditEvent.objects.get(series=series, action="created")
         self.assertEqual(created_event.actor, self.admin)
+        self.assertTrue(SeriesAccess.objects.filter(
+            series=series, user=moderator, role=SeriesAccess.ROLE_MODERATOR
+        ).exists())
+        self.assertFalse(SeriesAccess.objects.filter(series=series, user=self.admin).exists())
+        self.assertEqual(created_event.changes["Erster Moderator"]["nachher"], "Ada Lovelace")
 
+        self.client.force_login(moderator)
         response = self.client.post(reverse("series_edit", args=[series.pk]), {
             "name": "Auditierte Reihe",
             "description": "Nachher",
@@ -112,6 +139,7 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
             name="Rollback Verlängerung", recurrence="weekly", weekday=today.weekday(),
             start_date=today, end_date=previous_end,
         )
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
         with patch("meetings.views.record_event", side_effect=RuntimeError("Audit unavailable")):
             with self.assertRaises(RuntimeError):
                 self.client.post(reverse("series_extend", args=[series.pk]))
@@ -127,6 +155,7 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
             name="Rollback Reset", recurrence="weekly", weekday=first_date.weekday(),
             start_date=first_date, end_date=first_date + timedelta(days=28),
         )
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
         meeting = Meeting.objects.create(series=series, date=first_date)
         topic = Topic.objects.create(title="Reset Inhalt", series=series)
         AgendaItem.objects.create(meeting=meeting, topic=topic, working_text="Erhaltener Text")
@@ -155,5 +184,6 @@ class PermissionMatrixDocumentationTests(SimpleTestCase):
 
         readme = Path(__file__).resolve().parents[1] / "README.md"
         content = readme.read_text(encoding="utf-8")
-        self.assertIn("Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Alle Reihen", content)
+        self.assertIn("Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Systemereignisse und eigene moderierte Reihen", content)
+        self.assertIn("Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Nein", content)
         self.assertIn("Berechtigungsmatrix nach Funktionsbereichen", content)

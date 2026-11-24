@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.test import TestCase
 from django.urls import reverse
 
@@ -16,6 +17,84 @@ class OrganizationSettingsTests(TestCase):
         self.assertEqual(OrganizationSettings.objects.count(), 1)
         self.assertEqual(OrganizationSettings.current_name(), "Fachbereich 30")
         self.assertEqual(OrganizationSettings.current_short_name(), "MM")
+
+    def test_admin_can_change_start_password_without_auditing_the_value(self):
+        from .models import AuditEvent
+
+        setting = OrganizationSettings.objects.create(name="Fachbereich 10", start_password="AltesStartpasswort")
+        admin_user = get_user_model().objects.create_user(
+            username="start-password-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        admin_user.groups.add(admin_group)
+        self.client.force_login(admin_user)
+
+        response = self.client.get(reverse("management_settings"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'type="text"')
+        self.assertContains(response, 'value="AltesStartpasswort"')
+
+        response = self.client.post(reverse("management_settings"), {
+            "name": setting.name,
+            "short_name": setting.short_name,
+            "timezone": setting.timezone,
+            "start_password": "einfach",
+            "attachment_max_size_mb": setting.attachment_max_size_mb,
+            "primary_color": setting.primary_color,
+            "primary_color_light": setting.primary_color_light,
+            "primary_color_dark": setting.primary_color_dark,
+            "secondary_color": setting.secondary_color,
+            "secondary_color_light": setting.secondary_color_light,
+            "secondary_color_dark": setting.secondary_color_dark,
+            "tertiary_color": setting.tertiary_color,
+            "tertiary_color_light": setting.tertiary_color_light,
+            "tertiary_color_dark": setting.tertiary_color_dark,
+        })
+
+        self.assertRedirects(response, reverse("management_settings"))
+        setting.refresh_from_db()
+        self.assertEqual(setting.start_password, "einfach")
+        event = AuditEvent.objects.filter(summary="Organisationseinstellungen geändert").latest("pk")
+        self.assertNotIn("einfach", str(event.changes))
+        self.assertEqual(event.changes["Startpasswort"]["nachher"], "Geändert")
+
+    def test_auditor_cannot_read_start_password(self):
+        setting = OrganizationSettings.objects.create(name="Fachbereich 10", start_password="streng-geheim")
+        auditor = get_user_model().objects.create_user(
+            username="start-password-auditor", password="strong-test-password"
+        )
+        auditor_group, _ = Group.objects.get_or_create(name="Auditor")
+        auditor.groups.add(auditor_group)
+        self.client.force_login(auditor)
+
+        response = self.client.get(reverse("auditor_organization_settings"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "streng-geheim")
+        self.assertIn("start_password", response.context["settings"].get_deferred_fields())
+
+        overview = self.client.get(reverse("auditor_overview"))
+        self.assertEqual(overview.status_code, 200)
+        self.assertNotContains(overview, "streng-geheim")
+        self.assertIn("start_password", overview.context["organization_settings"].get_deferred_fields())
+
+        setting.refresh_from_db()
+        self.assertEqual(setting.start_password, "streng-geheim")
+
+    def test_password_setup_uses_configured_organization_password(self):
+        from .password_setup import start_password_setup
+
+        OrganizationSettings.objects.create(start_password="beliebig")
+        user = get_user_model().objects.create_user(
+            username="configured-start-password", password="old-password"
+        )
+
+        profile = start_password_setup(user)
+
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("beliebig"))
+        self.assertTrue(profile.must_change_password)
+        self.assertIsNotNone(profile.password_setup_expires_at)
 
     def test_short_label_is_visible_in_collapsed_navigation(self):
         OrganizationSettings.objects.create(name="Fachbereich 20", short_name="FB20")

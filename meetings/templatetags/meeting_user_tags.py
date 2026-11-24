@@ -41,3 +41,13 @@ def audit_text(value):
     if not isinstance(value, str):
         return value
     return value.replace("\\r\\n", "\n").replace("\\n", "\n").replace("\\r", "\n")
+
+
+@register.filter
+def audit_value(value):
+    """Format falsey audit values without hiding meaningful booleans or zeroes."""
+    if isinstance(value, bool):
+        return "Ja" if value else "Nein"
+    if value is None or value == "":
+        return "—"
+    return value

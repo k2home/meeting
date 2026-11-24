@@ -91,6 +91,9 @@ class AdminIntegrityTests(TestCase):
         )
         self.client.force_login(self.admin)
         self.series = MeetingSeries.objects.create(name="Admin-Schutz")
+        SeriesAccess.objects.create(
+            user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR,
+        )
         OrganizationSettings.objects.create(attachment_max_size_mb=1)
 
     def test_finalized_meeting_is_read_only_in_admin(self):
@@ -132,16 +135,15 @@ class AdminIntegrityTests(TestCase):
         self.assertEqual(correction["nachher"]["text"], "Korrigierter Text")
         self.assertEqual(correction["Begründung"], "Tippfehler im gesicherten Protokoll berichtigt.")
 
-    def test_admin_attachment_upload_obeys_configured_limit(self):
+    def test_admin_cannot_add_attachments_through_django_admin(self):
         topic = Topic.objects.create(title="Upload-Prüfung", series=self.series)
-        upload = SimpleUploadedFile("oversized.bin", b"x" * (1024 * 1024 + 1))
+        upload = SimpleUploadedFile("attachment.txt", b"Anhang")
         response = self.client.post(
             reverse("admin:meetings_topicattachment_add"),
-            {"topic": str(topic.pk), "label": "Zu groß", "network_path": "", "uploaded_file": upload},
+            {"topic": str(topic.pk), "label": "Nicht erlaubt", "network_path": "", "uploaded_file": upload},
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(TopicAttachment.objects.filter(label="Zu groß").exists())
-        self.assertContains(response, "höchstens 1 MB")
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(TopicAttachment.objects.filter(label="Nicht erlaubt").exists())
 
 
 class CsvCaseInsensitivePreviewTests(TestCase):
@@ -150,6 +152,9 @@ class CsvCaseInsensitivePreviewTests(TestCase):
             username="csv-admin", email="csv@example.test", password="test-password",
         )
         series = MeetingSeries.objects.create(name="CSV-Reihe")
+        SeriesAccess.objects.create(
+            user=admin_user, series=series, role=SeriesAccess.ROLE_MODERATOR,
+        )
         Topic.objects.create(title="Digitalisierung", series=series)
         self.client.force_login(admin_user)
         csv_text = (

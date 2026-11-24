@@ -1,17 +1,45 @@
 from datetime import date, timedelta
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 from django.db.models import Exists, OuterRef
 from .models import AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
 from .user_display import user_display_name
 from django.utils import timezone
+from .password_setup import expire_password_setup_if_due
 
-class UsernameLoginForm(AuthenticationForm):
+class UsernameLoginForm(forms.Form):
     username = forms.CharField(label="Benutzername", max_length=150)
-    password = forms.CharField(label="Passwort", strip=False, widget=forms.PasswordInput)
+    password = forms.CharField(label="Passwort", strip=False, required=False, widget=forms.PasswordInput)
+
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        self.user_cache = None
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned = super().clean()
+        username = cleaned.get("username")
+        password = cleaned.get("password", "")
+        if not username:
+            return cleaned
+        User = get_user_model()
+        user = User.objects.filter(username__iexact=username).first()
+        if user is not None and expire_password_setup_if_due(user):
+            user.refresh_from_db(fields=["is_active"])
+        if user is None or not user.is_active:
+            raise forms.ValidationError("Benutzername oder Passwort ist nicht korrekt.")
+        if not password:
+            raise forms.ValidationError("Bitte gib dein Passwort ein.")
+        self.user_cache = authenticate(self.request, username=user.get_username(), password=password)
+        if self.user_cache is None:
+            raise forms.ValidationError("Benutzername oder Passwort ist nicht korrekt.")
+        return cleaned
+
+    def get_user(self):
+        return self.user_cache
 
 class UserDisplayModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):

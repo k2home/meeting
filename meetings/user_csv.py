@@ -9,20 +9,20 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.utils.crypto import get_random_string
 
-from .models import MeetingSeries, SeriesAccess, UserProfile
-from .user_roles import sync_admin_access
+from .models import AuditEvent, MeetingSeries, SeriesAccess, UserProfile
+from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
+from .password_setup import start_password_setup
 
 User = get_user_model()
 
 EXPORT_FIELDS = (
     "username", "first_name", "last_name", "email", "short_description",
-    "is_active", "is_administrator", "series",
+    "is_active", "user_role", "series",
 )
 IMPORT_FIELDS = (
     "username", "first_name", "last_name", "email", "short_description",
-    "is_active", "series", "series_role",
+    "is_active", "user_role", "series", "series_role",
 )
 LEGACY_EXPORT_ONLY_FIELDS = ("date_joined", "last_login")  # accepted from older exports; never overwritten on import
 ACCEPTED_FIELDS = IMPORT_FIELDS + ("is_administrator",) + LEGACY_EXPORT_ONLY_FIELDS
@@ -79,7 +79,7 @@ def export_users_csv(request):
                 "email": user.email,
                 "short_description": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
                 "is_active": "true" if user.is_active else "false",
-                "is_administrator": "true" if (user.is_superuser or user.groups.filter(name="Admin").exists()) else "false",
+                "user_role": get_user_role(user),
                 "series": assignment.series.name if assignment else "",
                 "series_role": assignment.role if assignment else "",
                 "date_joined": user.date_joined.isoformat() if user.date_joined else "",
@@ -136,6 +136,10 @@ def _resolve_existing_users(grouped):
 
         user = email_user or username_user
         if user:
+            requested_role = record["values"].get("user_role")
+            if user.is_superuser and requested_role not in (None, "admin", "user"):
+                errors.append(f"Benutzer „{username}“ ist ein Django-Superuser und kann keine Auditor-Rolle erhalten.")
+                continue
             previous_username = seen_user_ids.get(user.pk)
             if previous_username and previous_username != username:
                 errors.append(
@@ -205,15 +209,31 @@ def _parse_csv(text):
             errors.append(f"Zeile {row_number}: Benutzername ist länger als 150 Zeichen.")
             continue
         record = grouped.setdefault(username, {"values": {}, "series": [], "row": row_number})
-        for field in ("first_name", "last_name", "email", "short_description", "is_active", "is_administrator"):
+        for field in ("first_name", "last_name", "email", "short_description", "is_active"):
             if field in headers:
                 value = row.get(field, "")
-                if field in {"is_active", "is_administrator"}:
+                if field == "is_active":
                     value = _parse_bool(value, field, row_number, errors)
                 if field in record["values"] and record["values"][field] != value:
                     errors.append(f"Zeile {row_number}: Benutzer „{username}“ hat widersprüchliche Werte für „{field}“.")
                 else:
                     record["values"][field] = value
+        if "user_role" in headers or "is_administrator" in headers:
+            role_value = row.get("user_role", "").strip().lower()
+            if "is_administrator" in headers:
+                legacy_admin = _parse_bool(row.get("is_administrator", ""), "is_administrator", row_number, errors)
+                legacy_role = "admin" if legacy_admin else "user"
+                if role_value and role_value != legacy_role and "user_role" in headers:
+                    errors.append(f"Zeile {row_number}: „user_role“ und „is_administrator“ widersprechen sich.")
+                role_value = role_value or legacy_role
+            role_aliases = {"nutzer": "user", "user": "user", "admin": "admin", "administrator": "admin", "auditor": "auditor", "prüfer": "auditor", "pruefer": "auditor"}
+            normalized_role = role_aliases.get(role_value)
+            if normalized_role not in dict(USER_ROLE_CHOICES):
+                errors.append(f"Zeile {row_number}: Unbekannte globale Benutzerrolle „{role_value}“.")
+            elif "user_role" in record["values"] and record["values"]["user_role"] != normalized_role:
+                errors.append(f"Zeile {row_number}: Benutzer „{username}“ hat widersprüchliche globale Rollen.")
+            else:
+                record["values"]["user_role"] = normalized_role
         if "series" in headers:
             series_name = row.get("series", "")
             role_name = row.get("series_role", "").lower()
@@ -242,7 +262,7 @@ def import_users_csv(request):
         grouped, errors = _parse_csv(pending["text"])
         resolved_users, identity_errors = _resolve_existing_users(grouped)
         errors.extend(identity_errors)
-        if "is_administrator" in pending.get("headers", []) and not (
+        if ({"user_role", "is_administrator"} & set(pending.get("headers", []))) and not (
             request.user.is_superuser or request.user.groups.filter(name="Admin").exists()
         ):
             errors.append("Nur globale Administratoren dürfen die Admin-Rolle per CSV ändern.")
@@ -255,9 +275,19 @@ def import_users_csv(request):
             for username, record in grouped:
                 user = resolved_users.get(username)
                 was_created = user is None
+                was_inactive = bool(user and not user.is_active)
+                profile_before = getattr(getattr(user, "meeting_profile", None), "short_description", "") if user else ""
+                before = ({
+                    "Anmeldename": user.username,
+                    "Vorname": user.first_name,
+                    "Nachname": user.last_name,
+                    "E-Mail": user.email,
+                    "Aktiv": user.is_active,
+                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+                    "Kurzbeschreibung": profile_before,
+                } if user else {})
                 if was_created:
                     user = User(username=username)
-                    user.set_password(get_random_string(64))
                     created += 1
                 else:
                     updated += 1
@@ -265,26 +295,54 @@ def import_users_csv(request):
                 # Apply the CSV username after resolving the existing user.
                 user.username = username
                 for field, value in record["values"].items():
-                    if field != "is_administrator":
+                    if field != "user_role":
                         setattr(user, field, value)
                 user.save()
-                if "short_description" in record["values"]:
+                if was_created or (was_inactive and user.is_active):
+                    start_password_setup(user)
+                if was_created:
+                    UserProfile.objects.update_or_create(
+                        user=user,
+                        defaults={"short_description": record["values"].get("short_description", "")},
+                    )
+                elif "short_description" in record["values"]:
                     UserProfile.objects.update_or_create(
                         user=user,
                         defaults={"short_description": record["values"]["short_description"]},
                     )
-                if "is_administrator" in record["values"]:
-                    sync_admin_access(user, record["values"]["is_administrator"])
+                if "user_role" in record["values"]:
+                    sync_user_role(user, record["values"]["user_role"])
                 if "series" in pending["headers"]:
                     SeriesAccess.objects.filter(user=user).delete()
                     SeriesAccess.objects.bulk_create([
                         SeriesAccess(user=user, series_id=series_id, role=role)
                         for series_id, role in record["series"]
                     ])
+                after = {
+                    "Anmeldename": user.username,
+                    "Vorname": user.first_name,
+                    "Nachname": user.last_name,
+                    "E-Mail": user.email,
+                    "Aktiv": user.is_active,
+                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+                    "Kurzbeschreibung": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
+                }
+                changes = {
+                    label: ({"nachher": value} if was_created else {"vorher": before.get(label), "nachher": value})
+                    for label, value in after.items()
+                    if was_created or before.get(label) != value
+                }
+                if changes:
+                    AuditEvent.objects.create(
+                        actor=request.user, scope=AuditEvent.SCOPE_SYSTEM,
+                        action="created" if was_created else "updated",
+                        summary=f"CSV-Import: Benutzerkonto „{user.get_full_name() or user.username}“ {'angelegt' if was_created else 'aktualisiert'}",
+                        changes=changes,
+                    )
         request.session.pop(SESSION_IMPORT_KEY, None)
         messages.success(
             request,
-            f"CSV-Import abgeschlossen: {created} Benutzer neu angelegt, {updated} Benutzer aktualisiert.",
+            f"CSV-Import abgeschlossen: {created} Benutzer neu angelegt (konfiguriertes Startpasswort, Passwortvergabe innerhalb von 24 Stunden), {updated} Benutzer aktualisiert.",
         )
         return redirect("management_users") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_changelist")
 
@@ -297,7 +355,7 @@ def import_users_csv(request):
         resolved_users, identity_errors = _resolve_existing_users(grouped)
         errors.extend(identity_errors)
         headers = next(csv.reader(io.StringIO(_csv_data_text(text)), delimiter=";"))
-        if "is_administrator" in headers and not (
+        if ({"user_role", "is_administrator"} & set(headers)) and not (
             request.user.is_superuser or request.user.groups.filter(name="Admin").exists()
         ):
             errors.append("Nur globale Administratoren dürfen die Admin-Rolle per CSV ändern.")
@@ -306,7 +364,7 @@ def import_users_csv(request):
             request.session[SESSION_IMPORT_KEY] = {
                 "token": token,
                 "text": text,
-                "headers": next(csv.reader(io.StringIO(text), delimiter=";")),
+                "headers": next(csv.reader(io.StringIO(_csv_data_text(text)), delimiter=";")),
             }
             preview = {
                 "token": token,

@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Meeting, MeetingSeries
+from .models import Meeting, MeetingSeries, SeriesAccess
 
 User = get_user_model()
 
@@ -19,8 +19,12 @@ class SeriesManagementOverviewTests(TestCase):
         )
         self.client.force_login(self.admin)
 
+    def _grant_moderator(self, series):
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
+
     def test_overview_shows_search_status_metrics_and_meeting_actions(self):
         series = MeetingSeries.objects.create(name="Produktteam")
+        self._grant_moderator(series)
         today = timezone.localdate()
         completed = Meeting.objects.create(
             series=series,
@@ -52,6 +56,7 @@ class SeriesManagementOverviewTests(TestCase):
         from .models import Topic
 
         series = MeetingSeries.objects.create(name="Archivteam")
+        self._grant_moderator(series)
         meeting = Meeting.objects.create(series=series, date=timezone.localdate() - timedelta(days=2))
         topic = Topic.objects.create(series=series, title="Archivpunkt")
 
@@ -70,6 +75,7 @@ class SeriesManagementOverviewTests(TestCase):
         from .models import AgendaItem, Topic
 
         series = MeetingSeries.objects.create(name="Zukunftsteam")
+        self._grant_moderator(series)
         today = timezone.localdate()
         past = Meeting.objects.create(series=series, date=today - timedelta(days=1))
         future = Meeting.objects.create(series=series, date=today + timedelta(days=1))

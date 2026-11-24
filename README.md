@@ -197,7 +197,11 @@ Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Theme
 
 ## Rollen und Berechtigungen
 
-Die Anwendung unterscheidet vier Rollen. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden jeweils pro Besprechungsreihe zugewiesen. Die Rolle **Admin** gilt global. Django-Superuser haben ebenfalls globalen Zugriff.
+Die Anwendung unterscheidet drei globale Benutzerrollen und drei Serienrollen. **Nutzer**, **Admin** und **Auditor** werden global vergeben. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden unabhängig davon jeweils pro Besprechungsreihe zugewiesen. Django-Superuser haben immer globale Adminrechte. Auditoren erhalten ausschließlich lesenden Zugriff auf System-Änderungsprotokolle, Benutzerkonten samt globalen Rollen und Serienberechtigungen sowie Organisationseinstellungen. Sie sehen keine Besprechungsreihen oder fachlichen Besprechungsinhalte.
+
+- **Nutzer:** Die fachlichen Zugriffe ergeben sich ausschließlich aus den individuellen Serienberechtigungen.
+- **Admin:** Globale Verwaltungsrechte; fachliche Inhalte nur entsprechend eigener Serienberechtigungen.
+- **Auditor:** Lesender Zugriff auf System-Änderungsprotokolle, Benutzer und deren globale Rollen/Serienberechtigungen sowie Organisationseinstellungen. Kein Zugriff auf Besprechungsinhalte und keine Änderungsrechte.
 
 ### Berechtigungsmatrix nach Funktionsbereichen
 
@@ -207,39 +211,39 @@ Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Zugewiesene Reihen, Themen und Termine ansehen | Ja | Ja | Ja | Alle Reihen |
-| Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja | Alle Reihen |
-| Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja | Ja |
-| Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja | Ja |
-| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja |
-| Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja | Ja |
-| Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja | Ja |
-| Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja | Ja |
-| Einzelne Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja |
+| Zugewiesene Reihen, Themen und Termine ansehen | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
+| Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
+| Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
+| Einzelne Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
 
 #### 2. Themen und Zusammenarbeit
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Themenübersicht und Themenhistorie ansehen | Ja | Ja | Ja | Alle Reihen |
-| Themen anlegen und Titel bearbeiten | Nein | Ja | Ja | Ja |
-| Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja | Ja |
-| Kommentare hinzufügen | Nein | Ja | Ja | Ja |
-| Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja |
-| Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja |
+| Themenübersicht und Themenhistorie ansehen | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
+| Themen anlegen und Titel bearbeiten | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Kommentare hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
 
-**Themenarchiv:** Archivieren und Wiederöffnen ist Moderator*innen und Admins vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus, löscht aber weder Thema noch Protokollhistorie. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
+**Themenarchiv:** Archivieren und Wiederöffnen ist ausschließlich Moderator*innen der jeweiligen Reihe vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus, löscht aber weder Thema noch Protokollhistorie. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
 
 #### 3. Besprechungsreihen verwalten
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Eigene zugewiesene Reihen verwalten | Nein | Nein | Ja | Ja |
+| Eigene zugewiesene Reihen verwalten | Nein | Nein | Ja | Ja, wenn Moderator*in |
 | Reihen anlegen und Termine erzeugen | Nein | Nein | Ja | Ja |
-| Reihen ändern und verlängern | Nein | Nein | Ja | Ja |
-| Zukünftige Entwurfstermine einer Reihe neu aufsetzen | Nein | Nein | Ja | Ja |
-| Reihen löschen | Nein | Nein | Ja | Ja |
-| Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Ja |
+| Reihen ändern und verlängern | Nein | Nein | Ja | Ja, wenn Moderator*in |
+| Zukünftige Entwurfstermine einer Reihe neu aufsetzen | Nein | Nein | Ja | Ja, wenn Moderator*in |
+| Reihen löschen | Nein | Nein | Ja | Ja, wenn Moderator*in |
+| Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Nein |
 
 Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrücklich die Rolle Moderator*in besitzen. Eine von ihnen neu angelegte Reihe wird automatisch der erstellenden Person als Moderator*in zugewiesen.
 
@@ -247,21 +251,23 @@ Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrück
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Alle Reihen |
+| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Systemereignisse und eigene moderierte Reihen |
 
-Der Änderungsverlauf ist bewusst auf Moderator*innen der jeweiligen Reihe und globale Administrator*innen beschränkt. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind nur globalen Administrator*innen zugänglich.
+Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Admins sehen Systemereignisse sowie Serienereignisse nur für Reihen, in denen sie selbst Moderator*innenrechte besitzen. Auditoren sehen ausschließlich den System-Änderungsverlauf und können ihn exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins zugänglich.
 
 #### 5. Benutzer- und Systemverwaltung
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
 | Benutzerkonten anlegen und bearbeiten | Nein | Nein | Nein | Ja |
-| Globale Admin-Rolle vergeben oder entziehen | Nein | Nein | Nein | Ja |
+| Globale Benutzerrolle vergeben oder entziehen | Nein | Nein | Nein | Ja |
 | Serienzuweisungen und Rollen anderer Benutzer verwalten | Nein | Nein | Nein | Ja |
 | Benutzer-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
 | Themen- und Tagesordnungspunkt-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
 | Globale Organisationseinstellungen ändern | Nein | Nein | Nein | Ja |
 | Django-Administration öffnen | Nein | Nein | Nein | Ja |
+
+Auch in der Django-Administration bleiben Serieninhalte auf ausdrücklich zugewiesene Reihen begrenzt. Serienbezogene Änderungen und CSV-Importe/-Exporte setzen eigene Moderatorrechte voraus; globale Adminrechte allein reichen dafür nicht.
 
 ### Was die Rollen im Alltag bedeuten
 
@@ -301,7 +307,7 @@ Bei der Einführung der Serienberechtigungen werden bestehende Konten automatisc
 - Bestehende Rollen werden bei der Migration auf die jeweiligen Serienzuordnungen übertragen. Konten ohne bisherige Moderator- oder Leserrolle erhalten dort **Teilnehmer*in**.
 - Bestehende Nicht-Admin-Konten erhalten zunächst Zugriff auf alle zu diesem Zeitpunkt vorhandenen Besprechungsreihen. So bleibt der bisherige Zugriff nach dem Update erhalten. Diese Zuweisungen können anschließend auf die tatsächlich benötigten Reihen eingeschränkt werden.
 
-Neue Benutzerkonten benötigen eine Rolle und – sofern sie kein Admin sind – mindestens eine Serienzuweisung.
+Neue Benutzerkonten erhalten zunächst die globale Rolle Nutzer. Ihre Serienzuweisungen legen fest, auf welche Reihen sie zugreifen können. Auditoren benötigen keine Serienzuweisung, da sie ausschließlich administrative Prüfdaten lesen dürfen.
 
 ## Benutzer und Serienzuweisungen verwalten
 
@@ -309,7 +315,7 @@ Die integrierte Verwaltungsoberfläche ist über **Verwaltung** in der Seitenlei
 
 ### Nutzerverwaltung
 
-Unter **Verwaltung → Nutzerverwaltung** können Benutzerkonten angelegt und bearbeitet werden. Die Übersicht zeigt Aktivstatus, Administratorrolle, letzte Anmeldung und Erstellungsdatum. Im Nutzerprofil stehen unter anderem folgende Funktionen bereit:
+Unter **Verwaltung → Nutzerverwaltung** können Benutzerkonten angelegt und bearbeitet werden. Die Übersicht zeigt Aktivstatus, globale Benutzerrolle, letzte Anmeldung und Erstellungsdatum. Im Nutzerprofil stehen unter anderem folgende Funktionen bereit:
 
 - Persönliche Angaben und Aktivstatus bearbeiten.
 - Globale Administratorrechte vergeben oder entziehen.

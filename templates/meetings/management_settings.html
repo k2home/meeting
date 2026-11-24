@@ -30,6 +30,11 @@
     {% with field=form.timezone %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
   </section>
   <section class="card">
+    <h2>Benutzerkonten</h2>
+    <p class="muted">Dieses Startpasswort wird bei neuen Konten ohne eigenes Passwort sowie beim Zurücksetzen und Freischalten eines Kontos verwendet. Auditoren können diese Einstellung nicht einsehen.</p>
+    {% with field=form.start_password %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
+  </section>
+  <section class="card">
     <h2>Dateianlagen</h2><p class="muted">Begrenzt die Größe hochgeladener Anlagen an Themen.</p>
     {% with field=form.attachment_max_size_mb %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
   </section>

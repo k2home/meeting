@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - beta
       - feature/native-linux-deployment
       - feature/usability-and-core-workflows
       - chat

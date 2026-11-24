@@ -13,7 +13,7 @@ from django.views.decorators.http import require_http_methods
 
 from .forms_setup import InitialAdministratorForm
 from .management_views import OrganizationLogoForm, OrganizationSettingsForm
-from .models import OrganizationSettings
+from .models import AuditEvent, OrganizationSettings
 from .user_roles import sync_admin_access
 
 logger = logging.getLogger(__name__)
@@ -105,6 +105,17 @@ def _save_organization(request):
                     logger.exception("Organisationslogo konnte nicht für den PDF-Export konvertiert werden.")
                     logo_form.add_error("logo", "Das Logo konnte nicht verarbeitet werden. Bitte PNG oder JPEG verwenden.")
                     return form, logo_form, False
+        AuditEvent.objects.create(
+            actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="created",
+            summary="Organisationseinstellungen bei der Ersteinrichtung gespeichert",
+            changes={
+                field.label: {"nachher": getattr(settings_obj, field_name)}
+                for field_name, field in form.fields.items()
+                if hasattr(settings_obj, field_name)
+            } | ({
+                "Organisationslogo": {"nachher": settings_obj.logo.name if settings_obj.logo else "Kein Logo"}
+            } if request.FILES.get("logo") else {}),
+        )
     return form, logo_form, True
 
 
@@ -133,6 +144,17 @@ def setup_wizard(request):
                         user.is_active = True
                         user.save()
                         sync_admin_access(user, True)
+                        AuditEvent.objects.create(
+                            actor=user, scope=AuditEvent.SCOPE_SYSTEM, action="created",
+                            summary=f"Erstes Administratorkonto „{user.get_full_name() or user.username}“ angelegt",
+                            changes={
+                                "Anmeldename": {"nachher": user.username},
+                                "Vorname": {"nachher": user.first_name},
+                                "Nachname": {"nachher": user.last_name},
+                                "E-Mail": {"nachher": user.email},
+                                "Globale Rolle": {"nachher": "Admin"},
+                            },
+                        )
                     login(request, user, backend="django.contrib.auth.backends.ModelBackend")
                     request.session["initial_setup_user_id"] = user.pk
                     return redirect("/setup/?step=organization")
