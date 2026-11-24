@@ -41,7 +41,7 @@ class EnforcePasswordChangeMiddleware:
         user = getattr(request, "user", None)
         if user is not None and user.is_authenticated and request.path_info not in self.ALLOWED_PATHS:
             profile = getattr(user, "meeting_profile", None)
-            if profile is not None and profile.must_change_password:
+            if (profile is not None and profile.must_change_password) or not user.has_usable_password():
                 from django.shortcuts import redirect
                 return redirect("/konto/passwort-aendern/")
         return self.get_response(request)
