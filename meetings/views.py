@@ -2452,7 +2452,26 @@ def user_overview(request):
         profile_form = PersonalProfileForm(request.POST, user=request.user)
         password_form = PasswordChangeForm(request.user)
         if profile_form.is_valid():
+            before = {
+                "Vorname": request.user.first_name,
+                "Nachname": request.user.last_name,
+                "E-Mail": request.user.email,
+                "Organisationskennzeichen": getattr(getattr(request.user, "meeting_profile", None), "short_description", ""),
+            }
             profile_form.save()
+            after = {
+                "Vorname": request.user.first_name,
+                "Nachname": request.user.last_name,
+                "E-Mail": request.user.email,
+                "Organisationskennzeichen": getattr(getattr(request.user, "meeting_profile", None), "short_description", ""),
+            }
+            changes = {label: {"vorher": before[label], "nachher": value} for label, value in after.items() if before[label] != value}
+            if changes:
+                AuditEvent.objects.create(
+                    actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                    summary=f"Eigenes Benutzerprofil von „{request.user.get_full_name() or request.user.username}“ geändert",
+                    changes=changes,
+                )
             messages.success(request, "Deine persönlichen Daten wurden gespeichert.")
             return redirect("user_overview")
         messages.error(request, "Bitte prüfe deine persönlichen Angaben.")
@@ -2463,6 +2482,11 @@ def user_overview(request):
     if request.method == "POST" and request.POST.get("form_type") == "password":
         if password_form.is_valid():
             user = password_form.save()
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                summary=f"Passwort von „{user.get_full_name() or user.username}“ geändert",
+                changes={"Passwort": {"nachher": "Geändert (Passwortwert wird nicht protokolliert)"}},
+            )
             update_session_auth_hash(request, user)
             messages.success(request, "Dein Passwort wurde erfolgreich geändert.")
             return redirect("user_overview")
