@@ -134,6 +134,11 @@ def topic_archive_toggle(request, pk):
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     reader = is_reader(request.user, topic.series) or (topic.series_id is None and not is_admin(request.user))
+    # ModelForm validation writes submitted values onto its instance before
+    # is_valid() returns. Snapshot persisted values before constructing it.
+    original_values = Topic.objects.filter(pk=topic.pk).values(
+        "title", "assigned_to_id"
+    ).get()
     form = TopicTitleForm(request.POST or None, instance=topic)
     if reader:
         form.fields["title"].disabled = True
@@ -145,8 +150,12 @@ def topic_detail(request, pk):
             # Capture the persisted values before ModelForm.save() mutates the
             # instance. Keep the write and its audit record in the same
             # transaction so an audit failure cannot leave an unaudited edit.
-            old_title = topic.title
-            old_assignee = topic.assigned_to
+            old_title = original_values["title"]
+            old_assignee_id = original_values["assigned_to_id"]
+            old_assignee = (
+                get_user_model().objects.filter(pk=old_assignee_id).first()
+                if old_assignee_id else None
+            )
             changed_fields = set(form.changed_data)
             with transaction.atomic():
                 updated = form.save()
