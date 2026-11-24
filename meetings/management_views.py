@@ -110,6 +110,7 @@ class ManagedUserCreateForm(UserCreationForm):
 
 
 class ManagedUserEditForm(forms.ModelForm):
+    is_active = forms.TypedChoiceField(label="Aktiv", choices=(("true", "Aktiv"), ("false", "Deaktiviert")), coerce=lambda value: value == "true", empty_value=False)
     short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
     role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES)
 
@@ -120,6 +121,7 @@ class ManagedUserEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].disabled = True
+        self.fields["is_active"].initial = "true" if self.instance.is_active else "false"
         profile = getattr(self.instance, "meeting_profile", None) if self.instance.pk else None
         self.fields["short_description"].initial = profile.short_description if profile else ""
         self.fields["last_login"] = forms.CharField(label="Letzte Anmeldung", required=False, disabled=True, initial=self.instance.last_login.strftime("%d.%m.%Y, %H:%M") if self.instance.last_login else "Noch nie")
@@ -533,6 +535,27 @@ def management_user_edit(request, pk=None):
         "is_new": instance is None, "testing_mode": _testing_mode_enabled(),
     })
 
+
+@login_required
+@require_http_methods(["POST"])
+def management_user_delete(request, pk):
+    _require_admin(request)
+    user = get_object_or_404(User, pk=pk)
+    if user.pk == request.user.pk:
+        messages.error(request, "Das eigene Administratorkonto kann nicht gelöscht werden.")
+        return redirect("management_users")
+    display_name = user_display_name_with_login(user)
+    changes = {
+        "Benutzername": {"vorher": user.username, "nachher": None},
+        "Name": {"vorher": " ".join(part for part in (user.first_name, user.last_name) if part), "nachher": None},
+        "E-Mail": {"vorher": user.email, "nachher": None},
+        "Globale Rolle": {"vorher": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)), "nachher": None},
+    }
+    with transaction.atomic():
+        _record_system_change(actor=request.user, action="deleted", summary=f"Benutzerkonto „{display_name}“ gelöscht", changes=changes)
+        user.delete()
+    messages.success(request, f"Benutzer „{display_name}“ wurde gelöscht.")
+    return redirect("management_users")
 
 @login_required
 def management_groups(request):
