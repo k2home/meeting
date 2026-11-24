@@ -456,7 +456,7 @@ def auditor_users(request):
         return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
     if not is_auditor(request.user):
         return redirect("management_users")
-    users = User.objects.prefetch_related("groups").order_by("last_name", "first_name", "username")
+    users = User.objects.all().order_by("last_name", "first_name", "username")
     return render(request, "meetings/auditor_users.html", {
         "users": [{
             "account": user,
@@ -501,7 +501,7 @@ def auditor_groups(request):
 @login_required
 def management_users(request):
     _require_admin(request)
-    users = User.objects.prefetch_related("groups").order_by("last_name", "first_name", "username")
+    users = User.objects.all().order_by("last_name", "first_name", "username")
     return render(request, "meetings/management_users.html", {
         "users": [{"account": user, "role": get_user_role(user), "role_label": dict(USER_ROLE_CHOICES)[get_user_role(user)]} for user in users],
         "role_choices": SeriesAccess.ROLE_CHOICES,
