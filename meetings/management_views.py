@@ -30,7 +30,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
-from .access import is_admin, is_auditor
+from .access import is_admin, is_auditor, is_moderator
 from .models import AuditEvent, MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection, EnaioDiagnosticReport, EnaioAgentLog
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
@@ -1105,8 +1105,12 @@ def management_user_csv_import(request):
 
 @login_required
 def management_topic_csv_export(request):
-    _require_admin(request)
-    return export_topic_agenda_csv(request)
+    if not is_moderator(request.user):
+        raise PermissionDenied
+    series_ids = list(SeriesAccess.objects.filter(
+        user=request.user, role=SeriesAccess.ROLE_MODERATOR
+    ).values_list("series_id", flat=True))
+    return export_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
 
 @login_required
@@ -1117,8 +1121,12 @@ def management_topic_csv_sample(request):
 
 @login_required
 def management_topic_csv_import(request):
-    _require_admin(request)
-    return import_topic_agenda_csv(request)
+    if not is_moderator(request.user):
+        raise PermissionDenied
+    series_ids = list(SeriesAccess.objects.filter(
+        user=request.user, role=SeriesAccess.ROLE_MODERATOR
+    ).values_list("series_id", flat=True))
+    return import_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
 
 @login_required
