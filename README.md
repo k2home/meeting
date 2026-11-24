@@ -108,7 +108,7 @@ cd meeting
 sudo bash deploy/install-debian.sh
 ```
 
-Anschließend fragt der Installer nur noch nach dem Hostnamen bzw. der IP-Adresse und richtet die benötigten Komponenten automatisch ein.
+Anschließend fragt der Installer nach dem Hostnamen bzw. der IP-Adresse und der IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys. Standardmäßig wird ein lokaler Proxy unter 127.0.0.1 erwartet.
 
 **Installation im Einzelnen**
 
@@ -125,7 +125,7 @@ Anschließend fragt der Installer nur noch nach dem Hostnamen bzw. der IP-Adress
    sudo bash deploy/install-debian.sh
    ```
 
-3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
+3. Hostnamen bzw. IP-Adresse und die IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus. Der lokale Nginx-Zugriff wird auf die angegebene Proxy-Adresse begrenzt; HTTPS-Redirect und sichere Cookies werden erzwungen.
 
 4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
 
