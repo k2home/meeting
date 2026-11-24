@@ -30,7 +30,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
-from .access import is_admin
+from .access import is_admin, is_auditor
 from .models import AuditEvent, MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection, EnaioDiagnosticReport, EnaioAgentLog
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
@@ -400,8 +400,9 @@ def management_home(request):
     })
 
 
+@login_required
 def auditor_overview(request):
-    if not request.user.is_authenticated or not request.user.groups.filter(name="Auditor").exists() or is_admin(request.user):
+    if not is_auditor(request.user):
         return redirect("dashboard")
     return render(request, "meetings/auditor_overview.html", {
         "organization_settings": OrganizationSettings.objects.filter(pk=1).first(),
@@ -411,7 +412,7 @@ def auditor_overview(request):
 
 @login_required
 def auditor_organization_settings(request):
-    if not request.user.groups.filter(name="Auditor").exists() or is_admin(request.user):
+    if not is_auditor(request.user):
         return redirect("management_settings")
     if request.method != "GET":
         return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
