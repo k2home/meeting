@@ -96,6 +96,7 @@ def _profile_short_description(user):
 def export_topic_agenda_csv(request, allowed_series_ids=None):
     response = HttpResponse(content_type="text/csv; charset=utf-8")
     response["Content-Disposition"] = 'attachment; filename="themen_und_punkte_export.csv"'
+    response["Cache-Control"] = "private, no-store"
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
