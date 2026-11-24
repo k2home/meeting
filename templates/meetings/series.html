@@ -42,33 +42,47 @@
 {% endif %}
 
 <style>
-.series-overview-tools{display:flex;flex-wrap:wrap;gap:.65rem;align-items:end;margin:0 0 1rem;padding:1rem;background:var(--soft-bg);border:1px solid var(--border);border-radius:10px}
-.series-overview-tools label{display:flex;flex:1 1 14rem;flex-direction:column;gap:.3rem;margin:0}
-.series-overview-tools input,.series-overview-tools select{width:100%;min-width:0}
-.series-overview-count{margin-left:auto;color:var(--muted);font-size:.9rem;white-space:nowrap}
-.series-overview-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,27rem),1fr));gap:1rem}
-.series-card{min-width:0;margin:0!important;padding:1.1rem;border:1px solid var(--border);border-radius:12px}
+.series-overview-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(12rem,.42fr) auto;gap:.8rem;align-items:end;margin:0 0 1.1rem;padding:1rem;background:var(--surface);border:1px solid var(--border);border-radius:12px}
+.series-overview-tools label{display:flex;min-width:0;flex-direction:column;gap:.35rem;margin:0;font-size:.88rem;font-weight:650}
+.series-overview-tools input,.series-overview-tools select{width:100%;min-width:0;margin:0}
+.series-overview-count{padding:.65rem 0;color:var(--muted);font-size:.86rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.series-overview-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:1rem;align-items:start}
+.series-card{display:flex;min-width:0;flex-direction:column;margin:0!important;padding:1.1rem;border:1px solid var(--border);border-radius:12px;box-shadow:0 2px 8px #182b3d0a;transition:border-color .16s ease,box-shadow .16s ease}
+.series-card:hover{border-color:color-mix(in srgb,var(--hagen-blue) 42%,var(--border));box-shadow:0 5px 16px #182b3d12}
 .series-card[hidden]{display:none!important}
 .series-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem}
-.series-card-header h2{margin:0;overflow-wrap:anywhere}
-.series-card-meta{margin:.4rem 0 0;color:var(--muted);font-size:.92rem}
-.series-status{flex:none}
-.series-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:1rem 0}
-.series-metric{min-width:0;padding:.65rem .5rem;text-align:center;background:var(--soft-bg);border:1px solid var(--border);border-radius:8px}
-.series-metric strong{display:block;font-size:1.25rem;line-height:1.3;font-variant-numeric:tabular-nums}
-.series-metric span{display:block;color:var(--muted);font-size:.78rem}
-.series-next-meeting{margin:.75rem 0 0;padding:.85rem;border-radius:9px}
-.series-next-label{display:block;color:var(--muted);font-size:.82rem;margin-bottom:.2rem}
-.series-card-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
-.series-manage{margin-top:.85rem;border-top:1px solid var(--border);padding-top:.7rem}
-.series-manage>summary{cursor:pointer;font-weight:600;color:var(--text)}
+.series-card-header h2{margin:0;overflow-wrap:anywhere;font-size:1.12rem;line-height:1.35}
+.series-card-meta{margin:.4rem 0 0;color:var(--muted);font-size:.88rem;line-height:1.5}
+.series-status{flex:none;padding:.3rem .6rem;font-size:.78rem;font-weight:700}
+.series-status--active{background:#e3f4e9;color:#17643a}
+.series-status--inactive{background:#edf0f3;color:#596575}
+.series-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;margin:1rem 0 .25rem}
+.series-metric{display:flex;min-width:0;min-height:4.4rem;flex-direction:column;justify-content:center;padding:.6rem .35rem;text-align:center;background:var(--soft-bg);border:1px solid var(--border);border-radius:9px}
+.series-metric strong{display:block;font-size:1.3rem;line-height:1.25;font-variant-numeric:tabular-nums}
+.series-metric span{display:block;margin-top:.18rem;color:var(--muted);font-size:.74rem;line-height:1.25}
+.series-next-meeting{margin:.9rem 0 0;padding:.85rem .9rem;border-radius:10px}
+.series-next-label{display:block;color:var(--muted);font-size:.78rem;font-weight:650;letter-spacing:.02em;margin-bottom:.3rem;text-transform:uppercase}
+.series-next-meeting .topline{gap:.6rem;flex-wrap:wrap}
+.series-card-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin-top:.75rem}
+.series-card-actions form{margin:0}
+.series-card-actions .btn,.series-card-actions button{min-height:2.35rem}
+.series-manage{margin-top:1rem;border-top:1px solid var(--border);padding-top:.75rem}
+.series-manage>summary{cursor:pointer;display:flex;align-items:center;gap:.4rem;font-weight:650;color:var(--text);padding:.2rem 0}
+.series-manage>summary::marker{color:var(--muted)}
 .series-manage-panel{display:grid;gap:.7rem;padding:.8rem 0 .1rem}
 .series-manage-panel form{margin:0}
 .series-manage-panel .actions{margin-top:.5rem}
-.series-meetings{margin-top:.8rem}
-.series-meetings summary{cursor:pointer;font-weight:600;padding:.5rem 0}
+.series-manage-panel>form:last-child{padding-top:.65rem;border-top:1px solid var(--border)}
+.series-meetings{margin-top:.7rem;border-top:1px solid var(--border);padding-top:.55rem}
+.series-meetings summary{cursor:pointer;font-weight:600;padding:.45rem 0}
+.series-meetings table{min-width:32rem}
 .series-no-results{grid-column:1/-1}
-@media(max-width:480px){.series-card{padding:.85rem}.series-metrics{gap:.35rem}.series-metric{padding:.55rem .25rem}.series-metric strong{font-size:1.1rem}}
+:root[data-theme="dark"] .series-card{box-shadow:0 2px 8px #0002}
+:root[data-theme="dark"] .series-card:hover{border-color:color-mix(in srgb,var(--hagen-yellow) 35%,var(--border));box-shadow:0 5px 16px #0003}
+:root[data-theme="dark"] .series-status--active{background:#193d2b;color:#a7e2bb}
+:root[data-theme="dark"] .series-status--inactive{background:#343d49;color:#c5ced8}
+@media(max-width:760px){.series-overview-tools{grid-template-columns:minmax(0,1fr) minmax(10rem,.7fr)}.series-overview-count{grid-column:1/-1;padding:0}}
+@media(max-width:480px){.series-overview-tools{grid-template-columns:1fr;padding:.8rem}.series-overview-count{grid-column:auto}.series-card{padding:.9rem}.series-metrics{gap:.35rem}.series-metric{padding:.55rem .2rem}.series-metric strong{font-size:1.15rem}.series-metric span{font-size:.69rem}.series-card-actions .btn,.series-card-actions button{font-size:.88rem}}
 </style>
 
 <div class="series-overview-tools" role="search" aria-label="Besprechungsreihen filtern">
@@ -87,13 +101,13 @@
 
 <div class="series-overview-list" id="series-overview-list">
   {% for s in series %}
-    <section class="card series-card" id="series-{{ s.pk }}" data-series-card data-series-name="{{ s.name|lower }}" data-series-meta="{{ s.get_recurrence_display|lower }} {{ s.weekday_label|lower }}" data-series-active="{% if s.active %}true{% else %}false{% endif %}">
+    <section class="card series-card" id="series-{{ s.pk }}" data-series-card data-series-name="{{ s.name|lower }}" data-series-meta="{{ s.get_recurrence_display|lower }} {{ s.weekday_label|lower }} {{ s.recurrence_interval }}" data-series-active="{% if s.active %}true{% else %}false{% endif %}">
       <div class="series-card-header">
         <div style="min-width:0">
           <h2>{{ s.name }}</h2>
           <p class="series-card-meta">{{ s.recurrence_interval }} × {{ s.get_recurrence_display|lower }} · {{ s.weekday_label }} · Ende {{ s.end_date|date:"DATE_FORMAT" }}</p>
         </div>
-        <span class="pill series-status">{% if s.active %}Aktiv{% else %}Inaktiv{% endif %}</span>
+        <span class="pill series-status {% if s.active %}series-status--active{% else %}series-status--inactive{% endif %}">{% if s.active %}Aktiv{% else %}Inaktiv{% endif %}</span>
       </div>
 
       <div class="series-metrics" aria-label="Terminübersicht">
