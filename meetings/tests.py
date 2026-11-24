@@ -2305,3 +2305,47 @@ class OrganizationLogoDeliveryTests(TestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertEqual(response["Content-Type"], "application/pdf")
                 self.assertIn(b"/Subtype /Image", response.content)
+
+
+class ManagedUserCreationPasswordTests(TestCase):
+    def test_user_can_be_created_without_password_when_email_is_provided(self):
+        from .management_views import ManagedUserCreateForm
+
+        form = ManagedUserCreateForm(data={
+            "username": "invited-user",
+            "email": "invited@example.org",
+            "password1": "",
+            "password2": "",
+            "role": "user",
+        })
+        self.assertTrue(form.is_valid(), form.errors)
+        user = form.save()
+        self.assertFalse(user.has_usable_password())
+
+    def test_passwordless_user_creation_requires_email(self):
+        from .management_views import ManagedUserCreateForm
+
+        form = ManagedUserCreateForm(data={
+            "username": "invited-user",
+            "email": "",
+            "password1": "",
+            "password2": "",
+            "role": "user",
+        })
+        self.assertFalse(form.is_valid())
+        self.assertIn("email", form.errors)
+
+    def test_user_can_still_be_created_with_password(self):
+        from .management_views import ManagedUserCreateForm
+
+        form = ManagedUserCreateForm(data={
+            "username": "direct-password-user",
+            "email": "",
+            "password1": "Abcdef1!",
+            "password2": "Abcdef1!",
+            "role": "user",
+        })
+        self.assertTrue(form.is_valid(), form.errors)
+        user = form.save()
+        self.assertTrue(user.has_usable_password())
+        self.assertTrue(user.check_password("Abcdef1!"))
