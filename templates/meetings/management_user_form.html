@@ -79,6 +79,7 @@
   </section>
   <section class="card">
     <h2>Passwort</h2>
+    <p class="muted">Ein Passwort kann direkt durch den Admin vergeben werden. Bleiben beide Passwortfelder leer, wird eine E-Mail zum Festlegen des eigenen Passworts an die hinterlegte E-Mail-Adresse gesendet. Diese E-Mail-Adresse ist in diesem Fall erforderlich.</p>
     <div class="form-grid">
       {% for field in form %}
         {% if field.name == "password1" or field.name == "password2" %}
