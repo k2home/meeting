@@ -2184,6 +2184,7 @@ class OrganizationLogoDeliveryTests(TestCase):
                     save=True,
                 )
                 series = MeetingSeries.objects.create(name="Testreihe")
+                SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
                 meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
                 self.client.force_login(self.admin)
 
@@ -2198,6 +2199,7 @@ class OrganizationLogoDeliveryTests(TestCase):
         from .models import Meeting, MeetingSeries
 
         series = MeetingSeries.objects.create(name="Testreihe")
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
         meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
         self.client.force_login(self.admin)
 
@@ -2301,6 +2303,7 @@ class OrganizationLogoDeliveryTests(TestCase):
                     save=True,
                 )
                 series = MeetingSeries.objects.create(name="Testreihe")
+                SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
                 meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
                 self.client.force_login(self.admin)
 
