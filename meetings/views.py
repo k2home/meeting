@@ -1572,7 +1572,12 @@ def series_admin(request):
     series = series_queryset.prefetch_related(
         Prefetch(
             "meetings",
-            queryset=Meeting.objects.order_by("date", "pk"),
+            queryset=Meeting.objects.annotate(
+                open_agenda_count=Count(
+                    "agenda_items",
+                    filter=Q(agenda_items__status__in=["open", "in_progress"]),
+                )
+            ).order_by("date", "pk"),
             to_attr="ordered_meetings",
         )
     ).order_by("name")
@@ -1589,6 +1594,7 @@ def series_admin(request):
         item.meeting_count = len(item.ordered_meetings)
         item.completed_count = sum(1 for meeting in item.ordered_meetings if meeting.finalized_at)
         item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
+        item.open_agenda_count = sum(meeting.open_agenda_count for meeting in item.ordered_meetings)
     expanded_series_id = request.GET.get("expanded", "")
     form = SeriesForm(request.POST or None)
     form.fields.pop("end_date", None)
