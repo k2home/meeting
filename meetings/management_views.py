@@ -55,6 +55,7 @@ def _record_system_change(*, actor, action, summary, changes=None):
     """Record administrative changes without attaching them to meeting-series data."""
     return AuditEvent.objects.create(
         actor=actor,
+        scope=AuditEvent.SCOPE_SYSTEM,
         action=action,
         summary=summary[:500],
         changes=changes or {},
