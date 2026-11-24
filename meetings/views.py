@@ -13,7 +13,7 @@ from django.contrib.auth import login, logout, get_user_model, update_session_au
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.forms import SetPasswordForm, PasswordChangeForm
 from django.db import transaction, models
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
 from django.db.models.functions import RowNumber, Coalesce
