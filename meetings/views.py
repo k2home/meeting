@@ -7,10 +7,10 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from urllib.parse import quote, urlencode
 from xml.sax.saxutils import escape
 
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
@@ -2127,23 +2127,47 @@ def meeting_reopen(request, pk):
 @login_required
 def audit_history(request):
     admin_access = is_admin(request.user)
-    # Audit-Verläufe sind nur für Administratoren und Moderator*innen freigegeben.
-    series = (MeetingSeries.objects.all() if admin_access else MeetingSeries.objects.filter(user_access__user=request.user, user_access__role=SeriesAccess.ROLE_MODERATOR).distinct())
+    # Änderungsverläufe sind ausschließlich für Serien mit Moderatorrolle sichtbar.
+    # Eine Teilnehmerrolle in einer anderen Serie darf die Ansicht nicht erweitern.
+    series = (
+        MeetingSeries.objects.all()
+        if admin_access else
+        MeetingSeries.objects.filter(
+            user_access__user=request.user,
+            user_access__role=SeriesAccess.ROLE_MODERATOR,
+        ).distinct()
+    )
     has_history_permission = admin_access or series.exists()
     series = series.order_by("name") if has_history_permission else MeetingSeries.objects.none()
-    topics = (Topic.objects.all() if admin_access else Topic.objects.filter(series__in=series)).order_by("title") if has_history_permission else Topic.objects.none()
+    topics = (
+        Topic.objects.all() if admin_access else Topic.objects.filter(series__in=series)
+    ).order_by("title") if has_history_permission else Topic.objects.none()
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
     selected_action = request.GET.get("action", "")
+
     if has_history_permission:
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
         if not admin_access:
-            events = events.filter(Q(series__in=series) | (Q(series__isnull=True) & (Q(topic__series__in=series) | (Q(topic__series__isnull=True) & Q(meeting__series__in=series)))))
+            # Prefer the immutable event context. Legacy rows without it use
+            # the former topic-first relation-based fallback.
+            events = events.filter(
+                Q(series__in=series)
+                | (Q(series__isnull=True) & (
+                    Q(topic__series__in=series)
+                    | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
+                ))
+            )
         if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
-            selected_series_id = int(selected_series)
-            events = events.filter(Q(series_id=selected_series_id) | (Q(series__isnull=True) & (Q(topic__series_id=selected_series_id) | Q(meeting__series_id=selected_series_id))))
-            topics = topics.filter(series_id=selected_series_id)
+            events = events.filter(
+                Q(series_id=int(selected_series))
+                | (Q(series__isnull=True) & (
+                    Q(topic__series_id=int(selected_series))
+                    | Q(meeting__series_id=int(selected_series))
+                ))
+            )
+            topics = topics.filter(series_id=int(selected_series))
         else:
             selected_series = ""
         valid_actions = {value for value, label in AuditEvent.ACTIONS}
@@ -2156,16 +2180,24 @@ def audit_history(request):
         else:
             topic_id = ""
     else:
-        topic_id = selected_series = selected_action = ""
+        topic_id = ""
+        selected_series = ""
+        selected_action = ""
+
     paginator = Paginator(events, 50)
     events_page = paginator.get_page(request.GET.get("page"))
+
     return render(request, "meetings/audit_history.html", {
         "events": events_page,
-        "page_range": paginator.get_elided_page_range(number=events_page.number, on_each_side=2, on_ends=1),
-        "selected_topic": topic_id, "topics": topics, "series": series,
-        "selected_series": selected_series, "actions": AuditEvent.ACTIONS,
-        "selected_action": selected_action, "has_history_permission": has_history_permission,
+        "page_range": paginator.get_elided_page_range(
+            number=events_page.number, on_each_side=2, on_ends=1,
+        ),
+        "selected_topic": topic_id,
+        "topics": topics, "series": series, "selected_series": selected_series,
+        "actions": AuditEvent.ACTIONS, "selected_action": selected_action,
+        "has_history_permission": has_history_permission,
     })
+
 
 @login_required
 @reader_readonly
