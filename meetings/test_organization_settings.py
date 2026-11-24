@@ -72,6 +72,12 @@ class OrganizationSettingsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "streng-geheim")
         self.assertIn("start_password", response.context["settings"].get_deferred_fields())
+
+        overview = self.client.get(reverse("auditor_overview"))
+        self.assertEqual(overview.status_code, 200)
+        self.assertNotContains(overview, "streng-geheim")
+        self.assertIn("start_password", overview.context["organization_settings"].get_deferred_fields())
+
         setting.refresh_from_db()
         self.assertEqual(setting.start_password, "streng-geheim")
 
