@@ -43,17 +43,17 @@ read_existing_env() {
 
 set_env_value() {
   local key="$1" value="$2"
-  if grep -q "^\${key}=" "$APP_DIR/.env"; then
-    sed -i "s|^\${key}=.*|\${key}=\${value}|" "$APP_DIR/.env"
+  if grep -q "^${key}=" "$APP_DIR/.env"; then
+    sed -i "s|^${key}=.*|${key}=${value}|" "$APP_DIR/.env"
   else
-    printf '%s=%s\\n' "$key" "$value" >> "$APP_DIR/.env"
+    printf '%s=%s\n' "$key" "$value" >> "$APP_DIR/.env"
   fi
 }
 
 DEFAULT_PROXY="$(read_existing_env TRUSTED_PROXY)"
-DEFAULT_PROXY="\${DEFAULT_PROXY:-127.0.0.1}"
+DEFAULT_PROXY="${DEFAULT_PROXY:-127.0.0.1}"
 read -r -p "IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys [$DEFAULT_PROXY]: " TRUSTED_PROXY
-TRUSTED_PROXY="\${TRUSTED_PROXY:-$DEFAULT_PROXY}"
+TRUSTED_PROXY="${TRUSTED_PROXY:-$DEFAULT_PROXY}"
 if ! python3 -c 'import ipaddress, sys; ipaddress.ip_network(sys.argv[1], strict=False)' "$TRUSTED_PROXY" 2>/dev/null; then
   echo "Ungültige Proxy-Adresse. Erwartet wird eine IPv4-/IPv6-Adresse oder ein CIDR-Netz." >&2
   exit 1
