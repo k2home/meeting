@@ -49,6 +49,7 @@ urlpatterns = [
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
     path("attachments/<int:pk>/delete/", views.attachment_delete, name="attachment_delete"),
+    path("meeting/<int:meeting_pk>/agenda/<int:item_pk>/attachments/add/", views.agenda_attachment_add, name="agenda_attachment_add"),
     path("organization/logo/", views.organization_logo, name="organization_logo"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
