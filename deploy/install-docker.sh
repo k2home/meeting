@@ -34,10 +34,10 @@ read_existing_env() {
 
 set_env_value() {
   local key="$1" value="$2"
-  if grep -q "^\${key}=" "$APP_DIR/.env"; then
-    sed -i "s|^\${key}=.*|\${key}=\${value}|" "$APP_DIR/.env"
+  if grep -q "^${key}=" "$APP_DIR/.env"; then
+    sed -i "s|^${key}=.*|${key}=${value}|" "$APP_DIR/.env"
   else
-    printf '%s=%s\\n' "$key" "$value" >> "$APP_DIR/.env"
+    printf '%s=%s\n' "$key" "$value" >> "$APP_DIR/.env"
   fi
 }
 
