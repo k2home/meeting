@@ -134,7 +134,11 @@ Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infra
 
 **HTTPS und Reverse Proxy**
 
-Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für produktiven Zugriff über HTTPS sollte ein vorgeschalteter Reverse Proxy verwendet werden. In diesem Fall müssen `CSRF_TRUSTED_ORIGINS`, `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1` sowie die sicheren Cookie- und Redirect-Optionen in `/opt/meeting-manager/.env` passend gesetzt werden. Der Proxy muss den `X-Forwarded-Proto`-Header zuverlässig setzen und darf nicht durch untrusted Clients umgangen werden. Bei Debian muss zusätzlich die lokale Nginx-Konfiguration so angepasst werden, dass nur die Proxy-IP/CIDR auf Port 80 zugreifen darf und der Header `X-Forwarded-Proto` vom Proxy übernommen wird (statt ihn mit `$scheme` zu überschreiben). Erst danach `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1` sowie die externe HTTPS-Adresse in `CSRF_TRUSTED_ORIGINS` setzen. Nach Änderungen an `.env` den Dienst mit `sudo systemctl restart meeting-manager` neu starten.
+Die Installationsskripte richten den Meeting Manager für den Betrieb hinter einem HTTPS-Reverse-Proxy ein und erzwingen HTTPS auf Anwendungsebene. Sie aktivieren `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1`, `TRUST_PROXY_SSL=1` und `USE_X_FORWARDED_HOST=1`; `CSRF_TRUSTED_ORIGINS` wird auf die öffentliche HTTPS-Adresse gesetzt.
+
+Bei Debian wird der interne Nginx-Zugang auf die beim Setup angegebene Proxy-IP/CIDR beschränkt. Der Nginx übernimmt `X-Forwarded-Proto` nur von diesem Proxy; der Proxy muss den Header auf `https` setzen und vom Client gelieferte Forwarded-Header überschreiben. Bei Docker wird der veröffentlichte Web-Port standardmäßig ausschließlich an `127.0.0.1` gebunden. Der TLS-Reverse-Proxy muss daher auf demselben Host laufen und an `http://127.0.0.1:8080` weiterleiten (einen abweichenden `WEB_PORT` entsprechend berücksichtigen).
+
+Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und die Proxy-Konfiguration getestet werden. Ohne korrekt eingerichteten TLS-Reverse-Proxy ist die Anwendung absichtlich nicht regulär nutzbar. HSTS zunächst mit kurzer Laufzeit testen; `includeSubDomains` und Preload nur aktivieren, wenn die gesamte Domainstruktur die jeweiligen Voraussetzungen dauerhaft erfüllt.
 
 ### Wichtige Pfade und Dienste
 
@@ -154,7 +158,7 @@ Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für pro
 
 ### Besprechungsreihen und Termine
 
-- Wiederkehrende Reihen mit wöchentlichem, 14-tägigem oder monatlichem Rhythmus.
+- Wiederkehrende Reihen mit wählbarem wöchentlichem oder monatlichem Rhythmus und Intervall (1–52 Wochen bzw. 1–52 Monate).
 - Automatische Erzeugung der Besprechungstermine anhand von Startdatum, Wochentag und optionalem Enddatum.
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
@@ -179,7 +183,7 @@ Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für pro
 - Tagesordnungspunkte lassen sich per Drag-and-drop oder über die Pfeil-Schaltflächen sortieren.
 - Tagesordnungstexte und Teilnehmerliste können bis zum Abschluss bearbeitet werden.
 - Beim Abschluss wird ein unveränderlicher Protokoll-Snapshot gespeichert.
-- Protokolle können als HTML angezeigt, gedruckt sowie als PDF oder Word-Dokument exportiert werden.
+- Protokolle können als HTML angezeigt, gedruckt und als PDF exportiert werden.
 - Exporte abgeschlossener Besprechungen verwenden den gesicherten Snapshot.
 
 ### Änderungsverlauf
@@ -430,7 +434,7 @@ In der Übersicht einen Termin öffnen. Dort können Teilnehmende ausgewählt un
 
 ### 4. Besprechung abschließen
 
-Mit **Besprechung abschließen & Protokollstand sichern** wird ein Snapshot des aktuellen Protokollstands erstellt. Danach sind Teilnehmerliste und Tagesordnungstexte gesperrt. Das Protokoll kann angezeigt, gedruckt oder als PDF bzw. Word exportiert werden.
+Mit **Besprechung abschließen & Protokollstand sichern** wird ein Snapshot des aktuellen Protokollstands erstellt. Danach sind Teilnehmerliste und Tagesordnungstexte gesperrt. Das Protokoll kann angezeigt, gedruckt oder als PDF exportiert werden.
 
 Nur Moderator*innen und Admins können eine abgeschlossene Besprechung wieder öffnen. Nach dem Wiederöffnen kann sie erneut bearbeitet und abgeschlossen werden.
 
@@ -479,7 +483,7 @@ Eine ausführliche, am aktuellen Quellcode ausgerichtete Funktions-, Rollen-, Da
 **Die Anwendung ist ein internes MVP und sollte vor einem produktiven Einsatz weiter gehärtet werden.**
 
 - Zugriff auf das interne Netzwerk begrenzen und eine Firewall einsetzen.
-- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. HSTS-Subdomain-Schutz darf nur aktiviert werden, wenn sämtliche Subdomains dauerhaft HTTPS verwenden. HSTS Preload ist zusätzlich nur mit HTTPS-Weiterleitung, mindestens einem Jahr HSTS-Laufzeit und vollständiger HTTPS-Abdeckung aller Subdomains zulässig; die Anwendung prüft diese Voraussetzungen beim Start. Die Standardinstallation verwendet HTTP. Optional kann das Setup HTTPS-Terminierung durch einen vorgeschalteten Reverse Proxy konfigurieren. Dabei wird die IP/CIDR des Proxys abgefragt und der lokale Nginx-Zugang auf diese Quelle begrenzt; `X-Forwarded-Proto` wird nur in diesem Modus vertraut. `CSRF_TRUSTED_ORIGINS`, sichere Cookies und HTTPS-Weiterleitung werden entsprechend gesetzt.
+- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. HSTS-Subdomain-Schutz darf nur aktiviert werden, wenn sämtliche Subdomains dauerhaft HTTPS verwenden. HSTS Preload ist zusätzlich nur mit HTTPS-Weiterleitung, mindestens einem Jahr HSTS-Laufzeit und vollständiger HTTPS-Abdeckung aller Subdomains zulässig; die Anwendung prüft diese Voraussetzungen beim Start. Die Installationsskripte erzwingen HTTPS hinter einem vorgeschalteten Reverse Proxy. Debian beschränkt den lokalen Nginx-Zugriff auf die beim Setup angegebene Proxy-IP/CIDR; Docker bindet den Web-Port standardmäßig ausschließlich an Loopback. Sichere Cookies, HTTPS-Weiterleitung und CSRF-Origin werden automatisch aktiviert.
 - Regelmäßige, getestete Backups von Datenbank und Media-Verzeichnis einrichten.
 - Admin-Rechte nur gezielt vergeben und Serienzuweisungen regelmäßig überprüfen.
 - Hochgeladene Dateien werden ausschließlich über eine angemeldete, berechtigungsgeprüfte Download-Route ausgeliefert. Der Media-Ordner darf nicht direkt durch Nginx veröffentlicht werden.
