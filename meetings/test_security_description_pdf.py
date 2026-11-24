@@ -22,3 +22,22 @@ class SecurityDescriptionPdfTests(TestCase):
         self.assertEqual(response["Cache-Control"], "private, no-store")
         self.assertTrue(response.content.startswith(b"%PDF-"))
         self.assertGreater(len(response.content), 10_000)
+
+
+class SecurityDescriptionPageTests(TestCase):
+    def test_security_review_page_requires_authentication(self):
+        response = self.client.get(reverse("security_description"))
+        self.assertEqual(response.status_code, 302)
+
+    def test_authenticated_user_sees_full_review_and_pdf_link(self):
+        user = get_user_model().objects.create_user(
+            username="security-review-reader", password="Strong-test-password-123!"
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("security_description"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Rollen- und Berechtigungskonzept")
+        self.assertContains(response, "Konkrete Maßnahmen und empfohlene Vorgehensweisen")
+        self.assertContains(response, reverse("security_description_pdf"))
