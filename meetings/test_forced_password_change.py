@@ -1,8 +1,13 @@
+from datetime import timedelta
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
+
+from .models import UserProfile
 
 User = get_user_model()
 
@@ -78,24 +83,38 @@ class ForcedPasswordChangeTests(TestCase):
         self.assertIsNone(account.meeting_profile.password_setup_expires_at)
 
     def test_expired_setup_window_deactivates_account_and_blocks_login(self):
-        from datetime import timedelta
-        from django.utils import timezone
-        from meetings.models import UserProfile
         account = User.objects.create_user(username="expired-setup-user", password="Neu")
         UserProfile.objects.create(
             user=account, must_change_password=True,
             password_setup_expires_at=timezone.now() - timedelta(seconds=1),
         )
         response = self.client.post(reverse("login"), {
-            "username": account.username, "password": "Neu",
+            "username": f" {account.username} ", "password": "Neu",
         })
         self.assertEqual(response.status_code, 200)
         account.refresh_from_db()
         self.assertFalse(account.is_active)
 
+    def test_login_expiry_check_does_not_deactivate_unrelated_accounts(self):
+        attempted = User.objects.create_user(username="attempted-expired-user", password="Neu")
+        unrelated = User.objects.create_user(username="unrelated-expired-user", password="Neu")
+        expired_at = timezone.now() - timedelta(seconds=1)
+        for account in (attempted, unrelated):
+            UserProfile.objects.create(
+                user=account, must_change_password=True,
+                password_setup_expires_at=expired_at,
+            )
+
+        self.client.post(reverse("login"), {
+            "username": attempted.username, "password": "Neu",
+        })
+
+        attempted.refresh_from_db()
+        unrelated.refresh_from_db()
+        self.assertFalse(attempted.is_active)
+        self.assertTrue(unrelated.is_active)
+
     def test_admin_reactivation_resets_password_and_starts_new_24_hour_window(self):
-        from datetime import timedelta
-        from django.utils import timezone
         account = User.objects.create_user(username="reactivate-user", password="OldPassword1!", is_active=False)
         self.client.force_login(self.admin)
         response = self.client.post(reverse("management_user_edit", args=[account.pk]), {
@@ -114,15 +133,12 @@ class ForcedPasswordChangeTests(TestCase):
         )
 
     def test_second_expiry_after_admin_reactivation_deactivates_account_again(self):
-        from datetime import timedelta
-        from django.utils import timezone
-        from meetings.password_setup import expire_password_setup_if_due
+        from .password_setup import expire_password_setup_if_due, start_password_setup
 
         account = User.objects.create_user(
             username="second-expiry-user", password="Neu",
             is_active=True,
         )
-        from meetings.password_setup import start_password_setup
         profile = start_password_setup(account)
         profile.password_setup_expires_at = timezone.now() - timedelta(seconds=1)
         profile.save(update_fields=["must_change_password", "password_setup_expires_at"])
