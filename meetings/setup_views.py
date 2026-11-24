@@ -30,9 +30,12 @@ def _setup_checks():
             cursor.execute("SELECT 1")
             cursor.fetchone()
         checks.append({"label": "Datenbankverbindung", "ok": True, "detail": "Die Datenbank ist erreichbar."})
-    except Exception as exc:
+    except Exception:
         logger.exception("Setup-Prüfung: Datenbankverbindung fehlgeschlagen")
-        checks.append({"label": "Datenbankverbindung", "ok": False, "detail": str(exc)})
+        checks.append({
+            "label": "Datenbankverbindung", "ok": False,
+            "detail": "Die Datenbankverbindung ist fehlgeschlagen. Bitte Serverprotokolle prüfen.",
+        })
 
     try:
         executor = MigrationExecutor(connection)
@@ -42,9 +45,12 @@ def _setup_checks():
             "label": "Datenbankmigrationen", "ok": ok,
             "detail": "Alle Migrationen sind angewendet." if ok else f"{len(pending)} Migration(en) stehen noch aus.",
         })
-    except Exception as exc:
+    except Exception:
         logger.exception("Setup-Prüfung: Migrationen konnten nicht geprüft werden")
-        checks.append({"label": "Datenbankmigrationen", "ok": False, "detail": str(exc)})
+        checks.append({
+            "label": "Datenbankmigrationen", "ok": False,
+            "detail": "Die Migrationen konnten nicht geprüft werden. Bitte Serverprotokolle prüfen.",
+        })
 
     for label, directory in (("Medienverzeichnis", settings.MEDIA_ROOT), ("Verzeichnis für statische Dateien", settings.STATIC_ROOT)):
         path = Path(directory)
@@ -67,8 +73,12 @@ def _setup_checks():
         output = StringIO()
         call_command("check", stdout=output, stderr=output)
         checks.append({"label": "Django-Systemprüfung", "ok": True, "detail": "Keine Systemfehler gemeldet."})
-    except Exception as exc:
-        checks.append({"label": "Django-Systemprüfung", "ok": False, "detail": str(exc)})
+    except Exception:
+        logger.exception("Setup-Prüfung: Django-Systemprüfung fehlgeschlagen")
+        checks.append({
+            "label": "Django-Systemprüfung", "ok": False,
+            "detail": "Die Django-Systemprüfung ist fehlgeschlagen. Bitte Serverprotokolle prüfen.",
+        })
 
     return checks
 
