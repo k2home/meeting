@@ -81,7 +81,7 @@ else
   echo "Vorhandene .env wird unverändert beibehalten."
 fi
 
-SITE_HOST="$(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | tr ',' '\n' | grep -Ev '^(localhost|127\\.0\\.0\\.1|\\*)
+SITE_HOST="$(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | cut -d, -f1 | tr -d '\r')"
 if [[ -z "$SITE_HOST" || ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
   echo "ALLOWED_HOSTS in .env muss einen gültigen öffentlichen Hostnamen enthalten." >&2
   exit 1
