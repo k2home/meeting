@@ -135,16 +135,15 @@ class AdminIntegrityTests(TestCase):
         self.assertEqual(correction["nachher"]["text"], "Korrigierter Text")
         self.assertEqual(correction["Begründung"], "Tippfehler im gesicherten Protokoll berichtigt.")
 
-    def test_admin_attachment_upload_obeys_configured_limit(self):
+    def test_admin_cannot_add_attachments_through_django_admin(self):
         topic = Topic.objects.create(title="Upload-Prüfung", series=self.series)
-        upload = SimpleUploadedFile("oversized.bin", b"x" * (1024 * 1024 + 1))
+        upload = SimpleUploadedFile("attachment.txt", b"Anhang")
         response = self.client.post(
             reverse("admin:meetings_topicattachment_add"),
-            {"topic": str(topic.pk), "label": "Zu groß", "network_path": "", "uploaded_file": upload},
+            {"topic": str(topic.pk), "label": "Nicht erlaubt", "network_path": "", "uploaded_file": upload},
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(TopicAttachment.objects.filter(label="Zu groß").exists())
-        self.assertContains(response, "höchstens 1 MB")
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(TopicAttachment.objects.filter(label="Nicht erlaubt").exists())
 
 
 class CsvCaseInsensitivePreviewTests(TestCase):
