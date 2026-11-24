@@ -26,6 +26,7 @@ class ForcedPasswordChangeTests(TestCase):
         })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse("management_user_edit", args=[User.objects.get(username="new-password-user").pk]))
+        self.assertEqual(mail.outbox, [])
         account = User.objects.get(username="new-password-user")
         response = self.client.get(reverse("management_user_edit", args=[account.pk]))
         initial_password = response.context["initial_password"]["password"]
