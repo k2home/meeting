@@ -305,7 +305,7 @@ Bei der Einführung der Serienberechtigungen werden bestehende Konten automatisc
 - Bestehende Rollen werden bei der Migration auf die jeweiligen Serienzuordnungen übertragen. Konten ohne bisherige Moderator- oder Leserrolle erhalten dort **Teilnehmer*in**.
 - Bestehende Nicht-Admin-Konten erhalten zunächst Zugriff auf alle zu diesem Zeitpunkt vorhandenen Besprechungsreihen. So bleibt der bisherige Zugriff nach dem Update erhalten. Diese Zuweisungen können anschließend auf die tatsächlich benötigten Reihen eingeschränkt werden.
 
-Neue Benutzerkonten benötigen eine Rolle und – sofern sie kein Admin sind – mindestens eine Serienzuweisung.
+Neue Benutzerkonten erhalten zunächst die globale Rolle Nutzer. Ihre Serienzuweisungen legen fest, auf welche Reihen sie zugreifen können. Admins und Auditoren benötigen für ihren globalen Zugriff keine Serienzuweisung.
 
 ## Benutzer und Serienzuweisungen verwalten
 
