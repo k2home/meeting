@@ -163,6 +163,7 @@ class OrganizationSettingsForm(forms.ModelForm):
     )
     start_password = forms.CharField(
         label="Startpasswort",
+        strip=False,
         widget=forms.PasswordInput(render_value=True),
         help_text="Ohne Komplexitätsvorgaben. Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
     )
