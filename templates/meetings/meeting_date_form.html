@@ -4,4 +4,20 @@
 <div class="card">
   <form method="post">{% csrf_token %}{{ form.as_p }}<p class="muted">Bitte das Datum im Format TT.MM.JJJJ eingeben, z. B. 05.12.2026.</p><p class="muted">Nur dieser Termin wird verschoben. Der Wiederholungsrhythmus und die übrigen Termine der Reihe bleiben unverändert.</p><div class="actions"><button type="submit">Neues Datum speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div></form>
 </div>
+
+<!-- meeting-date-validation -->
+<script>
+(() => {
+  const form = document.querySelector("form");
+  const field = form?.querySelector('input[type="date"], input[name="date"]');
+  if (!field) return;
+  form.addEventListener("submit", event => {
+    if (!field.value) return;
+    const parsed = new Date(field.value);
+    if (Number.isNaN(parsed.getTime())) { event.preventDefault(); field.setCustomValidity("Bitte ein gültiges Datum eingeben."); field.reportValidity(); }
+    else field.setCustomValidity("");
+  });
+  field.addEventListener("input", () => field.setCustomValidity(""));
+})();
+</script>
 {% endblock %}
