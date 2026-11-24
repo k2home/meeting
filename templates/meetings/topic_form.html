@@ -33,11 +33,17 @@
 <div class="topic-layout">
  <div class="topic-main">
   <section class="card">
-   <h2>Thementitel</h2>
-   {% if is_reader %}{{ form.title }}
+   <h2>Thema</h2>
+   {% if is_reader %}
+     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
+     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
    {% else %}<form method="post">{% csrf_token %}
-     {{ form.title.errors }}{{ form.title }}
-     <button type="submit">Titel speichern</button>
+     {{ form.title.errors }}
+     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
+     {{ form.assigned_to.errors }}
+     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
+     <p class="muted">Die Hauptzuständigkeit gilt für das gesamte Thema. Abweichende Zuständigkeiten einzelner Tagesordnungspunkte bleiben davon unberührt.</p>
+     <button type="submit">Thema speichern</button>
    </form>{% endif %}
   </section>
   <section class="card">
