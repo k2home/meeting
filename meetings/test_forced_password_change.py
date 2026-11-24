@@ -112,3 +112,40 @@ class ForcedPasswordChangeTests(TestCase):
             account.meeting_profile.password_setup_expires_at,
             timezone.now() + timedelta(hours=24, minutes=1),
         )
+
+    def test_second_expiry_after_admin_reactivation_deactivates_account_again(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from meetings.password_setup import expire_password_setup_if_due
+
+        account = User.objects.create_user(
+            username="second-expiry-user", password="Neu",
+            is_active=True,
+        )
+        profile = account.meeting_profile
+        profile.must_change_password = True
+        profile.password_setup_expires_at = timezone.now() - timedelta(seconds=1)
+        profile.save(update_fields=["must_change_password", "password_setup_expires_at"])
+
+        self.assertTrue(expire_password_setup_if_due(account))
+        account.refresh_from_db()
+        self.assertFalse(account.is_active)
+
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("management_user_edit", args=[account.pk]), {
+            "username": account.username, "first_name": "", "last_name": "", "email": "",
+            "is_active": "true", "role": "user", "short_description": "",
+        })
+        self.assertRedirects(response, reverse("management_users"))
+        account.refresh_from_db()
+        self.assertTrue(account.is_active)
+        self.assertTrue(account.check_password("Neu"))
+        self.assertTrue(account.meeting_profile.must_change_password)
+        self.assertGreater(account.meeting_profile.password_setup_expires_at, timezone.now())
+
+        profile = account.meeting_profile
+        profile.password_setup_expires_at = timezone.now() - timedelta(seconds=1)
+        profile.save(update_fields=["password_setup_expires_at"])
+        self.assertTrue(expire_password_setup_if_due(account))
+        account.refresh_from_db()
+        self.assertFalse(account.is_active)
