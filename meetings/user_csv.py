@@ -22,7 +22,7 @@ EXPORT_FIELDS = (
 )
 IMPORT_FIELDS = (
     "username", "first_name", "last_name", "email", "short_description",
-    "is_active", "series", "series_role",
+    "is_active", "user_role", "series", "series_role",
 )
 LEGACY_EXPORT_ONLY_FIELDS = ("date_joined", "last_login")  # accepted from older exports; never overwritten on import
 ACCEPTED_FIELDS = IMPORT_FIELDS + ("is_administrator",) + LEGACY_EXPORT_ONLY_FIELDS
