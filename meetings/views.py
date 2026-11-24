@@ -1638,7 +1638,8 @@ def enaio_transfer_cancel(request, pk):
 @login_required
 def protocol(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
-    ensure_agenda(meeting)
+    if not is_auditor(request.user):
+        ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     series_name = _meeting_series_name(meeting)
