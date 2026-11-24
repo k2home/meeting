@@ -1,8 +1,89 @@
 {% extends "meetings/base.html" %}
 {% block title %}{{ page_title }}{% endblock %}
 {% block content %}
-<div class="page-header"><div><h1>{{ page_title }}</h1><p class="muted">Kontodaten und Zugriffsrechte</p></div><a class="btn secondary" href="{% url 'management_users' %}">Zur Nutzerverwaltung</a></div>
-{% if is_new and testing_mode %}<div class="card" style="background: #fee2e2; border: 1px solid #dc2626; color: #991b1b;"><strong>Achtung: Testing-Modus aktiv</strong><p>Bei der Neuanlage eines Benutzers ist jedes nicht leere Passwort zulässig. Diese Einstellung ist nur für Testinstallationen gedacht.</p></div>{% endif %}
-<div class="card"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="actions"><button class="primary" type="submit">Speichern</button><a class="btn secondary" href="{% url 'management_users' %}">Abbrechen</a></div></form></div>
-{% if not is_new %}<div class="card"><h2>Weitere Nutzerfunktionen</h2><div class="actions"><a class="btn secondary" href="{% url 'management_user_series' form.instance.pk %}">Besprechungsreihen-Zuordnungen</a><a class="btn secondary" href="{% url 'management_user_password_reset' form.instance.pk %}">Passwort zurücksetzen</a></div></div>{% endif %}
+<div class="page-header">
+  <div><h1>{{ page_title }}</h1><p class="muted">Kontodaten, globale Berechtigungen und Kontoverwaltung</p></div>
+  <a class="btn secondary" href="{% url 'management_users' %}">Zur Nutzerverwaltung</a>
+</div>
+{% if is_new and testing_mode %}
+<div class="card" style="background:#fee2e2;border:1px solid #dc2626;color:#991b1b;">
+  <strong>Achtung: Testing-Modus aktiv</strong>
+  <p>Bei der Neuanlage eines Benutzers ist jedes nicht leere Passwort zulässig. Diese Einstellung ist nur für Testinstallationen gedacht.</p>
+</div>
+{% endif %}
+<form method="post" id="managed-user-form">
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="card" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+  <section class="card">
+    <h2>Kontodaten</h2><p class="muted">Persönliche Angaben und Anmeldedaten des Benutzerkontos.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;">
+      {% for field in form %}
+        {% if field.name == "username" or field.name == "first_name" or field.name == "last_name" or field.name == "email" %}
+          <div>{{ field.label_tag }}{{ field }}{% if field.help_text %}<div class="muted">{{ field.help_text|safe }}</div>{% endif %}{% if field.errors %}<div class="errorlist">{{ field.errors }}</div>{% endif %}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% if not is_new %}
+  <section class="card">
+    <h2>Kontostatus und Organisation</h2><p class="muted">Steuern Sie, ob sich der Benutzer anmelden kann, und hinterlegen Sie seine organisatorische Zuordnung.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;">
+      {% for field in form %}
+        {% if field.name == "is_active" or field.name == "short_description" or field.name == "role" %}
+          <div>{{ field.label_tag }}{{ field }}{% if field.help_text %}<div class="muted">{{ field.help_text|safe }}</div>{% endif %}{% if field.errors %}<div class="errorlist">{{ field.errors }}</div>{% endif %}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  <section class="card">
+    <h2>Kontoinformationen</h2><p class="muted">Diese Angaben werden automatisch geführt und können hier nicht bearbeitet werden.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;">
+      {% for field in form %}
+        {% if field.name == "last_login" or field.name == "date_joined" %}
+          <div>{{ field.label_tag }}{{ field }}{% if field.errors %}<div class="errorlist">{{ field.errors }}</div>{% endif %}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% else %}
+  <section class="card">
+    <h2>Berechtigungen und Organisation</h2><p class="muted">Legen Sie die globale Rolle und die organisatorische Zuordnung des neuen Benutzers fest.</p>
+    {% for field in form %}
+      {% if field.name == "short_description" or field.name == "role" %}
+        <div style="margin-bottom:16px;">{{ field.label_tag }}{{ field }}{% if field.help_text %}<div class="muted">{{ field.help_text|safe }}</div>{% endif %}{% if field.errors %}<div class="errorlist">{{ field.errors }}</div>{% endif %}</div>
+      {% endif %}
+    {% endfor %}
+  </section>
+  <section class="card">
+    <h2>Passwort</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;">
+      {% for field in form %}
+        {% if field.name == "password1" or field.name == "password2" %}
+          <div>{{ field.label_tag }}{{ field }}{% if field.help_text %}<div class="muted">{{ field.help_text|safe }}</div>{% endif %}{% if field.errors %}<div class="errorlist">{{ field.errors }}</div>{% endif %}</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</form>
+<div class="card">
+  <div class="actions" style="align-items:center;flex-wrap:wrap;">
+    <button class="primary" type="submit" form="managed-user-form">Speichern</button>
+    <a class="btn secondary" href="{% url 'management_users' %}">Abbrechen</a>
+    {% if not is_new and form.instance.pk != request.user.pk %}
+      <form method="post" action="{% url 'management_user_delete' form.instance.pk %}" onsubmit="return confirm('Soll dieser Benutzer wirklich gelöscht werden? Seine Kontodaten und Zuordnungen werden ebenfalls entfernt.');" style="margin:0;">
+        {% csrf_token %}<button type="submit" class="danger" style="background:#dc2626;border-color:#dc2626;color:#fff;">Benutzer löschen</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% if not is_new %}
+<section class="card">
+  <h2>Weitere Nutzerfunktionen</h2><p class="muted">Verwalten Sie die Serienzuordnungen oder setzen Sie das Passwort dieses Kontos zurück.</p>
+  <div class="actions" style="flex-wrap:wrap;">
+    <a class="btn secondary" href="{% url 'management_user_series' form.instance.pk %}">Besprechungsreihen-Zuordnungen</a>
+    <a class="btn secondary" href="{% url 'management_user_password_reset' form.instance.pk %}">Passwort zurücksetzen</a>
+  </div>
+</section>
+{% endif %}
 {% endblock %}
