@@ -1680,8 +1680,11 @@ def protocol(request, pk):
     })
 
 @login_required
-@moderator_required
 def series_admin(request):
+    # Globale Admins dürfen Reihen anlegen und Berechtigungsanträge verwalten,
+    # ohne dadurch Zugriff auf bestehende Serieninhalte zu erhalten.
+    if not is_admin(request.user) and not is_moderator(request.user):
+        return HttpResponseForbidden("Für die Besprechungsserienverwaltung fehlen Moderatorrechte.")
     today = timezone.localdate()
     if request.method == "POST" and request.POST.get("form_type") == "access_request_decision":
         request_id = request.POST.get("request_id")
