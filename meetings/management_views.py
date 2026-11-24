@@ -491,11 +491,9 @@ def auditor_groups(request):
 def management_users(request):
     _require_admin(request)
     users = User.objects.all().order_by("last_name", "first_name", "username")
-    initial_passwords = request.session.pop("new_user_initial_passwords", [])
     return render(request, "meetings/management_users.html", {
         "users": [{"account": user, "role": get_user_role(user), "role_label": dict(USER_ROLE_CHOICES)[get_user_role(user)]} for user in users],
         "role_choices": SeriesAccess.ROLE_CHOICES,
-        "initial_passwords": initial_passwords,
     })
 
 
