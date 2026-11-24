@@ -1730,12 +1730,14 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         self.assertTrue(any("mehreren CSV-Benutzern" in error for error in errors))
 
     def test_archived_meeting_delete_is_forbidden(self):
+        from datetime import date
         from .models import ArchivedMeetingAccess
+        user = User.objects.create_user(username="archived-meeting-user", password="strong-test-password")
         meeting = Meeting.objects.create(series=None, date=date(2026, 12, 22))
         ArchivedMeetingAccess.objects.create(
-            meeting=meeting, user=self.user, role=SeriesAccess.ROLE_MODERATOR
+            meeting=meeting, user=user, role=SeriesAccess.ROLE_MODERATOR
         )
-        self.client.force_login(self.user)
+        self.client.force_login(user)
         response = self.client.post(reverse("meeting_delete", args=[meeting.pk]))
         self.assertEqual(response.status_code, 403)
         self.assertTrue(Meeting.objects.filter(pk=meeting.pk).exists())
