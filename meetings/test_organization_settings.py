@@ -31,7 +31,7 @@ class OrganizationSettingsTests(TestCase):
 
         response = self.client.get(reverse("management_settings"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'type="password"')
+        self.assertContains(response, 'type="text"')
         self.assertContains(response, 'value="AltesStartpasswort"')
 
         response = self.client.post(reverse("management_settings"), {
