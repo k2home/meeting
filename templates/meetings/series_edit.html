@@ -1,26 +1,66 @@
 {% extends "meetings/base.html" %}
 {% block content %}
-<header class="page-header"><div><h1>Besprechungsreihe bearbeiten</h1><p class="muted">{{ series.name }}</p></div><div class="page-header-actions"><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div></header>
-<div class="card">
-  <form method="post">{% csrf_token %}{{ form.as_p }}
-    <p class="muted">Rhythmus: {{ series.recurrence_interval }} × {{ series.get_recurrence_display|lower }} am {{ series.weekday_label }}. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
-    <div class="actions"><button type="submit">Änderungen speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div>
-  </form>
+<style>
+  .series-edit-layout{display:grid;gap:.7rem;max-width:58rem}
+  .series-edit-layout .card{margin:0;padding:1rem}
+  .series-edit-layout h2{font-size:1.05rem;margin:0 0 .35rem}
+  .series-edit-layout p{margin:.3rem 0 .65rem}
+  .series-edit-layout .series-edit-help{font-size:.88rem}
+  .series-edit-layout .series-edit-preview{padding:.55rem .7rem;border:1px solid var(--border);border-radius:7px;background:var(--surface);font-size:.88rem}
+  .series-edit-layout .actions{gap:.4rem}
+</style>
+<header class="page-header">
+  <div><h1>Besprechungsreihe bearbeiten</h1><p class="muted">{{ series.name }}</p></div>
+  <div class="page-header-actions"><a class="btn secondary" href="{% url 'series_admin' %}">Zurück</a></div>
+</header>
+<div class="series-edit-layout">
+  <section class="card">
+    <h2>Wiederholungseinstellungen</h2>
+    <form method="post">{% csrf_token %}{{ form.as_p }}
+      <p class="muted series-edit-help">Rhythmus: {{ series.recurrence_interval }} × {{ series.get_recurrence_display|lower }} am {{ series.weekday_label }}. Eine Änderung des Wochentags verschiebt noch nicht abgeschlossene zukünftige Termine; abgeschlossene Termine bleiben unverändert. Einzelne Termine lassen sich weiterhin unabhängig verschieben.</p>
+      <p id="series-recurrence-preview" class="series-edit-preview muted" aria-live="polite"></p>
+      <div class="actions"><button type="submit">Änderungen speichern</button><a class="btn secondary" href="{% url 'series_admin' %}">Abbrechen</a></div>
+    </form>
+  </section>
+  <section class="card">
+    <h2>Termine neu aufsetzen</h2>
+    <p>Alle nicht abgeschlossenen Termine werden entfernt und anhand der aktuellen Serieneinstellungen neu angelegt. Bereits vorhandene Tagesordnungspunkte werden auf den nächsten neuen Termin übertragen. Abgeschlossene Termine und ihre Protokolle bleiben erhalten.</p>
+    <form method="post" action="{% url 'series_reset_meetings' series.pk %}" data-confirm-message="Alle nicht abgeschlossenen Termine dieser Reihe löschen und neu erzeugen? Tagesordnungspunkte werden auf den nächsten Termin übertragen. Abgeschlossene Protokolle bleiben erhalten.">
+      {% csrf_token %}<button class="danger" type="submit">Alle nicht abgeschlossenen Termine löschen und neu anlegen …</button>
+    </form>
+  </section>
+  <section class="card">
+    <h2>Terminserie verlängern</h2>
+    <p>Ergänzt fehlende Termine mit den aktuellen Einstellungen bis zum 31.12. des Folgejahres. Bestehende Termine bleiben unverändert.</p>
+    <form method="post" action="{% url 'series_extend' series.pk %}" data-confirm-message="Die Terminserie bis zum 31.12. des Folgejahres verlängern?">
+      {% csrf_token %}<button type="submit">Verlängern</button>
+    </form>
+  </section>
 </div>
-<div class="card">
-  <h2>Termine neu aufsetzen</h2>
-  <p>Alle nicht abgeschlossenen Termine werden entfernt und anhand der aktuellen Serieneinstellungen neu angelegt. Bereits vorhandene Tagesordnungspunkte werden auf den nächsten neuen Termin übertragen. Abgeschlossene Termine und ihre Protokolle bleiben erhalten.</p>
-  <form method="post" action="{% url 'series_reset_meetings' series.pk %}" data-confirm-message="Alle nicht abgeschlossenen Termine dieser Reihe löschen und neu erzeugen? Tagesordnungspunkte werden auf den nächsten Termin übertragen. Abgeschlossene Protokolle bleiben erhalten.">
-    {% csrf_token %}
-    <button class="danger" type="submit">Alle nicht abgeschlossenen Termine löschen und neu anlegen …</button>
-  </form>
-</div>
-<div class="card">
-  <h2>Terminserie verlängern</h2>
-  <p>Ergänzt fehlende Termine mit den aktuellen Einstellungen bis zum 31.12. des Folgejahres. Bestehende Termine bleiben unverändert.</p>
-  <form method="post" action="{% url 'series_extend' series.pk %}" data-confirm-message="Die Terminserie bis zum 31.12. des Folgejahres verlängern?">
-    {% csrf_token %}
-    <button type="submit">Verlängern</button>
-  </form>
-</div>
+<script>
+(() => {
+  const ids = ["id_recurrence", "id_recurrence_interval", "id_weekday", "id_start_date", "id_end_date"];
+  const fields = ids.map(id => document.getElementById(id));
+  const preview = document.getElementById("series-recurrence-preview");
+  if (!preview || !fields.some(Boolean)) return;
+  const update = () => {
+    const recurrence = document.getElementById("id_recurrence")?.selectedOptions[0]?.textContent || "Wiederholung";
+    const interval = document.getElementById("id_recurrence_interval")?.value || "1";
+    const weekday = document.getElementById("id_weekday")?.selectedOptions[0]?.textContent || "";
+    const startValue = document.getElementById("id_start_date")?.value || "";
+    const endValue = document.getElementById("id_end_date")?.value || "";
+    const formatDate = value => {
+      if (!value) return "";
+      const date = new Date(value + "T00:00:00");
+      return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat("de-DE").format(date);
+    };
+    const start = formatDate(startValue) || "Startdatum offen";
+    const end = formatDate(endValue) || "ohne Enddatum";
+    const unit = interval === "1" ? recurrence.toLocaleLowerCase("de") : recurrence.toLocaleLowerCase("de") + " (Intervall " + interval + ")";
+    preview.textContent = "Vorschau: " + unit + " · " + weekday + " · von " + start + " bis " + end;
+  };
+  fields.filter(Boolean).forEach(field => field.addEventListener("change", update));
+  update();
+})();
+</script>
 {% endblock %}
