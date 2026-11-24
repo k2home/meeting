@@ -53,4 +53,10 @@ def serve_organization_logo(logo):
     response["X-Content-Type-Options"] = "nosniff"
     response["Cache-Control"] = "private, no-store"
     response["Cross-Origin-Resource-Policy"] = "same-origin"
+    if content_type == "image/svg+xml":
+        # SVG is an active document when opened directly, not just a passive image.
+        # Sandbox it so uploaded markup cannot execute scripts or load remote content.
+        response["Content-Security-Policy"] = (
+            "sandbox; default-src 'none'; style-src 'unsafe-inline'; img-src data:"
+        )
     return response
