@@ -100,7 +100,8 @@ def export_topic_agenda_csv(request, allowed_series_ids=None):
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     writer.writerow(CSV_FIELDS)
     items = AgendaItem.objects.exclude(topic__status="archived").select_related(
-        "meeting__series", "topic", "topic__series", "topic__assigned_to", "assigned_to"
+        "meeting__series", "topic", "topic__series",
+        "topic__assigned_to__meeting_profile", "assigned_to__meeting_profile",
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
     if allowed_series_ids is not None:
         items = items.filter(
@@ -130,7 +131,7 @@ def export_topic_agenda_csv(request, allowed_series_ids=None):
         ]])
     topics_without_agenda = (
         Topic.objects.filter(status="archived") | Topic.objects.filter(agenda_items__isnull=True)
-    ).select_related("series", "assigned_to").order_by("title", "pk")
+    ).select_related("series", "assigned_to__meeting_profile").order_by("title", "pk")
     if allowed_series_ids is not None:
         topics_without_agenda = topics_without_agenda.filter(series_id__in=allowed_series_ids)
     for topic in topics_without_agenda:
