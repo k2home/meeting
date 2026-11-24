@@ -62,7 +62,7 @@ class EnforcePasswordChangeMiddleware:
             # Check only the account attempting to authenticate. A global UPDATE
             # over every expired setup on every request needlessly scans the
             # profile table, including for anonymous and static-like requests.
-            username = request.POST.get("username", "")
+            username = request.POST.get("username", "").strip()
             if username:
                 account = get_user_model().objects.filter(username=username).first()
                 if account is not None:
