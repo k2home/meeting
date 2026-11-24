@@ -355,6 +355,12 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
 class MeetingUserAdmin(DjangoUserAdmin):
     change_list_template = "admin/auth/user/change_list.html"
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if obj and obj.pk == request.user.pk and get_user_role(obj) == "admin":
+            form.base_fields["role"].disabled = True
+        return form
+
     def user_change_password(self, request, id, form_url=""):
         response = super().user_change_password(request, id, form_url)
         if request.method == "POST" and response.status_code in (302, 303):
