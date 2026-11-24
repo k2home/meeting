@@ -1,8 +1,7 @@
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.conf import settings
-from django.contrib.auth import get_user_model, logout
-from django.urls import reverse
+from django.contrib.auth import logout
 from django.utils import timezone
 
 
@@ -58,14 +57,5 @@ class EnforcePasswordChangeMiddleware:
                     profile = None
                 if (profile is not None and profile.must_change_password) or not user.has_usable_password():
                     return redirect("/konto/passwort-aendern/")
-        elif request.method == "POST" and request.path_info == reverse("login"):
-            # Check only the account attempting to authenticate. A global UPDATE
-            # over every expired setup on every request needlessly scans the
-            # profile table, including for anonymous and static-like requests.
-            username = request.POST.get("username", "").strip()
-            if username:
-                account = get_user_model().objects.filter(username=username).first()
-                if account is not None:
-                    expire_password_setup_if_due(account)
 
         return self.get_response(request)
