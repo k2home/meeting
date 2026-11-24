@@ -1847,6 +1847,7 @@ class SeriesAccessRequestTests(TestCase):
     def test_series_creation_is_also_recorded_as_system_event(self):
         from datetime import timedelta
         from django.contrib.auth.models import Group
+        from django.utils import timezone
         from .models import AuditEvent
 
         admin = User.objects.create_user(username="series-create-admin", password="strong-test-password")
