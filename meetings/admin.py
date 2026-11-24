@@ -350,7 +350,7 @@ class AuditEventAdmin(admin.ModelAdmin):
         queryset = super().get_queryset(request)
         system_access = Q(scope=AuditEvent.SCOPE_SYSTEM) if (
             request.user.is_superuser or request.user.groups.filter(name__in=("Admin", "Auditor")).exists()
-        ) else Q()
+        ) else Q(pk__in=[])
         moderator_series = SeriesAccess.objects.filter(
             user=request.user, role=SeriesAccess.ROLE_MODERATOR
         ).values("series_id")
