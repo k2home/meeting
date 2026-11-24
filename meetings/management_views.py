@@ -404,7 +404,7 @@ def management_user_edit(request, pk=None):
             return redirect("management_users")
     return render(request, "meetings/management_user_form.html", {
         "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
-        "is_new": instance is None,
+        "is_new": instance is None, "testing_mode": _testing_mode_enabled(),
     })
 
 
