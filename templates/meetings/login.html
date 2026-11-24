@@ -15,4 +15,26 @@
 <button type="submit" style="width:100%">Anmelden</button>
 </form>
 </div>
+
+<!-- login-password-visibility -->
+<script>
+(() => {
+  const field = document.querySelector('input[type="password"]');
+  if (!field || document.getElementById("login-password-toggle")) return;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.id = "login-password-toggle";
+  button.className = "secondary";
+  button.textContent = "Passwort anzeigen";
+  button.setAttribute("aria-pressed", "false");
+  if (field.id) button.setAttribute("aria-controls", field.id);
+  button.addEventListener("click", () => {
+    const visible = field.type === "password";
+    field.type = visible ? "text" : "password";
+    button.textContent = visible ? "Passwort verbergen" : "Passwort anzeigen";
+    button.setAttribute("aria-pressed", String(visible));
+  });
+  field.insertAdjacentElement("afterend", button);
+})();
+</script>
 {% endblock %}
