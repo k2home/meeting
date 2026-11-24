@@ -42,6 +42,16 @@ class GlobalUserRoleTests(TestCase):
         self.assertEqual(get_user_role(admin), "admin")
         self.assertTrue(admin.is_staff)
 
+    def test_django_admin_disables_global_role_when_editing_own_admin_account(self):
+        admin = User.objects.create_user(username="admin-ui-self", password="test-password")
+        sync_user_role(admin, "admin")
+        self.client.force_login(admin)
+
+        response = self.client.get(reverse("admin:auth_user_change", args=[admin.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["adminform"].form.fields["role"].disabled)
+
     def test_global_roles_are_mutually_exclusive_and_staff_is_admin_only(self):
         user = User.objects.create_user(username="member", password="test-password")
 
