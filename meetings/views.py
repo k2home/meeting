@@ -149,39 +149,47 @@ def dashboard(request):
         meeting_groups[-1]["meetings"].append(meeting)
 
     topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
-    query = request.GET.get("q", "").strip()
+    query = request.GET.get("q", "").strip().casefold()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "active")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
     selected_due = request.GET.get("due", "next_week")
 
-    if selected_status == "active":
-        topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
-    elif selected_status in {"open", "in_progress", "done"}:
-        topics = topics.filter(agenda_items__status=selected_status)
-    elif selected_status != "all":
-        selected_status = "active"
-        topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
-
+    # A search is independent of all dashboard filters.
+    # Apply the filters only when no search term was submitted.
     if query:
         topics = topics.filter(
             Q(title__icontains=query)
             | Q(agenda_items__working_text__icontains=query)
+            | Q(comments__body__icontains=query)
             | Q(series__name__icontains=query)
             | Q(agenda_items__assigned_to__username__icontains=query)
             | Q(agenda_items__assigned_to__first_name__icontains=query)
             | Q(agenda_items__assigned_to__last_name__icontains=query)
         )
-    if selected_series.isdigit():
-        topics = topics.filter(series_id=int(selected_series))
-    else:
+        selected_status = "all"
         selected_series = ""
-    if selected_assignee == "unassigned":
-        topics = topics.filter(agenda_items__assigned_to__isnull=True)
-    elif selected_assignee.isdigit():
-        topics = topics.filter(agenda_items__assigned_to_id=int(selected_assignee)).distinct()
-    else:
         selected_assignee = ""
+        selected_due = ""
+    else:
+        if selected_status == "active":
+            topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
+        elif selected_status in {"open", "in_progress", "done"}:
+            topics = topics.filter(agenda_items__status=selected_status)
+        elif selected_status != "all":
+            selected_status = "active"
+            topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
+
+        if selected_series.isdigit():
+            topics = topics.filter(series_id=int(selected_series))
+        else:
+            selected_series = ""
+        if selected_assignee == "unassigned":
+            topics = topics.filter(agenda_items__assigned_to__isnull=True)
+        elif selected_assignee.isdigit():
+            topics = topics.filter(agenda_items__assigned_to_id=int(selected_assignee)).distinct()
+        else:
+            selected_assignee = ""
     latest_agenda_item = AgendaItem.objects.filter(
         topic_id=OuterRef("pk")
     ).order_by("-meeting__date", "-pk")
