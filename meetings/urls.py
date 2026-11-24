@@ -48,6 +48,7 @@ urlpatterns = [
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
+    path("attachments/<int:pk>/delete/", views.attachment_delete, name="attachment_delete"),
     path("organization/logo/", views.organization_logo, name="organization_logo"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
