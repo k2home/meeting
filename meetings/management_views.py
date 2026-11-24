@@ -78,10 +78,8 @@ class ManagedUserCreateForm(UserCreationForm):
         self.testing_mode = _testing_mode_enabled()
         self.fields["password1"].required = False
         self.fields["password2"].required = False
-        self.fields["password1"].help_text = "Optional. Ohne direkt vergebenes Passwort wird ein einmaliges Startpasswort angezeigt. Der Nutzer muss beim ersten Anmelden ein eigenes Passwort festlegen."
+        self.fields["password1"].help_text = "Optional. Bleiben beide Felder leer, meldet sich der Nutzer zunächst nur mit seinem Benutzernamen an und legt dann ein eigenes Passwort fest."
         self.fields["password2"].help_text = "Nur ausfüllen, wenn direkt ein Passwort vergeben werden soll."
-        if self.testing_mode:
-            self.fields["password1"].help_text = "Optional. Im Testing-Modus ist jedes nicht leere Passwort zulässig. Ohne Passwort wird ein einmaliges Startpasswort angezeigt."
 
     def clean(self):
         cleaned_data = super().clean()
@@ -106,13 +104,10 @@ class ManagedUserCreateForm(UserCreationForm):
             super()._post_clean()
 
     def save(self, commit=True):
-        import secrets
         user = super().save(commit=False)
-        self.generated_password = None
         passwordless_creation = not self.cleaned_data.get("password1")
         if passwordless_creation:
-            self.generated_password = secrets.token_urlsafe(24)
-            user.set_password(self.generated_password)
+            user.set_unusable_password()
         for field in ("first_name", "last_name", "email"):
             setattr(user, field, self.cleaned_data.get(field, "").strip())
         if commit:
@@ -550,23 +545,11 @@ def management_user_edit(request, pk=None):
                     summary=f"Benutzerkonto „{user_display_name_with_login(user)}“ {'geändert' if instance else 'angelegt'}",
                     changes=changes,
                 )
-            if passwordless_creation:
-                request.session["new_user_initial_password"] = {
-                    "user_id": user.pk, "username": user.username, "password": form.generated_password,
-                }
-                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde angelegt. Das Startpasswort wird einmalig angezeigt.")
-                return redirect("management_user_edit", pk=user.pk)
             messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
             return redirect("management_users")
-    initial_password = None
-    if instance:
-        pending_credential = request.session.get("new_user_initial_password")
-        if pending_credential and pending_credential.get("user_id") == instance.pk:
-            initial_password = request.session.pop("new_user_initial_password")
     return render(request, "meetings/management_user_form.html", {
         "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
         "is_new": instance is None, "testing_mode": _testing_mode_enabled(),
-        "initial_password": initial_password,
     })
 
 
@@ -1054,14 +1037,16 @@ def management_user_password_reset(request, pk):
     user = get_object_or_404(User, pk=pk)
     if request.method == "POST":
         profile, _ = UserProfile.objects.get_or_create(user=user)
+        user.set_unusable_password()
+        user.save(update_fields=["password"])
         profile.must_change_password = True
         profile.save(update_fields=["must_change_password"])
         _record_system_change(
             actor=request.user, action="updated",
             summary=f"Passwortwechsel für „{user_display_name_with_login(user)}“ erzwungen",
-            changes={"Passwortstatus": {"nachher": "Passwortwechsel bei der nächsten Anmeldung erforderlich"}},
+            changes={"Passwortstatus": {"nachher": "Passwort entfernt; Anmeldung nur mit Benutzername und anschließender Passwortvergabe erforderlich"}},
         )
-        messages.success(request, "Der Nutzer muss bei seiner nächsten Anmeldung ein neues Passwort festlegen. Es wurde keine E-Mail versendet.")
+        messages.success(request, "Das Passwort wurde entfernt. Bei der nächsten Anmeldung genügt der Benutzername; anschließend legt der Nutzer ein neues Passwort fest.")
         return redirect("management_user_edit", pk=user.pk)
     return render(request, "meetings/management_password_reset.html", {"account": user})
 
