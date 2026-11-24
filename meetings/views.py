@@ -332,15 +332,12 @@ def meetings_overview(request):
 def open_topics(request):
     """Show the latest unfinished agenda entry for topics without a future appointment."""
     today = timezone.localdate()
-    if is_admin(request.user):
-        allowed_series = MeetingSeries.objects.all()
-    else:
-        allowed_series = MeetingSeries.objects.filter(
-            user_access__user=request.user,
-            user_access__role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR],
-        ).distinct()
-        if not allowed_series.exists():
-            return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
+    allowed_series = MeetingSeries.objects.filter(
+        user_access__user=request.user,
+        user_access__role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR],
+    ).distinct()
+    if not allowed_series.exists():
+        return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
     latest_item_ids = AgendaItem.objects.filter(
         topic_id=OuterRef("topic_id")
