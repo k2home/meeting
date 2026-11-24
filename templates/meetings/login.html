@@ -7,7 +7,7 @@
 <h1>Anmelden</h1>
 <p class="muted">Meeting Manager</p>
 {% if organization_unit_name %}<p class="muted">{{ organization_unit_name }}</p>{% endif %}
-<p class="muted">Bitte mit deinem persönlichen Benutzerkonto anmelden.</p>
+<p class="muted">Bitte Benutzername und Passwort eingeben. Für neu angelegte oder zurückgesetzte Konten lautet das Startpasswort <strong>Neu</strong>; anschließend muss innerhalb von 24 Stunden ein persönliches Passwort festgelegt werden.</p>
 <form method="post">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ next }}">
