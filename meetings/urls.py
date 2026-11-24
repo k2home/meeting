@@ -11,6 +11,7 @@ from . import audit_export
 urlpatterns = [
     path("setup/", setup_views.setup_wizard, name="setup_wizard"),
     path("login/", views.login_view, name="login"),
+    path("konto/passwort-aendern/", views.forced_password_change, name="forced_password_change"),
     path("konto/enaio-agent/kopplung/", enaio_agent_views.enaio_agent_pair_code, name="enaio_agent_pair_code"),
     path("enaio/agent/register/", enaio_agent_views.enaio_agent_register, name="enaio_agent_register"),
     path("enaio/agent/logs/write/", enaio_agent_views.enaio_agent_log_write, name="enaio_agent_log_write"),
