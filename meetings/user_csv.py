@@ -58,6 +58,7 @@ def export_users_csv(request):
     selected = EXPORT_FIELDS
     response = HttpResponse(content_type="text/csv; charset=utf-8")
     response["Content-Disposition"] = 'attachment; filename="benutzer.csv"'
+    response["Cache-Control"] = "private, no-store"
     response.write("\ufeff")
     writer = csv.writer(response, delimiter=";", lineterminator="\r\n")
     headers = list(selected)
