@@ -41,6 +41,17 @@
 </section>
 {% endif %}
 
+<form method="get" class="card no-print" aria-label="Besprechungsreihen filtern">
+  <label for="series-state-filter">Status der Besprechungsreihe</label>
+  <div class="actions">
+    <select id="series-state-filter" name="state" onchange="this.form.submit()">
+      <option value="all" {% if selected_state == "all" %}selected{% endif %}>Alle Reihen</option>
+      <option value="active" {% if selected_state == "active" %}selected{% endif %}>Nur aktive Reihen</option>
+      <option value="inactive" {% if selected_state == "inactive" %}selected{% endif %}>Nur inaktive Reihen</option>
+    </select>
+    {% if selected_state != "all" %}<a class="btn secondary" href="{% url 'series_admin' %}">Filter zurücksetzen</a>{% endif %}
+  </div>
+</form>
 <div class="series-list">
   {% for s in series %}
     <section class="card series-entry" id="series-{{ s.pk }}" style="margin-bottom:1rem">

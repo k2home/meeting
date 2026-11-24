@@ -1569,6 +1569,13 @@ def series_admin(request):
     series_queryset = accessible_series(request.user)
     if not is_admin(request.user):
         series_queryset = series_queryset.filter(user_access__role=SeriesAccess.ROLE_MODERATOR)
+    selected_state = request.GET.get("state", "all")
+    if selected_state not in {"all", "active", "inactive"}:
+        selected_state = "all"
+    if selected_state == "active":
+        series_queryset = series_queryset.filter(active=True)
+    elif selected_state == "inactive":
+        series_queryset = series_queryset.filter(active=False)
     series = series_queryset.prefetch_related(
         Prefetch(
             "meetings",
@@ -1628,6 +1635,7 @@ def series_admin(request):
     return render(request, "meetings/series.html", {
         "series": series, "form": form, "today": today,
         "expanded_series_id": expanded_series_id,
+        "selected_state": selected_state,
         "pending_access_requests": pending_requests,
     })
 
