@@ -275,6 +275,7 @@ def import_users_csv(request):
             for username, record in grouped:
                 user = resolved_users.get(username)
                 was_created = user is None
+                was_inactive = bool(user and not user.is_active)
                 profile_before = getattr(getattr(user, "meeting_profile", None), "short_description", "") if user else ""
                 before = ({
                     "Anmeldename": user.username,
@@ -297,12 +298,13 @@ def import_users_csv(request):
                     if field != "user_role":
                         setattr(user, field, value)
                 user.save()
+                if was_created or (was_inactive and user.is_active):
+                    start_password_setup(user)
                 if was_created:
                     UserProfile.objects.update_or_create(
                         user=user,
                         defaults={"short_description": record["values"].get("short_description", "")},
                     )
-                    start_password_setup(user)
                 elif "short_description" in record["values"]:
                     UserProfile.objects.update_or_create(
                         user=user,
