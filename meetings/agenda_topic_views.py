@@ -15,13 +15,13 @@ from .models import AgendaItem, Meeting, SeriesAccess, Topic, TopicSnapshot
 class TopicTitleForm(forms.ModelForm):
     class Meta:
         model = Topic
-        fields = ["title"]
+        fields = ["title", "priority"]
 
 
 class NewTopicForm(forms.ModelForm):
     class Meta:
         model = Topic
-        fields = ["title", "series"]
+        fields = ["title", "series", "priority"]
 
 
 @login_required
@@ -121,23 +121,33 @@ def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     reader = is_reader(request.user, topic.series) or (topic.series_id is None and not is_admin(request.user))
     original_title = topic.title
+    original_priority = topic.priority
     form = TopicTitleForm(request.POST or None, instance=topic)
     if reader:
         form.fields["title"].disabled = True
+        form.fields["priority"].disabled = True
     if request.method == "POST":
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
         if form.is_valid():
             old_title = original_title
+            old_priority = original_priority
             updated = form.save()
+            changes = {}
             if old_title != updated.title:
+                changes["Titel"] = {"vorher": old_title, "nachher": updated.title}
+            if old_priority != updated.priority:
+                changes["Priorität"] = {
+                    "vorher": dict(Topic.PRIORITY_CHOICES).get(old_priority, old_priority),
+                    "nachher": updated.get_priority_display(),
+                }
+            if changes:
                 record_event(
                     actor=request.user, action="updated",
-                    summary=f"Thema „{updated.title}“ umbenannt",
-                    topic=updated,
-                    changes={"Titel": {"vorher": old_title, "nachher": updated.title}},
+                    summary=f"Thema „{updated.title}“ geändert",
+                    topic=updated, changes=changes,
                 )
-            messages.success(request, "Thementitel gespeichert.")
+            messages.success(request, "Thema gespeichert.")
             return redirect("topic_edit", pk=topic.pk)
 
     visible_meetings = accessible_meetings(request.user)

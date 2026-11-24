@@ -81,8 +81,15 @@ class Meeting(models.Model):
 
 class Topic(models.Model):
     STATUS = [("open", "Offen"), ("in_progress", "In Arbeit"), ("done", "Erledigt"), ("archived", "Archiviert")]
+    PRIORITY_CHOICES = [
+        ("low", "Niedrig"),
+        ("normal", "Normal"),
+        ("high", "Hoch"),
+        ("urgent", "Dringend"),
+    ]
     title = models.CharField("Thema", max_length=240)
     status = models.CharField("Status", max_length=12, choices=STATUS, default="open")
+    priority = models.CharField("Priorität", max_length=10, choices=PRIORITY_CHOICES, default="normal")
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="topics")
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                     related_name="assigned_meeting_topics", verbose_name="Verantwortlich")

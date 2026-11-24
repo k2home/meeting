@@ -9,7 +9,7 @@
 </header>
 {% for row in rows %}
   <section class="card">
-    <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>
+    <div class="topline"><h2>{{ row.item.topic.title }}</h2><div class="actions"><span class="pill">{{ row.item.topic.get_priority_display }}</span><span class="pill">{{ row.item.get_status_display }}</span></div></div>
     <p><strong>Besprechungsreihe:</strong> {{ row.item.topic.series.name }}</p>
     <p><strong>Letzte Besprechung:</strong> {{ row.item.meeting.date|date:"DATE_FORMAT" }}</p>
     {% if row.item.assigned_to %}<p><strong>Verantwortlich:</strong> {{ row.item.assigned_to.get_full_name|default:row.item.assigned_to.username }}</p>{% endif %}

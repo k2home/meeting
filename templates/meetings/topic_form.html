@@ -1,124 +1,65 @@
 {% extends "meetings/base.html" %}
-{% load meeting_user_tags %}
+{% block title %}Meine Aufgaben – Meeting Manager{% endblock %}
 {% block content %}
-<style>
-.topic-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:1.2rem;align-items:start}
-.topic-main,.topic-side{min-width:0}.topic-layout>.topic-main{margin:0;padding:0;width:auto}.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
-.topic-meeting{padding:1rem 0;border-bottom:1px solid var(--border,#ddd)}
-.topic-meeting:last-child{border:0}.topic-meeting textarea{min-height:120px}
-.topic-meeting-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
-.topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
-@media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
-</style>
 <header class="page-header">
-  <div><h1>{% if topic %}{{ topic.title }}{% else %}Neues Thema anlegen{% endif %}</h1></div>
-  {% if topic and not is_reader %}<div class="page-header-actions"><a class="btn secondary" href="{% url 'dashboard' %}">Zur Übersicht</a></div>{% endif %}
+  <div>
+    <h1>Meine Aufgaben</h1>
+    <p class="muted">Hauptzuständigkeiten und ausdrücklich zugewiesene Tagesordnungspunkte werden getrennt dargestellt.</p>
+  </div>
 </header>
-{% if not topic %}
 <section class="card">
-  <p class="muted">Ein Thema besteht aus seinem Titel. Die inhaltliche Bearbeitung und alle Besprechungstexte werden den jeweiligen Tagesordnungspunkten zugeordnet.</p>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <label for="new-topic-meeting">Erster Besprechungstermin</label>
-    <select id="new-topic-meeting" name="meeting" required>
-      <option value="">Besprechungstermin auswählen …</option>
-      {% for meeting in available_meetings %}<option value="{{ meeting.pk }}" {% if form.data.meeting == meeting.pk|stringformat:"s" %}selected{% endif %}>{{ meeting.series.name }} · {{ meeting.date|date:"DATE_FORMAT" }}</option>{% endfor %}
-    </select>
-    <button type="submit">Thema anlegen und auf Tagesordnung setzen</button>
-  </form>
+  <div class="topline">
+    <h2>Hauptzuständigkeit</h2>
+    <div class="actions">
+      <strong>{{ main_topics|length }} offene {% if main_topics|length == 1 %}Aufgabe{% else %}Aufgaben{% endif %}</strong>
+      {% if overdue_count %}<span class="pill overdue">{{ overdue_count }} überfällige Wiedervorlagen</span>{% endif %}
+      {% if due_today_count %}<span class="pill">{{ due_today_count }} heute auf der Tagesordnung</span>{% endif %}
+      {% if without_meeting_count %}<span class="pill">{{ without_meeting_count }} ohne geplante Besprechung</span>{% endif %}
+    </div>
+  </div>
+  <p class="muted">Themen, für die du als hauptverantwortliche Person eingetragen bist.</p>
+  {% if main_topics %}
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Thema</th><th>Besprechungsreihe</th><th>Nächster Termin</th><th>Letzter Tagesordnungstext</th></tr></thead>
+        <tbody>
+          {% for topic in main_topics %}
+          <tr>
+            <td><a href="{% url 'topic_edit' topic.pk %}"><strong>{{ topic.title }}</strong></a> <span class="pill">{{ topic.get_priority_display }}</span></td>
+            <td>{{ topic.series|default:"—" }}</td>
+            <td>{% if topic.next_meeting_date %}{% if topic.next_meeting_date < today %}<span class="overdue">Überfällig · {{ topic.next_meeting_date|date:"DATE_FORMAT" }}</span>{% elif topic.next_meeting_date == today %}<strong>Heute · {{ topic.next_meeting_date|date:"DATE_FORMAT" }}</strong>{% else %}{{ topic.next_meeting_date|date:"DATE_FORMAT" }}{% endif %}{% else %}<span class="muted">Kein geplanter Termin</span>{% endif %}</td>
+            <td>{{ topic.latest_agenda_text|default:"—"|truncatechars:100 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}<p>Du hast aktuell keine offenen Themen in Hauptzuständigkeit.</p>
+    <p class="muted">Wenn dir ein Thema als hauptverantwortliche Person zugewiesen wird, erscheint es hier.</p>{% endif %}
 </section>
-{% else %}
-
-<div class="topic-layout">
- <div class="topic-main">
-  <section class="card">
-   <h2>Thementitel</h2>
-   {% if is_reader %}{{ form.title }}
-   {% else %}<form method="post">{% csrf_token %}
-     {{ form.title.errors }}{{ form.title }}
-     <button type="submit">Titel speichern</button>
-   </form>{% endif %}
-  </section>
-  <section class="card">
-   <h2>Besprechungen und Tagesordnungstexte</h2>
-   <p class="muted">Jeder Text gehört zu genau dem Besprechungstermin, in dem er bearbeitet wurde. Abgeschlossene Protokolle bleiben unverändert erhalten.</p>
-   {% for item in topic_agenda_items %}
-    <article class="topic-meeting">
-     <div class="topline">
-      <strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"DATE_FORMAT" }}</strong>
-      {% if item.meeting.finalized_at %}<span class="pill">Protokoll abgeschlossen</span>{% else %}<span class="pill">In Bearbeitung</span>{% endif %}
-     </div>
-     {% if item.meeting.finalized_at %}
-       {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein Text hinterlegt.</p>{% endif %}
-       <p><a href="{% url 'protocol' item.meeting_id %}">Gesichertes Besprechungsprotokoll öffnen</a></p>
-     {% elif is_reader %}
-       {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Noch kein Text hinterlegt.</p>{% endif %}
-       <p><a href="{% url 'protocol' item.meeting_id %}">Besprechungsprotokoll öffnen</a></p>
-     {% else %}
-       <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
-        {% csrf_token %}
-        <label for="working-text-{{ item.pk }}">Text für diese Besprechung</label>
-        <textarea id="working-text-{{ item.pk }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
-        <label for="assigned-to-{{ item.pk }}">Verantwortlich für diesen Tagesordnungspunkt</label>
-        <select id="assigned-to-{{ item.pk }}" name="assigned_to">
-          <option value="">Nicht abweichend zugewiesen</option>
-          {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
-        </select>
-        <div class="topic-meeting-actions">
-          <button type="submit">Besprechungstext speichern</button>
-        </div>
-       </form>
-       <div class="topic-meeting-actions">
-        <a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Zur Tagesordnung</a>
-        <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll ansehen</a>
-        <form method="post" action="{% url 'agenda_item_delete' item.meeting_id item.pk %}" data-confirm-message="„{{ topic.title }}“ nur aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen? Das Thema und andere Termine bleiben erhalten.">
-          {% csrf_token %}
-          <button type="submit" class="secondary" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen">Punkt aus diesem Termin entfernen</button>
-        </form>
-       </div>
-     {% endif %}
-    </article>
-   {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
-  </section>
- </div>
- <aside class="topic-side">
-  <section class="card"><h2>Informationen</h2>
-   <dl class="topic-meta">
-    <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
-    <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
-    <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
-    <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
-   </dl>
-   {% if can_archive_topic %}
-   <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
-    {% csrf_token %}
-    <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
-   </form>
-   {% endif %}
-  </section>
-  <section class="card"><h2>Dateien und Anlagen</h2>
-   {% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
-   {% for a in topic.attachments.all %}
-    <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a>{% endif %}{% if a.network_path %}<br>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}{% endif %}</p>
-   {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
-  </section>
-  {% if not is_reader and transfer_series %}
-  <section class="card"><h2>Besprechungsreihe wechseln</h2>
-   <form method="post" action="{% url 'topic_transfer' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ in die ausgewählte Besprechungsreihe übertragen? Zukünftige Tagesordnungspunkte werden ebenfalls verschoben.">{% csrf_token %}
-    <label for="transfer-series">Zielreihe</label>
-    <select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select>
-    <label for="transfer-note">Hinweis (optional)</label><input id="transfer-note" name="note" maxlength="500">
-    <button type="submit">Thema übertragen</button>
-   </form>
-  </section>
-  {% endif %}
-  {% if topic.transfer_history.exists %}
-  <section class="card"><h2>Transferhistorie</h2>
-   {% for transfer in topic.transfer_history.all %}<p>{{ transfer.transferred_at|date:"DATETIME_FORMAT" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</p>{% endfor %}
-  </section>
-  {% endif %}
- </aside>
-</div>
-{% endif %}
+<section class="card">
+  <div class="topline">
+    <h2>Eigene Zuständigkeiten bei zukünftigen Terminen</h2>
+    <strong>{{ agenda_tasks|length }} offene {% if agenda_tasks|length == 1 %}Zuständigkeit{% else %}Zuständigkeiten{% endif %}</strong>
+  </div>
+  <p class="muted">Hier erscheinen Tagesordnungspunkte, bei denen du ausdrücklich als abweichend verantwortliche Person eingetragen bist.</p>
+  {% if agenda_tasks %}
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Termin</th><th>Thema</th><th>Besprechungsreihe</th><th>Text für das Protokoll</th><th></th></tr></thead>
+        <tbody>
+          {% for item in agenda_tasks %}
+          <tr>
+            <td>{{ item.meeting.date|date:"DATE_FORMAT" }}</td>
+            <td><a href="{% url 'topic_edit' item.topic_id %}"><strong>{{ item.topic.title }}</strong></a> <span class="pill">{{ item.topic.get_priority_display }}</span></td>
+            <td>{{ item.meeting.series|default:"—" }}</td>
+            <td>{{ item.working_text|default:"—"|truncatechars:100 }}</td>
+            <td><a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Zum Termin</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}<p>Für zukünftige Termine sind dir aktuell keine einzelnen Tagesordnungspunkte ausdrücklich zugewiesen.</p>{% endif %}
+</section>
 {% endblock %}
