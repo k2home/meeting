@@ -43,7 +43,7 @@
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="2" data-sort-type="date">Nächste Besprechung <span aria-hidden="true">↕</span></button></th>
 </tr></thead><tbody>
 {% for t in topics %}<tr>
-<td data-sort-value="{{ t.title|lower }}"><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a> <a class="btn secondary" href="{% url 'topic_edit' t.id %}#topic-attachments">Anlagen{% if t.attachments.exists %} ({{ t.attachments.count }}){% endif %}</a></td>
+<td data-sort-value="{{ t.title|lower }}"><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a></td>
 <td data-sort-value="{{ t.series.name|default:''|lower }}">{{ t.series|default:"—" }}</td>
 <td data-sort-value="{{ t.next_meeting_date|date:'Y-m-d' }}">{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"DATE_FORMAT" }}</span>{% else %}{{ t.next_meeting_date|date:"DATE_FORMAT"|default:"—" }}{% endif %}</td>
 </tr>{% endfor %}
