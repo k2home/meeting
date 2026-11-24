@@ -31,7 +31,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
 from .access import is_admin
-from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection, EnaioDiagnosticReport, EnaioAgentLog
+from .models import AuditEvent, MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection, EnaioDiagnosticReport, EnaioAgentLog
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
@@ -49,6 +49,16 @@ def _testing_mode_enabled():
 def _require_admin(request):
     if not is_admin(request.user):
         raise PermissionDenied
+
+
+def _record_system_change(*, actor, action, summary, changes=None):
+    """Record administrative changes without attaching them to meeting-series data."""
+    return AuditEvent.objects.create(
+        actor=actor,
+        action=action,
+        summary=summary[:500],
+        changes=changes or {},
+    )
 
 
 class ManagedUserCreateForm(UserCreationForm):
@@ -177,6 +187,11 @@ def management_enaio_settings(request):
     if request.method == "POST" and form.is_valid():
         settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
         new_folder_id = form.cleaned_data["root_folder_id"].strip()
+        before = {
+            "Dokumenttyp": settings_obj.document_type_name,
+            "Ablageordner konfiguriert": bool(settings_obj.root_folder_id),
+            "Objekttyp": settings_obj.root_folder_type,
+        }
         if settings_obj.root_folder_id != new_folder_id:
             settings_obj.root_folder_name = ""
             settings_obj.root_folder_path = ""
@@ -184,6 +199,14 @@ def management_enaio_settings(request):
         settings_obj.root_folder_id = new_folder_id
         settings_obj.root_folder_type = form.cleaned_data.get("root_folder_type") or 0
         settings_obj.save()
+        after = {
+            "Dokumenttyp": settings_obj.document_type_name,
+            "Ablageordner konfiguriert": bool(settings_obj.root_folder_id),
+            "Objekttyp": settings_obj.root_folder_type,
+        }
+        changes = {key: {"vorher": before[key], "nachher": after[key]} for key in before if before[key] != after[key]}
+        if changes:
+            _record_system_change(actor=request.user, action="updated", summary="Zentrale enaio-Einstellungen geändert", changes=changes)
         messages.success(request, "Die enaio-Einstellungen wurden gespeichert.")
         return redirect("management_enaio_settings")
     return render(request, "meetings/management_enaio_settings.html", {
@@ -398,8 +421,37 @@ def management_user_edit(request, pk=None):
         if instance and instance.pk == request.user.pk and not form.cleaned_data["is_active"]:
             form.add_error("is_active", "Das eigene Administratorkonto kann hier nicht deaktiviert werden.")
         else:
+            before = {}
+            if instance:
+                before = {
+                    "Vorname": instance.first_name,
+                    "Nachname": instance.last_name,
+                    "E-Mail": instance.email,
+                    "Aktiv": instance.is_active,
+                    "Globale Rolle": get_user_role(instance),
+                }
             with transaction.atomic():
                 user = form.save()
+                after = {
+                    "Vorname": user.first_name,
+                    "Nachname": user.last_name,
+                    "E-Mail": user.email,
+                    "Aktiv": user.is_active,
+                    "Globale Rolle": get_user_role(user),
+                }
+                changes = {
+                    label: {"vorher": before.get(label), "nachher": value}
+                    for label, value in after.items()
+                    if before.get(label) != value
+                } if instance else {
+                    label: {"nachher": value} for label, value in after.items()
+                }
+                _record_system_change(
+                    actor=request.user,
+                    action="updated" if instance else "created",
+                    summary=f"Benutzerkonto „{user_display_name_with_login(user)}“ {'geändert' if instance else 'angelegt'}",
+                    changes=changes,
+                )
             messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
             return redirect("management_users")
     return render(request, "meetings/management_user_form.html", {
@@ -480,10 +532,17 @@ def management_settings(request):
     if request.method == "POST" and request.POST.get("action") == "save_logo":
         logo_form = OrganizationLogoForm(request.POST, request.FILES, instance=instance)
         if logo_form.is_valid():
+            previous_logo = instance.logo.name if instance.logo else ""
             settings_obj = logo_form.save(commit=False)
             settings_obj.full_clean()
             settings_obj.save()
             uploaded_logo = settings_obj.logo
+            if (uploaded_logo.name if uploaded_logo else "") != previous_logo:
+                _record_system_change(
+                    actor=request.user, action="updated",
+                    summary="Organisationslogo geändert",
+                    changes={"Organisationslogo": {"vorher": bool(previous_logo), "nachher": bool(uploaded_logo)}},
+                )
             if uploaded_logo and uploaded_logo.name.lower().endswith(".svg"):
                 previous_png_name = settings_obj.logo_png.name if settings_obj.logo_png else ""
                 try:
@@ -520,9 +579,24 @@ def management_settings(request):
     elif request.method == "POST":
         form = OrganizationSettingsForm(request.POST, instance=instance)
         if form.is_valid():
+            before = {
+                field: getattr(instance, field)
+                for field in form.changed_data
+                if field not in {"logo", "logo_png"}
+            }
             settings_obj = form.save(commit=False)
             settings_obj.full_clean()
             settings_obj.save()
+            changes = {
+                form.fields[field].label: {"vorher": before[field], "nachher": getattr(settings_obj, field)}
+                for field in before
+                if before[field] != getattr(settings_obj, field)
+            }
+            if changes:
+                _record_system_change(
+                    actor=request.user, action="updated",
+                    summary="Organisationseinstellungen geändert", changes=changes,
+                )
             messages.success(request, "Die Organisationseinstellungen wurden gespeichert.")
             return redirect("management_settings")
 
