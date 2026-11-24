@@ -197,11 +197,11 @@ Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Theme
 
 ## Rollen und Berechtigungen
 
-Die Anwendung unterscheidet drei globale Benutzerrollen und drei Serienrollen. **Nutzer**, **Admin** und **Auditor** werden global vergeben. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden unabhängig davon jeweils pro Besprechungsreihe zugewiesen. Django-Superuser haben immer globale Adminrechte. Die folgende Berechtigungsmatrix beschreibt die Serienrollen sowie Admin; Auditoren erhalten zusätzlich einen globalen Lesezugriff auf alle Reihen und den vollständigen Änderungsverlauf, jedoch keine Schreib- oder Verwaltungsrechte.
+Die Anwendung unterscheidet drei globale Benutzerrollen und drei Serienrollen. **Nutzer**, **Admin** und **Auditor** werden global vergeben. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden unabhängig davon jeweils pro Besprechungsreihe zugewiesen. Django-Superuser haben immer globale Adminrechte. Auditoren erhalten ausschließlich lesenden Zugriff auf System-Änderungsprotokolle, Benutzerkonten samt globalen Rollen und Serienberechtigungen sowie Organisationseinstellungen. Sie sehen keine Besprechungsreihen oder fachlichen Besprechungsinhalte.
 
 - **Nutzer:** Die fachlichen Zugriffe ergeben sich ausschließlich aus den individuellen Serienberechtigungen.
-- **Admin:** Globale Verwaltungsrechte und Zugriff auf alle Besprechungsreihen.
-- **Auditor:** Globaler Lesezugriff auf alle Besprechungsdaten und Änderungsverläufe; keine fachlichen Schreibrechte und keine Benutzer- oder Systemverwaltung.
+- **Admin:** Globale Verwaltungsrechte; fachliche Inhalte nur entsprechend eigener Serienberechtigungen.
+- **Auditor:** Lesender Zugriff auf System-Änderungsprotokolle, Benutzer und deren globale Rollen/Serienberechtigungen sowie Organisationseinstellungen. Kein Zugriff auf Besprechungsinhalte und keine Änderungsrechte.
 
 ### Berechtigungsmatrix nach Funktionsbereichen
 
@@ -253,7 +253,7 @@ Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrück
 |---|:---:|:---:|:---:|:---:|
 | Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Alle Reihen |
 
-Der Änderungsverlauf ist für Moderator*innen der jeweiligen Reihe sowie global für Admins und Auditoren sichtbar. Auditoren können alle Einträge ausschließlich lesen und exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins und Auditoren zugänglich.
+Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Der separate System-Änderungsverlauf ist für Admins und Auditoren sichtbar; Auditoren können ihn lesen und exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins zugänglich.
 
 #### 5. Benutzer- und Systemverwaltung
 
@@ -305,7 +305,7 @@ Bei der Einführung der Serienberechtigungen werden bestehende Konten automatisc
 - Bestehende Rollen werden bei der Migration auf die jeweiligen Serienzuordnungen übertragen. Konten ohne bisherige Moderator- oder Leserrolle erhalten dort **Teilnehmer*in**.
 - Bestehende Nicht-Admin-Konten erhalten zunächst Zugriff auf alle zu diesem Zeitpunkt vorhandenen Besprechungsreihen. So bleibt der bisherige Zugriff nach dem Update erhalten. Diese Zuweisungen können anschließend auf die tatsächlich benötigten Reihen eingeschränkt werden.
 
-Neue Benutzerkonten erhalten zunächst die globale Rolle Nutzer. Ihre Serienzuweisungen legen fest, auf welche Reihen sie zugreifen können. Admins und Auditoren benötigen für ihren globalen Zugriff keine Serienzuweisung.
+Neue Benutzerkonten erhalten zunächst die globale Rolle Nutzer. Ihre Serienzuweisungen legen fest, auf welche Reihen sie zugreifen können. Auditoren benötigen keine Serienzuweisung, da sie ausschließlich administrative Prüfdaten lesen dürfen.
 
 ## Benutzer und Serienzuweisungen verwalten
 
