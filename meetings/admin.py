@@ -161,6 +161,9 @@ class TopicAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 @admin.register(TopicTransferHistory)
 class TopicTransferHistoryAdmin(admin.ModelAdmin):
@@ -168,6 +171,30 @@ class TopicTransferHistoryAdmin(admin.ModelAdmin):
     list_filter = ("from_series", "to_series", "transferred_at")
     search_fields = ("topic__title", "note")
     readonly_fields = ("topic", "from_series", "to_series", "transferred_at", "transferred_by", "note")
+
+    def get_queryset(self, request):
+        moderated = SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_MODERATOR
+        ).values("series_id")
+        return super().get_queryset(request).filter(
+            Q(from_series_id__in=moderated) | Q(to_series_id__in=moderated)
+        )
+
+    def has_view_permission(self, request, obj=None):
+        if obj is None:
+            return SeriesAccess.objects.filter(
+                user=request.user, role=SeriesAccess.ROLE_MODERATOR
+            ).exists()
+        return is_moderator(request.user, obj.from_series) or is_moderator(request.user, obj.to_series)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class AgendaItemAdmin(admin.ModelAdmin):
