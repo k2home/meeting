@@ -60,3 +60,55 @@ class UploadedAttachmentMetadataTests(TestCase):
         response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
 
         self.assertIn(response.status_code, (403, 404))
+
+
+    def test_attachment_delete_removes_database_record_and_uploaded_file(self):
+        attachment = self.topic.attachments.get()
+        file_name = attachment.uploaded_file.name
+        storage = attachment.uploaded_file.storage
+        self.assertTrue(storage.exists(file_name))
+        self.client.force_login(self.user)
+
+        response = self.client.post(reverse("attachment_delete", args=[attachment.pk]))
+
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        self.assertFalse(TopicAttachment.objects.filter(pk=attachment.pk).exists())
+        self.assertFalse(storage.exists(file_name))
+
+    def test_network_path_attachment_can_be_deleted(self):
+        attachment = TopicAttachment.objects.create(
+            topic=self.topic, label="Netzwerkordner",
+            network_path=r"\\server\freigabe\unterlage",
+        )
+        self.client.force_login(self.user)
+        response = self.client.post(reverse("attachment_delete", args=[attachment.pk]))
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        self.assertFalse(TopicAttachment.objects.filter(pk=attachment.pk).exists())
+
+    def test_user_without_topic_access_cannot_delete_attachment(self):
+        attachment = self.topic.attachments.get()
+        outsider = User.objects.create_user(
+            username="attachment-delete-outsider", password="strong-test-password"
+        )
+        self.client.force_login(outsider)
+        response = self.client.post(reverse("attachment_delete", args=[attachment.pk]))
+        self.assertIn(response.status_code, (403, 404))
+        self.assertTrue(TopicAttachment.objects.filter(pk=attachment.pk).exists())
+
+    def test_reader_cannot_delete_attachment(self):
+        reader = User.objects.create_user(
+            username="attachment-delete-reader", password="strong-test-password"
+        )
+        SeriesAccess.objects.create(user=reader, series=self.series, role=SeriesAccess.ROLE_READER)
+        attachment = self.topic.attachments.get()
+        self.client.force_login(reader)
+        response = self.client.post(reverse("attachment_delete", args=[attachment.pk]))
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(TopicAttachment.objects.filter(pk=attachment.pk).exists())
+
+    def test_attachment_delete_rejects_get(self):
+        attachment = self.topic.attachments.get()
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("attachment_delete", args=[attachment.pk]))
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(TopicAttachment.objects.filter(pk=attachment.pk).exists())
