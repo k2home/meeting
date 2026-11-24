@@ -35,7 +35,7 @@ from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfi
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
-from .user_roles import sync_admin_access
+from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ class ManagedUserCreateForm(UserCreationForm):
     last_name = forms.CharField(label="Nachname", max_length=150, required=False)
     email = forms.EmailField(label="E-Mail-Adresse", required=False)
     short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
-    is_administrator = forms.BooleanField(label="Administrator", required=False)
+    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES, initial="user")
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -94,7 +94,7 @@ class ManagedUserCreateForm(UserCreationForm):
             UserProfile.objects.update_or_create(
                 user=user, defaults={"short_description": self.cleaned_data.get("short_description", "").strip()}
             )
-            sync_admin_access(user, self.cleaned_data.get("is_administrator", False))
+            sync_user_role(user, self.cleaned_data["role"])
         return user
 
 
@@ -113,9 +113,7 @@ class ManagedUserEditForm(forms.ModelForm):
         self.fields["short_description"].initial = profile.short_description if profile else ""
         self.fields["last_login"] = forms.CharField(label="Letzte Anmeldung", required=False, disabled=True, initial=self.instance.last_login.strftime("%d.%m.%Y, %H:%M") if self.instance.last_login else "Noch nie")
         self.fields["date_joined"] = forms.CharField(label="Erstellt am", required=False, disabled=True, initial=self.instance.date_joined.strftime("%d.%m.%Y, %H:%M") if self.instance.date_joined else "–")
-        self.fields["is_administrator"].initial = (
-            self.instance.groups.filter(name="Admin").exists() if self.instance.pk else False
-        )
+        self.fields["role"].initial = get_user_role(self.instance) if self.instance.pk else "user"
 
     def save(self, commit=True):
         user = super().save(commit=commit)
@@ -123,7 +121,7 @@ class ManagedUserEditForm(forms.ModelForm):
             UserProfile.objects.update_or_create(
                 user=user, defaults={"short_description": self.cleaned_data.get("short_description", "").strip()}
             )
-            sync_admin_access(user, self.cleaned_data.get("is_administrator", False))
+            sync_user_role(user, self.cleaned_data["role"])
         return user
 
 
@@ -381,7 +379,7 @@ def management_users(request):
     _require_admin(request)
     users = User.objects.all().order_by("last_name", "first_name", "username")
     return render(request, "meetings/management_users.html", {
-        "users": [{"account": user, "is_administrator": is_admin(user)} for user in users],
+        "users": [{"account": user, "role": get_user_role(user)} for user in users],
         "role_choices": SeriesAccess.ROLE_CHOICES,
     })
 
