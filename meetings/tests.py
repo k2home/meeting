@@ -970,6 +970,9 @@ class TopicAgendaCsvImportTests(TestCase):
 
     def test_csv_preserves_topic_series_separately_from_meeting_series(self):
         topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=topic_series, role=SeriesAccess.ROLE_MODERATOR,
+        )
         response = self._confirm_import(self._csv([[
             "2026-12-03", "Sondersitzung", "Thema aus anderer Reihe",
             "", "open", "", "", "", "", "Punkttext",
