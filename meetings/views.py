@@ -64,7 +64,8 @@ def forced_password_change(request):
     if request.method == "POST" and form.is_valid():
         user = form.save()
         profile.must_change_password = False
-        profile.save(update_fields=["must_change_password"])
+        profile.password_setup_expires_at = None
+        profile.save(update_fields=["must_change_password", "password_setup_expires_at"])
         update_session_auth_hash(request, user)
         AuditEvent.objects.create(
             actor=user,
