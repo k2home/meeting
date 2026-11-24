@@ -230,7 +230,7 @@ def dashboard(request):
     )
     if request.GET.get("export") == "csv":
         output = io.StringIO(newline="")
-        writer = csv.writer(output, delimiter=";", lineterminator="\\r\\n")
+        writer = csv.writer(output, delimiter=";", lineterminator="\r\n")
         writer.writerow([
             "Thema", "Besprechungsreihe", "Themenstatus",
             "Hauptverantwortlich", "Nächste Besprechung", "Status des letzten Tagesordnungspunkts",
@@ -245,10 +245,10 @@ def dashboard(request):
                 dict(AgendaItem.STATUS).get(topic.latest_agenda_status, topic.latest_agenda_status or ""),
             ]
             writer.writerow([
-                "'" + str(value) if str(value).startswith(("=", "+", "-", "@", "\\t", "\\r")) else value
+                "'" + str(value) if str(value).startswith(("=", "+", "-", "@", "\t", "\r")) else value
                 for value in values
             ])
-        response = HttpResponse("\\ufeff" + output.getvalue(), content_type="text/csv; charset=utf-8")
+        response = HttpResponse("\ufeff" + output.getvalue(), content_type="text/csv; charset=utf-8")
         response["Content-Disposition"] = 'attachment; filename="dashboard-themen.csv"'
         return response
 

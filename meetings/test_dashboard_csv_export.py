@@ -25,7 +25,7 @@ class FilteredDashboardCsvExportTests(TestCase):
         visible = Topic.objects.create(
             title="=1+1", series=self.series, assigned_to=self.user
         )
-        AgendaItem.objects.create(meeting=meeting, topic=visible, status="open")
+        AgendaItem.objects.create(meeting=meeting, topic=visible, status="open", assigned_to=self.user)
         hidden = Topic.objects.create(
             title="Nicht exportieren", series=self.hidden_series
         )
