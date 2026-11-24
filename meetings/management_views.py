@@ -23,7 +23,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, JsonResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -43,6 +43,10 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
+def _testing_mode_enabled():
+    return os.path.isfile("/var/lib/meeting-manager-updater/testing-mode")
+
+
 def _require_admin(request):
     if not is_admin(request.user):
         raise PermissionDenied
@@ -58,6 +62,22 @@ class ManagedUserCreateForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("username", "first_name", "last_name", "email")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.testing_mode = _testing_mode_enabled()
+        if self.testing_mode:
+            self.fields["password1"].help_text = "Im Testing-Modus ist bei der Benutzeranlage jedes nicht leere Passwort zulässig."
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2:
+            if password1 != password2:
+                raise ValidationError(self.error_messages["password_mismatch"], code="password_mismatch")
+            if not self.testing_mode:
+                password_validation.validate_password(password2, self.instance)
+        return password2
 
     def save(self, commit=True):
         user = super().save(commit=False)
