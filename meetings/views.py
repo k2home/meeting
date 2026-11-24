@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from urllib.parse import quote, urlencode
 from xml.sax.saxutils import escape
 
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -2176,8 +2177,15 @@ def audit_history(request):
         topic_id = ""
         selected_series = ""
 
+    paginator = Paginator(events, 50)
+    events_page = paginator.get_page(request.GET.get("page"))
+
     return render(request, "meetings/audit_history.html", {
-        "events": events[:250], "selected_topic": topic_id,
+        "events": events_page,
+        "page_range": paginator.get_elided_page_range(
+            number=events_page.number, on_each_side=2, on_ends=1,
+        ),
+        "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
         "has_history_permission": has_history_permission,
     })

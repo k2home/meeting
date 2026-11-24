@@ -66,6 +66,25 @@
 {% empty %}
   <div class="card"><p>Noch keine Änderungen vorhanden.</p></div>
 {% endfor %}
-{% if events|length == 250 %}<p class="muted">Es werden höchstens 250 Einträge angezeigt. Nutze den Themenfilter, um ältere Einträge gezielt zu finden.</p>{% endif %}
+{% if events.has_other_pages %}
+<nav class="pagination no-print" aria-label="Seiten im Änderungsverlauf" style="display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;justify-content:center;margin:1rem 0">
+  {% if events.has_previous %}
+    <a class="btn secondary" href="?page={{ events.previous_page_number }}{% if selected_series %}&amp;series={{ selected_series }}{% endif %}{% if selected_topic %}&amp;topic={{ selected_topic }}{% endif %}" rel="prev" aria-label="Vorherige Seite">← Zurück</a>
+  {% endif %}
+  {% for page_number in page_range %}
+    {% if page_number == events.paginator.ELLIPSIS %}
+      <span class="pagination-ellipsis" aria-hidden="true">…</span>
+    {% elif page_number == events.number %}
+      <span class="btn" aria-current="page" aria-label="Aktuelle Seite {{ page_number }}">{{ page_number }}</span>
+    {% else %}
+      <a class="btn secondary" href="?page={{ page_number }}{% if selected_series %}&amp;series={{ selected_series }}{% endif %}{% if selected_topic %}&amp;topic={{ selected_topic }}{% endif %}" aria-label="Seite {{ page_number }}">{{ page_number }}</a>
+    {% endif %}
+  {% endfor %}
+  {% if events.has_next %}
+    <a class="btn secondary" href="?page={{ events.next_page_number }}{% if selected_series %}&amp;series={{ selected_series }}{% endif %}{% if selected_topic %}&amp;topic={{ selected_topic }}{% endif %}" rel="next" aria-label="Nächste Seite">Weiter →</a>
+  {% endif %}
+</nav>
+<p class="muted" style="text-align:center">Seite {{ events.number }} von {{ events.paginator.num_pages }} · {{ events.paginator.count }} Einträge</p>
+{% endif %}
 {% endif %}
 {% endblock %}
