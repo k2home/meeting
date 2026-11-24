@@ -45,13 +45,18 @@ def enaio_agent_pair_code(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def enaio_agent_register(request):
+    if len(request.body) > 16 * 1024:
+        return JsonResponse({"error": "Die Kopplungsanfrage ist zu groß."}, status=413)
     try:
         data = json.loads(request.body or b"{}")
     except (ValueError, UnicodeDecodeError):
         return JsonResponse({"error": "Ungültige JSON-Daten."}, status=400)
-    code = str(data.get("pairing_code", "")).strip()
-    if not code:
-        return JsonResponse({"error": "Kopplungscode fehlt."}, status=400)
+    if not isinstance(data, dict):
+        return JsonResponse({"error": "Die Kopplungsanfrage muss ein JSON-Objekt sein."}, status=400)
+    code = data.get("pairing_code", "")
+    if not isinstance(code, str) or not code.strip():
+        return JsonResponse({"error": "Kopplungscode fehlt oder ist ungültig."}, status=400)
+    code = code.strip()
     digest = _digest(code)
     agent = EnaioAgent.objects.filter(
         pairing_code_hash=digest, pairing_expires_at__gt=timezone.now(),
