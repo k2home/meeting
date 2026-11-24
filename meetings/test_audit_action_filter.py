@@ -41,5 +41,5 @@ class AuditActionFilterTests(TestCase):
     def test_invalid_action_filter_is_ignored(self):
         response = self.client.get(reverse("audit_history"), {"action": "not-a-real-action"})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context["events"].count(), 2)
+        self.assertEqual(len(response.context["events"]), 2)
         self.assertEqual(response.context["selected_action"], "")
