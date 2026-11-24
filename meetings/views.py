@@ -68,7 +68,7 @@ def _series_for_view(view, kwargs):
     if view.__name__ in {"agenda_reorder", "agenda_item_delete", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen", "finalize"}:
         meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
         return meeting.series if meeting else None
-    if view.__name__ in {"series_edit", "series_delete", "series_extend", "series_reset_meetings"}:
+    if view.__name__ in {"series_edit", "series_delete", "series_delete_future", "series_extend", "series_reset_meetings"}:
         return MeetingSeries.objects.filter(pk=pk).first()
     topic = Topic.objects.filter(pk=pk).select_related("series").first()
     return topic.series if topic else None
