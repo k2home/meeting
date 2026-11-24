@@ -2029,6 +2029,7 @@ def series_delete(request, pk):
         # Keep meeting protocols in the archive, but archive every topic
         # belonging to the deleted series as a standalone archived topic.
         topics = Topic.objects.filter(series=series)
+        archived_topic_count = topics.count()
         topics.exclude(status="archived").update(archive_previous_status=models.F("status"))
         topics.update(status="archived", series=None)
         Meeting.objects.filter(series=series).update(archived_series_name=name, series=None)
@@ -2038,7 +2039,7 @@ def series_delete(request, pk):
             series=series,
             changes={
                 "Archivierte Besprechungstermine": len(meeting_ids),
-                "Archivierte Themen": topics.count(),
+                "Archivierte Themen": archived_topic_count,
                 "Ehemalige Mitglieder mit Lesezugriff": len(former_access) if meeting_ids else 0,
             },
         )
