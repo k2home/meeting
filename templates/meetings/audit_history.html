@@ -25,12 +25,18 @@
       {% if selected_topic or selected_series %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
     </div>
   </form>
+  <div class="audit-local-search">
+    <label for="audit-local-search-input">Einträge durchsuchen</label>
+    <input type="search" id="audit-local-search-input" placeholder="Text, Person oder Thema eingeben …" autocomplete="off" aria-controls="audit-history-entries">
+    <p id="audit-local-search-status" class="muted" role="status" aria-live="polite">Alle angezeigten Einträge werden berücksichtigt.</p>
+  </div>
 </div>
 {% if not has_history_permission %}
   <div class="card"><p>Für deinen Zugang sind keine Einträge im Änderungsverlauf freigegeben.</p></div>
 {% else %}
+<div id="audit-history-entries">
 {% for event in events %}
-  <article class="card">
+  <article class="card audit-entry">
     <div class="topline">
       <strong>{{ event.get_action_display }}</strong>
       <span class="muted">{{ event.created_at|date:"DATETIME_FORMAT" }}</span>
@@ -66,6 +72,31 @@
 {% empty %}
   <div class="card"><p>Noch keine Änderungen vorhanden.</p></div>
 {% endfor %}
-{% if events|length == 250 %}<p class="muted">Es werden höchstens 250 Einträge angezeigt. Nutze den Themenfilter, um ältere Einträge gezielt zu finden.</p>{% endif %}
+{% if events|length == 250 %}<p class="muted">Es werden höchstens 250 Einträge angezeigt. Nutze die Filter, um ältere Einträge gezielt zu finden.</p>{% endif %}
+</div>
+<div id="audit-local-search-empty" class="card muted" hidden>Keine passenden Einträge auf dieser Seite gefunden.</div>
+<script>
+(() => {
+  const input = document.getElementById("audit-local-search-input");
+  const container = document.getElementById("audit-history-entries");
+  const status = document.getElementById("audit-local-search-status");
+  const empty = document.getElementById("audit-local-search-empty");
+  if (!input || !container || !status || !empty) return;
+  const entries = Array.from(container.querySelectorAll(".audit-entry"));
+  input.addEventListener("input", () => {
+    const query = input.value.trim().toLocaleLowerCase("de");
+    let visible = 0;
+    entries.forEach(entry => {
+      const matches = !query || entry.textContent.toLocaleLowerCase("de").includes(query);
+      entry.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    status.textContent = query
+      ? visible + " von " + entries.length + " Einträgen gefunden."
+      : "Alle angezeigten Einträge werden berücksichtigt.";
+    empty.hidden = !query || visible > 0;
+  });
+})();
+</script>
 {% endif %}
 {% endblock %}
