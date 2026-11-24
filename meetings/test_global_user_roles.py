@@ -61,6 +61,8 @@ class GlobalUserRoleTests(TestCase):
         self.assertEqual(django_series_admin.status_code, 403)
         self.assertEqual(django_meeting_admin.status_code, 403)
         self.assertEqual(django_topic_admin.status_code, 403)
+        topic_csv_export = self.client.get(reverse("management_topic_csv_export"))
+        self.assertEqual(topic_csv_export.status_code, 403)
         series_edit = self.client.post(reverse("series_edit", args=[self.series.pk]), {
             "name": self.series.name, "description": "Keine Admin-Vererbung",
             "recurrence": "weekly", "recurrence_interval": 1, "weekday": 1,
@@ -84,6 +86,8 @@ class GlobalUserRoleTests(TestCase):
             reverse("meeting", args=[self.meeting.pk]), {"save_participants": "1"}
         )
         self.assertEqual(update.status_code, 403)
+        topic_csv_export = self.client.get(reverse("management_topic_csv_export"))
+        self.assertEqual(topic_csv_export.status_code, 403)
 
     def test_auditor_cannot_read_series_content_even_with_series_assignment(self):
         auditor = User.objects.create_user(username="auditor", password="test-password")
