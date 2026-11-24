@@ -79,7 +79,7 @@ class ManagedUserCreateForm(UserCreationForm):
         self.testing_mode = _testing_mode_enabled()
         self.fields["password1"].required = False
         self.fields["password2"].required = False
-        self.fields["password1"].help_text = "Optional. Bleiben beide Felder leer, gilt das Startpasswort „Neu“. Der Nutzer muss innerhalb von 24 Stunden ein persönliches Passwort festlegen."
+        self.fields["password1"].help_text = "Optional. Bleiben beide Felder leer, gilt das in der Organisationsverwaltung konfigurierte Startpasswort. Der Nutzer muss innerhalb von 24 Stunden ein persönliches Passwort festlegen."
         self.fields["password2"].help_text = "Nur ausfüllen, wenn direkt ein persönliches Passwort vergeben werden soll."
 
     def clean(self):
@@ -108,7 +108,7 @@ class ManagedUserCreateForm(UserCreationForm):
         user = super().save(commit=False)
         passwordless_creation = not self.cleaned_data.get("password1")
         if passwordless_creation:
-            user.set_password("Neu")
+            user.set_password(OrganizationSettings.current_start_password())
         for field in ("first_name", "last_name", "email"):
             setattr(user, field, self.cleaned_data.get(field, "").strip())
         if commit:
@@ -554,7 +554,7 @@ def management_user_edit(request, pk=None):
                     changes=changes,
                 )
             if was_inactive and user.is_active:
-                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde freigeschaltet. Das Startpasswort „Neu“ gilt für die nächsten 24 Stunden.")
+                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde freigeschaltet. Das konfigurierte Startpasswort gilt für die nächsten 24 Stunden.")
             else:
                 messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
             return redirect("management_users")
@@ -1053,9 +1053,9 @@ def management_user_password_reset(request, pk):
         _record_system_change(
             actor=request.user, action="updated",
             summary=f"Passwortwechsel für „{user_display_name_with_login(user)}“ erzwungen",
-            changes={"Passwortstatus": {"nachher": "Startpasswort Neu gesetzt; persönliche Passwortvergabe innerhalb von 24 Stunden erforderlich"}},
+            changes={"Passwortstatus": {"nachher": "Konfiguriertes Startpasswort gesetzt; persönliche Passwortvergabe innerhalb von 24 Stunden erforderlich"}},
         )
-        messages.success(request, "Das Startpasswort „Neu“ wurde gesetzt. Der Benutzer muss sich innerhalb von 24 Stunden anmelden und ein persönliches Passwort festlegen.")
+        messages.success(request, "Das konfigurierte Startpasswort wurde gesetzt. Der Benutzer muss sich innerhalb von 24 Stunden anmelden und ein persönliches Passwort festlegen.")
         return redirect("management_user_edit", pk=user.pk)
     return render(request, "meetings/management_password_reset.html", {"account": user})
 
