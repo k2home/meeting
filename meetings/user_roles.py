@@ -7,9 +7,21 @@ USER_ROLE_CHOICES = (("user", "Nutzer"), ("admin", "Admin"), ("auditor", "Audito
 
 def get_user_role(user):
     """Return the single global application role; superusers are always admins."""
-    if user.is_superuser or user.groups.filter(name=ADMIN_GROUP_NAME).exists():
+    if user.is_superuser:
         return "admin"
-    if user.groups.filter(name=AUDITOR_GROUP_NAME).exists():
+
+    prefetched_groups = getattr(user, "_prefetched_objects_cache", {}).get("groups")
+    if prefetched_groups is None:
+        group_names = set(
+            user.groups.filter(name__in=(ADMIN_GROUP_NAME, AUDITOR_GROUP_NAME))
+            .values_list("name", flat=True)
+        )
+    else:
+        group_names = {group.name for group in prefetched_groups}
+
+    if ADMIN_GROUP_NAME in group_names:
+        return "admin"
+    if AUDITOR_GROUP_NAME in group_names:
         return "auditor"
     return "user"
 
