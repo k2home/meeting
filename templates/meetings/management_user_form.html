@@ -21,7 +21,6 @@
   <section class="card">
     <h2>Kontodaten</h2>
     <p class="muted">Persönliche Angaben und Anmeldename des Benutzerkontos.</p>
-    {% for field_name in "username,first_name,last_name,email"|cut:" "|make_list %}{% endfor %}
     <div class="form-grid">
       {% for field in form %}
         {% if field.name == "username" or field.name == "first_name" or field.name == "last_name" or field.name == "email" %}
