@@ -43,8 +43,8 @@ class NewTopicForm(forms.ModelForm):
 def topic_new(request):
     writable_series = accessible_series(request.user)
     writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
-        if not writable_series.exists():
-            return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
+    if not writable_series.exists():
+        return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
     form = NewTopicForm(request.POST or None)
     form.fields["series"].queryset = writable_series.filter(active=True)
     form.fields["series"].required = True
@@ -89,7 +89,7 @@ def topic_archive_toggle(request, pk):
         return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     if topic.series_id is None or not is_moderator(request.user, topic.series):
-        return HttpResponseForbidden("Nur Moderator*innen und Admins der Besprechungsreihe dürfen Themen archivieren oder wieder öffnen.")
+        return HttpResponseForbidden("Nur Moderator*innen der Besprechungsreihe dürfen Themen archivieren oder wieder öffnen.")
     with transaction.atomic():
         topic = Topic.objects.select_for_update().get(pk=topic.pk)
         if topic.status == "archived":
