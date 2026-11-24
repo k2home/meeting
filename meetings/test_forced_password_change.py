@@ -114,6 +114,20 @@ class ForcedPasswordChangeTests(TestCase):
         self.assertFalse(attempted.is_active)
         self.assertTrue(unrelated.is_active)
 
+    def test_expired_setup_window_deactivates_user_with_active_session(self):
+        account = User.objects.create_user(username="active-expired-user", password="Neu")
+        UserProfile.objects.create(
+            user=account, must_change_password=True,
+            password_setup_expires_at=timezone.now() - timedelta(seconds=1),
+        )
+        self.client.force_login(account)
+
+        response = self.client.get(reverse("dashboard"))
+
+        self.assertRedirects(response, reverse("login"))
+        account.refresh_from_db()
+        self.assertFalse(account.is_active)
+
     def test_admin_reactivation_resets_password_and_starts_new_24_hour_window(self):
         account = User.objects.create_user(username="reactivate-user", password="OldPassword1!", is_active=False)
         self.client.force_login(self.admin)
