@@ -32,7 +32,8 @@ class ForcedPasswordChangeTests(TestCase):
 
         self.client.logout()
         login_response = self.client.post(reverse("login"), {"username": account.username})
-        self.assertRedirects(login_response, reverse("dashboard"))
+        self.assertEqual(login_response.status_code, 302)
+        self.assertEqual(login_response.url, reverse("dashboard"))
         forced_response = self.client.get(reverse("dashboard"))
         self.assertRedirects(forced_response, reverse("forced_password_change"))
         change_response = self.client.post(reverse("forced_password_change"), {
