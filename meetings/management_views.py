@@ -114,6 +114,8 @@ class ManagedUserEditForm(forms.ModelForm):
         self.fields["last_login"] = forms.CharField(label="Letzte Anmeldung", required=False, disabled=True, initial=self.instance.last_login.strftime("%d.%m.%Y, %H:%M") if self.instance.last_login else "Noch nie")
         self.fields["date_joined"] = forms.CharField(label="Erstellt am", required=False, disabled=True, initial=self.instance.date_joined.strftime("%d.%m.%Y, %H:%M") if self.instance.date_joined else "–")
         self.fields["role"].initial = get_user_role(self.instance) if self.instance.pk else "user"
+        if self.instance.is_superuser:
+            self.fields["role"].disabled = True
 
     def save(self, commit=True):
         user = super().save(commit=commit)
@@ -923,9 +925,9 @@ def management_user_csv_sample(request):
         "# series: Name einer bereits vorhandenen Besprechungsreihe; optional, Schreibweise muss exakt uebereinstimmen.\r\n"
         "# series_role: Rolle fuer die angegebene Reihe; erlaubt: participant, teilnehmer*in, moderator, moderator*in, reader, leser*in.\r\n"
         "# series_role bleibt leer, wenn keine series angegeben ist. Bei mehreren Reihen je Benutzer eine Zeile verwenden; Nutzerdaten identisch halten.\r\n"
-        "# is_administrator: Optionale globale Administratorrolle; erlaubt dieselben Ja/Nein-Werte wie is_active. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
+        "# user_role: Globale Rolle; erlaubt: user, admin, auditor. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
         "# Neue Benutzer erhalten ein zufaelliges Startpasswort; anschliessend ist die Passwort-zuruecksetzen-Funktion zu verwenden.\r\n"
-        "username;first_name;last_name;email;short_description;is_active;series;series_role;is_administrator\r\n"
-        "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;;;false\r\n"
+        "username;first_name;last_name;email;short_description;is_active;user_role;series;series_role\r\n"
+        "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;user;;;\r\n"
     )
     return response
