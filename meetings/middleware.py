@@ -39,6 +39,8 @@ class EnforcePasswordChangeMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        from .password_setup import expire_overdue_password_setups
+        expire_overdue_password_setups()
         user = getattr(request, "user", None)
         if user is not None and user.is_authenticated:
             from .password_setup import expire_password_setup_if_due
