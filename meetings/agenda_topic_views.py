@@ -41,7 +41,9 @@ class NewTopicForm(forms.ModelForm):
 @login_required
 def topic_new(request):
     writable_series = accessible_series(request.user)
-    if not is_admin(request.user):
+    if is_auditor(request.user):
+        writable_series = MeetingSeries.objects.none()
+    elif not is_admin(request.user):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
         if not writable_series.exists():
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
