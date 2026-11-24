@@ -19,7 +19,7 @@ from .models import (
     TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile, OrganizationSettings,
 )
 from .user_display import user_display_name, user_display_name_with_login
-from .user_roles import sync_admin_access
+from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 
@@ -331,10 +331,7 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
     short_description = forms.CharField(
         label="Kurzbeschreibung", required=False, max_length=80,
     )
-    is_administrator = forms.BooleanField(
-        label="Administrator", required=False,
-        help_text="Gewährt globale Administratorrechte für alle Besprechungsreihen.",
-    )
+    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES)
 
     class Meta(DjangoUserChangeForm.Meta):
         model = User
@@ -348,10 +345,9 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
                 profile.short_description if profile else ""
             )
         self.fields["is_superuser"].label = "Django-Superuser"
-        self.fields["is_administrator"].initial = (
-            self.instance.groups.filter(name="Admin").exists()
-            if self.instance and self.instance.pk else False
-        )
+        self.fields["role"].initial = get_user_role(self.instance) if self.instance and self.instance.pk else "user"
+        if self.instance and self.instance.is_superuser:
+            self.fields["role"].disabled = True
         self.fields.pop("groups", None)
         self.fields.pop("user_permissions", None)
 
@@ -387,7 +383,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
             "fields": ("username", "first_name", "last_name", "email", "short_description"),
         }),
         ("Berechtigungen", {
-            "fields": ("is_active", "is_administrator", "is_superuser"),
+            "fields": ("is_active", "role", "is_superuser"),
         }),
         ("Wichtige Daten", {
             "fields": ("last_login", "date_joined"),
@@ -407,7 +403,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
             user=user,
             defaults={"short_description": form.cleaned_data.get("short_description", "")},
         )
-        sync_admin_access(user, form.cleaned_data.get("is_administrator", False))
+        sync_user_role(user, form.cleaned_data["role"])
 
 
 admin.site.unregister(User)
