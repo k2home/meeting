@@ -1,4 +1,6 @@
 from datetime import date, datetime, timedelta
+import csv
+import io
 from functools import wraps
 from io import BytesIO
 import logging
@@ -147,7 +149,7 @@ def dashboard(request):
             meeting_groups.append({"series": meeting.series, "meetings": []})
         meeting_groups[-1]["meetings"].append(meeting)
 
-    topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
+    topics = accessible_topics(request.user).exclude(status="archived").select_related("series", "assigned_to")
     query = request.GET.get("q", "").strip()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "active")
     selected_series = request.GET.get("series", "")
@@ -226,6 +228,30 @@ def dashboard(request):
         )
         .count()
     )
+    if request.GET.get("export") == "csv":
+        output = io.StringIO(newline="")
+        writer = csv.writer(output, delimiter=";", lineterminator="\\r\\n")
+        writer.writerow([
+            "Thema", "Besprechungsreihe", "Themenstatus",
+            "Hauptverantwortlich", "Nächste Besprechung", "Status des letzten Tagesordnungspunkts",
+        ])
+        for topic in topics:
+            values = [
+                topic.title,
+                topic.series.name if topic.series else "",
+                topic.get_status_display(),
+                (topic.assigned_to.get_full_name() or topic.assigned_to.username) if topic.assigned_to else "",
+                topic.next_meeting_date.isoformat() if topic.next_meeting_date else "",
+                dict(AgendaItem.STATUS).get(topic.latest_agenda_status, topic.latest_agenda_status or ""),
+            ]
+            writer.writerow([
+                "'" + str(value) if str(value).startswith(("=", "+", "-", "@", "\\t", "\\r")) else value
+                for value in values
+            ])
+        response = HttpResponse("\\ufeff" + output.getvalue(), content_type="text/csv; charset=utf-8")
+        response["Content-Disposition"] = 'attachment; filename="dashboard-themen.csv"'
+        return response
+
     return render(request, "meetings/dashboard.html", {
         "meetings": meetings, "meeting_groups": meeting_groups, "topics": topics, "overdue_count": overdue_count, "today": today,
         "query": query, "selected_status": selected_status, "selected_series": selected_series,

@@ -28,7 +28,7 @@
 <div><label for="filter-series">Besprechungsreihe</label><select id="filter-series" name="series"><option value="">Alle Reihen</option>{% for item in series_options %}<option value="{{ item.pk }}" {% if selected_series == item.pk|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></div>
 <div><label for="filter-assignee">Verantwortlich</label><select id="filter-assignee" name="assigned_to"><option value="">Alle Personen</option><option value="{{ request.user.pk }}" {% if selected_assignee == request.user.pk|stringformat:"s" %}selected{% endif %}>{{ own_assignee_label }}</option><option value="unassigned" {% if selected_assignee == "unassigned" %}selected{% endif %}>Ohne Zuständigkeit</option>{% for person in assignee_options %}<option value="{{ person.pk }}" {% if selected_assignee == person.pk|stringformat:"s" %}selected{% endif %}>{{ person|user_display }}</option>{% endfor %}</select></div>
 </div>
-<div class="actions"><button type="submit" class="secondary">Suchen / filtern</button><a class="btn secondary" href="{% url 'dashboard' %}">Zurücksetzen</a></div>
+<div class="actions"><button type="submit" class="secondary">Suchen / filtern</button><button type="submit" class="secondary" name="export" value="csv">Gefilterte Ergebnisse als CSV</button><a class="btn secondary" href="{% url 'dashboard' %}">Zurücksetzen</a></div>
 </form>
 {% if topics %}<div style="overflow-x:auto"><table id="dashboard-topics-table"><thead><tr>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="0" data-sort-type="text">Thema <span aria-hidden="true">↕</span></button></th>
