@@ -7,6 +7,7 @@ from django import forms
 from django.contrib import admin, messages
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.db.models import Prefetch
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -66,10 +67,21 @@ def export_users_csv(request):
     writer.writerow(headers)
 
     users = User.objects.select_related("meeting_profile").prefetch_related(
-        "groups", "meeting_series_access__series"
+        "groups",
+        Prefetch(
+            "meeting_series_access",
+            queryset=SeriesAccess.objects.select_related("series").order_by("series__name"),
+        ),
     ).order_by("username")
     for user in users:
-        assignments = list(user.meeting_series_access.select_related("series").order_by("series__name"))
+        assignments = list(user.meeting_series_access.all())
+        group_names = {group.name for group in user.groups.all()}
+        if user.is_superuser or "Admin" in group_names:
+            user_role = "admin"
+        elif "Auditor" in group_names:
+            user_role = "auditor"
+        else:
+            user_role = "user"
         rows = assignments or [None]
         for assignment in rows:
             values = {
@@ -79,7 +91,7 @@ def export_users_csv(request):
                 "email": user.email,
                 "short_description": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
                 "is_active": "true" if user.is_active else "false",
-                "user_role": get_user_role(user),
+                "user_role": user_role,
                 "series": assignment.series.name if assignment else "",
                 "series_role": assignment.role if assignment else "",
                 "date_joined": user.date_joined.isoformat() if user.date_joined else "",

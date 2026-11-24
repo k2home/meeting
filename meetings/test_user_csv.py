@@ -41,6 +41,26 @@ class UserCsvAdminTests(TestCase):
         self.assertNotIn("date_joined", member_rows[0])
         self.assertNotIn("last_login", member_rows[0])
 
+    def test_export_query_count_is_constant_for_many_users_and_series(self):
+        from django.test import RequestFactory
+        from .user_csv import export_users_csv
+
+        first = MeetingSeries.objects.create(name="Vorstand")
+        second = MeetingSeries.objects.create(name="Arbeitskreis")
+        for index in range(6):
+            user = User.objects.create_user(
+                username=f"query-user-{index}",
+                password="test-password",
+            )
+            SeriesAccess.objects.create(user=user, series=first, role=SeriesAccess.ROLE_MODERATOR)
+            SeriesAccess.objects.create(user=user, series=second, role=SeriesAccess.ROLE_READER)
+
+        with self.assertNumQueries(3):
+            response = export_users_csv(RequestFactory().get("/"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content.count(b"query-user-"), 6)
+
     def test_import_preview_then_confirm_creates_user_and_multiple_series_roles(self):
         first = MeetingSeries.objects.create(name="Vorstand")
         second = MeetingSeries.objects.create(name="Arbeitskreis IT")
