@@ -60,5 +60,5 @@ class AuditHistoryPaginationTests(TestCase):
         ])
         response = self.client.get(reverse("audit_history"), {"page": 6})
         self.assertEqual(response.status_code, 200)
-        self.assertIn("…", list(response.context["page_range"]))
+        self.assertContains(response, "…")
         self.assertContains(response, 'aria-current="page"')
