@@ -1,5 +1,3 @@
-# Meeting Manager – Funktions- und Sicherheitsbeschreibung
-
 **Adressaten:** IT-Abteilung, Informationssicherheit und Datenschutzbeauftragte  
 **Prüfstand:** Branch `main`, Commit `8000875ec761e15358de1a5a3a1c45bef62de565`  
 **Stand:** 24. November 2026  
