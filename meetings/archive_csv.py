@@ -11,7 +11,7 @@ from .models import AgendaItem
 
 def _safe_csv_value(value):
     value = "" if value is None else str(value)
-    if value.startswith(("=", "+", "-", "@", "\t", "\r")):
+    if value.lstrip(" \t\r\n").startswith(("=", "+", "-", "@")):
         return "'" + value
     return value
 
