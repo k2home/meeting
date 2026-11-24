@@ -199,6 +199,10 @@ Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Theme
 
 Die Anwendung unterscheidet drei globale Benutzerrollen und drei Serienrollen. **Nutzer**, **Admin** und **Auditor** werden global vergeben. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden unabhängig davon jeweils pro Besprechungsreihe zugewiesen. Django-Superuser haben immer globale Adminrechte. Die folgende Berechtigungsmatrix beschreibt die Serienrollen sowie Admin; Auditoren erhalten zusätzlich einen globalen Lesezugriff auf alle Reihen und den vollständigen Änderungsverlauf, jedoch keine Schreib- oder Verwaltungsrechte.
 
+- **Nutzer:** Die fachlichen Zugriffe ergeben sich ausschließlich aus den individuellen Serienberechtigungen.
+- **Admin:** Globale Verwaltungsrechte und Zugriff auf alle Besprechungsreihen.
+- **Auditor:** Globaler Lesezugriff auf alle Besprechungsdaten und Änderungsverläufe; keine fachlichen Schreibrechte und keine Benutzer- oder Systemverwaltung.
+
 ### Berechtigungsmatrix nach Funktionsbereichen
 
 Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“ bedeutet: nur innerhalb der Besprechungsreihen, denen das Konto zugeordnet ist. Moderatorrechte gelten ebenfalls nur in Reihen mit Moderatorzuweisung.
