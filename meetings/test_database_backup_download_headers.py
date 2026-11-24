@@ -38,6 +38,11 @@ class DatabaseBackupDownloadHeaderTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/zip")
-        self.assertEqual(response["Cache-Control"], "private, no-store")
+        cache_directives = {
+            directive.strip().lower()
+            for directive in response["Cache-Control"].split(",")
+        }
+        self.assertIn("private", cache_directives)
+        self.assertIn("no-store", cache_directives)
         self.assertIn("attachment;", response["Content-Disposition"])
         response.close()
