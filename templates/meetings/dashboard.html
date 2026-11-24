@@ -50,22 +50,7 @@
 </tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
 </section>
 
-  {% if not is_reader %}{% if t.series_id or is_admin_user %}
-    <form method="post" enctype="multipart/form-data" class="dashboard-attachment-upload" action="{% url 'attachment_add' t.pk %}">
-      {% csrf_token %}
-      <input type="hidden" name="next" value="{{ request.get_full_path }}">
-      <h3>Anlage hinzufügen</h3>
-      <label for="dashboard-attachment-label-{{ t.pk }}">Bezeichnung</label>
-      <input id="dashboard-attachment-label-{{ t.pk }}" name="label" maxlength="180" required>
-      <label for="dashboard-attachment-file-{{ t.pk }}">Datei hochladen</label>
-      <input id="dashboard-attachment-file-{{ t.pk }}" name="uploaded_file" type="file">
-      <label for="dashboard-attachment-path-{{ t.pk }}">Netzwerkpfad oder Link (alternativ zur Datei)</label>
-      <input id="dashboard-attachment-path-{{ t.pk }}" name="network_path" maxlength="1000">
-      <div class="actions"><button type="submit">Anlage hinzufügen</button></div>
-    </form>
-  {% endif %}{% endif %}
-</dialog>
-{% endfor %}
+
 {% if not is_reader %}
 <dialog id="dashboard-new-topic-dialog" class="dashboard-topic-dialog" aria-labelledby="dashboard-new-topic-title">
   <div class="topline"><h2 id="dashboard-new-topic-title">Neuen Tagesordnungspunkt anlegen</h2><button type="button" class="secondary" id="close-dashboard-new-topic">Schließen</button></div>
