@@ -9,7 +9,6 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.utils.crypto import get_random_string
 
 from .models import AuditEvent, MeetingSeries, SeriesAccess, UserProfile
 from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
@@ -298,13 +297,18 @@ def import_users_csv(request):
                     if field != "user_role":
                         setattr(user, field, value)
                 user.save()
-                if was_created or "short_description" in record["values"]:
+                if was_created:
                     UserProfile.objects.update_or_create(
                         user=user,
                         defaults={
                             "short_description": record["values"].get("short_description", ""),
-                            "must_change_password": was_created,
+                            "must_change_password": True,
                         },
+                    )
+                elif "short_description" in record["values"]:
+                    UserProfile.objects.update_or_create(
+                        user=user,
+                        defaults={"short_description": record["values"]["short_description"]},
                     )
                 if "user_role" in record["values"]:
                     sync_user_role(user, record["values"]["user_role"])
