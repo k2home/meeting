@@ -1718,9 +1718,13 @@ def series_admin(request):
             access_request.save(update_fields=["status", "decision_note", "decided_by", "decided_at"])
         messages.success(request, "Der Berechtigungsantrag wurde bearbeitet.")
         return redirect("series_admin")
-    series_queryset = accessible_series(request.user)
-    if not is_admin(request.user):
-        series_queryset = series_queryset.filter(user_access__role=SeriesAccess.ROLE_MODERATOR)
+    # Die Serienübersicht zeigt ausschließlich Reihen, in denen der angemeldete
+    # Benutzer tatsächlich Moderator ist. Admins dürfen Reihen anlegen, erhalten
+    # dadurch aber keine pauschalen Serienrechte.
+    series_queryset = accessible_series(request.user).filter(
+        user_access__user=request.user,
+        user_access__role=SeriesAccess.ROLE_MODERATOR,
+    )
     series = series_queryset.prefetch_related(
         Prefetch(
             "meetings",
