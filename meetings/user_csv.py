@@ -271,7 +271,6 @@ def import_users_csv(request):
             messages.error(request, "Die CSV-Datei ist nicht mehr gültig. Bitte erneut hochladen.")
             return redirect("management_user_csv_import") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_csv_import")
         created = updated = 0
-        initial_passwords = []
         with transaction.atomic():
             for username, record in grouped:
                 user = resolved_users.get(username)
@@ -288,9 +287,7 @@ def import_users_csv(request):
                 } if user else {})
                 if was_created:
                     user = User(username=username)
-                    initial_password = get_random_string(24)
-                    user.set_password(initial_password)
-                    initial_passwords.append({"username": username, "password": initial_password})
+                    user.set_unusable_password()
                     created += 1
                 else:
                     updated += 1
@@ -339,8 +336,6 @@ def import_users_csv(request):
                         changes=changes,
                     )
         request.session.pop(SESSION_IMPORT_KEY, None)
-        if initial_passwords:
-            request.session["new_user_initial_passwords"] = initial_passwords
         messages.success(
             request,
             f"CSV-Import abgeschlossen: {created} Benutzer neu angelegt, {updated} Benutzer aktualisiert.",
