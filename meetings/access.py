@@ -29,6 +29,8 @@ def is_moderator(user, series=None):
         return False
     if is_admin(user):
         return True
+    if is_auditor(user):
+        return False
     assignments = SeriesAccess.objects.filter(user=user, role=SeriesAccess.ROLE_MODERATOR)
     return assignments.filter(series=series).exists() if series is not None else assignments.exists()
 
