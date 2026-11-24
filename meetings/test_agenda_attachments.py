@@ -52,6 +52,19 @@ class AgendaItemAttachmentTests(TestCase):
         self.assertTrue(attachment.uploaded_file.storage.exists(attachment.uploaded_file.name))
         self.assertIn(f"?attachments={self.item.pk}#agenda-item-{self.item.pk}", response["Location"])
 
+    def test_agenda_attachment_upload_rejects_disallowed_file_extension(self):
+        response = self.client.post(
+            reverse("agenda_attachment_add", args=[self.meeting.pk, self.item.pk]),
+            {
+                "label": "Ausführbare Datei",
+                "uploaded_file": SimpleUploadedFile("programm.exe", b"not-an-executable"),
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(TopicAttachment.objects.filter(topic=self.topic).exists())
+        self.assertContains(response, "Datei-Upload")
+
     def test_agenda_attachment_upload_rejects_reader(self):
         reader = User.objects.create_user(
             username="agenda-attachment-reader", password="strong-test-password"
