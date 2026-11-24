@@ -2317,7 +2317,7 @@ def audit_history(request):
 
     if admin_access:
         events = AuditEvent.objects.filter(
-            series__isnull=True, meeting__isnull=True, topic__isnull=True
+            scope=AuditEvent.SCOPE_SYSTEM
         ).select_related("actor")
         topic_id = ""
         selected_series = ""
