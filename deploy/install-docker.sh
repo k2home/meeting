@@ -81,7 +81,44 @@ else
   echo "Vorhandene .env wird unverändert beibehalten."
 fi
 
-SITE_HOST="$(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | cut -d, -f1 | tr -d '\\r')"
+SITE_HOST="$(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | tr ',' '\n' | grep -Ev '^(localhost|127\\.0\\.0\\.1|\\*)
+if [[ -z "$SITE_HOST" || ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
+  echo "ALLOWED_HOSTS in .env muss einen gültigen öffentlichen Hostnamen enthalten." >&2
+  exit 1
+fi
+
+# Expose the web container only on loopback for a same-host TLS reverse proxy.
+set_env_value "CSRF_TRUSTED_ORIGINS" "https://$SITE_HOST"
+set_env_value "WEB_BIND_ADDRESS" "127.0.0.1"
+set_env_value "SECURE_SSL_REDIRECT" "1"
+set_env_value "SESSION_COOKIE_SECURE" "1"
+set_env_value "CSRF_COOKIE_SECURE" "1"
+set_env_value "TRUST_PROXY_SSL" "1"
+set_env_value "USE_X_FORWARDED_HOST" "1"
+
+echo "==> Prüfe Compose-Konfiguration"
+docker compose -f "$COMPOSE_FILE" config --quiet
+
+echo "==> Installiere den eingeschränkten Docker-Updater"
+bash "$APP_DIR/deploy/install-docker-updater.sh"
+
+echo "==> Lade Images und starte Meeting Manager"
+docker compose -f "$COMPOSE_FILE" pull
+docker compose -f "$COMPOSE_FILE" up -d
+
+echo
+echo "Installation abgeschlossen."
+WEB_PORT="$(sed -n 's/^WEB_PORT=//p' "$APP_DIR/.env" | tail -n 1 | tr -d '\r')"
+WEB_PORT="${WEB_PORT:-8080}"
+echo "Interne Anwendung: http://127.0.0.1:$WEB_PORT (nur lokaler HTTPS-Reverse-Proxy)"
+echo "Öffentliche Adresse: https://$SITE_HOST/"
+echo "Reverse-Proxy-Upstream: http://127.0.0.1:$WEB_PORT; X-Forwarded-Proto muss auf https gesetzt werden."
+echo "Status:     docker compose -f $COMPOSE_FILE ps"
+echo "Logs:       docker compose -f $COMPOSE_FILE logs -f app"
+echo "Secrets:    $APP_DIR/.env (nur root lesbar)"
+echo "HTTPS ist erzwungen: Ohne vorgeschalteten TLS-Reverse-Proxy mit gültigem Zertifikat ist die Anwendung nicht nutzbar."
+ | head -n 1 || true)"
+SITE_HOST="$(printf '%s' "$SITE_HOST" | tr -d '\r')"
 if [[ -z "$SITE_HOST" || ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
   echo "ALLOWED_HOSTS in .env muss einen gültigen öffentlichen Hostnamen enthalten." >&2
   exit 1
