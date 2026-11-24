@@ -197,7 +197,7 @@ Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Theme
 
 ## Rollen und Berechtigungen
 
-Die Anwendung unterscheidet vier Rollen. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden jeweils pro Besprechungsreihe zugewiesen. Die Rolle **Admin** gilt global. Django-Superuser haben ebenfalls globalen Zugriff.
+Die Anwendung unterscheidet drei globale Benutzerrollen und drei Serienrollen. **Nutzer**, **Admin** und **Auditor** werden global vergeben. **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden unabhängig davon jeweils pro Besprechungsreihe zugewiesen. Django-Superuser haben immer globale Adminrechte. Die folgende Berechtigungsmatrix beschreibt die Serienrollen sowie Admin; Auditoren erhalten zusätzlich einen globalen Lesezugriff auf alle Reihen und den vollständigen Änderungsverlauf, jedoch keine Schreib- oder Verwaltungsrechte.
 
 ### Berechtigungsmatrix nach Funktionsbereichen
 
@@ -249,14 +249,14 @@ Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrück
 |---|:---:|:---:|:---:|:---:|
 | Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Alle Reihen |
 
-Der Änderungsverlauf ist bewusst auf Moderator*innen der jeweiligen Reihe und globale Administrator*innen beschränkt. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind nur globalen Administrator*innen zugänglich.
+Der Änderungsverlauf ist für Moderator*innen der jeweiligen Reihe sowie global für Admins und Auditoren sichtbar. Auditoren können alle Einträge ausschließlich lesen und exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins und Auditoren zugänglich.
 
 #### 5. Benutzer- und Systemverwaltung
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
 | Benutzerkonten anlegen und bearbeiten | Nein | Nein | Nein | Ja |
-| Globale Admin-Rolle vergeben oder entziehen | Nein | Nein | Nein | Ja |
+| Globale Benutzerrolle vergeben oder entziehen | Nein | Nein | Nein | Ja |
 | Serienzuweisungen und Rollen anderer Benutzer verwalten | Nein | Nein | Nein | Ja |
 | Benutzer-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
 | Themen- und Tagesordnungspunkt-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
@@ -309,7 +309,7 @@ Die integrierte Verwaltungsoberfläche ist über **Verwaltung** in der Seitenlei
 
 ### Nutzerverwaltung
 
-Unter **Verwaltung → Nutzerverwaltung** können Benutzerkonten angelegt und bearbeitet werden. Die Übersicht zeigt Aktivstatus, Administratorrolle, letzte Anmeldung und Erstellungsdatum. Im Nutzerprofil stehen unter anderem folgende Funktionen bereit:
+Unter **Verwaltung → Nutzerverwaltung** können Benutzerkonten angelegt und bearbeitet werden. Die Übersicht zeigt Aktivstatus, globale Benutzerrolle, letzte Anmeldung und Erstellungsdatum. Im Nutzerprofil stehen unter anderem folgende Funktionen bereit:
 
 - Persönliche Angaben und Aktivstatus bearbeiten.
 - Globale Administratorrechte vergeben oder entziehen.
