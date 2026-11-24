@@ -49,7 +49,11 @@ class EnforcePasswordChangeMiddleware:
                 logout(request)
                 return redirect("login")
             if request.path_info not in self.ALLOWED_PATHS:
-                profile = getattr(user, "meeting_profile", None)
+                from .models import UserProfile
+                try:
+                    profile = user.meeting_profile
+                except UserProfile.DoesNotExist:
+                    profile = None
                 if (profile is not None and profile.must_change_password) or not user.has_usable_password():
                     return redirect("/konto/passwort-aendern/")
         return self.get_response(request)
