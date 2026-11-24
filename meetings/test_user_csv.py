@@ -68,6 +68,9 @@ class UserCsvAdminTests(TestCase):
         self.assertEqual(response.status_code, 302)
         user = User.objects.get(username="ada")
         self.assertTrue(user.has_usable_password())
+        self.assertTrue(user.check_password("Neu"))
+        self.assertTrue(user.meeting_profile.must_change_password)
+        self.assertIsNotNone(user.meeting_profile.password_setup_expires_at)
         self.assertEqual(user.email, "ada@example.com")
         self.assertEqual(user.meeting_profile.short_description, "01/22")
         assignments = {
