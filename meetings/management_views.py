@@ -1051,35 +1051,17 @@ def management_user_password_reset(request, pk):
     _require_admin(request)
     user = get_object_or_404(User, pk=pk)
     if request.method == "POST":
-        from django.contrib.auth.tokens import default_token_generator
-        from django.utils.http import urlsafe_base64_encode
-        from django.utils.encoding import force_bytes
-        from django.urls import reverse
-        from django.contrib.sites.shortcuts import get_current_site
-        from django.core.mail import send_mail
-        from django.template.loader import render_to_string
-        from django.utils.html import strip_tags
-        from django.contrib.auth.forms import PasswordResetForm
-        form = PasswordResetForm({"email": user.email})
-        if not user.email or not form.is_valid():
-            messages.error(request, "Für diesen Nutzer ist keine gültige E-Mail-Adresse hinterlegt.")
-        else:
-            form.save(
-                request=request,
-                use_https=request.is_secure(),
-                email_template_name="registration/password_reset_email.html",
-                subject_template_name="registration/password_reset_subject.txt",
-                domain_override=get_current_site(request).domain,
-            )
-            _record_system_change(
-                actor=request.user, action="updated",
-                summary=f"Passwort-Zurücksetzen für „{user_display_name_with_login(user)}“ angefordert",
-                changes={"Passwort-Zurücksetzen": {"nachher": "E-Mail angefordert"}},
-            )
-            messages.success(request, "Die Passwort-Zurücksetzen-Mail wurde angefordert.")
+        profile, _ = UserProfile.objects.get_or_create(user=user)
+        profile.must_change_password = True
+        profile.save(update_fields=["must_change_password"])
+        _record_system_change(
+            actor=request.user, action="updated",
+            summary=f"Passwortwechsel für „{user_display_name_with_login(user)}“ erzwungen",
+            changes={"Passwortstatus": {"nachher": "Passwortwechsel bei der nächsten Anmeldung erforderlich"}},
+        )
+        messages.success(request, "Der Nutzer muss bei seiner nächsten Anmeldung ein neues Passwort festlegen. Es wurde keine E-Mail versendet.")
         return redirect("management_user_edit", pk=user.pk)
     return render(request, "meetings/management_password_reset.html", {"account": user})
-
 
 @login_required
 def management_user_series(request, pk):
