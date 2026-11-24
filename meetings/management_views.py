@@ -410,7 +410,6 @@ def auditor_overview(request):
         return redirect("dashboard")
     return render(request, "meetings/auditor_overview.html", {
         "organization_settings": OrganizationSettings.objects.filter(pk=1).first(),
-        "enaio_settings": EnaioSettings.objects.filter(pk=1).first(),
     })
 
 
@@ -425,13 +424,47 @@ def auditor_organization_settings(request):
 
 
 @login_required
-def auditor_enaio_settings(request):
-    if not request.user.groups.filter(name="Auditor").exists() or is_admin(request.user):
-        return redirect("management_enaio_settings")
-    if request.method != "GET":
-        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
-    instance = EnaioSettings.objects.filter(pk=1).first()
-    return render(request, "meetings/auditor_enaio_settings.html", {"settings": instance})
+def auditor_users(request):
+    if not is_auditor(request.user):
+        return redirect("management_users")
+    users = User.objects.all().order_by("last_name", "first_name", "username")
+    return render(request, "meetings/auditor_users.html", {
+        "users": [{
+            "account": user,
+            "role_label": dict(USER_ROLE_CHOICES)[get_user_role(user)],
+        } for user in users],
+    })
+
+
+@login_required
+def auditor_groups(request):
+    if not is_auditor(request.user):
+        return redirect("management_groups")
+    access_qs = SeriesAccess.objects.select_related("series", "user").all()
+    query = request.GET.get("q", "").strip()
+    role_filter = request.GET.get("role", "")
+    if query:
+        from django.db.models import Q
+        access_qs = access_qs.filter(
+            Q(user__username__icontains=query) |
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query) |
+            Q(series__name__icontains=query)
+        )
+    if role_filter in dict(SeriesAccess.ROLE_CHOICES):
+        access_qs = access_qs.filter(role=role_filter)
+    access_ids = set(access_qs.values_list("pk", flat=True))
+    series_rows = [{
+        "series": series,
+        "members": [access for access in series.user_access.select_related("user").all() if access.pk in access_ids],
+    } for series in MeetingSeries.objects.order_by("name")]
+    series_rows = [row for row in series_rows if row["members"] or not (query or role_filter)]
+    return render(request, "meetings/auditor_groups.html", {
+        "series_rows": series_rows,
+        "search": query,
+        "role_filter": role_filter,
+        "role_choices": SeriesAccess.ROLE_CHOICES,
+    })
 
 
 @login_required
