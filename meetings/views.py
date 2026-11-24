@@ -129,7 +129,7 @@ def reader_readonly(view):
         if request.method == "POST":
             series = _series_for_view(view, kwargs)
             archived_access = False
-            if series is None and not is_admin(request.user):
+            if series is None:
                 if view.__name__ in {"agenda_reorder", "agenda_item_delete", "meeting_detail", "finalize"}:
                     archived_access = ArchivedMeetingAccess.objects.filter(
                         meeting_id=kwargs.get("pk"), user=request.user
@@ -251,8 +251,7 @@ def dashboard(request):
 
     topics = topics.distinct()
     overdue_topics = accessible_topics(request.user)
-    if not is_admin(request.user):
-        overdue_topics = overdue_topics.filter(
+    overdue_topics = overdue_topics.filter(
             series__user_access__user=request.user,
             series__user_access__role__in=[
                 SeriesAccess.ROLE_PARTICIPANT,
@@ -280,9 +279,8 @@ def dashboard(request):
             UserModel.objects.filter(is_active=True).exclude(pk=request.user.pk),
             key=lambda person: user_display_name(person).casefold(),
         ),
-        "new_topic_series": (
-            accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
-            if not is_admin(request.user) else accessible_series(request.user)
+        "new_topic_series": accessible_series(request.user).exclude(
+            user_access__role=SeriesAccess.ROLE_READER
         ).filter(active=True).distinct().order_by("name"),
         "new_topic_meetings": accessible_meetings(request.user).filter(
             series__in=accessible_series(request.user).filter(active=True),
@@ -316,16 +314,14 @@ def meetings_overview(request):
         SeriesAccess.ROLE_READER: "Leser",
         SeriesAccess.ROLE_MODERATOR: "Moderator",
     }
-    role_by_series = {}
-    if not is_admin(request.user):
-        role_by_series = {
-            access.series_id: role_labels.get(access.role, access.role)
-            for access in SeriesAccess.objects.filter(user=request.user, series__in=series)
-        }
+    role_by_series = {
+        access.series_id: role_labels.get(access.role, access.role)
+        for access in SeriesAccess.objects.filter(user=request.user, series__in=series)
+    }
 
     events = []
     for meeting in meetings:
-        role = "Administrator" if is_admin(request.user) else role_by_series.get(meeting.series_id, "")
+        role = role_by_series.get(meeting.series_id, "")
         events.append({
             "id": meeting.pk,
             "date": meeting.date.isoformat(),
@@ -348,7 +344,7 @@ def meetings_overview(request):
         series_rows.append({
             "series": item,
             "meeting": meeting,
-            "role": "Administrator" if is_admin(request.user) else role_by_series.get(item.pk, ""),
+            "role": role_by_series.get(item.pk, ""),
             "open_agenda_count": meeting.open_agenda_count if meeting else 0,
         })
 
@@ -652,7 +648,7 @@ def agenda_item_delete(request, pk, item_pk):
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     archived_readonly = (
-        is_auditor(request.user) or (meeting.series_id is None and not is_admin(request.user)
+        is_auditor(request.user) or (meeting.series_id is None
         and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists())
     )
     if not meeting.participants_initialized and not meeting.finalized_at and not archived_readonly:
@@ -672,7 +668,7 @@ def meeting_detail(request, pk):
     writable_series = accessible_series(request.user)
     if is_auditor(request.user):
         writable_series = MeetingSeries.objects.none()
-    elif not is_admin(request.user):
+    else:
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
     writable_series = writable_series.filter(active=True).order_by("name")
     target_meetings = accessible_meetings(request.user).filter(
@@ -706,9 +702,7 @@ def meeting_detail(request, pk):
                 return render(request, "meetings/meeting.html", {
                     "meeting": meeting, "items": items, "participant_form": participant_form,
                     "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
-                    "is_moderator": is_admin(request.user) or (
-                        meeting.series_id is not None and is_moderator(request.user, meeting.series)
-                    ),
+                    "is_moderator": meeting.series_id is not None and is_moderator(request.user, meeting.series),
                     "writable_series": writable_series, "target_meetings": target_meetings,
                 })
         elif request.POST.get("shift_item"):
@@ -993,9 +987,7 @@ def meeting_detail(request, pk):
     return render(request, "meetings/meeting.html", {
         "meeting": meeting, "items": items, "participant_form": participant_form,
         "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
-        "is_moderator": is_admin(request.user) or (
-            meeting.series_id is not None and is_moderator(request.user, meeting.series)
-        ),
+        "is_moderator": meeting.series_id is not None and is_moderator(request.user, meeting.series),
         "writable_series": writable_series, "target_meetings": target_meetings,
     })
 
@@ -1112,8 +1104,7 @@ def topic_transfer(request, pk):
         return HttpResponseForbidden()
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     transfer_targets = accessible_series(request.user)
-    if not is_admin(request.user):
-        transfer_targets = transfer_targets.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    transfer_targets = transfer_targets.exclude(user_access__role=SeriesAccess.ROLE_READER)
     target = get_object_or_404(transfer_targets, pk=request.POST.get("series"), active=True)
     if topic.series_id == target.pk:
         messages.info(request, "Das Thema ist bereits dieser Besprechungsreihe zugeordnet.")
@@ -1163,7 +1154,7 @@ def archive(request):
 @transaction.atomic
 def attachment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    if topic.series_id is None and not is_admin(request.user):
+    if topic.series_id is None:
         return HttpResponseForbidden("Archivierte Themen sind schreibgeschützt.")
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
@@ -1210,7 +1201,7 @@ def agenda_attachment_add(request, meeting_pk, item_pk):
     topic = item.topic
     if (
         is_reader(request.user, topic.series)
-        or (topic.series_id is None and not is_admin(request.user))
+        or topic.series_id is None
     ):
         return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
 
@@ -1251,7 +1242,7 @@ def attachment_delete(request, pk):
     )
     topic = attachment.topic
     if (
-        (topic.series_id is None and not is_admin(request.user))
+        topic.series_id is None
         or (topic.series_id is not None and is_reader(request.user, topic.series))
     ):
         return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
@@ -1702,9 +1693,7 @@ def protocol(request, pk):
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
         "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
         "protocol_filename": _protocol_filename(meeting, "pdf"),
-        "can_reopen_meeting": is_admin(request.user) or (
-            meeting.series_id is not None and is_moderator(request.user, meeting.series)
-        ),
+        "can_reopen_meeting": meeting.series_id is not None and is_moderator(request.user, meeting.series),
     })
 
 @login_required
@@ -2584,13 +2573,11 @@ def user_overview(request):
         pending = latest_requests.get(series.pk)
         series_rows.append({
             "series": series,
-            "role_label": "Admin – globaler Zugriff" if admin_access else (
-                role_labels.get(assignment.role, assignment.role) if assignment else "Keine Berechtigung"
-            ),
+            "role_label": role_labels.get(assignment.role, assignment.role) if assignment else "Keine Berechtigung",
             "role_value": assignment.role if assignment else "",
             "pending_request": pending if pending and pending.status == SeriesAccessRequest.STATUS_PENDING else None,
             "latest_request": pending,
-            "can_request": not admin_access and not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
+            "can_request": not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
         })
 
     return render(request, "meetings/user_overview.html", {
