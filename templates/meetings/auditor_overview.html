@@ -1,10 +1,12 @@
 {% extends "meetings/base.html" %}
 {% block title %}Auditor-Übersicht{% endblock %}
 {% block content %}
-<div class="page-header"><div><h1>Auditor-Übersicht</h1><p class="muted">Lesender Zugriff auf zentrale Systemeinstellungen und administrative Änderungen.</p></div></div>
+<div class="page-header"><div><h1>Auditor-Übersicht</h1><p class="muted">Lesender Zugriff auf Nutzer, Gruppen, Organisationseinstellungen und administrative Änderungen.</p></div></div>
 <div class="management-grid">
+<a class="management-card" href="{% url 'auditor_users' %}"><span class="management-icon">👥</span><h2>Nutzer</h2><p>Benutzerkonten, Status und globale Rollen einsehen.</p><strong>Nutzerverwaltung anzeigen</strong></a>
+<a class="management-card" href="{% url 'auditor_groups' %}"><span class="management-icon">🗂️</span><h2>Gruppen</h2><p>Besprechungsreihen sowie zugeordnete Personen und Berechtigungen einsehen.</p><strong>Gruppenübersicht anzeigen</strong></a>
 <a class="management-card" href="{% url 'auditor_organization_settings' %}"><span class="management-icon">⚙️</span><h2>Organisationseinstellungen</h2><p>Name, Zeitzone, Anlagenlimit und Markenfarben der Organisation einsehen.</p><strong>{% if organization_settings %}Einstellungen anzeigen{% else %}Noch nicht konfiguriert{% endif %}</strong></a>
-<a class="management-card" href="{% url 'auditor_enaio_settings' %}"><span class="management-icon">🗄️</span><h2>enaio-Einstellungen</h2><p>Zentrale Ablagekonfiguration und ausgewählten Ordner einsehen.</p><strong>{% if enaio_settings %}Einstellungen anzeigen{% else %}Noch nicht konfiguriert{% endif %}</strong></a>
+
 <a class="management-card" href="{% url 'audit_history' %}"><span class="management-icon">📜</span><h2>Änderungsverlauf</h2><p>Administrative Systemänderungen nachvollziehen. Serienereignisse bleiben ausgeblendet.</p><strong>Änderungsverlauf öffnen</strong></a>
 </div>
 <style>
