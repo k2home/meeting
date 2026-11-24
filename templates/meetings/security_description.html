@@ -57,30 +57,32 @@
 <script>
 (() => {
   const index = document.querySelector(".security-index .toc");
-  if (!index) return;
-  const links = Array.from(index.querySelectorAll('a[href^="#"]'));
-  const entries = links.map(link => {
-    const target = document.getElementById(decodeURIComponent(link.getAttribute("href").slice(1)));
-    return target ? {link, target} : null;
+  const article = document.querySelector(".security-document .document-content");
+  if (!index || !article) return;
+
+  // Die zweite TOC-Ebene gehört jeweils zum aktiven Kapitel (h2).
+  // Deshalb wird die Kapitelgruppe anhand der h2-Überschriften geöffnet,
+  // nicht anhand der gerade sichtbaren Unterüberschrift.
+  const groups = Array.from(article.querySelectorAll("h2[id]")).map(heading => {
+    const link = Array.from(index.querySelectorAll('a[href^="#"]')).find(
+      item => decodeURIComponent(item.getAttribute("href").slice(1)) === heading.id
+    );
+    return link ? {heading, item: link.closest("li"), link} : null;
   }).filter(Boolean);
-  if (!entries.length) return;
+  if (!groups.length) return;
 
   const updateCurrentSection = () => {
     let current = null;
-    for (const entry of entries) {
-      if (entry.target.getBoundingClientRect().top <= 150) current = entry;
+    for (const group of groups) {
+      if (group.heading.getBoundingClientRect().top <= 150) current = group;
       else break;
     }
-    index.querySelectorAll("li.is-current").forEach(item => item.classList.remove("is-current"));
-    links.forEach(link => link.removeAttribute("aria-current"));
-    if (!current) return;
-    current.link.setAttribute("aria-current", "location");
-    const topLevel = current.link.closest("li");
-    let group = topLevel;
-    while (group && group.parentElement !== index.querySelector(":scope > ul")) {
-      group = group.parentElement?.closest("li") || null;
-    }
-    if (group) group.classList.add("is-current");
+    groups.forEach(group => {
+      const active = group === current;
+      group.item?.classList.toggle("is-current", active);
+      if (active) group.link.setAttribute("aria-current", "location");
+      else group.link.removeAttribute("aria-current");
+    });
   };
 
   updateCurrentSection();
