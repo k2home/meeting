@@ -400,6 +400,35 @@ def management_home(request):
     })
 
 
+def auditor_overview(request):
+    if not request.user.is_authenticated or not request.user.groups.filter(name="Auditor").exists() or is_admin(request.user):
+        return redirect("dashboard")
+    return render(request, "meetings/auditor_overview.html", {
+        "organization_settings": OrganizationSettings.objects.filter(pk=1).first(),
+        "enaio_settings": EnaioSettings.objects.filter(pk=1).first(),
+    })
+
+
+@login_required
+def auditor_organization_settings(request):
+    if not request.user.groups.filter(name="Auditor").exists() or is_admin(request.user):
+        return redirect("management_settings")
+    if request.method != "GET":
+        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
+    instance = OrganizationSettings.objects.filter(pk=1).first()
+    return render(request, "meetings/auditor_organization_settings.html", {"settings": instance})
+
+
+@login_required
+def auditor_enaio_settings(request):
+    if not request.user.groups.filter(name="Auditor").exists() or is_admin(request.user):
+        return redirect("management_enaio_settings")
+    if request.method != "GET":
+        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
+    instance = EnaioSettings.objects.filter(pk=1).first()
+    return render(request, "meetings/auditor_enaio_settings.html", {"settings": instance})
+
+
 @login_required
 def management_users(request):
     _require_admin(request)
