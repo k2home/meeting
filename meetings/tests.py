@@ -1827,6 +1827,7 @@ class UserOverviewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Leser")
         self.assertNotContains(response, "Admin – globaler Zugriff")
+        self.assertNotContains(response, "Zugriff auf alle Besprechungsreihen")
         self.assertEqual(len(response.context["series_rows"]), MeetingSeries.objects.count())
 
 
