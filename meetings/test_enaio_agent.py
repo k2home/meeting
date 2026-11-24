@@ -42,6 +42,32 @@ class EnaioAgentPairingTests(TestCase):
         )
         self.assertEqual(repeated.status_code, 403)
 
+    def test_register_rejects_non_object_json_payloads(self):
+        for payload in ("[]", "null", '"string"', "42"):
+            with self.subTest(payload=payload):
+                response = self.client.post(
+                    reverse("enaio_agent_register"),
+                    data=payload,
+                    content_type="application/json",
+                )
+                self.assertEqual(response.status_code, 400)
+
+    def test_register_rejects_oversized_payloads(self):
+        response = self.client.post(
+            reverse("enaio_agent_register"),
+            data='{"pairing_code":"' + ("x" * (16 * 1024)) + '"}',
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 413)
+
+    def test_register_rejects_non_string_pairing_codes(self):
+        response = self.client.post(
+            reverse("enaio_agent_register"),
+            data='{"pairing_code":123}',
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 400)
+
     def test_agent_poll_requires_device_token(self):
         response = self.client.get(reverse("enaio_agent_next_job"))
         self.assertEqual(response.status_code, 403)
