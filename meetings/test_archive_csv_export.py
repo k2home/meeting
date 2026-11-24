@@ -49,6 +49,16 @@ class ArchiveCsvExportTests(TestCase):
         self.assertIn(b"'=2+2", response.content)
         self.assertNotIn("Privates Exportthema".encode(), response.content)
 
+    def test_export_neutralizes_whitespace_prefixed_formula(self):
+        self.formula_topic.title = " =HYPERLINK(\"https://example.invalid\",\"Klick\")"
+        self.formula_topic.save(update_fields=["title"])
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse("archive_csv_export"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"' =HYPERLINK(", response.content)
+
     def test_export_respects_selected_accessible_series(self):
         self.client.force_login(self.user)
 
