@@ -1,1 +1,19 @@
-{% extends "meetings/base.html" %}{% block content %}<header class="page-header"><h1>Anlage zu {{topic.title}}</h1></header><div class="card"><form method="post" enctype="multipart/form-data">{% csrf_token %}{{form.as_p}}<button>Hinzufügen</button></form></div>{% endblock %}
+{% extends "meetings/base.html" %}{% block content %}<header class="page-header"><h1>Anlage zu {{topic.title}}</h1></header><div class="card"><form method="post" enctype="multipart/form-data">{% csrf_token %}{{form.as_p}}<button>Hinzufügen</button></form></div>
+<!-- attachment-file-preview -->
+<script>
+(() => {
+  const form = document.querySelector('form[enctype="multipart/form-data"]');
+  const file = form?.querySelector('input[type="file"]');
+  if (!file || document.getElementById("attachment-file-preview")) return;
+  const preview = document.createElement("p");
+  preview.id = "attachment-file-preview";
+  preview.className = "muted";
+  preview.setAttribute("aria-live", "polite");
+  file.insertAdjacentElement("afterend", preview);
+  file.addEventListener("change", () => {
+    const selected = file.files?.[0];
+    preview.textContent = selected ? `${selected.name} · ${(selected.size / 1024 / 1024).toLocaleString("de-DE", {maximumFractionDigits: 2})} MB` : "";
+  });
+})();
+</script>
+{% endblock %}
