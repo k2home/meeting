@@ -15,11 +15,11 @@ class OrganizationTimezoneMiddleware:
         configured_timezone = settings.TIME_ZONE
         from .models import OrganizationSettings
 
+        organization = OrganizationSettings.objects.filter(pk=1).first()
+        request._organization_settings = organization
         configured_timezone = (
-            OrganizationSettings.objects.filter(pk=1)
-            .values_list("timezone", flat=True)
-            .first()
-            or configured_timezone
+            organization.timezone if organization and organization.timezone
+            else configured_timezone
         )
         try:
             display_timezone = ZoneInfo(configured_timezone)
