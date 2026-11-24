@@ -75,9 +75,16 @@ class ManagedUserCreateForm(UserCreationForm):
         if password1 and password2:
             if password1 != password2:
                 raise ValidationError(self.error_messages["password_mismatch"], code="password_mismatch")
-            if not self.testing_mode:
-                password_validation.validate_password(password2, self.instance)
         return password2
+
+    def _post_clean(self):
+        if self.testing_mode:
+            # BaseUserCreationForm._post_clean runs password validators even
+            # when clean_password2 skips them. Call ModelForm directly here
+            # so model validation remains active without password-policy checks.
+            forms.ModelForm._post_clean(self)
+        else:
+            super()._post_clean()
 
     def save(self, commit=True):
         user = super().save(commit=False)
