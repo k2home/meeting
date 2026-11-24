@@ -149,7 +149,8 @@ def dashboard(request):
         meeting_groups[-1]["meetings"].append(meeting)
 
     topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
-    query = request.GET.get("q", "").strip().casefold()
+    query = request.GET.get("q", "").strip()
+    search_query = query.casefold()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "active")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
@@ -159,13 +160,13 @@ def dashboard(request):
     # Apply the filters only when no search term was submitted.
     if query:
         topics = topics.filter(
-            Q(title__icontains=query)
-            | Q(agenda_items__working_text__icontains=query)
-            | Q(comments__body__icontains=query)
-            | Q(series__name__icontains=query)
-            | Q(agenda_items__assigned_to__username__icontains=query)
-            | Q(agenda_items__assigned_to__first_name__icontains=query)
-            | Q(agenda_items__assigned_to__last_name__icontains=query)
+            Q(title__icontains=search_query)
+            | Q(agenda_items__working_text__icontains=search_query)
+            | Q(comments__body__icontains=search_query)
+            | Q(series__name__icontains=search_query)
+            | Q(agenda_items__assigned_to__username__icontains=search_query)
+            | Q(agenda_items__assigned_to__first_name__icontains=search_query)
+            | Q(agenda_items__assigned_to__last_name__icontains=search_query)
         )
         selected_status = "all"
         selected_series = ""
