@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{% static 'meetings/favicon-180.png' %}?v=8">
 <link rel="manifest" href="{% static 'meetings/site.webmanifest' %}?v=8">
 <meta name="theme-color" content="#003d73">
-<script>try{const savedTheme=localStorage.getItem("meeting-theme");if(savedTheme==="dark"||savedTheme==="light")document.documentElement.dataset.theme=savedTheme;}catch(e){}</script>
+<script>try{const savedTheme=localStorage.getItem("meeting-theme");if(savedTheme==="dark"||savedTheme==="light")document.documentElement.dataset.theme=savedTheme;else if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)document.documentElement.dataset.theme="dark";}catch(e){}</script>
 <title>{% block title %}Meeting Manager{% endblock %}{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</title>
 <style>
 :root{font-family:system-ui,-apple-system,sans-serif;color:var(--text);background:var(--page-bg);color-scheme:light;--hagen-blue:#00549f;--hagen-blue-dark:#003d73;--hagen-yellow:#ffcc00;--nav-bg:#003d73;--nav-hover:#00549f;--nav-muted:#d6e2ee;--nav-width:258px;--nav-rail:68px;--page-bg:#f4f6f9;--surface:#fff;--text:#202735;--muted:#667085;--border:#cfd9e4;--table-head:#e7eef6;--hover-bg:#f7f9fc;--input-bg:#fff;--soft-bg:#e7eef6}
@@ -553,11 +553,24 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
   }
   const themeButton = document.getElementById('theme-toggle');
   const root = document.documentElement;
-  const savedTheme = localStorage.getItem('meeting-theme');
+  const systemTheme = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  const readSavedTheme = () => { try { return localStorage.getItem('meeting-theme'); } catch (error) { return null; } };
+  const savedTheme = readSavedTheme();
   if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+  else root.dataset.theme = systemTheme?.matches ? 'dark' : 'light';
   const syncThemeButton = () => { if (!themeButton) return; const dark = root.dataset.theme === 'dark'; themeButton.textContent = dark ? '☀ Hellmodus' : '☾ Dunkelmodus'; themeButton.setAttribute('aria-pressed', String(dark)); };
   syncThemeButton();
-  themeButton?.addEventListener('click', () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('meeting-theme', root.dataset.theme); syncThemeButton(); });
+  systemTheme?.addEventListener('change', event => {
+    const preference = readSavedTheme();
+    if (preference === 'dark' || preference === 'light') return;
+    root.dataset.theme = event.matches ? 'dark' : 'light';
+    syncThemeButton();
+  });
+  themeButton?.addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('meeting-theme', root.dataset.theme); } catch (error) {}
+    syncThemeButton();
+  });
   const sidebar = document.getElementById('main-navigation');
   const desktopToggle = document.getElementById('desktop-menu-toggle');
   if (desktopToggle && sidebar) {

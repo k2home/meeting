@@ -78,38 +78,6 @@
 </section>
 
 <section class="card">
-  <h2>enaio-Verbindung auf diesem Arbeitsplatz</h2>
-  <p class="muted">Verbinde den lokalen enaio-Agenten mit deinem Benutzerkonto. Der Agent verwendet ausschließlich den enaio-Client, der in deiner Windows-Sitzung geöffnet ist. Der zentrale Ablageordner wird von der Administration vorgegeben.</p>
-  <button type="button" id="enaio-agent-pair">Arbeitsplatz mit enaio verbinden</button>
-  <div id="enaio-agent-pair-result" class="muted" role="status" aria-live="polite"></div>
-</section>
-<script>
-(() => {
-  const button = document.getElementById("enaio-agent-pair");
-  const output = document.getElementById("enaio-agent-pair-result");
-  if (!button || !output) return;
-  button.addEventListener("click", async () => {
-    button.disabled = true;
-    output.textContent = "Kopplungscode wird erstellt …";
-    try {
-      const csrf = document.querySelector('input[name="csrfmiddlewaretoken"]')?.value;
-      const response = await fetch("{% url 'enaio_agent_pair_code' %}", {
-        method: "POST", credentials: "same-origin",
-        headers: {"X-CSRFToken": csrf || "", "Accept": "application/json"}
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Kopplungscode konnte nicht erstellt werden.");
-      output.textContent = "Kopplungscode: " + data.pairing_code + " · 10 Minuten gültig. Starte anschließend den enaio-Agenten mit: MeetingManager.EnaioAgent.exe pair " + window.location.origin + " " + data.pairing_code;
-    } catch (error) {
-      output.textContent = error.message;
-    } finally {
-      button.disabled = false;
-    }
-  });
-})();
-</script>
-
-<section class="card">
   <h2>Passwort ändern</h2>
   <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
   <form method="post">
