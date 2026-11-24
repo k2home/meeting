@@ -55,8 +55,11 @@ def login_view(request):
 def forced_password_change(request):
     from .models import UserProfile
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
-    if not profile.must_change_password:
+    if request.user.has_usable_password() and not profile.must_change_password:
         return redirect("dashboard")
+    if not profile.must_change_password:
+        profile.must_change_password = True
+        profile.save(update_fields=["must_change_password"])
     form = SetPasswordForm(user=request.user, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()
