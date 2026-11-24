@@ -9,6 +9,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import MeetingSeries, SeriesAccess, Topic, TopicAttachment
+from .topic_attachment_archive import _archive_filename
 
 User = get_user_model()
 
@@ -52,6 +53,18 @@ class TopicAttachmentZipDownloadTests(TestCase):
             self.assertEqual(set(archive.namelist()), {"erste.txt", "zweite.txt"})
             self.assertEqual(archive.read("erste.txt"), b"Erster Inhalt")
             self.assertEqual(archive.read("zweite.txt"), b"Zweiter Inhalt")
+
+    def test_archive_names_are_reduced_to_basenames_and_made_unique(self):
+        used_names = set()
+
+        self.assertEqual(
+            _archive_filename("../../bericht.txt", used_names, 1),
+            "bericht.txt",
+        )
+        self.assertEqual(
+            _archive_filename(r"C:\\temp\\bericht.txt", used_names, 2),
+            "bericht (2).txt",
+        )
 
     def test_user_without_topic_access_cannot_download_zip(self):
         outsider = User.objects.create_user(
