@@ -115,65 +115,71 @@ class UploadedAttachmentMetadataTests(TestCase):
         self.assertTrue(TopicAttachment.objects.filter(pk=attachment.pk).exists())
 
 
-class DashboardAttachmentDialogTests(TestCase):
+class TopicAttachmentManagementTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            username="dashboard-attachment-user", password="strong-test-password"
+            username="topic-attachment-user", password="strong-test-password"
         )
-        self.series = MeetingSeries.objects.create(name="Dashboard-Anlagen-Reihe")
+        self.series = MeetingSeries.objects.create(name="Themen-Anlagen-Reihe")
         SeriesAccess.objects.create(user=self.user, series=self.series)
         self.topic = Topic.objects.create(
-            title="Dashboard Anlagen-Thema", series=self.series
+            title="Themen Anlagen-Thema", series=self.series
         )
         self.client.force_login(self.user)
-        self.dashboard_url = reverse("dashboard") + "?q=Dashboard+Anlagen-Thema"
+        self.topic_url = reverse("topic_edit", args=[self.topic.pk])
+        self.dashboard_url = reverse("dashboard") + "?q=Themen+Anlagen-Thema"
 
-    def test_topic_overview_opens_attachment_dialog_without_leaving_dashboard(self):
+    def test_dashboard_links_to_topic_attachment_tile_instead_of_opening_dialog(self):
         response = self.client.get(self.dashboard_url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(
-            response, f'data-attachments-dialog="dashboard-attachments-dialog-{self.topic.pk}"'
-        )
-        self.assertContains(
-            response, f'id="dashboard-attachments-dialog-{self.topic.pk}"'
-        )
-        self.assertContains(response, "Anlage hinzufügen")
+        self.assertContains(response, f'href="{self.topic_url}#topic-attachments"')
+        self.assertNotContains(response, "dashboard-attachments-dialog")
+        self.assertNotContains(response, "dashboard-attachments-button")
 
-    def test_upload_from_dashboard_returns_to_same_overview(self):
+    def test_topic_page_contains_inline_attachment_upload_form(self):
+        response = self.client.get(self.topic_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="topic-attachments"')
+        self.assertContains(response, 'enctype="multipart/form-data"')
+        self.assertContains(response, "Anlage hinzufügen")
+        self.assertContains(response, "Netzwerkpfad oder Link")
+
+    def test_upload_from_topic_page_returns_to_attachment_tile(self):
         response = self.client.post(
             reverse("attachment_add", args=[self.topic.pk]),
             {
-                "label": "Übersichtsdatei",
-                "uploaded_file": SimpleUploadedFile("uebersicht.pdf", b"PDF-Inhalt"),
-                "next": self.dashboard_url,
+                "label": "Themenunterlage",
+                "uploaded_file": SimpleUploadedFile("themenunterlage.pdf", b"PDF-Inhalt"),
+                "next": self.topic_url + "#topic-attachments",
             },
         )
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["Location"], self.dashboard_url)
+        self.assertEqual(response["Location"], self.topic_url + "#topic-attachments")
         self.assertTrue(
-            TopicAttachment.objects.filter(topic=self.topic, label="Übersichtsdatei").exists()
+            TopicAttachment.objects.filter(topic=self.topic, label="Themenunterlage").exists()
         )
 
-    def test_delete_from_dashboard_returns_to_same_overview(self):
+    def test_delete_from_topic_page_returns_to_attachment_tile(self):
         attachment = TopicAttachment.objects.create(
-            topic=self.topic, label="Zu löschende Übersichtsdatei",
+            topic=self.topic, label="Zu löschende Themenunterlage",
             network_path=r"\\\\server\\freigabe\\datei",
         )
 
         response = self.client.post(
             reverse("attachment_delete", args=[attachment.pk]),
-            {"next": self.dashboard_url},
+            {"next": self.topic_url + "#topic-attachments"},
         )
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["Location"], self.dashboard_url)
+        self.assertEqual(response["Location"], self.topic_url + "#topic-attachments")
         self.assertFalse(TopicAttachment.objects.filter(pk=attachment.pk).exists())
 
-    def test_reader_can_view_but_not_edit_dashboard_attachments(self):
+    def test_reader_can_view_but_not_manage_topic_attachments(self):
         reader = User.objects.create_user(
-            username="dashboard-attachment-reader", password="strong-test-password"
+            username="topic-attachment-reader", password="strong-test-password"
         )
         SeriesAccess.objects.create(
             user=reader, series=self.series, role=SeriesAccess.ROLE_READER
@@ -183,7 +189,7 @@ class DashboardAttachmentDialogTests(TestCase):
         )
         self.client.force_login(reader)
 
-        response = self.client.get(self.dashboard_url)
+        response = self.client.get(self.topic_url)
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Nur ansehen")
