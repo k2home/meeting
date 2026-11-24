@@ -54,7 +54,7 @@ class InitialSetupWizardTests(TestCase):
         session["initial_setup_user_id"] = user.pk
         session.save()
         response = self.client.post("/setup/?step=organization", {
-            "name": "Fachbereich 20", "short_name": "FB20", "timezone": "Europe/Berlin",
+            "name": "Fachbereich 20", "short_name": "FB20", "timezone": "Europe/Berlin", "start_password": "Neu",
             "attachment_max_size_mb": "20", "primary_color": "#00549F",
             "primary_color_light": "", "primary_color_dark": "",
             "secondary_color": "#8FC5FF", "secondary_color_light": "", "secondary_color_dark": "",
