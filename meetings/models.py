@@ -200,6 +200,12 @@ class TopicAttachment(models.Model):
 
 class AuditEvent(models.Model):
     """Unveränderlicher Eintrag für wichtige Änderungen in der Anwendung."""
+    SCOPE_SERIES = "series"
+    SCOPE_SYSTEM = "system"
+    SCOPE_CHOICES = [
+        (SCOPE_SERIES, "Besprechungsreihe"),
+        (SCOPE_SYSTEM, "System"),
+    ]
     ACTIONS = [
         ("created", "Angelegt"),
         ("updated", "Geändert"),
@@ -214,6 +220,7 @@ class AuditEvent(models.Model):
         ("series_extended", "Terminreihe verlängert"),
         ("series_reset", "Termine neu aufgesetzt"),
     ]
+    scope = models.CharField("Bereich", max_length=12, choices=SCOPE_CHOICES, default=SCOPE_SERIES, db_index=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
