@@ -116,6 +116,7 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
         self.assertFalse(SeriesAccess.objects.filter(series=series, user=self.admin).exists())
         self.assertEqual(created_event.changes["Erster Moderator"]["nachher"], "Ada Lovelace")
 
+        self.client.force_login(moderator)
         response = self.client.post(reverse("series_edit", args=[series.pk]), {
             "name": "Auditierte Reihe",
             "description": "Nachher",
@@ -138,6 +139,7 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
             name="Rollback Verlängerung", recurrence="weekly", weekday=today.weekday(),
             start_date=today, end_date=previous_end,
         )
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
         with patch("meetings.views.record_event", side_effect=RuntimeError("Audit unavailable")):
             with self.assertRaises(RuntimeError):
                 self.client.post(reverse("series_extend", args=[series.pk]))
@@ -153,6 +155,7 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
             name="Rollback Reset", recurrence="weekly", weekday=first_date.weekday(),
             start_date=first_date, end_date=first_date + timedelta(days=28),
         )
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
         meeting = Meeting.objects.create(series=series, date=first_date)
         topic = Topic.objects.create(title="Reset Inhalt", series=series)
         AgendaItem.objects.create(meeting=meeting, topic=topic, working_text="Erhaltener Text")
