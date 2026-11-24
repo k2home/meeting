@@ -425,6 +425,8 @@ def auditor_organization_settings(request):
 
 @login_required
 def auditor_users(request):
+    if request.method != "GET":
+        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
     if not is_auditor(request.user):
         return redirect("management_users")
     users = User.objects.all().order_by("last_name", "first_name", "username")
@@ -438,6 +440,8 @@ def auditor_users(request):
 
 @login_required
 def auditor_groups(request):
+    if request.method != "GET":
+        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
     if not is_auditor(request.user):
         return redirect("management_groups")
     access_qs = SeriesAccess.objects.select_related("series", "user").all()
