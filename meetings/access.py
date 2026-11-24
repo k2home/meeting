@@ -97,9 +97,10 @@ def can_reopen_meeting(user, meeting=None):
 
 def role_flags(request):
     if not request.user.is_authenticated:
-        return {"is_admin": False, "is_moderator": False, "is_reader": False}
+        return {"is_admin": False, "is_moderator": False, "is_reader": False, "is_auditor": False}
     return {
         "is_admin": is_admin(request.user),
+        "is_auditor": is_auditor(request.user),
         "is_moderator": is_moderator(request.user),
         "is_reader": (is_reader(request.user) and not has_writable_series(request.user)) or is_auditor(request.user),
         "can_view_open_topics": is_admin(request.user) or is_auditor(request.user) or SeriesAccess.objects.filter(
