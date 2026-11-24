@@ -12,7 +12,7 @@ class ForcedPasswordChangeTests(TestCase):
         self.admin = User.objects.create_user(username="password-admin", password="AdminPassword1!")
         self.admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
 
-    def test_passwordless_user_creation_shows_temporary_password_and_forces_change(self):
+    def test_passwordless_user_creation_and_username_only_login(self):
         self.client.force_login(self.admin)
         response = self.client.post(reverse("management_user_new"), {
             "username": "new-password-user",
@@ -24,27 +24,18 @@ class ForcedPasswordChangeTests(TestCase):
             "password1": "",
             "password2": "",
         })
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse("management_user_edit", args=[User.objects.get(username="new-password-user").pk]))
+        self.assertRedirects(response, reverse("management_users"))
         self.assertEqual(mail.outbox, [])
         account = User.objects.get(username="new-password-user")
-        response = self.client.get(reverse("management_user_edit", args=[account.pk]))
-        initial_password = response.context["initial_password"]["password"]
-        self.assertContains(response, initial_password)
-        self.assertTrue(account.check_password(initial_password))
+        self.assertFalse(account.has_usable_password())
         self.assertTrue(account.meeting_profile.must_change_password)
-        self.assertNotIn("new_user_initial_password", self.client.session)
 
         self.client.logout()
-        login_response = self.client.post(reverse("login"), {
-            "username": account.username, "password": initial_password,
-        })
-        self.assertEqual(login_response.status_code, 302)
-        self.assertEqual(login_response.url, reverse("dashboard"))
+        login_response = self.client.post(reverse("login"), {"username": account.username})
+        self.assertRedirects(login_response, reverse("dashboard"))
         forced_response = self.client.get(reverse("dashboard"))
         self.assertRedirects(forced_response, reverse("forced_password_change"))
         change_response = self.client.post(reverse("forced_password_change"), {
-            "old_password": initial_password,
             "new_password1": "NewPersonalPassword1!",
             "new_password2": "NewPersonalPassword1!",
         })
@@ -60,19 +51,18 @@ class ForcedPasswordChangeTests(TestCase):
         self.assertRedirects(response, reverse("management_user_edit", args=[account.pk]))
         self.assertEqual(mail.outbox, [])
         account.refresh_from_db()
-        self.assertTrue(account.check_password("OldPassword1!"))
+        self.assertFalse(account.has_usable_password())
         self.assertTrue(account.meeting_profile.must_change_password)
 
         self.client.logout()
         login_response = self.client.post(reverse("login"), {
-            "username": account.username, "password": "OldPassword1!",
+            "username": account.username,
         })
         self.assertEqual(login_response.status_code, 302)
         self.assertEqual(login_response.url, reverse("dashboard"))
         forced_response = self.client.get(reverse("dashboard"))
         self.assertRedirects(forced_response, reverse("forced_password_change"))
         change_response = self.client.post(reverse("forced_password_change"), {
-            "old_password": "OldPassword1!",
             "new_password1": "NewPersonalPassword1!",
             "new_password2": "NewPersonalPassword1!",
         })
