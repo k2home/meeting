@@ -96,7 +96,7 @@
     const headings = Array.from(article.querySelectorAll("h1,h2,h3"));
     let current = "Dokumentanfang";
     for (const heading of headings) {
-      if (heading.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING) break;
+      if (node.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING) break;
       current = heading.textContent.trim();
     }
     return current;
