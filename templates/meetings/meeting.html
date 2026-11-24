@@ -146,9 +146,19 @@
 <form id="agenda-reorder-form" class="visually-hidden-form" method="post" action="{% url 'agenda_reorder' meeting.id %}">{% csrf_token %}<div id="agenda-order-inputs"></div></form>
 {% endif %}
 
+<div class="card no-print agenda-status-filter" role="group" aria-label="Tagesordnungspunkte nach Bearbeitungsstand filtern">
+  <span class="muted">Bearbeitungsstand:</span>
+  <div class="actions">
+    <button type="button" class="secondary" data-agenda-filter="all" aria-pressed="true">Alle</button>
+    <button type="button" class="secondary" data-agenda-filter="open" aria-pressed="false">Offen</button>
+    <button type="button" class="secondary" data-agenda-filter="in_progress" aria-pressed="false">In Arbeit</button>
+    <button type="button" class="secondary" data-agenda-filter="done" aria-pressed="false">Erledigt</button>
+  </div>
+  <p id="agenda-status-filter-feedback" class="muted" role="status" aria-live="polite">Alle Tagesordnungspunkte werden angezeigt.</p>
+</div>
 <div id="agenda-list">
 {% for item in items %}
-  <div class="card agenda-item" id="agenda-item-{{ item.id }}" data-agenda-item="{{ item.id }}">
+  <div class="card agenda-item" id="agenda-item-{{ item.id }}" data-agenda-item="{{ item.id }}" data-agenda-status="{{ item.status }}">
     <div class="agenda-item-summary">
       <div class="agenda-item-heading">
         <button type="button" class="agenda-item-toggle secondary" aria-expanded="false" aria-controls="agenda-item-content-{{ item.id }}" aria-label="Thema aufklappen">▸</button>
@@ -251,7 +261,9 @@
 <script>
 (function () {
   const list = document.getElementById("agenda-list");
-  const orderForm = document.getElementById("agenda-reorder-form");
+  const agendaFilterButtons = Array.from(document.querySelectorAll("[data-agenda-filter]"));
+  const agendaFilterFeedback = document.getElementById("agenda-status-filter-feedback");
+  const reorderForm = document.getElementById("agenda-reorder-form");
   const inputContainer = document.getElementById("agenda-order-inputs");
   const reorderToggle = document.getElementById("toggle-agenda-reorder");
   if (list && orderForm && inputContainer) {
@@ -553,6 +565,38 @@
         if (error.name !== "AbortError") suggestions.textContent = "Themenhinweise konnten nicht geladen werden.";
       }
     });
+  }
+
+  if (list && agendaFilterButtons.length && agendaFilterFeedback) {
+    const agendaCards = Array.from(list.querySelectorAll(":scope > .agenda-item"));
+    const reorderToggle = document.getElementById("toggle-agenda-reorder");
+    let selectedFilter = "all";
+    const updateFilterControls = () => {
+      const reordering = list.classList.contains("reorder-mode");
+      agendaFilterButtons.forEach(button => { button.disabled = reordering; });
+      if (reorderToggle) reorderToggle.disabled = selectedFilter !== "all";
+    };
+    const applyAgendaFilter = () => {
+      let visible = 0;
+      agendaCards.forEach(card => {
+        const matches = selectedFilter === "all" || card.dataset.agendaStatus === selectedFilter;
+        card.hidden = !matches;
+        if (matches) visible += 1;
+      });
+      agendaFilterButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.agendaFilter === selectedFilter));
+      });
+      const labels = {all:"Tagesordnungspunkte",open:"offene Punkte",in_progress:"Punkte in Arbeit",done:"erledigte Punkte"};
+      agendaFilterFeedback.textContent = visible + " von " + agendaCards.length + " " + labels[selectedFilter] + " werden angezeigt.";
+      updateFilterControls();
+    };
+    agendaFilterButtons.forEach(button => button.addEventListener("click", () => {
+      if (list.classList.contains("reorder-mode")) return;
+      selectedFilter = button.dataset.agendaFilter;
+      applyAgendaFilter();
+    }));
+    document.getElementById("toggle-agenda-reorder")?.addEventListener("click", updateFilterControls);
+    applyAgendaFilter();
   }
 
   const dialog = document.getElementById("agenda-history-dialog");
