@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
-from django.db import transaction
+from django.db import transaction, models
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
 from django.db.models.functions import RowNumber, Coalesce
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
@@ -68,7 +68,7 @@ def _series_for_view(view, kwargs):
     if view.__name__ in {"agenda_reorder", "agenda_item_delete", "meeting_detail", "meeting_edit", "meeting_delete", "meeting_reopen", "finalize"}:
         meeting = Meeting.objects.filter(pk=pk).select_related("series").first()
         return meeting.series if meeting else None
-    if view.__name__ in {"series_edit", "series_delete", "series_extend", "series_reset_meetings"}:
+    if view.__name__ in {"series_edit", "series_delete", "series_delete_future", "series_extend", "series_reset_meetings"}:
         return MeetingSeries.objects.filter(pk=pk).first()
     topic = Topic.objects.filter(pk=pk).select_related("series").first()
     return topic.series if topic else None
@@ -2013,48 +2013,78 @@ def series_delete(request, pk):
         return HttpResponseForbidden()
     series = get_object_or_404(accessible_series(request.user), pk=pk)
     name = series.name
-    today = timezone.localdate()
-    delete_completed = request.POST.get("delete_completed") == "on"
     with transaction.atomic():
-        # Future drafts are removed. Completed meetings are kept by default,
-        # together with their immutable protocol snapshots and audit links.
-        Meeting.objects.filter(
-            series=series, date__gte=today, finalized_at__isnull=True
-        ).delete()
-        if delete_completed:
-            Meeting.objects.filter(series=series, finalized_at__isnull=False).delete()
-        # Preserve former series members' read access to retained protocols.
         former_access = list(
             SeriesAccess.objects.filter(series=series).values("user_id", "role")
         )
-        remaining_meeting_ids = list(Meeting.objects.filter(series=series).values_list("pk", flat=True))
+        meeting_ids = list(Meeting.objects.filter(series=series).values_list("pk", flat=True))
         ArchivedMeetingAccess.objects.bulk_create(
             [
                 ArchivedMeetingAccess(meeting_id=meeting_id, user_id=access["user_id"], role=access["role"])
-                for meeting_id in remaining_meeting_ids
+                for meeting_id in meeting_ids
                 for access in former_access
             ],
             ignore_conflicts=True,
         )
+        # Keep meeting protocols in the archive, but archive every topic
+        # belonging to the deleted series as a standalone archived topic.
+        topics = Topic.objects.filter(series=series)
+        archived_topic_count = topics.count()
+        topics.exclude(status="archived").update(archive_previous_status=models.F("status"))
+        topics.update(status="archived", series=None)
         Meeting.objects.filter(series=series).update(archived_series_name=name, series=None)
-        # The series and its active assignments are removed; archive access
-        # remains attached to each retained historical meeting.
         record_event(
             actor=request.user, action="deleted",
             summary=f"Besprechungsreihe „{name}“ gelöscht",
             series=series,
-            changes={"Abgeschlossene Termine ebenfalls gelöscht": delete_completed,
-                     "Ehemalige Mitglieder mit Lesezugriff": len(former_access) if remaining_meeting_ids else 0},
+            changes={
+                "Archivierte Besprechungstermine": len(meeting_ids),
+                "Archivierte Themen": archived_topic_count,
+                "Ehemalige Mitglieder mit Lesezugriff": len(former_access) if meeting_ids else 0,
+            },
         )
         series.delete()
     messages.success(
         request,
         f"Die Besprechungsreihe „{name}“ wurde gelöscht. "
-        + ("Abgeschlossene Besprechungen wurden ebenfalls entfernt." if delete_completed
-           else "Abgeschlossene und sonstige verbleibende Besprechungen samt Protokollen bleiben erhalten.")
+        "Die Besprechungstermine und Protokolle bleiben im Archiv erhalten; alle zugehörigen Themen wurden archiviert."
     )
     return redirect("series_admin" if is_moderator(request.user) else "dashboard")
 
+
+@login_required
+@moderator_required
+def series_delete_future(request, pk):
+    if request.method != "POST":
+        return HttpResponseForbidden()
+    series = get_object_or_404(accessible_series(request.user), pk=pk)
+    today = timezone.localdate()
+    with transaction.atomic():
+        future_meetings = Meeting.objects.filter(series=series, date__gte=today)
+        deleted_count = future_meetings.count()
+        future_meetings.delete()
+        # Topics without any remaining agenda entry are no longer active work
+        # and are moved to the archive instead of being left orphaned.
+        orphaned_topics = Topic.objects.filter(
+            series=series, agenda_items__isnull=True
+        ).exclude(status="archived")
+        orphaned_count = orphaned_topics.count()
+        orphaned_topics.update(archive_previous_status=models.F("status"), status="archived", series=None)
+        record_event(
+            actor=request.user, action="updated",
+            summary=f"Zukünftige Termine der Besprechungsreihe „{series.name}“ gelöscht",
+            series=series,
+            changes={
+                "Gelöschte zukünftige Termine": deleted_count,
+                "Zusätzlich archivierte Themen ohne verbleibende Tagesordnungspunkte": orphaned_count,
+            },
+        )
+    messages.success(
+        request,
+        f"{deleted_count} zukünftige Termine der Besprechungsreihe „{series.name}“ wurden gelöscht. "
+        "Die dazugehörigen Tagesordnungspunkte dieser Termine wurden ebenfalls entfernt."
+    )
+    return redirect(f"{reverse('series_admin')}?expanded={series.pk}#series-{series.pk}")
 
 @login_required
 @moderator_required
