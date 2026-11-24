@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from unittest.mock import patch
 
 
 class SecurityDescriptionPdfTests(TestCase):
@@ -44,3 +45,18 @@ class SecurityDescriptionPageTests(TestCase):
         self.assertContains(response, "Inhaltsverzeichnis")
         self.assertContains(response, 'href="#1-kurzbeschreibung-und-zweck"')
         self.assertContains(response, 'class="toc"')
+
+    @patch("meetings.views._debian_testing_mode_enabled", return_value=True)
+    def test_review_marking_tools_are_only_rendered_in_testing_mode(self, _testing_mode):
+        user = get_user_model().objects.create_user(
+            username="security-review-marker", password="Strong-test-password-123!"
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("security_description"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="add-review-mark"')
+        self.assertContains(response, 'id="export-review-marks"')
+        self.assertContains(response, "localStorage")
+        self.assertContains(response, "Prüfmarkierungen")
