@@ -24,13 +24,15 @@ class ForcedPasswordChangeTests(TestCase):
             "password1": "",
             "password2": "",
         })
-        self.assertRedirects(response, reverse("management_user_edit", args=[User.objects.get(username="new-password-user").pk]))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("management_user_edit", args=[User.objects.get(username="new-password-user").pk]))
         account = User.objects.get(username="new-password-user")
         response = self.client.get(reverse("management_user_edit", args=[account.pk]))
         initial_password = response.context["initial_password"]["password"]
         self.assertContains(response, initial_password)
         self.assertTrue(account.check_password(initial_password))
         self.assertTrue(account.meeting_profile.must_change_password)
+        self.assertNotIn("new_user_initial_password", self.client.session)
 
         self.client.logout()
         login_response = self.client.post(reverse("login"), {
@@ -49,7 +51,6 @@ class ForcedPasswordChangeTests(TestCase):
         account.refresh_from_db()
         self.assertTrue(account.check_password("NewPersonalPassword1!"))
         self.assertFalse(account.meeting_profile.must_change_password)
-        self.assertNotIn("initial_password", self.client.get(reverse("management_user_edit", args=[account.pk])).context)
 
     def test_admin_reset_sends_no_email_and_requires_new_password_at_next_login(self):
         account = User.objects.create_user(username="reset-password-user", password="OldPassword1!")
