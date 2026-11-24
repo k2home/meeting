@@ -17,7 +17,9 @@
 .security-document .document-content code{overflow-wrap:anywhere}
 .review-marking mark,.security-document .document-content mark.review-selection{background:#ffe58a;color:#302600;padding:.05em .12em;border-radius:2px;box-shadow:inset 0 -2px 0 #c28a00}
 .security-document .document-content mark.review-selection{background:#ffe58a}
-.security-document .document-content mark.review-selection:nth-of-type(2n){background:#b9e5ff;box-shadow:inset 0 -2px 0 #2677a8}
+.security-document .document-content mark.review-selection-1{background:#b9e5ff;box-shadow:inset 0 -2px 0 #2677a8}
+.security-document .document-content mark.review-selection-2{background:#c9efc2;box-shadow:inset 0 -2px 0 #47853d}
+.security-document .document-content mark.review-selection-3{background:#f5c8e8;box-shadow:inset 0 -2px 0 #a04c88}
 .security-document .document-content mark.review-mark-focus{outline:3px solid #d45b00;outline-offset:3px}
 .review-mark-item{padding:.5rem;border-left:3px solid var(--hagen-blue);margin:.6rem 0!important}
 .review-mark-jump{font-weight:700;text-align:left}
@@ -108,9 +110,9 @@
     return current;
   };
 
-  const wrapRange = (range, id) => {
+  const wrapRange = (range, id, index) => {
     const mark = document.createElement("mark");
-    mark.className = "review-selection";
+    mark.className = "review-selection review-selection-" + (index % 4);
     mark.dataset.reviewId = id;
     mark.title = "Prüfmarkierung " + (marks.findIndex(item => item.id === id) + 1);
     mark.appendChild(range.extractContents());
@@ -196,11 +198,11 @@
     render();
   };
 
-  marks.forEach(item => {
+  marks.forEach((item, index) => {
     if (item.id && item.quote) {
       const range = findQuoteRange(item.quote, Number.isInteger(item.occurrence) ? item.occurrence : 0);
       if (range) {
-        try { wrapRange(range, item.id); } catch (_) {}
+        try { wrapRange(range, item.id, index); } catch (_) {}
       }
     }
   });
@@ -219,9 +221,15 @@
     const before = range.cloneRange();
     before.selectNodeContents(article);
     before.setEnd(range.startContainer, range.startOffset);
-    const occurrence = (before.toString().match(new RegExp(quote.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g")) || []).length;
+    const precedingText = before.toString();
+    let occurrence = 0;
+    let foundAt = 0;
+    while ((foundAt = precedingText.indexOf(quote, foundAt)) !== -1) {
+      occurrence++;
+      foundAt += quote.length;
+    }
     marks.push({ id, section, quote, note: "", occurrence });
-    try { wrapRange(range, id); } catch (_) {}
+    try { wrapRange(range, id, marks.length - 1); } catch (_) {}
     selection.removeAllRanges();
     persist();
     status.textContent = "Textstelle eindeutig als Markierung " + marks.length + " hervorgehoben.";
