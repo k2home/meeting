@@ -91,6 +91,7 @@ class AuditHistoryTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
             "title": "Neuer Titel",
+            "priority": self.topic.priority,
         })
         self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
         from .models import AuditEvent
@@ -1497,7 +1498,7 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
             io.StringIO(response.content.decode("utf-8-sig")),
             delimiter=";",
         ))
-        self.assertEqual(len(rows[0]), 16)
+        self.assertEqual(len(rows[0]), 17)
         for row in rows[1:4]:
             self.assertEqual(len(row), len(rows[0]))
 
