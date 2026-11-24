@@ -109,6 +109,9 @@ class ManagedUserCreateForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        if not self.cleaned_data.get("password1"):
+            import secrets
+            user.set_password(secrets.token_urlsafe(48))
         for field in ("first_name", "last_name", "email"):
             setattr(user, field, self.cleaned_data.get(field, "").strip())
         if commit:
