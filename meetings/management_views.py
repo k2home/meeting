@@ -900,6 +900,7 @@ def management_database_export(request):
             stream, as_attachment=True, filename="meeting-manager-vollbackup.zip",
             content_type="application/zip",
         )
+        response["Cache-Control"] = "private, no-store"
         response._resource_closers.append(
             lambda: (Path(dump_path).unlink(missing_ok=True), Path(archive_path).unlink(missing_ok=True))
         )
