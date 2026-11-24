@@ -46,8 +46,10 @@ def is_moderator(user, series=None):
 
 
 def is_reader(user, series=None):
-    if not user.is_authenticated or is_auditor(user):
+    if not user.is_authenticated:
         return False
+    if is_auditor(user):
+        return True
     assignments = SeriesAccess.objects.filter(user=user, role=SeriesAccess.ROLE_READER)
     return assignments.filter(series=series).exists() if series is not None else assignments.exists()
 
@@ -59,14 +61,18 @@ def has_writable_series(user):
 
 
 def accessible_series(user):
-    if not user.is_authenticated or is_auditor(user):
+    if not user.is_authenticated:
         return MeetingSeries.objects.none()
+    if is_auditor(user):
+        return MeetingSeries.objects.all()
     return MeetingSeries.objects.filter(user_access__user=user)
 
 
 def accessible_meetings(user):
-    if not user.is_authenticated or is_auditor(user):
+    if not user.is_authenticated:
         return Meeting.objects.none()
+    if is_auditor(user):
+        return Meeting.objects.all()
     return Meeting.objects.filter(
         Q(series__in=accessible_series(user))
         | Q(archived_access__user=user)
@@ -74,8 +80,10 @@ def accessible_meetings(user):
 
 
 def accessible_topics(user):
-    if not user.is_authenticated or is_auditor(user):
+    if not user.is_authenticated:
         return Topic.objects.none()
+    if is_auditor(user):
+        return Topic.objects.all()
     visible_meetings = accessible_meetings(user)
     return Topic.objects.filter(
         Q(series__in=accessible_series(user))
