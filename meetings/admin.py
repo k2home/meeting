@@ -396,6 +396,24 @@ class MeetingUserAdmin(DjangoUserAdmin):
     def display_name_with_login(self, obj):
         return user_display_name_with_login(obj)
 
+    def save_model(self, request, obj, form, change):
+        previous = None
+        if change:
+            old_user = User.objects.get(pk=obj.pk)
+            old_profile = getattr(old_user, "meeting_profile", None)
+            previous = {
+                "Anmeldename": old_user.username,
+                "Vorname": old_user.first_name,
+                "Nachname": old_user.last_name,
+                "E-Mail": old_user.email,
+                "Aktiv": old_user.is_active,
+                "Django-Superuser": old_user.is_superuser,
+                "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(old_user), get_user_role(old_user)),
+                "Kurzbeschreibung": old_profile.short_description if old_profile else "",
+            }
+        form._audit_before = previous
+        super().save_model(request, obj, form, change)
+
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         user = form.instance
@@ -404,6 +422,29 @@ class MeetingUserAdmin(DjangoUserAdmin):
             defaults={"short_description": form.cleaned_data.get("short_description", "")},
         )
         sync_user_role(user, form.cleaned_data["role"])
+        after = {
+            "Anmeldename": user.username,
+            "Vorname": user.first_name,
+            "Nachname": user.last_name,
+            "E-Mail": user.email,
+            "Aktiv": user.is_active,
+            "Django-Superuser": user.is_superuser,
+            "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+            "Kurzbeschreibung": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
+        }
+        before = getattr(form, "_audit_before", None)
+        changes = {
+            label: ({"nachher": value} if before is None else {"vorher": before.get(label), "nachher": value})
+            for label, value in after.items()
+            if before is None or before.get(label) != value
+        }
+        if changes:
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM,
+                action="updated" if change else "created",
+                summary=f"Django-Verwaltung: Benutzerkonto „{user_display_name_with_login(user)}“ {'geändert' if change else 'angelegt'}",
+                changes=changes,
+            )
 
 
 admin.site.unregister(User)
@@ -416,6 +457,31 @@ admin.site.register(Group, MeetingGroupAdmin)
 class OrganizationSettingsAdmin(admin.ModelAdmin):
     list_display = ("name",)
     fields = ("name", "short_name", "timezone", "attachment_max_size_mb", ("primary_color", "primary_color_light", "primary_color_dark"), ("secondary_color", "secondary_color_light", "secondary_color_dark"), ("tertiary_color", "tertiary_color_light", "tertiary_color_dark"))
+
+    def save_model(self, request, obj, form, change):
+        before = {}
+        if change:
+            previous = OrganizationSettings.objects.get(pk=obj.pk)
+            before = {
+                field: getattr(previous, field)
+                for field in form.changed_data
+            }
+        super().save_model(request, obj, form, change)
+        changes = {
+            form.fields[field].label: {
+                **({"vorher": before[field]} if change else {}),
+                "nachher": getattr(obj, field),
+            }
+            for field in form.changed_data
+            if not change or before[field] != getattr(obj, field)
+        }
+        if changes:
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM,
+                action="updated" if change else "created",
+                summary="Django-Verwaltung: Organisationseinstellungen geändert",
+                changes=changes,
+            )
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == "timezone":
