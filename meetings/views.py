@@ -1129,6 +1129,43 @@ def organization_logo(request):
     return serve_organization_logo(organization.logo)
 
 
+@login_required
+def attachment_delete(request, pk):
+    """Delete one topic attachment, including its uploaded file when present."""
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+
+    attachment = get_object_or_404(
+        TopicAttachment.objects.select_related("topic__series"),
+        pk=pk,
+        topic__in=accessible_topics(request.user),
+    )
+    topic = attachment.topic
+    if (
+        (topic.series_id is None and not is_admin(request.user))
+        or (topic.series_id is not None and is_reader(request.user, topic.series))
+    ):
+        return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
+
+    file_name = attachment.uploaded_file.name if attachment.uploaded_file else ""
+    storage = attachment.uploaded_file.storage if file_name else None
+    label = attachment.label
+    with transaction.atomic():
+        record_event(
+            actor=request.user,
+            action="deleted",
+            summary=f"Anlage „{label}“ von „{topic.title}“ gelöscht",
+            topic=topic,
+            changes={"Anlage": label, "Datei": file_name or None, "Netzwerkpfad": attachment.network_path or None},
+        )
+        attachment.delete()
+        if file_name:
+            storage.delete(file_name)
+
+    messages.success(request, f"Anlage „{label}“ wurde gelöscht.")
+    return redirect("topic_edit", pk=topic.pk)
+
+
 def attachment_download(request, pk):
     attachment = get_object_or_404(
         TopicAttachment.objects.select_related("topic__series"),
