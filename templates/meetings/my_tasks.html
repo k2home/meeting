@@ -1,12 +1,31 @@
 {% extends "meetings/base.html" %}
 {% block title %}Meine Aufgaben – Meeting Manager{% endblock %}
 {% block content %}
+<style>
+.my-tasks-compact-filter{display:inline-block;width:auto;max-width:100%;padding:.5rem .75rem}
+.my-tasks-filter-controls{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.my-tasks-filter-controls label{margin:0;white-space:nowrap}
+.my-tasks-filter-controls select{flex:0 1 220px;width:220px;min-width:0;max-width:220px;margin:0}
+.my-tasks-filter-controls .actions{margin:0;gap:.35rem}
+.my-tasks-filter-controls button,.my-tasks-filter-controls .btn{padding:.35rem .6rem}
+@media(max-width:560px){
+  .my-tasks-compact-filter{display:block;width:100%}
+  .my-tasks-filter-controls select{flex-basis:100%;width:100%;max-width:100%}
+}
+</style>
 <header class="page-header">
   <div>
     <h1>Meine Aufgaben</h1>
     <p class="muted">Hauptzuständigkeiten und ausdrücklich zugewiesene Tagesordnungspunkte werden getrennt dargestellt.</p>
   </div>
 </header>
+<form method="get" class="card filter-panel my-tasks-compact-filter" style="margin:.8rem 0">
+  <div class="my-tasks-filter-controls">
+    <label for="my-tasks-series">Besprechungsreihe</label>
+    <select id="my-tasks-series" name="series"><option value="">Alle Reihen</option>{% for item in series_options %}<option value="{{ item.pk }}" {% if selected_series == item.pk|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select>
+    <div class="actions"><button type="submit" class="secondary">Filtern</button><a class="btn secondary" href="{% url 'my_tasks' %}">Zurücksetzen</a></div>
+  </div>
+</form>
 <section class="card">
   <div class="topline">
     <h2>Hauptzuständigkeit</h2>
