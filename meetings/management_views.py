@@ -353,10 +353,21 @@ def management_home(request):
 @login_required
 def management_users(request):
     _require_admin(request)
-    users = User.objects.all().order_by("last_name", "first_name", "username")
+    users = User.objects.all()
+    selected_sort = request.GET.get("sort", "name")
+    sort_fields = {
+        "name": ("last_name", "first_name", "username"),
+        "last_login": ("-last_login", "last_name", "first_name", "username"),
+        "oldest_login": ("last_login", "last_name", "first_name", "username"),
+        "newest_account": ("-date_joined", "last_name", "first_name", "username"),
+    }
+    if selected_sort not in sort_fields:
+        selected_sort = "name"
+    users = users.order_by(*sort_fields[selected_sort])
     return render(request, "meetings/management_users.html", {
         "users": [{"account": user, "is_administrator": is_admin(user)} for user in users],
         "role_choices": SeriesAccess.ROLE_CHOICES,
+        "selected_sort": selected_sort,
     })
 
 
