@@ -1,5 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 from .models import UserProfile
 
 PASSWORD_SETUP_PASSWORD = "Neu"
@@ -26,3 +27,14 @@ def expire_password_setup_if_due(user):
         user.is_active = False
         user.save(update_fields=["is_active"])
     return True
+
+def expire_overdue_password_setups():
+    """Bulk-expire all accounts whose mandatory password setup deadline elapsed."""
+    now = timezone.now()
+    user_ids = UserProfile.objects.filter(
+        must_change_password=True,
+        password_setup_expires_at__isnull=False,
+        password_setup_expires_at__lte=now,
+        user__is_active=True,
+    ).values_list("user_id", flat=True)
+    return get_user_model().objects.filter(pk__in=user_ids).update(is_active=False)
