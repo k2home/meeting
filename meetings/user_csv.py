@@ -12,6 +12,7 @@ from django.shortcuts import redirect, render
 
 from .models import AuditEvent, MeetingSeries, SeriesAccess, UserProfile
 from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
+from .password_setup import start_password_setup
 
 User = get_user_model()
 
@@ -286,7 +287,6 @@ def import_users_csv(request):
                 } if user else {})
                 if was_created:
                     user = User(username=username)
-                    user.set_unusable_password()
                     created += 1
                 else:
                     updated += 1
@@ -300,11 +300,9 @@ def import_users_csv(request):
                 if was_created:
                     UserProfile.objects.update_or_create(
                         user=user,
-                        defaults={
-                            "short_description": record["values"].get("short_description", ""),
-                            "must_change_password": True,
-                        },
+                        defaults={"short_description": record["values"].get("short_description", "")},
                     )
+                    start_password_setup(user)
                 elif "short_description" in record["values"]:
                     UserProfile.objects.update_or_create(
                         user=user,
