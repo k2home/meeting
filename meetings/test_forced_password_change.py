@@ -12,7 +12,7 @@ class ForcedPasswordChangeTests(TestCase):
         self.admin = User.objects.create_user(username="password-admin", password="AdminPassword1!")
         self.admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
 
-    def test_passwordless_user_creation_and_username_only_login(self):
+    def test_passwordless_user_creation_and_initial_password_login(self):
         self.client.force_login(self.admin)
         response = self.client.post(reverse("management_user_new"), {
             "username": "new-password-user",
@@ -75,6 +75,7 @@ class ForcedPasswordChangeTests(TestCase):
         account.refresh_from_db()
         self.assertTrue(account.check_password("NewPersonalPassword1!"))
         self.assertFalse(account.meeting_profile.must_change_password)
+        self.assertIsNone(account.meeting_profile.password_setup_expires_at)
 
     def test_expired_setup_window_deactivates_account_and_blocks_login(self):
         from datetime import timedelta
