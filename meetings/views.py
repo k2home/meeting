@@ -1130,6 +1130,47 @@ def organization_logo(request):
 
 
 @login_required
+def agenda_attachment_add(request, meeting_pk, item_pk):
+    """Add an attachment from the agenda item's attachment dialog."""
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=meeting_pk)
+    item = get_object_or_404(
+        AgendaItem.objects.select_related("topic", "topic__series"),
+        pk=item_pk, meeting=meeting,
+    )
+    topic = item.topic
+    if (
+        is_reader(request.user, meeting.series)
+        or (topic.series_id is None and not is_admin(request.user))
+    ):
+        return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
+
+    form = AttachmentForm(request.POST, request.FILES)
+    if form.is_valid():
+        attachment = form.save(commit=False)
+        attachment.topic = topic
+        attachment.save()
+        record_event(
+            actor=request.user,
+            action="attachment_added",
+            summary=f"Anlage „{attachment.label}“ zu „{topic.title}“ hinzugefügt",
+            topic=topic,
+            meeting=meeting,
+            changes={
+                "Bezeichnung": attachment.label,
+                "Datei": attachment.uploaded_file.name if attachment.uploaded_file else None,
+                "Netzwerkpfad": attachment.network_path or None,
+            },
+        )
+        messages.success(request, "Anlage hinzugefügt.")
+    else:
+        messages.error(request, "Die Anlage konnte nicht hinzugefügt werden. Bitte prüfe Bezeichnung, Datei und Netzwerkpfad.")
+    return redirect(reverse("meeting", args=[meeting.pk]) + f"?attachments={item.pk}#agenda-item-{item.pk}")
+
+
+@login_required
 def attachment_delete(request, pk):
     """Delete one topic attachment, including its uploaded file when present."""
     if request.method != "POST":
@@ -1163,6 +1204,9 @@ def attachment_delete(request, pk):
             storage.delete(file_name)
 
     messages.success(request, f"Anlage „{label}“ wurde gelöscht.")
+    next_url = request.POST.get("next") or request.GET.get("next", "")
+    if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        return redirect(next_url)
     return redirect("topic_edit", pk=topic.pk)
 
 
