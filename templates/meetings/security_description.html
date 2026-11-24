@@ -244,14 +244,23 @@
     }
   });
   document.getElementById("clear-review-marks").addEventListener("click", () => {
-    if (!window.confirm("Alle lokalen Prüfmarkierungen wirklich löschen?")) return;
-    marks = [];
-    localStorage.removeItem(storageKey);
-    article.querySelectorAll("mark.review-selection").forEach(mark => mark.replaceWith(...mark.childNodes));
-    render();
+    const dialog = document.createElement("dialog");
+    dialog.className = "card";
+    dialog.setAttribute("aria-labelledby", "clear-review-title");
+    dialog.innerHTML = '<form method="dialog"><h2 id="clear-review-title">Markierungen löschen?</h2><p>Alle lokalen Prüfmarkierungen werden unwiderruflich aus diesem Browser entfernt.</p><div class="document-actions"><button value="cancel" class="secondary">Abbrechen</button><button value="delete" class="danger">Alle löschen</button></div></form>';
+    document.body.appendChild(dialog);
+    dialog.addEventListener("close", () => {
+      const shouldDelete = dialog.returnValue === "delete";
+      dialog.remove();
+      if (!shouldDelete) return;
+      marks = [];
+      localStorage.removeItem(storageKey);
+      article.querySelectorAll("mark.review-selection").forEach(mark => mark.replaceWith(...mark.childNodes));
+      render();
+    }, { once: true });
+    dialog.showModal();
   });
 })();
 </script>
-{% endif %}
 {% endif %}
 {% endblock %}
