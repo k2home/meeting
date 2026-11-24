@@ -2320,7 +2320,8 @@ class ManagedUserCreationPasswordTests(TestCase):
         })
         self.assertTrue(form.is_valid(), form.errors)
         user = form.save()
-        self.assertFalse(user.has_usable_password())
+        self.assertTrue(user.has_usable_password())
+        self.assertFalse(user.check_password(""))
 
     def test_passwordless_user_creation_requires_email(self):
         from .management_views import ManagedUserCreateForm
