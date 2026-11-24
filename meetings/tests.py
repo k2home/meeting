@@ -346,6 +346,32 @@ class MyTasksViewTests(TestCase):
         self.assertEqual(list(response.context["main_topics"]), [self.overdue])
         self.assertNotIn(self.overdue, [item.topic for item in response.context["agenda_tasks"]])
 
+    def test_upcoming_meeting_prevents_previous_agenda_item_from_appearing_overdue(self):
+        from datetime import timedelta
+        from django.utils import timezone
+
+        self.overdue.assigned_to = self.user
+        self.overdue.save(update_fields=["assigned_to"])
+        upcoming_meeting = Meeting.objects.create(
+            series=self.series, date=timezone.localdate() + timedelta(days=7)
+        )
+        AgendaItem.objects.create(
+            meeting=upcoming_meeting, topic=self.overdue, status="open"
+        )
+
+        response = self.client.get(reverse("my_tasks"))
+
+        self.assertEqual(response.status_code, 200)
+        topic = next(
+            item for item in response.context["main_topics"]
+            if item.pk == self.overdue.pk
+        )
+        self.assertEqual(topic.next_meeting_date, upcoming_meeting.date)
+        self.assertNotContains(response, "Überfällig ·")
+        self.assertContains(
+            response, upcoming_meeting.date.strftime("%d.%m.%Y")
+        )
+
     def test_my_tasks_requires_login(self):
         self.client.logout()
         response = self.client.get(reverse("my_tasks"))
