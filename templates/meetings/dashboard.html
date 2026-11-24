@@ -120,6 +120,7 @@
       if (!nextResults || !currentResults || !nextCount) throw new Error("Suchergebnisse sind unvollständig.");
       currentResults.replaceWith(nextResults);
       if (resultCount) resultCount.textContent = nextCount.textContent;
+      bindTopicTableSort(nextResults.querySelector("#dashboard-topics-table"));
       window.history.replaceState({}, "", url.pathname + url.search + url.hash);
     } catch (error) {
       if (error.name !== "AbortError") console.error(error);
@@ -165,29 +166,31 @@
     updateMeetingOptions();
   }
 
-  const table = document.getElementById("dashboard-topics-table");
-  if (!table) return;
-  const body = table.tBodies[0];
-  table.querySelectorAll("button[data-sort-column]").forEach(button => {
-    button.addEventListener("click", () => {
-      const column = Number(button.dataset.sortColumn);
-      const type = button.dataset.sortType;
-      const header = button.closest("th");
-      const ascending = header.getAttribute("aria-sort") !== "ascending";
-      const rows = Array.from(body.rows);
-      rows.sort((left, right) => {
-        const a = left.cells[column].dataset.sortValue || left.cells[column].textContent.trim();
-        const b = right.cells[column].dataset.sortValue || right.cells[column].textContent.trim();
-        const comparison = type === "date" ? a.localeCompare(b) : a.localeCompare(b, "de", { sensitivity: "base", numeric: true });
-        return (ascending ? 1 : -1) * comparison;
+  function bindTopicTableSort(table) {
+    if (!table) return;
+    const body = table.tBodies[0];
+    table.querySelectorAll("button[data-sort-column]").forEach(button => {
+      button.addEventListener("click", () => {
+        const column = Number(button.dataset.sortColumn);
+        const type = button.dataset.sortType;
+        const header = button.closest("th");
+        const ascending = header.getAttribute("aria-sort") !== "ascending";
+        const rows = Array.from(body.rows);
+        rows.sort((left, right) => {
+          const a = left.cells[column].dataset.sortValue || left.cells[column].textContent.trim();
+          const b = right.cells[column].dataset.sortValue || right.cells[column].textContent.trim();
+          const comparison = type === "date" ? a.localeCompare(b) : a.localeCompare(b, "de", { sensitivity: "base", numeric: true });
+          return (ascending ? 1 : -1) * comparison;
+        });
+        rows.forEach(row => body.appendChild(row));
+        table.querySelectorAll("thead th").forEach(th => th.setAttribute("aria-sort", "none"));
+        header.setAttribute("aria-sort", ascending ? "ascending" : "descending");
+        table.querySelectorAll("button[data-sort-column] span").forEach(icon => { icon.textContent = "↕"; });
+        button.querySelector("span").textContent = ascending ? "↑" : "↓";
       });
-      rows.forEach(row => body.appendChild(row));
-      table.querySelectorAll("thead th").forEach(th => th.setAttribute("aria-sort", "none"));
-      header.setAttribute("aria-sort", ascending ? "ascending" : "descending");
-      table.querySelectorAll("button[data-sort-column] span").forEach(icon => { icon.textContent = "↕"; });
-      button.querySelector("span").textContent = ascending ? "↑" : "↓";
     });
-  });
+  }
+  bindTopicTableSort(document.getElementById("dashboard-topics-table"));
 })();
 </script>
 {% endblock %}
