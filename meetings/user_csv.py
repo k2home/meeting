@@ -322,7 +322,7 @@ def import_users_csv(request):
             request.session[SESSION_IMPORT_KEY] = {
                 "token": token,
                 "text": text,
-                "headers": next(csv.reader(io.StringIO(text), delimiter=";")),
+                "headers": next(csv.reader(io.StringIO(_csv_data_text(text)), delimiter=";")),
             }
             preview = {
                 "token": token,
