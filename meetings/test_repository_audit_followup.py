@@ -184,6 +184,6 @@ class PermissionMatrixDocumentationTests(SimpleTestCase):
 
         readme = Path(__file__).resolve().parents[1] / "README.md"
         content = readme.read_text(encoding="utf-8")
-        self.assertIn("Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Nur Systemereignisse", content)
+        self.assertIn("Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Systemereignisse und eigene moderierte Reihen", content)
         self.assertIn("Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Nein", content)
         self.assertIn("Berechtigungsmatrix nach Funktionsbereichen", content)
