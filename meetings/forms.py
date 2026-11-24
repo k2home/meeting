@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, get_user_model
 from django.db.models import Exists, OuterRef
@@ -32,6 +33,7 @@ class UsernameLoginForm(forms.Form):
             profile and profile.must_change_password
         ) or not user.has_usable_password()
         if not password and passwordless_login_allowed:
+            user.backend = settings.AUTHENTICATION_BACKENDS[0]
             self.user_cache = user
             return cleaned
         if not password:
