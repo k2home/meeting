@@ -249,7 +249,8 @@ class AuditHistoryTests(TestCase):
         response = self.client.post(reverse("series_delete", args=[self.series.pk]))
         self.assertRedirects(response, reverse("dashboard"))
 
-        event = AuditEvent.objects.get(action="deleted", summary__contains="Audit-Reihe")
+        event = AuditEvent.objects.filter(action="deleted", summary__contains="Audit-Reihe").order_by("-pk").first()
+        self.assertIsNotNone(event)
         self.assertIsNone(event.series_id)
         response = self.client.get(reverse("audit_history"))
         self.assertEqual(response.status_code, 200)
@@ -1154,6 +1155,7 @@ class AgendaFollowupLinkTests(TestCase):
         )
         self.client.force_login(self.admin)
         self.series = MeetingSeries.objects.create(name="Wiedervorlage-Reihe")
+        SeriesAccess.objects.create(user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR)
         self.source_meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Ausgangstermin")
         self.first_target = Meeting.objects.create(series=self.series, date="2027-01-14", title="Folgetermin 1")
         self.second_target = Meeting.objects.create(series=self.series, date="2027-02-11", title="Folgetermin 2")
@@ -1733,6 +1735,8 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
             password="strong-test-password",
         )
         meeting = Meeting.objects.create(series=None, date=date(2026, 12, 22))
+        access_series = MeetingSeries.objects.create(name="Moderator-Berechtigung")
+        SeriesAccess.objects.create(user=user, series=access_series, role=SeriesAccess.ROLE_MODERATOR)
         self.client.force_login(user)
         response = self.client.post(reverse("meeting_delete", args=[meeting.pk]))
         self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
