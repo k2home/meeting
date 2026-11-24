@@ -51,6 +51,7 @@ class GlobalUserRoleTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context["adminform"].form.fields["role"].disabled)
+        self.assertTrue(response.context["adminform"].form.fields["is_active"].disabled)
 
     def test_global_roles_are_mutually_exclusive_and_staff_is_admin_only(self):
         user = User.objects.create_user(username="member", password="test-password")
