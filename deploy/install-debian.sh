@@ -165,9 +165,9 @@ systemctl reload nginx
 
 echo
 echo "Installation abgeschlossen."
-echo "Interne Anwendung: http://127.0.0.1 (nur vom HTTPS-Reverse-Proxy $TRUSTED_PROXY erreichbar)"
+echo "Interne Anwendung: http://127.0.0.1:8080 (nur vom HTTPS-Reverse-Proxy $TRUSTED_PROXY erreichbar)"
 echo "Öffentliche Adresse: https://$SITE_HOST/"
-echo "Reverse-Proxy-Upstream: Port 80 dieses Servers (bei lokalem Proxy http://127.0.0.1:80); X-Forwarded-Proto muss auf https gesetzt werden."
+echo "Reverse-Proxy-Upstream: Port 8080 dieses Servers (bei lokalem Proxy http://127.0.0.1:8080); X-Forwarded-Proto muss auf https gesetzt werden."
 echo "Status:  systemctl status meeting-manager"
 echo "Logs:    journalctl -u meeting-manager -f"
 echo
