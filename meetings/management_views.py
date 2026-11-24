@@ -78,15 +78,13 @@ class ManagedUserCreateForm(UserCreationForm):
         self.testing_mode = _testing_mode_enabled()
         self.fields["password1"].required = False
         self.fields["password2"].required = False
-        self.fields["password1"].help_text = "Optional. Wenn kein Passwort vergeben wird, erhält der Nutzer eine E-Mail, über die er sein eigenes Passwort festlegen kann."
+        self.fields["password1"].help_text = "Optional. Ohne direkt vergebenes Passwort wird ein einmaliges Startpasswort angezeigt. Der Nutzer muss beim ersten Anmelden ein eigenes Passwort festlegen."
         self.fields["password2"].help_text = "Nur ausfüllen, wenn direkt ein Passwort vergeben werden soll."
         if self.testing_mode:
-            self.fields["password1"].help_text = "Optional. Im Testing-Modus ist jedes nicht leere Passwort zulässig. Ohne Passwort wird eine Passwort-Setzen-Mail versendet."
+            self.fields["password1"].help_text = "Optional. Im Testing-Modus ist jedes nicht leere Passwort zulässig. Ohne Passwort wird ein einmaliges Startpasswort angezeigt."
 
     def clean(self):
         cleaned_data = super().clean()
-        if not cleaned_data.get("password1") and not cleaned_data.get("email"):
-            self.add_error("email", "Für eine Benutzeranlage ohne Passwort ist eine E-Mail-Adresse erforderlich.")
         return cleaned_data
 
     def clean_password2(self):
@@ -108,16 +106,23 @@ class ManagedUserCreateForm(UserCreationForm):
             super()._post_clean()
 
     def save(self, commit=True):
+        import secrets
         user = super().save(commit=False)
-        if not self.cleaned_data.get("password1"):
-            import secrets
-            user.set_password(secrets.token_urlsafe(48))
+        self.generated_password = None
+        passwordless_creation = not self.cleaned_data.get("password1")
+        if passwordless_creation:
+            self.generated_password = secrets.token_urlsafe(24)
+            user.set_password(self.generated_password)
         for field in ("first_name", "last_name", "email"):
             setattr(user, field, self.cleaned_data.get(field, "").strip())
         if commit:
             user.save()
             UserProfile.objects.update_or_create(
-                user=user, defaults={"short_description": self.cleaned_data.get("short_description", "").strip()}
+                user=user,
+                defaults={
+                    "short_description": self.cleaned_data.get("short_description", "").strip(),
+                    "must_change_password": passwordless_creation,
+                },
             )
             sync_user_role(user, self.cleaned_data["role"])
         return user
