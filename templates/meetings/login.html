@@ -37,4 +37,22 @@
   field.insertAdjacentElement("afterend", button);
 })();
 </script>
+
+<!-- login-caps-lock-warning -->
+<script>
+(() => {
+  const field = document.querySelector('input[type="password"]');
+  if (!field || document.getElementById("login-caps-warning")) return;
+  const warning = document.createElement("small");
+  warning.id = "login-caps-warning";
+  warning.className = "muted";
+  warning.textContent = "Feststelltaste (Caps Lock) ist aktiviert.";
+  warning.hidden = true;
+  field.insertAdjacentElement("afterend", warning);
+  const updateWarning = event => { warning.hidden = !event.getModifierState("CapsLock"); };
+  field.addEventListener("keydown", updateWarning);
+  field.addEventListener("keyup", updateWarning);
+  field.addEventListener("blur", () => { warning.hidden = true; });
+})();
+</script>
 {% endblock %}
