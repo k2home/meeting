@@ -60,11 +60,21 @@ def enaio_agent_register(request):
     if not agent:
         return JsonResponse({"error": "Kopplungscode ungültig oder abgelaufen."}, status=403)
     token = secrets.token_urlsafe(48)
+    was_paired = bool(agent.device_token_hash)
+    previous_device_name = agent.device_name
     agent.device_token_hash = _digest(token)
     agent.pairing_code_hash = ""
     agent.pairing_expires_at = None
     agent.device_name = str(data.get("device_name", "Windows-PC"))[:120]
     agent.save(update_fields=["device_token_hash", "pairing_code_hash", "pairing_expires_at", "device_name", "updated_at"])
+    AuditEvent.objects.create(
+        actor=agent.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated" if was_paired else "created",
+        summary=f"enaio-Agent für „{agent.user.get_full_name() or agent.user.username}“ {'neu gekoppelt' if was_paired else 'gekoppelt'}",
+        changes={
+            "Gerätename": ({"vorher": previous_device_name, "nachher": agent.device_name} if was_paired else {"nachher": agent.device_name}),
+            "Gerätezugriff": {"nachher": "Neues Zugriffstoken ausgegeben; Tokenwert wird nicht protokolliert"},
+        },
+    )
     return JsonResponse({"device_token": token, "poll_interval_seconds": 5})
 
 
