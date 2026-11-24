@@ -1,4 +1,7 @@
+from functools import wraps
+
 from django.db.models import Q
+from django.http import HttpResponseForbidden
 from django.urls import reverse
 
 from .models import Meeting, MeetingSeries, SeriesAccess, Topic
@@ -16,6 +19,17 @@ def is_admin(user):
 
 def is_auditor(user):
     return bool(user.is_authenticated and not is_admin(user) and user.groups.filter(name=AUDITOR_GROUP).exists())
+
+
+
+def auditor_readonly(view):
+    """Block state-changing POST requests from global auditors."""
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        if request.method == "POST" and is_auditor(request.user):
+            return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
+        return view(request, *args, **kwargs)
+    return wrapped
 
 
 def role_for_series(user, series):
