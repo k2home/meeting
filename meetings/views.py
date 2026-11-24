@@ -1770,6 +1770,22 @@ def series_admin(request):
                 defaults={"role": SeriesAccess.ROLE_MODERATOR},
             )
             created_meetings = generate_meetings(item)
+            AuditEvent.objects.create(
+                actor=request.user,
+                scope=AuditEvent.SCOPE_SYSTEM,
+                action="created",
+                summary=f"Besprechungsreihe „{item.name}“ angelegt",
+                changes={
+                    "Bezeichnung": {"nachher": item.name},
+                    "Wiederholung": {"nachher": item.recurrence},
+                    "Intervall": {"nachher": item.recurrence_interval},
+                    "Wochentag": {"nachher": item.weekday},
+                    "Startdatum": {"nachher": item.start_date.isoformat()},
+                    "Enddatum": {"nachher": item.end_date.isoformat() if item.end_date else None},
+                    "Erster Moderator": {"nachher": selected_moderator.get_full_name() or selected_moderator.username},
+                    "Angelegte Termine": {"nachher": len(created_meetings)},
+                },
+            )
             record_event(
                 actor=request.user, action="created",
                 summary=f"Besprechungsreihe „{item.name}“ angelegt",
@@ -2068,6 +2084,18 @@ def series_delete(request, pk):
         topics.exclude(status="archived").update(archive_previous_status=models.F("status"))
         topics.update(status="archived", series=None)
         Meeting.objects.filter(series=series).update(archived_series_name=name, series=None)
+        AuditEvent.objects.create(
+            actor=request.user,
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="deleted",
+            summary=f"Besprechungsreihe „{name}“ gelöscht",
+            changes={
+                "Bezeichnung": {"vorher": name},
+                "Archivierte Besprechungstermine": {"vorher": len(meeting_ids)},
+                "Archivierte Themen": {"vorher": archived_topic_count},
+                "Ehemalige Mitglieder mit Lesezugriff": {"vorher": len(former_access) if meeting_ids else 0},
+            },
+        )
         record_event(
             actor=request.user, action="deleted",
             summary=f"Besprechungsreihe „{name}“ gelöscht",
