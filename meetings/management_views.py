@@ -126,7 +126,7 @@ class ManagedUserCreateForm(UserCreationForm):
 
 
 class ManagedUserEditForm(forms.ModelForm):
-    is_active = forms.TypedChoiceField(label="Aktiv", choices=(("true", "Aktiv"), ("false", "Deaktiviert")), coerce=lambda value: value == "true", empty_value=False)
+    is_active = forms.ChoiceField(label="Aktiv", choices=(("true", "Aktiv"), ("false", "Deaktiviert")))
     short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
     role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES)
 
@@ -145,6 +145,9 @@ class ManagedUserEditForm(forms.ModelForm):
         self.fields["role"].initial = get_user_role(self.instance) if self.instance.pk else "user"
         if self.instance.is_superuser:
             self.fields["role"].disabled = True
+
+    def clean_is_active(self):
+        return self.cleaned_data["is_active"] == "true"
 
     def save(self, commit=True):
         user = super().save(commit=commit)
