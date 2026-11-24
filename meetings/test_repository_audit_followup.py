@@ -76,7 +76,12 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
 
     def test_series_creation_and_edit_are_audited(self):
         today = timezone.localdate()
+        moderator = User.objects.create_user(
+            username="initial-series-moderator", first_name="Ada", last_name="Lovelace",
+            password="test-password",
+        )
         response = self.client.post(reverse("series_admin"), {
+            "initial_moderator": moderator.pk,
             "name": "Auditierte Reihe",
             "description": "Vorher",
             "recurrence": "weekly",
@@ -89,6 +94,11 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
         series = MeetingSeries.objects.get(name="Auditierte Reihe")
         created_event = AuditEvent.objects.get(series=series, action="created")
         self.assertEqual(created_event.actor, self.admin)
+        self.assertTrue(SeriesAccess.objects.filter(
+            series=series, user=moderator, role=SeriesAccess.ROLE_MODERATOR
+        ).exists())
+        self.assertFalse(SeriesAccess.objects.filter(series=series, user=self.admin).exists())
+        self.assertEqual(created_event.changes["Erster Moderator"]["nachher"], "Ada Lovelace")
 
         response = self.client.post(reverse("series_edit", args=[series.pk]), {
             "name": "Auditierte Reihe",
