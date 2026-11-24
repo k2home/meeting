@@ -49,7 +49,7 @@ class UserCsvUploadForm(forms.Form):
 def _csv_value(value):
     """Prevent spreadsheet formula execution when opening exported data."""
     value = "" if value is None else str(value)
-    if value.startswith(("=", "+", "-", "@", "\t", "\r")):
+    if value.lstrip()[:1] in ("=", "+", "-", "@"):
         return "'" + value
     return value
 
