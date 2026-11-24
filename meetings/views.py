@@ -407,6 +407,8 @@ def open_topics(request):
 @login_required
 def my_tasks(request):
     """Separate topic-level ownership from explicit agenda-item assignments."""
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     today = timezone.localdate()
     visible_meetings = accessible_meetings(request.user)
     series_options = accessible_series(request.user).order_by("name")
@@ -1118,6 +1120,8 @@ def topic_transfer(request, pk):
 
 @login_required
 def archive(request):
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     items = AgendaItem.objects.filter(
         meeting__in=accessible_meetings(request.user), status="done"
     ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
