@@ -13,7 +13,7 @@ class TopicAttachmentAddedDateTests(TestCase):
             username="attachment-date-user", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="Anlagen-Datum")
-        SeriesAccess.objects.create(user=self.user, series=self.series)
+        SeriesAccess.objects.create(user=self.user, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT)
         self.topic = Topic.objects.create(title="Anlagen-Datumsthema", series=self.series)
         self.attachment = TopicAttachment.objects.create(
             topic=self.topic, label="Datierte Unterlage",
