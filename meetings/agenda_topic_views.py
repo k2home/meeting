@@ -39,6 +39,7 @@ class NewTopicForm(forms.ModelForm):
 
 
 @login_required
+@auditor_readonly
 def topic_new(request):
     writable_series = accessible_series(request.user)
     if is_auditor(request.user):
@@ -85,6 +86,7 @@ def topic_new(request):
 
 
 @login_required
+@auditor_readonly
 def topic_archive_toggle(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
@@ -132,6 +134,7 @@ def topic_archive_toggle(request, pk):
 
 
 @login_required
+@auditor_readonly
 @transaction.atomic
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
@@ -214,6 +217,7 @@ def topic_detail(request, pk):
 
 
 @login_required
+@auditor_readonly
 @transaction.atomic
 def edit_topic_agenda_item(request, pk, item_pk):
     if request.method != "POST":
