@@ -1139,10 +1139,11 @@ def agenda_attachment_add(request, meeting_pk, item_pk):
     item = get_object_or_404(
         AgendaItem.objects.select_related("topic", "topic__series"),
         pk=item_pk, meeting=meeting,
+        topic__in=accessible_topics(request.user),
     )
     topic = item.topic
     if (
-        is_reader(request.user, meeting.series)
+        is_reader(request.user, topic.series)
         or (topic.series_id is None and not is_admin(request.user))
     ):
         return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
