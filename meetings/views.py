@@ -13,7 +13,7 @@ from django.contrib.auth import login, logout, get_user_model, update_session_au
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.db import transaction, models
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
 from django.db.models.functions import RowNumber, Coalesce
@@ -49,7 +49,7 @@ def login_view(request):
         if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
             return redirect(next_url)
         return redirect("dashboard")
-    return render(request, "meetings/login.html", {"form": form, "next": request.GET.get("next", "")})
+    return render(request, "meetings/login.html", {"form": form, "next": request.GET.get("next", ""), "show_password": bool(request.POST.get("username"))})
 
 @login_required
 def forced_password_change(request):
@@ -57,7 +57,7 @@ def forced_password_change(request):
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
     if not profile.must_change_password:
         return redirect("dashboard")
-    form = PasswordChangeForm(user=request.user, data=request.POST or None)
+    form = SetPasswordForm(user=request.user, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
         user = form.save()
         profile.must_change_password = False
