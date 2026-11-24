@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
-from .models import AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic
+from .models import AuditEvent, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic
 from .user_roles import get_user_role, sync_user_role
 
 User = get_user_model()
@@ -117,7 +117,7 @@ class GlobalUserRoleTests(TestCase):
         auditor = User.objects.create_user(username="auditor", password="test-password")
         sync_user_role(auditor, "auditor")
         AuditEvent.objects.create(
-            actor=self.admin, series=self.series, action="created", summary="Audit-Eintrag sichtbar"
+            actor=self.admin, scope=AuditEvent.SCOPE_SYSTEM, action="created", summary="System-Audit-Eintrag sichtbar"
         )
         self.client.force_login(auditor)
 
@@ -125,10 +125,31 @@ class GlobalUserRoleTests(TestCase):
         export = self.client.get(reverse("audit_history_csv"))
 
         self.assertEqual(page.status_code, 200)
-        self.assertContains(page, "Audit-Eintrag sichtbar")
+        self.assertContains(page, "System-Audit-Eintrag sichtbar")
         self.assertContains(page, "nav-history")
         self.assertEqual(export.status_code, 200)
-        self.assertIn("Audit-Eintrag sichtbar", export.content.decode("utf-8-sig"))
+        self.assertIn("System-Audit-Eintrag sichtbar", export.content.decode("utf-8-sig"))
+
+
+    def test_auditor_can_read_users_roles_and_organization_settings_but_not_start_password(self):
+        auditor = User.objects.create_user(username="auditor", password="test-password")
+        sync_user_role(auditor, "auditor")
+        OrganizationSettings.objects.create(
+            pk=1, name="Prüforganisation", short_name="Prüfung",
+            start_password="streng-geheim",
+        )
+        self.client.force_login(auditor)
+
+        users = self.client.get(reverse("auditor_users"))
+        groups = self.client.get(reverse("auditor_groups"))
+        organization = self.client.get(reverse("auditor_organization_settings"))
+
+        self.assertEqual(users.status_code, 200)
+        self.assertContains(users, "auditor")
+        self.assertEqual(groups.status_code, 200)
+        self.assertEqual(organization.status_code, 200)
+        self.assertContains(organization, "Prüforganisation")
+        self.assertNotContains(organization, "streng-geheim")
 
     def test_user_csv_export_contains_global_role_and_series_role(self):
         user = User.objects.create_user(username="member", password="test-password")
