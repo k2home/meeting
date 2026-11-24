@@ -123,9 +123,12 @@ class TopicAdmin(admin.ModelAdmin):
         return custom_urls + super().get_urls()
 
     def csv_import_view(self, request):
-        if not self.has_change_permission(request):
+        if not is_moderator(request.user):
             raise PermissionDenied
-        return import_topic_agenda_csv(request)
+        series_ids = list(SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_MODERATOR
+        ).values_list("series_id", flat=True))
+        return import_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
     def csv_sample_view(self, request):
         if not self.has_view_or_change_permission(request):
