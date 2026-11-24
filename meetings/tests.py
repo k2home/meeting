@@ -262,7 +262,7 @@ class AuditHistoryTests(TestCase):
         )
         self.client.force_login(admin)
         response = self.client.get(reverse("audit_history"))
-        self.assertNotContains(response, "Audit-Reihe“ gelöscht")
+        self.assertContains(response, "Audit-Reihe“ gelöscht")
 
     def test_auditor_has_own_overview_and_read_only_settings_only(self):
         from .user_roles import sync_user_role
@@ -1736,9 +1736,11 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
             email="orphan@example.org",
             password="strong-test-password",
         )
+        from .models import ArchivedMeetingAccess
         meeting = Meeting.objects.create(series=None, date=date(2026, 12, 22))
-        access_series = MeetingSeries.objects.create(name="Moderator-Berechtigung")
-        SeriesAccess.objects.create(user=user, series=access_series, role=SeriesAccess.ROLE_MODERATOR)
+        ArchivedMeetingAccess.objects.create(
+            meeting=meeting, user=user, role=SeriesAccess.ROLE_MODERATOR
+        )
         self.client.force_login(user)
         response = self.client.post(reverse("meeting_delete", args=[meeting.pk]))
         self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
