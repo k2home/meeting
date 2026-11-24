@@ -10,12 +10,15 @@
 <section class="card" style="margin-bottom:1rem">
   <h2>Offene Berechtigungsanträge</h2>
   <p class="muted">Administratoren sehen alle Anträge. Moderatoren sehen nur Anträge für ihre eigenen Besprechungsreihen.</p>
+  <label for="access-request-search">Anträge durchsuchen</label>
+  <input type="search" id="access-request-search" placeholder="Benutzer, Reihe oder Rolle eingeben …" autocomplete="off" aria-controls="access-request-table">
+  <p id="access-request-search-status" class="muted" role="status" aria-live="polite">Alle offenen Anträge werden angezeigt.</p>
   <div style="overflow-x:auto">
-    <table>
+    <table id="access-request-table">
       <thead><tr><th>Benutzer</th><th>Besprechungsreihe</th><th>Beantragte Berechtigung</th><th>Antrag vom</th><th>Entscheidung</th></tr></thead>
       <tbody>
       {% for item in pending_access_requests %}
-        <tr>
+        <tr class="access-request-row">
           <td>{{ item.user.get_full_name|default:item.user.username }}</td>
           <td>{{ item.series.name }}</td>
           <td>{{ item.get_requested_role_display }}</td>
@@ -155,6 +158,27 @@
     if (!startDate.value) return;
     const selected = new Date(startDate.value + 'T00:00:00');
     weekday.value = String((selected.getDay() + 6) % 7);
+  });
+})();
+</script>
+<script>
+(() => {
+  const input = document.getElementById("access-request-search");
+  const table = document.getElementById("access-request-table");
+  const status = document.getElementById("access-request-search-status");
+  if (!input || !table || !status) return;
+  const rows = Array.from(table.querySelectorAll(".access-request-row"));
+  input.addEventListener("input", () => {
+    const query = input.value.trim().toLocaleLowerCase("de");
+    let visible = 0;
+    rows.forEach(row => {
+      const matches = !query || row.textContent.toLocaleLowerCase("de").includes(query);
+      row.hidden = !matches;
+      if (matches) visible += 1;
+    });
+    status.textContent = query
+      ? visible + " von " + rows.length + " offenen Anträgen gefunden."
+      : "Alle offenen Anträge werden angezeigt.";
   });
 })();
 </script>
