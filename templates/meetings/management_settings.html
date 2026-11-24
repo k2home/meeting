@@ -34,13 +34,36 @@
     {% with field=form.attachment_max_size_mb %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
   </section>
   <section class="card">
-    <h2>Markenfarben</h2><p class="muted">Grundfarben sowie optionale Abweichungen für Hell- und Dunkelmodus.</p>
-    {% for field in form %}{% if "_color" in field.name %}
+    <h2>Markenfarben</h2>
+    <p class="muted">Lege hier die Grundfarben fest. Abweichende Farben für den Hell- und Dunkelmodus sind optional und können bei Bedarf aufgeklappt werden.</p>
+    {% for field in form %}{% if field.name == "primary_color" or field.name == "secondary_color" or field.name == "tertiary_color" %}
       <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
     {% endif %}{% endfor %}
+
+    <details class="optional-theme-colors"{% if form.primary_color_light.errors or form.secondary_color_light.errors or form.tertiary_color_light.errors %} open{% endif %}>
+      <summary><strong>Abweichende Farben für den Hellmodus (optional)</strong></summary>
+      <p class="muted">Leer lassen, um jeweils die entsprechende Grundfarbe zu verwenden.</p>
+      {% for field in form %}{% if field.name == "primary_color_light" or field.name == "secondary_color_light" or field.name == "tertiary_color_light" %}
+        <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
+      {% endif %}{% endfor %}
+    </details>
+
+    <details class="optional-theme-colors"{% if form.primary_color_dark.errors or form.secondary_color_dark.errors or form.tertiary_color_dark.errors %} open{% endif %}>
+      <summary><strong>Abweichende Farben für den Dunkelmodus (optional)</strong></summary>
+      <p class="muted">Leer lassen, um jeweils die entsprechende Grundfarbe zu verwenden.</p>
+      {% for field in form %}{% if field.name == "primary_color_dark" or field.name == "secondary_color_dark" or field.name == "tertiary_color_dark" %}
+        <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
+      {% endif %}{% endfor %}
+    </details>
   </section>
   <div class="actions"><button class="primary" type="submit">Einstellungen speichern</button></div>
 </form>
+<style>
+.optional-theme-colors{margin-top:1rem;padding:.85rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.optional-theme-colors summary{cursor:pointer;color:var(--text)}
+.optional-theme-colors[open] summary{margin-bottom:.75rem}
+.optional-theme-colors summary:focus-visible{outline:3px solid #d9e9f7;outline-offset:4px;border-radius:2px}
+</style>
 <script>
 document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],input[name$="_color_dark"]').forEach(function(input){
   input.setAttribute('pattern','^$|^#[0-9A-Fa-f]{6}$');
