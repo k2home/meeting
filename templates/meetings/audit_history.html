@@ -62,8 +62,12 @@
               {% endfor %}
             </ul></dd>
           {% elif value.vorher is not None or value.nachher is not None %}
-            <dd><span class="muted">Vorher:</span> {{ value.vorher|default:"—"|audit_text|linebreaksbr }}</dd>
-            <dd><span class="muted">Nachher:</span> {{ value.nachher|default:"—"|audit_text|linebreaksbr }}</dd>
+            <dd><span class="muted">Vorher:</span>
+              {% if value.vorher == True or value.vorher == False %}{{ value.vorher|yesno:"Ja,Nein" }}{% else %}{{ value.vorher|default:"—"|audit_text|linebreaksbr }}{% endif %}
+            </dd>
+            <dd><span class="muted">Nachher:</span>
+              {% if value.nachher == True or value.nachher == False %}{{ value.nachher|yesno:"Ja,Nein" }}{% else %}{{ value.nachher|default:"—"|audit_text|linebreaksbr }}{% endif %}
+            </dd>
           {% else %}<dd>{{ value|audit_text|linebreaksbr }}</dd>{% endif %}
         {% endfor %}
         </dl>
