@@ -41,6 +41,24 @@ read_existing_env() {
   fi
 }
 
+set_env_value() {
+  local key="$1" value="$2"
+  if grep -q "^\${key}=" "$APP_DIR/.env"; then
+    sed -i "s|^\${key}=.*|\${key}=\${value}|" "$APP_DIR/.env"
+  else
+    printf '%s=%s\\n' "$key" "$value" >> "$APP_DIR/.env"
+  fi
+}
+
+DEFAULT_PROXY="$(read_existing_env TRUSTED_PROXY)"
+DEFAULT_PROXY="\${DEFAULT_PROXY:-127.0.0.1}"
+read -r -p "IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys [$DEFAULT_PROXY]: " TRUSTED_PROXY
+TRUSTED_PROXY="\${TRUSTED_PROXY:-$DEFAULT_PROXY}"
+if ! python3 -c 'import ipaddress, sys; ipaddress.ip_network(sys.argv[1], strict=False)' "$TRUSTED_PROXY" 2>/dev/null; then
+  echo "Ungültige Proxy-Adresse. Erwartet wird eine IPv4-/IPv6-Adresse oder ein CIDR-Netz." >&2
+  exit 1
+fi
+
 # Reuse existing infrastructure credentials on reinstalls; never rotate a
 # working database password or SECRET_KEY merely because the installer ran again.
 if [[ -f "$APP_DIR/.env" ]]; then
@@ -80,21 +98,22 @@ if [[ ! -f "$APP_DIR/.env" ]]; then
 SECRET_KEY=$SECRET_KEY
 DEBUG=0
 ALLOWED_HOSTS=$SITE_HOST,localhost,127.0.0.1
-CSRF_TRUSTED_ORIGINS=
+CSRF_TRUSTED_ORIGINS=https://$SITE_HOST
 POSTGRES_DB=$DB_NAME
 POSTGRES_USER=$DB_USER
 POSTGRES_PASSWORD=$DB_PASSWORD
 POSTGRES_HOST=127.0.0.1
 POSTGRES_PORT=5432
 TIME_ZONE=Europe/Berlin
-SECURE_SSL_REDIRECT=0
-SESSION_COOKIE_SECURE=0
-CSRF_COOKIE_SECURE=0
+SECURE_SSL_REDIRECT=1
+SESSION_COOKIE_SECURE=1
+CSRF_COOKIE_SECURE=1
 SECURE_HSTS_SECONDS=0
 SECURE_HSTS_INCLUDE_SUBDOMAINS=0
 SECURE_HSTS_PRELOAD=0
-TRUST_PROXY_SSL=0
-USE_X_FORWARDED_HOST=0
+TRUST_PROXY_SSL=1
+USE_X_FORWARDED_HOST=1
+TRUSTED_PROXY=$TRUSTED_PROXY
 EOF
 else
   # Remove the obsolete activation code from installations created by older versions.
@@ -105,6 +124,16 @@ else
     sed -i "s/^ALLOWED_HOSTS=.*/ALLOWED_HOSTS=$CURRENT_HOSTS,$SITE_HOST/" "$APP_DIR/.env"
   fi
 fi
+
+# Productive installs always require HTTPS at the trusted reverse proxy.
+set_env_value "CSRF_TRUSTED_ORIGINS" "https://$SITE_HOST"
+set_env_value "SECURE_SSL_REDIRECT" "1"
+set_env_value "SESSION_COOKIE_SECURE" "1"
+set_env_value "CSRF_COOKIE_SECURE" "1"
+set_env_value "TRUST_PROXY_SSL" "1"
+set_env_value "USE_X_FORWARDED_HOST" "1"
+set_env_value "TRUSTED_PROXY" "$TRUSTED_PROXY"
+
 chown root:www-data "$APP_DIR/.env"
 chmod 640 "$APP_DIR/.env"
 
@@ -125,18 +154,7 @@ bash "$APP_DIR/deploy/install-debian-updater.sh"
 NGINX_CONFIG="/etc/nginx/sites-available/meeting-manager"
 install -m 0644 "$APP_DIR/deploy/nginx-meeting-manager.conf" "$NGINX_CONFIG"
 
-# Keep the default one-prompt installation, but honor an explicitly configured
-# trusted reverse proxy from an existing .env without asking additional questions.
-TRUSTED_PROXY="$(read_existing_env TRUSTED_PROXY)"
-if [[ -n "$TRUSTED_PROXY" ]]; then
-  if ! python3 -c 'import ipaddress, sys; ipaddress.ip_network(sys.argv[1], strict=False)' "$TRUSTED_PROXY" 2>/dev/null; then
-    echo "Ungültige TRUSTED_PROXY-Adresse in .env. Erwartet wird eine IPv4-/IPv6-Adresse oder ein CIDR-Netz." >&2
-    exit 1
-  fi
-  sed -i "s|server_name _;|server_name $SITE_HOST;\\n    allow $TRUSTED_PROXY;\\n    deny all;|" "$NGINX_CONFIG"
-else
-  sed -i "s|server_name _;|server_name $SITE_HOST;|" "$NGINX_CONFIG"
-fi
+sed -i "s|server_name _;|server_name $SITE_HOST;\\n    allow $TRUSTED_PROXY;\\n    deny all;|" "$NGINX_CONFIG"
 ln -sfn "$NGINX_CONFIG" /etc/nginx/sites-enabled/meeting-manager
 rm -f /etc/nginx/sites-enabled/default
 nginx -t
@@ -147,10 +165,13 @@ systemctl reload nginx
 
 echo
 echo "Installation abgeschlossen."
-echo "Website: http://$SITE_HOST/"
+echo "Interne Anwendung: http://127.0.0.1 (nur vom HTTPS-Reverse-Proxy $TRUSTED_PROXY erreichbar)"
+echo "Öffentliche Adresse: https://$SITE_HOST/"
+echo "Reverse-Proxy-Upstream: http://127.0.0.1:80; X-Forwarded-Proto muss auf https gesetzt werden."
 echo "Status:  systemctl status meeting-manager"
 echo "Logs:    journalctl -u meeting-manager -f"
 echo
 echo "Die technischen Zugangsdaten wurden automatisch erzeugt und in $APP_DIR/.env gespeichert."
 echo "WICHTIG: .env enthält Secrets und ist nur für root und www-data lesbar. Nicht einchecken oder weitergeben."
-echo "HTTPS: Für produktiven Zugriff HTTPS über einen vorgeschalteten Reverse Proxy konfigurieren."
+echo "HTTPS ist erzwungen: Ohne vorgeschalteten TLS-Reverse-Proxy mit gültigem Zertifikat ist die Anwendung nicht nutzbar."
+echo "Django vertraut X-Forwarded-Proto ausschließlich über Nginx-Zugriffe von $TRUSTED_PROXY."
