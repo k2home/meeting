@@ -44,27 +44,27 @@ class GlobalUserRoleTests(TestCase):
         self.assertFalse(user.is_staff)
         self.assertFalse(user.groups.filter(name__in=["Admin", "Auditor"]).exists())
 
-    def test_auditor_can_read_all_series_but_has_no_write_access(self):
+    def test_auditor_cannot_read_series_content_even_with_series_assignment(self):
         auditor = User.objects.create_user(username="auditor", password="test-password")
         sync_user_role(auditor, "auditor")
 
         SeriesAccess.objects.create(user=auditor, series=self.series, role=SeriesAccess.ROLE_MODERATOR)
-        self.assertTrue(is_reader(auditor, self.series))
+        self.assertFalse(is_reader(auditor, self.series))
         self.assertFalse(is_moderator(auditor, self.series))
         self.assertFalse(has_writable_series(auditor))
         self.assertQuerySetEqual(
             accessible_series(auditor).order_by("pk"),
-            MeetingSeries.objects.order_by("pk"),
+            MeetingSeries.objects.none(),
             transform=lambda item: item,
         )
         self.assertQuerySetEqual(
             accessible_meetings(auditor).order_by("pk"),
-            Meeting.objects.order_by("pk"),
+            Meeting.objects.none(),
             transform=lambda item: item,
         )
         self.assertQuerySetEqual(
             accessible_topics(auditor).order_by("pk"),
-            Topic.objects.order_by("pk"),
+            Topic.objects.none(),
             transform=lambda item: item,
         )
 
@@ -92,14 +92,14 @@ class GlobalUserRoleTests(TestCase):
         assignment.refresh_from_db()
         self.assertEqual(assignment.role, SeriesAccess.ROLE_MODERATOR)
 
-    def test_auditor_cannot_change_meetings_or_topics(self):
+    def test_auditor_cannot_read_or_change_meetings_or_topics(self):
         auditor = User.objects.create_user(username="auditor", password="test-password")
         sync_user_role(auditor, "auditor")
         self.client.force_login(auditor)
 
         meeting_page = self.client.get(reverse("meeting", args=[self.meeting.pk]))
         self.meeting.refresh_from_db()
-        self.assertEqual(meeting_page.status_code, 200)
+        self.assertEqual(meeting_page.status_code, 404)
         self.assertFalse(self.meeting.participants_initialized)
         meeting_update = self.client.post(
             reverse("meeting", args=[self.meeting.pk]), {"save_participants": "1"}
