@@ -129,11 +129,12 @@ class TopicAttachmentManagementTests(TestCase):
         self.topic_url = reverse("topic_edit", args=[self.topic.pk])
         self.dashboard_url = reverse("dashboard") + "?q=Themen+Anlagen-Thema"
 
-    def test_dashboard_links_to_topic_attachment_tile_instead_of_opening_dialog(self):
+    def test_dashboard_does_not_show_a_separate_attachment_link_or_dialog(self):
         response = self.client.get(self.dashboard_url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, f'href="{self.topic_url}#topic-attachments"')
+        self.assertContains(response, f'href="{self.topic_url}"')
+        self.assertNotContains(response, f'href="{self.topic_url}#topic-attachments"')
         self.assertNotContains(response, "dashboard-attachments-dialog")
         self.assertNotContains(response, "dashboard-attachments-button")
 
