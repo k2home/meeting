@@ -188,7 +188,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 
 ### Änderungsverlauf
 
-Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Themenübertragungen, Änderungen an Tagesordnungstexten und Zuständigkeiten, Sortierungen, Anlagen, Kommentaren, Teilnehmerlisten, Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen und Einzelterminen werden mit Benutzer und Zeitpunkt protokolliert. Themenübertragungen sind in beiden beteiligten Serienverläufen sichtbar. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
+Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Themenübertragungen, Änderungen an Tagesordnungstexten und Zuständigkeiten, Sortierungen, Anlagen, Kommentaren, Teilnehmerlisten, Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen und Einzelterminen werden mit Benutzer, Zeitpunkt und ausgewählten Änderungsdetails protokolliert. Themenübertragungen sind in beiden beteiligten Serienverläufen sichtbar. Moderator*innen sehen ausschließlich die Verläufe ihrer ausdrücklich moderierten Reihen. Globale Admins sehen Systemereignisse und zusätzlich nur die Serienverläufe, für die sie selbst Moderatorrechte besitzen. Auditoren sehen ausschließlich Systemereignisse und haben lesenden Zugriff. Passwortwerte, Authentifizierungs-Tokens und hochgeladene Datei-Inhalte werden nicht protokolliert; bei Passwortänderungen wird nur der Änderungsstatus festgehalten. Bei Anlagen können Dateinamen als Metadaten erscheinen.
 
 ### Benutzer-, Rechte- und Organisationsverwaltung
 
@@ -447,6 +447,8 @@ Die Seite **Meine Aufgaben** zeigt in einem eigenen Abschnitt die offenen Themen
 Netzwerkfreigaben werden auf der **VM selbst** eingebunden, nicht auf dem Arbeitsplatz des Benutzers. Beispiel: Eine NAS-Freigabe nach `/mnt/meeting-share` mounten und diesen Pfad am Thema hinterlegen.
 
 SMB-Pfade (`smb://server/freigabe/...`) werden als anklickbare Referenz gespeichert, sofern Host und Schema gültig sind. Ob der Browser bzw. das Betriebssystem den Link öffnet, hängt von der Client-Konfiguration und einem registrierten SMB-Handler ab. UNC-Pfade werden, soweit eindeutig erkennbar, in SMB-URLs überführt; nicht unterstützte oder ungültige Pfade bleiben reiner Text. Die Anwendung greift nicht selbst auf SMB-Freigaben zu. Hochgeladene Dateien liegen unter `/opt/meeting-manager/media`.
+
+Für hochgeladene Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist: **PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG**. Andere Dateiendungen, insbesondere ausführbare Dateien, Skripte und Archive, werden beim Upload abgewiesen. Die Prüfung wertet die Dateiendung aus; sie verifiziert nicht die tatsächliche Dateisignatur oder den Dateiinhalt. Ein integrierter Malware-Scanner ist derzeit nicht vorhanden. Das organisationsweite Uploadlimit liegt standardmäßig bei 20 MB und kann in den Organisationseinstellungen auf 1 bis 24 MB gesetzt werden. Downloads sind weiterhin an Anmeldung und Serienberechtigung gebunden.
 
 ## Backup und Wiederherstellung
 
