@@ -554,6 +554,3 @@ class OrganizationSettingsAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return super().has_add_permission(request) and not OrganizationSettings.objects.exists()
-
-    def has_delete_permission(self, request, obj=None):
-        return False
