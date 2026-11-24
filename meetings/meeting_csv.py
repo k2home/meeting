@@ -12,7 +12,7 @@ from .user_display import user_display_name
 
 def _spreadsheet_safe(value):
     value = "" if value is None else str(value)
-    if value.startswith(("=", "+", "-", "@", "\t", "\r")):
+    if value.lstrip(" \t\r\n").startswith(("=", "+", "-", "@")):
         return "'" + value
     return value
 
