@@ -37,7 +37,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
 - Linux-Host oder VM mit Docker Engine und Docker Compose v2
 - Netzwerkzugriff auf Docker Hub
-- Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
+- Für den Betrieb erforderlich: ein auf demselben Host eingerichteter HTTPS-Reverse-Proxy mit gültigem TLS-Zertifikat
 
 **Installation**
 
@@ -64,7 +64,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
    Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Ein Aktivierungs- oder Einrichtungscode ist nicht erforderlich. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
 
-4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
+4. Der Web-Port wird standardmäßig ausschließlich an `127.0.0.1:8080` gebunden und ist nicht direkt aus dem Netzwerk erreichbar. Einen HTTPS-Reverse-Proxy auf demselben Host einrichten und auf `http://127.0.0.1:8080` weiterleiten. Danach die Anwendung über `https://<HOSTNAME>/` öffnen.
 
 5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
 
