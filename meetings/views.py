@@ -52,6 +52,30 @@ def login_view(request):
     return render(request, "meetings/login.html", {"form": form, "next": request.GET.get("next", "")})
 
 @login_required
+def forced_password_change(request):
+    from .models import UserProfile
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
+    if not profile.must_change_password:
+        return redirect("dashboard")
+    form = PasswordChangeForm(user=request.user, data=request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        user = form.save()
+        profile.must_change_password = False
+        profile.save(update_fields=["must_change_password"])
+        update_session_auth_hash(request, user)
+        AuditEvent.objects.create(
+            actor=user,
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="updated",
+            summary=f"Passwort für Benutzerkonto „{user.username}“ neu festgelegt",
+            changes={"Passwortstatus": {"nachher": "Passwort durch Nutzer neu festgelegt"}},
+        )
+        messages.success(request, "Ihr neues Passwort wurde gespeichert.")
+        return redirect("dashboard")
+    return render(request, "meetings/forced_password_change.html", {"form": form})
+
+
+@login_required
 def logout_view(request):
     if request.method != "POST":
         return HttpResponseForbidden("Bitte über die Abmelden-Schaltfläche abmelden.")
