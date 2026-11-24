@@ -8,6 +8,7 @@ from django.db.models import Exists, OuterRef
 from .models import AgendaItem, TopicAttachment, MeetingSeries, TopicComment, Meeting, SeriesAccess
 from .user_display import user_display_name
 from django.utils import timezone
+from .password_setup import expire_password_setup_if_due
 
 class UsernameLoginForm(forms.Form):
     username = forms.CharField(label="Benutzername", max_length=150)
@@ -26,16 +27,10 @@ class UsernameLoginForm(forms.Form):
             return cleaned
         User = get_user_model()
         user = User.objects.filter(username__iexact=username).first()
+        if user is not None and expire_password_setup_if_due(user):
+            user.refresh_from_db(fields=["is_active"])
         if user is None or not user.is_active:
             raise forms.ValidationError("Benutzername oder Passwort ist nicht korrekt.")
-        profile = getattr(user, "meeting_profile", None)
-        passwordless_login_allowed = bool(
-            profile and profile.must_change_password
-        ) or not user.has_usable_password()
-        if not password and passwordless_login_allowed:
-            user.backend = settings.AUTHENTICATION_BACKENDS[0]
-            self.user_cache = user
-            return cleaned
         if not password:
             raise forms.ValidationError("Bitte gib dein Passwort ein.")
         self.user_cache = authenticate(self.request, username=user.get_username(), password=password)
