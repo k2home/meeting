@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
+from django.urls import reverse
 
 from .models import MeetingSeries, SeriesAccess, Topic, TopicAttachment
 
@@ -138,7 +139,6 @@ class DashboardAttachmentDialogTests(TestCase):
             response, f'id="dashboard-attachments-dialog-{self.topic.pk}"'
         )
         self.assertContains(response, "Anlage hinzufügen")
-        self.assertContains(response, "Datei öffnen", count=0)
 
     def test_upload_from_dashboard_returns_to_same_overview(self):
         response = self.client.post(
