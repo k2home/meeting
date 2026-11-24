@@ -589,9 +589,16 @@
     button.disabled = true;
     try {
       const value = content.innerText.trim();
+      let copied = false;
       if (window.isSecureContext && navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(value);
-      } else {
+        try {
+          await navigator.clipboard.writeText(value);
+          copied = true;
+        } catch (error) {
+          // Continue with the legacy fallback when clipboard permission is denied.
+        }
+      }
+      if (!copied) {
         const textarea = document.createElement("textarea");
         textarea.value = value;
         textarea.setAttribute("readonly", "");
@@ -600,17 +607,18 @@
         document.body.appendChild(textarea);
         try {
           textarea.select();
-          if (!document.execCommand("copy")) throw new Error("Kopieren nicht möglich");
+          copied = document.execCommand("copy");
         } finally {
           textarea.remove();
-          previousFocus?.focus?.();
         }
       }
+      if (!copied) throw new Error("Kopieren nicht möglich");
       button.textContent = "Verlauf kopiert";
     } catch {
       button.textContent = "Kopieren nicht möglich";
     } finally {
       button.disabled = false;
+      previousFocus?.focus?.();
     }
   });
 })();
