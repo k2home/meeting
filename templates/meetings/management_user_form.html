@@ -9,6 +9,15 @@
   <a class="btn secondary" href="{% url 'management_users' %}">Zur Nutzerverwaltung</a>
 </div>
 
+{% if initial_password %}
+<section class="card" style="border:1px solid var(--primary-color, #00549f);">
+  <h2>Einmaliges Startpasswort</h2>
+  <p>Geben Sie dieses Startpasswort dem Nutzer auf sicherem Weg. Es wird nicht per E-Mail versendet und nur jetzt angezeigt. Bei der ersten Anmeldung muss der Nutzer ein eigenes Passwort festlegen.</p>
+  <p><strong>Benutzername:</strong> {{ initial_password.username }}</p>
+  <p><strong>Startpasswort:</strong> <code>{{ initial_password.password }}</code></p>
+</section>
+{% endif %}
+
 {% if is_new and testing_mode %}
 <div class="card" style="background:#fee2e2;border:1px solid #dc2626;color:#991b1b;">
   <strong>Achtung: Testing-Modus aktiv</strong>
@@ -79,7 +88,7 @@
   </section>
   <section class="card">
     <h2>Passwort</h2>
-    <p class="muted">Ein Passwort kann direkt durch den Admin vergeben werden. Bleiben beide Passwortfelder leer, wird eine E-Mail zum Festlegen des eigenen Passworts an die hinterlegte E-Mail-Adresse gesendet. Diese E-Mail-Adresse ist in diesem Fall erforderlich.</p>
+    <p class="muted">Ein Passwort kann direkt durch den Admin vergeben werden. Bleiben beide Passwortfelder leer, wird ein zufälliges Startpasswort erzeugt und nach dem Speichern einmalig angezeigt. Der Nutzer muss bei der ersten Anmeldung ein eigenes Passwort festlegen. Es wird keine E-Mail versendet.</p>
     <div class="form-grid">
       {% for field in form %}
         {% if field.name == "password1" or field.name == "password2" %}
