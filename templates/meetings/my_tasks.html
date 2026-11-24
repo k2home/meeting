@@ -1,5 +1,25 @@
 {% extends "meetings/base.html" %}
-{% block title %}Meine Aufgaben – Meeting Manager{% endblock %}
+{% block title %}Meine Aufgaben – Meeting Manager
+<script>
+(() => {
+  const input = document.getElementById("my-tasks-search");
+  const feedback = document.getElementById("my-tasks-search-feedback");
+  const tables = [document.getElementById("my-tasks-table-0"), document.getElementById("my-tasks-table-1")].filter(Boolean);
+  if (!input || !feedback || !tables.length) return;
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    let visibleCount = 0;
+    tables.forEach(table => table.querySelectorAll("tbody tr").forEach(row => {
+      const visible = !term || row.textContent.toLocaleLowerCase("de").includes(term);
+      row.hidden = !visible;
+      if (visible) visibleCount++;
+    }));
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Aufgaben gefunden.";
+  });
+})();
+</script>
+{% endblock %}
 {% block content %}
 <style>
 .my-tasks-compact-filter{display:inline-block;width:auto;max-width:100%;padding:.5rem .75rem}
@@ -19,6 +39,12 @@
     <p class="muted">Hauptzuständigkeiten und ausdrücklich zugewiesene Tagesordnungspunkte werden getrennt dargestellt.</p>
   </div>
 </header>
+<div class="my-tasks-live-search" style="margin:.8rem 0">
+  <label for="my-tasks-search">Aufgaben live durchsuchen</label>
+  <input type="search" id="my-tasks-search" placeholder="Thema, Reihe, Termin oder Protokolltext …" aria-controls="my-tasks-table-0 my-tasks-table-1">
+  <p id="my-tasks-search-feedback" class="muted" aria-live="polite" hidden></p>
+</div>
+
 <form method="get" class="card filter-panel my-tasks-compact-filter" style="margin:.8rem 0">
   <div class="my-tasks-filter-controls">
     <label for="my-tasks-series">Besprechungsreihe</label>
@@ -39,7 +65,7 @@
   <p class="muted">Themen, für die du als hauptverantwortliche Person eingetragen bist.</p>
   {% if main_topics %}
     <div style="overflow-x:auto">
-      <table>
+      <table id="my-tasks-table-0">
         <thead><tr><th>Thema</th><th>Besprechungsreihe</th><th>Nächster Termin</th><th>Letzter Tagesordnungstext</th></tr></thead>
         <tbody>
           {% for topic in main_topics %}
@@ -64,7 +90,7 @@
   <p class="muted">Hier erscheinen Tagesordnungspunkte, bei denen du ausdrücklich als abweichend verantwortliche Person eingetragen bist.</p>
   {% if agenda_tasks %}
     <div style="overflow-x:auto">
-      <table>
+      <table id="my-tasks-table-1">
         <thead><tr><th>Termin</th><th>Thema</th><th>Besprechungsreihe</th><th>Text für das Protokoll</th><th></th></tr></thead>
         <tbody>
           {% for item in agenda_tasks %}
