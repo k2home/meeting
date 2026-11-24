@@ -252,7 +252,36 @@ class AuditHistoryTests(TestCase):
         )
         self.client.force_login(admin)
         response = self.client.get(reverse("audit_history"))
-        self.assertContains(response, "Audit-Reihe“ gelöscht")
+        self.assertNotContains(response, "Audit-Reihe“ gelöscht")
+
+    def test_admin_and_auditor_see_system_events_but_not_series_events(self):
+        from .models import AuditEvent
+        from .user_roles import sync_user_role
+
+        admin = User.objects.create_superuser(
+            username="system-admin", email="system-admin@example.com",
+            password="strong-test-password",
+        )
+        auditor = User.objects.create_user(
+            username="system-auditor", password="strong-test-password",
+        )
+        sync_user_role(auditor, "auditor")
+        AuditEvent.objects.create(
+            actor=admin, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+            summary="Globale Systemeinstellung geändert",
+        )
+        AuditEvent.objects.create(
+            actor=admin, scope=AuditEvent.SCOPE_SERIES, action="deleted",
+            summary="Besprechungsreihe gelöscht",
+        )
+
+        for account in (admin, auditor):
+            self.client.force_login(account)
+            response = self.client.get(reverse("audit_history"))
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Globale Systemeinstellung geändert")
+            self.assertNotContains(response, "Besprechungsreihe gelöscht")
+
 
 class TopicTaskManagementTests(TestCase):
     def setUp(self):
