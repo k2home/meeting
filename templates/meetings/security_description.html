@@ -1,0 +1,28 @@
+{% extends "meetings/base.html" %}
+{% block title %}IT, Informationssicherheit und Datenschutz – Meeting Manager{% endblock %}
+{% block content %}
+<style>
+.security-document{max-width:1100px;margin:0 auto}.security-document .document-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin:1rem 0 1.5rem}.security-document .document-content{min-width:0}.security-document .document-content h1{font-size:1.8rem;margin:0 0 1rem}.security-document .document-content h2{font-size:1.35rem;margin:2rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}.security-document .document-content h3{font-size:1.1rem;margin:1.4rem 0 .5rem}.security-document .document-content p,.security-document .document-content li{line-height:1.65}.security-document .document-content table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:1rem 0}.security-document .document-content th,.security-document .document-content td{padding:.6rem;vertical-align:top;text-align:left;border:1px solid var(--border)}.security-document .document-content th{background:var(--soft-bg)}.security-document .document-content pre{overflow-x:auto;padding:.8rem;background:var(--soft-bg);border-radius:5px}.security-document .document-content code{overflow-wrap:anywhere}.security-document .document-content blockquote{margin:1rem 0;padding:.6rem 1rem;border-left:4px solid var(--hagen-blue);background:var(--soft-bg)}
+</style>
+<header class="page-header">
+  <div>
+    <h1>IT, Informationssicherheit und Datenschutz</h1>
+    <p class="muted">Vollständige Funktionsbeschreibung, Rollen- und Berechtigungskonzept sowie technische Risikobewertung</p>
+  </div>
+</header>
+<div class="security-document">
+  <section class="card">
+    <p>Diese Prüfung richtet sich an IT-Abteilung, Informationssicherheit und Datenschutzbeauftragte. Sie beschreibt den dokumentierten Stand der Anwendung und trennt vorhandene technische Kontrollen von organisatorischen beziehungsweise betrieblichen Empfehlungen.</p>
+    <div class="document-actions">
+      <a class="btn primary" href="{% url 'security_description_pdf' %}">PDF – vollständige Sicherheitsprüfung herunterladen</a>
+      <a class="btn secondary" href="{% url 'user_guide' %}">Zurück zur Hilfe</a>
+    </div>
+  </section>
+  <article class="card document-content">
+    {{ security_description_html|safe }}
+  </article>
+  <div class="document-actions">
+    <a class="btn primary" href="{% url 'security_description_pdf' %}">PDF – vollständige Sicherheitsprüfung herunterladen</a>
+  </div>
+</div>
+{% endblock %}
