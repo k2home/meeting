@@ -621,8 +621,8 @@ def agenda_item_delete(request, pk, item_pk):
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     archived_readonly = (
-        meeting.series_id is None and not is_admin(request.user)
-        and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists()
+        is_auditor(request.user) or (meeting.series_id is None and not is_admin(request.user)
+        and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists())
     )
     if not meeting.participants_initialized and not meeting.finalized_at and not archived_readonly:
         if not meeting.participants.exists() and meeting.series_id:
@@ -632,11 +632,16 @@ def meeting_detail(request, pk):
             meeting.participants.set(default_participants)
         meeting.participants_initialized = True
         meeting.save(update_fields=["participants_initialized"])
-    items = ensure_agenda(meeting)
+    items = (
+        meeting.agenda_items.select_related("topic", "assigned_to").all()
+        if is_auditor(request.user) else ensure_agenda(meeting)
+    )
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     assignees = UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
     writable_series = accessible_series(request.user)
-    if not is_admin(request.user):
+    if is_auditor(request.user):
+        writable_series = MeetingSeries.objects.none()
+    elif not is_admin(request.user):
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
     writable_series = writable_series.filter(active=True).order_by("name")
     target_meetings = accessible_meetings(request.user).filter(
@@ -644,6 +649,8 @@ def meeting_detail(request, pk):
     ).select_related("series").order_by("series__name", "date")
 
     if request.method == "POST":
+        if is_auditor(request.user):
+            return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
         if meeting.finalized_at:
             messages.error(request, "Eine abgeschlossene Besprechung kann nicht mehr geändert werden.")
             return redirect("meeting", pk=pk)
