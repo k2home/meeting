@@ -211,39 +211,39 @@ Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Zugewiesene Reihen, Themen und Termine ansehen | Ja | Ja | Ja | Alle Reihen |
-| Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja | Alle Reihen |
-| Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja | Ja |
-| Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja | Ja |
-| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja |
-| Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja | Ja |
-| Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja | Ja |
-| Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja | Ja |
-| Einzelne Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja |
+| Zugewiesene Reihen, Themen und Termine ansehen | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
+| Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
+| Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
+| Einzelne Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
 
 #### 2. Themen und Zusammenarbeit
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Themenübersicht und Themenhistorie ansehen | Ja | Ja | Ja | Alle Reihen |
-| Themen anlegen und Titel bearbeiten | Nein | Ja | Ja | Ja |
-| Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja | Ja |
-| Kommentare hinzufügen | Nein | Ja | Ja | Ja |
-| Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja |
-| Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja |
+| Themenübersicht und Themenhistorie ansehen | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
+| Themen anlegen und Titel bearbeiten | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Kommentare hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
+| Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
 
-**Themenarchiv:** Archivieren und Wiederöffnen ist Moderator*innen und Admins vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus, löscht aber weder Thema noch Protokollhistorie. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
+**Themenarchiv:** Archivieren und Wiederöffnen ist ausschließlich Moderator*innen der jeweiligen Reihe vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus, löscht aber weder Thema noch Protokollhistorie. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
 
 #### 3. Besprechungsreihen verwalten
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Eigene zugewiesene Reihen verwalten | Nein | Nein | Ja | Ja |
+| Eigene zugewiesene Reihen verwalten | Nein | Nein | Ja | Ja, wenn Moderator*in |
 | Reihen anlegen und Termine erzeugen | Nein | Nein | Ja | Ja |
-| Reihen ändern und verlängern | Nein | Nein | Ja | Ja |
-| Zukünftige Entwurfstermine einer Reihe neu aufsetzen | Nein | Nein | Ja | Ja |
-| Reihen löschen | Nein | Nein | Ja | Ja |
-| Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Ja |
+| Reihen ändern und verlängern | Nein | Nein | Ja | Ja, wenn Moderator*in |
+| Zukünftige Entwurfstermine einer Reihe neu aufsetzen | Nein | Nein | Ja | Ja, wenn Moderator*in |
+| Reihen löschen | Nein | Nein | Ja | Ja, wenn Moderator*in |
+| Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Nein |
 
 Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrücklich die Rolle Moderator*in besitzen. Eine von ihnen neu angelegte Reihe wird automatisch der erstellenden Person als Moderator*in zugewiesen.
 
@@ -251,7 +251,7 @@ Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrück
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Alle Reihen |
+| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Nur Systemereignisse |
 
 Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Der separate System-Änderungsverlauf ist für Admins und Auditoren sichtbar; Auditoren können ihn lesen und exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins zugänglich.
 
