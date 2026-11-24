@@ -31,6 +31,14 @@ def audit_history_csv(request):
         return HttpResponseForbidden("Für deinen Zugang ist der Export des Änderungsverlaufs nicht freigegeben.")
 
     events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
+    if not admin_access:
+        events = events.filter(
+            Q(series__in=series)
+            | (Q(series__isnull=True) & (
+                Q(topic__series__in=series)
+                | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
+            ))
+        )
     topics = Topic.objects.all() if admin_access else Topic.objects.filter(series__in=series)
     selected_series = request.GET.get("series", "")
     if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
