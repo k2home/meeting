@@ -158,7 +158,7 @@ Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für pro
 - Automatische Erzeugung der Besprechungstermine anhand von Startdatum, Wochentag und optionalem Enddatum.
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
-- Besprechungsreihen können von Moderator*innen und Admins verwaltet werden.
+- Moderator*innen verwalten ausschließlich die ihnen zugewiesenen Besprechungsreihen. Admins können neue Reihen anlegen und dabei einen ersten Moderator festlegen; die laufende fachliche Verwaltung einer bestehenden Reihe setzt eine eigene Moderatorzuweisung voraus.
 - Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder lesbar; Admins behalten den globalen Zugriff.
 
 ### Themen und Aufgaben
@@ -473,6 +473,8 @@ sudo -u postgres psql -d meeting_manager < meeting_manager-YYYY-MM-DD.sql
 Anschließend das passende Media-Backup nach `/opt/meeting-manager/media` zurückspielen und die Eigentümerrechte prüfen. Datenbank und Media-Verzeichnis müssen aus zueinander passenden Sicherungszeitpunkten stammen.
 
 ## Sicherheit und bekannte Grenzen
+
+Eine ausführliche, am aktuellen Quellcode ausgerichtete Funktions-, Rollen-, Datenschutz- und Sicherheitsbeschreibung mit validierter Risikobewertung und konkreten Maßnahmen liegt unter [`docs/Funktions-und-Sicherheitsbeschreibung.md`](docs/Funktions-und-Sicherheitsbeschreibung.md). In der angemeldeten Anwendung ist sie zusätzlich unter **Hilfe → IT, Informationssicherheit und Datenschutz** als PDF verfügbar.
 
 **Die Anwendung ist ein internes MVP und sollte vor einem produktiven Einsatz weiter gehärtet werden.**
 

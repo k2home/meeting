@@ -18,6 +18,7 @@ urlpatterns = [
     path("auditor/gruppen/", management_views.auditor_groups, name="auditor_groups"),
     path("auditor/einstellungen/organisation/", management_views.auditor_organization_settings, name="auditor_organization_settings"),
     path("hilfe/", guide_views.user_guide, name="user_guide"),
+    path("hilfe/sicherheitsbeschreibung.pdf", guide_views.security_description_pdf, name="security_description_pdf"),
     path("konto/", views.user_overview, name="user_overview"),
     path("my-tasks/", views.my_tasks, name="my_tasks"),
     path("meetings/", views.meetings_overview, name="meetings_overview"),
