@@ -254,6 +254,38 @@ class AuditHistoryTests(TestCase):
         response = self.client.get(reverse("audit_history"))
         self.assertNotContains(response, "Audit-Reihe“ gelöscht")
 
+    def test_auditor_has_own_overview_and_read_only_settings_only(self):
+        from .user_roles import sync_user_role
+        auditor = User.objects.create_user(username="auditor-ui", password="strong-test-password")
+        sync_user_role(auditor, "auditor")
+        self.client.force_login(auditor)
+
+        for route in ("dashboard", "my_tasks", "meetings_overview", "archive"):
+            response = self.client.get(reverse(route))
+            self.assertRedirects(response, reverse("auditor_overview"))
+
+        response = self.client.get(reverse("auditor_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Auditor-Übersicht")
+        self.assertContains(response, "Organisationseinstellungen")
+        self.assertContains(response, "Änderungsverlauf")
+
+        response = self.client.get(reverse("auditor_organization_settings"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Einstellungen speichern")
+        response = self.client.post(reverse("auditor_organization_settings"), {})
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.get(reverse("auditor_enaio_settings"))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post(reverse("auditor_enaio_settings"), {})
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.get(reverse("management_home"))
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(reverse("management_data"))
+        self.assertEqual(response.status_code, 403)
+
     def test_admin_and_auditor_see_system_events_but_not_series_events(self):
         from .models import AuditEvent
         from .user_roles import sync_user_role
