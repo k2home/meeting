@@ -51,3 +51,22 @@ class AuditHistoryCsvExportTests(TestCase):
     def test_export_requires_login(self):
         response = self.client.get(reverse("audit_history_csv"))
         self.assertEqual(response.status_code, 302)
+
+    def test_csv_export_respects_action_series_and_topic_filters(self):
+        AuditEvent.objects.create(topic=self.own_topic, series=self.own_series, action="updated", summary="Gefilterte Änderung")
+        self.client.force_login(self.moderator)
+        response = self.client.get(reverse("audit_history_csv"), {"action": "updated", "series": self.own_series.pk, "topic": self.own_topic.pk})
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode("utf-8-sig")
+        self.assertIn("Gefilterte Änderung", content)
+        self.assertNotIn("Sichtbarer Eintrag", content)
+        self.assertNotIn("Privater Eintrag", content)
+
+    def test_csv_export_uses_current_user_display_name(self):
+        self.moderator.first_name = "Mara"
+        self.moderator.last_name = "Beispiel"
+        self.moderator.save()
+        AuditEvent.objects.create(topic=self.own_topic, series=self.own_series, actor=self.moderator, action="updated", summary="Anzeigeprüfung")
+        self.client.force_login(self.moderator)
+        response = self.client.get(reverse("audit_history_csv"))
+        self.assertIn("Mara Beispiel", response.content.decode("utf-8-sig"))
