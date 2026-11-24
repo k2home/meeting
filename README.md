@@ -251,9 +251,9 @@ Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrück
 
 | Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
 |---|:---:|:---:|:---:|:---:|
-| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Nur Systemereignisse |
+| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Systemereignisse und eigene moderierte Reihen |
 
-Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Der separate System-Änderungsverlauf ist für Admins und Auditoren sichtbar; Auditoren können ihn lesen und exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins zugänglich.
+Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Admins sehen Systemereignisse sowie Serienereignisse nur für Reihen, in denen sie selbst Moderator*innenrechte besitzen. Auditoren sehen ausschließlich den System-Änderungsverlauf und können ihn exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins zugänglich.
 
 #### 5. Benutzer- und Systemverwaltung
 
