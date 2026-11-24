@@ -1058,7 +1058,10 @@ def management_user_password_reset(request, pk):
         )
         messages.success(request, "Das konfigurierte Startpasswort wurde gesetzt. Der Benutzer muss sich innerhalb von 24 Stunden anmelden und ein persönliches Passwort festlegen.")
         return redirect("management_user_edit", pk=user.pk)
-    return render(request, "meetings/management_password_reset.html", {"account": user})
+    return render(request, "meetings/management_password_reset.html", {
+        "account": user,
+        "start_password": OrganizationSettings.current_start_password(),
+    })
 
 @login_required
 def management_user_series(request, pk):
