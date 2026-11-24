@@ -74,6 +74,22 @@ class MeetingSeriesAuditAndValidationTests(TestCase):
         )
         self.client.force_login(self.admin)
 
+    def test_admin_must_select_a_moderator_when_creating_a_series(self):
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Moderator der Besprechungsreihe")
+        today = timezone.localdate()
+        response = self.client.post(reverse("series_admin"), {
+            "name": "Reihe ohne Moderator",
+            "description": "",
+            "recurrence": "weekly",
+            "recurrence_interval": 1,
+            "weekday": today.weekday(),
+            "start_date": today.isoformat(),
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(MeetingSeries.objects.filter(name="Reihe ohne Moderator").exists())
+
     def test_series_creation_and_edit_are_audited(self):
         today = timezone.localdate()
         moderator = User.objects.create_user(
