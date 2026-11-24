@@ -21,6 +21,27 @@ class GlobalUserRoleTests(TestCase):
         self.meeting = Meeting.objects.create(series=self.series, date="2026-12-01")
         self.topic = Topic.objects.create(title="Prüfthema", series=self.series)
 
+    def test_admin_cannot_demote_own_global_role(self):
+        admin = User.objects.create_user(username="self-demoting-admin", password="test-password")
+        sync_user_role(admin, "admin")
+        self.client.force_login(admin)
+
+        response = self.client.post(reverse("management_user_edit", args=[admin.pk]), {
+            "username": admin.username,
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_active": "true",
+            "role": "user",
+            "short_description": "",
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("role", response.context["form"].errors)
+        admin.refresh_from_db()
+        self.assertEqual(get_user_role(admin), "admin")
+        self.assertTrue(admin.is_staff)
+
     def test_global_roles_are_mutually_exclusive_and_staff_is_admin_only(self):
         user = User.objects.create_user(username="member", password="test-password")
 

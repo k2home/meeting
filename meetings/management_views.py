@@ -516,6 +516,12 @@ def management_user_edit(request, pk=None):
     if request.method == "POST" and form.is_valid():
         if instance and instance.pk == request.user.pk and not form.cleaned_data["is_active"]:
             form.add_error("is_active", "Das eigene Administratorkonto kann hier nicht deaktiviert werden.")
+        elif (
+            instance and instance.pk == request.user.pk
+            and get_user_role(instance) == "admin"
+            and form.cleaned_data["role"] != "admin"
+        ):
+            form.add_error("role", "Die eigene globale Admin-Rolle kann hier nicht entzogen werden.")
         else:
             before = {}
             if instance:
