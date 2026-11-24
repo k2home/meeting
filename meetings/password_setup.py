@@ -1,0 +1,28 @@
+from datetime import timedelta
+from django.utils import timezone
+from .models import UserProfile
+
+PASSWORD_SETUP_PASSWORD = "Neu"
+PASSWORD_SETUP_TIMEOUT = timedelta(hours=24)
+
+def start_password_setup(user):
+    """Set the shared initial password and restart the 24-hour setup window."""
+    user.set_password(PASSWORD_SETUP_PASSWORD)
+    user.save(update_fields=["password"])
+    profile, _ = UserProfile.objects.get_or_create(user=user)
+    profile.must_change_password = True
+    profile.password_setup_expires_at = timezone.now() + PASSWORD_SETUP_TIMEOUT
+    profile.save(update_fields=["must_change_password", "password_setup_expires_at"])
+    return profile
+
+def expire_password_setup_if_due(user):
+    """Deactivate accounts whose mandatory password setup window has elapsed."""
+    profile = getattr(user, "meeting_profile", None)
+    if (profile is None or not profile.must_change_password
+            or profile.password_setup_expires_at is None
+            or profile.password_setup_expires_at > timezone.now()):
+        return False
+    if user.is_active:
+        user.is_active = False
+        user.save(update_fields=["is_active"])
+    return True
