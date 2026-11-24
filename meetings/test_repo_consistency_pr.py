@@ -91,6 +91,9 @@ class AdminIntegrityTests(TestCase):
         )
         self.client.force_login(self.admin)
         self.series = MeetingSeries.objects.create(name="Admin-Schutz")
+        SeriesAccess.objects.create(
+            user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR,
+        )
         OrganizationSettings.objects.create(attachment_max_size_mb=1)
 
     def test_finalized_meeting_is_read_only_in_admin(self):
@@ -150,6 +153,9 @@ class CsvCaseInsensitivePreviewTests(TestCase):
             username="csv-admin", email="csv@example.test", password="test-password",
         )
         series = MeetingSeries.objects.create(name="CSV-Reihe")
+        SeriesAccess.objects.create(
+            user=admin_user, series=series, role=SeriesAccess.ROLE_MODERATOR,
+        )
         Topic.objects.create(title="Digitalisierung", series=series)
         self.client.force_login(admin_user)
         csv_text = (
