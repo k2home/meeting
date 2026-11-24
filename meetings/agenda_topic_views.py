@@ -142,26 +142,31 @@ def topic_detail(request, pk):
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
         if form.is_valid():
+            # Capture the persisted values before ModelForm.save() mutates the
+            # instance. Keep the write and its audit record in the same
+            # transaction so an audit failure cannot leave an unaudited edit.
             old_title = topic.title
             old_assignee = topic.assigned_to
-            updated = form.save()
-            changes = {}
-            if old_title != updated.title:
-                changes["Titel"] = {"vorher": old_title, "nachher": updated.title}
-            if old_assignee != updated.assigned_to:
-                changes["Hauptzuständigkeit"] = {
-                    "vorher": user_display_name(old_assignee) if old_assignee else None,
-                    "nachher": user_display_name(updated.assigned_to) if updated.assigned_to else None,
-                }
-            if changes:
-                record_event(
-                    actor=request.user, action="updated",
-                    summary=f"Thema „{updated.title}“ geändert",
-                    topic=updated, changes=changes,
-                )
-                messages.success(request, "Thema gespeichert.")
-            else:
-                messages.info(request, "Es wurden keine Änderungen vorgenommen.")
+            changed_fields = set(form.changed_data)
+            with transaction.atomic():
+                updated = form.save()
+                changes = {}
+                if "title" in changed_fields:
+                    changes["Titel"] = {"vorher": old_title, "nachher": updated.title}
+                if "assigned_to" in changed_fields:
+                    changes["Hauptzuständigkeit"] = {
+                        "vorher": user_display_name(old_assignee) if old_assignee else None,
+                        "nachher": user_display_name(updated.assigned_to) if updated.assigned_to else None,
+                    }
+                if changes:
+                    record_event(
+                        actor=request.user, action="updated",
+                        summary=f"Thema „{updated.title}“ geändert",
+                        topic=updated, changes=changes,
+                    )
+                    messages.success(request, "Thema gespeichert.")
+                else:
+                    messages.info(request, "Es wurden keine Änderungen vorgenommen.")
             return redirect("topic_edit", pk=topic.pk)
 
     visible_meetings = accessible_meetings(request.user)
