@@ -1,24 +1,6 @@
 {% extends "meetings/base.html" %}
 {% block title %}Meine Aufgaben – Meeting Manager
-<script>
-(() => {
-  const input = document.getElementById("my-tasks-search");
-  const feedback = document.getElementById("my-tasks-search-feedback");
-  const tables = [document.getElementById("my-tasks-table-0"), document.getElementById("my-tasks-table-1")].filter(Boolean);
-  if (!input || !feedback || !tables.length) return;
-  input.addEventListener("input", () => {
-    const term = input.value.trim().toLocaleLowerCase("de");
-    let visibleCount = 0;
-    tables.forEach(table => table.querySelectorAll("tbody tr").forEach(row => {
-      const visible = !term || row.textContent.toLocaleLowerCase("de").includes(term);
-      row.hidden = !visible;
-      if (visible) visibleCount++;
-    }));
-    feedback.hidden = !term || visibleCount > 0;
-    feedback.textContent = feedback.hidden ? "" : "Keine passenden Aufgaben gefunden.";
-  });
-})();
-</script>
+
 {% endblock %}
 {% block content %}
 <style>
@@ -107,4 +89,23 @@
     </div>
   {% else %}<p>Für zukünftige Termine sind dir aktuell keine einzelnen Tagesordnungspunkte ausdrücklich zugewiesen.</p>{% endif %}
 </section>
+<script>
+(() => {
+  const input = document.getElementById("my-tasks-search");
+  const feedback = document.getElementById("my-tasks-search-feedback");
+  const tables = [document.getElementById("my-tasks-table-0"), document.getElementById("my-tasks-table-1")].filter(Boolean);
+  if (!input || !feedback || !tables.length) return;
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    let visibleCount = 0;
+    tables.forEach(table => table.querySelectorAll("tbody tr").forEach(row => {
+      const visible = !term || row.textContent.toLocaleLowerCase("de").includes(term);
+      row.hidden = !visible;
+      if (visible) visibleCount++;
+    }));
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Aufgaben gefunden.";
+  });
+})();
+</script>
 {% endblock %}
