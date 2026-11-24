@@ -271,6 +271,7 @@ def import_users_csv(request):
             messages.error(request, "Die CSV-Datei ist nicht mehr gültig. Bitte erneut hochladen.")
             return redirect("management_user_csv_import") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_csv_import")
         created = updated = 0
+        initial_passwords = []
         with transaction.atomic():
             for username, record in grouped:
                 user = resolved_users.get(username)
@@ -287,7 +288,9 @@ def import_users_csv(request):
                 } if user else {})
                 if was_created:
                     user = User(username=username)
-                    user.set_password(get_random_string(64))
+                    initial_password = get_random_string(24)
+                    user.set_password(initial_password)
+                    initial_passwords.append({"username": username, "password": initial_password})
                     created += 1
                 else:
                     updated += 1
@@ -298,10 +301,13 @@ def import_users_csv(request):
                     if field != "user_role":
                         setattr(user, field, value)
                 user.save()
-                if "short_description" in record["values"]:
+                if was_created or "short_description" in record["values"]:
                     UserProfile.objects.update_or_create(
                         user=user,
-                        defaults={"short_description": record["values"]["short_description"]},
+                        defaults={
+                            "short_description": record["values"].get("short_description", ""),
+                            "must_change_password": was_created,
+                        },
                     )
                 if "user_role" in record["values"]:
                     sync_user_role(user, record["values"]["user_role"])
@@ -333,6 +339,8 @@ def import_users_csv(request):
                         changes=changes,
                     )
         request.session.pop(SESSION_IMPORT_KEY, None)
+        if initial_passwords:
+            request.session["new_user_initial_passwords"] = initial_passwords
         messages.success(
             request,
             f"CSV-Import abgeschlossen: {created} Benutzer neu angelegt, {updated} Benutzer aktualisiert.",
