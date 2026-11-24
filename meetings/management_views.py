@@ -100,7 +100,7 @@ class ManagedUserCreateForm(UserCreationForm):
 
 class ManagedUserEditForm(forms.ModelForm):
     short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
-    is_administrator = forms.BooleanField(label="Administrator", required=False)
+    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES)
 
     class Meta:
         model = User
