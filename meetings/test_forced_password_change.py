@@ -77,6 +77,26 @@ class ForcedPasswordChangeTests(TestCase):
         self.assertFalse(account.meeting_profile.must_change_password)
         self.assertIsNone(account.meeting_profile.password_setup_expires_at)
 
+    def test_admin_reset_displays_configured_one_character_start_password(self):
+        from meetings.models import OrganizationSettings
+
+        OrganizationSettings.objects.create(start_password="x")
+        account = User.objects.create_user(
+            username="single-character-start-password",
+            password="OldPassword1!",
+        )
+        self.client.force_login(self.admin)
+
+        page = self.client.get(reverse("management_user_password_reset", args=[account.pk]))
+        self.assertEqual(page.status_code, 200)
+        self.assertContains(page, "<strong>x</strong>", html=True)
+
+        response = self.client.post(reverse("management_user_password_reset", args=[account.pk]))
+        self.assertRedirects(response, reverse("management_user_edit", args=[account.pk]))
+        account.refresh_from_db()
+        self.assertTrue(account.check_password("x"))
+        self.assertTrue(account.meeting_profile.must_change_password)
+
     def test_expired_setup_window_deactivates_account_and_blocks_login(self):
         from datetime import timedelta
         from django.utils import timezone
