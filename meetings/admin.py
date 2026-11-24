@@ -161,6 +161,49 @@ class TopicSnapshotAdmin(admin.ModelAdmin):
         allowed = super().has_change_permission(request, obj)
         return allowed and (obj is None or bool(obj.meeting.finalized_at))
 
+    def user_change_password(self, request, id, form_url=""):
+        response = super().user_change_password(request, id, form_url)
+        if request.method == "POST" and response.status_code in (302, 303):
+            target = User.objects.filter(pk=id).first()
+            target_label = user_display_name_with_login(target) if target else f"Benutzer-ID {id}"
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                summary=f"Django-Verwaltung: Passwort für „{target_label}“ geändert",
+                changes={"Passwort": {"nachher": "Geändert (Passwortwert wird nicht protokolliert)"}},
+            )
+        return response
+
+    def delete_model(self, request, obj):
+        snapshot = {
+            "Anmeldename": obj.username,
+            "Vorname": obj.first_name,
+            "Nachname": obj.last_name,
+            "E-Mail": obj.email,
+            "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(obj), get_user_role(obj)),
+        }
+        AuditEvent.objects.create(
+            actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="deleted",
+            summary=f"Django-Verwaltung: Benutzerkonto „{user_display_name_with_login(obj)}“ gelöscht",
+            changes={label: {"vorher": value} for label, value in snapshot.items()},
+        )
+        super().delete_model(request, obj)
+
+    def delete_queryset(self, request, queryset):
+        for obj in queryset.select_related().iterator():
+            snapshot = {
+                "Anmeldename": obj.username,
+                "Vorname": obj.first_name,
+                "Nachname": obj.last_name,
+                "E-Mail": obj.email,
+                "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(obj), get_user_role(obj)),
+            }
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="deleted",
+                summary=f"Django-Verwaltung: Benutzerkonto „{user_display_name_with_login(obj)}“ gelöscht",
+                changes={label: {"vorher": value} for label, value in snapshot.items()},
+            )
+        queryset.delete()
+
     def save_model(self, request, obj, form, change):
         previous = None
         if change:
