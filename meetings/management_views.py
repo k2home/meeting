@@ -548,7 +548,10 @@ def management_user_edit(request, pk=None):
                     summary=f"Benutzerkonto „{user_display_name_with_login(user)}“ {'geändert' if instance else 'angelegt'}",
                     changes=changes,
                 )
-            messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
+            if was_inactive and user.is_active:
+                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde freigeschaltet. Das Startpasswort „Neu“ gilt für die nächsten 24 Stunden.")
+            else:
+                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
             return redirect("management_users")
     return render(request, "meetings/management_user_form.html", {
         "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
@@ -1123,7 +1126,7 @@ def management_user_csv_sample(request):
         "# series_role: Rolle fuer die angegebene Reihe; erlaubt: participant, teilnehmer*in, moderator, moderator*in, reader, leser*in.\r\n"
         "# series_role bleibt leer, wenn keine series angegeben ist. Bei mehreren Reihen je Benutzer eine Zeile verwenden; Nutzerdaten identisch halten.\r\n"
         "# user_role: Globale Rolle; erlaubt: user, admin, auditor. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
-        "# Neu angelegte Benutzerkonten haben kein Passwort. Bei der ersten Anmeldung genügt der Benutzername; danach wird ein eigenes Passwort festgelegt.\r\n"
+        "# Neu angelegte Benutzerkonten erhalten das Startpasswort Neu. Innerhalb von 24 Stunden muss ein eigenes Passwort festgelegt werden; andernfalls wird das Konto deaktiviert.\r\n"
         "username;first_name;last_name;email;short_description;is_active;user_role;series;series_role\r\n"
         "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;user;;;\r\n"
     )
