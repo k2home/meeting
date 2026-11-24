@@ -33,48 +33,39 @@ def auditor_readonly(view):
 
 
 def role_for_series(user, series):
-    if not user.is_authenticated or series is None:
+    if not user.is_authenticated or series is None or is_auditor(user):
         return None
     return SeriesAccess.objects.filter(user=user, series=series).values_list("role", flat=True).first()
 
 
 def is_moderator(user, series=None):
-    if not user.is_authenticated:
-        return False
-    if is_admin(user):
-        return True
-    if is_auditor(user):
+    if not user.is_authenticated or is_auditor(user):
         return False
     assignments = SeriesAccess.objects.filter(user=user, role=SeriesAccess.ROLE_MODERATOR)
     return assignments.filter(series=series).exists() if series is not None else assignments.exists()
 
 
 def is_reader(user, series=None):
-    if not user.is_authenticated or is_admin(user):
-        return False
-    if is_auditor(user):
-        return True
+    if not user.is_authenticated or is_auditor(user):
     assignments = SeriesAccess.objects.filter(user=user, role=SeriesAccess.ROLE_READER)
     return assignments.filter(series=series).exists() if series is not None else assignments.exists()
 
 
 def has_writable_series(user):
-    if is_admin(user):
-        return True
-    if is_auditor(user):
+    if not user.is_authenticated or is_auditor(user):
         return False
     return SeriesAccess.objects.filter(user=user).exclude(role=SeriesAccess.ROLE_READER).exists()
 
 
 def accessible_series(user):
-    if is_admin(user) or is_auditor(user):
-        return MeetingSeries.objects.all()
+    if not user.is_authenticated or is_auditor(user):
+        return MeetingSeries.objects.none()
     return MeetingSeries.objects.filter(user_access__user=user)
 
 
 def accessible_meetings(user):
-    if is_admin(user) or is_auditor(user):
-        return Meeting.objects.all()
+    if not user.is_authenticated or is_auditor(user):
+        return Meeting.objects.none()
     return Meeting.objects.filter(
         Q(series__in=accessible_series(user))
         | Q(archived_access__user=user)
@@ -82,8 +73,8 @@ def accessible_meetings(user):
 
 
 def accessible_topics(user):
-    if is_admin(user) or is_auditor(user):
-        return Topic.objects.all()
+    if not user.is_authenticated or is_auditor(user):
+        return Topic.objects.none()
     visible_meetings = accessible_meetings(user)
     return Topic.objects.filter(
         Q(series__in=accessible_series(user))
@@ -102,8 +93,8 @@ def role_flags(request):
         "is_admin": is_admin(request.user),
         "is_auditor": is_auditor(request.user),
         "is_moderator": is_moderator(request.user),
-        "is_reader": (is_reader(request.user) and not has_writable_series(request.user)) or is_auditor(request.user),
-        "can_view_open_topics": is_admin(request.user) or is_auditor(request.user) or SeriesAccess.objects.filter(
+        "is_reader": is_reader(request.user) and not has_writable_series(request.user),
+        "can_view_open_topics": not is_auditor(request.user) and SeriesAccess.objects.filter(
             user=request.user, role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR]
         ).exists(),
     }
