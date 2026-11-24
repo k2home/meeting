@@ -76,15 +76,26 @@ class ManagedUserCreateForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.testing_mode = _testing_mode_enabled()
+        self.fields["password1"].required = False
+        self.fields["password2"].required = False
+        self.fields["password1"].help_text = "Optional. Wenn kein Passwort vergeben wird, erhält der Nutzer eine E-Mail, über die er sein eigenes Passwort festlegen kann."
+        self.fields["password2"].help_text = "Nur ausfüllen, wenn direkt ein Passwort vergeben werden soll."
         if self.testing_mode:
-            self.fields["password1"].help_text = "Im Testing-Modus ist bei der Benutzeranlage jedes nicht leere Passwort zulässig."
+            self.fields["password1"].help_text = "Optional. Im Testing-Modus ist jedes nicht leere Passwort zulässig. Ohne Passwort wird eine Passwort-Setzen-Mail versendet."
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not cleaned_data.get("password1") and not cleaned_data.get("email"):
+            self.add_error("email", "Für eine Benutzeranlage ohne Passwort ist eine E-Mail-Adresse erforderlich.")
+        return cleaned_data
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
-        if password1 and password2:
-            if password1 != password2:
-                raise ValidationError(self.error_messages["password_mismatch"], code="password_mismatch")
+        if not password1 and not password2:
+            return None
+        if password1 != password2:
+            raise ValidationError(self.error_messages["password_mismatch"], code="password_mismatch")
         return password2
 
     def _post_clean(self):
@@ -507,6 +518,16 @@ def management_user_edit(request, pk=None):
                 }
             with transaction.atomic():
                 user = form.save()
+                if not instance and not user.has_usable_password():
+                    from django.contrib.auth.forms import PasswordResetForm
+                    reset_form = PasswordResetForm({"email": user.email})
+                    if reset_form.is_valid():
+                        reset_form.save(
+                            request=request,
+                            use_https=request.is_secure(),
+                            email_template_name="registration/password_reset_email.html",
+                            subject_template_name="registration/password_reset_subject.txt",
+                        )
                 after = {
                     "Vorname": user.first_name,
                     "Nachname": user.last_name,
