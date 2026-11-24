@@ -834,6 +834,9 @@ def management_database_import(request):
         messages.error(request, "Bitte bestätige den Import durch die Eingabe von DATENBANK ERSETZEN.")
         return redirect("management_data")
 
+    initiating_actor_id = request.user.pk
+    initiating_actor_username = request.user.get_username()
+    initiating_actor_label = user_display_name_with_login(request.user)
     uploaded_path = dump_path = safety_path = None
     try:
         env, database_name = _database_client_environment()
@@ -918,10 +921,13 @@ def management_database_import(request):
             connection.close()
             _restore_previous_database(safety_path, database_name, env, migration_error)
 
+        restored_actor = User.objects.filter(
+            pk=initiating_actor_id, username=initiating_actor_username
+        ).first()
         _record_system_change(
-            actor=User.objects.filter(pk=request.user.pk).first(),
+            actor=restored_actor,
             action="updated",
-            summary="Vollständige Datenbanksicherung importiert und Datenbank migriert",
+            summary=f"Vollständige Datenbanksicherung durch „{initiating_actor_label}“ importiert und Datenbank migriert",
             changes={
                 "Backup-Datei": {"nachher": uploaded.name[:255]},
                 "Backup-Größe": {"nachher": uploaded.size},
