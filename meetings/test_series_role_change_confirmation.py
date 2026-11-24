@@ -7,5 +7,5 @@ class SeriesRoleChangeConfirmationTests(SimpleTestCase):
         template = Path(__file__).resolve().parent.parent / "templates/meetings/user_overview.html"
         content = template.read_text(encoding="utf-8")
         self.assertIn('select.dataset.currentRole', content)
-        self.assertIn('window.confirm(', content)
-        self.assertIn('event.preventDefault()', content)
+        self.assertIn('data-confirm-message=', content)
+        self.assertNotIn('window.confirm(', content)
