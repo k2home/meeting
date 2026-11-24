@@ -39,12 +39,12 @@ class ForcedPasswordChangeTests(TestCase):
         forced_response = self.client.get(reverse("dashboard"))
         self.assertRedirects(forced_response, reverse("forced_password_change"))
         change_response = self.client.post(reverse("forced_password_change"), {
-            "new_password1": "NewPersonalPassword1!",
-            "new_password2": "NewPersonalPassword1!",
+            "new_password1": "IndependentLongPassword9!",
+            "new_password2": "IndependentLongPassword9!",
         })
         self.assertRedirects(change_response, reverse("dashboard"))
         account.refresh_from_db()
-        self.assertTrue(account.check_password("NewPersonalPassword1!"))
+        self.assertTrue(account.check_password("IndependentLongPassword9!"))
         self.assertFalse(account.meeting_profile.must_change_password)
 
     def test_admin_reset_sends_no_email_and_requires_new_password_at_next_login(self):
@@ -68,12 +68,12 @@ class ForcedPasswordChangeTests(TestCase):
         forced_response = self.client.get(reverse("dashboard"))
         self.assertRedirects(forced_response, reverse("forced_password_change"))
         change_response = self.client.post(reverse("forced_password_change"), {
-            "new_password1": "NewPersonalPassword1!",
-            "new_password2": "NewPersonalPassword1!",
+            "new_password1": "IndependentLongPassword9!",
+            "new_password2": "IndependentLongPassword9!",
         })
         self.assertRedirects(change_response, reverse("dashboard"))
         account.refresh_from_db()
-        self.assertTrue(account.check_password("NewPersonalPassword1!"))
+        self.assertTrue(account.check_password("IndependentLongPassword9!"))
         self.assertFalse(account.meeting_profile.must_change_password)
         self.assertIsNone(account.meeting_profile.password_setup_expires_at)
 
