@@ -1162,6 +1162,7 @@ def organization_logo(request):
 
 
 @login_required
+@auditor_readonly
 def agenda_attachment_add(request, meeting_pk, item_pk):
     """Add an attachment from the agenda item's attachment dialog."""
     if request.method != "POST":
@@ -1204,6 +1205,7 @@ def agenda_attachment_add(request, meeting_pk, item_pk):
 
 
 @login_required
+@auditor_readonly
 def attachment_delete(request, pk):
     """Delete one topic attachment, including its uploaded file when present."""
     if request.method != "POST":
@@ -1566,6 +1568,7 @@ def protocol_pdf(request, pk):
     return response
 
 @login_required
+@auditor_readonly
 def enaio_transfer_start(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden("Bitte die Ablage über die Protokollseite starten.")
