@@ -520,8 +520,9 @@ def management_user_edit(request, pk=None):
                     "Kurzbeschreibung": getattr(getattr(instance, "meeting_profile", None), "short_description", ""),
                 }
             with transaction.atomic():
+                passwordless_creation = not instance and not form.cleaned_data.get("password1")
                 user = form.save()
-                if not instance and not user.has_usable_password():
+                if passwordless_creation:
                     from django.contrib.auth.forms import PasswordResetForm
                     reset_form = PasswordResetForm({"email": user.email})
                     if reset_form.is_valid():
