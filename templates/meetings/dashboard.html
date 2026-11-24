@@ -62,7 +62,7 @@
       {% if not is_reader %}<form method="post" action="{% url 'attachment_delete' attachment.pk %}" data-confirm-message="Anlage „{{ attachment.label }}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button type="submit" class="secondary">Anlage löschen</button></form>{% endif %}
     </div>
   {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
-  {% if not is_reader and t.series_id or not is_reader and is_admin %}
+  {% if not is_reader %}
     <form method="post" enctype="multipart/form-data" class="dashboard-attachment-upload" action="{% url 'attachment_add' t.pk %}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
