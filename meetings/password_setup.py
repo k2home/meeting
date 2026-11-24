@@ -1,14 +1,13 @@
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from .models import UserProfile
+from .models import OrganizationSettings, UserProfile
 
-PASSWORD_SETUP_PASSWORD = "Neu"
 PASSWORD_SETUP_TIMEOUT = timedelta(hours=24)
 
 def start_password_setup(user):
     """Set the shared initial password and restart the 24-hour setup window."""
-    user.set_password(PASSWORD_SETUP_PASSWORD)
+    user.set_password(OrganizationSettings.current_start_password())
     user.save(update_fields=["password"])
     profile, _ = UserProfile.objects.get_or_create(user=user)
     profile.must_change_password = True
