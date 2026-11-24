@@ -276,17 +276,33 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Auditor-Übersicht")
         self.assertContains(response, "Organisationseinstellungen")
+        self.assertContains(response, "Nutzer")
+        self.assertContains(response, "Gruppen")
         self.assertContains(response, "Änderungsverlauf")
+        self.assertNotContains(response, "enaio-Einstellungen")
+
+        response = self.client.get(reverse("auditor_users"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Globale Rolle")
+        self.assertNotContains(response, "Nutzer hinzufügen")
+        self.assertNotContains(response, "Bearbeiten")
+        self.assertEqual(self.client.post(reverse("auditor_users"), {}).status_code, 403)
+
+        from .models import MeetingSeries, SeriesAccess
+        group = MeetingSeries.objects.create(name="Auditor-Gruppenansicht")
+        SeriesAccess.objects.create(user=auditor, series=group, role=SeriesAccess.ROLE_READER)
+        response = self.client.get(reverse("auditor_groups"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Auditor-Gruppenansicht")
+        self.assertContains(response, "Leser")
+        self.assertNotContains(response, "Hinzufügen")
+        self.assertNotContains(response, "Entfernen")
+        self.assertEqual(self.client.post(reverse("auditor_groups"), {}).status_code, 403)
 
         response = self.client.get(reverse("auditor_organization_settings"))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Einstellungen speichern")
         response = self.client.post(reverse("auditor_organization_settings"), {})
-        self.assertEqual(response.status_code, 403)
-
-        response = self.client.get(reverse("auditor_enaio_settings"))
-        self.assertEqual(response.status_code, 200)
-        response = self.client.post(reverse("auditor_enaio_settings"), {})
         self.assertEqual(response.status_code, 403)
 
         response = self.client.get(reverse("management_home"))
