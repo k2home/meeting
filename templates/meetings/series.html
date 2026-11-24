@@ -74,6 +74,14 @@
         <span><strong>{{ s.upcoming_count }}</strong> offen / geplant</span>
         <span><strong>{{ s.completed_count }}</strong> abgeschlossen</span>
       </div>
+      <div class="series-progress" aria-label="Fortschritt der Tagesordnungspunkte">
+        <div class="topline"><span>Erledigte Tagesordnungspunkte</span><strong>{{ s.completed_agenda_count }} / {{ s.total_agenda_count }} ({{ s.agenda_completion_percent }} %)</strong></div>
+        {% if s.total_agenda_count %}
+          <div class="series-progress-track" role="progressbar" aria-valuenow="{{ s.agenda_completion_percent }}" aria-valuemin="0" aria-valuemax="100" aria-label="Erledigungsgrad der Tagesordnungspunkte">
+            <span style="width:{{ s.agenda_completion_percent }}%"></span>
+          </div>
+        {% else %}<p class="muted">Noch keine Tagesordnungspunkte vorhanden.</p>{% endif %}
+      </div>
 
       {% if s.next_meeting %}
         <div class="series-next-meeting">
@@ -159,4 +167,9 @@
 })();
 </script>
 {% if form.errors %}<script>document.addEventListener('DOMContentLoaded',function(){document.getElementById('new-series-dialog').showModal();});</script>{% endif %}
+<style>
+.series-progress{margin:.7rem 0 1rem}
+.series-progress-track{height:9px;overflow:hidden;border-radius:99px;background:var(--soft-bg);border:1px solid var(--border)}
+.series-progress-track span{display:block;height:100%;background:var(--hagen-blue);border-radius:99px}
+</style>
 {% endblock %}

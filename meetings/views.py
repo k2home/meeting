@@ -1572,7 +1572,12 @@ def series_admin(request):
     series = series_queryset.prefetch_related(
         Prefetch(
             "meetings",
-            queryset=Meeting.objects.order_by("date", "pk"),
+            queryset=Meeting.objects.annotate(
+                total_agenda_count=Count("agenda_items"),
+                completed_agenda_count=Count(
+                    "agenda_items", filter=Q(agenda_items__status="done")
+                ),
+            ).order_by("date", "pk"),
             to_attr="ordered_meetings",
         )
     ).order_by("name")
@@ -1587,6 +1592,12 @@ def series_admin(request):
             if upcoming is None or meeting.pk != upcoming.pk
         ]
         item.meeting_count = len(item.ordered_meetings)
+        item.total_agenda_count = sum(meeting.total_agenda_count for meeting in item.ordered_meetings)
+        item.completed_agenda_count = sum(meeting.completed_agenda_count for meeting in item.ordered_meetings)
+        item.agenda_completion_percent = (
+            round(100 * item.completed_agenda_count / item.total_agenda_count)
+            if item.total_agenda_count else 0
+        )
         item.completed_count = sum(1 for meeting in item.ordered_meetings if meeting.finalized_at)
         item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
     expanded_series_id = request.GET.get("expanded", "")
