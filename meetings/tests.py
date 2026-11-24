@@ -286,6 +286,28 @@ class AuditHistoryTests(TestCase):
         response = self.client.get(reverse("management_data"))
         self.assertEqual(response.status_code, 403)
 
+    def test_admin_user_edit_audits_each_changed_field(self):
+        admin = User.objects.create_superuser(
+            username="editor-admin", email="editor-admin@example.com",
+            password="strong-test-password",
+        )
+        target = User.objects.create_user(
+            username="target-account", password="strong-test-password",
+            first_name="Alt", last_name="Name", email="old@example.test",
+        )
+        self.client.force_login(admin)
+        response = self.client.post(reverse("management_user_edit", args=[target.pk]), {
+            "first_name": "Neu", "last_name": "Name", "email": "new@example.test",
+            "is_active": "on", "short_description": "Team A", "role": "auditor",
+        })
+        self.assertRedirects(response, reverse("management_users"))
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="target-account")
+        self.assertEqual(event.changes["Vorname"], {"vorher": "Alt", "nachher": "Neu"})
+        self.assertEqual(event.changes["E-Mail"], {"vorher": "old@example.test", "nachher": "new@example.test"})
+        self.assertEqual(event.changes["Kurzbeschreibung"], {"vorher": "", "nachher": "Team A"})
+        self.assertEqual(event.changes["Globale Rolle"]["nachher"], "Auditor")
+
     def test_admin_and_auditor_see_system_events_but_not_series_events(self):
         from .models import AuditEvent
         from .user_roles import sync_user_role
@@ -1710,6 +1732,10 @@ class UserOverviewTests(TestCase):
         self.assertEqual(self.user.last_name, "Hopper")
         self.assertEqual(self.user.email, "grace@example.test")
         self.assertEqual(self.user.meeting_profile.short_description, "Projektleitung")
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="Eigenes Benutzerprofil")
+        self.assertEqual(event.changes["Vorname"], {"vorher": "Ada", "nachher": "Grace"})
+        self.assertEqual(event.changes["Organisationskennzeichen"], {"vorher": "", "nachher": "Projektleitung"})
 
     def test_user_can_change_own_password_without_losing_session(self):
         response = self.client.post(reverse("user_overview"), {
@@ -1722,6 +1748,9 @@ class UserOverviewTests(TestCase):
         self.user.refresh_from_db()
         self.assertTrue(self.user.check_password("New-strong-password-123"))
         self.assertEqual(int(self.client.session["_auth_user_id"]), self.user.pk)
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="Passwort von")
+        self.assertIn("wird nicht protokolliert", event.changes["Passwort"]["nachher"])
 
     def test_admin_sees_global_access_for_all_series(self):
         from django.contrib.auth.models import Group
