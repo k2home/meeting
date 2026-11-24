@@ -41,14 +41,23 @@ class MeetingParticipantsCsvTests(TestCase):
         self.assertNotIn("ada@example.test".encode(), response.content)
 
     def test_export_neutralizes_whitespace_prefixed_spreadsheet_formulas(self):
-        self.participant.first_name = " =HYPERLINK(\"https://example.invalid\",\"Klick\")"
+        self.participant.first_name = "=HYPERLINK(\"https://example.invalid\",\"Klick\")"
         self.participant.save(update_fields=["first_name"])
         self.client.force_login(self.user)
 
         response = self.client.get(reverse("meeting_participants_csv", args=[self.meeting.pk]))
         rows = list(csv.reader(StringIO(response.content.decode("utf-8-sig")), delimiter=";"))
 
-        self.assertTrue(rows[1][0].startswith("' =HYPERLINK("))
+        self.assertTrue(rows[1][0].startswith("'=HYPERLINK("))
+
+
+    def test_csv_helper_neutralizes_formulas_after_leading_whitespace(self):
+        from .meeting_csv import _spreadsheet_safe
+
+        self.assertEqual(
+            _spreadsheet_safe(' \t=HYPERLINK("https://example.invalid","Klick")'),
+            '\' \t=HYPERLINK("https://example.invalid","Klick")',
+        )
 
     def test_user_without_series_access_cannot_export_participants(self):
         outsider = User.objects.create_user(
