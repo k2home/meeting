@@ -96,6 +96,33 @@ class OrganizationSettingsTests(TestCase):
         self.assertTrue(profile.must_change_password)
         self.assertIsNotNone(profile.password_setup_expires_at)
 
+    def test_uploaded_svg_logo_is_served_with_a_restrictive_csp(self):
+        from tempfile import TemporaryDirectory
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from django.test import override_settings
+
+        with TemporaryDirectory() as media_root, override_settings(MEDIA_ROOT=media_root):
+            setting = OrganizationSettings.objects.create(
+                logo=SimpleUploadedFile(
+                    "organization-logo.svg",
+                    b'<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script><rect width="10" height="10"/></svg>',
+                    content_type="image/svg+xml",
+                )
+            )
+            user = get_user_model().objects.create_user(
+                username="svg-logo-viewer", password="strong-test-password"
+            )
+            self.client.force_login(user)
+
+            response = self.client.get(reverse("organization_logo"))
+
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response["Content-Type"], "image/svg+xml")
+            self.assertIn("sandbox", response["Content-Security-Policy"])
+            self.assertIn("default-src 'none'", response["Content-Security-Policy"])
+            setting.refresh_from_db()
+            self.assertTrue(setting.logo.name.endswith(".svg"))
+
     def test_short_label_is_visible_in_collapsed_navigation(self):
         OrganizationSettings.objects.create(name="Fachbereich 20", short_name="FB20")
         user = get_user_model().objects.create_user(
@@ -190,6 +217,27 @@ class OrganizationSettingsTests(TestCase):
 
         self.assertEqual(active_timezone, "Europe/Paris")
         self.assertEqual(restored_timezone, "UTC")
+
+    def test_timezone_and_branding_share_one_organization_settings_query(self):
+        from django.test import RequestFactory
+        from meetings.access import organization_branding
+        from meetings.middleware import OrganizationTimezoneMiddleware
+
+        OrganizationSettings.objects.create(
+            name="Fachbereich 20",
+            short_name="FB20",
+            timezone="Europe/Paris",
+            primary_color="#123456",
+        )
+        middleware = OrganizationTimezoneMiddleware(organization_branding)
+
+        with self.assertNumQueries(1):
+            branding = middleware(RequestFactory().get("/"))
+
+        self.assertEqual(branding["organization_unit_name"], "Fachbereich 20")
+        self.assertEqual(branding["organization_unit_short_name"], "FB20")
+        self.assertEqual(branding["primary_color"], "#123456")
+        self.assertEqual(branding["primary_color_light"], "#123456")
 
     def test_central_datetime_format_includes_german_hour_suffix(self):
         from django.utils import formats

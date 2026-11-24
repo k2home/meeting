@@ -81,6 +81,7 @@ TEMPLATES = [{
         "django.contrib.messages.context_processors.messages",
         "meetings.access.role_flags",
         "meetings.access.organization_branding",
+        "meetings.views.testing_mode_context",
     ]},
 }]
 WSGI_APPLICATION = "config.wsgi.application"

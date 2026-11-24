@@ -28,7 +28,7 @@ from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransfe
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
-from .models import SeriesAccess, SeriesAccessRequest, EnaioTransfer, EnaioSettings
+from .models import SeriesAccess, SeriesAccessRequest
 from .user_display import user_display_name
 
 logger = logging.getLogger(__name__)
@@ -1590,74 +1590,6 @@ def protocol_pdf(request, pk):
     return response
 
 @login_required
-@auditor_readonly
-def enaio_transfer_start(request, pk):
-    if request.method != "POST":
-        return HttpResponseForbidden("Bitte die Ablage über die Protokollseite starten.")
-    meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
-    filing_settings = EnaioSettings.objects.filter(pk=1).first()
-    if not filing_settings or not filing_settings.root_folder_id:
-        return JsonResponse({
-            "error": "Die zentrale enaio-Ordner-ID ist noch nicht unter Verwaltung → enaio-Einstellungen hinterlegt."
-        }, status=400)
-    if not filing_settings.document_type_name:
-        return JsonResponse({
-            "error": "Der technische enaio-Dokumenttyp fehlt. Bitte den Dokumenttyp für Protokoll-PDFs unter Verwaltung → enaio-Einstellungen hinterlegen."
-        }, status=400)
-    transfer = EnaioTransfer.objects.create(
-        user=request.user, meeting=meeting,
-        expires_at=timezone.now() + timedelta(minutes=30),
-    )
-    return JsonResponse({
-        "status_url": reverse("enaio_transfer_status", args=[transfer.pk]),
-        "cancel_url": reverse("enaio_transfer_cancel", args=[transfer.pk]),
-        "message": "Der lokale enaio-Agent übernimmt den Auftrag, sobald er verbunden ist.",
-        "filing": {
-            "root_folder_id": filing_settings.root_folder_id,
-            "root_folder_type": filing_settings.root_folder_type,
-            "root_folder_path": filing_settings.root_folder_path,
-            "root_folder_name": filing_settings.root_folder_name,
-            "register_name": _meeting_series_name(meeting),
-            "document_type": filing_settings.document_type_name,
-        },
-        "expires_in": 1800,
-    })
-
-@login_required
-@require_http_methods(["GET"])
-def enaio_transfer_status(request, pk):
-    transfer = get_object_or_404(EnaioTransfer, pk=pk, user=request.user)
-    if transfer.status == "completed":
-        return JsonResponse({"completed": True})
-    if transfer.status == "failed":
-        return JsonResponse({"completed": False, "error": transfer.error_message or "enaio-Ablage fehlgeschlagen."})
-    if transfer.expires_at <= timezone.now():
-        EnaioTransfer.objects.filter(pk=transfer.pk, status="pending", consumed_at__isnull=True).update(
-            status="failed", consumed_at=timezone.now(),
-            error_message="Der Ablageauftrag ist abgelaufen.",
-        )
-        return JsonResponse({"completed": False, "expired": True}, status=410)
-    return JsonResponse({"completed": False})
-
-
-@login_required
-@auditor_readonly
-@require_http_methods(["POST"])
-def enaio_transfer_cancel(request, pk):
-    with transaction.atomic():
-        transfer = EnaioTransfer.objects.select_for_update().filter(pk=pk, user=request.user).first()
-        if not transfer:
-            return JsonResponse({"error": "Ablageauftrag nicht gefunden."}, status=404)
-        if transfer.status == "completed":
-            return JsonResponse({"ok": False, "completed": True}, status=409)
-        if transfer.status == "pending" and transfer.consumed_at is None:
-            transfer.status = "failed"
-            transfer.error_message = "Der Ablageauftrag wurde vom Benutzer abgebrochen."
-            transfer.consumed_at = timezone.now()
-            transfer.save(update_fields=["status", "error_message", "consumed_at"])
-    return JsonResponse({"ok": True})
-
-@login_required
 def protocol(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
     if not is_auditor(request.user):
@@ -2664,6 +2596,11 @@ def _updater_request(path, method="GET", payload=None):
 
 def _debian_testing_mode_enabled():
     return os.path.isfile(TESTING_MODE_FILE)
+
+
+def testing_mode_context(request):
+    """Expose the active Debian testing mode to every rendered page."""
+    return {"testing_mode": _debian_testing_mode_enabled()}
 
 
 def _available_update_branches():

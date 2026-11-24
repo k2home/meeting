@@ -1,4 +1,5 @@
 from django import template
+from django.core.exceptions import ObjectDoesNotExist
 
 from meetings.user_display import user_display_name, user_display_name_with_login
 

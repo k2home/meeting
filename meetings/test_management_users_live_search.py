@@ -28,3 +28,30 @@ class ManagementUsersLiveSearchTests(SimpleTestCase):
         )
         self.assertIn("[0, 1, 2]", content)
         self.assertNotIn("row.textContent", content)
+
+
+class ManagementUsersSortingTests(SimpleTestCase):
+    def test_user_table_has_accessible_sort_controls_for_all_data_columns(self):
+        template = (
+            Path(__file__).resolve().parent.parent
+            / "templates/meetings/management_users.html"
+        )
+        content = template.read_text(encoding="utf-8")
+
+        for column in range(7):
+            self.assertIn(f'data-sort-column="{column}"', content)
+        self.assertIn('aria-sort="none"', content)
+        self.assertIn('aria-label="Nach letzter Anmeldung sortieren"', content)
+        self.assertIn('aria-label="Nach Erstellungsdatum sortieren"', content)
+
+    def test_sorting_uses_german_numeric_collation_and_timestamp_values(self):
+        template = (
+            Path(__file__).resolve().parent.parent
+            / "templates/meetings/management_users.html"
+        )
+        content = template.read_text(encoding="utf-8")
+
+        self.assertIn('new Intl.Collator("de", { numeric: true, sensitivity: "base" })', content)
+        self.assertIn('data-sort-value="{{ item.account.last_login|date:\'U\' }}"', content)
+        self.assertIn('data-sort-value="{{ item.account.date_joined|date:\'U\' }}"', content)
+        self.assertIn('header?.setAttribute("aria-sort"', content)

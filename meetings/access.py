@@ -110,12 +110,26 @@ def role_flags(request):
 
 
 def organization_branding(request):
-    """Stellt die zentrale Organisationseinheit in allen Templates bereit."""
+    """Stellt Organisationsbranding aus dem bereits geladenen Request-Datensatz bereit."""
     from .models import OrganizationSettings
 
-    settings = OrganizationSettings.objects.filter(pk=1).first()
-    logo_url = reverse("organization_logo") if settings and settings.logo else ""
-    colors = OrganizationSettings.current_brand_colors()
+    if hasattr(request, "_organization_settings"):
+        organization = request._organization_settings
+    else:
+        organization = OrganizationSettings.objects.filter(pk=1).first()
+
+    defaults = {
+        "primary_color": "#00549F",
+        "secondary_color": "#8FC5FF",
+        "tertiary_color": "#FFCC00",
+    }
+    colors = {}
+    for name, default in defaults.items():
+        base = getattr(organization, name, "") or default
+        colors[name] = base
+        colors[f"{name}_light"] = (getattr(organization, f"{name}_light", "") or base) if organization else base
+        colors[f"{name}_dark"] = (getattr(organization, f"{name}_dark", "") or base) if organization else base
+
     button_colors = {}
     for palette in ("light", "dark"):
         for name in ("primary", "secondary"):
@@ -123,10 +137,11 @@ def organization_branding(request):
             button_colors[f"{name}_button_bg_{palette}"] = result["background"]
             button_colors[f"{name}_button_text_{palette}"] = result["text"]
             button_colors[f"{name}_button_contrast_{palette}"] = result["contrast"]
+
     return {
-        "organization_unit_name": OrganizationSettings.current_name(),
-        "organization_unit_short_name": OrganizationSettings.current_short_name(),
-        "organization_logo_url": logo_url,
+        "organization_unit_name": organization.name.strip() if organization and organization.name else "",
+        "organization_unit_short_name": organization.short_name.strip() if organization and organization.short_name else "MM",
+        "organization_logo_url": reverse("organization_logo") if organization and organization.logo else "",
         **colors,
         **button_colors,
     }
