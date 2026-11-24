@@ -26,7 +26,13 @@ def user_guide(request):
 
 def _inline_markup(value):
     """Escape Markdown text before translating the small inline subset used in the PDF."""
-    value = escape(value.strip())
+    value = value.strip()
+    # ReportLab's built-in Helvetica fonts use WinAnsi; normalize symbols outside it.
+    value = (value.replace("→", "->").replace("←", "<-")
+        .replace("☐", "[ ]").replace("☑", "[x]")
+        .replace("≥", ">=").replace("≤", "<=").replace("≠", "!=")
+        .replace("—", "-").replace("–", "-").replace("…", "..."))
+    value = escape(value)
     value = re.sub(r"`([^\`]+)`", r'<font name="Courier" size="8">\1</font>', value)
     value = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", value)
     value = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"<i>\1</i>", value)
