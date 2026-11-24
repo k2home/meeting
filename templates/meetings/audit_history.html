@@ -48,25 +48,43 @@
       {% if event.meeting %} · <a href="{% url 'meeting' event.meeting.pk %}">{% if event.meeting.series_id %}{{ event.meeting.series.name }}{% else %}{{ event.meeting.archived_series_name|default:'Gelöschte Besprechungsreihe' }}{% endif %} am {{ event.meeting.date|date:"DATE_FORMAT" }}</a>{% endif %}
     </p>
     {% if event.changes %}
-      <details><summary>Details anzeigen</summary>
-        <dl class="audit-changes">
+      <details class="audit-event-details">
+        <summary>Änderungsdetails anzeigen <span class="audit-detail-count">{{ event.changes|length }}</span></summary>
+        <div class="audit-changes">
         {% for label, value in event.changes.items %}
-          <dt>{{ label }}</dt>
-          {% if label == "Gesicherter Protokollstand" %}
-            <dd><ul>
-              {% for snapshot in value %}
-              <li><strong>{{ snapshot.topic_title }}</strong>
-                <p>{{ snapshot.text|audit_text|linebreaksbr|default:"—" }}</p>
-                <small>Status: {{ snapshot.status }}</small>
-              </li>
-              {% endfor %}
-            </ul></dd>
-          {% elif value.vorher is not None or value.nachher is not None %}
-            <dd><span class="muted">Vorher:</span> {{ value.vorher|audit_value|audit_text|linebreaksbr }}</dd>
-            <dd><span class="muted">Nachher:</span> {{ value.nachher|audit_value|audit_text|linebreaksbr }}</dd>
-          {% else %}<dd>{{ value|audit_text|linebreaksbr }}</dd>{% endif %}
+          <section class="audit-change-field">
+            <h3>{{ label }}</h3>
+            {% if label == "Gesicherter Protokollstand" %}
+              <div class="audit-snapshots">
+                {% for snapshot in value %}
+                  <article class="audit-snapshot">
+                    <div class="audit-snapshot-heading">
+                      <strong>{{ snapshot.topic_title }}</strong>
+                      <span class="audit-status">{{ snapshot.status|default:"Status unbekannt" }}</span>
+                    </div>
+                    <p>{{ snapshot.text|audit_text|linebreaksbr|default:"—" }}</p>
+                  </article>
+                {% empty %}
+                  <p class="muted">Keine Einträge im gesicherten Protokollstand.</p>
+                {% endfor %}
+              </div>
+            {% elif value.vorher is not None or value.nachher is not None %}
+              <div class="audit-change-values">
+                <div class="audit-change-value audit-before">
+                  <span class="audit-value-label">Vorher</span>
+                  <div>{{ value.vorher|audit_value|audit_text|linebreaksbr|default:"—" }}</div>
+                </div>
+                <div class="audit-change-value audit-after">
+                  <span class="audit-value-label">Nachher</span>
+                  <div>{{ value.nachher|audit_value|audit_text|linebreaksbr|default:"—" }}</div>
+                </div>
+              </div>
+            {% else %}
+              <div class="audit-change-value audit-single-value">{{ value|audit_text|linebreaksbr|default:"—" }}</div>
+            {% endif %}
+          </section>
         {% endfor %}
-        </dl>
+        </div>
       </details>
     {% endif %}
   </article>
