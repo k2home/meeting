@@ -42,7 +42,7 @@ class SeriesManagementOverviewTests(TestCase):
         self.assertContains(response, "Offen / geplant")
         self.assertContains(response, "Abgeschlossen")
         self.assertContains(response, "Reihe verwalten")
-        self.assertContains(response, "Reihe bis Ende des Folgejahres verlängern")
+        self.assertContains(response, "Bis Ende des Folgejahres verlängern")
         self.assertContains(response, reverse("meeting", args=[upcoming.pk]))
         self.assertContains(response, reverse("meeting", args=[completed.pk]))
         self.assertContains(response, "Weitere Termine anzeigen")
