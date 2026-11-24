@@ -18,8 +18,11 @@ def start_password_setup(user):
 
 def expire_password_setup_if_due(user):
     """Deactivate accounts whose mandatory password setup window has elapsed."""
-    profile = getattr(user, "meeting_profile", None)
-    if (profile is None or not profile.must_change_password
+    try:
+        profile = user.meeting_profile
+    except UserProfile.DoesNotExist:
+        return False
+    if (not profile.must_change_password
             or profile.password_setup_expires_at is None
             or profile.password_setup_expires_at > timezone.now()):
         return False
