@@ -1619,6 +1619,7 @@ def enaio_transfer_status(request, pk):
 
 
 @login_required
+@auditor_readonly
 @require_http_methods(["POST"])
 def enaio_transfer_cancel(request, pk):
     with transaction.atomic():
