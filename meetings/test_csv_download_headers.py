@@ -27,7 +27,12 @@ class SensitiveCsvDownloadHeadersTests(TestCase):
 
     def assert_private_download(self, response):
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response["Cache-Control"], "private, no-store")
+        cache_directives = {
+            directive.strip().lower()
+            for directive in response["Cache-Control"].split(",")
+        }
+        self.assertIn("private", cache_directives)
+        self.assertIn("no-store", cache_directives)
         self.assertIn("attachment;", response["Content-Disposition"])
 
     def test_user_export_is_not_cached(self):
@@ -37,7 +42,7 @@ class SensitiveCsvDownloadHeadersTests(TestCase):
 
     def test_topic_export_is_not_cached(self):
         self.client.force_login(self.moderator)
-        response = self.client.get(reverse("admin:meetings_topic_csv_export"))
+        response = self.client.get(reverse("management_topic_csv_export"))
         self.assert_private_download(response)
 
     def test_audit_export_is_not_cached(self):
