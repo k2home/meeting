@@ -255,6 +255,7 @@ def dashboard(request):
             date__gte=today, finalized_at__isnull=True,
         ).select_related("series").order_by("series__name", "date"),
         "result_count": topics.count(),
+        "is_admin_user": is_admin(request.user),
     })
 
 
