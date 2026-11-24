@@ -137,6 +137,10 @@ def dashboard(request):
             order_by=[F("date").asc(), F("pk").asc()],
         ))
         .filter(series_position__lte=2)
+        .annotate(open_agenda_count=Count(
+            "agenda_items",
+            filter=Q(agenda_items__status__in=["open", "in_progress"]),
+        ))
         .select_related("series")
         .order_by("date", "series__name", "pk")
     )
