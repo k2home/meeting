@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils.crypto import get_random_string
 
-from .models import MeetingSeries, SeriesAccess, UserProfile
+from .models import AuditEvent, MeetingSeries, SeriesAccess, UserProfile
 from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
 
 User = get_user_model()
@@ -275,6 +275,16 @@ def import_users_csv(request):
             for username, record in grouped:
                 user = resolved_users.get(username)
                 was_created = user is None
+                profile_before = getattr(getattr(user, "meeting_profile", None), "short_description", "") if user else ""
+                before = ({
+                    "Anmeldename": user.username,
+                    "Vorname": user.first_name,
+                    "Nachname": user.last_name,
+                    "E-Mail": user.email,
+                    "Aktiv": user.is_active,
+                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+                    "Kurzbeschreibung": profile_before,
+                } if user else {})
                 if was_created:
                     user = User(username=username)
                     user.set_password(get_random_string(64))
@@ -301,6 +311,27 @@ def import_users_csv(request):
                         SeriesAccess(user=user, series_id=series_id, role=role)
                         for series_id, role in record["series"]
                     ])
+                after = {
+                    "Anmeldename": user.username,
+                    "Vorname": user.first_name,
+                    "Nachname": user.last_name,
+                    "E-Mail": user.email,
+                    "Aktiv": user.is_active,
+                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+                    "Kurzbeschreibung": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
+                }
+                changes = {
+                    label: ({"nachher": value} if was_created else {"vorher": before.get(label), "nachher": value})
+                    for label, value in after.items()
+                    if was_created or before.get(label) != value
+                }
+                if changes:
+                    AuditEvent.objects.create(
+                        actor=request.user, scope=AuditEvent.SCOPE_SYSTEM,
+                        action="created" if was_created else "updated",
+                        summary=f"CSV-Import: Benutzerkonto „{user.get_full_name() or user.username}“ {'angelegt' if was_created else 'aktualisiert'}",
+                        changes=changes,
+                    )
         request.session.pop(SESSION_IMPORT_KEY, None)
         messages.success(
             request,
