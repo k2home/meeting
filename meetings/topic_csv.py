@@ -431,8 +431,10 @@ def import_topic_agenda_csv(request, allowed_series_ids=None):
         if allowed_series_ids is not None:
             allowed = set(allowed_series_ids)
             for row in rows:
-                if row["topic"].get("series_id") not in allowed or (
-                    row.get("record_type") == "agenda" and row.get("series_id") not in allowed
+                if (
+                    row["topic"].get("series_id") not in allowed
+                    or (row.get("record_type") == "agenda" and row.get("series_id") not in allowed)
+                    or (row.get("followup_series_id") and row.get("followup_series_id") not in allowed)
                 ):
                     errors.append(
                         f"Zeile {row.get('row_number', '?')}: Die CSV enthält eine Besprechungsreihe, "
@@ -541,8 +543,10 @@ def import_topic_agenda_csv(request, allowed_series_ids=None):
         if allowed_series_ids is not None:
             allowed = set(allowed_series_ids)
             for row in rows:
-                if row["topic"].get("series_id") not in allowed or (
-                    row.get("record_type") == "agenda" and row.get("series_id") not in allowed
+                if (
+                    row["topic"].get("series_id") not in allowed
+                    or (row.get("record_type") == "agenda" and row.get("series_id") not in allowed)
+                    or (row.get("followup_series_id") and row.get("followup_series_id") not in allowed)
                 ):
                     errors.append(
                         f"Zeile {row.get('row_number', '?')}: Die CSV enthält eine Besprechungsreihe, "
