@@ -23,7 +23,7 @@ from django.urls import reverse
 from django.utils import formats, timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
+from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm, UserDisplayModelChoiceField
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
@@ -1744,14 +1744,24 @@ def series_admin(request):
     expanded_series_id = request.GET.get("expanded", "")
     form = SeriesForm(request.POST or None)
     form.fields.pop("end_date", None)
+    if is_admin(request.user):
+        form.fields["initial_moderator"] = UserDisplayModelChoiceField(
+            queryset=UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
+            label="Moderator der Besprechungsreihe",
+            required=True,
+            help_text="Diese Person erhält für die neue Reihe automatisch die Moderatorberechtigung.",
+        )
     if request.method == "POST" and form.is_valid():
         item = form.save(commit=False)
+        selected_moderator = form.cleaned_data.get("initial_moderator") if is_admin(request.user) else request.user
         if not item.end_date:
             item.end_date = date(today.year + 1, 12, 31)
         with transaction.atomic():
             item.save()
-            if not is_admin(request.user):
-                SeriesAccess.objects.get_or_create(user=request.user, series=item, defaults={"role": SeriesAccess.ROLE_MODERATOR})
+            SeriesAccess.objects.update_or_create(
+                user=selected_moderator, series=item,
+                defaults={"role": SeriesAccess.ROLE_MODERATOR},
+            )
             created_meetings = generate_meetings(item)
             record_event(
                 actor=request.user, action="created",
@@ -1764,6 +1774,7 @@ def series_admin(request):
                     "Wochentag": {"vorher": None, "nachher": item.weekday},
                     "Startdatum": {"vorher": None, "nachher": item.start_date.isoformat()},
                     "Enddatum": {"vorher": None, "nachher": item.end_date.isoformat() if item.end_date else None},
+                    "Erster Moderator": {"vorher": None, "nachher": selected_moderator.get_full_name() or selected_moderator.username},
                     "Angelegte Termine": len(created_meetings),
                 },
             )
