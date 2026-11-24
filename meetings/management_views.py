@@ -190,7 +190,9 @@ def management_enaio_settings(request):
         new_folder_id = form.cleaned_data["root_folder_id"].strip()
         before = {
             "Dokumenttyp": settings_obj.document_type_name,
-            "Ablageordner konfiguriert": bool(settings_obj.root_folder_id),
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
             "Objekttyp": settings_obj.root_folder_type,
         }
         if settings_obj.root_folder_id != new_folder_id:
@@ -202,7 +204,9 @@ def management_enaio_settings(request):
         settings_obj.save()
         after = {
             "Dokumenttyp": settings_obj.document_type_name,
-            "Ablageordner konfiguriert": bool(settings_obj.root_folder_id),
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
             "Objekttyp": settings_obj.root_folder_type,
         }
         changes = {key: {"vorher": before[key], "nachher": after[key]} for key in before if before[key] != after[key]}
@@ -459,7 +463,8 @@ def management_user_edit(request, pk=None):
                     "Nachname": instance.last_name,
                     "E-Mail": instance.email,
                     "Aktiv": instance.is_active,
-                    "Globale Rolle": get_user_role(instance),
+                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(instance), get_user_role(instance)),
+                    "Kurzbeschreibung": getattr(getattr(instance, "meeting_profile", None), "short_description", ""),
                 }
             with transaction.atomic():
                 user = form.save()
@@ -468,7 +473,8 @@ def management_user_edit(request, pk=None):
                     "Nachname": user.last_name,
                     "E-Mail": user.email,
                     "Aktiv": user.is_active,
-                    "Globale Rolle": get_user_role(user),
+                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+                    "Kurzbeschreibung": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
                 }
                 changes = {
                     label: {"vorher": before.get(label), "nachher": value}
@@ -572,7 +578,7 @@ def management_settings(request):
                 _record_system_change(
                     actor=request.user, action="updated",
                     summary="Organisationslogo geändert",
-                    changes={"Organisationslogo": {"vorher": bool(previous_logo), "nachher": bool(uploaded_logo)}},
+                    changes={"Organisationslogo": {"vorher": previous_logo or "Kein Logo", "nachher": uploaded_logo.name if uploaded_logo else "Kein Logo"}},
                 )
             if uploaded_logo and uploaded_logo.name.lower().endswith(".svg"):
                 previous_png_name = settings_obj.logo_png.name if settings_obj.logo_png else ""
@@ -951,6 +957,11 @@ def management_user_password_reset(request, pk):
                 email_template_name="registration/password_reset_email.html",
                 subject_template_name="registration/password_reset_subject.txt",
                 domain_override=get_current_site(request).domain,
+            )
+            _record_system_change(
+                actor=request.user, action="updated",
+                summary=f"Passwort-Zurücksetzen für „{user_display_name_with_login(user)}“ angefordert",
+                changes={"Passwort-Zurücksetzen": {"nachher": "E-Mail angefordert"}},
             )
             messages.success(request, "Die Passwort-Zurücksetzen-Mail wurde angefordert.")
         return redirect("management_user_edit", pk=user.pk)
