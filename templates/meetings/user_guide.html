@@ -110,7 +110,7 @@
 
 <h2 id="admin">5. Globale Rollen und Verwaltung</h2>
 <p>Jedes Benutzerkonto hat genau eine globale Rolle. Sie wird unabhängig von den Berechtigungen für einzelne Besprechungsreihen vergeben. Die globalen Rollen steuern den Zugriff auf Verwaltungsfunktionen; die fachlichen Rechte innerhalb einer Besprechungsreihe ergeben sich weiterhin ausschließlich aus deren Serienzuordnung. Die Serienrollen <strong>Leser*in</strong>, <strong>Teilnehmer*in</strong> und <strong>Moderator*in</strong> bleiben davon unberührt.</p>
-<h3>5.1 Die drei globalen Rollen</h3>
+<h3>Die drei globalen Rollen im Überblick</h3>
 <h4>Nutzer</h4>
 <ul><li>Arbeitet ausschließlich in Besprechungsreihen, denen das Konto ausdrücklich zugeordnet ist.</li><li>Die Rechte innerhalb jeder Reihe richten sich nach der dort vergebenen Serienrolle: Leser*in, Teilnehmer*in oder Moderator*in.</li><li>Hat keinen Zugriff auf die globale Benutzer-, Gruppen- oder Organisationsverwaltung.</li></ul>
 <h4>Admin</h4>
@@ -120,7 +120,7 @@
 <h3 id="admin-1">5.1 Verwaltung</h3><h4>5.1.1 Verwaltungsbereich öffnen</h4>
 <p>Der Eintrag „Verwaltung“ öffnet den Verwaltungsbereich. „Hilfe &amp; Anleitung“ bleibt unabhängig von der Rolle verfügbar. Administrationsrechte gelten global und nicht nur für eine einzelne Besprechungsreihe.</p>
 <h3 id="admin-2">5.2 Benutzerverwaltung</h3><h4>5.2.1 Benutzer anlegen und bearbeiten</h4>
-<ol><li>Unter „Verwaltung“ wird der Bereich „Benutzer“ geöffnet.</li><li>Über „Benutzer hinzufügen“ wird ein Konto mit Anmeldenamen und Passwort angelegt.</li><li>Vorname, Nachname, E-Mail-Adresse und Kurzbeschreibung werden gepflegt. Die Kurzbeschreibung wird in Auswahllisten vor dem Namen angezeigt.</li><li>Über „Aktiv“ wird festgelegt, ob sich das Konto anmelden kann.</li><li>Über „Administrator“ werden globale Administratorrechte vergeben oder entzogen. „Django-Superuser“ ist eine weitergehende technische Berechtigung und sollte nur gezielt verwendet werden.</li><li>Über die Zuordnung können Benutzer einer oder mehreren Besprechungsreihen mit einer Rolle zugewiesen werden.</li></ol>
+<ol><li>Unter „Verwaltung“ wird der Bereich „Benutzer“ geöffnet.</li><li>Über „Benutzer hinzufügen“ wird ein Konto mit Anmeldenamen und Passwort angelegt.</li><li>Vorname, Nachname, E-Mail-Adresse und Kurzbeschreibung werden gepflegt. Die Kurzbeschreibung wird in Auswahllisten vor dem Namen angezeigt.</li><li>Über „Aktiv“ wird festgelegt, ob sich das Konto anmelden kann.</li><li>Über die globale Rolle wird zwischen „Nutzer“, „Admin“ und „Auditor“ gewählt. „Django-Superuser“ ist eine weitergehende technische Berechtigung und sollte nur gezielt verwendet werden.</li><li>Über die Zuordnung können Benutzer einer oder mehreren Besprechungsreihen mit einer Rolle zugewiesen werden.</li></ol>
 <h3 id="admin-3">5.3 Gruppen und Reihenberechtigungen</h3><h4>5.3.1 Mitgliedschaften und Rollen zuweisen, ändern und entfernen</h4>
 <p>Unter Verwaltung wird „Gruppen – Serien und Berechtigungen“ geöffnet. Dort werden Reihen mit ihren Mitgliedern angezeigt. Personen können hinzugefügt und einer der Rollen Leser, Teilnehmer oder Moderator zugewiesen werden. Bestehende Zuordnungen lassen sich ändern oder entfernen. Rollen gelten jeweils nur für die betreffende Reihe. Nach dem Entfernen einer Zuordnung entfällt der reguläre Zugriff; bei gelöschten Reihen kann ein gesonderter Lesezugriff auf frühere Protokolle erhalten bleiben.</p>
 <h4>5.3.2 Berechtigungsanträge global bearbeiten</h4>
