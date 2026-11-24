@@ -267,6 +267,8 @@ Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen de
 | Globale Organisationseinstellungen ändern | Nein | Nein | Nein | Ja |
 | Django-Administration öffnen | Nein | Nein | Nein | Ja |
 
+Auch in der Django-Administration bleiben Serieninhalte auf ausdrücklich zugewiesene Reihen begrenzt. Serienbezogene Änderungen und CSV-Importe/-Exporte setzen eigene Moderatorrechte voraus; globale Adminrechte allein reichen dafür nicht.
+
 ### Was die Rollen im Alltag bedeuten
 
 **Leser*in**
