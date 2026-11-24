@@ -19,7 +19,7 @@
       <tbody>
       {% for item in pending_access_requests %}
         <tr class="access-request-row">
-          <td>{{ item.user.get_full_name|default:item.user.username }}</td>
+          <td>{{ item.user.get_full_name|default:item.user.username }} <span class="muted">({{ item.user.username }})</span></td>
           <td>{{ item.series.name }}</td>
           <td>{{ item.get_requested_role_display }}</td>
           <td>{{ item.created_at|date:"DATETIME_FORMAT" }}</td>
