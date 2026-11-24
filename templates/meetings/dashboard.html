@@ -59,10 +59,10 @@
         {% if attachment.uploaded_file %}<div><a href="{% url 'attachment_download' attachment.pk %}">Datei öffnen</a> <span class="muted" data-file-size="{{ attachment.uploaded_file.size }}">({{ attachment.uploaded_file.size|filesizeformat }})</span></div>{% endif %}
         {% if attachment.network_path %}<div>{% if attachment.network_url %}<a href="{{ attachment.network_url }}">{{ attachment.network_path }}</a>{% else %}<span>{{ attachment.network_path }}</span>{% endif %}</div>{% endif %}
       </div>
-      {% if not is_reader %}<form method="post" action="{% url 'attachment_delete' attachment.pk %}" data-confirm-message="Anlage „{{ attachment.label }}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button type="submit" class="secondary">Anlage löschen</button></form>{% endif %}
+      {% if not is_reader %}{% if t.series_id or is_admin_user %}<form method="post" action="{% url 'attachment_delete' attachment.pk %}" data-confirm-message="Anlage „{{ attachment.label }}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button type="submit" class="secondary">Anlage löschen</button></form>{% endif %}{% endif %}
     </div>
   {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
-  {% if not is_reader %}
+  {% if not is_reader %}{% if t.series_id or is_admin_user %}
     <form method="post" enctype="multipart/form-data" class="dashboard-attachment-upload" action="{% url 'attachment_add' t.pk %}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
@@ -75,7 +75,7 @@
       <input id="dashboard-attachment-path-{{ t.pk }}" name="network_path" maxlength="1000">
       <div class="actions"><button type="submit">Anlage hinzufügen</button></div>
     </form>
-  {% endif %}
+  {% endif %}{% endif %}
 </dialog>
 {% endfor %}
 {% if not is_reader %}
