@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
-from django.db.models.functions import RowNumber
+from django.db.models.functions import RowNumber, Coalesce
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -255,6 +255,7 @@ def dashboard(request):
             date__gte=today, finalized_at__isnull=True,
         ).select_related("series").order_by("series__name", "date"),
         "result_count": topics.count(),
+        "is_admin_user": is_admin(request.user),
     })
 
 
@@ -411,15 +412,24 @@ def my_tasks(request):
     else:
         selected_series = ""
 
-    main_meeting_filter = (
-        Q(agenda_items__meeting__in=visible_meetings)
-        & Q(agenda_items__meeting__finalized_at__isnull=True)
+    agenda_dates = AgendaItem.objects.filter(
+        topic=OuterRef("pk"),
+        meeting__in=visible_meetings,
+        meeting__finalized_at__isnull=True,
     )
+    if selected_series_id:
+        agenda_dates = agenda_dates.filter(meeting__series_id=selected_series_id)
+    upcoming_agenda_date = agenda_dates.filter(
+        meeting__date__gte=today
+    ).order_by("meeting__date", "pk").values("meeting__date")[:1]
+    latest_past_agenda_date = agenda_dates.filter(
+        meeting__date__lt=today
+    ).order_by("-meeting__date", "-pk").values("meeting__date")[:1]
+
     latest_agenda_query = AgendaItem.objects.filter(
         topic=OuterRef("pk"), meeting__in=visible_meetings
     )
     if selected_series_id:
-        main_meeting_filter &= Q(agenda_items__meeting__series_id=selected_series_id)
         latest_agenda_query = latest_agenda_query.filter(
             meeting__series_id=selected_series_id
         )
@@ -427,7 +437,12 @@ def my_tasks(request):
     main_topics_query = accessible_topics(request.user).filter(
         assigned_to=request.user, status__in=["open", "in_progress"]
     ).select_related("series").annotate(
-        next_meeting_date=Min("agenda_items__meeting__date", filter=main_meeting_filter),
+        # A scheduled upcoming meeting takes precedence over old unfinished agenda entries.
+        # Only fall back to the latest past meeting when no future appointment exists.
+        next_meeting_date=Coalesce(
+            Subquery(upcoming_agenda_date),
+            Subquery(latest_past_agenda_date),
+        ),
         latest_agenda_text=Subquery(
             latest_agenda_query.order_by("-meeting__date", "-pk")
             .values("working_text")[:1]
@@ -1116,6 +1131,9 @@ def attachment_add(request, pk):
                      changes={"Bezeichnung": obj.label, "Datei": obj.uploaded_file.name if obj.uploaded_file else None,
                               "Netzwerkpfad": obj.network_path or None})
         messages.success(request, "Anlage hinzugefügt.")
+        next_url = request.POST.get("next", "")
+        if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+            return redirect(next_url)
         return redirect("topic_edit", pk=pk)
     return render(request, "meetings/attachment_form.html", {"form": form, "topic": topic})
 
@@ -1130,6 +1148,88 @@ def organization_logo(request):
         raise Http404("Es ist kein Organisationslogo hinterlegt.")
     from .secure_files import serve_organization_logo
     return serve_organization_logo(organization.logo)
+
+
+@login_required
+def agenda_attachment_add(request, meeting_pk, item_pk):
+    """Add an attachment from the agenda item's attachment dialog."""
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=meeting_pk)
+    item = get_object_or_404(
+        AgendaItem.objects.select_related("topic", "topic__series"),
+        pk=item_pk, meeting=meeting,
+        topic__in=accessible_topics(request.user),
+    )
+    topic = item.topic
+    if (
+        is_reader(request.user, topic.series)
+        or (topic.series_id is None and not is_admin(request.user))
+    ):
+        return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
+
+    form = AttachmentForm(request.POST, request.FILES)
+    if form.is_valid():
+        attachment = form.save(commit=False)
+        attachment.topic = topic
+        attachment.save()
+        record_event(
+            actor=request.user,
+            action="attachment_added",
+            summary=f"Anlage „{attachment.label}“ zu „{topic.title}“ hinzugefügt",
+            topic=topic,
+            meeting=meeting,
+            changes={
+                "Bezeichnung": attachment.label,
+                "Datei": attachment.uploaded_file.name if attachment.uploaded_file else None,
+                "Netzwerkpfad": attachment.network_path or None,
+            },
+        )
+        messages.success(request, "Anlage hinzugefügt.")
+    else:
+        messages.error(request, "Die Anlage konnte nicht hinzugefügt werden. Bitte prüfe Bezeichnung, Datei und Netzwerkpfad.")
+    return redirect(reverse("meeting", args=[meeting.pk]) + f"?attachments={item.pk}#agenda-item-{item.pk}")
+
+
+@login_required
+def attachment_delete(request, pk):
+    """Delete one topic attachment, including its uploaded file when present."""
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+
+    attachment = get_object_or_404(
+        TopicAttachment.objects.select_related("topic__series"),
+        pk=pk,
+        topic__in=accessible_topics(request.user),
+    )
+    topic = attachment.topic
+    if (
+        (topic.series_id is None and not is_admin(request.user))
+        or (topic.series_id is not None and is_reader(request.user, topic.series))
+    ):
+        return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
+
+    file_name = attachment.uploaded_file.name if attachment.uploaded_file else ""
+    storage = attachment.uploaded_file.storage if file_name else None
+    label = attachment.label
+    with transaction.atomic():
+        record_event(
+            actor=request.user,
+            action="deleted",
+            summary=f"Anlage „{label}“ von „{topic.title}“ gelöscht",
+            topic=topic,
+            changes={"Anlage": label, "Datei": file_name or None, "Netzwerkpfad": attachment.network_path or None},
+        )
+        attachment.delete()
+        if file_name:
+            storage.delete(file_name)
+
+    messages.success(request, f"Anlage „{label}“ wurde gelöscht.")
+    next_url = request.POST.get("next") or request.GET.get("next", "")
+    if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        return redirect(next_url)
+    return redirect("topic_edit", pk=topic.pk)
 
 
 def attachment_download(request, pk):

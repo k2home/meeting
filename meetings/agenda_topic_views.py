@@ -9,13 +9,27 @@ from django.utils import formats, timezone
 
 from .access import accessible_meetings, accessible_series, accessible_topics, is_admin, is_moderator, is_reader
 from .audit import record_event
+from .forms import UserDisplayModelChoiceField
 from .models import AgendaItem, Meeting, SeriesAccess, Topic, TopicSnapshot
+from .user_display import user_display_name
 
 
 class TopicTitleForm(forms.ModelForm):
+    assigned_to = UserDisplayModelChoiceField(
+        queryset=get_user_model().objects.none(),
+        required=False,
+        label="Hauptzuständigkeit",
+    )
+
     class Meta:
         model = Topic
-        fields = ["title"]
+        fields = ["title", "assigned_to"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["assigned_to"].queryset = get_user_model().objects.filter(
+            is_active=True
+        ).order_by("last_name", "first_name", "username")
 
 
 class NewTopicForm(forms.ModelForm):
@@ -120,24 +134,34 @@ def topic_archive_toggle(request, pk):
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     reader = is_reader(request.user, topic.series) or (topic.series_id is None and not is_admin(request.user))
-    original_title = topic.title
     form = TopicTitleForm(request.POST or None, instance=topic)
     if reader:
         form.fields["title"].disabled = True
+        form.fields["assigned_to"].disabled = True
     if request.method == "POST":
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
         if form.is_valid():
-            old_title = original_title
+            old_title = topic.title
+            old_assignee = topic.assigned_to
             updated = form.save()
+            changes = {}
             if old_title != updated.title:
+                changes["Titel"] = {"vorher": old_title, "nachher": updated.title}
+            if old_assignee != updated.assigned_to:
+                changes["Hauptzuständigkeit"] = {
+                    "vorher": user_display_name(old_assignee) if old_assignee else None,
+                    "nachher": user_display_name(updated.assigned_to) if updated.assigned_to else None,
+                }
+            if changes:
                 record_event(
                     actor=request.user, action="updated",
-                    summary=f"Thema „{updated.title}“ umbenannt",
-                    topic=updated,
-                    changes={"Titel": {"vorher": old_title, "nachher": updated.title}},
+                    summary=f"Thema „{updated.title}“ geändert",
+                    topic=updated, changes=changes,
                 )
-            messages.success(request, "Thementitel gespeichert.")
+                messages.success(request, "Thema gespeichert.")
+            else:
+                messages.info(request, "Es wurden keine Änderungen vorgenommen.")
             return redirect("topic_edit", pk=topic.pk)
 
     visible_meetings = accessible_meetings(request.user)
@@ -156,7 +180,6 @@ def topic_detail(request, pk):
         snapshot = snapshots.get(item.meeting_id)
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
-
 
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
