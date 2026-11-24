@@ -29,7 +29,10 @@ class NewTopicForm(forms.ModelForm):
 def topic_new(request):
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
-        writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+        reader_series_ids = SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_READER
+        ).values("series_id")
+        writable_series = writable_series.exclude(pk__in=reader_series_ids)
         if not writable_series.exists():
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
     form = NewTopicForm(request.POST or None)
@@ -163,7 +166,10 @@ def topic_detail(request, pk):
     topic_comments = topic.comments.select_related("author").order_by("created_at", "pk")
     writable_series = accessible_series(request.user)
     if not is_admin(request.user):
-        writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+        reader_series_ids = SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_READER
+        ).values("series_id")
+        writable_series = writable_series.exclude(pk__in=reader_series_ids)
     return render(request, "meetings/topic_form.html", {
         "form": form,
         "comment_form": TopicCommentForm(),
