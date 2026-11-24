@@ -24,3 +24,5 @@ class OrganizationBrandColorPreviewTests(TestCase):
         self.assertContains(response, 'data-color-preview="tertiary"')
         self.assertContains(response, "WCAG AA erfüllt")
         self.assertContains(response, "Kontrast");
+        self.assertContains(response, '"#FFFFFF", "#243247", "#000000"')
+        self.assertContains(response, "ratio >= 4.5")
