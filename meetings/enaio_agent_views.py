@@ -45,10 +45,22 @@ def enaio_agent_pair_code(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def enaio_agent_register(request):
-    if len(request.body) > 16 * 1024:
+    max_request_bytes = 16 * 1024
+    content_length = request.META.get("CONTENT_LENGTH")
+    if content_length:
+        try:
+            if int(content_length) > max_request_bytes:
+                return JsonResponse({"error": "Die Kopplungsanfrage ist zu groß."}, status=413)
+        except ValueError:
+            return JsonResponse({"error": "Ungültige Content-Length-Angabe."}, status=400)
+    try:
+        body = request.body
+    except RequestDataTooBig:
+        return JsonResponse({"error": "Die Kopplungsanfrage ist zu groß."}, status=413)
+    if len(body) > max_request_bytes:
         return JsonResponse({"error": "Die Kopplungsanfrage ist zu groß."}, status=413)
     try:
-        data = json.loads(request.body or b"{}")
+        data = json.loads(body or b"{}")
     except (ValueError, UnicodeDecodeError):
         return JsonResponse({"error": "Ungültige JSON-Daten."}, status=400)
     if not isinstance(data, dict):
