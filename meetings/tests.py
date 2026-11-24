@@ -234,7 +234,7 @@ class AuditHistoryTests(TestCase):
         self.assertContains(response, "Nein")
         self.assertContains(response, "Ja")
         self.assertContains(response, "Objekttyp")
-        self.assertContains(response, ">0<")
+        self.assertContains(response, "Vorher:</span> 0")
         # The shared confirmation-dialog script contains escaped newlines;
         # the rendered audit entry itself is verified above with HTML line breaks.
 
