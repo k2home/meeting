@@ -1122,7 +1122,7 @@ def management_user_csv_sample(request):
         "# series_role: Rolle fuer die angegebene Reihe; erlaubt: participant, teilnehmer*in, moderator, moderator*in, reader, leser*in.\r\n"
         "# series_role bleibt leer, wenn keine series angegeben ist. Bei mehreren Reihen je Benutzer eine Zeile verwenden; Nutzerdaten identisch halten.\r\n"
         "# user_role: Globale Rolle; erlaubt: user, admin, auditor. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
-        "# Neue Benutzer erhalten ein zufaelliges Startpasswort, das nach dem Import einmalig angezeigt wird. Beim ersten Login muss ein eigenes Passwort vergeben werden.\r\n"
+        "# Neu angelegte Benutzerkonten haben kein Passwort. Bei der ersten Anmeldung genügt der Benutzername; danach wird ein eigenes Passwort festgelegt.\r\n"
         "username;first_name;last_name;email;short_description;is_active;user_role;series;series_role\r\n"
         "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;user;;;\r\n"
     )
