@@ -1835,6 +1835,15 @@ class SeriesAccessRequestTests(TestCase):
             user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR
         )
 
+    def test_admin_without_series_permissions_can_open_series_administration(self):
+        from django.contrib.auth.models import Group
+        admin = User.objects.create_user(username="series-page-admin", password="strong-test-password")
+        admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
+        self.client.force_login(admin)
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Moderator der Besprechungsreihe")
+        self.assertEqual(list(response.context["series"]), [])
     def test_user_sees_all_series_and_can_request_permission(self):
         self.client.force_login(self.requester)
         page = self.client.get(reverse("user_overview"))
