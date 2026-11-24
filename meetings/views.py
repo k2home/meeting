@@ -2666,6 +2666,11 @@ def _debian_testing_mode_enabled():
     return os.path.isfile(TESTING_MODE_FILE)
 
 
+def testing_mode_context(request):
+    """Expose the active Debian testing mode to every rendered page."""
+    return {"testing_mode": _debian_testing_mode_enabled()}
+
+
 def _available_update_branches():
     """Return branches supported by this deployment and its active update mode."""
     try:

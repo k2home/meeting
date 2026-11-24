@@ -1,7 +1,7 @@
 {% extends "admin/base.html" %}
 {% load i18n %}
 
-{% block title %}{{ title }} | Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}{% endblock %}
+{% block title %}{% if testing_mode %}TEST · {% endif %}{{ title }} | Meeting Manager{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}{% endblock %}
 {% block usertools %}{{ block.super }}<button type="button" id="admin-theme-toggle" class="button secondary" style="margin-left:1rem">☾ Dunkelmodus</button>{% endblock %}
 {% block branding %}
 <div id="site-name"><a href="{% url 'admin:index' %}">Meeting Manager – Verwaltung{% if organization_unit_name %} · {{ organization_unit_name }}{% endif %}</a></div>
