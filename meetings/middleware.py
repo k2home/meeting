@@ -27,3 +27,21 @@ class OrganizationTimezoneMiddleware:
 
         with timezone.override(display_timezone):
             return self.get_response(request)
+
+ 
+class EnforcePasswordChangeMiddleware:
+    """Restrict marked accounts to the password-change page until updated."""
+
+    ALLOWED_PATHS = {"/konto/passwort-aendern/", "/logout/"}
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        user = getattr(request, "user", None)
+        if user is not None and user.is_authenticated and request.path_info not in self.ALLOWED_PATHS:
+            profile = getattr(user, "meeting_profile", None)
+            if profile is not None and profile.must_change_password:
+                from django.shortcuts import redirect
+                return redirect("/konto/passwort-aendern/")
+        return self.get_response(request)
