@@ -11,4 +11,37 @@
 <style>
 .management-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem;margin-top:1.5rem;align-items:stretch;min-width:0}.management-card{display:flex;flex-direction:column;align-items:flex-start;gap:.35rem;min-width:0;max-width:100%;padding:1.35rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--text);text-decoration:none;box-shadow:0 1px 2px #15223808;overflow-wrap:anywhere;word-break:normal;hyphens:auto}.management-card:hover{border-color:var(--hagen-blue);text-decoration:none}.management-card h2{max-width:100%;margin:.5rem 0;font-size:1.15rem;line-height:1.35;color:var(--readable-heading);overflow-wrap:anywhere;hyphens:auto}.management-card p{max-width:100%;margin:.25rem 0 .5rem;color:var(--muted);min-height:0;line-height:1.5;overflow-wrap:anywhere;hyphens:auto}.management-card strong{display:block;max-width:100%;margin-top:auto;font-size:.9rem;line-height:1.45;color:var(--text);overflow-wrap:anywhere;hyphens:auto}.management-icon{font-size:1.8rem;line-height:1.2;flex:0 0 auto}@media(max-width:420px){.management-grid{grid-template-columns:minmax(0,1fr)}.management-card{padding:1.1rem}}
 </style>
+
+<!-- management-home-card-search -->
+<script>
+(() => {
+  const cards = [...document.querySelectorAll(".management-card")];
+  if (!cards.length || document.getElementById("management-shortcut-search")) return;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.id = "management-shortcut-search";
+  input.placeholder = "Verwaltungsbereich suchen …";
+  input.setAttribute("aria-label", "Verwaltungsbereiche suchen");
+  cards.forEach((card, index) => { card.id = "management-shortcut-" + index; });
+  input.setAttribute("aria-controls", cards.map(card => card.id).join(" "));
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
+  const grid = document.querySelector(".management-grid");
+  if (!grid) return;
+  grid.before(input, feedback);
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const visible = !term || card.textContent.toLocaleLowerCase("de").includes(term);
+      card.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Verwaltungsbereiche gefunden.";
+  });
+})();
+</script>
 {% endblock %}
