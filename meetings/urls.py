@@ -64,6 +64,7 @@ urlpatterns = [
     path("verwaltung/nutzer/", management_views.management_users, name="management_users"),
     path("verwaltung/nutzer/neu/", management_views.management_user_edit, name="management_user_new"),
     path("verwaltung/nutzer/<int:pk>/", management_views.management_user_edit, name="management_user_edit"),
+    path("verwaltung/nutzer/<int:pk>/loeschen/", management_views.management_user_delete, name="management_user_delete"),
     path("verwaltung/gruppen/", management_views.management_groups, name="management_groups"),
     path("verwaltung/organisation/", management_views.management_settings, name="management_settings"),
     path("verwaltung/enaio/diagnose/", management_views.enaio_connection_diagnostics, name="enaio_connection_diagnostics"),
