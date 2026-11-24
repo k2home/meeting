@@ -295,6 +295,7 @@ class UserProfile(models.Model):
     )
     short_description = models.CharField("Kurzbeschreibung", max_length=80, blank=True)
     must_change_password = models.BooleanField("Passwort muss geändert werden", default=False)
+    password_setup_expires_at = models.DateTimeField("Frist für Passwortvergabe", null=True, blank=True)
 
     class Meta:
         verbose_name = "Benutzerprofil"
