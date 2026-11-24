@@ -36,6 +36,7 @@ from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
 from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
+from .password_setup import start_password_setup
 
 logger = logging.getLogger(__name__)
 
@@ -78,8 +79,8 @@ class ManagedUserCreateForm(UserCreationForm):
         self.testing_mode = _testing_mode_enabled()
         self.fields["password1"].required = False
         self.fields["password2"].required = False
-        self.fields["password1"].help_text = "Optional. Bleiben beide Felder leer, meldet sich der Nutzer zunächst nur mit seinem Benutzernamen an und legt dann ein eigenes Passwort fest."
-        self.fields["password2"].help_text = "Nur ausfüllen, wenn direkt ein Passwort vergeben werden soll."
+        self.fields["password1"].help_text = "Optional. Bleiben beide Felder leer, gilt das Startpasswort „Neu“. Der Nutzer muss innerhalb von 24 Stunden ein persönliches Passwort festlegen."
+        self.fields["password2"].help_text = "Nur ausfüllen, wenn direkt ein persönliches Passwort vergeben werden soll."
 
     def clean(self):
         cleaned_data = super().clean()
@@ -107,7 +108,7 @@ class ManagedUserCreateForm(UserCreationForm):
         user = super().save(commit=False)
         passwordless_creation = not self.cleaned_data.get("password1")
         if passwordless_creation:
-            user.set_unusable_password()
+            user.set_password("Neu")
         for field in ("first_name", "last_name", "email"):
             setattr(user, field, self.cleaned_data.get(field, "").strip())
         if commit:
@@ -117,6 +118,7 @@ class ManagedUserCreateForm(UserCreationForm):
                 defaults={
                     "short_description": self.cleaned_data.get("short_description", "").strip(),
                     "must_change_password": passwordless_creation,
+                    "password_setup_expires_at": timezone.now() + timedelta(hours=24) if passwordless_creation else None,
                 },
             )
             sync_user_role(user, self.cleaned_data["role"])
@@ -521,7 +523,10 @@ def management_user_edit(request, pk=None):
                 }
             with transaction.atomic():
                 passwordless_creation = not instance and not form.cleaned_data.get("password1")
+                was_inactive = bool(instance and not instance.is_active)
                 user = form.save()
+                if was_inactive and user.is_active:
+                    start_password_setup(user)
                 after = {
                     "Vorname": user.first_name,
                     "Nachname": user.last_name,
@@ -1034,17 +1039,13 @@ def management_user_password_reset(request, pk):
     _require_admin(request)
     user = get_object_or_404(User, pk=pk)
     if request.method == "POST":
-        profile, _ = UserProfile.objects.get_or_create(user=user)
-        user.set_unusable_password()
-        user.save(update_fields=["password"])
-        profile.must_change_password = True
-        profile.save(update_fields=["must_change_password"])
+        start_password_setup(user)
         _record_system_change(
             actor=request.user, action="updated",
             summary=f"Passwortwechsel für „{user_display_name_with_login(user)}“ erzwungen",
-            changes={"Passwortstatus": {"nachher": "Passwort entfernt; Anmeldung nur mit Benutzername und anschließender Passwortvergabe erforderlich"}},
+            changes={"Passwortstatus": {"nachher": "Startpasswort Neu gesetzt; persönliche Passwortvergabe innerhalb von 24 Stunden erforderlich"}},
         )
-        messages.success(request, "Das Passwort wurde entfernt. Bei der nächsten Anmeldung genügt der Benutzername; anschließend legt der Nutzer ein neues Passwort fest.")
+        messages.success(request, "Das Startpasswort „Neu“ wurde gesetzt. Der Benutzer muss sich innerhalb von 24 Stunden anmelden und ein persönliches Passwort festlegen.")
         return redirect("management_user_edit", pk=user.pk)
     return render(request, "meetings/management_password_reset.html", {"account": user})
 
