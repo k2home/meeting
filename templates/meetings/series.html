@@ -144,14 +144,14 @@
           <form method="post" action="{% url 'series_extend' s.pk %}" data-confirm-message="Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern? Fehlende Termine werden ergänzt; bestehende Termine bleiben unverändert.">
             {% csrf_token %}<button class="secondary" type="submit">Reihe bis Ende des Folgejahres verlängern</button>
           </form>
-          <form method="post" action="{% url 'series_delete' s.pk %}" data-confirm-message="Besprechungsreihe „{{ s.name }}“ wirklich löschen? Zugehörige Termine und Tagesordnungspunkte werden ebenfalls entfernt.">
+          <p class="muted" style="margin:0">Wenn die Termine auf einen anderen Wochentag geschoben werden sollen, kann das über „Einstellungen bearbeiten“ erfolgen.</p>
+          <form method="post" action="{% url 'series_delete_future' s.pk %}" data-confirm-message="Alle zukünftigen Termine der Besprechungsreihe „{{ s.name }}“ wirklich löschen? Alle Tagesordnungspunkte dieser zukünftigen Termine werden dabei ebenfalls gelöscht.">
             {% csrf_token %}
-            <strong>Reihe löschen</strong>
-            <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.9rem;margin:.6rem 0">
-              <input type="checkbox" name="delete_completed">
-              <span>Auch abgeschlossene Besprechungen und ihre Protokolle endgültig löschen</span>
-            </label>
-            <button class="danger" type="submit">Reihe löschen …</button>
+            <button class="danger" type="submit">Zukünftige Termine löschen</button>
+          </form>
+          <form method="post" action="{% url 'series_delete' s.pk %}" data-confirm-message="Die Besprechungsreihe „{{ s.name }}“ wirklich vollständig löschen? Alle zugehörigen Themen werden ins Archiv verschoben. Bestehende Termine und Protokolle bleiben dort erhalten.">
+            {% csrf_token %}
+            <button class="danger" type="submit">Reihe löschen</button>
           </form>
         </div>
       </details>
