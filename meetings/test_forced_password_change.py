@@ -122,8 +122,8 @@ class ForcedPasswordChangeTests(TestCase):
             username="second-expiry-user", password="Neu",
             is_active=True,
         )
-        profile = account.meeting_profile
-        profile.must_change_password = True
+        from meetings.password_setup import start_password_setup
+        profile = start_password_setup(account)
         profile.password_setup_expires_at = timezone.now() - timedelta(seconds=1)
         profile.save(update_fields=["must_change_password", "password_setup_expires_at"])
 
