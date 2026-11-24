@@ -79,7 +79,7 @@
   </section>
   <section class="card">
     <h2>Passwort</h2>
-    <p class="muted">Ein Passwort kann direkt durch den Admin vergeben werden. Bleiben beide Passwortfelder leer, wird das Konto ohne Passwort angelegt. Bei der ersten Anmeldung genügt der Benutzername; anschließend legt der Nutzer ein persönliches Passwort fest. Es wird keine E-Mail versendet.</p>
+    <p class="muted">Ein Passwort kann direkt durch den Admin vergeben werden. Bleiben beide Passwortfelder leer, gilt das Startpasswort „Neu“. Der Nutzer muss sich damit anmelden und innerhalb von 24 Stunden ein persönliches Passwort festlegen. Nach einer Admin-Freischaltung gilt „Neu“ erneut und die Frist beginnt von vorn.</p>
     <div class="form-grid">
       {% for field in form %}
         {% if field.name == "password1" or field.name == "password2" %}
