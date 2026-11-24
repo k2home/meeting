@@ -1,0 +1,8 @@
+{% extends "meetings/base.html" %}
+{% block title %}enaio-Einstellungen · Lesemodus{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>enaio-Einstellungen</h1><p class="muted">Nur lesende Ansicht für Auditoren.</p></div><a class="btn secondary" href="{% url 'auditor_overview' %}">Zur Auditor-Übersicht</a></div>
+{% if settings %}
+<section class="card"><h2>Zentrale Ablage</h2><dl><dt>Technischer Dokumenttyp</dt><dd>{{ settings.document_type_name|default:"–" }}</dd><dt>Ordner-ID</dt><dd>{{ settings.root_folder_id|default:"Nicht konfiguriert" }}</dd><dt>Objekttyp</dt><dd>{{ settings.root_folder_type|default:"0" }}</dd><dt>Ordnername</dt><dd>{{ settings.root_folder_name|default:"–" }}</dd><dt>Ordnerpfad</dt><dd>{{ settings.root_folder_path|default:"–" }}</dd></dl></section>
+{% else %}<div class="card">Es sind noch keine enaio-Einstellungen gespeichert.</div>{% endif %}
+{% endblock %}
