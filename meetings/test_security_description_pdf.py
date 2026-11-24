@@ -41,3 +41,6 @@ class SecurityDescriptionPageTests(TestCase):
         self.assertContains(response, "Rollen- und Berechtigungskonzept")
         self.assertContains(response, "Konkrete Maßnahmen und empfohlene Vorgehensweisen")
         self.assertContains(response, reverse("security_description_pdf"))
+        self.assertContains(response, "Inhaltsverzeichnis")
+        self.assertContains(response, 'href="#_1_kurzbeschreibung_und_zweck"')
+        self.assertContains(response, 'class="toc"')
