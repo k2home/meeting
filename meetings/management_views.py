@@ -1082,10 +1082,14 @@ def management_user_series(request, pk):
                     SeriesAccess.objects.filter(user=user, series=series).delete()
         messages.success(request, "Besprechungsreihen-Zuordnungen wurden gespeichert.")
         return redirect("management_user_edit", pk=user.pk)
+    access_by_series = {
+        access.series_id: access
+        for access in SeriesAccess.objects.filter(user=user)
+    }
     return render(request, "meetings/management_user_series.html", {
         "account": user, "series_rows": [{
             "series": series,
-            "access": SeriesAccess.objects.filter(user=user, series=series).first(),
+            "access": access_by_series.get(series.pk),
         } for series in MeetingSeries.objects.order_by("name")],
         "role_choices": SeriesAccess.ROLE_CHOICES,
     })
