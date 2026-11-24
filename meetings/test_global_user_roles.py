@@ -92,6 +92,27 @@ class GlobalUserRoleTests(TestCase):
         assignment.refresh_from_db()
         self.assertEqual(assignment.role, SeriesAccess.ROLE_MODERATOR)
 
+    def test_auditor_cannot_change_meetings_or_topics(self):
+        auditor = User.objects.create_user(username="auditor", password="test-password")
+        sync_user_role(auditor, "auditor")
+        self.client.force_login(auditor)
+
+        meeting_page = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.meeting.refresh_from_db()
+        self.assertEqual(meeting_page.status_code, 200)
+        self.assertFalse(self.meeting.participants_initialized)
+        meeting_update = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]), {"save_participants": "1"}
+        )
+        topic_update = self.client.post(
+            reverse("topic_edit", args=[self.topic.pk]), {"title": "Verändert"}
+        )
+
+        self.assertEqual(meeting_update.status_code, 403)
+        self.assertEqual(topic_update.status_code, 403)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.title, "Prüfthema")
+
     def test_auditor_can_read_and_export_the_full_audit_history(self):
         auditor = User.objects.create_user(username="auditor", password="test-password")
         sync_user_role(auditor, "auditor")
