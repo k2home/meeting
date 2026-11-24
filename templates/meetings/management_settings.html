@@ -50,9 +50,9 @@
 
     <details class="optional-theme-colors"{% if form.primary_color_dark.errors or form.secondary_color_dark.errors or form.tertiary_color_dark.errors %} open{% endif %}>
       <summary><strong>Abweichende Farben für den Dunkelmodus (optional)</strong></summary>
-      <p class="muted">Leer lassen, um jeweils die entsprechende Grundfarbe zu verwenden.</p>
+      <p class="muted">Nicht ausgefüllte Farben übernehmen automatisch die Grundfarbe.</p>
       {% for field in form %}{% if field.name == "primary_color_dark" or field.name == "secondary_color_dark" or field.name == "tertiary_color_dark" %}
-        <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
+        <div class="brand-color-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
       {% endif %}{% endfor %}
     </details>
   </section>
