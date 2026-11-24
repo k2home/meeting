@@ -1844,6 +1844,62 @@ class SeriesAccessRequestTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Moderator der Besprechungsreihe")
         self.assertEqual(list(response.context["series"]), [])
+    def test_series_creation_is_also_recorded_as_system_event(self):
+        from datetime import timedelta
+        from django.contrib.auth.models import Group
+        from .models import AuditEvent
+
+        admin = User.objects.create_user(username="series-create-admin", password="strong-test-password")
+        admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
+        moderator = User.objects.create_user(username="first-moderator", password="strong-test-password")
+        start = timezone.localdate() + timedelta(days=1)
+        self.client.force_login(admin)
+
+        response = self.client.post(reverse("series_admin"), {
+            "name": "Systemereignis-Reihe",
+            "description": "",
+            "recurrence": "weekly",
+            "recurrence_interval": "1",
+            "weekday": str(start.weekday()),
+            "start_date": start.isoformat(),
+            "end_date": start.isoformat(),
+            "initial_moderator": moderator.pk,
+        })
+
+        self.assertEqual(response.status_code, 302)
+        event = AuditEvent.objects.get(
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="created",
+            summary="Besprechungsreihe „Systemereignis-Reihe“ angelegt",
+        )
+        self.assertEqual(event.actor, admin)
+        self.assertEqual(event.changes["Bezeichnung"]["nachher"], "Systemereignis-Reihe")
+        self.assertTrue(AuditEvent.objects.filter(
+            scope=AuditEvent.SCOPE_SERIES,
+            action="created",
+            summary="Besprechungsreihe „Systemereignis-Reihe“ angelegt",
+        ).exists())
+
+    def test_series_deletion_is_also_recorded_as_system_event(self):
+        from .models import AuditEvent
+
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_delete", args=[self.series.pk]))
+
+        self.assertEqual(response.status_code, 302)
+        event = AuditEvent.objects.get(
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="deleted",
+            summary="Besprechungsreihe „Antragsreihe“ gelöscht",
+        )
+        self.assertEqual(event.actor, self.moderator)
+        self.assertEqual(event.changes["Bezeichnung"]["vorher"], "Antragsreihe")
+        self.assertTrue(AuditEvent.objects.filter(
+            scope=AuditEvent.SCOPE_SERIES,
+            action="deleted",
+            summary="Besprechungsreihe „Antragsreihe“ gelöscht",
+        ).exists())
+
     def test_user_sees_all_series_and_can_request_permission(self):
         self.client.force_login(self.requester)
         page = self.client.get(reverse("user_overview"))
