@@ -191,6 +191,27 @@ class OrganizationSettingsTests(TestCase):
         self.assertEqual(active_timezone, "Europe/Paris")
         self.assertEqual(restored_timezone, "UTC")
 
+    def test_timezone_and_branding_share_one_organization_settings_query(self):
+        from django.test import RequestFactory
+        from meetings.access import organization_branding
+        from meetings.middleware import OrganizationTimezoneMiddleware
+
+        OrganizationSettings.objects.create(
+            name="Fachbereich 20",
+            short_name="FB20",
+            timezone="Europe/Paris",
+            primary_color="#123456",
+        )
+        middleware = OrganizationTimezoneMiddleware(organization_branding)
+
+        with self.assertNumQueries(1):
+            branding = middleware(RequestFactory().get("/"))
+
+        self.assertEqual(branding["organization_unit_name"], "Fachbereich 20")
+        self.assertEqual(branding["organization_unit_short_name"], "FB20")
+        self.assertEqual(branding["primary_color"], "#123456")
+        self.assertEqual(branding["primary_color_light"], "#123456")
+
     def test_central_datetime_format_includes_german_hour_suffix(self):
         from django.utils import formats
         from django.utils import timezone
