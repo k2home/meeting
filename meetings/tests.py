@@ -1729,27 +1729,16 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         resolved, errors = _resolve_existing_users(grouped)
         self.assertTrue(any("mehreren CSV-Benutzern" in error for error in errors))
 
-    def test_meeting_delete_message_matches_the_action(self):
-        from datetime import date
-        user = User.objects.create_superuser(
-            username="orphan-meeting-moderator",
-            email="orphan@example.org",
-            password="strong-test-password",
-        )
+    def test_archived_meeting_delete_is_forbidden(self):
         from .models import ArchivedMeetingAccess
         meeting = Meeting.objects.create(series=None, date=date(2026, 12, 22))
         ArchivedMeetingAccess.objects.create(
-            meeting=meeting, user=user, role=SeriesAccess.ROLE_MODERATOR
+            meeting=meeting, user=self.user, role=SeriesAccess.ROLE_MODERATOR
         )
-        self.client.force_login(user)
+        self.client.force_login(self.user)
         response = self.client.post(reverse("meeting_delete", args=[meeting.pk]))
-        self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
-        from django.contrib.messages import get_messages
-        stored_messages = [str(message) for message in get_messages(response.wsgi_request)]
-        self.assertIn(
-            "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht gelöscht werden.",
-            stored_messages,
-        )
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(Meeting.objects.filter(pk=meeting.pk).exists())
 
 
 class UserOverviewTests(TestCase):
