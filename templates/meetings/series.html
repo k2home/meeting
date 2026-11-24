@@ -1,133 +1,190 @@
 {% extends "meetings/base.html" %}
 {% block content %}
-<header class="page-header">
-  <h1>Besprechungsreihen</h1>
-  <div class="page-header-actions"><button type="button" onclick="document.getElementById('new-series-dialog').showModal()">+ Neu</button></div>
-</header>
+<style>
+  .series-page{display:grid;gap:.75rem}
+  .series-page .card{margin:0}
+  .series-page-header{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+  .series-page-header h1{margin:0}
+  .series-list{display:grid;gap:.6rem}
+  .series-entry{padding:.85rem 1rem}
+  .series-entry-main{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.65rem 1rem;align-items:start}
+  .series-entry-title{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;min-width:0}
+  .series-entry-title h2{font-size:1.08rem;line-height:1.3;margin:0}
+  .series-entry-meta{display:flex;gap:.35rem .75rem;flex-wrap:wrap;margin:.25rem 0 0;font-size:.86rem}
+  .series-entry-actions{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+  .series-entry-actions .btn,.series-entry-actions button{padding:.38rem .62rem;font-size:.88rem}
+  .series-stats{display:flex;gap:.35rem;flex-wrap:wrap;margin:.65rem 0}
+  .series-stat{display:inline-flex;gap:.3rem;align-items:baseline;padding:.25rem .5rem;border:1px solid var(--border);border-radius:999px;font-size:.82rem}
+  .series-next{display:flex;align-items:center;justify-content:space-between;gap:.6rem .9rem;flex-wrap:wrap;padding:.55rem .65rem;background:var(--surface);border:1px solid var(--border);border-radius:7px}
+  .series-next-info{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .series-next-actions{display:flex;align-items:center;gap:.35rem;flex-wrap:wrap}
+  .series-next-actions .btn,.series-next-actions button{padding:.34rem .55rem;font-size:.84rem}
+  .series-more{margin-top:.55rem}
+  .series-more>summary{cursor:pointer;font-size:.88rem;font-weight:600;padding:.3rem 0}
+  .series-more table{font-size:.88rem}
+  .series-more td,.series-more th{padding:.4rem .55rem}
+  .series-manage{position:relative}
+  .series-manage>summary{list-style:none;cursor:pointer}
+  .series-manage>summary::-webkit-details-marker{display:none}
+  .series-manage-panel{position:absolute;z-index:5;right:0;top:calc(100% + .25rem);width:min(19rem,85vw);padding:.65rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 .5rem 1.25rem #0002}
+  .series-manage-panel>a{display:block}
+  .series-manage-panel form{margin-top:.7rem;padding-top:.65rem;border-top:1px solid var(--border)}
+  .series-manage-panel label{display:flex;align-items:flex-start;gap:.45rem;font-size:.84rem;margin:.35rem 0 .6rem}
+  .series-requests h2{font-size:1.05rem;margin:0 0 .2rem}
+  .series-requests-intro{font-size:.85rem;margin:.1rem 0 .55rem}
+  .series-requests table{font-size:.86rem}
+  .series-requests td,.series-requests th{padding:.4rem .5rem}
+  .series-request-form{min-width:13rem}
+  .series-request-form input[type=text]{margin:.15rem 0 .35rem}
+  .series-request-form .actions{gap:.3rem;margin:0}
+  .series-request-form button{padding:.32rem .5rem;font-size:.82rem}
+  #new-series-dialog{width:min(92vw,38rem);max-height:85vh;overflow-y:auto;border:0;border-radius:12px;padding:1.25rem;box-shadow:0 1rem 3rem #0004}
+  #new-series-dialog::backdrop{background:#0007}
+  @media(max-width:640px){
+    .series-entry{padding:.75rem}
+    .series-entry-main{grid-template-columns:minmax(0,1fr)}
+    .series-entry-actions{justify-content:flex-start}
+    .series-next{align-items:flex-start}
+    .series-next-actions{width:100%}
+    .series-manage-panel{right:auto;left:0}
+    .series-requests table{min-width:680px}
+  }
+</style>
 
+<div class="series-page">
+  <header class="series-page-header">
+    <div><h1>Besprechungsreihen</h1><p class="muted" style="margin:.15rem 0 0">Termine, Wiederholungen und Zugriffsrechte verwalten</p></div>
+    <button type="button" onclick="document.getElementById('new-series-dialog').showModal()">+ Neue Reihe</button>
+  </header>
 
-{% if pending_access_requests %}
-<section class="card" style="margin-bottom:1rem">
-  <h2>Offene Berechtigungsanträge</h2>
-  <p class="muted">Administratoren sehen alle Anträge. Moderatoren sehen nur Anträge für ihre eigenen Besprechungsreihen.</p>
-  <div style="overflow-x:auto">
-    <table>
-      <thead><tr><th>Benutzer</th><th>Besprechungsreihe</th><th>Beantragte Berechtigung</th><th>Antrag vom</th><th>Entscheidung</th></tr></thead>
-      <tbody>
-      {% for item in pending_access_requests %}
-        <tr>
-          <td>{{ item.user.get_full_name|default:item.user.username }}</td>
-          <td>{{ item.series.name }}</td>
-          <td>{{ item.get_requested_role_display }}</td>
-          <td>{{ item.created_at|date:"DATETIME_FORMAT" }}</td>
-          <td>
-            <form method="post" style="min-width:15rem">
-              {% csrf_token %}
-              <input type="hidden" name="form_type" value="access_request_decision">
-              <input type="hidden" name="request_id" value="{{ item.pk }}">
-              <label for="note-{{ item.pk }}">Optionale Begründung</label>
-              <input id="note-{{ item.pk }}" type="text" name="decision_note" maxlength="500">
-              <div class="actions" style="margin-top:.4rem">
-                <button type="submit" name="decision" value="approved">Genehmigen</button>
-                <button class="secondary" type="submit" name="decision" value="rejected">Ablehnen</button>
-              </div>
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</section>
-{% endif %}
+  {% if pending_access_requests %}
+  <section class="card series-requests">
+    <div class="topline" style="margin-bottom:.25rem"><h2>Offene Berechtigungsanträge</h2><span class="pill">{{ pending_access_requests|length }}</span></div>
+    <p class="muted series-requests-intro">Administratoren sehen alle Anträge, Moderatoren nur Anträge für ihre eigenen Reihen.</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Benutzer</th><th>Besprechungsreihe</th><th>Berechtigung</th><th>Antrag vom</th><th>Entscheidung</th></tr></thead>
+        <tbody>
+        {% for item in pending_access_requests %}
+          <tr>
+            <td>{{ item.user.get_full_name|default:item.user.username }}</td>
+            <td>{{ item.series.name }}</td>
+            <td>{{ item.get_requested_role_display }}</td>
+            <td>{{ item.created_at|date:"DATETIME_FORMAT" }}</td>
+            <td>
+              <form method="post" class="series-request-form">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="access_request_decision">
+                <input type="hidden" name="request_id" value="{{ item.pk }}">
+                <label for="note-{{ item.pk }}">Optionale Begründung</label>
+                <input id="note-{{ item.pk }}" type="text" name="decision_note" maxlength="500">
+                <div class="actions">
+                  <button type="submit" name="decision" value="approved">Genehmigen</button>
+                  <button class="secondary" type="submit" name="decision" value="rejected">Ablehnen</button>
+                </div>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
 
-<div class="series-list">
-  {% for s in series %}
-    <section class="card series-entry" id="series-{{ s.pk }}" style="margin-bottom:1rem">
-      <div class="topline" style="align-items:flex-start;gap:1rem">
-        <div style="min-width:0">
-          <h2 style="margin:0 0 .35rem">{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% else %}<span class="pill">Aktiv</span>{% endif %}</h2>
-          <p class="muted" style="margin:0">{{ s.recurrence_interval }}-{{ s.get_recurrence_display|lower }} · {{ s.weekday_label }} · bis {{ s.end_date|date:"DATE_FORMAT" }}</p>
-        </div>
-        <details>
-          <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
-          <div style="margin-top:.25rem;padding:.45rem .55rem;min-width:min(14rem,80vw);background:var(--surface);border:1px solid var(--border);border-radius:5px">
-            <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
-            <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" data-confirm-message="Besprechungsreihe „{{ s.name }}“ wirklich löschen? Zugehörige Termine und Tagesordnungspunkte werden ebenfalls entfernt.">
-              {% csrf_token %}
-              <p style="margin:.25rem 0 .5rem"><strong>Reihe löschen</strong></p>
-              <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.9rem;margin-bottom:.75rem">
-                <input type="checkbox" name="delete_completed">
-                <span>Auch abgeschlossene Besprechungen und ihre Protokolle endgültig löschen</span>
-              </label>
-              <button class="danger" type="submit">Reihe löschen …</button>
-            </form>
+  <div class="series-list">
+    {% for s in series %}
+    <section class="card series-entry" id="series-{{ s.pk }}">
+      <div class="series-entry-main">
+        <div>
+          <div class="series-entry-title">
+            <h2>{{ s.name }}</h2>
+            {% if s.active %}<span class="pill">Aktiv</span>{% else %}<span class="pill">Inaktiv</span>{% endif %}
           </div>
-        </details>
-        <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.35rem" data-confirm-message="Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern? Fehlende Termine werden ergänzt; bestehende Termine bleiben unverändert.">
-          {% csrf_token %}<button class="secondary" type="submit">Verlängern</button>
-        </form>
+          <p class="muted series-entry-meta">
+            <span>{{ s.recurrence_interval }} × {{ s.get_recurrence_display|lower }}</span>
+            <span>{{ s.weekday_label }}</span>
+            <span>bis {{ s.end_date|date:"DATE_FORMAT" }}</span>
+          </p>
+        </div>
+        <div class="series-entry-actions">
+          <details class="series-manage">
+            <summary class="btn secondary">Verwalten ▾</summary>
+            <div class="series-manage-panel">
+              <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
+              <form method="post" action="{% url 'series_delete' s.pk %}" data-confirm-message="Besprechungsreihe „{{ s.name }}“ wirklich löschen? Zugehörige Termine und Tagesordnungspunkte werden ebenfalls entfernt.">
+                {% csrf_token %}
+                <strong>Reihe löschen</strong>
+                <label><input type="checkbox" name="delete_completed"><span>Auch abgeschlossene Besprechungen und ihre Protokolle endgültig löschen</span></label>
+                <button class="danger" type="submit">Reihe löschen …</button>
+              </form>
+            </div>
+          </details>
+          <form method="post" action="{% url 'series_extend' s.pk %}" data-confirm-message="Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern? Fehlende Termine werden ergänzt; bestehende Termine bleiben unverändert.">
+            {% csrf_token %}<button class="secondary" type="submit">Verlängern</button>
+          </form>
+        </div>
       </div>
 
-      <div class="series-stats" style="display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:.85rem 0;padding:.75rem 0;border-top:1px solid var(--border-color, #ddd);border-bottom:1px solid var(--border-color, #ddd)">
-        <span><strong>{{ s.meeting_count }}</strong> Termine insgesamt</span>
-        <span><strong>{{ s.upcoming_count }}</strong> offen / geplant</span>
-        <span><strong>{{ s.completed_count }}</strong> abgeschlossen</span>
+      <div class="series-stats" aria-label="Statistik der Besprechungsreihe">
+        <span class="series-stat"><strong>{{ s.meeting_count }}</strong> Termine</span>
+        <span class="series-stat"><strong>{{ s.upcoming_count }}</strong> offen / geplant</span>
+        <span class="series-stat"><strong>{{ s.completed_count }}</strong> abgeschlossen</span>
       </div>
 
       {% if s.next_meeting %}
-        <div class="series-next-meeting">
-          <div class="topline" style="align-items:center">
-            <div><span class="muted">Nächster Termin:</span><br><strong>{{ s.next_meeting.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</strong></div>
-            {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
-          </div>
-          <div class="actions" style="margin-top:.65rem">
-            <a class="btn" href="{% url 'meeting' s.next_meeting.pk %}">Termin öffnen</a>
-            {% if not s.next_meeting.finalized_at %}
-              <a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>
-            {% endif %}
-            {% if not s.next_meeting.finalized_at %}
-              <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?">
-                {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
-              </form>
-            {% endif %}
-          </div>
+      <div class="series-next">
+        <div class="series-next-info">
+          <span class="muted">Nächster Termin</span>
+          <strong>{{ s.next_meeting.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</strong>
+          {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
         </div>
+        <div class="series-next-actions">
+          <a class="btn" href="{% url 'meeting' s.next_meeting.pk %}">Termin öffnen</a>
+          {% if not s.next_meeting.finalized_at %}
+            <a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>
+            <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?">
+              {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
       {% else %}
-        <p class="muted" style="margin:.75rem 0">Kein zukünftiger Termin vorhanden.</p>
+        <p class="muted" style="margin:.45rem 0 0;font-size:.88rem">Kein zukünftiger Termin vorhanden.</p>
       {% endif %}
 
       {% if s.other_meetings %}
-        <details style="margin-top:.75rem" {% if expanded_series_id == s.pk|stringformat:"s" %}open{% endif %}>
-          <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">Alle weiteren Termine anzeigen ({{ s.other_meetings|length }})</summary>
-          <div style="overflow-x:auto;margin-top:.5rem">
-            <table><thead><tr><th>Termin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
-            {% for m in s.other_meetings %}
-              <tr>
-                <td>{{ m.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</td>
-                <td>{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</td>
-                <td><div class="actions">
-                  <a class="btn secondary" href="{% url 'meeting' m.pk %}">Öffnen</a>
-                  {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
-                  {% if not m.finalized_at %}
-                    <form method="post" action="{% url 'meeting_delete' m.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?">
-                      {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
-                    </form>
-                  {% endif %}
-                </div></td>
-              </tr>
-            {% endfor %}
-            </tbody></table>
-          </div>
-        </details>
+      <details class="series-more" {% if expanded_series_id == s.pk|stringformat:"s" %}open{% endif %}>
+        <summary>Weitere Termine anzeigen ({{ s.other_meetings|length }})</summary>
+        <div style="overflow-x:auto">
+          <table><thead><tr><th>Termin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
+          {% for m in s.other_meetings %}
+            <tr>
+              <td>{{ m.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</td>
+              <td>{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</td>
+              <td><div class="actions">
+                <a class="btn secondary" href="{% url 'meeting' m.pk %}">Öffnen</a>
+                {% if not m.finalized_at %}
+                  <a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>
+                  <form method="post" action="{% url 'meeting_delete' m.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?">
+                    {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
+                  </form>
+                {% endif %}
+              </div></td>
+            </tr>
+          {% endfor %}
+          </tbody></table>
+        </div>
+      </details>
       {% endif %}
     </section>
-  {% empty %}
-    <div class="card"><p class="muted">Noch keine Besprechungsreihen angelegt. Über „+ Neu“ kannst du eine Reihe erstellen.</p></div>
-  {% endfor %}
+    {% empty %}
+      <div class="card"><p class="muted">Noch keine Besprechungsreihen angelegt. Über „Neue Reihe“ kannst du eine Reihe erstellen.</p></div>
+    {% endfor %}
+  </div>
 </div>
 
-<dialog id="new-series-dialog" class="card" style="width:min(92vw, 38rem);max-height:85vh;overflow-y:auto;border:0;border-radius:12px;padding:1.5rem;box-shadow:0 1rem 3rem #0004">
+<dialog id="new-series-dialog" class="card">
   <div class="topline"><h2>Neue Besprechungsreihe</h2><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()" aria-label="Schließen">Schließen</button></div>
   <form method="post">
     {% csrf_token %}
