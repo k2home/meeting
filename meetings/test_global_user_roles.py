@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_auditor, is_reader
-from .models import Meeting, MeetingSeries, SeriesAccess, Topic
+from .models import AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic
 from .user_roles import get_user_role, sync_user_role
 
 User = get_user_model()
@@ -89,6 +89,22 @@ class GlobalUserRoleTests(TestCase):
         self.assertEqual(get_user_role(user), "auditor")
         assignment.refresh_from_db()
         self.assertEqual(assignment.role, SeriesAccess.ROLE_MODERATOR)
+
+    def test_auditor_can_read_and_export_the_full_audit_history(self):
+        auditor = User.objects.create_user(username="auditor", password="test-password")
+        sync_user_role(auditor, "auditor")
+        AuditEvent.objects.create(
+            actor=self.admin, series=self.series, action="created", summary="Audit-Eintrag sichtbar"
+        )
+        self.client.force_login(auditor)
+
+        page = self.client.get(reverse("audit_history"))
+        export = self.client.get(reverse("audit_history_csv"))
+
+        self.assertEqual(page.status_code, 200)
+        self.assertContains(page, "Audit-Eintrag sichtbar")
+        self.assertEqual(export.status_code, 200)
+        self.assertIn("Audit-Eintrag sichtbar", export.content.decode("utf-8-sig"))
 
     def test_user_csv_export_contains_global_role_and_series_role(self):
         user = User.objects.create_user(username="member", password="test-password")
