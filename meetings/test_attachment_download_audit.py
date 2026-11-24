@@ -16,7 +16,7 @@ class AttachmentDownloadAuditTests(TestCase):
             username="attachment-auditor", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="Download-Audit-Reihe")
-        SeriesAccess.objects.create(user=self.user, series=self.series)
+        SeriesAccess.objects.create(user=self.user, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT)
         self.topic = Topic.objects.create(title="Download-Audit-Thema", series=self.series)
         self.attachment = TopicAttachment.objects.create(
             topic=self.topic, label="Sitzungsunterlage"
