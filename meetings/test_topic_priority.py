@@ -19,7 +19,7 @@ class TopicPriorityTests(TestCase):
             username="topic-priority-reader", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="Prioritäts-Reihe")
-        SeriesAccess.objects.create(user=self.member, series=self.series)
+        SeriesAccess.objects.create(user=self.member, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT)
         SeriesAccess.objects.create(
             user=self.reader, series=self.series, role=SeriesAccess.ROLE_READER
         )
