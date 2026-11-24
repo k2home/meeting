@@ -42,15 +42,12 @@ class NewTopicForm(forms.ModelForm):
 @auditor_readonly
 def topic_new(request):
     writable_series = accessible_series(request.user)
-    if is_auditor(request.user):
-        writable_series = MeetingSeries.objects.none()
-    elif not is_admin(request.user):
-        writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
         if not writable_series.exists():
             return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
     form = NewTopicForm(request.POST or None)
     form.fields["series"].queryset = writable_series.filter(active=True)
-    form.fields["series"].required = not is_admin(request.user)
+    form.fields["series"].required = True
     meetings = accessible_meetings(request.user).filter(
         series__in=writable_series.filter(active=True),
         date__gte=timezone.localdate(),
@@ -91,9 +88,7 @@ def topic_archive_toggle(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    if not is_admin(request.user) and (
-        topic.series_id is None or not is_moderator(request.user, topic.series)
-    ):
+    if topic.series_id is None or not is_moderator(request.user, topic.series):
         return HttpResponseForbidden("Nur Moderator*innen und Admins der Besprechungsreihe dürfen Themen archivieren oder wieder öffnen.")
     with transaction.atomic():
         topic = Topic.objects.select_for_update().get(pk=topic.pk)
@@ -138,7 +133,7 @@ def topic_archive_toggle(request, pk):
 @transaction.atomic
 def topic_detail(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    reader = is_reader(request.user, topic.series) or (topic.series_id is None and not is_admin(request.user))
+    reader = is_reader(request.user, topic.series) or (topic.series_id is None)
     # ModelForm validation writes submitted values onto its instance before
     # is_valid() returns. Snapshot persisted values before constructing it.
     original_values = Topic.objects.filter(pk=topic.pk).values(
@@ -200,15 +195,11 @@ def topic_detail(request, pk):
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
 
-    writable_series = accessible_series(request.user)
-    if not is_admin(request.user):
-        writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    writable_series = accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
     return render(request, "meetings/topic_form.html", {
         "form": form,
         "topic": topic,
-        "can_archive_topic": is_admin(request.user) or (
-            topic.series_id is not None and is_moderator(request.user, topic.series)
-        ),
+        "can_archive_topic": topic.series_id is not None and is_moderator(request.user, topic.series),
         "is_reader": reader,
         "topic_agenda_items": items,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
@@ -228,7 +219,7 @@ def edit_topic_agenda_item(request, pk, item_pk):
     )
     if (
         is_reader(request.user, item.meeting.series)
-        or (item.meeting.series_id is None and not is_admin(request.user))
+        or (item.meeting.series_id is None)
         or item.meeting.finalized_at
     ):
         return HttpResponseForbidden("Dieser Tagesordnungspunkt ist schreibgeschützt.")
