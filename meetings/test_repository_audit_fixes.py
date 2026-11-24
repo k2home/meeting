@@ -223,7 +223,7 @@ class AuditTransactionAndTransferTests(TestCase):
         self.client.force_login(self.moderator)
         with patch("meetings.agenda_topic_views.record_event", side_effect=RuntimeError("Audit ausgefallen")):
             with self.assertRaises(RuntimeError):
-                self.client.post(reverse("topic_edit", args=[topic.pk]), {"title": "Neuer Titel"})
+                self.client.post(reverse("topic_edit", args=[topic.pk]), {"title": "Neuer Titel", "priority": topic.priority})
         topic.refresh_from_db()
         self.assertEqual(topic.title, "Ursprünglicher Titel")
 
