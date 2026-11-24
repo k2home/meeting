@@ -1364,6 +1364,7 @@ class RepositoryConsistencyRegressionTests(TestCase):
         moderator = User.objects.create_superuser(
             username="reset-admin", email="reset-admin@example.com", password="strong-test-password",
         )
+        SeriesAccess.objects.create(user=moderator, series=series, role=SeriesAccess.ROLE_MODERATOR)
         self.client.force_login(moderator)
         response = self.client.post(reverse("series_reset_meetings", args=[series.pk]))
         self.assertRedirects(response, reverse("series_edit", args=[series.pk]))
