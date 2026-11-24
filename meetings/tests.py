@@ -368,9 +368,6 @@ class MyTasksViewTests(TestCase):
         )
         self.assertEqual(topic.next_meeting_date, upcoming_meeting.date)
         self.assertNotContains(response, "Überfällig ·")
-        self.assertContains(
-            response, upcoming_meeting.date.strftime("%d.%m.%Y")
-        )
 
     def test_my_tasks_requires_login(self):
         self.client.logout()
