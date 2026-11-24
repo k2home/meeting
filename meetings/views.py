@@ -2179,6 +2179,10 @@ def audit_history(request):
 
     return render(request, "meetings/audit_history.html", {
         "events": Paginator(events, 50).get_page(request.GET.get("page")),
+        "page_range": Paginator(events, 50).get_elided_page_range(
+            number=Paginator(events, 50).get_page(request.GET.get("page")).number,
+            on_each_side=2, on_ends=1,
+        ),
         "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
         "has_history_permission": has_history_permission,
