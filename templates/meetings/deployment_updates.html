@@ -1,5 +1,17 @@
 {% extends "meetings/base.html" %}
-{% block title %}Software aktualisieren{% endblock %}
+{% block title %}Software aktualisieren<script>
+(() => {
+  const form = document.querySelector('form[data-confirm-message]');
+  const disableTesting = form?.querySelector('button[name="action"][value="disable-testing"]');
+  if (!disableTesting) return;
+  disableTesting.addEventListener("click", () => {
+    // The shared confirmation handler should not intercept the explicit
+    // action that only leaves testing mode.
+    form.dataset.confirmApproved = "true";
+  });
+})();
+</script>
+{% endblock %}
 {% block content %}
 <div class="page-header">
   <div>
