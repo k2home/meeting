@@ -71,8 +71,9 @@ Wird eine Besprechungsreihe gelöscht, bleiben historische Termine und Protokoll
 
 Der Änderungsverlauf ist in zwei Bereiche getrennt:
 
-- Serienereignisse sind für Moderator*innen der jeweiligen Reihe sichtbar. Admins sehen Serienereignisse nur für Reihen, in denen sie selbst Moderatorrechte besitzen.
-- Systemereignisse sind für Admins und Auditoren sichtbar. Auditoren können diese Daten nur lesen und den Systemverlauf exportieren.
+- Serienereignisse sind ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Admins sehen Serienereignisse ebenfalls nur für Reihen, in denen sie selbst ausdrücklich Moderatorrechte besitzen.
+- Systemereignisse sind für globale Admins und Auditoren sichtbar. Auditoren haben ausschließlich lesenden Zugriff auf Systemereignisse und keinen Zugriff auf Serienereignisse oder fachliche Reiheninhalte.
+- Die CSV-Exportansichten wenden dieselbe Bereichstrennung an: Admins/Auditoren exportieren Systemereignisse; Moderator*innen exportieren Ereignisse ihrer eigenen moderierten Reihen.
 
 Das Modell ist damit auf das Need-to-know-Prinzip ausgerichtet. Kritisch bleibt die konsequente Prüfung jedes neuen Endpunkts, Exports und administrativen Sonderwegs gegen diese Regeln.
 
@@ -99,9 +100,9 @@ Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsd
 | Autorisierung | Zentrale Serienzugriffsabfragen; Auditoren werden aus fachlichen Reihenabfragen ausgeschlossen; Admin ist keine Serienrolle. | Endpunkt- und Exporttests müssen die Regeln vollständig abdecken. |
 | CSRF / Browser-Header | Django-CSRF-Middleware; nosniff, Referrer-Policy same-origin und X-Frame-Options DENY. | Eine umfassende Content-Security-Policy für alle Seiten ist nicht belegt. |
 | TLS / Cookies / CSRF | Die Installer erzwingen HTTPS-Redirect und Secure-Cookies, setzen die HTTPS-CSRF-Origin und aktivieren Proxy-Vertrauen. Debian begrenzt den Zugriff auf die angegebene Proxy-IP/CIDR; Docker bindet den Web-Port an Loopback. | Ein gültiges TLS-Zertifikat und ein korrekt konfigurierter Reverse Proxy bleiben erforderlich. HSTS-Preload wird validiert und muss bewusst separat aktiviert werden. |
-| Uploads | Anlagenlimit wird organisationsweit konfiguriert (1–24 MB, Standard 20 MB). Download erfordert Anmeldung und Serienzugriff; Pfad wird auf MEDIA_ROOT begrenzt; Download als Attachment, nosniff und private/no-store. | Eine Malware-Prüfung und eine generelle inhaltliche Dateityp-Allowlist sind im geprüften Uploadpfad nicht belegt. |
+| Uploads | Anlagenlimit wird organisationsweit konfiguriert (1–24 MB, Standard 20 MB). Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist: PDF, DOCX, XLSX, PPTX, TXT, PNG und JPEG. Download erfordert Anmeldung und Serienzugriff; Pfad wird auf MEDIA_ROOT begrenzt; Download als Attachment, nosniff und private/no-store. | Die Allowlist prüft die Dateiendung, nicht die tatsächliche Dateisignatur oder den Dateiinhalt. Malware-Scanning ist nicht integriert. |
 | Logos / SVG | Logo-Auslieferung ist angemeldet, auf MEDIA_ROOT begrenzt und privat/no-store. SVG erhält eine restriktive CSP-Sandbox. | Upload- und Konvertierungspfad weiter beobachten. |
-| Audit | Fachliche und administrative Ereignisse werden über Anwendungsvorgänge erfasst; Passwörter und Datei-Inhalte sollen nicht protokolliert werden. | Kein Nachweis einer manipulationsgeschützten externen oder WORM-Protokollablage. |
+| Audit | Protokolliert werden Akteur, Zeitpunkt, Aktion, eine begrenzte Zusammenfassung und gezielt ausgewählte Änderungsmetadaten. Passwortwerte, Authentifizierungs-Tokens und hochgeladene Datei-Inhalte werden nicht gespeichert; bei Passwortänderungen wird nur der Status der Änderung festgehalten. Dateinamen können als Metadaten erscheinen. Systemereignisse sehen Admins und Auditoren; Serienereignisse sehen Moderator*innen nur für Reihen mit eigener Moderatorzuweisung. | Die Datenbankablage ist nicht manipulationsgeschützt. Die Oberfläche zeigt nur freigegebene Ereignisse und aufklappbare, ausgewählte Änderungsdetails; sie ist kein vollständiges Aktivitäts- oder Inhaltsprotokoll. |
 | CSV | Import mit Vorschau/Bestätigung; Exportwerte werden gegen Tabellenformel-Präfixe abgesichert. | Import-/Exportdateien bleiben sensible Datenkopien. |
 | Betrieb | Docker-App läuft als nicht-root; DB nicht nach außen veröffentlicht; Updater nutzt lokalen Socket statt Docker-Socket im App-Container. | Host, Socket-Berechtigungen, Images, Volumes und Updater bleiben Teil der Vertrauensgrenze. |
 | Backups | Integrierter Datenbank-Vollbackup-Export/-Import und dokumentierte Backup-Wege für Datenbank und Medien. | Ein belastbarer externer Backup-, Verschlüsselungs- und Restore-Prozess muss vom Betreiber eingerichtet werden. |
@@ -118,10 +119,10 @@ Die folgende Bewertung orientiert sich an typischen Risiken von Webanwendungen. 
 | **Abhören oder Übernehmen von Sitzungen** | Die Installer erzwingen HTTPS-Redirect sowie Secure-Attribute für Session- und CSRF-Cookies. Django verwaltet die Sitzungen; die Laufzeit ist auf acht Stunden begrenzt. | **Mit korrekt eingerichtetem TLS-Reverse-Proxy adressiert.** Zertifikatserneuerung, Proxy-Isolation, Geräteschutz und Logout bleiben Betriebsaufgaben. Eine Sitzung kann bei kompromittiertem Endgerät weiterhin missbraucht werden. |
 | **Passwortdiebstahl und Brute Force** | Django-Passworthashing, Mindestlänge 8 sowie Komplexitäts-, Ähnlichkeits- und Häufige-Passwort-Prüfung. | **Teilweise adressiert.** MFA und anwendungsinterne Login-Drosselung sind im geprüften Kern nicht belegt. MFA über Identity Provider bzw. vorgeschaltete Zugangskontrolle und Rate-Limiting am Proxy ergänzen. |
 | **Cross-Site Scripting (XSS)** | Django-Templates escapen gewöhnliche Ausgaben standardmäßig; nosniff, Referrer-Policy same-origin und X-Frame-Options DENY sind gesetzt. | **Teilweise adressiert.** Eine umfassende Content-Security-Policy ist nicht belegt. Bei neuen HTML-Ausgaben keine ungeprüften Safe-Ausgaben oder dynamisch eingebetteten Skripte verwenden; CSP prüfen und schrittweise einführen. |
-| **Schadsoftware und aktive Inhalte in Datei-Uploads** | Uploadgrößen sind begrenzt. Downloads erfordern Anmeldung und Serienzugriff, erfolgen als Attachment und mit nosniff; Pfade werden auf MEDIA_ROOT begrenzt. | **Teilweise adressiert.** Malware-Scanning und eine umfassende Dateityp-Allowlist sind nicht belegt. Zulässige Formate festlegen, Dateityp serverseitig prüfen und Uploads vor Freigabe scannen. |
+| **Schadsoftware und aktive Inhalte in Datei-Uploads** | Uploadgrößen sind begrenzt. Themenanlagen akzeptieren serverseitig nur die Dateiendungen PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG. Downloads erfordern Anmeldung und Serienzugriff, erfolgen als Attachment und mit nosniff; Pfade werden auf MEDIA_ROOT begrenzt. | **Teilweise adressiert.** Die Endungs-Allowlist verhindert nicht, dass andersartige Inhalte mit erlaubter Endung hochgeladen werden. Dateisignaturprüfung und Malware-Scanning fehlen weiterhin und sollten vor einer Freigabe ergänzt werden. |
 | **Datenabfluss über Anlagen, CSV und Backups** | Anlagen werden über eine geschützte Download-Route ausgeliefert. CSV-Import hat eine Vorschau; Exportwerte werden gegen Tabellenformeln abgesichert. Import-/Export- und Vollbackup-Funktionen sind administrativ begrenzt. | **Im normalen Anwendungspfad adressiert, Betrieb bleibt kritisch.** MEDIA-Verzeichnis nicht öffentlich ausliefern; Exportdateien und Backups verschlüsseln, Zugriff beschränken, Aufbewahrung und Löschung regeln. |
 | **Missbrauch privilegierter Konten / Insider-Risiko** | Admin und Auditor sind getrennt; Auditoren sind lesend. Admins erhalten fachlichen Reihen-Zugriff nicht allein durch ihre globale Rolle. Administrative und fachliche Ereignisse werden protokolliert. | **Teilweise adressiert.** Admin-Konten minimieren, MFA einsetzen, Admin-Aktionen überwachen und regelmäßige Rechteprüfungen durchführen. Privilegierte Host-/DB-Zugriffe bleiben außerhalb der Anwendungsautorisierung. |
-| **Manipulation oder Verlust von Audit-Daten** | Anwendungsereignisse werden getrennt nach Serien- und Systembereich erfasst; Sichtrechte sind rollenabhängig. | **Teilweise adressiert.** Die Datenbank ist kein manipulationsgeschützter/WORM-Speicher. Sicherheitsrelevante Logs zusätzlich extern und mit getrennten Schreibrechten aufbewahren. |
+| **Manipulation oder Verlust von Audit-Daten** | Serienereignisse sind nur für Moderator*innen ihrer jeweils moderierten Reihen sichtbar; Systemereignisse nur für Admins und Auditoren. Die Erfassung beschränkt sich auf Ereignismetadaten und ausgewählte Änderungen. Passwortwerte, Authentifizierungs-Tokens und Datei-Inhalte werden nicht protokolliert. | **Zugriff und Darstellung sind eng begrenzt.** Die Datenbank selbst ist jedoch kein manipulationsgeschützter/WORM-Speicher. Für erhöhte Anforderungen kann eine getrennte externe Sicherung der Systemereignisse sinnvoll sein. |
 | **Veraltete Abhängigkeiten und Container-Images** | Python-Abhängigkeiten sind in Requirements/Constraints festgelegt; Images werden über den Build-/Release-Prozess bereitgestellt. | **Nur organisatorisch/über CI beherrschbar.** Regelmäßige Dependency- und Image-Scans, zeitnahe Sicherheitsupdates und Freigabe nur geprüfter Releases sicherstellen. |
 | **Denial of Service und Ressourcenerschöpfung** | Uploadgrößen sind begrenzt; Datenbank und App sind in getrennten Diensten organisiert. | **Nur teilweise adressiert.** Request-Größen, Verbindungen, Rate-Limits, Timeouts, CPU, RAM und Speicherplatz am Proxy und Host begrenzen und überwachen. |
 | **Datenverlust / fehlende Wiederherstellbarkeit** | Datenbank- und Medien-Backups sowie Import-/Restore-Funktionen sind vorhanden und dokumentiert. | **Nicht durch den Code garantiert.** Getrennte, verschlüsselte Backups, definierte RPO/RTO und regelmäßige Restore-Tests sind zwingend durch den Betreiber einzurichten. |
@@ -133,18 +134,7 @@ Die Einstufung beschreibt Schutzmechanismen im Repository, nicht den Sicherheits
 
 Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert. Die Reihenfolge priorisiert die größten Auswirkungen.
 
-### 7.1 HTTPS und sichere Proxy-Konfiguration – vor Produktivfreigabe
-
-1. Einen Reverse Proxy mit gültigem TLS-Zertifikat vor die Anwendung setzen. Die Installationsskripte erwarten diesen Proxy bereits und aktivieren HTTPS-Redirect, Secure-Cookies und CSRF-Origin verbindlich. TLS 1.2 oder höher aktivieren; veraltete Protokolle und schwache Cipher Suites deaktivieren.
-2. Den Anwendungsport ausschließlich vom Reverse Proxy erreichbar machen. Bei Docker bindet das Installationsskript den veröffentlichten Web-Port standardmäßig an 127.0.0.1; bei Debian begrenzt es den lokalen Nginx-Zugriff auf die beim Setup angegebene Proxy-IP/CIDR. Diese Einschränkungen nicht durch zusätzliche öffentliche Portfreigaben umgehen.
-3. Am Proxy `X-Forwarded-Proto: https` setzen und eingehende, vom Client gelieferte Forwarded-Header überschreiben. Nur dem im Debian-Installer angegebenen Proxy bzw. dem lokalen Docker-Proxy vertrauen. Die Installer aktivieren `TRUST_PROXY_SSL=1` bereits verbindlich.
-4. Prüfen, dass `CSRF_TRUSTED_ORIGINS` exakt die öffentliche HTTPS-Origin enthält und der Reverse Proxy den öffentlichen Host korrekt weitergibt. Die Installer setzen `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1` und `CSRF_COOKIE_SECURE=1` automatisch. Diese Einstellungen im Produktivbetrieb nicht deaktivieren.
-5. Dienst neu starten und praktisch prüfen: HTTP wird auf HTTPS umgeleitet; Login und Logout funktionieren; Session- und CSRF-Cookies tragen das Secure-Attribut; Upload, Download, Passwortänderung und PDF-Export funktionieren hinter dem Proxy.
-6. HSTS zunächst mit kurzer Testphase aktivieren. `includeSubDomains` nur setzen, wenn ausnahmslos alle Subdomains dauerhaft HTTPS unterstützen. Preload nur nach vollständiger Prüfung, mindestens 365 Tagen HSTS, HTTPS-Redirect und Subdomain-Abdeckung aktivieren. Die App validiert diese Kombination, die organisatorische Domainprüfung bleibt Aufgabe des Betreibers.
-
-**Nachweis:** Proxy-Konfiguration, Firewall-Regeln, TLS-Scan und dokumentierte Browserprüfung zur Freigabe ablegen.
-
-### 7.2 Rollen und Serienberechtigungen – laufender Kontrollprozess
+### 7.1 Rollen und Serienberechtigungen – laufender Kontrollprozess
 
 1. Globale Admin-Konten auf einen kleinen, namentlich festgelegten Personenkreis begrenzen. Für normale Arbeit persönliche Nutzerkonten verwenden, nicht das Admin-Konto.
 2. Für jede Besprechungsreihe einen fachlichen Eigentümer benennen. Dieser bestätigt bei Anlage und mindestens quartalsweise die Mitglieder und deren Rolle.
@@ -156,7 +146,7 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 
 **Nachweis:** Quartalsweise Berechtigungsliste mit Freigabe durch den fachlichen Reihenverantwortlichen; CI-Testresultate für alle Rollen.
 
-### 7.3 Benutzerkonten und Anmeldung
+### 7.2 Benutzerkonten und Anmeldung
 
 1. Wo organisatorisch möglich, Anmeldung über einen zentralen Identity Provider mit MFA erzwingen. Falls lokale Konten verbleiben, MFA als vorgeschaltete Zugangskontrolle oder über eine geprüfte Django-Erweiterung ergänzen.
 2. Login-Rate-Limiting am Reverse Proxy oder durch eine gepflegte Django-Komponente einrichten. Als Startwert z. B. nach 5 fehlgeschlagenen Anmeldungen pro Konto/IP eine zeitlich begrenzte Verzögerung bzw. Sperre auslösen; legitime Nutzer müssen kontrolliert entsperrt werden können.
@@ -167,18 +157,18 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 
 **Nachweis:** Konfiguration des IdP/Rate-Limiters, Testprotokoll für Fehlversuche und dokumentierter Offboarding-Prozess.
 
-### 7.4 Datei-Uploads und Downloads
+### 7.3 Datei-Uploads und Downloads
 
-1. Eine fachlich begründete Allowlist zulässiger Formate festlegen (z. B. PDF, DOCX, XLSX, PPTX, TXT, PNG/JPEG). Nicht benötigte ausführbare, Skript- und Archivformate ablehnen. Dateiendung und tatsächlichen Dateityp prüfen; der vom Browser gelieferte MIME-Typ allein ist nicht vertrauenswürdig.
-2. Malware-Scanning vor Freigabe zum Download einführen. Dateien zunächst in Quarantäne speichern und erst nach erfolgreicher Prüfung für berechtigte Nutzer bereitstellen. Bei Scanner-Ausfall Uploads nicht ungeprüft freigeben.
+1. Für Themenanlagen gilt bereits eine serverseitige Dateiendungs-Allowlist: PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG. Andere Endungen – insbesondere ausführbare Dateien, Skripte und Archive – werden durch die Formularvalidierung abgewiesen. Die Allowlist prüft nur den Dateinamen, nicht die tatsächliche Dateisignatur oder den Dateiinhalt.
+2. Als nächste Schutzstufe Dateisignaturen serverseitig prüfen und Malware-Scanning vor Freigabe zum Download einführen. Dateien bis zur erfolgreichen Prüfung in Quarantäne halten; bei Scanner-Ausfall keine ungeprüften Dateien freigeben.
 3. Upload-Grenze in der Organisationseinstellung auf den tatsächlichen Bedarf begrenzen und mit Nginx-/Proxy-/Django-Limits abstimmen. Auch Anzahl und Gesamtvolumen je Benutzer/Reihe überwachen.
 4. MEDIA_ROOT außerhalb des öffentlich durch Nginx ausgelieferten Document Roots halten. Für Docker ausschließlich das vorgesehene private Media-Volume nutzen. Keine zusätzliche Nginx-Alias- oder Static-Media-Regel für Uploads einrichten.
 5. Downloads ausschließlich über die authentifizierte Anwendungsroute ausliefern. Für neue Datei-Endpunkte Tests ergänzen, die fehlende Anmeldung, falsche Serienzuweisung, Auditorzugriff und manipulierte Datei-IDs zurückweisen.
 6. Medien-Volume verschlüsselt sichern, Dateiberechtigungen auf das Dienstkonto begrenzen und Zugriff auf Host-/Backup-Ebene auf Administratoren beschränken.
 
-**Nachweis:** dokumentierte Dateityp-Allowlist, Scanner-Konfiguration, Upload-/Download-Negativtests und Prüfung der Nginx-/Volume-Konfiguration.
+**Nachweis:** automatisierte Tests für erlaubte und abgewiesene Dateiendungen, dokumentierte Signaturprüfung und Scanner-Konfiguration (sobald ergänzt) sowie Upload-/Download-Negativtests und Prüfung der Nginx-/Volume-Konfiguration.
 
-### 7.5 Datenschutz und Inhalte
+### 7.4 Datenschutz und Inhalte
 
 1. Für den Einsatz schriftlich festlegen, welche Themen und personenbezogenen Angaben in Protokollen zulässig sind. Besondere Kategorien personenbezogener Daten und private/medizinische Personalinformationen grundsätzlich nicht in Freitext oder Anlagen aufnehmen, sofern keine gesonderte Rechtsgrundlage und Erforderlichkeit festgestellt wurde.
 2. In der Hilfe und in einer Nutzungsrichtlinie einen kurzen Hinweis ergänzen: nur besprechungsnotwendige Informationen erfassen, keine Zugangsdaten oder besonders schützenswerten Inhalte in Kommentare/Anlagen einstellen.
@@ -189,9 +179,9 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 
 **Nachweis:** freigegebene Nutzungsrichtlinie, Verzeichnis der Verarbeitungstätigkeiten, Löschkonzept und Betroffenenrechte-Prozess.
 
-### 7.6 CSV, Vollbackup und Datenwiederherstellung
+### 7.5 CSV, Vollbackup und Datenwiederherstellung
 
-1. CSV-Importe/-Exporte und Vollbackup-/Restore-Funktionen auf Admin-Konten beschränken. Für Exporte einen dokumentierten Zweck und Empfängerkreis verlangen.
+1. Die vorhandenen Rollenprüfungen beibehalten: Benutzer-CSV sowie Vollbackup-/Restore-Funktionen sind globalen Admin-Konten vorbehalten. Themen-CSV-Import und -Export sind dagegen Moderator*innen vorbehalten und auf die Reihen begrenzt, in denen sie ausdrücklich Moderatorrechte besitzen. Diese Unterscheidung bei neuen Import-/Export-Endpunkten mit Negativtests absichern.
 2. Exportdateien ausschließlich in zugriffsbeschränkten, verschlüsselten Verzeichnissen ablegen und über einen sicheren Übertragungsweg weitergeben. Nach erfolgreicher Übergabe lokal löschen; Papierkorb und Synchronisationskopien berücksichtigen.
 3. Vor Importen die Vorschau vollständig prüfen. Änderungen an Benutzerrollen, Serienzuweisungen und bestehenden Themen nur nach Vier-Augen-Kontrolle übernehmen.
 4. Vor Datenbank-Restore immer einen aktuellen zusätzlichen Sicherungsstand erstellen und Restore nur in einem kontrollierten Wartungsfenster durch autorisierte Administratoren durchführen.
@@ -200,17 +190,7 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 
 **Nachweis:** Backup-Protokolle, Zugriffsrechte, dokumentierte Aufbewahrung und quartalsweiser Restore-Test.
 
-### 7.7 Änderungsverlauf und Überwachung
-
-1. Audit-Ereignisse auf das notwendige Maß beschränken. Keine Passwörter, Authentifizierungs-Tokens, Datei-Inhalte oder unnötigen Freitext in Audit-Details aufnehmen.
-2. Zugriff auf System- und Serienverläufe entsprechend der Rollen begrenzen. CSV-Exporte des Systemverlaufs wie vertrauliche Personaldaten behandeln.
-3. Sicherheitsrelevante Systemereignisse zusätzlich an einen zentralen Logserver/SIEM übertragen. Schreibrechte auf der zentralen Ablage vom App- und DB-Administrationskonto trennen; soweit verfügbar manipulationsgeschützte Aufbewahrung nutzen.
-4. Auf ungewöhnliche Häufungen von Login-Fehlern, Änderungen globaler Rollen, CSV-/Vollbackup-Exporte, Datenbank-Restores und wiederholte Downloadfehler Alarmregeln einrichten.
-5. Aufbewahrungsdauer und Zugriff auf Logs festlegen. Logdaten nicht unbegrenzt speichern; Zugriff auf die zentrale Logplattform selbst protokollieren.
-
-**Nachweis:** Logging-Konzept, SIEM-Regeln, Rollen für Logzugriff und dokumentierte Löschfristen.
-
-### 7.8 Patch- und Lieferkettenmanagement
+### 7.6 Patch- und Lieferkettenmanagement
 
 1. Für Betriebssystem, PostgreSQL, Python-Abhängigkeiten, Docker-Basisimages und Nginx einen festen Patch-Rhythmus mit kurzfristigem Prozess für kritische Sicherheitsupdates definieren.
 2. Bei jedem Build Abhängigkeitsscans und Container-Image-Scans ausführen. Kritische und hohe Befunde vor Freigabe beheben oder mit Verantwortlichem, Begründung und Frist dokumentiert akzeptieren.
@@ -220,7 +200,7 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 
 **Nachweis:** Scanberichte, Patchprotokoll, Releasefreigabe und dokumentierter Rollback-/Restore-Ablauf.
 
-### 7.9 Netzwerk- und Verfügbarkeitsbetrieb
+### 7.7 Netzwerk- und Verfügbarkeitsbetrieb
 
 1. Nur erforderliche Ports öffnen. PostgreSQL nicht veröffentlichen; Docker-App-Port 8000 nicht nach außen freigeben. SSH nur aus Admin-Netzen zulassen.
 2. Reverse-Proxy-Limits für Request-Größe, Verbindungszahl und Zeitüberschreitungen setzen; Upload-Grenzen mit der Anwendung abstimmen.
