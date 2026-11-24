@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden
 
-from .access import is_admin
+from .access import is_admin, is_auditor
 from .models import AuditEvent, MeetingSeries, SeriesAccess, Topic
 from .user_display import user_display_name
 
@@ -22,7 +22,7 @@ def _safe_csv_cell(value):
 
 @login_required
 def audit_history_csv(request):
-    admin_access = is_admin(request.user)
+    admin_access = is_admin(request.user) or is_auditor(request.user)
     series = (MeetingSeries.objects.all() if admin_access else MeetingSeries.objects.filter(
         user_access__user=request.user,
         user_access__role=SeriesAccess.ROLE_MODERATOR,
