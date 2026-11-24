@@ -1,0 +1,10 @@
+{% extends "meetings/base.html" %}
+{% load meeting_user_tags %}
+{% block title %}Gruppen · Auditor{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Gruppen</h1><p class="muted">Lesende Übersicht der Besprechungsreihen und ihrer Mitglieder mit den jeweiligen Serienberechtigungen.</p></div><a class="btn secondary" href="{% url 'auditor_overview' %}">Zur Auditor-Übersicht</a></div>
+<div class="card"><form method="get" class="actions"><label>Suche<input name="q" value="{{ search }}" placeholder="Name, Anmeldename oder Gruppe"></label><label>Berechtigung<select name="role"><option value="">Alle Berechtigungen</option>{% for value,label in role_choices %}<option value="{{ value }}" {% if role_filter == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label><button type="submit">Filtern</button><a class="btn secondary" href="{% url 'auditor_groups' %}">Zurücksetzen</a></form></div>
+{% for row in series_rows %}<section class="card"><h2>{{ row.series.name }}</h2>
+{% if row.members %}<div style="overflow-x:auto"><table><thead><tr><th>Person</th><th>Serienberechtigung</th></tr></thead><tbody>{% for access in row.members %}<tr><td>{{ access.user|user_display_with_login }}</td><td>{{ access.get_role_display }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">Noch keine Personen zugeordnet.</p>{% endif %}
+</section>{% empty %}<div class="card">Es sind keine passenden Gruppen vorhanden.</div>{% endfor %}
+{% endblock %}
