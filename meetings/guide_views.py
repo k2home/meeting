@@ -9,13 +9,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
-    ListFlowable, ListItem, Preformatted, PageBreak,
+    ListFlowable, ListItem, Preformatted,
 )
 
 
@@ -59,6 +58,10 @@ def _markdown_story(markdown):
         name="DocSmall", parent=styles["BodyText"], fontSize=7.1, leading=9,
     ))
     styles.add(ParagraphStyle(
+        name="DocTableHeader", parent=styles["BodyText"], fontName="Helvetica-Bold",
+        fontSize=7.1, leading=9, textColor=colors.white,
+    ))
+    styles.add(ParagraphStyle(
         name="DocCode", parent=styles["Code"], fontSize=7.2, leading=9,
         backColor=colors.HexColor("#F1F5F9"), borderPadding=5,
     ))
@@ -87,7 +90,8 @@ def _markdown_story(markdown):
             while i < len(lines) and lines[i].strip().startswith("|"):
                 raw = [cell.strip() for cell in lines[i].strip().strip("|").split("|")]
                 if not all(re.fullmatch(r":?-{3,}:?", cell.replace(" ", "")) for cell in raw):
-                    rows.append([Paragraph(_inline_markup(cell), styles["DocSmall"]) for cell in raw])
+                    row_style = styles["DocTableHeader"] if not rows else styles["DocSmall"]
+                    rows.append([Paragraph(_inline_markup(cell), row_style) for cell in raw])
                 i += 1
             if rows:
                 columns = max(len(row) for row in rows)
