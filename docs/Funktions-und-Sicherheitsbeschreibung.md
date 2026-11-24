@@ -1,6 +1,6 @@
 **Adressaten:** IT-Abteilung, Informationssicherheit und Datenschutzbeauftragte  
-**Prüfstand:** Branch `main`, Commit `8000875ec761e15358de1a5a3a1c45bef62de565`  
-**Stand:** 24. November 2026  
+**Prüfstand:** Branch `main`  
+**Stand:** 25. November 2026  
 **Geltungsbereich:** Anwendungscode und Repository-Konfiguration. Die konkrete Server-, Proxy-, Netzwerk- und Backup-Konfiguration ist vor Ort gesondert zu prüfen.
 
 > **Einordnung:** Diese Beschreibung ist eine nachvollziehbare technische Bestandsaufnahme und Risikoeinschätzung. Sie ist weder Penetrationstestbericht noch Datenschutz-Folgenabschätzung, TOM-Nachweis oder rechtsverbindliche DSGVO-Konformitätsbestätigung. Aussagen über die reale Betriebsumgebung gelten nur, wenn sie dort verifiziert wurden.
@@ -17,12 +17,12 @@ Die Anwendung ist laut Repository für interne Netze vorgesehen. Sie wird entwed
 
 ### 2.1 Fachliche Funktionen
 
-- Wiederkehrende Besprechungsreihen mit wöchentlichem, 14-tägigem oder monatlichem Rhythmus; Termine werden anhand der konfigurierten Daten erzeugt.
+- Wiederkehrende Besprechungsreihen mit wählbarem wöchentlichem oder monatlichem Rhythmus und Intervall (1–52 Wochen bzw. 1–52 Monate); Termine werden anhand der konfigurierten Daten erzeugt.
 - Themen mit Status, Hauptzuständigkeit und Zuordnung zu einer Besprechungsreihe.
 - Tagesordnungspunkte mit eigenem Text, Bearbeitungsstatus, Reihenfolge und optional abweichender Zuständigkeit je Termin.
 - Kommentare, nächste Schritte, Datei-Anlagen und Verweise auf Netzwerkpfade bzw. Webadressen.
 - Wiedervorlagen und Übernahme offener Punkte in Folgetermine.
-- Abschluss einer Sitzung mit gesichertem Protokollstand; Anzeige, Druck sowie PDF- und Word-Export.
+- Abschluss einer Sitzung mit gesichertem Protokollstand; Anzeige, Druck und PDF-Export.
 - Archivierung von Themen und Erhalt historischer Besprechungen nach dem Löschen einer Reihe. Bisherige Reihenmitglieder können erhaltene Protokolle weiterhin lesend aufrufen.
 - Benutzer-, Serienrollen- und Organisationsverwaltung sowie CSV-Import/-Export.
 - Änderungsverläufe für fachliche Vorgänge und administrative Systemereignisse.
@@ -85,7 +85,7 @@ Das Modell ist damit auf das Need-to-know-Prinzip ausgerichtet. Kritisch bleibt 
 - **Container:** App-Prozess läuft als nicht privilegierter Benutzer. PostgreSQL ist im Compose-Netz erreichbar und erhält keinen veröffentlichten Host-Port. Der App-Container veröffentlicht Port 8000 nur intern; der Nginx-Container veröffentlicht den konfigurierten Web-Port.
 - **Konfiguration:** Umgebungsvariablen und lokale `.env`-Datei. `SECRET_KEY` und Datenbankzugangsdaten sind vertraulich zu behandeln.
 
-Bei Docker ist Port 8080 standardmäßig für den Nginx-Container vorgesehen. Das ist zunächst HTTP und kein Ersatz für TLS. Bei Debian lauscht Gunicorn laut Installationskonfiguration lokal auf 127.0.0.1:8000; Nginx nimmt HTTP auf Port 80 entgegen. TLS muss durch eine bewusst eingerichtete Proxy-/Webserver-Konfiguration bereitgestellt werden.
+Die Installationsskripte erzwingen HTTPS auf Anwendungsebene: SECURE_SSL_REDIRECT, SESSION_COOKIE_SECURE und CSRF_COOKIE_SECURE werden aktiviert; CSRF_TRUSTED_ORIGINS wird auf die öffentliche HTTPS-Adresse gesetzt. Django vertraut X-Forwarded-Proto nur im vorgesehenen Reverse-Proxy-Betrieb. Bei Debian begrenzt die lokale Nginx-Konfiguration den Zugriff auf die beim Setup angegebene Proxy-IP/CIDR. Bei Docker wird der veröffentlichte Nginx-Port standardmäßig ausschließlich an 127.0.0.1 gebunden. In beiden Varianten muss vor dem produktiven Zugriff ein TLS-Reverse-Proxy mit gültigem Zertifikat eingerichtet sein, der X-Forwarded-Proto: https setzt und eingehende Client-Header überschreibt. Ohne diesen Proxy ist die Anwendung absichtlich nicht regulär erreichbar.
 
 ## 5. Bereits vorhandene Sicherheitskontrollen
 
@@ -98,7 +98,7 @@ Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsd
 | Sessions | Session-Laufzeit 8 Stunden; Session wird bei Requests gespeichert/erneuert. | Bei langen aktiven Sitzungen erhöht dies die Bedeutung von Geräteschutz und Logout. |
 | Autorisierung | Zentrale Serienzugriffsabfragen; Auditoren werden aus fachlichen Reihenabfragen ausgeschlossen; Admin ist keine Serienrolle. | Endpunkt- und Exporttests müssen die Regeln vollständig abdecken. |
 | CSRF / Browser-Header | Django-CSRF-Middleware; nosniff, Referrer-Policy same-origin und X-Frame-Options DENY. | Eine umfassende Content-Security-Policy für alle Seiten ist nicht belegt. |
-| TLS / Cookies | SSL-Redirect, HSTS, sichere Session-/CSRF-Cookies und Proxy-Vertrauen sind konfigurierbar; HSTS-Preload-Konfiguration wird validiert. | Standardwerte der Installer sind HTTP bzw. sichere Cookie-/Redirect-Schalter aus. Konfiguration ist Betreiberaufgabe. |
+| TLS / Cookies / CSRF | Die Installer erzwingen HTTPS-Redirect und Secure-Cookies, setzen die HTTPS-CSRF-Origin und aktivieren Proxy-Vertrauen. Debian begrenzt den Zugriff auf die angegebene Proxy-IP/CIDR; Docker bindet den Web-Port an Loopback. | Ein gültiges TLS-Zertifikat und ein korrekt konfigurierter Reverse Proxy bleiben erforderlich. HSTS-Preload wird validiert und muss bewusst separat aktiviert werden. |
 | Uploads | Anlagenlimit wird organisationsweit konfiguriert (1–24 MB, Standard 20 MB). Download erfordert Anmeldung und Serienzugriff; Pfad wird auf MEDIA_ROOT begrenzt; Download als Attachment, nosniff und private/no-store. | Eine Malware-Prüfung und eine generelle inhaltliche Dateityp-Allowlist sind im geprüften Uploadpfad nicht belegt. |
 | Logos / SVG | Logo-Auslieferung ist angemeldet, auf MEDIA_ROOT begrenzt und privat/no-store. SVG erhält eine restriktive CSP-Sandbox. | Upload- und Konvertierungspfad weiter beobachten. |
 | Audit | Fachliche und administrative Ereignisse werden über Anwendungsvorgänge erfasst; Passwörter und Datei-Inhalte sollen nicht protokolliert werden. | Kein Nachweis einer manipulationsgeschützten externen oder WORM-Protokollablage. |
@@ -106,33 +106,28 @@ Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsd
 | Betrieb | Docker-App läuft als nicht-root; DB nicht nach außen veröffentlicht; Updater nutzt lokalen Socket statt Docker-Socket im App-Container. | Host, Socket-Berechtigungen, Images, Volumes und Updater bleiben Teil der Vertrauensgrenze. |
 | Backups | Integrierter Datenbank-Vollbackup-Export/-Import und dokumentierte Backup-Wege für Datenbank und Medien. | Ein belastbarer externer Backup-, Verschlüsselungs- und Restore-Prozess muss vom Betreiber eingerichtet werden. |
 
-## 6. Validierte Sicherheitsrisiken
+## 6. Häufige Sicherheitsrisiken und Bewertung der Schutzmaßnahmen
 
-Die Einstufung unterscheidet zwischen einem im Code erkennbaren Befund und einem bedingten Betriebs- bzw. Restrisiko. Ein Risiko wird nicht allein deshalb als Schwachstelle bezeichnet, weil eine zusätzliche Sicherheitsfunktion nicht im Anwendungscode enthalten ist.
+Die folgende Bewertung orientiert sich an typischen Risiken von Webanwendungen. Sie unterscheidet zwischen Schutzmaßnahmen, die im geprüften Quellcode bzw. in der Installationskonfiguration erkennbar sind, und verbleibenden Aufgaben für den Betrieb. Eine vorhandene Kontrolle reduziert ein Risiko, beseitigt es aber nicht automatisch.
 
-| Risiko / Befund | Validität | Mögliche Auswirkung | Priorität |
-|---|---|---|---|
-| HTTP-Standardbetrieb bzw. nicht aktivierte TLS-Schalter | **Bestätigt als Installationsstandard.** Beide Installer und `.env.example` starten mit SSL-Redirect und sicheren Cookies aus. Das ist nur dann kritisch, wenn der veröffentlichte Zugriff nicht durch einen korrekt abgesicherten HTTPS-Reverse-Proxy terminiert wird. | Mitlesen/Manipulieren von Zugangsdaten und Sessions im unverschlüsselten Übertragungsweg. | Hoch, falls extern oder über nicht vertrauenswürdige Netze; sonst abhängig von Netzsegmentierung. |
-| Fehlkonfiguration von Rollen oder Endpunkten | **Plausibles Restrisiko, kein konkreter Bypass in dieser Prüfung nachgewiesen.** Zentrale Serienfilter und Rollenprüfungen sind vorhanden. Neue Views, Exporte und Sonderpfade können trotzdem fehlerhaft abgesichert werden. | Einsicht oder Änderung nicht zugewiesener Besprechungsinhalte. | Hoch wegen Vertraulichkeit, mit Regressionstests beherrschbar. |
-| Kompromittiertes Benutzerkonto | **Allgemeines, gültiges Risiko.** Passwortregeln sind vorhanden; MFA und anwendungsinterne Login-Drosselung sind im geprüften Kern nicht belegt. | Unberechtigter Zugriff entsprechend der kompromittierten Serienrollen. | Hoch bei vertraulichen Inhalten. |
-| Missbrauch globaler Adminrechte | **Gültiges Insider-/Kontenrisiko.** Admins können globale Benutzer- und Systemverwaltung durchführen; fachliche Reiheninhalte bleiben jedoch an Serienzuweisungen gebunden. | Rechteausweitung, Benutzerverwaltung, Datenexport/-import und Systemänderungen. | Hoch, aber durch Rollenbegrenzung und Kontrollen reduzierbar. |
-| Schadsoftware oder aktive Inhalte in Uploads | **Teilweise bestätigt.** Größenlimit, geschützter Download, Attachment-Disposition, nosniff und Pfadbegrenzung sind vorhanden. Eine Malware-Prüfung und umfassende Typ-Allowlist sind nicht belegt. | Schadsoftware kann in gespeicherten Dateien weitergegeben werden; Empfänger können sie lokal öffnen. | Mittel bis hoch, abhängig von erlaubten Dateitypen und Nutzerkreis. |
-| Unbefugter Zugriff auf Datei-Anlagen | **Im normalen Downloadpfad bereits adressiert.** Die Downloadansicht prüft den angemeldeten Benutzer und die Zugänglichkeit des Themas; der Medienpfad ist nicht zur öffentlichen Direkt-Auslieferung bestimmt. | Restrisiko bei Fehlkonfiguration des Webservers, Backup-Leaks oder fehlerhaften neuen Downloadpfaden. | Mittel; Infrastruktur und Regressionstests entscheidend. |
-| Unbeabsichtigte sensible Inhalte in Freitext/Anlagen | **Gültiges organisatorisches Risiko.** Freitext und Dokumente sind bewusst flexibel; der Code kann den Inhalt nicht fachlich klassifizieren. | Unnötige Verarbeitung sensibler oder vertraulicher personenbezogener Daten. | Hoch bei unklaren Nutzungsregeln. |
-| CSV- und Vollbackup-Exporte | **Gültiges Datenkopien-Risiko.** Export-/Importfunktionen sind Admin-Funktionen; CSV-Formelprävention und Importvorschau sind implementiert. | Datenabfluss über lokale Exportdateien oder unkontrollierte Sicherungskopien; fehlerhafter Import kann Daten verändern. | Hoch bei großen Datenmengen. |
-| Manipulation oder zu breite Einsicht in Audit-Daten | **Teilweise bestätigt.** App-seitige Ereigniserfassung und getrennte Sichtrechte bestehen. Die Datenbank selbst ist nicht als unveränderbarer Speicher nachgewiesen. | Nachträgliche Manipulation durch privilegierte DB-/Host-Zugriffe oder übermäßige Einsicht in Beschäftigtenaktivitäten. | Mittel bis hoch. |
-| Fehlende Wiederherstellbarkeit | **Betriebsrisiko, nicht aus dem Code allein bewertbar.** Backup-Funktionen und Anleitung sind vorhanden; regelmäßige, getrennte Sicherung und Restore-Tests sind nicht durch Code garantiert. | Datenverlust oder lange Ausfallzeit. | Hoch. |
-| Veraltete Abhängigkeiten / Images | **Allgemeines Lieferkettenrisiko.** Abhängigkeiten sind in Requirements begrenzt; tatsächlicher Patchstand und laufende Scans sind Betriebs-/CI-Fragen. | Ausnutzung bekannter Schwachstellen. | Hoch, abhängig vom Patchprozess. |
-| Netzwerkpfade und externe URLs | **Kein SSRF-Befund aus der Linkfunktion.** Die Anwendung validiert bestimmte URL-Schemata und stellt den Verweis als Link dar; sie ruft den Link nicht serverseitig ab. | Benutzer können auf externe oder falsch berechtigte Ziele verwiesen werden; dort gelten fremde Zugriffsrechte. | Niedrig bis mittel. |
-| Denial of Service / Ressourcenerschöpfung | **Generisches Betriebsrisiko.** Keine konkrete Schwachstelle nachgewiesen. Uploadgrößen sind begrenzt, aber Nutzer-/Request-/Proxy-Limits sind Infrastrukturthemen. | Verlangsamung oder Ausfall durch hohe Last. | Mittel. |
+| Häufiges Risiko | Bereits vorhandene Schutzmaßnahmen im Meeting Manager | Bewertung und verbleibender Handlungsbedarf |
+|---|---|---|
+| **Unberechtigter Zugriff / Broken Access Control** | Zentrale Serienzugriffsabfragen; globale Admin-Rechte ersetzen keine Serienzuweisung; Auditoren sind von fachlichen Reiheninhalten ausgeschlossen; Leser-, Teilnehmer- und Moderatorrechte werden getrennt geprüft. | **Im Anwendungscode wesentlich adressiert.** Neue Views, APIs, Exporte und direkte Objekt-IDs müssen weiterhin mit Positiv- und Negativtests für alle Rollen abgesichert werden. |
+| **SQL-Injection und sonstige Eingabe-Injection** | Standard-Datenbankzugriffe über das Django-ORM mit parametrisierten Abfragen; Formulare und Modellvalidierungen prüfen Eingaben. | **Durch Framework-Schutzmaßnahmen adressiert.** Raw-SQL, dynamische Filter und neue Importpfade müssen separat geprüft werden; keine ungeprüfte SQL-Stringverkettung einführen. |
+| **Cross-Site Request Forgery (CSRF)** | Django-CSRF-Middleware und CSRF-Tokens in Formularen. Die Installer aktivieren sichere CSRF-Cookies und setzen die öffentliche HTTPS-Origin. | **Im Code und Installationsstandard adressiert.** Der Reverse Proxy muss die korrekte HTTPS-Origin weitergeben; CSRF-Schutz darf für neue schreibende Views nicht umgangen werden. |
+| **Abhören oder Übernehmen von Sitzungen** | Die Installer erzwingen HTTPS-Redirect sowie Secure-Attribute für Session- und CSRF-Cookies. Django verwaltet die Sitzungen; die Laufzeit ist auf acht Stunden begrenzt. | **Mit korrekt eingerichtetem TLS-Reverse-Proxy adressiert.** Zertifikatserneuerung, Proxy-Isolation, Geräteschutz und Logout bleiben Betriebsaufgaben. Eine Sitzung kann bei kompromittiertem Endgerät weiterhin missbraucht werden. |
+| **Passwortdiebstahl und Brute Force** | Django-Passworthashing, Mindestlänge 8 sowie Komplexitäts-, Ähnlichkeits- und Häufige-Passwort-Prüfung. | **Teilweise adressiert.** MFA und anwendungsinterne Login-Drosselung sind im geprüften Kern nicht belegt. MFA über Identity Provider bzw. vorgeschaltete Zugangskontrolle und Rate-Limiting am Proxy ergänzen. |
+| **Cross-Site Scripting (XSS)** | Django-Templates escapen gewöhnliche Ausgaben standardmäßig; nosniff, Referrer-Policy same-origin und X-Frame-Options DENY sind gesetzt. | **Teilweise adressiert.** Eine umfassende Content-Security-Policy ist nicht belegt. Bei neuen HTML-Ausgaben keine ungeprüften Safe-Ausgaben oder dynamisch eingebetteten Skripte verwenden; CSP prüfen und schrittweise einführen. |
+| **Schadsoftware und aktive Inhalte in Datei-Uploads** | Uploadgrößen sind begrenzt. Downloads erfordern Anmeldung und Serienzugriff, erfolgen als Attachment und mit nosniff; Pfade werden auf MEDIA_ROOT begrenzt. | **Teilweise adressiert.** Malware-Scanning und eine umfassende Dateityp-Allowlist sind nicht belegt. Zulässige Formate festlegen, Dateityp serverseitig prüfen und Uploads vor Freigabe scannen. |
+| **Datenabfluss über Anlagen, CSV und Backups** | Anlagen werden über eine geschützte Download-Route ausgeliefert. CSV-Import hat eine Vorschau; Exportwerte werden gegen Tabellenformeln abgesichert. Import-/Export- und Vollbackup-Funktionen sind administrativ begrenzt. | **Im normalen Anwendungspfad adressiert, Betrieb bleibt kritisch.** MEDIA-Verzeichnis nicht öffentlich ausliefern; Exportdateien und Backups verschlüsseln, Zugriff beschränken, Aufbewahrung und Löschung regeln. |
+| **Missbrauch privilegierter Konten / Insider-Risiko** | Admin und Auditor sind getrennt; Auditoren sind lesend. Admins erhalten fachlichen Reihen-Zugriff nicht allein durch ihre globale Rolle. Administrative und fachliche Ereignisse werden protokolliert. | **Teilweise adressiert.** Admin-Konten minimieren, MFA einsetzen, Admin-Aktionen überwachen und regelmäßige Rechteprüfungen durchführen. Privilegierte Host-/DB-Zugriffe bleiben außerhalb der Anwendungsautorisierung. |
+| **Manipulation oder Verlust von Audit-Daten** | Anwendungsereignisse werden getrennt nach Serien- und Systembereich erfasst; Sichtrechte sind rollenabhängig. | **Teilweise adressiert.** Die Datenbank ist kein manipulationsgeschützter/WORM-Speicher. Sicherheitsrelevante Logs zusätzlich extern und mit getrennten Schreibrechten aufbewahren. |
+| **Veraltete Abhängigkeiten und Container-Images** | Python-Abhängigkeiten sind in Requirements/Constraints festgelegt; Images werden über den Build-/Release-Prozess bereitgestellt. | **Nur organisatorisch/über CI beherrschbar.** Regelmäßige Dependency- und Image-Scans, zeitnahe Sicherheitsupdates und Freigabe nur geprüfter Releases sicherstellen. |
+| **Denial of Service und Ressourcenerschöpfung** | Uploadgrößen sind begrenzt; Datenbank und App sind in getrennten Diensten organisiert. | **Nur teilweise adressiert.** Request-Größen, Verbindungen, Rate-Limits, Timeouts, CPU, RAM und Speicherplatz am Proxy und Host begrenzen und überwachen. |
+| **Datenverlust / fehlende Wiederherstellbarkeit** | Datenbank- und Medien-Backups sowie Import-/Restore-Funktionen sind vorhanden und dokumentiert. | **Nicht durch den Code garantiert.** Getrennte, verschlüsselte Backups, definierte RPO/RTO und regelmäßige Restore-Tests sind zwingend durch den Betreiber einzurichten. |
+| **Fehlkonfiguration von HTTPS und Proxy-Vertrauen** | Die Installer setzen HTTPS-Redirect, Secure-Cookies, CSRF-Origin und Proxy-Vertrauen verbindlich. Debian beschränkt den internen Nginx-Zugriff auf die angegebene Proxy-IP/CIDR; Docker bindet den Web-Port nur an Loopback. | **Im Installationsstandard deutlich reduziert.** Ein gültiger TLS-Reverse-Proxy muss tatsächlich eingerichtet sein, Forwarded-Header überschreiben und darf nicht umgangen werden. HSTS bleibt eine bewusst zu prüfende Zusatzmaßnahme. |
 
-### 6.1 Nicht als bestätigte Schwachstelle bewertet
-
-- **Admin-Zugriff auf alle Besprechungsinhalte:** Die README und der aktuelle Code stimmen darin überein, dass Admins fachliche Inhalte nur mit eigener Serienzuweisung sehen und bearbeiten. Die frühere Beta-Abweichung besteht im geprüften `main`-Stand nicht mehr.
-- **Öffentlich zugängliche Anlagen:** Der vorgesehene Downloadpfad verlangt Anmeldung und prüft Serienzugriff. Ein direkt öffentlich ausgelieferter MEDIA-Ordner wäre eine abweichende, unsichere Serverkonfiguration und ist zu vermeiden.
-- **Server-Side Request Forgery durch Netzwerklinks:** Die Linkfunktion stellt gespeicherte Links dar; sie führt keine serverseitigen HTTP-Aufrufe zu diesen Zielen aus. Deshalb ist SSRF hier kein aus dem geprüften Linkpfad abgeleitetes Risiko.
-- **CSV-Formelinjektion:** Der Export schützt Werte mit gefährlichen Formelpräfixen; ein Regressionstest deckt die Präfixe `=`, `+`, `-`, `@`, Tab und CR ab. Die Schutzmaßnahme sollte erhalten bleiben.
-- **Auditor kann Änderungen vornehmen:** Auditoren sind im Anwendungsmodell als lesende Rolle vorgesehen. Die Freigabe sollte dennoch alle schreibenden Routen und Methoden automatisiert abdecken.
+Die Einstufung beschreibt Schutzmechanismen im Repository, nicht den Sicherheitszustand eines konkreten Servers. Insbesondere TLS-Zertifikat, Reverse-Proxy-Konfiguration, Firewall, MFA, Malware-Scanner, zentrale Protokollierung und Backups müssen in der Zielumgebung überprüft werden.
 
 ## 7. Konkrete Maßnahmen und empfohlene Vorgehensweisen
 
@@ -140,10 +135,10 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 
 ### 7.1 HTTPS und sichere Proxy-Konfiguration – vor Produktivfreigabe
 
-1. Einen zentralen Reverse Proxy mit gültigem TLS-Zertifikat vor die Anwendung setzen. TLS 1.2 oder höher aktivieren; veraltete Protokolle und schwache Cipher Suites deaktivieren.
-2. Den Anwendungsport nur aus dem internen Netz bzw. ausschließlich vom Reverse Proxy erreichbar machen. Bei Docker den veröffentlichten Web-Port per Firewall auf Proxy-IP und erforderliche Admin-Netze beschränken; bei Debian Gunicorn nicht extern binden und den lokalen Nginx-Zugriff auf die Proxy-IP/CIDR begrenzen.
-3. Am Proxy `X-Forwarded-Proto: https` setzen und eingehende, vom Client gelieferte Forwarded-Header überschreiben. Nur diesem bekannten Proxy vertrauen; `TRUST_PROXY_SSL=1` nicht aktivieren, solange der Proxy nicht zuverlässig isoliert ist.
-4. In `.env` die tatsächliche HTTPS-Origin in `CSRF_TRUSTED_ORIGINS` eintragen und `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1` und `CSRF_COOKIE_SECURE=1` aktivieren. Bei direkter TLS-Terminierung durch Django/den lokalen Webserver die Proxy-Header-Optionen nicht setzen.
+1. Einen Reverse Proxy mit gültigem TLS-Zertifikat vor die Anwendung setzen. Die Installationsskripte erwarten diesen Proxy bereits und aktivieren HTTPS-Redirect, Secure-Cookies und CSRF-Origin verbindlich. TLS 1.2 oder höher aktivieren; veraltete Protokolle und schwache Cipher Suites deaktivieren.
+2. Den Anwendungsport ausschließlich vom Reverse Proxy erreichbar machen. Bei Docker bindet das Installationsskript den veröffentlichten Web-Port standardmäßig an 127.0.0.1; bei Debian begrenzt es den lokalen Nginx-Zugriff auf die beim Setup angegebene Proxy-IP/CIDR. Diese Einschränkungen nicht durch zusätzliche öffentliche Portfreigaben umgehen.
+3. Am Proxy `X-Forwarded-Proto: https` setzen und eingehende, vom Client gelieferte Forwarded-Header überschreiben. Nur dem im Debian-Installer angegebenen Proxy bzw. dem lokalen Docker-Proxy vertrauen. Die Installer aktivieren `TRUST_PROXY_SSL=1` bereits verbindlich.
+4. Prüfen, dass `CSRF_TRUSTED_ORIGINS` exakt die öffentliche HTTPS-Origin enthält und der Reverse Proxy den öffentlichen Host korrekt weitergibt. Die Installer setzen `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1` und `CSRF_COOKIE_SECURE=1` automatisch. Diese Einstellungen im Produktivbetrieb nicht deaktivieren.
 5. Dienst neu starten und praktisch prüfen: HTTP wird auf HTTPS umgeleitet; Login und Logout funktionieren; Session- und CSRF-Cookies tragen das Secure-Attribut; Upload, Download, Passwortänderung und PDF-Export funktionieren hinter dem Proxy.
 6. HSTS zunächst mit kurzer Testphase aktivieren. `includeSubDomains` nur setzen, wenn ausnahmslos alle Subdomains dauerhaft HTTPS unterstützen. Preload nur nach vollständiger Prüfung, mindestens 365 Tagen HSTS, HTTPS-Redirect und Subdomain-Abdeckung aktivieren. Die App validiert diese Kombination, die organisatorische Domainprüfung bleibt Aufgabe des Betreibers.
 
@@ -264,6 +259,7 @@ Vor produktiver Nutzung sind mit Verantwortlichem, IT, Informationssicherheit un
 Geprüft wurden insbesondere:
 
 - `README.md`: Funktionsumfang, Rollenmatrix, Installations- und Sicherheitshinweise.
+- `deploy/install-debian.sh`, `deploy/install-docker.sh`, `deploy/nginx-meeting-manager.conf`, `docker/compose.yaml` und `docker/nginx.conf`: HTTPS-Vorgaben, Proxy-Vertrauen und Bindung des Web-Ports.
 - `meetings/access.py`, `meetings/user_roles.py`: globale Rollen und zentrale Serienzugriffslogik.
 - `meetings/models.py`: Datenmodelle, Anlagen, Serienzuweisungen, Audit-Ereignisse und Protokoll-Snapshots.
 - `meetings/secure_files.py`, `meetings/views.py`: geschützte Datei-Auslieferung und fachliche Zugriffspfade.
