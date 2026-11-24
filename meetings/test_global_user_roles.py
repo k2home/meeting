@@ -21,6 +21,24 @@ class GlobalUserRoleTests(TestCase):
         self.meeting = Meeting.objects.create(series=self.series, date="2026-12-01")
         self.topic = Topic.objects.create(title="Prüfthema", series=self.series)
 
+    def test_global_role_lookup_uses_prefetched_groups_without_per_user_queries(self):
+        users = []
+        for index, role in enumerate(("user", "admin", "auditor", "user", "admin")):
+            user = User.objects.create_user(
+                username=f"prefetched-role-{index}",
+                password="test-password",
+            )
+            sync_user_role(user, role)
+            users.append(user)
+
+        with self.assertNumQueries(2):
+            loaded_users = list(
+                User.objects.filter(pk__in=[user.pk for user in users]).prefetch_related("groups")
+            )
+            roles = [get_user_role(user) for user in loaded_users]
+
+        self.assertEqual(roles, ["user", "admin", "auditor", "user", "admin"])
+
     def test_global_roles_are_mutually_exclusive_and_staff_is_admin_only(self):
         user = User.objects.create_user(username="member", password="test-password")
 
