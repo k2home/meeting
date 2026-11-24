@@ -71,7 +71,7 @@
     <button class="primary" type="submit" form="managed-user-form">Speichern</button>
     <a class="btn secondary" href="{% url 'management_users' %}">Abbrechen</a>
     {% if not is_new and form.instance.pk != request.user.pk %}
-      <form method="post" action="{% url 'management_user_delete' form.instance.pk %}" onsubmit="return confirm('Soll dieser Benutzer wirklich gelöscht werden? Seine Kontodaten und Zuordnungen werden ebenfalls entfernt.');" style="margin:0;">
+      <form method="post" action="{% url 'management_user_delete' form.instance.pk %}" data-confirm-message="Soll dieser Benutzer wirklich gelöscht werden? Seine Kontodaten und Zuordnungen werden ebenfalls entfernt." style="margin:0;">
         {% csrf_token %}<button type="submit" class="danger" style="background:#dc2626;border-color:#dc2626;color:#fff;">Benutzer löschen</button>
       </form>
     {% endif %}
