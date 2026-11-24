@@ -4,7 +4,7 @@ from django.test import SimpleTestCase
 
 class AgendaHistoryCopyTests(SimpleTestCase):
     def test_copy_control_is_present(self):
-        template = Path(__file__).resolve().parent.parent / "templates/meetings/agenda_topic_history.html"
+        template = Path(__file__).resolve().parent.parent / "templates/meetings/meeting.html"
         content = template.read_text(encoding="utf-8")
         self.assertIn('window.isSecureContext', content)
         self.assertIn('document.execCommand("copy")', content)
