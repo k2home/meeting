@@ -312,6 +312,10 @@ class OrganizationSettings(models.Model):
         "Zeitzone", max_length=64, default="Europe/Berlin",
         help_text="Zeitzone für die Anzeige von Datums- und Uhrzeitangaben, z. B. Europe/Berlin.",
     )
+    start_password = models.TextField(
+        "Startpasswort", default="Neu",
+        help_text="Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
+    )
     attachment_max_size_mb = models.PositiveSmallIntegerField(
         "Maximale Dateigröße für Anlagen (MB)", default=20,
         validators=[MinValueValidator(1), MaxValueValidator(24)],
@@ -380,6 +384,11 @@ class OrganizationSettings(models.Model):
     def current_short_name(cls):
         settings = cls.objects.filter(pk=1).only("short_name").first()
         return settings.short_name.strip() if settings and settings.short_name else "MM"
+
+    @classmethod
+    def current_start_password(cls):
+        settings = cls.objects.filter(pk=1).only("start_password").first()
+        return settings.start_password if settings else "Neu"
 
     @classmethod
     def current_attachment_max_size_bytes(cls):
