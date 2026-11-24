@@ -457,7 +457,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 <a class="nav-archive" href="/archive/" title="Archiv" aria-label="Archiv">Archiv</a>
 </nav>
 <nav class="nav-links nav-links-secondary" aria-label="Weitere Navigation"><div class="sidebar-section-label">Weitere Funktionen</div>
-{% if is_moderator or is_admin %}<a class="nav-history" href="/history/" title="Änderungsverlauf" aria-label="Änderungsverlauf">Änderungsverlauf</a>{% endif %}
+{% if is_moderator or is_admin or is_auditor %}<a class="nav-history" href="/history/" title="Änderungsverlauf" aria-label="Änderungsverlauf">Änderungsverlauf</a>{% endif %}
 {% if is_moderator %}<a class="nav-series" href="/admin/series/" title="Besprechungsreihen" aria-label="Besprechungsreihen">Besprechungsreihen</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
