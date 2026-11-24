@@ -93,7 +93,7 @@ def _profile_short_description(user):
     return profile.short_description if profile else ""
 
 
-def export_topic_agenda_csv(request):
+def export_topic_agenda_csv(request, allowed_series_ids=None):
     response = HttpResponse(content_type="text/csv; charset=utf-8")
     response["Content-Disposition"] = 'attachment; filename="themen_und_punkte_export.csv"'
     response.write("\ufeff")
@@ -102,6 +102,11 @@ def export_topic_agenda_csv(request):
     items = AgendaItem.objects.exclude(topic__status="archived").select_related(
         "meeting__series", "topic", "topic__series", "topic__assigned_to", "assigned_to"
     ).order_by("meeting__date", "meeting__series__name", "position", "pk")
+    if allowed_series_ids is not None:
+        items = items.filter(
+            meeting__series_id__in=allowed_series_ids,
+            topic__series_id__in=allowed_series_ids,
+        )
     for item in items:
         meeting, topic = item.meeting, item.topic
         source = item.followup_of
@@ -126,6 +131,8 @@ def export_topic_agenda_csv(request):
     topics_without_agenda = (
         Topic.objects.filter(status="archived") | Topic.objects.filter(agenda_items__isnull=True)
     ).select_related("series", "assigned_to").order_by("title", "pk")
+    if allowed_series_ids is not None:
+        topics_without_agenda = topics_without_agenda.filter(series_id__in=allowed_series_ids)
     for topic in topics_without_agenda:
         writer.writerow([_csv_value(value) for value in [
             "topic", topic.series.name if topic.series else "", topic.series.name if topic.series else "",
@@ -414,13 +421,23 @@ def _preview(rows, topic_ids):
     }
 
 
-def import_topic_agenda_csv(request):
+def import_topic_agenda_csv(request, allowed_series_ids=None):
     if request.method == "POST" and request.POST.get("action") == "confirm":
         pending = request.session.get(SESSION_KEY)
         if not pending or pending.get("token") != request.POST.get("token"):
             messages.error(request, "Die Importvorschau ist abgelaufen. Bitte lade die CSV-Datei erneut hoch.")
             return redirect("management_topic_csv_import") if request.path.startswith("/verwaltung/") else redirect("admin:meetings_topic_csv_import")
         rows, errors = parse_topic_agenda_csv(pending["text"])
+        if allowed_series_ids is not None:
+            allowed = set(allowed_series_ids)
+            for row in rows:
+                if row["topic"].get("series_id") not in allowed or (
+                    row.get("record_type") == "agenda" and row.get("series_id") not in allowed
+                ):
+                    errors.append(
+                        f"Zeile {row.get('row_number', '?')}: Die CSV enthält eine Besprechungsreihe, "
+                        "für die keine Moderatorrechte bestehen."
+                    )
         if errors:
             request.session.pop(SESSION_KEY, None)
             messages.error(request, "Die CSV-Datei ist nicht mehr gültig: " + " ".join(errors[:3]))
@@ -521,6 +538,16 @@ def import_topic_agenda_csv(request):
     errors = []
     if request.method == "POST" and form.is_valid():
         rows, errors = parse_topic_agenda_csv(form.csv_text)
+        if allowed_series_ids is not None:
+            allowed = set(allowed_series_ids)
+            for row in rows:
+                if row["topic"].get("series_id") not in allowed or (
+                    row.get("record_type") == "agenda" and row.get("series_id") not in allowed
+                ):
+                    errors.append(
+                        f"Zeile {row.get('row_number', '?')}: Die CSV enthält eine Besprechungsreihe, "
+                        "für die keine Moderatorrechte bestehen."
+                    )
         if not errors:
             topic_ids = {}
             for row in rows:
