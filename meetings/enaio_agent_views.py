@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from .models import EnaioAgent, EnaioAgentLog, EnaioFolderSelection, EnaioSettings, EnaioTransfer
+from .models import AuditEvent, EnaioAgent, EnaioAgentLog, EnaioFolderSelection, EnaioSettings, EnaioTransfer
 from .access import is_admin
 
 
@@ -162,11 +162,30 @@ def enaio_agent_selection_complete(request, pk):
         if not selection:
             return HttpResponseForbidden("Auswahlauftrag ungültig oder bereits verwendet.")
         settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
+        before = {
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Objekttyp": settings_obj.root_folder_type,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
+        }
         settings_obj.root_folder_id = folder_id
         settings_obj.root_folder_type = folder_type
         settings_obj.root_folder_name = folder_name
         settings_obj.root_folder_path = folder_path
         settings_obj.save()
+        after = {
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Objekttyp": settings_obj.root_folder_type,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
+        }
+        changes = {key: {"vorher": before[key], "nachher": after[key]} for key in before if before[key] != after[key]}
+        if changes:
+            AuditEvent.objects.create(
+                actor=agent.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                summary="Zentraler enaio-Ablageordner über den Agenten geändert",
+                changes=changes,
+            )
         selection.selected_folder_id = folder_id
         selection.selected_folder_type = folder_type
         selection.selected_folder_name = folder_name
