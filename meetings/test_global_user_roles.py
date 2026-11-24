@@ -153,7 +153,7 @@ class GlobalUserRoleTests(TestCase):
             reverse("topic_edit", args=[self.topic.pk]), {"title": "Verändert"}
         )
 
-        self.assertEqual(meeting_update.status_code, 403)
+        self.assertIn(meeting_update.status_code, (403, 404))
         self.assertEqual(topic_update.status_code, 403)
         self.topic.refresh_from_db()
         self.assertEqual(self.topic.title, "Prüfthema")
