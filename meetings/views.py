@@ -2145,6 +2145,7 @@ def audit_history(request):
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
+    selected_action = request.GET.get("action", "")
 
     if has_history_permission:
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
@@ -2169,6 +2170,11 @@ def audit_history(request):
             topics = topics.filter(series_id=int(selected_series))
         else:
             selected_series = ""
+        valid_actions = {value for value, label in AuditEvent.ACTIONS}
+        if selected_action in valid_actions:
+            events = events.filter(action=selected_action)
+        else:
+            selected_action = ""
         if topic_id and topics.filter(pk=topic_id).exists():
             events = events.filter(topic_id=topic_id)
         else:
@@ -2176,6 +2182,7 @@ def audit_history(request):
     else:
         topic_id = ""
         selected_series = ""
+        selected_action = ""
 
     paginator = Paginator(events, 50)
     events_page = paginator.get_page(request.GET.get("page"))
@@ -2187,6 +2194,7 @@ def audit_history(request):
         ),
         "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
+        "actions": AuditEvent.ACTIONS, "selected_action": selected_action,
         "has_history_permission": has_history_permission,
     })
 
