@@ -294,6 +294,7 @@ class UserProfile(models.Model):
         verbose_name="Benutzer",
     )
     short_description = models.CharField("Kurzbeschreibung", max_length=80, blank=True)
+    must_change_password = models.BooleanField("Passwort muss geändert werden", default=False)
 
     class Meta:
         verbose_name = "Benutzerprofil"
