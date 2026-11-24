@@ -2368,55 +2368,76 @@ def meeting_reopen(request, pk):
 
 @login_required
 def audit_history(request):
-    admin_access = is_admin(request.user) or is_auditor(request.user)
-    # Globale Rollen sehen ausschließlich administrative Ereignisse ohne Serienbezug.
-    series = (
-        MeetingSeries.objects.none() if admin_access else
-        MeetingSeries.objects.filter(
-            user_access__user=request.user,
-            user_access__role=SeriesAccess.ROLE_MODERATOR,
-        ).distinct().order_by("name")
+    admin_access = is_admin(request.user)
+    auditor_access = is_auditor(request.user)
+    # Series-specific history requires an explicit moderator assignment,
+    # including for accounts that also have the global Admin role.
+    series = MeetingSeries.objects.filter(
+        user_access__user=request.user,
+        user_access__role=SeriesAccess.ROLE_MODERATOR,
+    ).distinct().order_by("name")
+    has_history_permission = admin_access or auditor_access or series.exists()
+    topics = (
+        Topic.objects.none() if auditor_access
+        else Topic.objects.filter(series__in=series).order_by("title")
     )
-    has_history_permission = admin_access or series.exists()
-    topics = Topic.objects.none() if admin_access or not has_history_permission else Topic.objects.filter(series__in=series).order_by("title")
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
     selected_action = request.GET.get("action", "")
 
-    if admin_access:
+    if auditor_access:
         events = AuditEvent.objects.filter(
             scope=AuditEvent.SCOPE_SYSTEM
         ).select_related("actor")
         topic_id = ""
         selected_series = ""
+    elif admin_access:
+        events = AuditEvent.objects.filter(
+            Q(scope=AuditEvent.SCOPE_SYSTEM)
+            | (
+                Q(scope=AuditEvent.SCOPE_SERIES)
+                & (
+                    Q(series__in=series)
+                    | (Q(series__isnull=True) & (
+                        Q(topic__series__in=series)
+                        | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
+                    ))
+                )
+            )
+        ).select_related("actor", "topic", "meeting", "meeting__series", "series")
     elif has_history_permission:
-        events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series").filter(
+        events = AuditEvent.objects.filter(
+            scope=AuditEvent.SCOPE_SERIES
+        ).select_related("actor", "topic", "meeting", "meeting__series", "series").filter(
             Q(series__in=series)
             | (Q(series__isnull=True) & (
                 Q(topic__series__in=series)
                 | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
             ))
         )
-        if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
-            events = events.filter(
-                Q(series_id=int(selected_series))
-                | (Q(series__isnull=True) & (
-                    Q(topic__series_id=int(selected_series))
-                    | Q(meeting__series_id=int(selected_series))
-                ))
-            )
-            topics = topics.filter(series_id=int(selected_series))
-        else:
-            selected_series = ""
-        if topic_id and topics.filter(pk=topic_id).exists():
-            events = events.filter(topic_id=topic_id)
-        else:
-            topic_id = ""
     else:
         topic_id = ""
         selected_series = ""
         selected_action = ""
+
+    if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
+        events = events.filter(
+            scope=AuditEvent.SCOPE_SERIES
+        ).filter(
+            Q(series_id=int(selected_series))
+            | (Q(series__isnull=True) & (
+                Q(topic__series_id=int(selected_series))
+                | Q(meeting__series_id=int(selected_series))
+            ))
+        )
+        topics = topics.filter(series_id=int(selected_series))
+    else:
+        selected_series = ""
+    if topic_id and topics.filter(pk=topic_id).exists():
+        events = events.filter(topic_id=topic_id)
+    else:
+        topic_id = ""
 
     valid_actions = {value for value, label in AuditEvent.ACTIONS}
     if selected_action in valid_actions:
