@@ -25,7 +25,7 @@ class ManagementUserStatusFilterTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "inactive-person")
-        self.assertNotContains(response, "active-person")
+        self.assertNotContains(response, "<td>active-person</td>")
         self.assertEqual(response.context["selected_status"], "inactive")
 
     def test_invalid_status_filter_falls_back_to_all_users(self):
