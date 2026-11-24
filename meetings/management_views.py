@@ -137,7 +137,7 @@ class ManagedUserEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].disabled = True
-        self.fields["is_active"].initial = "true" if self.instance.is_active else "false"
+        self.initial["is_active"] = "true" if self.instance.is_active else "false"
         profile = getattr(self.instance, "meeting_profile", None) if self.instance.pk else None
         self.fields["short_description"].initial = profile.short_description if profile else ""
         self.fields["last_login"] = forms.CharField(label="Letzte Anmeldung", required=False, disabled=True, initial=self.instance.last_login.strftime("%d.%m.%Y, %H:%M") if self.instance.last_login else "Noch nie")
@@ -512,6 +512,17 @@ def management_users(request):
 def management_user_edit(request, pk=None):
     _require_admin(request)
     instance = get_object_or_404(User, pk=pk) if pk else None
+    # ModelForm validation updates its instance in memory. Capture the old
+    # state before is_valid(), otherwise reactivation and audit diffs are lost.
+    was_inactive = bool(instance and not instance.is_active)
+    before = {
+        "Vorname": instance.first_name,
+        "Nachname": instance.last_name,
+        "E-Mail": instance.email,
+        "Aktiv": instance.is_active,
+        "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(instance), get_user_role(instance)),
+        "Kurzbeschreibung": getattr(getattr(instance, "meeting_profile", None), "short_description", ""),
+    } if instance else {}
     if instance:
         form = ManagedUserEditForm(request.POST or None, instance=instance)
     else:
@@ -520,19 +531,8 @@ def management_user_edit(request, pk=None):
         if instance and instance.pk == request.user.pk and not form.cleaned_data["is_active"]:
             form.add_error("is_active", "Das eigene Administratorkonto kann hier nicht deaktiviert werden.")
         else:
-            before = {}
-            if instance:
-                before = {
-                    "Vorname": instance.first_name,
-                    "Nachname": instance.last_name,
-                    "E-Mail": instance.email,
-                    "Aktiv": instance.is_active,
-                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(instance), get_user_role(instance)),
-                    "Kurzbeschreibung": getattr(getattr(instance, "meeting_profile", None), "short_description", ""),
-                }
             with transaction.atomic():
                 passwordless_creation = not instance and not form.cleaned_data.get("password1")
-                was_inactive = bool(instance and not instance.is_active)
                 user = form.save()
                 if was_inactive and user.is_active:
                     start_password_setup(user)
