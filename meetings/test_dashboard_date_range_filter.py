@@ -29,6 +29,7 @@ class DashboardDateRangeFilterTests(TestCase):
         response = self.client.get(reverse("dashboard"), {
             "from_date": (today + timedelta(days=2)).isoformat(),
             "to_date": (today + timedelta(days=8)).isoformat(),
+            "assigned_to": "",
         })
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Termin im Bereich")
@@ -39,7 +40,7 @@ class DashboardDateRangeFilterTests(TestCase):
         today = timezone.localdate()
         upper_bound = (today + timedelta(days=10)).isoformat()
         response = self.client.get(reverse("dashboard"), {
-            "from_date": "kein-datum", "to_date": upper_bound,
+            "from_date": "kein-datum", "to_date": upper_bound, "assigned_to": "",
         })
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Termin im Bereich")
