@@ -24,7 +24,7 @@ class AuditHistoryPaginationTests(TestCase):
         self.assertEqual(len(response.context["events"]), 50)
         self.assertEqual(response.context["events"].paginator.count, 115)
         self.assertContains(response, "Seite 1 von 3")
-        self.assertContains(response, "Ältere Einträge")
+        self.assertContains(response, 'href="?page=2"')
         self.assertContains(response, 'aria-current="page"')
         self.assertContains(response, 'aria-label="Seite 2"')
 
