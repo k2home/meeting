@@ -100,7 +100,10 @@
   <section class="card"><h2>Dateien und Anlagen</h2>
    {% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
    {% for a in topic.attachments.all %}
-    <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a> <span class="muted" data-file-size="{{ a.uploaded_file.size }}">({{ a.uploaded_file.size|filesizeformat }})</span>{% endif %}{% if a.network_path %}<br>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}{% endif %}</p>
+    <div class="topic-attachment">
+     <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a> <span class="muted" data-file-size="{{ a.uploaded_file.size }}">({{ a.uploaded_file.size|filesizeformat }})</span>{% endif %}{% if a.network_path %}<br>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}{% endif %}</p>
+     {% if not is_reader %}<form method="post" action="{% url 'attachment_delete' a.pk %}" data-confirm-message="Anlage „{{ a.label }}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.">{% csrf_token %}<button type="submit" class="secondary">Anlage löschen</button></form>{% endif %}
+    </div>
    {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
   </section>
   {% if not is_reader and transfer_series %}
