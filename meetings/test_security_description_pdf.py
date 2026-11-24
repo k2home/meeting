@@ -56,7 +56,9 @@ class SecurityDescriptionPageTests(TestCase):
         response = self.client.get(reverse("security_description"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'id="add-review-mark"')
+        self.assertContains(response, "Taste <kbd>M</kbd>")
+        self.assertNotContains(response, 'id="add-review-mark"')
+        self.assertContains(response, 'event.key.toLowerCase() !== "m"')
         self.assertContains(response, 'id="export-review-marks"')
         self.assertContains(response, "localStorage")
         self.assertContains(response, "Prüfmarkierungen")
