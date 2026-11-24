@@ -359,6 +359,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
         form = super().get_form(request, obj, **kwargs)
         if obj and obj.pk == request.user.pk and get_user_role(obj) == "admin":
             form.base_fields["role"].disabled = True
+            form.base_fields["is_active"].disabled = True
         return form
 
     def user_change_password(self, request, id, form_url=""):
