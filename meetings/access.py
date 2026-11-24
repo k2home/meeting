@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from .models import Meeting, MeetingSeries, SeriesAccess, Topic
 from .brand_colors import accessible_button_colors
+from .user_roles import get_user_role
 
 ADMIN_GROUP = "Admin"
 AUDITOR_GROUP = "Auditor"
@@ -96,16 +97,34 @@ def can_reopen_meeting(user, meeting=None):
 
 
 def role_flags(request):
-    if not request.user.is_authenticated:
-        return {"is_admin": False, "is_moderator": False, "is_reader": False, "is_auditor": False}
+    user = request.user
+    if not user.is_authenticated:
+        return {
+            "is_admin": False, "is_moderator": False, "is_reader": False,
+            "is_auditor": False, "can_view_open_topics": False,
+        }
+
+    global_role = get_user_role(user)
+    is_admin_role = global_role == "admin"
+    is_auditor_role = global_role == "auditor"
+    if is_auditor_role:
+        return {
+            "is_admin": False, "is_moderator": False, "is_reader": False,
+            "is_auditor": True, "can_view_open_topics": False,
+        }
+
+    series_roles = set(
+        SeriesAccess.objects.filter(user=user).values_list("role", flat=True)
+    )
+    has_writable_series = any(role != SeriesAccess.ROLE_READER for role in series_roles)
     return {
-        "is_admin": is_admin(request.user),
-        "is_auditor": is_auditor(request.user),
-        "is_moderator": is_moderator(request.user),
-        "is_reader": is_reader(request.user) and not has_writable_series(request.user),
-        "can_view_open_topics": not is_auditor(request.user) and SeriesAccess.objects.filter(
-            user=request.user, role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR]
-        ).exists(),
+        "is_admin": is_admin_role,
+        "is_auditor": False,
+        "is_moderator": SeriesAccess.ROLE_MODERATOR in series_roles,
+        "is_reader": SeriesAccess.ROLE_READER in series_roles and not has_writable_series,
+        "can_view_open_topics": bool(
+            series_roles & {SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR}
+        ),
     }
 
 
