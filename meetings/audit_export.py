@@ -79,4 +79,5 @@ def audit_history_csv(request):
         ])
     response = HttpResponse("\ufeff" + output.getvalue(), content_type="text/csv; charset=utf-8")
     response["Content-Disposition"] = 'attachment; filename="aenderungsverlauf.csv"'
+    response["Cache-Control"] = "private, no-store"
     return response
