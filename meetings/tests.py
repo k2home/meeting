@@ -1819,13 +1819,14 @@ class UserOverviewTests(TestCase):
         event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="Passwort von")
         self.assertIn("wird nicht protokolliert", event.changes["Passwort"]["nachher"])
 
-    def test_admin_sees_global_access_for_all_series(self):
+    def test_admin_sees_only_explicit_series_permissions(self):
         from django.contrib.auth.models import Group
         admin_group, _ = Group.objects.get_or_create(name="Admin")
         self.user.groups.add(admin_group)
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Admin – globaler Zugriff")
+        self.assertContains(response, "Leser")
+        self.assertNotContains(response, "Admin – globaler Zugriff")
         self.assertEqual(len(response.context["series_rows"]), MeetingSeries.objects.count())
 
 
