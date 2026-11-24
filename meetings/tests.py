@@ -626,6 +626,9 @@ class TopicAgendaCsvImportTests(TestCase):
             username="csv-admin", email="csv-admin@example.com", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="CSV-Reihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR
+        )
         self.client.force_login(self.admin)
 
     def _csv(self, rows):
@@ -649,6 +652,9 @@ class TopicAgendaCsvImportTests(TestCase):
         from io import StringIO
 
         topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=topic_series, role=SeriesAccess.ROLE_MODERATOR
+        )
         topic = Topic.objects.create(title="Reihenübergreifendes Thema", series=topic_series)
         meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Sondersitzung")
         AgendaItem.objects.create(meeting=meeting, topic=topic)
@@ -848,6 +854,9 @@ class TopicAgendaCsvImportTests(TestCase):
             username="csv-admin", email="csv-admin@example.com", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="CSV-Reihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR
+        )
         self.client.force_login(self.admin)
 
     def _csv(self, rows, topic_series_name="CSV-Reihe"):
