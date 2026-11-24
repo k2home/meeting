@@ -41,52 +41,77 @@
 </section>
 {% endif %}
 
-<div class="series-list">
+<style>
+.series-overview-tools{display:flex;flex-wrap:wrap;gap:.65rem;align-items:end;margin:0 0 1rem;padding:1rem;background:var(--soft-bg);border:1px solid var(--border);border-radius:10px}
+.series-overview-tools label{display:flex;flex:1 1 14rem;flex-direction:column;gap:.3rem;margin:0}
+.series-overview-tools input,.series-overview-tools select{width:100%;min-width:0}
+.series-overview-count{margin-left:auto;color:var(--muted);font-size:.9rem;white-space:nowrap}
+.series-overview-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,27rem),1fr));gap:1rem}
+.series-card{min-width:0;margin:0!important;padding:1.1rem;border:1px solid var(--border);border-radius:12px}
+.series-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem}
+.series-card-header h2{margin:0;overflow-wrap:anywhere}
+.series-card-meta{margin:.4rem 0 0;color:var(--muted);font-size:.92rem}
+.series-status{flex:none}
+.series-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:1rem 0}
+.series-metric{min-width:0;padding:.65rem .5rem;text-align:center;background:var(--soft-bg);border:1px solid var(--border);border-radius:8px}
+.series-metric strong{display:block;font-size:1.25rem;line-height:1.3;font-variant-numeric:tabular-nums}
+.series-metric span{display:block;color:var(--muted);font-size:.78rem}
+.series-next-meeting{margin:.75rem 0 0;padding:.85rem;border-radius:9px}
+.series-next-label{display:block;color:var(--muted);font-size:.82rem;margin-bottom:.2rem}
+.series-card-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.series-manage{margin-top:.85rem;border-top:1px solid var(--border);padding-top:.7rem}
+.series-manage>summary{cursor:pointer;font-weight:600;color:var(--text)}
+.series-manage-panel{display:grid;gap:.7rem;padding:.8rem 0 .1rem}
+.series-manage-panel form{margin:0}
+.series-manage-panel .actions{margin-top:.5rem}
+.series-meetings{margin-top:.8rem}
+.series-meetings summary{cursor:pointer;font-weight:600;padding:.5rem 0}
+.series-no-results{grid-column:1/-1}
+@media(max-width:480px){.series-card{padding:.85rem}.series-metrics{gap:.35rem}.series-metric{padding:.55rem .25rem}.series-metric strong{font-size:1.1rem}}
+</style>
+
+<div class="series-overview-tools" role="search" aria-label="Besprechungsreihen filtern">
+  <label for="series-overview-search">Reihe suchen
+    <input id="series-overview-search" type="search" placeholder="Name oder Wiederholungsrhythmus …" autocomplete="off">
+  </label>
+  <label for="series-overview-status">Status
+    <select id="series-overview-status">
+      <option value="all">Alle Reihen</option>
+      <option value="active">Nur aktive</option>
+      <option value="inactive">Nur inaktive</option>
+    </select>
+  </label>
+  <span class="series-overview-count" id="series-overview-count" aria-live="polite"></span>
+</div>
+
+<div class="series-overview-list" id="series-overview-list">
   {% for s in series %}
-    <section class="card series-entry" id="series-{{ s.pk }}" style="margin-bottom:1rem">
-      <div class="topline" style="align-items:flex-start;gap:1rem">
+    <section class="card series-card" id="series-{{ s.pk }}" data-series-card data-series-name="{{ s.name|lower }}" data-series-meta="{{ s.get_recurrence_display|lower }} {{ s.weekday_label|lower }}" data-series-active="{% if s.active %}true{% else %}false{% endif %}">
+      <div class="series-card-header">
         <div style="min-width:0">
-          <h2 style="margin:0 0 .35rem">{{ s.name }} {% if not s.active %}<span class="pill">Inaktiv</span>{% else %}<span class="pill">Aktiv</span>{% endif %}</h2>
-          <p class="muted" style="margin:0">{{ s.recurrence_interval }}-{{ s.get_recurrence_display|lower }} · {{ s.weekday_label }} · bis {{ s.end_date|date:"DATE_FORMAT" }}</p>
+          <h2>{{ s.name }}</h2>
+          <p class="series-card-meta">{{ s.recurrence_interval }} × {{ s.get_recurrence_display|lower }} · {{ s.weekday_label }} · Ende {{ s.end_date|date:"DATE_FORMAT" }}</p>
         </div>
-        <details>
-          <summary class="btn secondary" style="cursor:pointer">Reihe verwalten</summary>
-          <div style="margin-top:.25rem;padding:.45rem .55rem;min-width:min(14rem,80vw);background:var(--surface);border:1px solid var(--border);border-radius:5px">
-            <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
-            <form method="post" action="{% url 'series_delete' s.pk %}" style="margin-top:1rem" data-confirm-message="Besprechungsreihe „{{ s.name }}“ wirklich löschen? Zugehörige Termine und Tagesordnungspunkte werden ebenfalls entfernt.">
-              {% csrf_token %}
-              <p style="margin:.25rem 0 .5rem"><strong>Reihe löschen</strong></p>
-              <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.9rem;margin-bottom:.75rem">
-                <input type="checkbox" name="delete_completed">
-                <span>Auch abgeschlossene Besprechungen und ihre Protokolle endgültig löschen</span>
-              </label>
-              <button class="danger" type="submit">Reihe löschen …</button>
-            </form>
-          </div>
-        </details>
-        <form method="post" action="{% url 'series_extend' s.pk %}" style="margin-top:.35rem" data-confirm-message="Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern? Fehlende Termine werden ergänzt; bestehende Termine bleiben unverändert.">
-          {% csrf_token %}<button class="secondary" type="submit">Verlängern</button>
-        </form>
+        <span class="pill series-status">{% if s.active %}Aktiv{% else %}Inaktiv{% endif %}</span>
       </div>
 
-      <div class="series-stats" style="display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin:.85rem 0;padding:.75rem 0;border-top:1px solid var(--border-color, #ddd);border-bottom:1px solid var(--border-color, #ddd)">
-        <span><strong>{{ s.meeting_count }}</strong> Termine insgesamt</span>
-        <span><strong>{{ s.upcoming_count }}</strong> offen / geplant</span>
-        <span><strong>{{ s.completed_count }}</strong> abgeschlossen</span>
+      <div class="series-metrics" aria-label="Terminübersicht">
+        <div class="series-metric"><strong>{{ s.meeting_count }}</strong><span>Termine gesamt</span></div>
+        <div class="series-metric"><strong>{{ s.upcoming_count }}</strong><span>Offen / geplant</span></div>
+        <div class="series-metric"><strong>{{ s.completed_count }}</strong><span>Abgeschlossen</span></div>
       </div>
 
       {% if s.next_meeting %}
         <div class="series-next-meeting">
+          <span class="series-next-label">Nächster Termin</span>
           <div class="topline" style="align-items:center">
-            <div><span class="muted">Nächster Termin:</span><br><strong>{{ s.next_meeting.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</strong></div>
+            <strong>{{ s.next_meeting.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</strong>
             {% if s.next_meeting.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}
           </div>
-          <div class="actions" style="margin-top:.65rem">
+          <div class="series-card-actions">
             <a class="btn" href="{% url 'meeting' s.next_meeting.pk %}">Termin öffnen</a>
             {% if not s.next_meeting.finalized_at %}
               <a class="btn secondary" href="{% url 'meeting_edit' s.next_meeting.pk %}">Datum ändern</a>
-            {% endif %}
-            {% if not s.next_meeting.finalized_at %}
               <form method="post" action="{% url 'meeting_delete' s.next_meeting.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?">
                 {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
               </form>
@@ -94,13 +119,32 @@
           </div>
         </div>
       {% else %}
-        <p class="muted" style="margin:.75rem 0">Kein zukünftiger Termin vorhanden.</p>
+        <p class="muted" style="margin:.8rem 0 0">Kein zukünftiger Termin vorhanden.</p>
       {% endif %}
 
+      <details class="series-manage">
+        <summary>Reihe verwalten</summary>
+        <div class="series-manage-panel">
+          <a class="btn secondary" href="{% url 'series_edit' s.pk %}">Einstellungen bearbeiten</a>
+          <form method="post" action="{% url 'series_extend' s.pk %}" data-confirm-message="Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern? Fehlende Termine werden ergänzt; bestehende Termine bleiben unverändert.">
+            {% csrf_token %}<button class="secondary" type="submit">Reihe bis Ende des Folgejahres verlängern</button>
+          </form>
+          <form method="post" action="{% url 'series_delete' s.pk %}" data-confirm-message="Besprechungsreihe „{{ s.name }}“ wirklich löschen? Zugehörige Termine und Tagesordnungspunkte werden ebenfalls entfernt.">
+            {% csrf_token %}
+            <strong>Reihe löschen</strong>
+            <label style="display:flex;align-items:flex-start;gap:.5rem;font-size:.9rem;margin:.6rem 0">
+              <input type="checkbox" name="delete_completed">
+              <span>Auch abgeschlossene Besprechungen und ihre Protokolle endgültig löschen</span>
+            </label>
+            <button class="danger" type="submit">Reihe löschen …</button>
+          </form>
+        </div>
+      </details>
+
       {% if s.other_meetings %}
-        <details style="margin-top:.75rem" {% if expanded_series_id == s.pk|stringformat:"s" %}open{% endif %}>
-          <summary style="cursor:pointer;padding:.5rem 0;font-weight:600">Alle weiteren Termine anzeigen ({{ s.other_meetings|length }})</summary>
-          <div style="overflow-x:auto;margin-top:.5rem">
+        <details class="series-meetings" {% if expanded_series_id == s.pk|stringformat:"s" %}open{% endif %}>
+          <summary>Weitere Termine anzeigen ({{ s.other_meetings|length }})</summary>
+          <div style="overflow-x:auto">
             <table><thead><tr><th>Termin</th><th>Status</th><th>Aktionen</th></tr></thead><tbody>
             {% for m in s.other_meetings %}
               <tr>
@@ -108,8 +152,7 @@
                 <td>{% if m.finalized_at %}<span class="pill">Abgeschlossen</span>{% else %}<span class="pill">Geplant</span>{% endif %}</td>
                 <td><div class="actions">
                   <a class="btn secondary" href="{% url 'meeting' m.pk %}">Öffnen</a>
-                  {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>{% endif %}
-                  {% if not m.finalized_at %}
+                  {% if not m.finalized_at %}<a class="btn secondary" href="{% url 'meeting_edit' m.pk %}">Datum ändern</a>
                     <form method="post" action="{% url 'meeting_delete' m.pk %}" data-confirm-message="Diesen Besprechungstermin wirklich löschen?">
                       {% csrf_token %}<button class="danger" type="submit">Termin löschen</button>
                     </form>
@@ -123,10 +166,40 @@
       {% endif %}
     </section>
   {% empty %}
-    <div class="card"><p class="muted">Noch keine Besprechungsreihen angelegt. Über „+ Neu“ kannst du eine Reihe erstellen.</p></div>
+    <div class="card series-no-results"><p class="muted">Noch keine Besprechungsreihen angelegt. Über „+ Neu“ kannst du eine Reihe erstellen.</p></div>
   {% endfor %}
+  <p class="muted series-no-results" id="series-overview-empty" hidden>Keine Besprechungsreihen für diese Suche gefunden.</p>
 </div>
 
+<script>
+(function () {
+  const search = document.getElementById('series-overview-search');
+  const status = document.getElementById('series-overview-status');
+  const cards = Array.from(document.querySelectorAll('[data-series-card]'));
+  const count = document.getElementById('series-overview-count');
+  const empty = document.getElementById('series-overview-empty');
+  if (!search || !status || !count) return;
+  function filterSeries() {
+    const query = search.value.trim().toLocaleLowerCase('de');
+    const selectedStatus = status.value;
+    let visible = 0;
+    cards.forEach(function (card) {
+      const matchesText = (card.dataset.seriesName + ' ' + card.dataset.seriesMeta).includes(query);
+      const matchesStatus = selectedStatus === 'all' ||
+        (selectedStatus === 'active' && card.dataset.seriesActive === 'true') ||
+        (selectedStatus === 'inactive' && card.dataset.seriesActive === 'false');
+      const show = matchesText && matchesStatus;
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+    count.textContent = visible + ' von ' + cards.length + ' Reihen';
+    if (empty) empty.hidden = visible !== 0 || cards.length === 0;
+  }
+  search.addEventListener('input', filterSeries);
+  status.addEventListener('change', filterSeries);
+  filterSeries();
+})();
+</script>
 <dialog id="new-series-dialog" class="card" style="width:min(92vw, 38rem);max-height:85vh;overflow-y:auto;border:0;border-radius:12px;padding:1.5rem;box-shadow:0 1rem 3rem #0004">
   <div class="topline"><h2>Neue Besprechungsreihe</h2><button type="button" class="secondary" onclick="document.getElementById('new-series-dialog').close()" aria-label="Schließen">Schließen</button></div>
   <form method="post">
