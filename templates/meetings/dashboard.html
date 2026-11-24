@@ -43,25 +43,13 @@
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="2" data-sort-type="date">Nächste Besprechung <span aria-hidden="true">↕</span></button></th>
 </tr></thead><tbody>
 {% for t in topics %}<tr>
-<td data-sort-value="{{ t.title|lower }}"><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a> <button type="button" class="secondary dashboard-attachments-button" data-attachments-dialog="dashboard-attachments-dialog-{{ t.id }}">Anlagen{% if t.attachments.exists %} ({{ t.attachments.count }}){% endif %}</button></td>
+<td data-sort-value="{{ t.title|lower }}"><a href="{% url 'topic_edit' t.id %}"><strong>{{ t.title }}</strong></a> <a class="btn secondary" href="{% url 'topic_edit' t.id %}#topic-attachments">Anlagen{% if t.attachments.exists %} ({{ t.attachments.count }}){% endif %}</a></td>
 <td data-sort-value="{{ t.series.name|default:''|lower }}">{{ t.series|default:"—" }}</td>
 <td data-sort-value="{{ t.next_meeting_date|date:'Y-m-d' }}">{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"DATE_FORMAT" }}</span>{% else %}{{ t.next_meeting_date|date:"DATE_FORMAT"|default:"—" }}{% endif %}</td>
 </tr>{% endfor %}
 </tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
 </section>
-{% for t in topics %}
-<dialog id="dashboard-attachments-dialog-{{ t.id }}" class="dashboard-topic-dialog dashboard-attachments-dialog" aria-labelledby="dashboard-attachments-title-{{ t.id }}">
-  <div class="topline"><h2 id="dashboard-attachments-title-{{ t.id }}">Anlagen – {{ t.title }}</h2><button type="button" class="secondary dashboard-attachments-close">Schließen</button></div>
-  {% for attachment in t.attachments.all %}
-    <div class="dashboard-attachment-row">
-      <div>
-        <strong>{{ attachment.label }}</strong>
-        {% if attachment.uploaded_file %}<div><a href="{% url 'attachment_download' attachment.pk %}">Datei öffnen</a> <span class="muted" data-file-size="{{ attachment.uploaded_file.size }}">({{ attachment.uploaded_file.size|filesizeformat }})</span></div>{% endif %}
-        {% if attachment.network_path %}<div>{% if attachment.network_url %}<a href="{{ attachment.network_url }}">{{ attachment.network_path }}</a>{% else %}<span>{{ attachment.network_path }}</span>{% endif %}</div>{% endif %}
-      </div>
-      {% if not is_reader %}{% if t.series_id or is_admin_user %}<form method="post" action="{% url 'attachment_delete' attachment.pk %}" data-confirm-message="Anlage „{{ attachment.label }}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button type="submit" class="secondary">Anlage löschen</button></form>{% endif %}{% endif %}
-    </div>
-  {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
+
   {% if not is_reader %}{% if t.series_id or is_admin_user %}
     <form method="post" enctype="multipart/form-data" class="dashboard-attachment-upload" action="{% url 'attachment_add' t.pk %}">
       {% csrf_token %}
@@ -103,12 +91,6 @@
 <style>
 .dashboard-topic-dialog{width:min(620px,calc(100% - 2rem));max-height:85vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
 .dashboard-topic-dialog::backdrop{background:#0009}
-.dashboard-attachments-dialog{width:min(720px,calc(100% - 2rem))}
-.dashboard-attachment-row{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;padding:.65rem 0;border-bottom:1px solid var(--border)}
-.dashboard-attachment-row:last-of-type{border-bottom:0}
-.dashboard-attachment-upload{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
-.dashboard-attachment-upload label{display:block;margin:.55rem 0 .25rem}
-.dashboard-attachment-upload input{max-width:100%}
 .dashboard-topic-dialog h2{margin-top:0}
 .dashboard-topic-dialog form>label{display:block;margin:.65rem 0 .25rem}
 .dashboard-topic-dialog form>input,.dashboard-topic-dialog form>textarea,.dashboard-topic-dialog form>select{width:100%}
@@ -139,21 +121,6 @@
       requestAnimationFrame(() => window.scrollTo({ top: scrollY, left: 0, behavior: "instant" }));
     }
   }
-
-  document.querySelectorAll(".dashboard-attachments-button").forEach(button => {
-    button.addEventListener("click", () => {
-      const dialog = document.getElementById(button.dataset.attachmentsDialog);
-      if (dialog) dialog.showModal();
-    });
-  });
-  document.querySelectorAll(".dashboard-attachments-dialog").forEach(dialog => {
-    dialog.querySelectorAll(".dashboard-attachments-close").forEach(button => {
-      button.addEventListener("click", () => dialog.close());
-    });
-    dialog.addEventListener("click", event => {
-      if (event.target === dialog) dialog.close();
-    });
-  });
 
   const newTopicDialog = document.getElementById("dashboard-new-topic-dialog");
   const openNewTopic = document.getElementById("open-dashboard-new-topic");
