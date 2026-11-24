@@ -2372,10 +2372,13 @@ def audit_history(request):
     auditor_access = is_auditor(request.user)
     # Series-specific history requires an explicit moderator assignment,
     # including for accounts that also have the global Admin role.
-    series = MeetingSeries.objects.filter(
-        user_access__user=request.user,
-        user_access__role=SeriesAccess.ROLE_MODERATOR,
-    ).distinct().order_by("name")
+    series = (
+        MeetingSeries.objects.none() if auditor_access else
+        MeetingSeries.objects.filter(
+            user_access__user=request.user,
+            user_access__role=SeriesAccess.ROLE_MODERATOR,
+        ).distinct().order_by("name")
+    )
     has_history_permission = admin_access or auditor_access or series.exists()
     topics = (
         Topic.objects.none() if auditor_access
