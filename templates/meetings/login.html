@@ -12,9 +12,9 @@
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ next }}">
 {{ form.as_p }}
-<p style="margin:.75rem 0 1rem">
-  <label for="remember-me" style="display:inline-flex;align-items:center;gap:.5rem;white-space:nowrap">
-    <input id="remember-me" type="checkbox" name="remember_me" value="1" style="flex-shrink:0">
+<p style="margin:.75rem 0 1rem;text-align:left">
+  <label for="remember-me" style="display:flex;align-items:center;justify-content:flex-start;gap:.5rem;width:max-content;white-space:nowrap">
+    <input id="remember-me" type="checkbox" name="remember_me" value="1" style="flex:0 0 auto;margin:0">
     Angemeldet bleiben
   </label>
 </p>
