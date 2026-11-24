@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .topic_attachment_archive import download_topic_attachments_zip
 from . import agenda_topic_views
 from . import guide_views
 from . import management_views
@@ -45,6 +46,7 @@ urlpatterns = [
     path("topics/<int:pk>/agenda/<int:item_pk>/edit/", agenda_topic_views.edit_topic_agenda_item, name="topic_agenda_edit"),
     path("topics/<int:pk>/comments/add/", views.topic_comment_add, name="topic_comment_add"),
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
+    path("topics/<int:pk>/attachments/download-all/", download_topic_attachments_zip, name="topic_attachments_zip"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
     path("organization/logo/", views.organization_logo, name="organization_logo"),

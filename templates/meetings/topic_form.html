@@ -99,6 +99,9 @@
   </section>
   <section class="card"><h2>Dateien und Anlagen</h2>
    {% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
+   {% if uploaded_attachment_count %}
+    <p><a class="btn secondary" href="{% url 'topic_attachments_zip' topic.pk %}">Alle hochgeladenen Dateien als ZIP herunterladen</a></p>
+   {% endif %}
    {% for a in topic.attachments.all %}
     <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a>{% endif %}{% if a.network_path %}<br>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}{% endif %}</p>
    {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}

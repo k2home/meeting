@@ -164,6 +164,7 @@ def topic_detail(request, pk):
     return render(request, "meetings/topic_form.html", {
         "form": form,
         "topic": topic,
+        "uploaded_attachment_count": topic.attachments.exclude(uploaded_file="").count(),
         "can_archive_topic": is_admin(request.user) or (
             topic.series_id is not None and is_moderator(request.user, topic.series)
         ),
