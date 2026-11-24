@@ -3,6 +3,17 @@
 {% block title %}Nutzerverwaltung{% endblock %}
 {% block content %}
 <div class="page-header"><div><h1>Nutzerverwaltung</h1><p class="muted">Benutzerkonten und Administratorrechte</p></div><div class="page-header-actions"><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a><a class="btn secondary" href="{% url 'management_data' %}">CSV-Import / Export</a><a class="btn primary" href="{% url 'management_user_new' %}">Nutzer hinzufügen</a></div></div>
+<form method="get" class="card no-print" aria-label="Benutzer nach Status filtern">
+  <label for="user-status-filter">Kontostatus</label>
+  <div class="actions">
+    <select id="user-status-filter" name="status" onchange="this.form.submit()">
+      <option value="all" {% if selected_status == "all" %}selected{% endif %}>Alle Benutzer</option>
+      <option value="active" {% if selected_status == "active" %}selected{% endif %}>Nur aktive Benutzer</option>
+      <option value="inactive" {% if selected_status == "inactive" %}selected{% endif %}>Nur deaktivierte Benutzer</option>
+    </select>
+    {% if selected_status != "all" %}<a class="btn secondary" href="{% url 'management_users' %}">Filter zurücksetzen</a>{% endif %}
+  </div>
+</form>
 <div class="card"><div style="overflow-x:auto"><table><thead><tr><th>Name</th><th>Anmeldename</th><th>E-Mail</th><th>Status</th><th>Rolle</th><th>Letzte Anmeldung</th><th>Erstellt am</th><th></th></tr></thead><tbody>
 {% for item in users %}<tr><td>{{ item.account|user_display }}</td><td>{{ item.account.username }}</td><td>{{ item.account.email|default:"–" }}</td><td>{% if item.account.is_active %}<span class="pill">Aktiv</span>{% else %}<span class="pill">Deaktiviert</span>{% endif %}</td><td>{% if item.is_administrator %}Administrator{% else %}Nutzer{% endif %}</td><td>{{ item.account.last_login|date:"d.m.Y, H:i"|default:"Noch nie" }}</td><td>{{ item.account.date_joined|date:"d.m.Y, H:i" }}</td><td><a class="btn secondary" href="{% url 'management_user_edit' item.account.pk %}">Bearbeiten</a></td></tr>{% empty %}<tr><td colspan="8">Noch keine Nutzer vorhanden.</td></tr>{% endfor %}
 </tbody></table></div></div>

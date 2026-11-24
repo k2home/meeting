@@ -353,10 +353,19 @@ def management_home(request):
 @login_required
 def management_users(request):
     _require_admin(request)
-    users = User.objects.all().order_by("last_name", "first_name", "username")
+    selected_status = request.GET.get("status", "all")
+    if selected_status not in {"all", "active", "inactive"}:
+        selected_status = "all"
+    users = User.objects.all()
+    if selected_status == "active":
+        users = users.filter(is_active=True)
+    elif selected_status == "inactive":
+        users = users.filter(is_active=False)
+    users = users.order_by("last_name", "first_name", "username")
     return render(request, "meetings/management_users.html", {
         "users": [{"account": user, "is_administrator": is_admin(user)} for user in users],
         "role_choices": SeriesAccess.ROLE_CHOICES,
+        "selected_status": selected_status,
     })
 
 
