@@ -24,6 +24,7 @@ from django.http import FileResponse, HttpResponse, JsonResponse, HttpResponseFo
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
@@ -484,11 +485,12 @@ def auditor_groups(request):
         )
     if role_filter in dict(SeriesAccess.ROLE_CHOICES):
         access_qs = access_qs.filter(role=role_filter)
-    access_ids = set(access_qs.values_list("pk", flat=True))
     series_rows = [{
         "series": series,
-        "members": [access for access in series.user_access.select_related("user").all() if access.pk in access_ids],
-    } for series in MeetingSeries.objects.order_by("name")]
+        "members": list(series.user_access.all()),
+    } for series in MeetingSeries.objects.order_by("name").prefetch_related(
+        Prefetch("user_access", queryset=access_qs)
+    )]
     series_rows = [row for row in series_rows if row["members"] or not (query or role_filter)]
     return render(request, "meetings/auditor_groups.html", {
         "series_rows": series_rows,
