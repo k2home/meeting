@@ -218,7 +218,11 @@ class AuditHistoryTests(TestCase):
             actor=self.user,
             action="updated",
             summary="Erste Zeile\\nZweite Zeile",
-            changes={"Beschreibung": {"vorher": "Vorher\\nText", "nachher": "Nachher\\nText"}},
+            changes={
+                "Beschreibung": {"vorher": "Vorher\\nText", "nachher": "Nachher\\nText"},
+                "Aktiv": {"vorher": False, "nachher": True},
+                "Objekttyp": {"vorher": 0, "nachher": 1},
+            },
         )
         self.client.force_login(self.user)
 
@@ -227,6 +231,10 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<p>Erste Zeile<br>Zweite Zeile</p>", html=True)
         self.assertContains(response, "Vorher<br>Text")
+        self.assertContains(response, "Nein")
+        self.assertContains(response, "Ja")
+        self.assertContains(response, "Objekttyp")
+        self.assertContains(response, ">0<")
         # The shared confirmation-dialog script contains escaped newlines;
         # the rendered audit entry itself is verified above with HTML line breaks.
 
