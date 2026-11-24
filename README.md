@@ -474,6 +474,8 @@ Anschließend das passende Media-Backup nach `/opt/meeting-manager/media` zurüc
 
 ## Sicherheit und bekannte Grenzen
 
+Eine ausführliche, am aktuellen Quellcode ausgerichtete Funktions-, Rollen-, Datenschutz- und Sicherheitsbeschreibung mit validierter Risikobewertung und konkreten Maßnahmen liegt unter [`docs/Funktions-und-Sicherheitsbeschreibung.md`](docs/Funktions-und-Sicherheitsbeschreibung.md). In der angemeldeten Anwendung ist sie zusätzlich unter **Hilfe → IT, Informationssicherheit und Datenschutz** als PDF verfügbar.
+
 **Die Anwendung ist ein internes MVP und sollte vor einem produktiven Einsatz weiter gehärtet werden.**
 
 - Zugriff auf das interne Netzwerk begrenzen und eine Firewall einsetzen.

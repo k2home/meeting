@@ -146,6 +146,53 @@
 <h3 id="faq-4">6.4 Was ist der Unterschied zwischen Thema und Tagesordnungspunkt?</h3><p>Das Thema ist der fortlaufende Vorgang. Ein Tagesordnungspunkt ist seine Behandlung in einem bestimmten Termin. Ein Thema kann mehrere Tagesordnungspunkte und Protokolltexte über mehrere Sitzungen hinweg haben.</p>
 <h3 id="faq-5">6.5 An wen kann bei fehlendem Zugriff gewendet werden?</h3><p>Bei fehlendem Zugriff sollte der Administrator oder der Moderator der betreffenden Reihe um Prüfung der Serienberechtigung gebeten werden.</p>
 <h3 id="faq-6">6.6 Smartphone und Tablet</h3><p>Die Oberfläche passt sich kleineren Bildschirmen an. Die Navigation wird über die Menüschaltfläche oben geöffnet. Tabellen können horizontal gescrollt werden. Dialoge lassen sich über „Schließen“ oder „Abbrechen“ verlassen.</p>
+
+<h2 id="it-datenschutz">7. IT, Informationssicherheit und Datenschutz</h2>
+<p>Dieses Kapitel ergänzt die Bedienungsanleitung um eine technische und organisatorische Beschreibung für IT-Abteilung, Informationssicherheit und Datenschutzbeauftragte. Es erläutert Zweck und Datenarten, globale Rollen und Serienberechtigungen, vorhandene Schutzmaßnahmen sowie die verbleibenden Risiken und konkrete Gegenmaßnahmen.</p>
+<div class="guide-note">
+<strong>Dokument herunterladen:</strong> Die vollständige Funktions- und Sicherheitsbeschreibung einschließlich Risikobewertung, Maßnahmenplan und Freigabevermerk steht als PDF zur Verfügung.
+<p style="margin:.65rem 0 0"><a class="btn primary" href="{% url 'security_description_pdf' %}">PDF – Funktions- und Sicherheitsbeschreibung herunterladen</a></p>
+</div>
+<h3 id="it-datenschutz-1">7.1 Zweck und verarbeitete Daten</h3>
+<p>Meeting Manager organisiert wiederkehrende Besprechungen, Themen, Tagesordnungspunkte, Zuständigkeiten, Kommentare, Anlagen und Protokolle. Beim Abschluss einer Besprechung wird ein Protokoll-Snapshot gespeichert. Verarbeitet werden insbesondere Kontodaten, Rollen- und Serienzuweisungen, Teilnehmerlisten, Besprechungsinhalte, Datei-Anlagen sowie Änderungsereignisse. Freitext und Anlagen können personenbezogene oder vertrauliche Angaben enthalten. Daher dürfen nur für den Besprechungszweck erforderliche Informationen eingetragen werden.</p>
+<h3 id="it-datenschutz-2">7.2 Rollen und Berechtigungen</h3>
+<ul>
+<li><strong>Nutzer:</strong> Fachlicher Zugriff nur auf ausdrücklich zugewiesene Besprechungsreihen und gemäß der jeweiligen Serienrolle.</li>
+<li><strong>Admin:</strong> Globale Benutzer- und Systemverwaltung. Kein automatischer Zugriff auf Reiheninhalte; dafür ist eine eigene Serienzuweisung erforderlich.</li>
+<li><strong>Auditor:</strong> Lesender Zugriff auf administrative Systemereignisse, Benutzer-/Rollendaten und Organisationseinstellungen. Kein Zugriff auf Besprechungsinhalte und keine Änderungsrechte.</li>
+<li><strong>Leser*in:</strong> Inhalte der zugewiesenen Reihe lesen und Protokolle exportieren.</li>
+<li><strong>Teilnehmer*in:</strong> Zusätzlich Themen, Tagesordnung, Kommentare, Anlagen und Teilnehmerlisten bearbeiten und Besprechungen abschließen.</li>
+<li><strong>Moderator*in:</strong> Zusätzlich die zugewiesene Reihe und Termine verwalten, Themen archivieren, abgeschlossene Besprechungen wieder öffnen und den Änderungsverlauf der eigenen Reihe einsehen.</li>
+</ul>
+<p>Globale Rollen und Serienrollen sind unabhängig. Eine Moderatorrolle gilt nur in der betreffenden Reihe. Auch Admins benötigen eine eigene Serienzuweisung, um fachliche Inhalte aufzurufen. Auditoren sind von den fachlichen Reihenabfragen ausgeschlossen.</p>
+<h3 id="it-datenschutz-3">7.3 Vorhandene Schutzmaßnahmen</h3>
+<ul>
+<li>Django-Anmeldung und Passwortvalidierung (Mindestlänge, Komplexität, Ähnlichkeits- und häufige-Passwort-Prüfung).</li>
+<li>Zentrale Serienzugriffsprüfungen; Auditoren erhalten keinen fachlichen Reihen-Zugriff.</li>
+<li>CSRF-Middleware, sichere HTTP-Header und konfigurierbare TLS-/Cookie-/HSTS-Einstellungen.</li>
+<li>Geschützte Datei-Downloads mit Login- und Serienprüfung, Pfadbegrenzung auf das Medienverzeichnis sowie privaten Cache-Headern und nosniff-Schutz.</li>
+<li>Konfigurierbares Uploadlimit, Importvorschau und CSV-Formelprävention.</li>
+<li>Getrennte Änderungsverläufe für fachliche Serienereignisse und administrative Systemereignisse.</li>
+<li>Docker-App-Prozess ohne Root-Rechte; PostgreSQL und App-Port werden im Compose-Netz nicht direkt nach außen veröffentlicht.</li>
+</ul>
+<p>Wichtig: Die Standardinstallation aktiviert HTTPS-Redirect und sichere Cookies nicht automatisch. Für den Produktivbetrieb muss die TLS-Terminierung und Proxy-Konfiguration ausdrücklich eingerichtet und getestet werden. Eine Malware-Prüfung für Uploads sowie MFA sind im geprüften Anwendungskern nicht belegt.</p>
+<h3 id="it-datenschutz-4">7.4 Wesentliche Risiken und konkrete Gegenmaßnahmen</h3>
+<table class="guide-table">
+<thead><tr><th>Risiko</th><th>Empfohlene Vorgehensweise</th></tr></thead>
+<tbody>
+<tr><td>Unverschlüsselte Übertragung bei HTTP-Standardbetrieb</td><td>HTTPS-Reverse-Proxy mit gültigem Zertifikat einrichten, App-Port auf Proxy/vertrauenswürdige Netze begrenzen, Forwarded-Header überschreiben und sichere Cookie-/Redirect-Optionen aktivieren. Login, Cookies und Upload/Download anschließend praktisch testen.</td></tr>
+<tr><td>Fehlerhafte Serienberechtigungen oder neue Endpunkte</td><td>Jede View, API, Datei- und Exportfunktion mit Leser, Teilnehmer, Moderator, Admin ohne Serienzuweisung, Admin mit Serienzuweisung und Auditor testen. Auch direkte Objekt-IDs und schreibende HTTP-Methoden abdecken. Quartalsweise Berechtigungen bestätigen lassen.</td></tr>
+<tr><td>Kompromittierte Konten</td><td>MFA über Identity Provider oder vorgeschaltete Zugangskontrolle ergänzen, Login-Rate-Limits aktivieren, Fehlversuche überwachen, persönliche Konten erzwingen und Austritte unverzüglich deaktivieren.</td></tr>
+<tr><td>Schadsoftware in Anlagen</td><td>Zulässige Dateitypen festlegen, echte Dateiinhalte prüfen, Uploads zunächst in Quarantäne speichern und vor Freigabe mit einem Malware-Scanner untersuchen. Bei Scanner-Ausfall keine ungeprüften Dateien freigeben.</td></tr>
+<tr><td>Unnötige sensible Informationen in Protokollen</td><td>Nutzungsrichtlinie und Feldhinweise einführen, nur erforderliche Informationen aufnehmen, Fachverantwortliche benennen und Aufbewahrungs-/Löschfristen für Protokolle, Snapshots, Kommentare und Anlagen festlegen.</td></tr>
+<tr><td>CSV- und Vollbackup-Kopien</td><td>Exporte auf Admins begrenzen, Zweck und Empfänger dokumentieren, Dateien verschlüsselt ablegen und nach Übergabe löschen. Importe mit Vorschau und Vier-Augen-Prüfung freigeben.</td></tr>
+<tr><td>Manipulation oder übermäßige Einsicht in Audit-Daten</td><td>Audit-Inhalte minimieren, Zugriffe beschränken, sicherheitsrelevante Ereignisse zusätzlich an einen getrennten Logserver/SIEM senden und dort manipulationsgeschützt aufbewahren.</td></tr>
+<tr><td>Datenverlust / nicht getestete Sicherungen</td><td>Datenbank und Medien-Volume verschlüsselt und getrennt sichern, RPO/RTO definieren und mindestens quartalsweise eine vollständige Wiederherstellung in einer Testumgebung durchführen.</td></tr>
+<tr><td>Veraltete Abhängigkeiten und Images</td><td>Regelmäßige Abhängigkeits- und Image-Scans, Patchfristen und Testumgebung einführen. Produktionsupdates nur aus freigegebenen Branches/Tags übernehmen und vor Migrationen sichern.</td></tr>
+</tbody></table>
+<h3 id="it-datenschutz-5">7.5 Datenschutz und Freigabe</h3>
+<p>Vor dem Produktiveinsatz sind Zweck und Rechtsgrundlage, Hostingstandort und Unterauftragnehmer, Nutzerinformation, Aufbewahrung und Löschung, Betroffenenrechte sowie die Notwendigkeit einer Datenschutz-Folgenabschätzung zu prüfen. Die Nutzung zur Leistungs- oder Verhaltenskontrolle ist gesondert zu bewerten. Die vollständige technische Bewertung mit Maßnahmenplan, Zuständigkeiten, Prüfgrundlage und Freigabevermerk ist im PDF dokumentiert.</p>
+
 </article>
 <aside class="card guide-index"><h2 style="margin-top:0">Inhaltsverzeichnis</h2>
 <a href="#rollen">1. Rollen im Überblick</a>
@@ -153,7 +200,13 @@
 <div class="guide-index-group"><a href="#teilnehmer">3. Teilnehmer</a><a class="guide-index-sub" href="#teilnehmer-1">3.1 Themenverwaltung</a><a class="guide-index-sub" href="#teilnehmer-2">3.2 Tagesordnungspunkte bearbeiten</a><a class="guide-index-sub" href="#teilnehmer-3">3.3 Aufgaben und offene Punkte</a><a class="guide-index-sub" href="#teilnehmer-4">3.4 Wiedervorlagen und Verschieben</a><a class="guide-index-sub" href="#teilnehmer-5">3.5 Protokolle</a></div>
 <div class="guide-index-group"><a href="#moderator">4. Moderator</a><a class="guide-index-sub" href="#moderator-1">4.1 Besprechungsreihen</a><a class="guide-index-sub" href="#moderator-2">4.2 Termine und Teilnehmerlisten</a><a class="guide-index-sub" href="#moderator-3">4.3 Protokolle und Sitzungsabschluss</a><a class="guide-index-sub" href="#moderator-4">4.4 Themenverwaltung und Archiv</a><a class="guide-index-sub" href="#moderator-5">4.5 Änderungsverlauf</a><a class="guide-index-sub" href="#moderator-6">4.6 Berechtigungen</a></div>
 <div class="guide-index-group"><a href="#admin">5. Globale Rollen und Verwaltung</a><a class="guide-index-sub" href="#admin-1">5.1 Verwaltung</a><a class="guide-index-sub" href="#admin-2">5.2 Benutzerverwaltung</a><a class="guide-index-sub" href="#admin-3">5.3 Gruppen und Reihenberechtigungen</a><a class="guide-index-sub" href="#admin-4">5.4 Datenimport und -export</a><a class="guide-index-sub" href="#admin-5">5.5 Organisationseinstellungen</a><a class="guide-index-sub" href="#admin-6">5.6 Besprechungsreihen löschen und Historie erhalten</a><a class="guide-index-sub" href="#admin-7">5.7 Verwaltungsdaten und Protokolle</a></div>
-<div class="guide-index-group"><a href="#faq">6. Häufige Fragen</a><a class="guide-index-sub" href="#faq-1">6.1 Warum sind keine Änderungen möglich?</a><a class="guide-index-sub" href="#faq-2">6.2 Warum lässt sich ein Thema nicht archivieren?</a><a class="guide-index-sub" href="#faq-3">6.3 Warum weicht das Protokoll vom aktuellen Themenstand ab?</a><a class="guide-index-sub" href="#faq-4">6.4 Was ist der Unterschied zwischen Thema und Tagesordnungspunkt?</a><a class="guide-index-sub" href="#faq-5">6.5 An wen kann bei fehlendem Zugriff gewendet werden?</a><a class="guide-index-sub" href="#faq-6">6.6 Smartphone und Tablet</a></div>
+<div class="guide-index-group"><a href="#faq">6. Häufige Fragen</a>
+<a href="#it-datenschutz">7. IT, Informationssicherheit und Datenschutz</a>
+<a class="guide-index-sub" href="#it-datenschutz-1">7.1 Zweck und Daten</a>
+<a class="guide-index-sub" href="#it-datenschutz-2">7.2 Rollen und Berechtigungen</a>
+<a class="guide-index-sub" href="#it-datenschutz-3">7.3 Schutzmaßnahmen</a>
+<a class="guide-index-sub" href="#it-datenschutz-4">7.4 Risiken und Gegenmaßnahmen</a>
+<a class="guide-index-sub" href="#it-datenschutz-5">7.5 Datenschutz und Freigabe</a><a class="guide-index-sub" href="#faq-1">6.1 Warum sind keine Änderungen möglich?</a><a class="guide-index-sub" href="#faq-2">6.2 Warum lässt sich ein Thema nicht archivieren?</a><a class="guide-index-sub" href="#faq-3">6.3 Warum weicht das Protokoll vom aktuellen Themenstand ab?</a><a class="guide-index-sub" href="#faq-4">6.4 Was ist der Unterschied zwischen Thema und Tagesordnungspunkt?</a><a class="guide-index-sub" href="#faq-5">6.5 An wen kann bei fehlendem Zugriff gewendet werden?</a><a class="guide-index-sub" href="#faq-6">6.6 Smartphone und Tablet</a></div>
 </aside>
 </div>
 <script>
