@@ -527,16 +527,6 @@ def management_user_edit(request, pk=None):
             with transaction.atomic():
                 passwordless_creation = not instance and not form.cleaned_data.get("password1")
                 user = form.save()
-                if passwordless_creation:
-                    from django.contrib.auth.forms import PasswordResetForm
-                    reset_form = PasswordResetForm({"email": user.email})
-                    if reset_form.is_valid():
-                        reset_form.save(
-                            request=request,
-                            use_https=request.is_secure(),
-                            email_template_name="registration/password_reset_email.html",
-                            subject_template_name="registration/password_reset_subject.txt",
-                        )
                 after = {
                     "Vorname": user.first_name,
                     "Nachname": user.last_name,
@@ -558,11 +548,23 @@ def management_user_edit(request, pk=None):
                     summary=f"Benutzerkonto „{user_display_name_with_login(user)}“ {'geändert' if instance else 'angelegt'}",
                     changes=changes,
                 )
+            if passwordless_creation:
+                request.session["new_user_initial_password"] = {
+                    "user_id": user.pk, "username": user.username, "password": form.generated_password,
+                }
+                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde angelegt. Das Startpasswort wird einmalig angezeigt.")
+                return redirect("management_user_edit", pk=user.pk)
             messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
             return redirect("management_users")
+    initial_password = None
+    if instance:
+        pending_credential = request.session.get("new_user_initial_password")
+        if pending_credential and pending_credential.get("user_id") == instance.pk:
+            initial_password = request.session.pop("new_user_initial_password")
     return render(request, "meetings/management_user_form.html", {
         "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
         "is_new": instance is None, "testing_mode": _testing_mode_enabled(),
+        "initial_password": initial_password,
     })
 
 
