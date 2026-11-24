@@ -326,7 +326,7 @@ class AuditHistoryTests(TestCase):
         self.client.force_login(admin)
         response = self.client.post(reverse("management_user_edit", args=[target.pk]), {
             "first_name": "Neu", "last_name": "Name", "email": "new@example.test",
-            "is_active": "on", "short_description": "Team A", "role": "auditor",
+            "is_active": "true", "short_description": "Team A", "role": "auditor",
         })
         self.assertRedirects(response, reverse("management_users"))
         from .models import AuditEvent
@@ -336,6 +336,39 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(event.changes["Kurzbeschreibung"], {"vorher": "", "nachher": "Team A"})
         self.assertEqual(event.changes["Globale Rolle"]["nachher"], "Auditor")
 
+    def test_admin_can_delete_user_and_deletion_is_audited(self):
+        from .models import AuditEvent
+        admin = User.objects.create_superuser(username="delete-admin", email="delete-admin@example.com", password="strong-test-password")
+        target = User.objects.create_user(username="delete-target", password="strong-test-password", first_name="Delete", last_name="Me")
+        self.client.force_login(admin)
+        response = self.client.post(reverse("management_user_delete", args=[target.pk]))
+        self.assertRedirects(response, reverse("management_users"))
+        self.assertFalse(User.objects.filter(pk=target.pk).exists())
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="delete-target")
+        self.assertEqual(event.action, "deleted")
+        self.assertEqual(event.changes["Benutzername"], {"vorher": "delete-target", "nachher": None})
+
+    def test_admin_cannot_delete_own_account(self):
+        admin = User.objects.create_superuser(username="self-delete-admin", email="self-delete@example.com", password="strong-test-password")
+        self.client.force_login(admin)
+        response = self.client.post(reverse("management_user_delete", args=[admin.pk]))
+        self.assertRedirects(response, reverse("management_users"))
+        self.assertTrue(User.objects.filter(pk=admin.pk).exists())
+
+    def test_user_active_status_is_a_select_field(self):
+        admin = User.objects.create_superuser(username="active-field-admin", email="active-field@example.com", password="strong-test-password")
+        target = User.objects.create_user(username="active-field-target", password="strong-test-password")
+        self.client.force_login(admin)
+        response = self.client.get(reverse("management_user_edit", args=[target.pk]))
+        self.assertContains(response, '<select name="is_active"')
+        self.assertContains(response, '<option value="true" selected>')
+        response = self.client.post(reverse("management_user_edit", args=[target.pk]), {
+            "first_name": "", "last_name": "", "email": "", "is_active": "false",
+            "short_description": "", "role": "user",
+        })
+        self.assertRedirects(response, reverse("management_users"))
+        target.refresh_from_db()
+        self.assertFalse(target.is_active)
     def test_admin_and_auditor_see_system_events_but_not_series_events(self):
         from .models import AuditEvent
         from .user_roles import sync_user_role
