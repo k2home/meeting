@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
-from django.db.models.functions import RowNumber
+from django.db.models.functions import RowNumber, Coalesce
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -412,15 +412,24 @@ def my_tasks(request):
     else:
         selected_series = ""
 
-    main_meeting_filter = (
-        Q(agenda_items__meeting__in=visible_meetings)
-        & Q(agenda_items__meeting__finalized_at__isnull=True)
+    agenda_dates = AgendaItem.objects.filter(
+        topic=OuterRef("pk"),
+        meeting__in=visible_meetings,
+        meeting__finalized_at__isnull=True,
     )
+    if selected_series_id:
+        agenda_dates = agenda_dates.filter(meeting__series_id=selected_series_id)
+    upcoming_agenda_date = agenda_dates.filter(
+        meeting__date__gte=today
+    ).order_by("meeting__date", "pk").values("meeting__date")[:1]
+    latest_past_agenda_date = agenda_dates.filter(
+        meeting__date__lt=today
+    ).order_by("-meeting__date", "-pk").values("meeting__date")[:1]
+
     latest_agenda_query = AgendaItem.objects.filter(
         topic=OuterRef("pk"), meeting__in=visible_meetings
     )
     if selected_series_id:
-        main_meeting_filter &= Q(agenda_items__meeting__series_id=selected_series_id)
         latest_agenda_query = latest_agenda_query.filter(
             meeting__series_id=selected_series_id
         )
@@ -428,7 +437,12 @@ def my_tasks(request):
     main_topics_query = accessible_topics(request.user).filter(
         assigned_to=request.user, status__in=["open", "in_progress"]
     ).select_related("series").annotate(
-        next_meeting_date=Min("agenda_items__meeting__date", filter=main_meeting_filter),
+        # A scheduled upcoming meeting takes precedence over old unfinished agenda entries.
+        # Only fall back to the latest past meeting when no future appointment exists.
+        next_meeting_date=Coalesce(
+            Subquery(upcoming_agenda_date),
+            Subquery(latest_past_agenda_date),
+        ),
         latest_agenda_text=Subquery(
             latest_agenda_query.order_by("-meeting__date", "-pk")
             .values("working_text")[:1]
