@@ -19,17 +19,24 @@
 </div>
 </section>
 <section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><div class="actions"><a href="{% url 'archive' %}">Zum Archiv</a>{% if not is_reader %}<button type="button" id="open-dashboard-new-topic">+ Neu</button>{% endif %}</div></div>
-<form method="get" class="card filter-panel" style="margin:.8rem 0">
-<label for="topic-search">Thema suchen</label>
-<input id="topic-search" type="search" name="q" value="{{ query }}" placeholder="Titel, Besprechungstext oder Reihe …">
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem">
+<div class="card filter-panel" style="margin:.8rem 0">
+<form id="dashboard-topic-search-form" method="get" action="{% url 'dashboard' %}" style="margin:0 0 .8rem">
+  <label for="topic-search">Thema suchen</label>
+  <div class="actions" style="align-items:center">
+    <input id="topic-search" type="search" name="q" value="{{ query }}" placeholder="Titel, Besprechungstext, Kommentare oder Reihe …" style="flex:1 1 260px;margin:0">
+    <button type="submit" class="secondary">Suchen</button>
+  </div>
+</form>
+<form method="get" action="{% url 'dashboard' %}" style="margin:0">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem">
 <div><label for="filter-due">Nächste Besprechung</label><select id="filter-due" name="due"><option value="next_week" {% if selected_due == "next_week" %}selected{% endif %}>Nächste Woche</option><option value="today" {% if selected_due == "today" %}selected{% endif %}>Heute terminiert</option><option value="overdue" {% if selected_due == "overdue" %}selected{% endif %}>Überfällige Wiedervorlage</option><option value="future" {% if selected_due == "future" %}selected{% endif %}>Künftig terminiert</option><option value="without_date" {% if selected_due == "without_date" %}selected{% endif %}>Ohne Nächste Besprechung</option><option value="">Alle Besprechungen</option></select></div>
 <div><label for="filter-status">Bearbeitungsstand</label><select id="filter-status" name="status"><option value="active" {% if selected_status == "active" %}selected{% endif %}>Offen oder in Arbeit</option><option value="open" {% if selected_status == "open" %}selected{% endif %}>Nur offen</option><option value="in_progress" {% if selected_status == "in_progress" %}selected{% endif %}>In Arbeit</option><option value="done" {% if selected_status == "done" %}selected{% endif %}>Erledigt</option><option value="all" {% if selected_status == "all" %}selected{% endif %}>Alle</option></select></div>
 <div><label for="filter-series">Besprechungsreihe</label><select id="filter-series" name="series"><option value="">Alle Reihen</option>{% for item in series_options %}<option value="{{ item.pk }}" {% if selected_series == item.pk|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>{% endfor %}</select></div>
 <div><label for="filter-assignee">Verantwortlich</label><select id="filter-assignee" name="assigned_to"><option value="">Alle Personen</option><option value="{{ request.user.pk }}" {% if selected_assignee == request.user.pk|stringformat:"s" %}selected{% endif %}>{{ own_assignee_label }}</option><option value="unassigned" {% if selected_assignee == "unassigned" %}selected{% endif %}>Ohne Zuständigkeit</option>{% for person in assignee_options %}<option value="{{ person.pk }}" {% if selected_assignee == person.pk|stringformat:"s" %}selected{% endif %}>{{ person|user_display }}</option>{% endfor %}</select></div>
-</div>
-<div class="actions"><button type="submit" class="secondary">Suchen / filtern</button><a class="btn secondary" href="{% url 'dashboard' %}">Zurücksetzen</a></div>
+  </div>
+  <div class="actions"><button type="submit" class="secondary">Filtern</button><a class="btn secondary" href="{% url 'dashboard' %}">Filter zurücksetzen</a></div>
 </form>
+</div>
 {% if topics %}<div style="overflow-x:auto"><table id="dashboard-topics-table"><thead><tr>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="0" data-sort-type="text">Thema <span aria-hidden="true">↕</span></button></th>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="1" data-sort-type="text">Besprechungsreihe <span aria-hidden="true">↕</span></button></th>
@@ -84,6 +91,20 @@
 </style>
 <script>
 (() => {
+  const searchForm = document.getElementById("dashboard-topic-search-form");
+  const searchScrollKey = "dashboard-topic-search-scroll";
+  searchForm?.addEventListener("submit", () => {
+    sessionStorage.setItem(searchScrollKey, String(window.scrollY));
+  });
+  const savedSearchScroll = sessionStorage.getItem(searchScrollKey);
+  if (savedSearchScroll !== null) {
+    sessionStorage.removeItem(searchScrollKey);
+    const scrollY = Number(savedSearchScroll);
+    if (Number.isFinite(scrollY)) {
+      requestAnimationFrame(() => window.scrollTo({ top: scrollY, left: 0, behavior: "instant" }));
+    }
+  }
+
   const newTopicDialog = document.getElementById("dashboard-new-topic-dialog");
   const openNewTopic = document.getElementById("open-dashboard-new-topic");
   const closeNewTopic = document.getElementById("close-dashboard-new-topic");
