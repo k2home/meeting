@@ -1,6 +1,7 @@
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.conf import settings
+from django.contrib.auth import logout
 from django.utils import timezone
 
 
@@ -39,9 +40,14 @@ class EnforcePasswordChangeMiddleware:
 
     def __call__(self, request):
         user = getattr(request, "user", None)
-        if user is not None and user.is_authenticated and request.path_info not in self.ALLOWED_PATHS:
-            profile = getattr(user, "meeting_profile", None)
-            if (profile is not None and profile.must_change_password) or not user.has_usable_password():
-                from django.shortcuts import redirect
-                return redirect("/konto/passwort-aendern/")
+        if user is not None and user.is_authenticated:
+            from .password_setup import expire_password_setup_if_due
+            from django.shortcuts import redirect
+            if expire_password_setup_if_due(user):
+                logout(request)
+                return redirect("login")
+            if request.path_info not in self.ALLOWED_PATHS:
+                profile = getattr(user, "meeting_profile", None)
+                if (profile is not None and profile.must_change_password) or not user.has_usable_password():
+                    return redirect("/konto/passwort-aendern/")
         return self.get_response(request)
