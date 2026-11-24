@@ -55,7 +55,6 @@ class ForcedPasswordChangeTests(TestCase):
         self.client.force_login(self.admin)
         response = self.client.post(reverse("management_user_password_reset", args=[account.pk]))
         self.assertRedirects(response, reverse("management_user_edit", args=[account.pk]))
-        self.assertEqual(len(self.client.session.get("django.contrib.messages", [])), 0) if False else None
         account.refresh_from_db()
         self.assertTrue(account.check_password("OldPassword1!"))
         self.assertTrue(account.meeting_profile.must_change_password)
@@ -67,3 +66,12 @@ class ForcedPasswordChangeTests(TestCase):
         self.assertRedirects(login_response, reverse("dashboard"))
         forced_response = self.client.get(reverse("dashboard"))
         self.assertRedirects(forced_response, reverse("forced_password_change"))
+        change_response = self.client.post(reverse("forced_password_change"), {
+            "old_password": "OldPassword1!",
+            "new_password1": "NewPersonalPassword1!",
+            "new_password2": "NewPersonalPassword1!",
+        })
+        self.assertRedirects(change_response, reverse("dashboard"))
+        account.refresh_from_db()
+        self.assertTrue(account.check_password("NewPersonalPassword1!"))
+        self.assertFalse(account.meeting_profile.must_change_password)
