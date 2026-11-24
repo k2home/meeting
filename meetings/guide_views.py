@@ -7,6 +7,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.safestring import mark_safe
+import markdown
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -23,6 +25,22 @@ from reportlab.platypus import (
 def user_guide(request):
     """Role-independent user documentation for all authenticated users."""
     return render(request, "meetings/user_guide.html")
+
+
+@login_required
+def security_description(request):
+    """Show the complete IT, security and privacy assessment as a separate help page."""
+    source = Path(settings.BASE_DIR) / "docs" / "Funktions-und-Sicherheitsbeschreibung.md"
+    if not source.is_file():
+        return HttpResponse("Die Sicherheitsbeschreibung ist derzeit nicht verfügbar.", status=404)
+    content = markdown.markdown(
+        source.read_text(encoding="utf-8"),
+        extensions=["tables", "fenced_code", "sane_lists", "toc"],
+        output_format="html5",
+    )
+    return render(request, "meetings/security_description.html", {
+        "security_description_html": mark_safe(content),
+    })
 
 
 def _inline_markup(value):
