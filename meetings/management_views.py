@@ -68,7 +68,7 @@ class ManagedUserCreateForm(UserCreationForm):
     last_name = forms.CharField(label="Nachname", max_length=150, required=False)
     email = forms.EmailField(label="E-Mail-Adresse", required=False)
     short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
-    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES, initial="user")
+    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES, initial="user", required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -121,7 +121,7 @@ class ManagedUserCreateForm(UserCreationForm):
                     "password_setup_expires_at": timezone.now() + timedelta(hours=24) if passwordless_creation else None,
                 },
             )
-            sync_user_role(user, self.cleaned_data["role"])
+            sync_user_role(user, self.cleaned_data.get("role") or "user")
         return user
 
 
