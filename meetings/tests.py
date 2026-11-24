@@ -346,6 +346,29 @@ class MyTasksViewTests(TestCase):
         self.assertEqual(list(response.context["main_topics"]), [self.overdue])
         self.assertNotIn(self.overdue, [item.topic for item in response.context["agenda_tasks"]])
 
+    def test_upcoming_meeting_prevents_previous_agenda_item_from_appearing_overdue(self):
+        from datetime import timedelta
+        from django.utils import timezone
+
+        self.overdue.assigned_to = self.user
+        self.overdue.save(update_fields=["assigned_to"])
+        upcoming_meeting = Meeting.objects.create(
+            series=self.series, date=timezone.localdate() + timedelta(days=7)
+        )
+        AgendaItem.objects.create(
+            meeting=upcoming_meeting, topic=self.overdue, status="open"
+        )
+
+        response = self.client.get(reverse("my_tasks"))
+
+        self.assertEqual(response.status_code, 200)
+        topic = next(
+            item for item in response.context["main_topics"]
+            if item.pk == self.overdue.pk
+        )
+        self.assertEqual(topic.next_meeting_date, upcoming_meeting.date)
+        self.assertNotContains(response, "Überfällig ·")
+
     def test_my_tasks_requires_login(self):
         self.client.logout()
         response = self.client.get(reverse("my_tasks"))
@@ -385,6 +408,31 @@ class OpenTopicsViewTests(TestCase):
         self.assertNotContains(response, "Erledigt")
         self.assertNotContains(response, "Schon terminiert")
         self.assertNotContains(response, "Fremde Reihe")
+
+    def test_hides_open_items_from_today_until_meeting_is_finalized(self):
+        from django.utils import timezone
+
+        today = timezone.localdate()
+        current_topic = Topic.objects.create(title="Heutige Sitzung noch offen", series=self.series)
+        finalized_series = MeetingSeries.objects.create(name="Abgeschlossene Tagesreihe")
+        SeriesAccess.objects.create(
+            user=self.user, series=finalized_series, role=SeriesAccess.ROLE_PARTICIPANT
+        )
+        finalized_topic = Topic.objects.create(
+            title="Heutige Sitzung abgeschlossen", series=finalized_series
+        )
+        current_meeting = Meeting.objects.create(series=self.series, date=today)
+        finalized_meeting = Meeting.objects.create(
+            series=finalized_series, date=today, finalized_at=timezone.now()
+        )
+        AgendaItem.objects.create(meeting=current_meeting, topic=current_topic, status="open")
+        AgendaItem.objects.create(meeting=finalized_meeting, topic=finalized_topic, status="open")
+
+        response = self.client.get(reverse("open_topics"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Heutige Sitzung noch offen")
+        self.assertContains(response, "Heutige Sitzung abgeschlossen")
 
     def test_participant_can_schedule_open_agenda_item_on_future_meeting(self):
         topic = Topic.objects.create(title="Auf Tagesordnung", series=self.series)

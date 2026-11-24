@@ -33,11 +33,17 @@
 <div class="topic-layout">
  <div class="topic-main">
   <section class="card">
-   <h2>Thementitel</h2>
-   {% if is_reader %}{{ form.title }}
+   <h2>Thema</h2>
+   {% if is_reader %}
+     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
+     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
    {% else %}<form method="post">{% csrf_token %}
-     {{ form.title.errors }}{{ form.title }}
-     <button type="submit">Titel speichern</button>
+     {{ form.title.errors }}
+     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
+     {{ form.assigned_to.errors }}
+     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
+     <p class="muted">Die Hauptzuständigkeit gilt für das gesamte Thema. Abweichende Zuständigkeiten einzelner Tagesordnungspunkte bleiben davon unberührt.</p>
+     <button type="submit">Thema speichern</button>
    </form>{% endif %}
   </section>
   <section class="card">
@@ -97,11 +103,32 @@
    </form>
    {% endif %}
   </section>
-  <section class="card"><h2>Dateien und Anlagen</h2>
-   {% if not is_reader %}<p><a class="btn" href="{% url 'attachment_add' topic.pk %}">Anlage hinzufügen</a></p>{% endif %}
+  <section class="card" id="topic-attachments"><h2>Dateien und Anlagen</h2>
+   <p class="muted">Alle Unterlagen zu diesem Thema an einem Ort. Dateien können geöffnet oder heruntergeladen werden; Netzwerkpfade und Links bleiben direkt erreichbar.</p>
    {% for a in topic.attachments.all %}
-    <p><strong>{{ a.label }}</strong><br>{% if a.uploaded_file %}<a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a>{% endif %}{% if a.network_path %}<br>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}{% endif %}</p>
+    <div class="topic-attachment" style="display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap;padding:.7rem 0;border-bottom:1px solid var(--border)">
+     <div style="min-width:0;overflow-wrap:anywhere">
+      <strong>{{ a.label }}</strong>
+      {% if a.uploaded_file %}<div><a href="{% url 'attachment_download' a.pk %}">Datei öffnen</a> <span class="muted" data-file-size="{{ a.uploaded_file.size }}">({{ a.uploaded_file.size|filesizeformat }})</span></div>{% endif %}
+      {% if a.network_path %}<div>{% if a.network_url %}<a href="{{ a.network_url }}">{{ a.network_path }}</a>{% else %}<span>{{ a.network_path }}</span>{% endif %}</div>{% endif %}
+     </div>
+     {% if not is_reader %}<form method="post" action="{% url 'attachment_delete' a.pk %}" data-confirm-message="Anlage „{{ a.label }}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.">{% csrf_token %}<input type="hidden" name="next" value="{% url 'topic_edit' topic.pk %}#topic-attachments"><button type="submit" class="secondary">Anlage löschen</button></form>{% endif %}
+    </div>
    {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
+   {% if not is_reader %}
+    <form method="post" action="{% url 'attachment_add' topic.pk %}" enctype="multipart/form-data" class="topic-attachment-upload" style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+     {% csrf_token %}
+     <input type="hidden" name="next" value="{% url 'topic_edit' topic.pk %}#topic-attachments">
+     <h3>Anlage hinzufügen</h3>
+     <label for="topic-attachment-label">Bezeichnung</label>
+     <input id="topic-attachment-label" name="label" maxlength="180" required>
+     <label for="topic-attachment-file">Datei hochladen</label>
+     <input id="topic-attachment-file" name="uploaded_file" type="file">
+     <label for="topic-attachment-path">Netzwerkpfad oder Link (alternativ zur Datei)</label>
+     <input id="topic-attachment-path" name="network_path" maxlength="1000">
+     <div class="topic-meeting-actions"><button type="submit">Anlage hinzufügen</button></div>
+    </form>
+   {% endif %}
   </section>
   {% if not is_reader and transfer_series %}
   <section class="card"><h2>Besprechungsreihe wechseln</h2>

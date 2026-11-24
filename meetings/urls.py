@@ -6,6 +6,7 @@ from . import guide_views
 from . import management_views
 from . import enaio_agent_views
 from . import setup_views
+from . import audit_export
 
 urlpatterns = [
     path("setup/", setup_views.setup_wizard, name="setup_wizard"),
@@ -47,9 +48,12 @@ urlpatterns = [
     path("topics/<int:pk>/transfer/", views.topic_transfer, name="topic_transfer"),
     path("topics/<int:pk>/attachments/add/", views.attachment_add, name="attachment_add"),
     path("attachments/<int:pk>/download/", views.attachment_download, name="attachment_download"),
+    path("attachments/<int:pk>/delete/", views.attachment_delete, name="attachment_delete"),
+    path("meeting/<int:meeting_pk>/agenda/<int:item_pk>/attachments/add/", views.agenda_attachment_add, name="agenda_attachment_add"),
     path("organization/logo/", views.organization_logo, name="organization_logo"),
     path("archive/", views.archive, name="archive"),
     path("history/", views.audit_history, name="audit_history"),
+    path("history/export.csv", audit_export.audit_history_csv, name="audit_history_csv"),
     path("konto/passwort-zuruecksetzen/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(template_name="meetings/password_reset_confirm.html"), name="password_reset_confirm"),
     path("konto/passwort-zuruecksetzen/abgeschlossen/", auth_views.PasswordResetCompleteView.as_view(template_name="meetings/password_reset_complete.html"), name="password_reset_complete"),
     path("verwaltung/", management_views.management_home, name="management_home"),

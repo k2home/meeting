@@ -7,6 +7,7 @@
   <p class="muted">Hier siehst du, wer wann welche Änderungen vorgenommen hat. Die Einträge werden automatisch erzeugt und können nicht über die Oberfläche bearbeitet werden.</p></div>
 </header>
 <div class="card no-print">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:.75rem"><a class="btn secondary" href="{% url 'audit_history_csv' %}?{{ request.GET.urlencode }}">Änderungsverlauf als CSV exportieren</a></div>
   <form method="get" class="audit-filter-grid">
     <div><label for="topic-filter">Nach Thema filtern</label>
       <select id="topic-filter" name="topic">
@@ -20,9 +21,15 @@
         {% for item in series %}<option value="{{ item.pk }}" {% if selected_series == item.pk|stringformat:"s" %}selected{% endif %}>{{ item.name }}</option>{% endfor %}
       </select>
     </div>
+    <div><label for="action-filter">Nach Aktion filtern</label>
+      <select id="action-filter" name="action">
+        <option value="">Alle Aktionen</option>
+        {% for value, label in actions %}<option value="{{ value }}" {% if selected_action == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>
+    </div>
     <div class="audit-filter-actions">
       <button type="submit" class="secondary">Filtern</button>
-      {% if selected_topic or selected_series %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
+      {% if selected_topic or selected_series or selected_action %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
     </div>
   </form>
 </div>
@@ -66,6 +73,44 @@
 {% empty %}
   <div class="card"><p>Noch keine Änderungen vorhanden.</p></div>
 {% endfor %}
-{% if events|length == 250 %}<p class="muted">Es werden höchstens 250 Einträge angezeigt. Nutze den Themenfilter, um ältere Einträge gezielt zu finden.</p>{% endif %}
+{% if events.has_other_pages %}
+<nav class="pagination no-print" aria-label="Seiten im Änderungsverlauf" style="display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;justify-content:center;margin:1rem 0">
+  {% if events.has_previous %}
+    <a class="btn secondary" href="?page={{ events.previous_page_number }}{% if selected_series %}&amp;series={{ selected_series }}{% endif %}{% if selected_topic %}&amp;topic={{ selected_topic }}{% endif %}{% if selected_action %}&amp;action={{ selected_action|urlencode }}{% endif %}" rel="prev" aria-label="Vorherige Seite">← Zurück</a>
+  {% endif %}
+  {% for page_number in page_range %}
+    {% if page_number == events.paginator.ELLIPSIS %}
+      <span class="pagination-ellipsis" aria-hidden="true">…</span>
+    {% elif page_number == events.number %}
+      <span class="btn" aria-current="page" aria-label="Aktuelle Seite {{ page_number }}">{{ page_number }}</span>
+    {% else %}
+      <a class="btn secondary" href="?page={{ page_number }}{% if selected_series %}&amp;series={{ selected_series }}{% endif %}{% if selected_topic %}&amp;topic={{ selected_topic }}{% endif %}{% if selected_action %}&amp;action={{ selected_action|urlencode }}{% endif %}" aria-label="Seite {{ page_number }}">{{ page_number }}</a>
+    {% endif %}
+  {% endfor %}
+  {% if events.has_next %}
+    <a class="btn secondary" href="?page={{ events.next_page_number }}{% if selected_series %}&amp;series={{ selected_series }}{% endif %}{% if selected_topic %}&amp;topic={{ selected_topic }}{% endif %}{% if selected_action %}&amp;action={{ selected_action|urlencode }}{% endif %}" rel="next" aria-label="Nächste Seite">Weiter →</a>
+  {% endif %}
+</nav>
+<p class="muted" style="text-align:center">Seite {{ events.number }} von {{ events.paginator.num_pages }} · {{ events.paginator.count }} Einträge</p>
 {% endif %}
+{% endif %}
+<script>
+  (() => {
+    const storageKey = "auditHistoryScrollPosition";
+    const savedPosition = sessionStorage.getItem(storageKey);
+
+    if (savedPosition !== null) {
+      sessionStorage.removeItem(storageKey);
+      window.requestAnimationFrame(() => {
+        window.scrollTo(0, Number(savedPosition));
+      });
+    }
+
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest(".pagination a");
+      if (!link) return;
+      sessionStorage.setItem(storageKey, String(window.scrollY));
+    });
+  })();
+</script>
 {% endblock %}

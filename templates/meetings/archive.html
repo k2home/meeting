@@ -2,7 +2,7 @@
 {% load meeting_user_tags %}
 {% block content %}
 <header class="page-header"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></header>
-<section class="card">
+<section class="card archive-search-group" id="archive-topics">
   <h2>Archivierte Themen</h2>
   {% for topic in archived_topics %}
   <article class="content-divider">
@@ -10,7 +10,7 @@
   </article>
   {% empty %}<p class="muted">Es gibt keine archivierten Themen.</p>{% endfor %}
 </section>
-<section class="card">
+<section class="card archive-search-group" id="archive-agenda-items">
   <h2>Erledigte Tagesordnungspunkte</h2>
 {% for item in items %}
 <article class="content-divider">
@@ -20,4 +20,34 @@
 </article>
 {% empty %}<p class="muted">Es gibt noch keine erledigten Tagesordnungspunkte.</p>{% endfor %}
 </section>
+
+<!-- archive-live-search -->
+<script>
+(() => {
+  const lists = [...document.querySelectorAll(".archive-search-group")];
+  if (!lists.length || document.getElementById("archive-search")) return;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.id = "archive-search";
+  input.placeholder = "Archiv durchsuchen …";
+  input.setAttribute("aria-label", "Archiv durchsuchen");
+  input.setAttribute("aria-controls", lists.map(section => section.id).join(" "));
+  const feedback = document.createElement("p");
+  feedback.className = "muted";
+  feedback.setAttribute("aria-live", "polite");
+  feedback.hidden = true;
+  lists[0].before(input, feedback);
+  input.addEventListener("input", () => {
+    const term = input.value.trim().toLocaleLowerCase("de");
+    let visibleCount = 0;
+    lists.forEach(section => section.querySelectorAll("article").forEach(article => {
+      const visible = !term || article.textContent.toLocaleLowerCase("de").includes(term);
+      article.hidden = !visible;
+      if (visible) visibleCount++;
+    }));
+    feedback.hidden = !term || visibleCount > 0;
+    feedback.textContent = feedback.hidden ? "" : "Keine passenden Archiv-Einträge gefunden.";
+  });
+})();
+</script>
 {% endblock %}

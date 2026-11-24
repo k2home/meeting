@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from urllib.parse import quote, urlencode
 from xml.sax.saxutils import escape
 
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login, logout, get_user_model, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -15,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
-from django.db.models.functions import RowNumber
+from django.db.models.functions import RowNumber, Coalesce
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -149,38 +150,47 @@ def dashboard(request):
 
     topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
     query = request.GET.get("q", "").strip()
+    search_query = query.casefold()
     selected_status = request.GET.get("status", "all" if is_reader(request.user) and not has_writable_series(request.user) else "active")
     selected_series = request.GET.get("series", "")
     selected_assignee = request.GET.get("assigned_to", "" if is_reader(request.user) else str(request.user.pk))
     selected_due = request.GET.get("due", "next_week")
 
-    if selected_status == "active":
-        topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
-    elif selected_status in {"open", "in_progress", "done"}:
-        topics = topics.filter(agenda_items__status=selected_status)
-    elif selected_status != "all":
-        selected_status = "active"
-        topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
-
+    # A search is independent of all dashboard filters.
+    # Apply the filters only when no search term was submitted.
     if query:
         topics = topics.filter(
-            Q(title__icontains=query)
-            | Q(agenda_items__working_text__icontains=query)
-            | Q(series__name__icontains=query)
-            | Q(agenda_items__assigned_to__username__icontains=query)
-            | Q(agenda_items__assigned_to__first_name__icontains=query)
-            | Q(agenda_items__assigned_to__last_name__icontains=query)
+            Q(title__icontains=search_query)
+            | Q(agenda_items__working_text__icontains=search_query)
+            | Q(comments__body__icontains=search_query)
+            | Q(series__name__icontains=search_query)
+            | Q(agenda_items__assigned_to__username__icontains=search_query)
+            | Q(agenda_items__assigned_to__first_name__icontains=search_query)
+            | Q(agenda_items__assigned_to__last_name__icontains=search_query)
         )
-    if selected_series.isdigit():
-        topics = topics.filter(series_id=int(selected_series))
-    else:
+        selected_status = "all"
         selected_series = ""
-    if selected_assignee == "unassigned":
-        topics = topics.filter(agenda_items__assigned_to__isnull=True)
-    elif selected_assignee.isdigit():
-        topics = topics.filter(agenda_items__assigned_to_id=int(selected_assignee)).distinct()
-    else:
         selected_assignee = ""
+        selected_due = ""
+    else:
+        if selected_status == "active":
+            topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
+        elif selected_status in {"open", "in_progress", "done"}:
+            topics = topics.filter(agenda_items__status=selected_status)
+        elif selected_status != "all":
+            selected_status = "active"
+            topics = topics.filter(agenda_items__status__in=["open", "in_progress"])
+
+        if selected_series.isdigit():
+            topics = topics.filter(series_id=int(selected_series))
+        else:
+            selected_series = ""
+        if selected_assignee == "unassigned":
+            topics = topics.filter(agenda_items__assigned_to__isnull=True)
+        elif selected_assignee.isdigit():
+            topics = topics.filter(agenda_items__assigned_to_id=int(selected_assignee)).distinct()
+        else:
+            selected_assignee = ""
     latest_agenda_item = AgendaItem.objects.filter(
         topic_id=OuterRef("pk")
     ).order_by("-meeting__date", "-pk")
@@ -245,6 +255,7 @@ def dashboard(request):
             date__gte=today, finalized_at__isnull=True,
         ).select_related("series").order_by("series__name", "date"),
         "result_count": topics.count(),
+        "is_admin_user": is_admin(request.user),
     })
 
 
@@ -335,6 +346,9 @@ def open_topics(request):
         topic__status__in=["open", "in_progress", "done"],
         status__in=["open", "in_progress"],
         meeting__date__lte=today,
+    ).filter(
+        Q(meeting__date__lt=today)
+        | Q(meeting__date=today, meeting__finalized_at__isnull=False)
     ).filter(pk__in=Subquery(latest_item_ids)).select_related(
         "topic", "topic__series", "meeting", "assigned_to"
     ).order_by("topic__series__name", "topic__title")
@@ -390,44 +404,76 @@ def my_tasks(request):
     """Separate topic-level ownership from explicit agenda-item assignments."""
     today = timezone.localdate()
     visible_meetings = accessible_meetings(request.user)
+    series_options = accessible_series(request.user).order_by("name")
+    selected_series = request.GET.get("series", "")
+    selected_series_id = None
+    if selected_series.isdigit() and series_options.filter(pk=int(selected_series)).exists():
+        selected_series_id = int(selected_series)
+    else:
+        selected_series = ""
 
-    main_topics = list(
-        accessible_topics(request.user)
-        .filter(assigned_to=request.user, status__in=["open", "in_progress"])
-        .select_related("series")
-        .annotate(
-            next_meeting_date=Min(
-                "agenda_items__meeting__date",
-                filter=Q(agenda_items__meeting__in=visible_meetings)
-                & Q(agenda_items__meeting__finalized_at__isnull=True),
-            ),
-            latest_agenda_text=Subquery(
-                AgendaItem.objects.filter(topic=OuterRef("pk"), meeting__in=visible_meetings)
-                .order_by("-meeting__date", "-pk").values("working_text")[:1]
-            ),
+    agenda_dates = AgendaItem.objects.filter(
+        topic=OuterRef("pk"),
+        meeting__in=visible_meetings,
+        meeting__finalized_at__isnull=True,
+    )
+    if selected_series_id:
+        agenda_dates = agenda_dates.filter(meeting__series_id=selected_series_id)
+    upcoming_agenda_date = agenda_dates.filter(
+        meeting__date__gte=today
+    ).order_by("meeting__date", "pk").values("meeting__date")[:1]
+    latest_past_agenda_date = agenda_dates.filter(
+        meeting__date__lt=today
+    ).order_by("-meeting__date", "-pk").values("meeting__date")[:1]
+
+    latest_agenda_query = AgendaItem.objects.filter(
+        topic=OuterRef("pk"), meeting__in=visible_meetings
+    )
+    if selected_series_id:
+        latest_agenda_query = latest_agenda_query.filter(
+            meeting__series_id=selected_series_id
         )
-        .distinct()
-        .order_by(F("next_meeting_date").asc(nulls_last=True), "title")
-    )
 
-    agenda_tasks = list(
-        AgendaItem.objects.filter(
-            meeting__in=visible_meetings,
-            meeting__date__gte=today,
-            meeting__finalized_at__isnull=True,
-            assigned_to=request.user,
-            status__in=["open", "in_progress"],
-        ).select_related("topic", "topic__series", "meeting")
-        .order_by("meeting__date", "meeting__series__name", "position", "pk")
+    main_topics_query = accessible_topics(request.user).filter(
+        assigned_to=request.user, status__in=["open", "in_progress"]
+    ).select_related("series").annotate(
+        # A scheduled upcoming meeting takes precedence over old unfinished agenda entries.
+        # Only fall back to the latest past meeting when no future appointment exists.
+        next_meeting_date=Coalesce(
+            Subquery(upcoming_agenda_date),
+            Subquery(latest_past_agenda_date),
+        ),
+        latest_agenda_text=Subquery(
+            latest_agenda_query.order_by("-meeting__date", "-pk")
+            .values("working_text")[:1]
+        ),
     )
+    if selected_series_id:
+        main_topics_query = main_topics_query.filter(series_id=selected_series_id)
+    main_topics = list(main_topics_query.distinct().order_by(
+        F("next_meeting_date").asc(nulls_last=True), "title"
+    ))
 
-    # Keep the historical context key for integrations/tests while rendering
-    # the two responsibility types in distinct sections.
+    agenda_tasks_query = AgendaItem.objects.filter(
+        meeting__in=visible_meetings,
+        meeting__date__gte=today,
+        meeting__finalized_at__isnull=True,
+        assigned_to=request.user,
+        status__in=["open", "in_progress"],
+    ).select_related("topic", "topic__series", "meeting")
+    if selected_series_id:
+        agenda_tasks_query = agenda_tasks_query.filter(meeting__series_id=selected_series_id)
+    agenda_tasks = list(agenda_tasks_query.order_by(
+        "meeting__date", "meeting__series__name", "position", "pk"
+    ))
+
     return render(request, "meetings/my_tasks.html", {
         "topics": main_topics,
         "main_topics": main_topics,
         "agenda_tasks": agenda_tasks,
         "today": today,
+        "selected_series": selected_series,
+        "series_options": series_options,
         "overdue_count": sum(1 for topic in main_topics if topic.next_meeting_date and topic.next_meeting_date < today),
         "due_today_count": sum(1 for topic in main_topics if topic.next_meeting_date == today),
         "without_meeting_count": sum(1 for topic in main_topics if topic.next_meeting_date is None),
@@ -1085,6 +1131,9 @@ def attachment_add(request, pk):
                      changes={"Bezeichnung": obj.label, "Datei": obj.uploaded_file.name if obj.uploaded_file else None,
                               "Netzwerkpfad": obj.network_path or None})
         messages.success(request, "Anlage hinzugefügt.")
+        next_url = request.POST.get("next", "")
+        if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+            return redirect(next_url)
         return redirect("topic_edit", pk=pk)
     return render(request, "meetings/attachment_form.html", {"form": form, "topic": topic})
 
@@ -1099,6 +1148,88 @@ def organization_logo(request):
         raise Http404("Es ist kein Organisationslogo hinterlegt.")
     from .secure_files import serve_organization_logo
     return serve_organization_logo(organization.logo)
+
+
+@login_required
+def agenda_attachment_add(request, meeting_pk, item_pk):
+    """Add an attachment from the agenda item's attachment dialog."""
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+
+    meeting = get_object_or_404(accessible_meetings(request.user), pk=meeting_pk)
+    item = get_object_or_404(
+        AgendaItem.objects.select_related("topic", "topic__series"),
+        pk=item_pk, meeting=meeting,
+        topic__in=accessible_topics(request.user),
+    )
+    topic = item.topic
+    if (
+        is_reader(request.user, topic.series)
+        or (topic.series_id is None and not is_admin(request.user))
+    ):
+        return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
+
+    form = AttachmentForm(request.POST, request.FILES)
+    if form.is_valid():
+        attachment = form.save(commit=False)
+        attachment.topic = topic
+        attachment.save()
+        record_event(
+            actor=request.user,
+            action="attachment_added",
+            summary=f"Anlage „{attachment.label}“ zu „{topic.title}“ hinzugefügt",
+            topic=topic,
+            meeting=meeting,
+            changes={
+                "Bezeichnung": attachment.label,
+                "Datei": attachment.uploaded_file.name if attachment.uploaded_file else None,
+                "Netzwerkpfad": attachment.network_path or None,
+            },
+        )
+        messages.success(request, "Anlage hinzugefügt.")
+    else:
+        messages.error(request, "Die Anlage konnte nicht hinzugefügt werden. Bitte prüfe Bezeichnung, Datei und Netzwerkpfad.")
+    return redirect(reverse("meeting", args=[meeting.pk]) + f"?attachments={item.pk}#agenda-item-{item.pk}")
+
+
+@login_required
+def attachment_delete(request, pk):
+    """Delete one topic attachment, including its uploaded file when present."""
+    if request.method != "POST":
+        return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
+
+    attachment = get_object_or_404(
+        TopicAttachment.objects.select_related("topic__series"),
+        pk=pk,
+        topic__in=accessible_topics(request.user),
+    )
+    topic = attachment.topic
+    if (
+        (topic.series_id is None and not is_admin(request.user))
+        or (topic.series_id is not None and is_reader(request.user, topic.series))
+    ):
+        return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
+
+    file_name = attachment.uploaded_file.name if attachment.uploaded_file else ""
+    storage = attachment.uploaded_file.storage if file_name else None
+    label = attachment.label
+    with transaction.atomic():
+        record_event(
+            actor=request.user,
+            action="deleted",
+            summary=f"Anlage „{label}“ von „{topic.title}“ gelöscht",
+            topic=topic,
+            changes={"Anlage": label, "Datei": file_name or None, "Netzwerkpfad": attachment.network_path or None},
+        )
+        attachment.delete()
+        if file_name:
+            storage.delete(file_name)
+
+    messages.success(request, f"Anlage „{label}“ wurde gelöscht.")
+    next_url = request.POST.get("next") or request.GET.get("next", "")
+    if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        return redirect(next_url)
+    return redirect("topic_edit", pk=topic.pk)
 
 
 def attachment_download(request, pk):
@@ -2144,6 +2275,7 @@ def audit_history(request):
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
+    selected_action = request.GET.get("action", "")
 
     if has_history_permission:
         events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
@@ -2168,6 +2300,11 @@ def audit_history(request):
             topics = topics.filter(series_id=int(selected_series))
         else:
             selected_series = ""
+        valid_actions = {value for value, label in AuditEvent.ACTIONS}
+        if selected_action in valid_actions:
+            events = events.filter(action=selected_action)
+        else:
+            selected_action = ""
         if topic_id and topics.filter(pk=topic_id).exists():
             events = events.filter(topic_id=topic_id)
         else:
@@ -2175,10 +2312,19 @@ def audit_history(request):
     else:
         topic_id = ""
         selected_series = ""
+        selected_action = ""
+
+    paginator = Paginator(events, 50)
+    events_page = paginator.get_page(request.GET.get("page"))
 
     return render(request, "meetings/audit_history.html", {
-        "events": events[:250], "selected_topic": topic_id,
+        "events": events_page,
+        "page_range": paginator.get_elided_page_range(
+            number=events_page.number, on_each_side=2, on_ends=1,
+        ),
+        "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
+        "actions": AuditEvent.ACTIONS, "selected_action": selected_action,
         "has_history_permission": has_history_permission,
     })
 
