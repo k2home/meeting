@@ -232,6 +232,10 @@ class AuditEvent(models.Model):
 
     class Meta:
         ordering = ["-created_at", "-pk"]
+        indexes = [
+            models.Index(fields=["scope", "-created_at"], name="audit_scope_created_idx"),
+            models.Index(fields=["series", "-created_at"], name="audit_series_created_idx"),
+        ]
         verbose_name = "Änderungsverlauf"
         verbose_name_plural = "Änderungsverläufe"
 
