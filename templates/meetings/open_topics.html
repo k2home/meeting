@@ -7,6 +7,17 @@
     <p class="muted">Hier findest du den jeweils letzten noch offenen Tagesordnungspunkt eines Themas, für den noch kein zukünftiger Besprechungstermin vorgesehen ist.</p>
   </div>
 </header>
+<form method="get" class="card no-print" aria-label="Offene Tagesordnungspunkte nach Status filtern">
+  <label for="open-topics-status">Bearbeitungsstand</label>
+  <div class="actions">
+    <select id="open-topics-status" name="status" onchange="this.form.submit()">
+      <option value="all" {% if selected_status == "all" %}selected{% endif %}>Offen und in Arbeit</option>
+      <option value="open" {% if selected_status == "open" %}selected{% endif %}>Nur offen</option>
+      <option value="in_progress" {% if selected_status == "in_progress" %}selected{% endif %}>Nur in Arbeit</option>
+    </select>
+    {% if selected_status != "all" %}<a class="btn secondary" href="{% url 'open_topics' %}">Filter zurücksetzen</a>{% endif %}
+  </div>
+</form>
 {% for row in rows %}
   <section class="card">
     <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>

@@ -330,12 +330,19 @@ def open_topics(request):
     latest_item_ids = AgendaItem.objects.filter(
         topic_id=OuterRef("topic_id")
     ).order_by("-meeting__date", "-pk").values("pk")[:1]
+    selected_status = request.GET.get("status", request.POST.get("status", "all"))
+    if selected_status not in {"all", "open", "in_progress"}:
+        selected_status = "all"
+
     items = AgendaItem.objects.filter(
         topic__series__in=allowed_series,
         topic__status__in=["open", "in_progress", "done"],
         status__in=["open", "in_progress"],
         meeting__date__lte=today,
-    ).filter(pk__in=Subquery(latest_item_ids)).select_related(
+    )
+    if selected_status in {"open", "in_progress"}:
+        items = items.filter(status=selected_status)
+    items = items.filter(pk__in=Subquery(latest_item_ids)).select_related(
         "topic", "topic__series", "meeting", "assigned_to"
     ).order_by("topic__series__name", "topic__title")
 
@@ -375,7 +382,7 @@ def open_topics(request):
                 changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}},
             )
         messages.success(request, f"„{item.topic.title}“ wurde auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt.")
-        return redirect("open_topics")
+        return redirect(f"{reverse('open_topics')}?{urlencode({'status': selected_status})}" if selected_status != "all" else "open_topics")
 
     rows = []
     for item in items:
@@ -383,7 +390,9 @@ def open_topics(request):
             series=item.topic.series, date__gt=today, finalized_at__isnull=True
         ).order_by("date")
         rows.append({"item": item, "future_meetings": future_meetings})
-    return render(request, "meetings/open_topics.html", {"rows": rows, "today": today})
+    return render(request, "meetings/open_topics.html", {
+        "rows": rows, "today": today, "selected_status": selected_status,
+    })
 
 @login_required
 def my_tasks(request):
