@@ -797,6 +797,11 @@ def management_database_export(request):
             )
 
         stream = open(archive_path, "rb")
+        _record_system_change(
+            actor=request.user, action="created",
+            summary="Vollständige Datenbanksicherung exportiert",
+            changes={"Backup": {"nachher": "meeting-manager-vollbackup.zip"}, "Datenbankmigrationen": {"nachher": len(migrations_before_dump)}},
+        )
         response = FileResponse(
             stream, as_attachment=True, filename="meeting-manager-vollbackup.zip",
             content_type="application/zip",
@@ -913,6 +918,16 @@ def management_database_import(request):
             connection.close()
             _restore_previous_database(safety_path, database_name, env, migration_error)
 
+        _record_system_change(
+            actor=User.objects.filter(pk=request.user.pk).first(),
+            action="updated",
+            summary="Vollständige Datenbanksicherung importiert und Datenbank migriert",
+            changes={
+                "Backup-Datei": {"nachher": uploaded.name[:255]},
+                "Backup-Größe": {"nachher": uploaded.size},
+                "Datenbankmigrationen": {"nachher": len(backup_migrations)},
+            },
+        )
         from django.contrib.auth import logout
         logout(request)
         messages.success(request, "Die Datenbank wurde importiert und auf den aktuellen Programmstand migriert. Bitte melde dich erneut an.")
