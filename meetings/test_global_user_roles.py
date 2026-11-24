@@ -55,6 +55,12 @@ class GlobalUserRoleTests(TestCase):
         self.client.force_login(self.admin)
         meeting_page = self.client.get(reverse("meeting", args=[self.meeting.pk]))
         self.assertEqual(meeting_page.status_code, 404)
+        django_series_admin = self.client.get(reverse("admin:meetings_meetingseries_changelist"))
+        django_meeting_admin = self.client.get(reverse("admin:meetings_meeting_changelist"))
+        django_topic_admin = self.client.get(reverse("admin:meetings_topic_changelist"))
+        self.assertEqual(django_series_admin.status_code, 403)
+        self.assertEqual(django_meeting_admin.status_code, 403)
+        self.assertEqual(django_topic_admin.status_code, 403)
         series_edit = self.client.post(reverse("series_edit", args=[self.series.pk]), {
             "name": self.series.name, "description": "Keine Admin-Vererbung",
             "recurrence": "weekly", "recurrence_interval": 1, "weekday": 1,
