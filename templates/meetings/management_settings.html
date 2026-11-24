@@ -53,4 +53,25 @@ document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],inp
   input.insertAdjacentElement('afterend',picker);
 });
 </script>
+
+<!-- timezone-live-preview -->
+<script>
+(() => {
+  const field = document.getElementById("id_timezone");
+  if (!field) return;
+  const output = document.createElement("p");
+  output.id = "timezone-live-preview";
+  output.className = "muted";
+  output.setAttribute("aria-live", "polite");
+  field.insertAdjacentElement("afterend", output);
+  const update = () => {
+    try {
+      const time = new Intl.DateTimeFormat("de-DE", {dateStyle: "full", timeStyle: "medium", timeZone: field.value}).format(new Date());
+      output.textContent = `Aktuelle Zeit in dieser Zeitzone: ${time}`;
+    } catch { output.textContent = "Bitte eine gültige Zeitzone auswählen."; }
+  };
+  field.addEventListener("change", update);
+  update();
+})();
+</script>
 {% endblock %}
