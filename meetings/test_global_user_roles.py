@@ -4,7 +4,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
-from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_auditor, is_reader
+from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
 from .models import AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic
 from .user_roles import get_user_role, sync_user_role
 
@@ -48,7 +48,9 @@ class GlobalUserRoleTests(TestCase):
         auditor = User.objects.create_user(username="auditor", password="test-password")
         sync_user_role(auditor, "auditor")
 
+        SeriesAccess.objects.create(user=auditor, series=self.series, role=SeriesAccess.ROLE_MODERATOR)
         self.assertTrue(is_reader(auditor, self.series))
+        self.assertFalse(is_moderator(auditor, self.series))
         self.assertFalse(has_writable_series(auditor))
         self.assertQuerySetEqual(
             accessible_series(auditor).order_by("pk"),
