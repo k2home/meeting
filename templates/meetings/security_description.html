@@ -64,9 +64,9 @@
   // jeweils unter dem gerade aktiven Hauptkapitel (h2) eingeblendet.
   const links = Array.from(index.querySelectorAll('a[href^="#"]'));
   const groups = Array.from(article.querySelectorAll("h2[id]")).map(heading => {
-    const link = links.find(item => item.getAttribute("href").slice(1) === heading.id);
-    return link ? { heading, item: link.parentElement, link } : null;
-  }).filter(group => group && group.item && group.item.querySelector(":scope > ul"));
+    const link = links.find(item => decodeURIComponent(item.getAttribute("href").slice(1)) === heading.id);
+    return link ? { heading, item: link.closest("li"), link } : null;
+  }).filter(group => group && group.item);
 
   if (!groups.length) {
     // Fallback: Falls die Markdown-TOC-Struktur abweicht, alle Unterebenen
