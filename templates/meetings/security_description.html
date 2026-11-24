@@ -55,9 +55,8 @@
 {% if testing_mode %}
   <section class="card review-marking" aria-labelledby="review-marking-title">
     <h2 id="review-marking-title" style="margin-top:0">Prüfmarkierungen <span class="pill">TESTING</span></h2>
-    <p>Markiere im Dokument eine Textstelle mit der Maus oder per Touch und übernimm sie anschließend. Ergänze bei Bedarf einen Hinweis. Die Markierungen werden nur in diesem Browser gespeichert.</p>
+    <p>Wähle im Dokument eine Textstelle mit der Maus oder per Touch aus und drücke anschließend die Taste <kbd>M</kbd>, um sie als Prüfmarkierung zu übernehmen. Die Markierungen werden nur in diesem Browser gespeichert.</p>
     <div class="document-actions">
-      <button type="button" class="primary" id="add-review-mark">Auswahl markieren</button>
       <button type="button" class="secondary" id="export-review-marks">Markierungen kopieren</button>
       
       <button type="button" class="danger" id="clear-review-marks">Alle löschen</button>
@@ -84,8 +83,7 @@
 <script>
 (() => {
   const article = document.querySelector(".security-document .document-content");
-  const addButton = document.getElementById("add-review-mark");
-  if (!article || !addButton) return;
+  if (!article) return;
 
   const storageKey = "meeting-manager-security-review-marks:" + location.pathname;
   const list = document.getElementById("review-mark-list");
@@ -208,13 +206,16 @@
   });
   render();
 
-  addButton.addEventListener("click", () => {
+  document.addEventListener("keydown", event => {
+    if (event.key.toLowerCase() !== "m" || event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+    const active = document.activeElement;
+    if (active && (active.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName))) return;
     const selection = window.getSelection();
     const quote = selection ? selection.toString().trim() : "";
     if (!quote || !selection.rangeCount || !article.contains(selection.anchorNode) || !article.contains(selection.focusNode)) {
-      status.textContent = "Bitte zuerst den gewünschten Text im Dokument markieren.";
       return;
     }
+    event.preventDefault();
     const range = selection.getRangeAt(0).cloneRange();
     const section = sectionFor(range.startContainer);
     const id = makeId();
