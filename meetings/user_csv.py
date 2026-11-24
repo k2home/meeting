@@ -137,10 +137,9 @@ def _resolve_existing_users(grouped):
         user = email_user or username_user
         if user:
             requested_role = record["values"].get("user_role")
-            if user.is_superuser and requested_role not in (None, "admin"):
-                # Superusers retain their global admin role and Django staff
-                # access even when a legacy CSV clears the ordinary admin flag.
-                record["values"]["user_role"] = "admin"
+            if user.is_superuser and requested_role not in (None, "admin", "user"):
+                errors.append(f"Benutzer „{username}“ ist ein Django-Superuser und kann keine Auditor-Rolle erhalten.")
+                continue
             previous_username = seen_user_ids.get(user.pk)
             if previous_username and previous_username != username:
                 errors.append(
