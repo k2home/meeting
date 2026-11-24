@@ -1,0 +1,10 @@
+{% extends "meetings/base.html" %}
+{% block title %}Organisationseinstellungen · Lesemodus{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1>Organisationseinstellungen</h1><p class="muted">Nur lesende Ansicht für Auditoren.</p></div><a class="btn secondary" href="{% url 'auditor_overview' %}">Zur Auditor-Übersicht</a></div>
+{% if settings %}
+<section class="card"><h2>Organisation</h2><dl><dt>Name</dt><dd>{{ settings.name|default:"–" }}</dd><dt>Kurzname</dt><dd>{{ settings.short_name|default:"–" }}</dd><dt>Zeitzone</dt><dd>{{ settings.timezone|default:"–" }}</dd><dt>Maximale Anlagengröße</dt><dd>{{ settings.attachment_max_size_mb }} MB</dd></dl></section>
+<section class="card"><h2>Markenfarben</h2><dl><dt>Primärfarbe</dt><dd>{{ settings.primary_color|default:"–" }}</dd><dt>Sekundärfarbe</dt><dd>{{ settings.secondary_color|default:"–" }}</dd><dt>Tertiärfarbe</dt><dd>{{ settings.tertiary_color|default:"–" }}</dd></dl></section>
+<section class="card"><h2>Organisationslogo</h2>{% if settings.logo %}<img src="{% url 'organization_logo' %}" alt="Organisationslogo" style="max-width:220px;max-height:100px;object-fit:contain">{% else %}<p class="muted">Kein Logo hinterlegt.</p>{% endif %}</section>
+{% else %}<div class="card">Es sind noch keine Organisationseinstellungen gespeichert.</div>{% endif %}
+{% endblock %}

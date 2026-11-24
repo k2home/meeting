@@ -13,7 +13,7 @@ from django.contrib.auth import login, logout, get_user_model, update_session_au
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm, PasswordChangeForm
 from django.db import transaction, models
 from django.db.models import F, Q, Window, Prefetch, Min, OuterRef, Subquery, Count
 from django.db.models.functions import RowNumber, Coalesce
@@ -23,11 +23,11 @@ from django.urls import reverse
 from django.utils import formats, timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm
+from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm, UserDisplayModelChoiceField
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
-from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_moderator, is_reader
+from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
 from .models import SeriesAccess, SeriesAccessRequest, EnaioTransfer, EnaioSettings
 from .user_display import user_display_name
 
@@ -49,7 +49,35 @@ def login_view(request):
         if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
             return redirect(next_url)
         return redirect("dashboard")
-    return render(request, "meetings/login.html", {"form": form, "next": request.GET.get("next", "")})
+    return render(request, "meetings/login.html", {"form": form, "next": request.GET.get("next", ""), "show_password": bool(request.POST.get("username"))})
+
+@login_required
+def forced_password_change(request):
+    from .models import UserProfile
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
+    if request.user.has_usable_password() and not profile.must_change_password:
+        return redirect("dashboard")
+    if not profile.must_change_password:
+        profile.must_change_password = True
+        profile.save(update_fields=["must_change_password"])
+    form = SetPasswordForm(user=request.user, data=request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        user = form.save()
+        profile.must_change_password = False
+        profile.password_setup_expires_at = None
+        profile.save(update_fields=["must_change_password", "password_setup_expires_at"])
+        update_session_auth_hash(request, user)
+        AuditEvent.objects.create(
+            actor=user,
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="updated",
+            summary=f"Passwort für Benutzerkonto „{user.username}“ neu festgelegt",
+            changes={"Passwortstatus": {"nachher": "Passwort durch Nutzer neu festgelegt"}},
+        )
+        messages.success(request, "Ihr neues Passwort wurde gespeichert.")
+        return redirect("dashboard")
+    return render(request, "meetings/forced_password_change.html", {"form": form})
+
 
 @login_required
 def logout_view(request):
@@ -85,7 +113,7 @@ def moderator_required(view):
                 meeting_id=kwargs.get("pk"), user=request.user
             ).exists()
         )
-        allowed = is_admin(request.user) or (
+        allowed = (
             is_moderator(request.user, series)
             if series is not None else (is_moderator(request.user) and not archived_meeting)
         )
@@ -101,7 +129,7 @@ def reader_readonly(view):
         if request.method == "POST":
             series = _series_for_view(view, kwargs)
             archived_access = False
-            if series is None and not is_admin(request.user):
+            if series is None:
                 if view.__name__ in {"agenda_reorder", "agenda_item_delete", "meeting_detail", "finalize"}:
                     archived_access = ArchivedMeetingAccess.objects.filter(
                         meeting_id=kwargs.get("pk"), user=request.user
@@ -120,9 +148,7 @@ def reader_no_access(view):
     @wraps(view)
     def wrapped(request, *args, **kwargs):
         series = _series_for_view(view, kwargs)
-        if (series is not None and is_reader(request.user, series)) or (
-            series is None and not has_writable_series(request.user)
-        ):
+        if series is None or is_reader(request.user, series):
             return HttpResponseForbidden("Für diese Besprechungsreihe bestehen ausschließlich Leserechte.")
         return view(request, *args, **kwargs)
     return wrapped
@@ -133,6 +159,8 @@ def admin_only(user):
 
 @login_required
 def dashboard(request):
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     today = timezone.localdate()
     meetings = (
         accessible_meetings(request.user).filter(date__gte=today, series__isnull=False)
@@ -221,8 +249,7 @@ def dashboard(request):
 
     topics = topics.distinct()
     overdue_topics = accessible_topics(request.user)
-    if not is_admin(request.user):
-        overdue_topics = overdue_topics.filter(
+    overdue_topics = overdue_topics.filter(
             series__user_access__user=request.user,
             series__user_access__role__in=[
                 SeriesAccess.ROLE_PARTICIPANT,
@@ -250,9 +277,8 @@ def dashboard(request):
             UserModel.objects.filter(is_active=True).exclude(pk=request.user.pk),
             key=lambda person: user_display_name(person).casefold(),
         ),
-        "new_topic_series": (
-            accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
-            if not is_admin(request.user) else accessible_series(request.user)
+        "new_topic_series": accessible_series(request.user).exclude(
+            user_access__role=SeriesAccess.ROLE_READER
         ).filter(active=True).distinct().order_by("name"),
         "new_topic_meetings": accessible_meetings(request.user).filter(
             series__in=accessible_series(request.user).filter(active=True),
@@ -266,6 +292,8 @@ def dashboard(request):
 @login_required
 def meetings_overview(request):
     """Show only meetings belonging to series the current user may access."""
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     today = timezone.localdate()
     series = list(accessible_series(request.user).distinct().order_by("name"))
     meetings = list(
@@ -284,16 +312,14 @@ def meetings_overview(request):
         SeriesAccess.ROLE_READER: "Leser",
         SeriesAccess.ROLE_MODERATOR: "Moderator",
     }
-    role_by_series = {}
-    if not is_admin(request.user):
-        role_by_series = {
-            access.series_id: role_labels.get(access.role, access.role)
-            for access in SeriesAccess.objects.filter(user=request.user, series__in=series)
-        }
+    role_by_series = {
+        access.series_id: role_labels.get(access.role, access.role)
+        for access in SeriesAccess.objects.filter(user=request.user, series__in=series)
+    }
 
     events = []
     for meeting in meetings:
-        role = "Administrator" if is_admin(request.user) else role_by_series.get(meeting.series_id, "")
+        role = role_by_series.get(meeting.series_id, "")
         events.append({
             "id": meeting.pk,
             "date": meeting.date.isoformat(),
@@ -316,7 +342,7 @@ def meetings_overview(request):
         series_rows.append({
             "series": item,
             "meeting": meeting,
-            "role": "Administrator" if is_admin(request.user) else role_by_series.get(item.pk, ""),
+            "role": role_by_series.get(item.pk, ""),
             "open_agenda_count": meeting.open_agenda_count if meeting else 0,
         })
 
@@ -332,15 +358,12 @@ def meetings_overview(request):
 def open_topics(request):
     """Show the latest unfinished agenda entry for topics without a future appointment."""
     today = timezone.localdate()
-    if is_admin(request.user):
-        allowed_series = MeetingSeries.objects.all()
-    else:
-        allowed_series = MeetingSeries.objects.filter(
-            user_access__user=request.user,
-            user_access__role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR],
-        ).distinct()
-        if not allowed_series.exists():
-            return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
+    allowed_series = MeetingSeries.objects.filter(
+        user_access__user=request.user,
+        user_access__role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR],
+    ).distinct()
+    if not allowed_series.exists():
+        return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
     latest_item_ids = AgendaItem.objects.filter(
         topic_id=OuterRef("topic_id")
@@ -406,6 +429,8 @@ def open_topics(request):
 @login_required
 def my_tasks(request):
     """Separate topic-level ownership from explicit agenda-item assignments."""
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     today = timezone.localdate()
     visible_meetings = accessible_meetings(request.user)
     series_options = accessible_series(request.user).order_by("name")
@@ -621,8 +646,8 @@ def agenda_item_delete(request, pk, item_pk):
 def meeting_detail(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user).select_related("series"), pk=pk)
     archived_readonly = (
-        meeting.series_id is None and not is_admin(request.user)
-        and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists()
+        is_auditor(request.user) or (meeting.series_id is None
+        and ArchivedMeetingAccess.objects.filter(meeting=meeting, user=request.user).exists())
     )
     if not meeting.participants_initialized and not meeting.finalized_at and not archived_readonly:
         if not meeting.participants.exists() and meeting.series_id:
@@ -632,11 +657,16 @@ def meeting_detail(request, pk):
             meeting.participants.set(default_participants)
         meeting.participants_initialized = True
         meeting.save(update_fields=["participants_initialized"])
-    items = ensure_agenda(meeting)
+    items = (
+        meeting.agenda_items.select_related("topic", "assigned_to").all()
+        if is_auditor(request.user) else ensure_agenda(meeting)
+    )
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     assignees = UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
     writable_series = accessible_series(request.user)
-    if not is_admin(request.user):
+    if is_auditor(request.user):
+        writable_series = MeetingSeries.objects.none()
+    else:
         writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
     writable_series = writable_series.filter(active=True).order_by("name")
     target_meetings = accessible_meetings(request.user).filter(
@@ -644,6 +674,8 @@ def meeting_detail(request, pk):
     ).select_related("series").order_by("series__name", "date")
 
     if request.method == "POST":
+        if is_auditor(request.user):
+            return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
         if meeting.finalized_at:
             messages.error(request, "Eine abgeschlossene Besprechung kann nicht mehr geändert werden.")
             return redirect("meeting", pk=pk)
@@ -668,9 +700,7 @@ def meeting_detail(request, pk):
                 return render(request, "meetings/meeting.html", {
                     "meeting": meeting, "items": items, "participant_form": participant_form,
                     "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
-                    "is_moderator": is_admin(request.user) or (
-                        meeting.series_id is not None and is_moderator(request.user, meeting.series)
-                    ),
+                    "is_moderator": meeting.series_id is not None and is_moderator(request.user, meeting.series),
                     "writable_series": writable_series, "target_meetings": target_meetings,
                 })
         elif request.POST.get("shift_item"):
@@ -955,9 +985,7 @@ def meeting_detail(request, pk):
     return render(request, "meetings/meeting.html", {
         "meeting": meeting, "items": items, "participant_form": participant_form,
         "participants": participants, "assignees": assignees, "is_reader": is_reader(request.user, meeting.series) or archived_readonly,
-        "is_moderator": is_admin(request.user) or (
-            meeting.series_id is not None and is_moderator(request.user, meeting.series)
-        ),
+        "is_moderator": meeting.series_id is not None and is_moderator(request.user, meeting.series),
         "writable_series": writable_series, "target_meetings": target_meetings,
     })
 
@@ -1074,8 +1102,7 @@ def topic_transfer(request, pk):
         return HttpResponseForbidden()
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
     transfer_targets = accessible_series(request.user)
-    if not is_admin(request.user):
-        transfer_targets = transfer_targets.exclude(user_access__role=SeriesAccess.ROLE_READER)
+    transfer_targets = transfer_targets.exclude(user_access__role=SeriesAccess.ROLE_READER)
     target = get_object_or_404(transfer_targets, pk=request.POST.get("series"), active=True)
     if topic.series_id == target.pk:
         messages.info(request, "Das Thema ist bereits dieser Besprechungsreihe zugeordnet.")
@@ -1110,6 +1137,8 @@ def topic_transfer(request, pk):
 
 @login_required
 def archive(request):
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     items = AgendaItem.objects.filter(
         meeting__in=accessible_meetings(request.user), status="done"
     ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
@@ -1123,7 +1152,7 @@ def archive(request):
 @transaction.atomic
 def attachment_add(request, pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    if topic.series_id is None and not is_admin(request.user):
+    if topic.series_id is None:
         return HttpResponseForbidden("Archivierte Themen sind schreibgeschützt.")
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
@@ -1155,6 +1184,7 @@ def organization_logo(request):
 
 
 @login_required
+@auditor_readonly
 def agenda_attachment_add(request, meeting_pk, item_pk):
     """Add an attachment from the agenda item's attachment dialog."""
     if request.method != "POST":
@@ -1169,7 +1199,7 @@ def agenda_attachment_add(request, meeting_pk, item_pk):
     topic = item.topic
     if (
         is_reader(request.user, topic.series)
-        or (topic.series_id is None and not is_admin(request.user))
+        or topic.series_id is None
     ):
         return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
 
@@ -1197,6 +1227,7 @@ def agenda_attachment_add(request, meeting_pk, item_pk):
 
 
 @login_required
+@auditor_readonly
 def attachment_delete(request, pk):
     """Delete one topic attachment, including its uploaded file when present."""
     if request.method != "POST":
@@ -1209,7 +1240,7 @@ def attachment_delete(request, pk):
     )
     topic = attachment.topic
     if (
-        (topic.series_id is None and not is_admin(request.user))
+        topic.series_id is None
         or (topic.series_id is not None and is_reader(request.user, topic.series))
     ):
         return HttpResponseForbidden("Für diese Anlage fehlen Schreibrechte.")
@@ -1559,6 +1590,7 @@ def protocol_pdf(request, pk):
     return response
 
 @login_required
+@auditor_readonly
 def enaio_transfer_start(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden("Bitte die Ablage über die Protokollseite starten.")
@@ -1609,6 +1641,7 @@ def enaio_transfer_status(request, pk):
 
 
 @login_required
+@auditor_readonly
 @require_http_methods(["POST"])
 def enaio_transfer_cancel(request, pk):
     with transaction.atomic():
@@ -1627,7 +1660,8 @@ def enaio_transfer_cancel(request, pk):
 @login_required
 def protocol(request, pk):
     meeting = get_object_or_404(accessible_meetings(request.user), pk=pk)
-    ensure_agenda(meeting)
+    if not is_auditor(request.user):
+        ensure_agenda(meeting)
     snapshots = meeting.snapshots.all()
     participants = meeting.participants.filter(is_active=True).order_by("last_name", "first_name", "username")
     series_name = _meeting_series_name(meeting)
@@ -1657,14 +1691,15 @@ def protocol(request, pk):
         "meeting": meeting, "snapshots": snapshots, "participants": participants,
         "protocol_mailto": mailto_url, "protocol_mail_recipients": recipient_emails,
         "protocol_filename": _protocol_filename(meeting, "pdf"),
-        "can_reopen_meeting": is_admin(request.user) or (
-            meeting.series_id is not None and is_moderator(request.user, meeting.series)
-        ),
+        "can_reopen_meeting": meeting.series_id is not None and is_moderator(request.user, meeting.series),
     })
 
 @login_required
-@moderator_required
 def series_admin(request):
+    # Globale Admins dürfen Reihen anlegen und Berechtigungsanträge verwalten,
+    # ohne dadurch Zugriff auf bestehende Serieninhalte zu erhalten.
+    if not is_admin(request.user) and not is_moderator(request.user):
+        return HttpResponseForbidden("Für die Besprechungsserienverwaltung fehlen Moderatorrechte.")
     today = timezone.localdate()
     if request.method == "POST" and request.POST.get("form_type") == "access_request_decision":
         request_id = request.POST.get("request_id")
@@ -1701,9 +1736,13 @@ def series_admin(request):
             access_request.save(update_fields=["status", "decision_note", "decided_by", "decided_at"])
         messages.success(request, "Der Berechtigungsantrag wurde bearbeitet.")
         return redirect("series_admin")
-    series_queryset = accessible_series(request.user)
-    if not is_admin(request.user):
-        series_queryset = series_queryset.filter(user_access__role=SeriesAccess.ROLE_MODERATOR)
+    # Die Serienübersicht zeigt ausschließlich Reihen, in denen der angemeldete
+    # Benutzer tatsächlich Moderator ist. Admins dürfen Reihen anlegen, erhalten
+    # dadurch aber keine pauschalen Serienrechte.
+    series_queryset = accessible_series(request.user).filter(
+        user_access__user=request.user,
+        user_access__role=SeriesAccess.ROLE_MODERATOR,
+    )
     series = series_queryset.prefetch_related(
         Prefetch(
             "meetings",
@@ -1727,15 +1766,41 @@ def series_admin(request):
     expanded_series_id = request.GET.get("expanded", "")
     form = SeriesForm(request.POST or None)
     form.fields.pop("end_date", None)
+    if is_admin(request.user):
+        form.fields["initial_moderator"] = UserDisplayModelChoiceField(
+            queryset=UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
+            label="Moderator der Besprechungsreihe",
+            required=True,
+            help_text="Diese Person erhält für die neue Reihe automatisch die Moderatorberechtigung.",
+        )
     if request.method == "POST" and form.is_valid():
         item = form.save(commit=False)
+        selected_moderator = form.cleaned_data.get("initial_moderator") if is_admin(request.user) else request.user
         if not item.end_date:
             item.end_date = date(today.year + 1, 12, 31)
         with transaction.atomic():
             item.save()
-            if not is_admin(request.user):
-                SeriesAccess.objects.get_or_create(user=request.user, series=item, defaults={"role": SeriesAccess.ROLE_MODERATOR})
+            SeriesAccess.objects.update_or_create(
+                user=selected_moderator, series=item,
+                defaults={"role": SeriesAccess.ROLE_MODERATOR},
+            )
             created_meetings = generate_meetings(item)
+            AuditEvent.objects.create(
+                actor=request.user,
+                scope=AuditEvent.SCOPE_SYSTEM,
+                action="created",
+                summary=f"Besprechungsreihe „{item.name}“ angelegt",
+                changes={
+                    "Bezeichnung": {"nachher": item.name},
+                    "Wiederholung": {"nachher": item.recurrence},
+                    "Intervall": {"nachher": item.recurrence_interval},
+                    "Wochentag": {"nachher": item.weekday},
+                    "Startdatum": {"nachher": item.start_date.isoformat()},
+                    "Enddatum": {"nachher": item.end_date.isoformat() if item.end_date else None},
+                    "Erster Moderator": {"nachher": selected_moderator.get_full_name() or selected_moderator.username},
+                    "Angelegte Termine": {"nachher": len(created_meetings)},
+                },
+            )
             record_event(
                 actor=request.user, action="created",
                 summary=f"Besprechungsreihe „{item.name}“ angelegt",
@@ -1747,6 +1812,7 @@ def series_admin(request):
                     "Wochentag": {"vorher": None, "nachher": item.weekday},
                     "Startdatum": {"vorher": None, "nachher": item.start_date.isoformat()},
                     "Enddatum": {"vorher": None, "nachher": item.end_date.isoformat() if item.end_date else None},
+                    "Erster Moderator": {"vorher": None, "nachher": selected_moderator.get_full_name() or selected_moderator.username},
                     "Angelegte Termine": len(created_meetings),
                 },
             )
@@ -2033,6 +2099,18 @@ def series_delete(request, pk):
         topics.exclude(status="archived").update(archive_previous_status=models.F("status"))
         topics.update(status="archived", series=None)
         Meeting.objects.filter(series=series).update(archived_series_name=name, series=None)
+        AuditEvent.objects.create(
+            actor=request.user,
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="deleted",
+            summary=f"Besprechungsreihe „{name}“ gelöscht",
+            changes={
+                "Bezeichnung": {"vorher": name},
+                "Archivierte Besprechungstermine": {"vorher": len(meeting_ids)},
+                "Archivierte Themen": {"vorher": archived_topic_count},
+                "Ehemalige Mitglieder mit Lesezugriff": {"vorher": len(former_access) if meeting_ids else 0},
+            },
+        )
         record_event(
             actor=request.user, action="deleted",
             summary=f"Besprechungsreihe „{name}“ gelöscht",
@@ -2291,71 +2369,90 @@ def meeting_reopen(request, pk):
 @login_required
 def audit_history(request):
     admin_access = is_admin(request.user)
-    # Änderungsverläufe sind ausschließlich für Serien mit Moderatorrolle sichtbar.
-    # Eine Teilnehmerrolle in einer anderen Serie darf die Ansicht nicht erweitern.
+    auditor_access = is_auditor(request.user)
+    # Series-specific history requires an explicit moderator assignment,
+    # including for accounts that also have the global Admin role.
     series = (
-        MeetingSeries.objects.all()
-        if admin_access else
+        MeetingSeries.objects.none() if auditor_access else
         MeetingSeries.objects.filter(
             user_access__user=request.user,
             user_access__role=SeriesAccess.ROLE_MODERATOR,
-        ).distinct()
+        ).distinct().order_by("name")
     )
-    has_history_permission = admin_access or series.exists()
-    series = series.order_by("name") if has_history_permission else MeetingSeries.objects.none()
+    has_history_permission = admin_access or auditor_access or series.exists()
     topics = (
-        Topic.objects.all() if admin_access else Topic.objects.filter(series__in=series)
-    ).order_by("title") if has_history_permission else Topic.objects.none()
+        Topic.objects.none() if auditor_access
+        else Topic.objects.filter(series__in=series).order_by("title")
+    )
     events = AuditEvent.objects.none()
     topic_id = request.GET.get("topic", "")
     selected_series = request.GET.get("series", "")
     selected_action = request.GET.get("action", "")
 
-    if has_history_permission:
-        events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
-        if not admin_access:
-            # Prefer the immutable event context. Legacy rows without it use
-            # the former topic-first relation-based fallback.
-            events = events.filter(
-                Q(series__in=series)
-                | (Q(series__isnull=True) & (
-                    Q(topic__series__in=series)
-                    | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
-                ))
+    if auditor_access:
+        events = AuditEvent.objects.filter(
+            scope=AuditEvent.SCOPE_SYSTEM
+        ).select_related("actor")
+        topic_id = ""
+        selected_series = ""
+    elif admin_access:
+        events = AuditEvent.objects.filter(
+            Q(scope=AuditEvent.SCOPE_SYSTEM)
+            | (
+                Q(scope=AuditEvent.SCOPE_SERIES)
+                & (
+                    Q(series__in=series)
+                    | (Q(series__isnull=True) & (
+                        Q(topic__series__in=series)
+                        | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
+                    ))
+                )
             )
-        if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
-            events = events.filter(
-                Q(series_id=int(selected_series))
-                | (Q(series__isnull=True) & (
-                    Q(topic__series_id=int(selected_series))
-                    | Q(meeting__series_id=int(selected_series))
-                ))
-            )
-            topics = topics.filter(series_id=int(selected_series))
-        else:
-            selected_series = ""
-        valid_actions = {value for value, label in AuditEvent.ACTIONS}
-        if selected_action in valid_actions:
-            events = events.filter(action=selected_action)
-        else:
-            selected_action = ""
-        if topic_id and topics.filter(pk=topic_id).exists():
-            events = events.filter(topic_id=topic_id)
-        else:
-            topic_id = ""
+        ).select_related("actor", "topic", "meeting", "meeting__series", "series")
+    elif has_history_permission:
+        events = AuditEvent.objects.filter(
+            scope=AuditEvent.SCOPE_SERIES
+        ).select_related("actor", "topic", "meeting", "meeting__series", "series").filter(
+            Q(series__in=series)
+            | (Q(series__isnull=True) & (
+                Q(topic__series__in=series)
+                | (Q(topic__series__isnull=True) & Q(meeting__series__in=series))
+            ))
+        )
     else:
         topic_id = ""
         selected_series = ""
         selected_action = ""
 
-    paginator = Paginator(events, 50)
-    events_page = paginator.get_page(request.GET.get("page"))
+    if selected_series.isdigit() and series.filter(pk=int(selected_series)).exists():
+        events = events.filter(
+            scope=AuditEvent.SCOPE_SERIES
+        ).filter(
+            Q(series_id=int(selected_series))
+            | (Q(series__isnull=True) & (
+                Q(topic__series_id=int(selected_series))
+                | Q(meeting__series_id=int(selected_series))
+            ))
+        )
+        topics = topics.filter(series_id=int(selected_series))
+    else:
+        selected_series = ""
+    if topic_id and topics.filter(pk=topic_id).exists():
+        events = events.filter(topic_id=topic_id)
+    else:
+        topic_id = ""
 
+    valid_actions = {value for value, label in AuditEvent.ACTIONS}
+    if selected_action in valid_actions:
+        events = events.filter(action=selected_action)
+    else:
+        selected_action = ""
+
+    paginator = Paginator(events.order_by("-created_at", "-pk"), 50)
+    events_page = paginator.get_page(request.GET.get("page"))
     return render(request, "meetings/audit_history.html", {
         "events": events_page,
-        "page_range": paginator.get_elided_page_range(
-            number=events_page.number, on_each_side=2, on_ends=1,
-        ),
+        "page_range": paginator.get_elided_page_range(number=events_page.number, on_each_side=2, on_ends=1),
         "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
         "actions": AuditEvent.ACTIONS, "selected_action": selected_action,
@@ -2440,7 +2537,26 @@ def user_overview(request):
         profile_form = PersonalProfileForm(request.POST, user=request.user)
         password_form = PasswordChangeForm(request.user)
         if profile_form.is_valid():
+            before = {
+                "Vorname": request.user.first_name,
+                "Nachname": request.user.last_name,
+                "E-Mail": request.user.email,
+                "Organisationskennzeichen": getattr(getattr(request.user, "meeting_profile", None), "short_description", ""),
+            }
             profile_form.save()
+            after = {
+                "Vorname": request.user.first_name,
+                "Nachname": request.user.last_name,
+                "E-Mail": request.user.email,
+                "Organisationskennzeichen": getattr(getattr(request.user, "meeting_profile", None), "short_description", ""),
+            }
+            changes = {label: {"vorher": before[label], "nachher": value} for label, value in after.items() if before[label] != value}
+            if changes:
+                AuditEvent.objects.create(
+                    actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                    summary=f"Eigenes Benutzerprofil von „{request.user.get_full_name() or request.user.username}“ geändert",
+                    changes=changes,
+                )
             messages.success(request, "Deine persönlichen Daten wurden gespeichert.")
             return redirect("user_overview")
         messages.error(request, "Bitte prüfe deine persönlichen Angaben.")
@@ -2451,6 +2567,11 @@ def user_overview(request):
     if request.method == "POST" and request.POST.get("form_type") == "password":
         if password_form.is_valid():
             user = password_form.save()
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                summary=f"Passwort von „{user.get_full_name() or user.username}“ geändert",
+                changes={"Passwort": {"nachher": "Geändert (Passwortwert wird nicht protokolliert)"}},
+            )
             update_session_auth_hash(request, user)
             messages.success(request, "Dein Passwort wurde erfolgreich geändert.")
             return redirect("user_overview")
@@ -2474,13 +2595,11 @@ def user_overview(request):
         pending = latest_requests.get(series.pk)
         series_rows.append({
             "series": series,
-            "role_label": "Admin – globaler Zugriff" if admin_access else (
-                role_labels.get(assignment.role, assignment.role) if assignment else "Keine Berechtigung"
-            ),
+            "role_label": role_labels.get(assignment.role, assignment.role) if assignment else "Keine Berechtigung",
             "role_value": assignment.role if assignment else "",
             "pending_request": pending if pending and pending.status == SeriesAccessRequest.STATUS_PENDING else None,
             "latest_request": pending,
-            "can_request": not admin_access and not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
+            "can_request": not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
         })
 
     return render(request, "meetings/user_overview.html", {

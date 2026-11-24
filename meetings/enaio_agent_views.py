@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from .models import EnaioAgent, EnaioAgentLog, EnaioFolderSelection, EnaioSettings, EnaioTransfer
+from .models import AuditEvent, EnaioAgent, EnaioAgentLog, EnaioFolderSelection, EnaioSettings, EnaioTransfer
 from .access import is_admin
 
 
@@ -60,11 +60,21 @@ def enaio_agent_register(request):
     if not agent:
         return JsonResponse({"error": "Kopplungscode ungültig oder abgelaufen."}, status=403)
     token = secrets.token_urlsafe(48)
+    was_paired = bool(agent.device_token_hash)
+    previous_device_name = agent.device_name
     agent.device_token_hash = _digest(token)
     agent.pairing_code_hash = ""
     agent.pairing_expires_at = None
     agent.device_name = str(data.get("device_name", "Windows-PC"))[:120]
     agent.save(update_fields=["device_token_hash", "pairing_code_hash", "pairing_expires_at", "device_name", "updated_at"])
+    AuditEvent.objects.create(
+        actor=agent.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated" if was_paired else "created",
+        summary=f"enaio-Agent für „{agent.user.get_full_name() or agent.user.username}“ {'neu gekoppelt' if was_paired else 'gekoppelt'}",
+        changes={
+            "Gerätename": ({"vorher": previous_device_name, "nachher": agent.device_name} if was_paired else {"nachher": agent.device_name}),
+            "Gerätezugriff": {"nachher": "Neues Zugriffstoken ausgegeben; Tokenwert wird nicht protokolliert"},
+        },
+    )
     return JsonResponse({"device_token": token, "poll_interval_seconds": 5})
 
 
@@ -162,11 +172,30 @@ def enaio_agent_selection_complete(request, pk):
         if not selection:
             return HttpResponseForbidden("Auswahlauftrag ungültig oder bereits verwendet.")
         settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
+        before = {
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Objekttyp": settings_obj.root_folder_type,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
+        }
         settings_obj.root_folder_id = folder_id
         settings_obj.root_folder_type = folder_type
         settings_obj.root_folder_name = folder_name
         settings_obj.root_folder_path = folder_path
         settings_obj.save()
+        after = {
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Objekttyp": settings_obj.root_folder_type,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
+        }
+        changes = {key: {"vorher": before[key], "nachher": after[key]} for key in before if before[key] != after[key]}
+        if changes:
+            AuditEvent.objects.create(
+                actor=agent.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                summary="Zentraler enaio-Ablageordner über den Agenten geändert",
+                changes=changes,
+            )
         selection.selected_folder_id = folder_id
         selection.selected_folder_type = folder_type
         selection.selected_folder_name = folder_name

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import AuditEvent, MeetingSeries, Topic
+from .models import AuditEvent, MeetingSeries, SeriesAccess, Topic
 
 User = get_user_model()
 
@@ -12,6 +12,7 @@ class AuditHistoryPaginationTests(TestCase):
         self.admin = User.objects.create_superuser(username="audit-page-admin", email="admin@example.com", password="test-password")
         self.series = MeetingSeries.objects.create(name="Audit-Paginierung")
         self.topic = Topic.objects.create(title="Paginierungsthema", series=self.series)
+        SeriesAccess.objects.create(user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR)
         AuditEvent.objects.bulk_create([
             AuditEvent(topic=self.topic, series=self.series, action="updated", summary=f"Änderung {index}")
             for index in range(115)

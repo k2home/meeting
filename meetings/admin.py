@@ -18,8 +18,10 @@ from .models import (
     MeetingSeries, Meeting, Topic, AgendaItem, TopicSnapshot, TopicAttachment,
     TopicTransferHistory, AuditEvent, TopicComment, SeriesAccess, UserProfile, OrganizationSettings,
 )
+from .access import accessible_meetings, accessible_series, accessible_topics, is_moderator
+from django.db.models import Q
 from .user_display import user_display_name, user_display_name_with_login
-from .user_roles import sync_admin_access
+from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 
@@ -50,6 +52,23 @@ class SeriesAdmin(admin.ModelAdmin):
     list_display = ("name", "recurrence", "active", "start_date", "end_date")
     inlines = [MeetingInline, SeriesAccessInline]
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(
+            pk__in=accessible_series(request.user).values("pk")
+        )
+
+    def has_view_permission(self, request, obj=None):
+        return (
+            accessible_series(request.user).exists()
+            if obj is None else accessible_series(request.user).filter(pk=obj.pk).exists()
+        )
+
+    def has_change_permission(self, request, obj=None):
+        return is_moderator(request.user) if obj is None else is_moderator(request.user, obj)
+
+    def has_add_permission(self, request):
+        return False
+
     def has_delete_permission(self, request, obj=None):
         # Series deletion uses the application workflow to preserve archived access.
         return False
@@ -60,6 +79,25 @@ class MeetingAdmin(admin.ModelAdmin):
     list_display = ("series", "date", "finalized_at")
     list_filter = ("series", "finalized_at")
     filter_horizontal = ("participants",)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(
+            pk__in=accessible_meetings(request.user).values("pk")
+        )
+
+    def has_view_permission(self, request, obj=None):
+        return (
+            accessible_meetings(request.user).exists()
+            if obj is None else accessible_meetings(request.user).filter(pk=obj.pk).exists()
+        )
+
+    def has_change_permission(self, request, obj=None):
+        return is_moderator(request.user) if obj is None else bool(
+            obj.series_id and is_moderator(request.user, obj.series)
+        )
+
+    def has_add_permission(self, request):
+        return False
 
     def get_readonly_fields(self, request, obj=None):
         if obj and (obj.finalized_at or obj.snapshots.exists()):
@@ -85,9 +123,12 @@ class TopicAdmin(admin.ModelAdmin):
         return custom_urls + super().get_urls()
 
     def csv_import_view(self, request):
-        if not self.has_change_permission(request):
+        if not is_moderator(request.user):
             raise PermissionDenied
-        return import_topic_agenda_csv(request)
+        series_ids = list(SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_MODERATOR
+        ).values_list("series_id", flat=True))
+        return import_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
     def csv_sample_view(self, request):
         if not self.has_view_or_change_permission(request):
@@ -95,14 +136,39 @@ class TopicAdmin(admin.ModelAdmin):
         return sample_csv_response()
 
     def csv_export_view(self, request):
-        if not self.has_view_or_change_permission(request):
+        if not is_moderator(request.user):
             raise PermissionDenied
-        return export_topic_agenda_csv(request)
+        series_ids = list(SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_MODERATOR
+        ).values_list("series_id", flat=True))
+        return export_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
     fields = ("title", "series")
     list_display = ("title", "series")
     list_filter = ("series",)
     search_fields = ("title",)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(
+            pk__in=accessible_topics(request.user).values("pk")
+        )
+
+    def has_view_permission(self, request, obj=None):
+        return (
+            accessible_topics(request.user).exists()
+            if obj is None else accessible_topics(request.user).filter(pk=obj.pk).exists()
+        )
+
+    def has_change_permission(self, request, obj=None):
+        return is_moderator(request.user) if obj is None else bool(
+            obj.series_id and is_moderator(request.user, obj.series)
+        )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(TopicTransferHistory)
@@ -112,11 +178,54 @@ class TopicTransferHistoryAdmin(admin.ModelAdmin):
     search_fields = ("topic__title", "note")
     readonly_fields = ("topic", "from_series", "to_series", "transferred_at", "transferred_by", "note")
 
+    def get_queryset(self, request):
+        moderated = SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_MODERATOR
+        ).values("series_id")
+        return super().get_queryset(request).filter(
+            Q(from_series_id__in=moderated) | Q(to_series_id__in=moderated)
+        )
+
+    def has_view_permission(self, request, obj=None):
+        if obj is None:
+            return SeriesAccess.objects.filter(
+                user=request.user, role=SeriesAccess.ROLE_MODERATOR
+            ).exists()
+        return is_moderator(request.user, obj.from_series) or is_moderator(request.user, obj.to_series)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 class AgendaItemAdmin(admin.ModelAdmin):
     list_display = ("meeting", "topic", "status", "position")
     list_filter = ("meeting__finalized_at", "status")
     search_fields = ("topic__title", "working_text")
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(
+            meeting__in=accessible_meetings(request.user)
+        )
+
+    def has_view_permission(self, request, obj=None):
+        return (
+            accessible_meetings(request.user).exists()
+            if obj is None else accessible_meetings(request.user).filter(pk=obj.meeting_id).exists()
+        )
+
+    def has_change_permission(self, request, obj=None):
+        return is_moderator(request.user) if obj is None else bool(
+            obj.meeting.series_id and is_moderator(request.user, obj.meeting.series)
+        )
+
+    def has_add_permission(self, request):
+        return False
 
     def get_readonly_fields(self, request, obj=None):
         if obj and (obj.meeting.finalized_at or obj.meeting.snapshots.exists()):
@@ -151,6 +260,17 @@ class TopicSnapshotAdmin(admin.ModelAdmin):
     list_filter = ("meeting__finalized_at",)
     readonly_fields = ("meeting",)
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(
+            meeting__in=accessible_meetings(request.user)
+        )
+
+    def has_view_permission(self, request, obj=None):
+        return (
+            accessible_meetings(request.user).exists()
+            if obj is None else accessible_meetings(request.user).filter(pk=obj.meeting_id).exists()
+        )
+
     def has_add_permission(self, request):
         return False
 
@@ -158,8 +278,12 @@ class TopicSnapshotAdmin(admin.ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        allowed = super().has_change_permission(request, obj)
-        return allowed and (obj is None or bool(obj.meeting.finalized_at))
+        if obj is None:
+            return is_moderator(request.user)
+        return bool(
+            obj.meeting.finalized_at and obj.meeting.series_id
+            and is_moderator(request.user, obj.meeting.series)
+        )
 
     def save_model(self, request, obj, form, change):
         previous = None
@@ -193,6 +317,28 @@ class TopicAttachmentAdmin(admin.ModelAdmin):
     list_display = ("label", "topic", "added_at")
     search_fields = ("label", "topic__title")
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(
+            topic__in=accessible_topics(request.user)
+        )
+
+    def has_view_permission(self, request, obj=None):
+        return (
+            accessible_topics(request.user).exists()
+            if obj is None else accessible_topics(request.user).filter(pk=obj.topic_id).exists()
+        )
+
+    def has_change_permission(self, request, obj=None):
+        return is_moderator(request.user) if obj is None else bool(
+            obj.topic.series_id and is_moderator(request.user, obj.topic.series)
+        )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 admin.site.register(AgendaItem, AgendaItemAdmin)
 admin.site.register(TopicSnapshot, TopicSnapshotAdmin)
@@ -205,6 +351,18 @@ class AuditEventAdmin(admin.ModelAdmin):
     list_filter = ("action", "created_at")
     search_fields = ("summary", "topic__title", "actor__username")
     readonly_fields = ("created_at", "action", "summary", "actor", "topic", "meeting", "changes")
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        system_access = Q(scope=AuditEvent.SCOPE_SYSTEM) if (
+            request.user.is_superuser or request.user.groups.filter(name__in=("Admin", "Auditor")).exists()
+        ) else Q(pk__in=[])
+        moderator_series = SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_MODERATOR
+        ).values("series_id")
+        return queryset.filter(
+            system_access | Q(scope=AuditEvent.SCOPE_SERIES, series_id__in=moderator_series)
+        )
 
     def has_view_permission(self, request, obj=None):
         return request.user.is_active and request.user.is_staff
@@ -224,6 +382,17 @@ class TopicCommentAdmin(admin.ModelAdmin):
     list_display = ("topic", "author", "created_at")
     search_fields = ("topic__title", "body", "author__username")
     readonly_fields = ("topic", "author", "body", "created_at")
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(
+            topic__in=accessible_topics(request.user)
+        )
+
+    def has_view_permission(self, request, obj=None):
+        return (
+            accessible_topics(request.user).exists()
+            if obj is None else accessible_topics(request.user).filter(pk=obj.topic_id).exists()
+        )
 
     def has_add_permission(self, request):
         return False
@@ -331,10 +500,7 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
     short_description = forms.CharField(
         label="Kurzbeschreibung", required=False, max_length=80,
     )
-    is_administrator = forms.BooleanField(
-        label="Administrator", required=False,
-        help_text="Gewährt globale Administratorrechte für alle Besprechungsreihen.",
-    )
+    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES)
 
     class Meta(DjangoUserChangeForm.Meta):
         model = User
@@ -348,16 +514,58 @@ class MeetingUserChangeForm(DjangoUserChangeForm):
                 profile.short_description if profile else ""
             )
         self.fields["is_superuser"].label = "Django-Superuser"
-        self.fields["is_administrator"].initial = (
-            self.instance.groups.filter(name="Admin").exists()
-            if self.instance and self.instance.pk else False
-        )
+        self.fields["role"].initial = get_user_role(self.instance) if self.instance and self.instance.pk else "user"
+        if self.instance and self.instance.is_superuser:
+            self.fields["role"].disabled = True
         self.fields.pop("groups", None)
         self.fields.pop("user_permissions", None)
 
 
 class MeetingUserAdmin(DjangoUserAdmin):
     change_list_template = "admin/auth/user/change_list.html"
+
+    def user_change_password(self, request, id, form_url=""):
+        response = super().user_change_password(request, id, form_url)
+        if request.method == "POST" and response.status_code in (302, 303):
+            target = User.objects.filter(pk=id).first()
+            target_label = user_display_name_with_login(target) if target else f"Benutzer-ID {id}"
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+                summary=f"Django-Verwaltung: Passwort für „{target_label}“ geändert",
+                changes={"Passwort": {"nachher": "Geändert (Passwortwert wird nicht protokolliert)"}},
+            )
+        return response
+
+    def delete_model(self, request, obj):
+        snapshot = {
+            "Anmeldename": obj.username,
+            "Vorname": obj.first_name,
+            "Nachname": obj.last_name,
+            "E-Mail": obj.email,
+            "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(obj), get_user_role(obj)),
+        }
+        AuditEvent.objects.create(
+            actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="deleted",
+            summary=f"Django-Verwaltung: Benutzerkonto „{user_display_name_with_login(obj)}“ gelöscht",
+            changes={label: {"vorher": value} for label, value in snapshot.items()},
+        )
+        super().delete_model(request, obj)
+
+    def delete_queryset(self, request, queryset):
+        for obj in queryset.select_related().iterator():
+            snapshot = {
+                "Anmeldename": obj.username,
+                "Vorname": obj.first_name,
+                "Nachname": obj.last_name,
+                "E-Mail": obj.email,
+                "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(obj), get_user_role(obj)),
+            }
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="deleted",
+                summary=f"Django-Verwaltung: Benutzerkonto „{user_display_name_with_login(obj)}“ gelöscht",
+                changes={label: {"vorher": value} for label, value in snapshot.items()},
+            )
+        queryset.delete()
 
     def get_urls(self):
         custom_urls = [
@@ -387,7 +595,7 @@ class MeetingUserAdmin(DjangoUserAdmin):
             "fields": ("username", "first_name", "last_name", "email", "short_description"),
         }),
         ("Berechtigungen", {
-            "fields": ("is_active", "is_administrator", "is_superuser"),
+            "fields": ("is_active", "role", "is_superuser"),
         }),
         ("Wichtige Daten", {
             "fields": ("last_login", "date_joined"),
@@ -400,6 +608,24 @@ class MeetingUserAdmin(DjangoUserAdmin):
     def display_name_with_login(self, obj):
         return user_display_name_with_login(obj)
 
+    def save_model(self, request, obj, form, change):
+        previous = None
+        if change:
+            old_user = User.objects.get(pk=obj.pk)
+            old_profile = getattr(old_user, "meeting_profile", None)
+            previous = {
+                "Anmeldename": old_user.username,
+                "Vorname": old_user.first_name,
+                "Nachname": old_user.last_name,
+                "E-Mail": old_user.email,
+                "Aktiv": old_user.is_active,
+                "Django-Superuser": old_user.is_superuser,
+                "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(old_user), get_user_role(old_user)),
+                "Kurzbeschreibung": old_profile.short_description if old_profile else "",
+            }
+        form._audit_before = previous
+        super().save_model(request, obj, form, change)
+
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
         user = form.instance
@@ -407,7 +633,30 @@ class MeetingUserAdmin(DjangoUserAdmin):
             user=user,
             defaults={"short_description": form.cleaned_data.get("short_description", "")},
         )
-        sync_admin_access(user, form.cleaned_data.get("is_administrator", False))
+        sync_user_role(user, form.cleaned_data["role"])
+        after = {
+            "Anmeldename": user.username,
+            "Vorname": user.first_name,
+            "Nachname": user.last_name,
+            "E-Mail": user.email,
+            "Aktiv": user.is_active,
+            "Django-Superuser": user.is_superuser,
+            "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+            "Kurzbeschreibung": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
+        }
+        before = getattr(form, "_audit_before", None)
+        changes = {
+            label: ({"nachher": value} if before is None else {"vorher": before.get(label), "nachher": value})
+            for label, value in after.items()
+            if before is None or before.get(label) != value
+        }
+        if changes:
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM,
+                action="updated" if change else "created",
+                summary=f"Django-Verwaltung: Benutzerkonto „{user_display_name_with_login(user)}“ {'geändert' if change else 'angelegt'}",
+                changes=changes,
+            )
 
 
 admin.site.unregister(User)
@@ -420,6 +669,34 @@ admin.site.register(Group, MeetingGroupAdmin)
 class OrganizationSettingsAdmin(admin.ModelAdmin):
     list_display = ("name",)
     fields = ("name", "short_name", "timezone", "attachment_max_size_mb", ("primary_color", "primary_color_light", "primary_color_dark"), ("secondary_color", "secondary_color_light", "secondary_color_dark"), ("tertiary_color", "tertiary_color_light", "tertiary_color_dark"))
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def save_model(self, request, obj, form, change):
+        before = {}
+        if change:
+            previous = OrganizationSettings.objects.get(pk=obj.pk)
+            before = {
+                field: getattr(previous, field)
+                for field in form.changed_data
+            }
+        super().save_model(request, obj, form, change)
+        changes = {
+            form.fields[field].label: {
+                **({"vorher": before[field]} if change else {}),
+                "nachher": getattr(obj, field),
+            }
+            for field in form.changed_data
+            if not change or before[field] != getattr(obj, field)
+        }
+        if changes:
+            AuditEvent.objects.create(
+                actor=request.user, scope=AuditEvent.SCOPE_SYSTEM,
+                action="updated" if change else "created",
+                summary="Django-Verwaltung: Organisationseinstellungen geändert",
+                changes=changes,
+            )
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == "timezone":
@@ -446,6 +723,3 @@ class OrganizationSettingsAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return super().has_add_permission(request) and not OrganizationSettings.objects.exists()
-
-    def has_delete_permission(self, request, obj=None):
-        return False

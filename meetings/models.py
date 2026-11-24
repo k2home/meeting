@@ -200,6 +200,12 @@ class TopicAttachment(models.Model):
 
 class AuditEvent(models.Model):
     """Unveränderlicher Eintrag für wichtige Änderungen in der Anwendung."""
+    SCOPE_SERIES = "series"
+    SCOPE_SYSTEM = "system"
+    SCOPE_CHOICES = [
+        (SCOPE_SERIES, "Besprechungsreihe"),
+        (SCOPE_SYSTEM, "System"),
+    ]
     ACTIONS = [
         ("created", "Angelegt"),
         ("updated", "Geändert"),
@@ -214,6 +220,7 @@ class AuditEvent(models.Model):
         ("series_extended", "Terminreihe verlängert"),
         ("series_reset", "Termine neu aufgesetzt"),
     ]
+    scope = models.CharField("Bereich", max_length=12, choices=SCOPE_CHOICES, default=SCOPE_SERIES, db_index=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
     series = models.ForeignKey(MeetingSeries, on_delete=models.SET_NULL, null=True, blank=True, related_name="audit_events")
@@ -287,6 +294,8 @@ class UserProfile(models.Model):
         verbose_name="Benutzer",
     )
     short_description = models.CharField("Kurzbeschreibung", max_length=80, blank=True)
+    must_change_password = models.BooleanField("Passwort muss geändert werden", default=False)
+    password_setup_expires_at = models.DateTimeField("Frist für Passwortvergabe", null=True, blank=True)
 
     class Meta:
         verbose_name = "Benutzerprofil"
@@ -302,6 +311,10 @@ class OrganizationSettings(models.Model):
     timezone = models.CharField(
         "Zeitzone", max_length=64, default="Europe/Berlin",
         help_text="Zeitzone für die Anzeige von Datums- und Uhrzeitangaben, z. B. Europe/Berlin.",
+    )
+    start_password = models.TextField(
+        "Startpasswort", default="Neu",
+        help_text="Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
     )
     attachment_max_size_mb = models.PositiveSmallIntegerField(
         "Maximale Dateigröße für Anlagen (MB)", default=20,
@@ -371,6 +384,11 @@ class OrganizationSettings(models.Model):
     def current_short_name(cls):
         settings = cls.objects.filter(pk=1).only("short_name").first()
         return settings.short_name.strip() if settings and settings.short_name else "MM"
+
+    @classmethod
+    def current_start_password(cls):
+        settings = cls.objects.filter(pk=1).only("start_password").first()
+        return settings.start_password if settings else "Neu"
 
     @classmethod
     def current_attachment_max_size_bytes(cls):

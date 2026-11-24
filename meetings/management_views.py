@@ -30,12 +30,13 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
-from .access import is_admin
-from .models import MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection, EnaioDiagnosticReport, EnaioAgentLog
+from .access import is_admin, is_auditor, is_moderator
+from .models import AuditEvent, MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile, EnaioSettings, EnaioFolderSelection, EnaioDiagnosticReport, EnaioAgentLog
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
-from .user_roles import sync_admin_access
+from .user_roles import USER_ROLE_CHOICES, get_user_role, sync_user_role
+from .password_setup import start_password_setup
 
 logger = logging.getLogger(__name__)
 
@@ -51,12 +52,23 @@ def _require_admin(request):
         raise PermissionDenied
 
 
+def _record_system_change(*, actor, action, summary, changes=None):
+    """Record administrative changes without attaching them to meeting-series data."""
+    return AuditEvent.objects.create(
+        actor=actor,
+        scope=AuditEvent.SCOPE_SYSTEM,
+        action=action,
+        summary=summary[:500],
+        changes=changes or {},
+    )
+
+
 class ManagedUserCreateForm(UserCreationForm):
     first_name = forms.CharField(label="Vorname", max_length=150, required=False)
     last_name = forms.CharField(label="Nachname", max_length=150, required=False)
     email = forms.EmailField(label="E-Mail-Adresse", required=False)
     short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
-    is_administrator = forms.BooleanField(label="Administrator", required=False)
+    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES, initial="user", required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -65,15 +77,22 @@ class ManagedUserCreateForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.testing_mode = _testing_mode_enabled()
-        if self.testing_mode:
-            self.fields["password1"].help_text = "Im Testing-Modus ist bei der Benutzeranlage jedes nicht leere Passwort zulässig."
+        self.fields["password1"].required = False
+        self.fields["password2"].required = False
+        self.fields["password1"].help_text = "Optional. Bleiben beide Felder leer, gilt das in der Organisationsverwaltung konfigurierte Startpasswort. Der Nutzer muss innerhalb von 24 Stunden ein persönliches Passwort festlegen."
+        self.fields["password2"].help_text = "Nur ausfüllen, wenn direkt ein persönliches Passwort vergeben werden soll."
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
-        if password1 and password2:
-            if password1 != password2:
-                raise ValidationError(self.error_messages["password_mismatch"], code="password_mismatch")
+        if not password1 and not password2:
+            return None
+        if password1 != password2:
+            raise ValidationError(self.error_messages["password_mismatch"], code="password_mismatch")
         return password2
 
     def _post_clean(self):
@@ -87,20 +106,29 @@ class ManagedUserCreateForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
+        passwordless_creation = not self.cleaned_data.get("password1")
+        if passwordless_creation:
+            user.set_password(OrganizationSettings.current_start_password())
         for field in ("first_name", "last_name", "email"):
             setattr(user, field, self.cleaned_data.get(field, "").strip())
         if commit:
             user.save()
             UserProfile.objects.update_or_create(
-                user=user, defaults={"short_description": self.cleaned_data.get("short_description", "").strip()}
+                user=user,
+                defaults={
+                    "short_description": self.cleaned_data.get("short_description", "").strip(),
+                    "must_change_password": passwordless_creation,
+                    "password_setup_expires_at": timezone.now() + timedelta(hours=24) if passwordless_creation else None,
+                },
             )
-            sync_admin_access(user, self.cleaned_data.get("is_administrator", False))
+            sync_user_role(user, self.cleaned_data.get("role") or "user")
         return user
 
 
 class ManagedUserEditForm(forms.ModelForm):
+    is_active = forms.ChoiceField(label="Aktiv", choices=(("true", "Aktiv"), ("false", "Deaktiviert")))
     short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
-    is_administrator = forms.BooleanField(label="Administrator", required=False)
+    role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES)
 
     class Meta:
         model = User
@@ -109,13 +137,17 @@ class ManagedUserEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["username"].disabled = True
+        self.initial["is_active"] = "true" if self.instance.is_active else "false"
         profile = getattr(self.instance, "meeting_profile", None) if self.instance.pk else None
         self.fields["short_description"].initial = profile.short_description if profile else ""
         self.fields["last_login"] = forms.CharField(label="Letzte Anmeldung", required=False, disabled=True, initial=self.instance.last_login.strftime("%d.%m.%Y, %H:%M") if self.instance.last_login else "Noch nie")
         self.fields["date_joined"] = forms.CharField(label="Erstellt am", required=False, disabled=True, initial=self.instance.date_joined.strftime("%d.%m.%Y, %H:%M") if self.instance.date_joined else "–")
-        self.fields["is_administrator"].initial = (
-            self.instance.groups.filter(name="Admin").exists() if self.instance.pk else False
-        )
+        self.fields["role"].initial = get_user_role(self.instance) if self.instance.pk else "user"
+        if self.instance.is_superuser:
+            self.fields["role"].disabled = True
+
+    def clean_is_active(self):
+        return self.cleaned_data["is_active"] == "true"
 
     def save(self, commit=True):
         user = super().save(commit=commit)
@@ -123,7 +155,7 @@ class ManagedUserEditForm(forms.ModelForm):
             UserProfile.objects.update_or_create(
                 user=user, defaults={"short_description": self.cleaned_data.get("short_description", "").strip()}
             )
-            sync_admin_access(user, self.cleaned_data.get("is_administrator", False))
+            sync_user_role(user, self.cleaned_data["role"])
         return user
 
 
@@ -132,11 +164,17 @@ class OrganizationSettingsForm(forms.ModelForm):
         label="Zeitzone",
         choices=[(zone, zone) for zone in sorted(available_timezones())],
     )
+    start_password = forms.CharField(
+        label="Startpasswort",
+        strip=False,
+        widget=forms.TextInput(attrs={"autocomplete": "off"}),
+        help_text="Ohne Komplexitätsvorgaben. Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
+    )
 
     class Meta:
         model = OrganizationSettings
         fields = (
-            "name", "short_name", "timezone", "attachment_max_size_mb",
+            "name", "short_name", "timezone", "start_password", "attachment_max_size_mb",
             "primary_color", "primary_color_light", "primary_color_dark",
             "secondary_color", "secondary_color_light", "secondary_color_dark",
             "tertiary_color", "tertiary_color_light", "tertiary_color_dark",
@@ -177,6 +215,13 @@ def management_enaio_settings(request):
     if request.method == "POST" and form.is_valid():
         settings_obj, _ = EnaioSettings.objects.get_or_create(pk=1)
         new_folder_id = form.cleaned_data["root_folder_id"].strip()
+        before = {
+            "Dokumenttyp": settings_obj.document_type_name,
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
+            "Objekttyp": settings_obj.root_folder_type,
+        }
         if settings_obj.root_folder_id != new_folder_id:
             settings_obj.root_folder_name = ""
             settings_obj.root_folder_path = ""
@@ -184,6 +229,16 @@ def management_enaio_settings(request):
         settings_obj.root_folder_id = new_folder_id
         settings_obj.root_folder_type = form.cleaned_data.get("root_folder_type") or 0
         settings_obj.save()
+        after = {
+            "Dokumenttyp": settings_obj.document_type_name,
+            "Ordner-ID": settings_obj.root_folder_id,
+            "Ordnername": settings_obj.root_folder_name,
+            "Ordnerpfad": settings_obj.root_folder_path,
+            "Objekttyp": settings_obj.root_folder_type,
+        }
+        changes = {key: {"vorher": before[key], "nachher": after[key]} for key in before if before[key] != after[key]}
+        if changes:
+            _record_system_change(actor=request.user, action="updated", summary="Zentrale enaio-Einstellungen geändert", changes=changes)
         messages.success(request, "Die enaio-Einstellungen wurden gespeichert.")
         return redirect("management_enaio_settings")
     return render(request, "meetings/management_enaio_settings.html", {
@@ -377,11 +432,78 @@ def management_home(request):
 
 
 @login_required
+def auditor_overview(request):
+    if not is_auditor(request.user):
+        return redirect("dashboard")
+    return render(request, "meetings/auditor_overview.html", {
+        "organization_settings": OrganizationSettings.objects.filter(pk=1).defer("start_password").first(),
+    })
+
+
+@login_required
+def auditor_organization_settings(request):
+    if not is_auditor(request.user):
+        return redirect("management_settings")
+    if request.method != "GET":
+        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
+    instance = OrganizationSettings.objects.filter(pk=1).defer("start_password").first()
+    return render(request, "meetings/auditor_organization_settings.html", {"settings": instance})
+
+
+@login_required
+def auditor_users(request):
+    if request.method != "GET":
+        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
+    if not is_auditor(request.user):
+        return redirect("management_users")
+    users = User.objects.all().order_by("last_name", "first_name", "username")
+    return render(request, "meetings/auditor_users.html", {
+        "users": [{
+            "account": user,
+            "role_label": dict(USER_ROLE_CHOICES)[get_user_role(user)],
+        } for user in users],
+    })
+
+
+@login_required
+def auditor_groups(request):
+    if request.method != "GET":
+        return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
+    if not is_auditor(request.user):
+        return redirect("management_groups")
+    access_qs = SeriesAccess.objects.select_related("series", "user").all()
+    query = request.GET.get("q", "").strip()
+    role_filter = request.GET.get("role", "")
+    if query:
+        from django.db.models import Q
+        access_qs = access_qs.filter(
+            Q(user__username__icontains=query) |
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query) |
+            Q(series__name__icontains=query)
+        )
+    if role_filter in dict(SeriesAccess.ROLE_CHOICES):
+        access_qs = access_qs.filter(role=role_filter)
+    access_ids = set(access_qs.values_list("pk", flat=True))
+    series_rows = [{
+        "series": series,
+        "members": [access for access in series.user_access.select_related("user").all() if access.pk in access_ids],
+    } for series in MeetingSeries.objects.order_by("name")]
+    series_rows = [row for row in series_rows if row["members"] or not (query or role_filter)]
+    return render(request, "meetings/auditor_groups.html", {
+        "series_rows": series_rows,
+        "search": query,
+        "role_filter": role_filter,
+        "role_choices": SeriesAccess.ROLE_CHOICES,
+    })
+
+
+@login_required
 def management_users(request):
     _require_admin(request)
     users = User.objects.all().order_by("last_name", "first_name", "username")
     return render(request, "meetings/management_users.html", {
-        "users": [{"account": user, "is_administrator": is_admin(user)} for user in users],
+        "users": [{"account": user, "role": get_user_role(user), "role_label": dict(USER_ROLE_CHOICES)[get_user_role(user)]} for user in users],
         "role_choices": SeriesAccess.ROLE_CHOICES,
     })
 
@@ -390,6 +512,17 @@ def management_users(request):
 def management_user_edit(request, pk=None):
     _require_admin(request)
     instance = get_object_or_404(User, pk=pk) if pk else None
+    # ModelForm validation updates its instance in memory. Capture the old
+    # state before is_valid(), otherwise reactivation and audit diffs are lost.
+    was_inactive = bool(instance and not instance.is_active)
+    before = {
+        "Vorname": instance.first_name,
+        "Nachname": instance.last_name,
+        "E-Mail": instance.email,
+        "Aktiv": instance.is_active,
+        "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(instance), get_user_role(instance)),
+        "Kurzbeschreibung": getattr(getattr(instance, "meeting_profile", None), "short_description", ""),
+    } if instance else {}
     if instance:
         form = ManagedUserEditForm(request.POST or None, instance=instance)
     else:
@@ -399,14 +532,62 @@ def management_user_edit(request, pk=None):
             form.add_error("is_active", "Das eigene Administratorkonto kann hier nicht deaktiviert werden.")
         else:
             with transaction.atomic():
+                passwordless_creation = not instance and not form.cleaned_data.get("password1")
                 user = form.save()
-            messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
+                if was_inactive and user.is_active:
+                    start_password_setup(user)
+                after = {
+                    "Vorname": user.first_name,
+                    "Nachname": user.last_name,
+                    "E-Mail": user.email,
+                    "Aktiv": user.is_active,
+                    "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
+                    "Kurzbeschreibung": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
+                }
+                changes = {
+                    label: {"vorher": before.get(label), "nachher": value}
+                    for label, value in after.items()
+                    if before.get(label) != value
+                } if instance else {
+                    label: {"nachher": value} for label, value in after.items()
+                }
+                _record_system_change(
+                    actor=request.user,
+                    action="updated" if instance else "created",
+                    summary=f"Benutzerkonto „{user_display_name_with_login(user)}“ {'geändert' if instance else 'angelegt'}",
+                    changes=changes,
+                )
+            if was_inactive and user.is_active:
+                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde freigeschaltet. Das konfigurierte Startpasswort gilt für die nächsten 24 Stunden.")
+            else:
+                messages.success(request, f"Benutzer „{user_display_name_with_login(user)}“ wurde gespeichert.")
             return redirect("management_users")
     return render(request, "meetings/management_user_form.html", {
         "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
         "is_new": instance is None, "testing_mode": _testing_mode_enabled(),
     })
 
+
+@login_required
+@require_http_methods(["POST"])
+def management_user_delete(request, pk):
+    _require_admin(request)
+    user = get_object_or_404(User, pk=pk)
+    if user.pk == request.user.pk:
+        messages.error(request, "Das eigene Administratorkonto kann nicht gelöscht werden.")
+        return redirect("management_users")
+    display_name = user_display_name_with_login(user)
+    changes = {
+        "Benutzername": {"vorher": user.username, "nachher": None},
+        "Name": {"vorher": " ".join(part for part in (user.first_name, user.last_name) if part), "nachher": None},
+        "E-Mail": {"vorher": user.email, "nachher": None},
+        "Globale Rolle": {"vorher": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)), "nachher": None},
+    }
+    with transaction.atomic():
+        _record_system_change(actor=request.user, action="deleted", summary=f"Benutzerkonto „{display_name}“ gelöscht", changes=changes)
+        user.delete()
+    messages.success(request, f"Benutzer „{display_name}“ wurde gelöscht.")
+    return redirect("management_users")
 
 @login_required
 def management_groups(request):
@@ -480,10 +661,17 @@ def management_settings(request):
     if request.method == "POST" and request.POST.get("action") == "save_logo":
         logo_form = OrganizationLogoForm(request.POST, request.FILES, instance=instance)
         if logo_form.is_valid():
+            previous_logo = instance.logo.name if instance.logo else ""
             settings_obj = logo_form.save(commit=False)
             settings_obj.full_clean()
             settings_obj.save()
             uploaded_logo = settings_obj.logo
+            if (uploaded_logo.name if uploaded_logo else "") != previous_logo:
+                _record_system_change(
+                    actor=request.user, action="updated",
+                    summary="Organisationslogo geändert",
+                    changes={"Organisationslogo": {"vorher": previous_logo or "Kein Logo", "nachher": uploaded_logo.name if uploaded_logo else "Kein Logo"}},
+                )
             if uploaded_logo and uploaded_logo.name.lower().endswith(".svg"):
                 previous_png_name = settings_obj.logo_png.name if settings_obj.logo_png else ""
                 try:
@@ -520,9 +708,26 @@ def management_settings(request):
     elif request.method == "POST":
         form = OrganizationSettingsForm(request.POST, instance=instance)
         if form.is_valid():
+            before = {
+                field: getattr(instance, field)
+                for field in form.changed_data
+                if field not in {"logo", "logo_png", "start_password"}
+            }
             settings_obj = form.save(commit=False)
             settings_obj.full_clean()
             settings_obj.save()
+            changes = {
+                form.fields[field].label: {"vorher": before[field], "nachher": getattr(settings_obj, field)}
+                for field in before
+                if before[field] != getattr(settings_obj, field)
+            }
+            if "start_password" in form.changed_data:
+                changes["Startpasswort"] = {"nachher": "Geändert"}
+            if changes:
+                _record_system_change(
+                    actor=request.user, action="updated",
+                    summary="Organisationseinstellungen geändert", changes=changes,
+                )
             messages.success(request, "Die Organisationseinstellungen wurden gespeichert.")
             return redirect("management_settings")
 
@@ -686,6 +891,11 @@ def management_database_export(request):
             )
 
         stream = open(archive_path, "rb")
+        _record_system_change(
+            actor=request.user, action="created",
+            summary="Vollständige Datenbanksicherung exportiert",
+            changes={"Backup": {"nachher": "meeting-manager-vollbackup.zip"}, "Datenbankmigrationen": {"nachher": len(migrations_before_dump)}},
+        )
         response = FileResponse(
             stream, as_attachment=True, filename="meeting-manager-vollbackup.zip",
             content_type="application/zip",
@@ -718,6 +928,9 @@ def management_database_import(request):
         messages.error(request, "Bitte bestätige den Import durch die Eingabe von DATENBANK ERSETZEN.")
         return redirect("management_data")
 
+    initiating_actor_id = request.user.pk
+    initiating_actor_username = request.user.get_username()
+    initiating_actor_label = user_display_name_with_login(request.user)
     uploaded_path = dump_path = safety_path = None
     try:
         env, database_name = _database_client_environment()
@@ -802,6 +1015,19 @@ def management_database_import(request):
             connection.close()
             _restore_previous_database(safety_path, database_name, env, migration_error)
 
+        restored_actor = User.objects.filter(
+            pk=initiating_actor_id, username=initiating_actor_username
+        ).first()
+        _record_system_change(
+            actor=restored_actor,
+            action="updated",
+            summary=f"Vollständige Datenbanksicherung durch „{initiating_actor_label}“ importiert und Datenbank migriert",
+            changes={
+                "Backup-Datei": {"nachher": uploaded.name[:255]},
+                "Backup-Größe": {"nachher": uploaded.size},
+                "Datenbankmigrationen": {"nachher": len(backup_migrations)},
+            },
+        )
         from django.contrib.auth import logout
         logout(request)
         messages.success(request, "Die Datenbank wurde importiert und auf den aktuellen Programmstand migriert. Bitte melde dich erneut an.")
@@ -827,30 +1053,18 @@ def management_user_password_reset(request, pk):
     _require_admin(request)
     user = get_object_or_404(User, pk=pk)
     if request.method == "POST":
-        from django.contrib.auth.tokens import default_token_generator
-        from django.utils.http import urlsafe_base64_encode
-        from django.utils.encoding import force_bytes
-        from django.urls import reverse
-        from django.contrib.sites.shortcuts import get_current_site
-        from django.core.mail import send_mail
-        from django.template.loader import render_to_string
-        from django.utils.html import strip_tags
-        from django.contrib.auth.forms import PasswordResetForm
-        form = PasswordResetForm({"email": user.email})
-        if not user.email or not form.is_valid():
-            messages.error(request, "Für diesen Nutzer ist keine gültige E-Mail-Adresse hinterlegt.")
-        else:
-            form.save(
-                request=request,
-                use_https=request.is_secure(),
-                email_template_name="registration/password_reset_email.html",
-                subject_template_name="registration/password_reset_subject.txt",
-                domain_override=get_current_site(request).domain,
-            )
-            messages.success(request, "Die Passwort-Zurücksetzen-Mail wurde angefordert.")
+        start_password_setup(user)
+        _record_system_change(
+            actor=request.user, action="updated",
+            summary=f"Passwortwechsel für „{user_display_name_with_login(user)}“ erzwungen",
+            changes={"Passwortstatus": {"nachher": "Konfiguriertes Startpasswort gesetzt; persönliche Passwortvergabe innerhalb von 24 Stunden erforderlich"}},
+        )
+        messages.success(request, "Das konfigurierte Startpasswort wurde gesetzt. Der Benutzer muss sich innerhalb von 24 Stunden anmelden und ein persönliches Passwort festlegen.")
         return redirect("management_user_edit", pk=user.pk)
-    return render(request, "meetings/management_password_reset.html", {"account": user})
-
+    return render(request, "meetings/management_password_reset.html", {
+        "account": user,
+        "start_password": OrganizationSettings.current_start_password(),
+    })
 
 @login_required
 def management_user_series(request, pk):
@@ -891,8 +1105,12 @@ def management_user_csv_import(request):
 
 @login_required
 def management_topic_csv_export(request):
-    _require_admin(request)
-    return export_topic_agenda_csv(request)
+    if not is_moderator(request.user):
+        raise PermissionDenied
+    series_ids = list(SeriesAccess.objects.filter(
+        user=request.user, role=SeriesAccess.ROLE_MODERATOR
+    ).values_list("series_id", flat=True))
+    return export_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
 
 @login_required
@@ -903,8 +1121,12 @@ def management_topic_csv_sample(request):
 
 @login_required
 def management_topic_csv_import(request):
-    _require_admin(request)
-    return import_topic_agenda_csv(request)
+    if not is_moderator(request.user):
+        raise PermissionDenied
+    series_ids = list(SeriesAccess.objects.filter(
+        user=request.user, role=SeriesAccess.ROLE_MODERATOR
+    ).values_list("series_id", flat=True))
+    return import_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
 
 @login_required
@@ -925,9 +1147,9 @@ def management_user_csv_sample(request):
         "# series: Name einer bereits vorhandenen Besprechungsreihe; optional, Schreibweise muss exakt uebereinstimmen.\r\n"
         "# series_role: Rolle fuer die angegebene Reihe; erlaubt: participant, teilnehmer*in, moderator, moderator*in, reader, leser*in.\r\n"
         "# series_role bleibt leer, wenn keine series angegeben ist. Bei mehreren Reihen je Benutzer eine Zeile verwenden; Nutzerdaten identisch halten.\r\n"
-        "# is_administrator: Optionale globale Administratorrolle; erlaubt dieselben Ja/Nein-Werte wie is_active. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
-        "# Neue Benutzer erhalten ein zufaelliges Startpasswort; anschliessend ist die Passwort-zuruecksetzen-Funktion zu verwenden.\r\n"
-        "username;first_name;last_name;email;short_description;is_active;series;series_role;is_administrator\r\n"
-        "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;;;false\r\n"
+        "# user_role: Globale Rolle; erlaubt: user, admin, auditor. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
+        "# Neu angelegte Benutzerkonten erhalten das in der Organisationsverwaltung konfigurierte Startpasswort. Innerhalb von 24 Stunden muss ein eigenes Passwort festgelegt werden; andernfalls wird das Konto deaktiviert.\r\n"
+        "username;first_name;last_name;email;short_description;is_active;user_role;series;series_role\r\n"
+        "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;user;;;\r\n"
     )
     return response

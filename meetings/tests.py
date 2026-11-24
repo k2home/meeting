@@ -218,7 +218,11 @@ class AuditHistoryTests(TestCase):
             actor=self.user,
             action="updated",
             summary="Erste Zeile\\nZweite Zeile",
-            changes={"Beschreibung": {"vorher": "Vorher\\nText", "nachher": "Nachher\\nText"}},
+            changes={
+                "Beschreibung": {"vorher": "Vorher\\nText", "nachher": "Nachher\\nText"},
+                "Aktiv": {"vorher": False, "nachher": True},
+                "Objekttyp": {"vorher": 0, "nachher": 1},
+            },
         )
         self.client.force_login(self.user)
 
@@ -227,6 +231,11 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<p>Erste Zeile<br>Zweite Zeile</p>", html=True)
         self.assertContains(response, "Vorher<br>Text")
+        self.assertContains(response, "Nein")
+        self.assertContains(response, "Ja")
+        self.assertContains(response, "Objekttyp")
+        self.assertContains(response, '<span class="audit-value-label">Vorher</span>', html=True)
+        self.assertContains(response, "<div>0</div>", html=True)
         # The shared confirmation-dialog script contains escaped newlines;
         # the rendered audit entry itself is verified above with HTML line breaks.
 
@@ -241,7 +250,8 @@ class AuditHistoryTests(TestCase):
         response = self.client.post(reverse("series_delete", args=[self.series.pk]))
         self.assertRedirects(response, reverse("dashboard"))
 
-        event = AuditEvent.objects.get(action="deleted", summary__contains="Audit-Reihe")
+        event = AuditEvent.objects.filter(action="deleted", summary__contains="Audit-Reihe").order_by("-pk").first()
+        self.assertIsNotNone(event)
         self.assertIsNone(event.series_id)
         response = self.client.get(reverse("audit_history"))
         self.assertEqual(response.status_code, 200)
@@ -253,6 +263,142 @@ class AuditHistoryTests(TestCase):
         self.client.force_login(admin)
         response = self.client.get(reverse("audit_history"))
         self.assertContains(response, "Audit-Reihe“ gelöscht")
+
+    def test_auditor_has_own_overview_and_read_only_settings_only(self):
+        from .user_roles import sync_user_role
+        auditor = User.objects.create_user(username="auditor-ui", password="strong-test-password")
+        sync_user_role(auditor, "auditor")
+        self.client.force_login(auditor)
+
+        for route in ("dashboard", "my_tasks", "meetings_overview", "archive"):
+            response = self.client.get(reverse(route))
+            self.assertRedirects(response, reverse("auditor_overview"))
+
+        response = self.client.get(reverse("auditor_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Auditor-Übersicht")
+        self.assertContains(response, "Organisationseinstellungen")
+        self.assertContains(response, "Nutzer")
+        self.assertContains(response, "Gruppen")
+        self.assertContains(response, "Änderungsverlauf")
+        self.assertNotContains(response, "enaio-Einstellungen")
+
+        response = self.client.get(reverse("auditor_users"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Globale Rolle")
+        self.assertNotContains(response, "Nutzer hinzufügen")
+        self.assertNotContains(response, "Bearbeiten")
+        self.assertEqual(self.client.post(reverse("auditor_users"), {}).status_code, 403)
+
+        from .models import MeetingSeries, SeriesAccess
+        group = MeetingSeries.objects.create(name="Auditor-Gruppenansicht")
+        SeriesAccess.objects.create(user=auditor, series=group, role=SeriesAccess.ROLE_READER)
+        response = self.client.get(reverse("auditor_groups"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Auditor-Gruppenansicht")
+        self.assertContains(response, "Leser*in")
+        self.assertNotContains(response, "Hinzufügen")
+        self.assertNotContains(response, "Entfernen")
+        self.assertEqual(self.client.post(reverse("auditor_groups"), {}).status_code, 403)
+
+        response = self.client.get(reverse("auditor_organization_settings"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Einstellungen speichern")
+        response = self.client.post(reverse("auditor_organization_settings"), {})
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.get(reverse("management_users"))
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(reverse("management_groups"))
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(reverse("management_home"))
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(reverse("management_data"))
+        self.assertEqual(response.status_code, 403)
+
+    def test_admin_user_edit_audits_each_changed_field(self):
+        admin = User.objects.create_superuser(
+            username="editor-admin", email="editor-admin@example.com",
+            password="strong-test-password",
+        )
+        target = User.objects.create_user(
+            username="target-account", password="strong-test-password",
+            first_name="Alt", last_name="Name", email="old@example.test",
+        )
+        self.client.force_login(admin)
+        response = self.client.post(reverse("management_user_edit", args=[target.pk]), {
+            "first_name": "Neu", "last_name": "Name", "email": "new@example.test",
+            "is_active": "true", "short_description": "Team A", "role": "auditor",
+        })
+        self.assertRedirects(response, reverse("management_users"))
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="target-account")
+        self.assertEqual(event.changes["Vorname"], {"vorher": "Alt", "nachher": "Neu"})
+        self.assertEqual(event.changes["E-Mail"], {"vorher": "old@example.test", "nachher": "new@example.test"})
+        self.assertEqual(event.changes["Kurzbeschreibung"], {"vorher": "", "nachher": "Team A"})
+        self.assertEqual(event.changes["Globale Rolle"]["nachher"], "Auditor")
+
+    def test_admin_can_delete_user_and_deletion_is_audited(self):
+        from .models import AuditEvent
+        admin = User.objects.create_superuser(username="delete-admin", email="delete-admin@example.com", password="strong-test-password")
+        target = User.objects.create_user(username="delete-target", password="strong-test-password", first_name="Delete", last_name="Me")
+        self.client.force_login(admin)
+        response = self.client.post(reverse("management_user_delete", args=[target.pk]))
+        self.assertRedirects(response, reverse("management_users"))
+        self.assertFalse(User.objects.filter(pk=target.pk).exists())
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="delete-target")
+        self.assertEqual(event.action, "deleted")
+        self.assertEqual(event.changes["Benutzername"], {"vorher": "delete-target", "nachher": None})
+
+    def test_admin_cannot_delete_own_account(self):
+        admin = User.objects.create_superuser(username="self-delete-admin", email="self-delete@example.com", password="strong-test-password")
+        self.client.force_login(admin)
+        response = self.client.post(reverse("management_user_delete", args=[admin.pk]))
+        self.assertRedirects(response, reverse("management_users"))
+        self.assertTrue(User.objects.filter(pk=admin.pk).exists())
+
+    def test_user_active_status_is_a_select_field(self):
+        admin = User.objects.create_superuser(username="active-field-admin", email="active-field@example.com", password="strong-test-password")
+        target = User.objects.create_user(username="active-field-target", password="strong-test-password")
+        self.client.force_login(admin)
+        response = self.client.get(reverse("management_user_edit", args=[target.pk]))
+        self.assertContains(response, '<select name="is_active"')
+        self.assertContains(response, '<option value="true" selected>')
+        response = self.client.post(reverse("management_user_edit", args=[target.pk]), {
+            "first_name": "", "last_name": "", "email": "", "is_active": "false",
+            "short_description": "", "role": "user",
+        })
+        self.assertRedirects(response, reverse("management_users"))
+        target.refresh_from_db()
+        self.assertFalse(target.is_active)
+    def test_admin_and_auditor_see_system_events_but_not_series_events(self):
+        from .models import AuditEvent
+        from .user_roles import sync_user_role
+
+        admin = User.objects.create_superuser(
+            username="system-admin", email="system-admin@example.com",
+            password="strong-test-password",
+        )
+        auditor = User.objects.create_user(
+            username="system-auditor", password="strong-test-password",
+        )
+        sync_user_role(auditor, "auditor")
+        AuditEvent.objects.create(
+            actor=admin, scope=AuditEvent.SCOPE_SYSTEM, action="updated",
+            summary="Globale Systemeinstellung geändert",
+        )
+        AuditEvent.objects.create(
+            actor=admin, scope=AuditEvent.SCOPE_SERIES, action="deleted",
+            summary="Besprechungsreihe gelöscht",
+        )
+
+        for account in (admin, auditor):
+            self.client.force_login(account)
+            response = self.client.get(reverse("audit_history"))
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Globale Systemeinstellung geändert")
+            self.assertNotContains(response, "Besprechungsreihe gelöscht")
+
 
 class TopicTaskManagementTests(TestCase):
     def setUp(self):
@@ -480,6 +626,9 @@ class TopicAgendaCsvImportTests(TestCase):
             username="csv-admin", email="csv-admin@example.com", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="CSV-Reihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR
+        )
         self.client.force_login(self.admin)
 
     def _csv(self, rows):
@@ -503,6 +652,9 @@ class TopicAgendaCsvImportTests(TestCase):
         from io import StringIO
 
         topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=topic_series, role=SeriesAccess.ROLE_MODERATOR
+        )
         topic = Topic.objects.create(title="Reihenübergreifendes Thema", series=topic_series)
         meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Sondersitzung")
         AgendaItem.objects.create(meeting=meeting, topic=topic)
@@ -702,6 +854,9 @@ class TopicAgendaCsvImportTests(TestCase):
             username="csv-admin", email="csv-admin@example.com", password="strong-test-password"
         )
         self.series = MeetingSeries.objects.create(name="CSV-Reihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR
+        )
         self.client.force_login(self.admin)
 
     def _csv(self, rows, topic_series_name="CSV-Reihe"):
@@ -815,6 +970,9 @@ class TopicAgendaCsvImportTests(TestCase):
 
     def test_csv_preserves_topic_series_separately_from_meeting_series(self):
         topic_series = MeetingSeries.objects.create(name="Themenreihe")
+        SeriesAccess.objects.create(
+            user=self.admin, series=topic_series, role=SeriesAccess.ROLE_MODERATOR,
+        )
         response = self._confirm_import(self._csv([[
             "2026-12-03", "Sondersitzung", "Thema aus anderer Reihe",
             "", "open", "", "", "", "", "Punkttext",
@@ -1010,6 +1168,7 @@ class AgendaFollowupLinkTests(TestCase):
         )
         self.client.force_login(self.admin)
         self.series = MeetingSeries.objects.create(name="Wiedervorlage-Reihe")
+        SeriesAccess.objects.create(user=self.admin, series=self.series, role=SeriesAccess.ROLE_MODERATOR)
         self.source_meeting = Meeting.objects.create(series=self.series, date="2026-12-03", title="Ausgangstermin")
         self.first_target = Meeting.objects.create(series=self.series, date="2027-01-14", title="Folgetermin 1")
         self.second_target = Meeting.objects.create(series=self.series, date="2027-02-11", title="Folgetermin 2")
@@ -1217,6 +1376,7 @@ class RepositoryConsistencyRegressionTests(TestCase):
         moderator = User.objects.create_superuser(
             username="reset-admin", email="reset-admin@example.com", password="strong-test-password",
         )
+        SeriesAccess.objects.create(user=moderator, series=series, role=SeriesAccess.ROLE_MODERATOR)
         self.client.force_login(moderator)
         response = self.client.post(reverse("series_reset_meetings", args=[series.pk]))
         self.assertRedirects(response, reverse("series_edit", args=[series.pk]))
@@ -1581,23 +1741,18 @@ class ApprovedRepositoryAuditFollowupTests(TestCase):
         resolved, errors = _resolve_existing_users(grouped)
         self.assertTrue(any("mehreren CSV-Benutzern" in error for error in errors))
 
-    def test_meeting_delete_message_matches_the_action(self):
+    def test_archived_meeting_delete_is_forbidden(self):
         from datetime import date
-        user = User.objects.create_superuser(
-            username="orphan-meeting-moderator",
-            email="orphan@example.org",
-            password="strong-test-password",
-        )
+        from .models import ArchivedMeetingAccess
+        user = User.objects.create_user(username="archived-meeting-user", password="strong-test-password")
         meeting = Meeting.objects.create(series=None, date=date(2026, 12, 22))
+        ArchivedMeetingAccess.objects.create(
+            meeting=meeting, user=user, role=SeriesAccess.ROLE_MODERATOR
+        )
         self.client.force_login(user)
         response = self.client.post(reverse("meeting_delete", args=[meeting.pk]))
-        self.assertRedirects(response, reverse("meeting", args=[meeting.pk]))
-        from django.contrib.messages import get_messages
-        stored_messages = [str(message) for message in get_messages(response.wsgi_request)]
-        self.assertIn(
-            "Dieser Termin gehört zu keiner Besprechungsreihe und kann daher nicht gelöscht werden.",
-            stored_messages,
-        )
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(Meeting.objects.filter(pk=meeting.pk).exists())
 
 
 class UserOverviewTests(TestCase):
@@ -1649,6 +1804,10 @@ class UserOverviewTests(TestCase):
         self.assertEqual(self.user.last_name, "Hopper")
         self.assertEqual(self.user.email, "grace@example.test")
         self.assertEqual(self.user.meeting_profile.short_description, "Projektleitung")
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="Eigenes Benutzerprofil")
+        self.assertEqual(event.changes["Vorname"], {"vorher": "Ada", "nachher": "Grace"})
+        self.assertEqual(event.changes["Organisationskennzeichen"], {"vorher": "", "nachher": "Projektleitung"})
 
     def test_user_can_change_own_password_without_losing_session(self):
         response = self.client.post(reverse("user_overview"), {
@@ -1661,14 +1820,19 @@ class UserOverviewTests(TestCase):
         self.user.refresh_from_db()
         self.assertTrue(self.user.check_password("New-strong-password-123"))
         self.assertEqual(int(self.client.session["_auth_user_id"]), self.user.pk)
+        from .models import AuditEvent
+        event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="Passwort von")
+        self.assertIn("wird nicht protokolliert", event.changes["Passwort"]["nachher"])
 
-    def test_admin_sees_global_access_for_all_series(self):
+    def test_admin_sees_only_explicit_series_permissions(self):
         from django.contrib.auth.models import Group
         admin_group, _ = Group.objects.get_or_create(name="Admin")
         self.user.groups.add(admin_group)
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Admin – globaler Zugriff")
+        self.assertContains(response, "Leser")
+        self.assertNotContains(response, "Admin – globaler Zugriff")
+        self.assertNotContains(response, "Zugriff auf alle Besprechungsreihen")
         self.assertEqual(len(response.context["series_rows"]), MeetingSeries.objects.count())
 
 
@@ -1683,6 +1847,72 @@ class SeriesAccessRequestTests(TestCase):
         SeriesAccess.objects.create(
             user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR
         )
+
+    def test_admin_without_series_permissions_can_open_series_administration(self):
+        from django.contrib.auth.models import Group
+        admin = User.objects.create_user(username="series-page-admin", password="strong-test-password")
+        admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
+        self.client.force_login(admin)
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Moderator der Besprechungsreihe")
+        self.assertEqual(list(response.context["series"]), [])
+    def test_series_creation_is_also_recorded_as_system_event(self):
+        from datetime import timedelta
+        from django.contrib.auth.models import Group
+        from django.utils import timezone
+        from .models import AuditEvent
+
+        admin = User.objects.create_user(username="series-create-admin", password="strong-test-password")
+        admin.groups.add(Group.objects.get_or_create(name="Admin")[0])
+        moderator = User.objects.create_user(username="first-moderator", password="strong-test-password")
+        start = timezone.localdate() + timedelta(days=1)
+        self.client.force_login(admin)
+
+        response = self.client.post(reverse("series_admin"), {
+            "name": "Systemereignis-Reihe",
+            "description": "",
+            "recurrence": "weekly",
+            "recurrence_interval": "1",
+            "weekday": str(start.weekday()),
+            "start_date": start.isoformat(),
+            "end_date": start.isoformat(),
+            "initial_moderator": moderator.pk,
+        })
+
+        self.assertEqual(response.status_code, 302)
+        event = AuditEvent.objects.get(
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="created",
+            summary="Besprechungsreihe „Systemereignis-Reihe“ angelegt",
+        )
+        self.assertEqual(event.actor, admin)
+        self.assertEqual(event.changes["Bezeichnung"]["nachher"], "Systemereignis-Reihe")
+        self.assertTrue(AuditEvent.objects.filter(
+            scope=AuditEvent.SCOPE_SERIES,
+            action="created",
+            summary="Besprechungsreihe „Systemereignis-Reihe“ angelegt",
+        ).exists())
+
+    def test_series_deletion_is_also_recorded_as_system_event(self):
+        from .models import AuditEvent
+
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_delete", args=[self.series.pk]))
+
+        self.assertEqual(response.status_code, 302)
+        event = AuditEvent.objects.get(
+            scope=AuditEvent.SCOPE_SYSTEM,
+            action="deleted",
+            summary="Besprechungsreihe „Antragsreihe“ gelöscht",
+        )
+        self.assertEqual(event.actor, self.moderator)
+        self.assertEqual(event.changes["Bezeichnung"]["vorher"], "Antragsreihe")
+        self.assertTrue(AuditEvent.objects.filter(
+            scope=AuditEvent.SCOPE_SERIES,
+            action="deleted",
+            summary="Besprechungsreihe „Antragsreihe“ gelöscht",
+        ).exists())
 
     def test_user_sees_all_series_and_can_request_permission(self):
         self.client.force_login(self.requester)
@@ -1963,6 +2193,7 @@ class OrganizationLogoDeliveryTests(TestCase):
                     save=True,
                 )
                 series = MeetingSeries.objects.create(name="Testreihe")
+                SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
                 meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
                 self.client.force_login(self.admin)
 
@@ -1977,6 +2208,7 @@ class OrganizationLogoDeliveryTests(TestCase):
         from .models import Meeting, MeetingSeries
 
         series = MeetingSeries.objects.create(name="Testreihe")
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
         meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
         self.client.force_login(self.admin)
 
@@ -2080,6 +2312,7 @@ class OrganizationLogoDeliveryTests(TestCase):
                     save=True,
                 )
                 series = MeetingSeries.objects.create(name="Testreihe")
+                SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
                 meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
                 self.client.force_login(self.admin)
 
@@ -2088,3 +2321,51 @@ class OrganizationLogoDeliveryTests(TestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertEqual(response["Content-Type"], "application/pdf")
                 self.assertIn(b"/Subtype /Image", response.content)
+
+
+class ManagedUserCreationPasswordTests(TestCase):
+    def test_user_can_be_created_without_password_when_email_is_provided(self):
+        from .management_views import ManagedUserCreateForm
+
+        form = ManagedUserCreateForm(data={
+            "username": "invited-user",
+            "email": "invited@example.org",
+            "password1": "",
+            "password2": "",
+            "role": "user",
+        })
+        self.assertTrue(form.is_valid(), form.errors)
+        user = form.save()
+        self.assertTrue(user.has_usable_password())
+        self.assertTrue(user.check_password("Neu"))
+        self.assertTrue(user.meeting_profile.must_change_password)
+        self.assertIsNotNone(user.meeting_profile.password_setup_expires_at)
+
+    def test_passwordless_user_creation_does_not_require_email(self):
+        from .management_views import ManagedUserCreateForm
+
+        form = ManagedUserCreateForm(data={
+            "username": "invited-user",
+            "email": "",
+            "password1": "",
+            "password2": "",
+            "role": "user",
+        })
+        self.assertTrue(form.is_valid(), form.errors)
+        user = form.save()
+        self.assertTrue(user.check_password("Neu"))
+
+    def test_user_can_still_be_created_with_password(self):
+        from .management_views import ManagedUserCreateForm
+
+        form = ManagedUserCreateForm(data={
+            "username": "direct-password-user",
+            "email": "",
+            "password1": "Abcdef1!",
+            "password2": "Abcdef1!",
+            "role": "user",
+        })
+        self.assertTrue(form.is_valid(), form.errors)
+        user = form.save()
+        self.assertTrue(user.has_usable_password())
+        self.assertTrue(user.check_password("Abcdef1!"))
