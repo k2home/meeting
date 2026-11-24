@@ -1,7 +1,8 @@
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.conf import settings
-from django.contrib.auth import logout
+from django.contrib.auth import get_user_model, logout
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -29,7 +30,7 @@ class OrganizationTimezoneMiddleware:
         with timezone.override(display_timezone):
             return self.get_response(request)
 
- 
+
 class EnforcePasswordChangeMiddleware:
     """Restrict marked accounts to the password-change page until updated."""
 
@@ -39,21 +40,32 @@ class EnforcePasswordChangeMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        from .password_setup import expire_overdue_password_setups
-        expire_overdue_password_setups()
+        from .password_setup import expire_password_setup_if_due
+
         user = getattr(request, "user", None)
         if user is not None and user.is_authenticated:
-            from .password_setup import expire_password_setup_if_due
             from django.shortcuts import redirect
+
             if expire_password_setup_if_due(user):
                 logout(request)
                 return redirect("login")
             if request.path_info not in self.ALLOWED_PATHS:
                 from .models import UserProfile
+
                 try:
                     profile = user.meeting_profile
                 except UserProfile.DoesNotExist:
                     profile = None
                 if (profile is not None and profile.must_change_password) or not user.has_usable_password():
                     return redirect("/konto/passwort-aendern/")
+        elif request.method == "POST" and request.path_info == reverse("login"):
+            # Check only the account attempting to authenticate. A global UPDATE
+            # over every expired setup on every request needlessly scans the
+            # profile table, including for anonymous and static-like requests.
+            username = request.POST.get("username", "")
+            if username:
+                account = get_user_model().objects.filter(username=username).first()
+                if account is not None:
+                    expire_password_setup_if_due(account)
+
         return self.get_response(request)
