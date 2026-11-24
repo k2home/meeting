@@ -44,6 +44,41 @@ class GlobalUserRoleTests(TestCase):
         self.assertFalse(user.is_staff)
         self.assertFalse(user.groups.filter(name__in=["Admin", "Auditor"]).exists())
 
+    def test_admin_does_not_inherit_series_access_from_global_role(self):
+        self.assertTrue(is_admin(self.admin))
+        self.assertFalse(is_moderator(self.admin, self.series))
+        self.assertFalse(is_reader(self.admin, self.series))
+        self.assertFalse(accessible_series(self.admin).exists())
+        self.assertFalse(accessible_meetings(self.admin).exists())
+        self.assertFalse(accessible_topics(self.admin).exists())
+
+        self.client.force_login(self.admin)
+        meeting_page = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(meeting_page.status_code, 404)
+        series_edit = self.client.post(reverse("series_edit", args=[self.series.pk]), {
+            "name": self.series.name, "description": "Keine Admin-Vererbung",
+            "recurrence": "weekly", "recurrence_interval": 1, "weekday": 1,
+            "start_date": "2026-12-01",
+        })
+        self.assertEqual(series_edit.status_code, 403)
+
+    def test_admin_with_reader_assignment_remains_read_only(self):
+        SeriesAccess.objects.create(
+            user=self.admin, series=self.series, role=SeriesAccess.ROLE_READER
+        )
+        self.assertTrue(is_reader(self.admin, self.series))
+        self.assertFalse(is_moderator(self.admin, self.series))
+        self.assertTrue(accessible_meetings(self.admin).filter(pk=self.meeting.pk).exists())
+
+        self.client.force_login(self.admin)
+        page = self.client.get(reverse("meeting", args=[self.meeting.pk]))
+        self.assertEqual(page.status_code, 200)
+        self.assertNotContains(page, "Teilnehmer speichern")
+        update = self.client.post(
+            reverse("meeting", args=[self.meeting.pk]), {"save_participants": "1"}
+        )
+        self.assertEqual(update.status_code, 403)
+
     def test_auditor_cannot_read_series_content_even_with_series_assignment(self):
         auditor = User.objects.create_user(username="auditor", password="test-password")
         sync_user_role(auditor, "auditor")
