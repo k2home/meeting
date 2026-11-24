@@ -12,7 +12,7 @@ class TopicPriorityCsvTests(TestCase):
         content = (
             "record_type;series;topic_series;meeting_date;meeting_title;topic_title;"
             "topic_status;topic_priority;archive_previous_status;agenda_status\n"
-            f"topic;;{self.series.name};;;;open;urgent;;\n"
+            f"topic;;{self.series.name};;;Prioritätsthema;open;urgent;;\n"
         )
 
         rows, errors = parse_topic_agenda_csv(content)
@@ -24,7 +24,7 @@ class TopicPriorityCsvTests(TestCase):
         content = (
             "record_type;series;topic_series;meeting_date;meeting_title;topic_title;"
             "topic_status;topic_priority;archive_previous_status;agenda_status\n"
-            f"topic;;{self.series.name};;;;open;critical;;\n"
+            f"topic;;{self.series.name};;;Prioritätsthema;open;critical;;\n"
         )
 
         rows, errors = parse_topic_agenda_csv(content)
