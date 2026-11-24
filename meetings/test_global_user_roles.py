@@ -126,6 +126,7 @@ class GlobalUserRoleTests(TestCase):
 
         self.assertEqual(page.status_code, 200)
         self.assertContains(page, "Audit-Eintrag sichtbar")
+        self.assertContains(page, "nav-history")
         self.assertEqual(export.status_code, 200)
         self.assertIn("Audit-Eintrag sichtbar", export.content.decode("utf-8-sig"))
 
