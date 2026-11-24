@@ -2177,11 +2177,13 @@ def audit_history(request):
         topic_id = ""
         selected_series = ""
 
+    paginator = Paginator(events, 50)
+    events_page = paginator.get_page(request.GET.get("page"))
+
     return render(request, "meetings/audit_history.html", {
-        "events": Paginator(events, 50).get_page(request.GET.get("page")),
-        "page_range": Paginator(events, 50).get_elided_page_range(
-            number=Paginator(events, 50).get_page(request.GET.get("page")).number,
-            on_each_side=2, on_ends=1,
+        "events": events_page,
+        "page_range": paginator.get_elided_page_range(
+            number=events_page.number, on_each_side=2, on_ends=1,
         ),
         "selected_topic": topic_id,
         "topics": topics, "series": series, "selected_series": selected_series,
