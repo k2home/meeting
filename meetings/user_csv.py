@@ -342,7 +342,7 @@ def import_users_csv(request):
         request.session.pop(SESSION_IMPORT_KEY, None)
         messages.success(
             request,
-            f"CSV-Import abgeschlossen: {created} Benutzer neu angelegt (Startpasswort „Neu“, Passwortvergabe innerhalb von 24 Stunden), {updated} Benutzer aktualisiert.",
+            f"CSV-Import abgeschlossen: {created} Benutzer neu angelegt (konfiguriertes Startpasswort, Passwortvergabe innerhalb von 24 Stunden), {updated} Benutzer aktualisiert.",
         )
         return redirect("management_users") if request.path.startswith("/verwaltung/") else redirect("admin:auth_user_changelist")
 
