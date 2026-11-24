@@ -32,7 +32,7 @@ def audit_history_csv(request):
 
     events = AuditEvent.objects.select_related("actor", "topic", "meeting", "meeting__series", "series")
     if admin_access:
-        events = events.filter(series__isnull=True, meeting__isnull=True, topic__isnull=True)
+        events = events.filter(scope=AuditEvent.SCOPE_SYSTEM)
     else:
         events = events.filter(
             Q(series__in=series)
