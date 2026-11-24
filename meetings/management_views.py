@@ -496,9 +496,11 @@ def auditor_groups(request):
 def management_users(request):
     _require_admin(request)
     users = User.objects.all().order_by("last_name", "first_name", "username")
+    initial_passwords = request.session.pop("new_user_initial_passwords", [])
     return render(request, "meetings/management_users.html", {
         "users": [{"account": user, "role": get_user_role(user), "role_label": dict(USER_ROLE_CHOICES)[get_user_role(user)]} for user in users],
         "role_choices": SeriesAccess.ROLE_CHOICES,
+        "initial_passwords": initial_passwords,
     })
 
 
@@ -1137,7 +1139,7 @@ def management_user_csv_sample(request):
         "# series_role: Rolle fuer die angegebene Reihe; erlaubt: participant, teilnehmer*in, moderator, moderator*in, reader, leser*in.\r\n"
         "# series_role bleibt leer, wenn keine series angegeben ist. Bei mehreren Reihen je Benutzer eine Zeile verwenden; Nutzerdaten identisch halten.\r\n"
         "# user_role: Globale Rolle; erlaubt: user, admin, auditor. Nur globale Administratoren duerfen dieses Feld importieren.\r\n"
-        "# Neue Benutzer erhalten ein zufaelliges Startpasswort; anschliessend ist die Passwort-zuruecksetzen-Funktion zu verwenden.\r\n"
+        "# Neue Benutzer erhalten ein zufaelliges Startpasswort, das nach dem Import einmalig angezeigt wird. Beim ersten Login muss ein eigenes Passwort vergeben werden.\r\n"
         "username;first_name;last_name;email;short_description;is_active;user_role;series;series_role\r\n"
         "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;user;;;\r\n"
     )
