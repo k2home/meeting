@@ -345,6 +345,9 @@ def open_topics(request):
         topic__status__in=["open", "in_progress", "done"],
         status__in=["open", "in_progress"],
         meeting__date__lte=today,
+    ).filter(
+        Q(meeting__date__lt=today)
+        | Q(meeting__date=today, meeting__finalized_at__isnull=False)
     ).filter(pk__in=Subquery(latest_item_ids)).select_related(
         "topic", "topic__series", "meeting", "assigned_to"
     ).order_by("topic__series__name", "topic__title")
