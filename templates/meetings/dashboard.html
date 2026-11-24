@@ -18,7 +18,7 @@
 {% empty %}<p class="muted">Keine zukünftigen Termine vorhanden. {% if is_moderator %}<a href="{% url 'series_admin' %}">Besprechungsreihe einrichten</a>{% endif %}</p>{% endfor %}
 </div>
 </section>
-<section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted">{{ result_count }} Treffer</p></div><div class="actions"><a href="{% url 'archive' %}">Zum Archiv</a>{% if not is_reader %}<button type="button" id="open-dashboard-new-topic">+ Neu</button>{% endif %}</div></div>
+<section class="card"><div class="topline"><div><h2>Themen</h2><p class="muted" id="dashboard-topic-result-count" aria-live="polite">{{ result_count }} Treffer</p></div><div class="actions"><a href="{% url 'archive' %}">Zum Archiv</a>{% if not is_reader %}<button type="button" id="open-dashboard-new-topic">+ Neu</button>{% endif %}</div></div>
 <div class="card filter-panel" style="margin:.8rem 0">
 <form id="dashboard-topic-search-form" method="get" action="{% url 'dashboard' %}" style="margin:0 0 .8rem">
   <label for="topic-search">Thema suchen</label>
@@ -37,7 +37,7 @@
   <div class="actions"><button type="submit" class="secondary">Filtern</button><a class="btn secondary" href="{% url 'dashboard' %}">Filter zurücksetzen</a></div>
 </form>
 </div>
-{% if topics %}<div style="overflow-x:auto"><table id="dashboard-topics-table"><thead><tr>
+{% if topics %}<div id="dashboard-topic-results"><div style="overflow-x:auto"><table id="dashboard-topics-table"><thead><tr>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="0" data-sort-type="text">Thema <span aria-hidden="true">↕</span></button></th>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="1" data-sort-type="text">Besprechungsreihe <span aria-hidden="true">↕</span></button></th>
 <th scope="col" aria-sort="none"><button type="button" class="table-sort" data-sort-column="2" data-sort-type="date">Nächste Besprechung <span aria-hidden="true">↕</span></button></th>
@@ -47,7 +47,7 @@
 <td data-sort-value="{{ t.series.name|default:''|lower }}">{{ t.series|default:"—" }}</td>
 <td data-sort-value="{{ t.next_meeting_date|date:'Y-m-d' }}">{% if t.next_meeting_date and t.next_meeting_date < today %}<span class="overdue">{{ t.next_meeting_date|date:"DATE_FORMAT" }}</span>{% else %}{{ t.next_meeting_date|date:"DATE_FORMAT"|default:"—" }}{% endif %}</td>
 </tr>{% endfor %}
-</tbody></table></div>{% else %}<p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p>{% endif %}
+</tbody></table></div></div>{% else %}<div id="dashboard-topic-results"><p class="muted">Keine passenden Themen gefunden. Ändere die Suche oder setze die Filter zurück.</p></div>{% endif %}
 </section>
 
 
@@ -94,18 +94,47 @@
 <script>
 (() => {
   const searchForm = document.getElementById("dashboard-topic-search-form");
-  const searchScrollKey = "dashboard-topic-search-scroll";
-  searchForm?.addEventListener("submit", () => {
-    sessionStorage.setItem(searchScrollKey, String(window.scrollY));
-  });
-  const savedSearchScroll = sessionStorage.getItem(searchScrollKey);
-  if (savedSearchScroll !== null) {
-    sessionStorage.removeItem(searchScrollKey);
-    const scrollY = Number(savedSearchScroll);
-    if (Number.isFinite(scrollY)) {
-      requestAnimationFrame(() => window.scrollTo({ top: scrollY, left: 0, behavior: "instant" }));
+  const searchInput = document.getElementById("topic-search");
+  const resultCount = document.getElementById("dashboard-topic-result-count");
+  let searchTimer = null;
+  let activeSearch = null;
+  const runLiveSearch = async () => {
+    if (!searchForm || !searchInput) return;
+    activeSearch?.abort();
+    activeSearch = new AbortController();
+    const url = new URL(searchForm.action, window.location.href);
+    const query = searchInput.value.trim();
+    if (query) url.searchParams.set("q", query);
+    try {
+      const response = await fetch(url, {
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+        credentials: "same-origin",
+        signal: activeSearch.signal,
+      });
+      if (!response.ok) throw new Error("Die Suche konnte nicht geladen werden.");
+      const html = await response.text();
+      const parsed = new DOMParser().parseFromString(html, "text/html");
+      const nextResults = parsed.getElementById("dashboard-topic-results");
+      const currentResults = document.getElementById("dashboard-topic-results");
+      const nextCount = parsed.getElementById("dashboard-topic-result-count");
+      if (!nextResults || !currentResults || !nextCount) throw new Error("Suchergebnisse sind unvollständig.");
+      currentResults.replaceWith(nextResults);
+      if (resultCount) resultCount.textContent = nextCount.textContent;
+      window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+    } catch (error) {
+      if (error.name !== "AbortError") console.error(error);
     }
-  }
+  };
+  const scheduleLiveSearch = () => {
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(runLiveSearch, 250);
+  };
+  searchInput?.addEventListener("input", scheduleLiveSearch);
+  searchForm?.addEventListener("submit", event => {
+    event.preventDefault();
+    window.clearTimeout(searchTimer);
+    runLiveSearch();
+  });
 
   const newTopicDialog = document.getElementById("dashboard-new-topic-dialog");
   const openNewTopic = document.getElementById("open-dashboard-new-topic");
