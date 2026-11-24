@@ -27,11 +27,13 @@ class ForcedPasswordChangeTests(TestCase):
         self.assertRedirects(response, reverse("management_users"))
         self.assertEqual(mail.outbox, [])
         account = User.objects.get(username="new-password-user")
-        self.assertFalse(account.has_usable_password())
+        self.assertTrue(account.has_usable_password())
+        self.assertTrue(account.check_password("Neu"))
         self.assertTrue(account.meeting_profile.must_change_password)
+        self.assertIsNotNone(account.meeting_profile.password_setup_expires_at)
 
         self.client.logout()
-        login_response = self.client.post(reverse("login"), {"username": account.username})
+        login_response = self.client.post(reverse("login"), {"username": account.username, "password": "Neu"})
         self.assertEqual(login_response.status_code, 302)
         self.assertEqual(login_response.url, reverse("dashboard"))
         forced_response = self.client.get(reverse("dashboard"))
@@ -52,12 +54,14 @@ class ForcedPasswordChangeTests(TestCase):
         self.assertRedirects(response, reverse("management_user_edit", args=[account.pk]))
         self.assertEqual(mail.outbox, [])
         account.refresh_from_db()
-        self.assertFalse(account.has_usable_password())
+        self.assertTrue(account.has_usable_password())
+        self.assertTrue(account.check_password("Neu"))
         self.assertTrue(account.meeting_profile.must_change_password)
+        self.assertIsNotNone(account.meeting_profile.password_setup_expires_at)
 
         self.client.logout()
         login_response = self.client.post(reverse("login"), {
-            "username": account.username,
+            "username": account.username, "password": "Neu",
         })
         self.assertEqual(login_response.status_code, 302)
         self.assertEqual(login_response.url, reverse("dashboard"))
@@ -71,3 +75,39 @@ class ForcedPasswordChangeTests(TestCase):
         account.refresh_from_db()
         self.assertTrue(account.check_password("NewPersonalPassword1!"))
         self.assertFalse(account.meeting_profile.must_change_password)
+
+    def test_expired_setup_window_deactivates_account_and_blocks_login(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from meetings.models import UserProfile
+        account = User.objects.create_user(username="expired-setup-user", password="Neu")
+        UserProfile.objects.create(
+            user=account, must_change_password=True,
+            password_setup_expires_at=timezone.now() - timedelta(seconds=1),
+        )
+        response = self.client.post(reverse("login"), {
+            "username": account.username, "password": "Neu",
+        })
+        self.assertEqual(response.status_code, 200)
+        account.refresh_from_db()
+        self.assertFalse(account.is_active)
+
+    def test_admin_reactivation_resets_password_and_starts_new_24_hour_window(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        account = User.objects.create_user(username="reactivate-user", password="OldPassword1!", is_active=False)
+        self.client.force_login(self.admin)
+        response = self.client.post(reverse("management_user_edit", args=[account.pk]), {
+            "username": account.username, "first_name": "", "last_name": "", "email": "",
+            "is_active": "true", "role": "user", "short_description": "",
+        })
+        self.assertRedirects(response, reverse("management_users"))
+        account.refresh_from_db()
+        self.assertTrue(account.is_active)
+        self.assertTrue(account.check_password("Neu"))
+        self.assertTrue(account.meeting_profile.must_change_password)
+        self.assertGreater(account.meeting_profile.password_setup_expires_at, timezone.now())
+        self.assertLessEqual(
+            account.meeting_profile.password_setup_expires_at,
+            timezone.now() + timedelta(hours=24, minutes=1),
+        )
