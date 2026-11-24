@@ -136,9 +136,12 @@ class TopicAdmin(admin.ModelAdmin):
         return sample_csv_response()
 
     def csv_export_view(self, request):
-        if not self.has_view_or_change_permission(request):
+        if not is_moderator(request.user):
             raise PermissionDenied
-        return export_topic_agenda_csv(request)
+        series_ids = list(SeriesAccess.objects.filter(
+            user=request.user, role=SeriesAccess.ROLE_MODERATOR
+        ).values_list("series_id", flat=True))
+        return export_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
     fields = ("title", "series")
     list_display = ("title", "series")
