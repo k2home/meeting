@@ -585,11 +585,32 @@
   content.addEventListener("click", async event => {
     const button = event.target.closest("#copy-agenda-history");
     if (!button) return;
+    const previousFocus = document.activeElement;
+    button.disabled = true;
     try {
-      await navigator.clipboard.writeText(content.innerText.trim());
+      const value = content.innerText.trim();
+      if (window.isSecureContext && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = value;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        try {
+          textarea.select();
+          if (!document.execCommand("copy")) throw new Error("Kopieren nicht möglich");
+        } finally {
+          textarea.remove();
+          previousFocus?.focus?.();
+        }
+      }
       button.textContent = "Verlauf kopiert";
     } catch {
       button.textContent = "Kopieren nicht möglich";
+    } finally {
+      button.disabled = false;
     }
   });
 })();
