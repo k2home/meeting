@@ -88,7 +88,7 @@ while IFS= read -r candidate; do
     SITE_HOST="$candidate"
     break
   fi
-done < <(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | tr ',' '\\n')
+done < <(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | tr ',' '\n')
 if [[ -z "$SITE_HOST" ]]; then
   echo "ALLOWED_HOSTS in .env muss einen gültigen öffentlichen Hostnamen enthalten." >&2
   exit 1
