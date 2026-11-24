@@ -450,18 +450,18 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 <button class="desktop-menu-toggle" type="button" id="desktop-menu-toggle" aria-expanded="false" aria-label="Navigation aufklappen">☰</button>
 <a class="brand" href="/">{% if organization_logo_url %}<img class="brand-icon organization-brand-logo" src="{{ organization_logo_url }}" alt="{{ organization_unit_name|default:'Organisationslogo' }}">{% else %}<img class="brand-icon" src="{% static 'meetings/favicon.svg' %}?v=8" alt="">{% endif %}<span class="brand-copy"><span class="brand-title">Meeting Manager</span>{% if organization_unit_name %}<span class="brand-organization">{{ organization_unit_name }}</span>{% endif %}<span class="brand-short">{{ organization_unit_short_name }}</span></span></a>
 <nav class="nav-links" aria-label="Hauptmenü"><div class="sidebar-section-label">Arbeitsbereich</div>
-<a class="nav-overview" href="/" title="Übersicht" aria-label="Übersicht">Übersicht</a>
-{% if not is_reader %}<a class="nav-tasks" href="{% url 'my_tasks' %}" title="Meine Aufgaben" aria-label="Meine Aufgaben">Meine Aufgaben</a>{% endif %}
-<a class="nav-meetings" href="{% url 'meetings_overview' %}" title="Besprechungen" aria-label="Besprechungen">Besprechungen</a>
-{% if can_view_open_topics %}<a class="nav-open-topics" href="{% url 'open_topics' %}" title="Offene Punkte" aria-label="Offene Punkte">Offene Punkte</a>{% endif %}
-<a class="nav-archive" href="/archive/" title="Archiv" aria-label="Archiv">Archiv</a>
+<a class="nav-overview" href="{% if is_auditor %}{% url 'auditor_overview' %}{% else %}/{% endif %}" title="Übersicht" aria-label="Übersicht">{% if is_auditor %}Auditor-Übersicht{% else %}Übersicht{% endif %}</a>
+{% if not is_reader and not is_auditor %}<a class="nav-tasks" href="{% url 'my_tasks' %}" title="Meine Aufgaben" aria-label="Meine Aufgaben">Meine Aufgaben</a>{% endif %}
+{% if not is_auditor %}<a class="nav-meetings" href="{% url 'meetings_overview' %}" title="Besprechungen" aria-label="Besprechungen">Besprechungen</a>{% endif %}
+{% if can_view_open_topics and not is_auditor %}<a class="nav-open-topics" href="{% url 'open_topics' %}" title="Offene Punkte" aria-label="Offene Punkte">Offene Punkte</a>{% endif %}
+{% if not is_auditor %}<a class="nav-archive" href="/archive/" title="Archiv" aria-label="Archiv">Archiv</a>{% endif %}
 </nav>
 <nav class="nav-links nav-links-secondary" aria-label="Weitere Navigation"><div class="sidebar-section-label">Weitere Funktionen</div>
 {% if is_moderator or is_admin or is_auditor %}<a class="nav-history" href="/history/" title="Änderungsverlauf" aria-label="Änderungsverlauf">Änderungsverlauf</a>{% endif %}
 {% if is_moderator %}<a class="nav-series" href="/admin/series/" title="Besprechungsreihen" aria-label="Besprechungsreihen">Besprechungsreihen</a>{% endif %}
 </nav>
 <div class="sidebar-footer">
-<div class="sidebar-management"><div class="sidebar-section-label">Verwaltung</div>{% if is_admin %}<a class="nav-management" href="{% url 'management_home' %}" title="Verwaltung" aria-label="Verwaltung">Verwaltung</a><a class="nav-updates" href="{% url 'deployment_updates' %}" title="Software aktualisieren" aria-label="Software aktualisieren">Software aktualisieren</a>{% endif %}<a class="nav-help" href="{% url 'user_guide' %}" title="Hilfe &amp; Anleitung" aria-label="Hilfe &amp; Anleitung">Hilfe &amp; Anleitung</a></div>
+<div class="sidebar-management"><div class="sidebar-section-label">Verwaltung</div>{% if is_admin %}<a class="nav-management" href="{% url 'management_home' %}" title="Verwaltung" aria-label="Verwaltung">Verwaltung</a><a class="nav-updates" href="{% url 'deployment_updates' %}" title="Software aktualisieren" aria-label="Software aktualisieren">Software aktualisieren</a>{% elif is_auditor %}<a class="nav-management" href="{% url 'auditor_overview' %}" title="Einstellungen (Lesen)" aria-label="Einstellungen (Lesen)">Einstellungen (Lesen)</a>{% endif %}<a class="nav-help" href="{% url 'user_guide' %}" title="Hilfe &amp; Anleitung" aria-label="Hilfe &amp; Anleitung">Hilfe &amp; Anleitung</a></div>
 <div class="sidebar-user"><a class="username" href="{% url 'user_overview' %}" aria-label="Benutzerprofil: {{ user|user_display }}" title="{{ user|user_display }}"><svg class="sidebar-footer-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg><span class="sidebar-footer-label">{{ user|user_display }}</span></a>
 <form class="logout-form" method="post" action="/logout/">{% csrf_token %}<button class="secondary" type="submit" aria-label="Abmelden" title="Abmelden"><svg class="sidebar-footer-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path></svg><span class="sidebar-footer-label">Abmelden</span></button></form></div>
 </div>
