@@ -432,7 +432,7 @@ def auditor_overview(request):
     if not is_auditor(request.user):
         return redirect("dashboard")
     return render(request, "meetings/auditor_overview.html", {
-        "organization_settings": OrganizationSettings.objects.filter(pk=1).first(),
+        "organization_settings": OrganizationSettings.objects.filter(pk=1).defer("start_password").first(),
     })
 
 
@@ -442,7 +442,7 @@ def auditor_organization_settings(request):
         return redirect("management_settings")
     if request.method != "GET":
         return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
-    instance = OrganizationSettings.objects.filter(pk=1).first()
+    instance = OrganizationSettings.objects.filter(pk=1).defer("start_password").first()
     return render(request, "meetings/auditor_organization_settings.html", {"settings": instance})
 
 
