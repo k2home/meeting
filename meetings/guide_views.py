@@ -33,13 +33,14 @@ def security_description(request):
     source = Path(settings.BASE_DIR) / "docs" / "Funktions-und-Sicherheitsbeschreibung.md"
     if not source.is_file():
         return HttpResponse("Die Sicherheitsbeschreibung ist derzeit nicht verfügbar.", status=404)
-    content = markdown.markdown(
-        source.read_text(encoding="utf-8"),
+    parser = markdown.Markdown(
         extensions=["tables", "fenced_code", "sane_lists", "toc"],
         output_format="html5",
     )
+    content = parser.convert(source.read_text(encoding="utf-8"))
     return render(request, "meetings/security_description.html", {
         "security_description_html": mark_safe(content),
+        "security_description_toc_html": mark_safe(parser.toc),
     })
 
 
