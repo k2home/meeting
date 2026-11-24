@@ -41,8 +41,14 @@ set_env_value() {
   fi
 }
 
-DEFAULT_HOST="$(read_existing_env ALLOWED_HOSTS)"
-DEFAULT_HOST="${DEFAULT_HOST%%,*}"
+DEFAULT_HOST=""
+while IFS= read -r candidate; do
+  case "$candidate" in ""|localhost|127.0.0.1|'*') continue ;; esac
+  if [[ "$candidate" =~ ^[A-Za-z0-9.-]+$ ]]; then
+    DEFAULT_HOST="$candidate"
+    break
+  fi
+done < <(read_existing_env ALLOWED_HOSTS | tr ',' '\n')
 DEFAULT_HOST="${DEFAULT_HOST:-$(hostname -f 2>/dev/null || hostname)}"
 read -r -p "Öffentlicher Hostname bzw. IP-Adresse der Website [$DEFAULT_HOST]: " SITE_HOST
 SITE_HOST="${SITE_HOST:-$DEFAULT_HOST}"
