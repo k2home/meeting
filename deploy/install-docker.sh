@@ -25,6 +25,15 @@ echo "==> Prüfe Docker"
 command -v openssl >/dev/null 2>&1 || { echo "openssl muss installiert sein." >&2; exit 1; }
 docker info >/dev/null
 
+set_env_value() {
+  local key="$1" value="$2"
+  if grep -q "^\${key}=" "$APP_DIR/.env"; then
+    sed -i "s|^\${key}=.*|\${key}=\${value}|" "$APP_DIR/.env"
+  else
+    printf '%s=%s\\n' "$key" "$value" >> "$APP_DIR/.env"
+  fi
+}
+
 if [[ ! -f "$APP_DIR/.env" ]]; then
   DEFAULT_HOST="$(hostname -f 2>/dev/null || hostname)"
   read -r -p "Hostname oder IP, unter der die Website erreichbar ist [$DEFAULT_HOST]: " SITE_HOST
@@ -41,7 +50,7 @@ if [[ ! -f "$APP_DIR/.env" ]]; then
 SECRET_KEY=$SECRET_KEY
 DEBUG=0
 ALLOWED_HOSTS=$SITE_HOST,localhost,127.0.0.1
-CSRF_TRUSTED_ORIGINS=
+CSRF_TRUSTED_ORIGINS=https://$SITE_HOST
 POSTGRES_DB=meeting_manager
 POSTGRES_USER=meetingapp
 POSTGRES_PASSWORD=$DB_PASSWORD
@@ -49,14 +58,15 @@ POSTGRES_HOST=db
 POSTGRES_PORT=5432
 TIME_ZONE=Europe/Berlin
 WEB_PORT=8080
-SECURE_SSL_REDIRECT=0
-SESSION_COOKIE_SECURE=0
-CSRF_COOKIE_SECURE=0
+WEB_BIND_ADDRESS=127.0.0.1
+SECURE_SSL_REDIRECT=1
+SESSION_COOKIE_SECURE=1
+CSRF_COOKIE_SECURE=1
 SECURE_HSTS_SECONDS=0
 SECURE_HSTS_INCLUDE_SUBDOMAINS=0
 SECURE_HSTS_PRELOAD=0
-TRUST_PROXY_SSL=0
-USE_X_FORWARDED_HOST=0
+TRUST_PROXY_SSL=1
+USE_X_FORWARDED_HOST=1
 EOF
   chmod 600 "$APP_DIR/.env"
 else
@@ -70,6 +80,21 @@ else
   fi
   echo "Vorhandene .env wird unverändert beibehalten."
 fi
+
+SITE_HOST="$(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | cut -d, -f1 | tr -d '\\r')"
+if [[ -z "$SITE_HOST" || ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
+  echo "ALLOWED_HOSTS in .env muss einen gültigen öffentlichen Hostnamen enthalten." >&2
+  exit 1
+fi
+
+# Expose the web container only on loopback for a same-host TLS reverse proxy.
+set_env_value "CSRF_TRUSTED_ORIGINS" "https://$SITE_HOST"
+set_env_value "WEB_BIND_ADDRESS" "127.0.0.1"
+set_env_value "SECURE_SSL_REDIRECT" "1"
+set_env_value "SESSION_COOKIE_SECURE" "1"
+set_env_value "CSRF_COOKIE_SECURE" "1"
+set_env_value "TRUST_PROXY_SSL" "1"
+set_env_value "USE_X_FORWARDED_HOST" "1"
 
 echo "==> Prüfe Compose-Konfiguration"
 docker compose -f "$COMPOSE_FILE" config --quiet
@@ -85,8 +110,10 @@ echo
 echo "Installation abgeschlossen."
 WEB_PORT="$(sed -n 's/^WEB_PORT=//p' "$APP_DIR/.env" | tail -n 1 | tr -d '\r')"
 WEB_PORT="${WEB_PORT:-8080}"
-echo "Webzugriff: http://<SERVER-IP>:$WEB_PORT/"
+echo "Interne Anwendung: http://127.0.0.1:$WEB_PORT (nur lokaler HTTPS-Reverse-Proxy)"
+echo "Öffentliche Adresse: https://$SITE_HOST/"
+echo "Reverse-Proxy-Upstream: http://127.0.0.1:$WEB_PORT; X-Forwarded-Proto muss auf https gesetzt werden."
 echo "Status:     docker compose -f $COMPOSE_FILE ps"
 echo "Logs:       docker compose -f $COMPOSE_FILE logs -f app"
 echo "Secrets:    $APP_DIR/.env (nur root lesbar)"
-echo "HTTPS: Für produktiven Zugriff HTTPS über einen vorgeschalteten Reverse Proxy konfigurieren."
+echo "HTTPS ist erzwungen: Ohne vorgeschalteten TLS-Reverse-Proxy mit gültigem Zertifikat ist die Anwendung nicht nutzbar."
