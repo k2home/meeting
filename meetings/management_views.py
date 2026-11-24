@@ -161,11 +161,16 @@ class OrganizationSettingsForm(forms.ModelForm):
         label="Zeitzone",
         choices=[(zone, zone) for zone in sorted(available_timezones())],
     )
+    start_password = forms.CharField(
+        label="Startpasswort",
+        widget=forms.PasswordInput(render_value=True),
+        help_text="Ohne Komplexitätsvorgaben. Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
+    )
 
     class Meta:
         model = OrganizationSettings
         fields = (
-            "name", "short_name", "timezone", "attachment_max_size_mb",
+            "name", "short_name", "timezone", "start_password", "attachment_max_size_mb",
             "primary_color", "primary_color_light", "primary_color_dark",
             "secondary_color", "secondary_color_light", "secondary_color_dark",
             "tertiary_color", "tertiary_color_light", "tertiary_color_dark",
@@ -702,7 +707,7 @@ def management_settings(request):
             before = {
                 field: getattr(instance, field)
                 for field in form.changed_data
-                if field not in {"logo", "logo_png"}
+                if field not in {"logo", "logo_png", "start_password"}
             }
             settings_obj = form.save(commit=False)
             settings_obj.full_clean()
@@ -712,6 +717,8 @@ def management_settings(request):
                 for field in before
                 if before[field] != getattr(settings_obj, field)
             }
+            if "start_password" in form.changed_data:
+                changes["Startpasswort"] = {"nachher": "Geändert"}
             if changes:
                 _record_system_change(
                     actor=request.user, action="updated",
