@@ -430,11 +430,20 @@ def management_groups(request):
     if role_filter in dict(SeriesAccess.ROLE_CHOICES):
         access_qs = access_qs.filter(role=role_filter)
     access_ids = set(access_qs.values_list("pk", flat=True))
-    series_rows = [{
-        "series": series,
-        "members": [a for a in series.user_access.select_related("user").all() if a.pk in access_ids],
-    } for series in MeetingSeries.objects.order_by("name")]
-    series_rows = [row for row in series_rows if row["members"] or not (query or role_filter)]
+    series_rows = []
+    for series in MeetingSeries.objects.prefetch_related("user_access__user").order_by("name"):
+        members = [access for access in series.user_access.all() if access.pk in access_ids]
+        role_counts = {
+            role: sum(1 for access in members if access.role == role)
+            for role, _label in SeriesAccess.ROLE_CHOICES
+        }
+        if members or not (query or role_filter):
+            series_rows.append({
+                "series": series,
+                "members": members,
+                "member_count": len(members),
+                "role_counts": role_counts,
+            })
     return render(request, "meetings/management_groups.html", {
         "series_rows": series_rows,
         "available_users": User.objects.order_by("last_name", "first_name", "username"),
