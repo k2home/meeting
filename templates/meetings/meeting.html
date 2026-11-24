@@ -81,6 +81,13 @@
 
 .agenda-history-entry{padding:.75rem 0;border-bottom:1px solid var(--border)}
 .agenda-history-entry:last-child{border-bottom:0}
+.agenda-attachments-dialog{width:min(720px,calc(100% - 2rem));max-height:80vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.agenda-attachments-dialog::backdrop{background:#0009}
+.agenda-attachment-row{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;padding:.65rem 0;border-bottom:1px solid var(--border)}
+.agenda-attachment-row:last-child{border-bottom:0}
+.agenda-attachment-upload{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.agenda-attachment-upload label{display:block;margin:.55rem 0 .25rem}
+.agenda-attachment-upload input{max-width:100%}
 </style>
 <header class="page-header">
   <div>
@@ -208,10 +215,11 @@
         <div class="agenda-text-actions">
           <button type="submit">Text speichern</button>
           <button type="button" class="secondary agenda-move-button" data-move-dialog="agenda-move-dialog-{{ item.id }}">Schieben</button>
+          <button type="button" class="secondary agenda-attachments-button" data-attachments-dialog="agenda-attachments-dialog-{{ item.id }}">Anlagen{% if item.topic.attachments.exists %} ({{ item.topic.attachments.count }}){% endif %}</button>
           <button type="button" class="secondary agenda-history-button" data-history-url="{% url 'agenda_topic_history' meeting.id item.topic_id %}">Historie</button>
         </div>
       </form>
-      {% else %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
+      {% else %}<p>{{ item.working_text|linebreaksbr }}</p><div class="agenda-text-actions"><button type="button" class="secondary agenda-attachments-button" data-attachments-dialog="agenda-attachments-dialog-{{ item.id }}">Anlagen{% if item.topic.attachments.exists %} ({{ item.topic.attachments.count }}){% endif %}</button></div>{% endif %}
     </div>
       {% if not meeting.finalized_at and not is_reader %}
       <dialog id="agenda-move-dialog-{{ item.id }}" class="agenda-history-dialog agenda-move-dialog" aria-labelledby="agenda-move-title-{{ item.id }}">
@@ -236,6 +244,32 @@
         </form>
       </dialog>
       {% endif %}
+      <dialog id="agenda-attachments-dialog-{{ item.id }}" class="agenda-attachments-dialog" aria-labelledby="agenda-attachments-title-{{ item.id }}">
+        <div class="topline"><h2 id="agenda-attachments-title-{{ item.id }}">Anlagen – {{ item.topic.title }}</h2><button type="button" class="secondary agenda-attachments-close">Schließen</button></div>
+        {% for attachment in item.topic.attachments.all %}
+          <div class="agenda-attachment-row">
+            <div>
+              <strong>{{ attachment.label }}</strong>
+              {% if attachment.uploaded_file %}<div><a href="{% url 'attachment_download' attachment.pk %}">Datei öffnen</a> <span class="muted" data-file-size="{{ attachment.uploaded_file.size }}">({{ attachment.uploaded_file.size|filesizeformat }})</span></div>{% endif %}
+              {% if attachment.network_path %}<div>{% if attachment.network_url %}<a href="{{ attachment.network_url }}">{{ attachment.network_path }}</a>{% else %}<span>{{ attachment.network_path }}</span>{% endif %}</div>{% endif %}
+            </div>
+            {% if not is_reader %}<form method="post" action="{% url 'attachment_delete' attachment.pk %}" data-confirm-message="Anlage „{{ attachment.label }}“ wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.">{% csrf_token %}<input type="hidden" name="next" value="/meeting/{{ meeting.pk }}/?attachments={{ item.pk }}#agenda-item-{{ item.pk }}"><button type="submit" class="secondary">Anlage löschen</button></form>{% endif %}
+          </div>
+        {% empty %}<p class="muted">Noch keine Anlagen hinterlegt.</p>{% endfor %}
+        {% if not is_reader and not meeting.finalized_at %}
+          <form method="post" enctype="multipart/form-data" class="agenda-attachment-upload" action="{% url 'agenda_attachment_add' meeting.pk item.pk %}">
+            {% csrf_token %}
+            <h3>Anlage hinzufügen</h3>
+            <label for="agenda-attachment-label-{{ item.pk }}">Bezeichnung</label>
+            <input id="agenda-attachment-label-{{ item.pk }}" name="label" maxlength="180" required>
+            <label for="agenda-attachment-file-{{ item.pk }}">Datei hochladen</label>
+            <input id="agenda-attachment-file-{{ item.pk }}" name="uploaded_file" type="file">
+            <label for="agenda-attachment-path-{{ item.pk }}">Netzwerkpfad oder Link (alternativ zur Datei)</label>
+            <input id="agenda-attachment-path-{{ item.pk }}" name="network_path" maxlength="1000">
+            <div class="agenda-dialog-actions"><button type="submit">Anlage hinzufügen</button></div>
+          </form>
+        {% endif %}
+      </dialog>
   </div>
 {% empty %}
   <div class="card">Keine Themen auf der Tagesordnung. Nicht erledigte Punkte aus dem letzten Protokoll werden übernommen.</div>
@@ -395,6 +429,26 @@
       if (dialog) dialog.showModal();
     });
   });
+  document.querySelectorAll(".agenda-attachments-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const dialog = document.getElementById(button.dataset.attachmentsDialog);
+      if (dialog) dialog.showModal();
+    });
+  });
+  document.querySelectorAll(".agenda-attachments-dialog").forEach((dialog) => {
+    dialog.querySelectorAll(".agenda-attachments-close").forEach((button) => {
+      button.addEventListener("click", () => dialog.close());
+    });
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+  const requestedAttachments = new URLSearchParams(window.location.search).get("attachments");
+  if (requestedAttachments) {
+    const attachmentDialog = document.getElementById("agenda-attachments-dialog-" + requestedAttachments);
+    if (attachmentDialog) attachmentDialog.showModal();
+  }
+
   document.querySelectorAll(".agenda-move-dialog").forEach((dialog) => {
     dialog.querySelectorAll(".agenda-move-close, .agenda-move-cancel").forEach((button) => {
       button.addEventListener("click", () => dialog.close());
