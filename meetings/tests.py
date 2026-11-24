@@ -2321,9 +2321,11 @@ class ManagedUserCreationPasswordTests(TestCase):
         self.assertTrue(form.is_valid(), form.errors)
         user = form.save()
         self.assertTrue(user.has_usable_password())
-        self.assertFalse(user.check_password(""))
+        self.assertTrue(user.check_password("Neu"))
+        self.assertTrue(user.meeting_profile.must_change_password)
+        self.assertIsNotNone(user.meeting_profile.password_setup_expires_at)
 
-    def test_passwordless_user_creation_requires_email(self):
+    def test_passwordless_user_creation_does_not_require_email(self):
         from .management_views import ManagedUserCreateForm
 
         form = ManagedUserCreateForm(data={
@@ -2333,8 +2335,9 @@ class ManagedUserCreationPasswordTests(TestCase):
             "password2": "",
             "role": "user",
         })
-        self.assertFalse(form.is_valid())
-        self.assertIn("email", form.errors)
+        self.assertTrue(form.is_valid(), form.errors)
+        user = form.save()
+        self.assertTrue(user.check_password("Neu"))
 
     def test_user_can_still_be_created_with_password(self):
         from .management_views import ManagedUserCreateForm
