@@ -18,12 +18,11 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import password_validation
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, JsonResponse, HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -43,6 +42,10 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
+def _testing_mode_enabled():
+    return os.path.isfile("/var/lib/meeting-manager-updater/testing-mode")
+
+
 def _require_admin(request):
     if not is_admin(request.user):
         raise PermissionDenied
@@ -58,6 +61,29 @@ class ManagedUserCreateForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("username", "first_name", "last_name", "email")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.testing_mode = _testing_mode_enabled()
+        if self.testing_mode:
+            self.fields["password1"].help_text = "Im Testing-Modus ist bei der Benutzeranlage jedes nicht leere Passwort zulässig."
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2:
+            if password1 != password2:
+                raise ValidationError(self.error_messages["password_mismatch"], code="password_mismatch")
+        return password2
+
+    def _post_clean(self):
+        if self.testing_mode:
+            # BaseUserCreationForm._post_clean runs password validators even
+            # when clean_password2 skips them. Call ModelForm directly here
+            # so model validation remains active without password-policy checks.
+            forms.ModelForm._post_clean(self)
+        else:
+            super()._post_clean()
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -378,7 +404,7 @@ def management_user_edit(request, pk=None):
             return redirect("management_users")
     return render(request, "meetings/management_user_form.html", {
         "form": form, "page_title": "Benutzer bearbeiten" if instance else "Benutzer hinzufügen",
-        "is_new": instance is None,
+        "is_new": instance is None, "testing_mode": _testing_mode_enabled(),
     })
 
 
