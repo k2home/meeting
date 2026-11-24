@@ -25,11 +25,11 @@
       {% if selected_topic or selected_series %}<a class="btn secondary" href="{% url 'audit_history' %}">Filter zurücksetzen</a>{% endif %}
     </div>
   </form>
-  <div class="audit-local-search">
+  {% if has_history_permission %}<div class="audit-local-search">
     <label for="audit-local-search-input">Einträge durchsuchen</label>
     <input type="search" id="audit-local-search-input" placeholder="Text, Person oder Thema eingeben …" autocomplete="off" aria-controls="audit-history-entries">
     <p id="audit-local-search-status" class="muted" role="status" aria-live="polite">Alle angezeigten Einträge werden berücksichtigt.</p>
-  </div>
+  </div>{% endif %}
 </div>
 {% if not has_history_permission %}
   <div class="card"><p>Für deinen Zugang sind keine Einträge im Änderungsverlauf freigegeben.</p></div>
