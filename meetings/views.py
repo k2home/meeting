@@ -133,6 +133,8 @@ def admin_only(user):
 
 @login_required
 def dashboard(request):
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     today = timezone.localdate()
     meetings = (
         accessible_meetings(request.user).filter(date__gte=today, series__isnull=False)
@@ -266,6 +268,8 @@ def dashboard(request):
 @login_required
 def meetings_overview(request):
     """Show only meetings belonging to series the current user may access."""
+    if is_auditor(request.user):
+        return redirect("auditor_overview")
     today = timezone.localdate()
     series = list(accessible_series(request.user).distinct().order_by("name"))
     meetings = list(
