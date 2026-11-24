@@ -22,8 +22,9 @@
 .security-index .toc li{margin:.2rem 0}
 .security-index .toc a{display:block;padding:.22rem 0;color:var(--text);text-decoration:none;line-height:1.4}
 .security-index .toc a:hover{color:var(--hagen-blue);text-decoration:underline}
-.security-index .toc ul ul{display:none}
-.security-index .toc li.is-current>ul{display:block}
+.security-index .toc>ul>li>ul{display:block}
+.security-index .toc>ul>li>ul>li>ul{display:none}
+.security-index .toc>ul>li>ul>li.is-current>ul{display:block}
 .security-index .toc a[aria-current="location"]{font-weight:700;color:var(--hagen-blue)}
 @media(max-width:900px){.security-layout{grid-template-columns:1fr}.security-index{position:static;order:-1;max-height:none}}
 </style>
