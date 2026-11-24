@@ -25,24 +25,33 @@ echo "==> Prüfe Docker"
 command -v openssl >/dev/null 2>&1 || { echo "openssl muss installiert sein." >&2; exit 1; }
 docker info >/dev/null
 
-set_env_value() {
-  local key="$1" value="$2"
-  if grep -q "^${key}=" "$APP_DIR/.env"; then
-    sed -i "s|^${key}=.*|${key}=${value}|" "$APP_DIR/.env"
-  else
-    printf '%s=%s\n' "$key" "$value" >> "$APP_DIR/.env"
+read_existing_env() {
+  local key="$1"
+  if [[ -f "$APP_DIR/.env" ]]; then
+    sed -n "s/^$key=//p" "$APP_DIR/.env" | head -n 1
   fi
 }
 
-if [[ ! -f "$APP_DIR/.env" ]]; then
-  DEFAULT_HOST="$(hostname -f 2>/dev/null || hostname)"
-  read -r -p "Hostname oder IP, unter der die Website erreichbar ist [$DEFAULT_HOST]: " SITE_HOST
-  SITE_HOST="${SITE_HOST:-$DEFAULT_HOST}"
-  if [[ ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
-    echo "Bitte einen gültigen Hostnamen oder eine IPv4-Adresse eingeben. IPv6 bitte über einen DNS-Namen verwenden." >&2
-    exit 1
+set_env_value() {
+  local key="$1" value="$2"
+  if grep -q "^\${key}=" "$APP_DIR/.env"; then
+    sed -i "s|^\${key}=.*|\${key}=\${value}|" "$APP_DIR/.env"
+  else
+    printf '%s=%s\\n' "$key" "$value" >> "$APP_DIR/.env"
   fi
+}
 
+DEFAULT_HOST="$(read_existing_env ALLOWED_HOSTS)"
+DEFAULT_HOST="${DEFAULT_HOST%%,*}"
+DEFAULT_HOST="${DEFAULT_HOST:-$(hostname -f 2>/dev/null || hostname)}"
+read -r -p "Öffentlicher Hostname bzw. IP-Adresse der Website [$DEFAULT_HOST]: " SITE_HOST
+SITE_HOST="${SITE_HOST:-$DEFAULT_HOST}"
+if [[ ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
+  echo "Bitte einen gültigen öffentlichen Hostnamen oder eine IPv4-Adresse eingeben. IPv6 bitte über einen DNS-Namen verwenden." >&2
+  exit 1
+fi
+
+if [[ ! -f "$APP_DIR/.env" ]]; then
   SECRET_KEY="$(openssl rand -hex 48)"
   DB_PASSWORD="$(openssl rand -hex 24)"
   umask 077
@@ -78,23 +87,15 @@ else
     echo "Die vorhandene .env benötigt gültige Werte für SECRET_KEY und POSTGRES_PASSWORD." >&2
     exit 1
   fi
-  echo "Vorhandene .env wird unverändert beibehalten."
+  echo "Vorhandene .env wird beibehalten; Sicherheitsoptionen werden auf HTTPS-Betrieb gesetzt."
 fi
 
-SITE_HOST=""
-while IFS= read -r candidate; do
-  case "$candidate" in ""|localhost|127.0.0.1|'*') continue ;; esac
-  if [[ "$candidate" =~ ^[A-Za-z0-9.-]+$ ]]; then
-    SITE_HOST="$candidate"
-    break
-  fi
-done < <(sed -n 's/^ALLOWED_HOSTS=//p' "$APP_DIR/.env" | head -n 1 | tr ',' '\n')
-if [[ -z "$SITE_HOST" ]]; then
-  echo "ALLOWED_HOSTS in .env muss einen gültigen öffentlichen Hostnamen enthalten." >&2
-  exit 1
+CURRENT_HOSTS="$(read_existing_env ALLOWED_HOSTS)"
+if [[ -n "$CURRENT_HOSTS" && ",$CURRENT_HOSTS," != *",$SITE_HOST,"* ]]; then
+  set_env_value "ALLOWED_HOSTS" "$SITE_HOST,$CURRENT_HOSTS"
 fi
 
-# Expose the web container only on loopback for a same-host TLS reverse proxy.
+# Productive installs require HTTPS at a same-host reverse proxy.
 set_env_value "CSRF_TRUSTED_ORIGINS" "https://$SITE_HOST"
 set_env_value "WEB_BIND_ADDRESS" "127.0.0.1"
 set_env_value "SECURE_SSL_REDIRECT" "1"
@@ -115,44 +116,7 @@ docker compose -f "$COMPOSE_FILE" up -d
 
 echo
 echo "Installation abgeschlossen."
-WEB_PORT="$(sed -n 's/^WEB_PORT=//p' "$APP_DIR/.env" | tail -n 1 | tr -d '\r')"
-WEB_PORT="${WEB_PORT:-8080}"
-echo "Interne Anwendung: http://127.0.0.1:$WEB_PORT (nur lokaler HTTPS-Reverse-Proxy)"
-echo "Öffentliche Adresse: https://$SITE_HOST/"
-echo "Reverse-Proxy-Upstream: http://127.0.0.1:$WEB_PORT; X-Forwarded-Proto muss auf https gesetzt werden."
-echo "Status:     docker compose -f $COMPOSE_FILE ps"
-echo "Logs:       docker compose -f $COMPOSE_FILE logs -f app"
-echo "Secrets:    $APP_DIR/.env (nur root lesbar)"
-echo "HTTPS ist erzwungen: Ohne vorgeschalteten TLS-Reverse-Proxy mit gültigem Zertifikat ist die Anwendung nicht nutzbar."
- | head -n 1 || true)"
-SITE_HOST="$(printf '%s' "$SITE_HOST" | tr -d '\r')"
-if [[ -z "$SITE_HOST" || ! "$SITE_HOST" =~ ^[A-Za-z0-9.-]+$ ]]; then
-  echo "ALLOWED_HOSTS in .env muss einen gültigen öffentlichen Hostnamen enthalten." >&2
-  exit 1
-fi
-
-# Expose the web container only on loopback for a same-host TLS reverse proxy.
-set_env_value "CSRF_TRUSTED_ORIGINS" "https://$SITE_HOST"
-set_env_value "WEB_BIND_ADDRESS" "127.0.0.1"
-set_env_value "SECURE_SSL_REDIRECT" "1"
-set_env_value "SESSION_COOKIE_SECURE" "1"
-set_env_value "CSRF_COOKIE_SECURE" "1"
-set_env_value "TRUST_PROXY_SSL" "1"
-set_env_value "USE_X_FORWARDED_HOST" "1"
-
-echo "==> Prüfe Compose-Konfiguration"
-docker compose -f "$COMPOSE_FILE" config --quiet
-
-echo "==> Installiere den eingeschränkten Docker-Updater"
-bash "$APP_DIR/deploy/install-docker-updater.sh"
-
-echo "==> Lade Images und starte Meeting Manager"
-docker compose -f "$COMPOSE_FILE" pull
-docker compose -f "$COMPOSE_FILE" up -d
-
-echo
-echo "Installation abgeschlossen."
-WEB_PORT="$(sed -n 's/^WEB_PORT=//p' "$APP_DIR/.env" | tail -n 1 | tr -d '\r')"
+WEB_PORT="$(read_existing_env WEB_PORT)"
 WEB_PORT="${WEB_PORT:-8080}"
 echo "Interne Anwendung: http://127.0.0.1:$WEB_PORT (nur lokaler HTTPS-Reverse-Proxy)"
 echo "Öffentliche Adresse: https://$SITE_HOST/"
