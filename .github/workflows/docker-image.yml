@@ -49,7 +49,7 @@ jobs:
         run: echo "timestamp=$(git show -s --format=%cI HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Build and publish branch image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: docker/Dockerfile
@@ -94,7 +94,7 @@ jobs:
             type=semver,pattern={{major}}
 
       - name: Build and publish Docker Hub image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: docker/Dockerfile
