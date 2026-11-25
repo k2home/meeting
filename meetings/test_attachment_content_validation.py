@@ -11,6 +11,7 @@ from django.test import TestCase
 
 from .antivirus import scan_uploaded_file
 from .forms import AttachmentForm
+from .models import OrganizationSettings
 
 
 def office_document_bytes(part):
@@ -133,3 +134,16 @@ class AttachmentContentValidationTests(TestCase):
         self.assertIn("clamav-daemon clamav-freshclam", installer)
         self.assertIn('set_env_value "CLAMD_ENABLED" "1"', installer)
         self.assertIn("TCPAddr 127.0.0.1", installer)
+
+    def test_organization_logo_upload_is_scanned(self):
+        logo = SimpleUploadedFile("logo.svg", b"<svg xmlns='http://www.w3.org/2000/svg'/>")
+        with patch("meetings.antivirus.scan_uploaded_file") as scan:
+            OrganizationSettings(logo=logo).save()
+        scan.assert_called_once()
+
+    def test_organization_logo_size_is_limited_before_scanning(self):
+        logo = SimpleUploadedFile("logo.svg", b"x" * (2 * 1024 * 1024 + 1))
+        with patch("meetings.antivirus.scan_uploaded_file") as scan:
+            with self.assertRaisesMessage(ValidationError, "2 MB"):
+                OrganizationSettings(logo=logo).save()
+        scan.assert_not_called()
