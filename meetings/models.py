@@ -409,6 +409,16 @@ class UserProfile(models.Model):
         return f"{self.user} – {self.short_description}" if self.short_description else str(self.user)
 
 
+def validate_organization_logo(uploaded_file):
+    """Bound and malware-scan user-provided organization logos."""
+    if not uploaded_file:
+        return
+    if uploaded_file.size > 2 * 1024 * 1024:
+        raise ValidationError("Das Organisationslogo darf höchstens 2 MB groß sein.")
+    from .antivirus import scan_uploaded_file
+    scan_uploaded_file(uploaded_file)
+
+
 class OrganizationSettings(models.Model):
     """Globale Bezeichnung der Organisationseinheit für den Meeting Manager."""
 
@@ -427,7 +437,7 @@ class OrganizationSettings(models.Model):
     )
     logo = models.FileField(
         "Organisationslogo", upload_to="organization/logo/", blank=True, validators=[FileExtensionValidator(["png", "jpg", "jpeg", "svg"])],
-        help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Unterstützte Formate: PNG, JPEG und SVG.",
+        help_text="Optionales Logo (max. 2 MB) für die Kopfzeile von Protokoll-PDFs. Unterstützte Formate: PNG, JPEG und SVG; Uploads werden durch ClamAV geprüft.",
     )
     logo_png = models.FileField(
         "Organisationslogo (PNG)", upload_to="organization/logo/converted/", blank=True,
@@ -461,10 +471,19 @@ class OrganizationSettings(models.Model):
             ZoneInfo(self.timezone)
         except (ZoneInfoNotFoundError, TypeError, ValueError):
             raise ValidationError({"timezone": "Bitte eine gültige Zeitzone auswählen."})
+        if self.logo and not getattr(self.logo, "_committed", True):
+            validate_organization_logo(self.logo)
+            self._organization_logo_validated = True
 
     def save(self, *args, **kwargs):
         # Es gibt genau einen globalen Konfigurationsdatensatz.
         self.pk = 1
+        if (
+            self.logo
+            and not getattr(self.logo, "_committed", True)
+            and not getattr(self, "_organization_logo_validated", False)
+        ):
+            validate_organization_logo(self.logo)
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
