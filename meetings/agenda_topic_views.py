@@ -3,14 +3,14 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import formats, timezone
 
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
 from .audit import record_event
 from .forms import UserDisplayModelChoiceField
-from .models import AgendaItem, Meeting, MeetingSeries, SeriesAccess, Topic, TopicSnapshot
+from .models import AgendaItem, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicSnapshot
 from .user_display import user_display_name
 
 
@@ -270,3 +270,185 @@ def edit_topic_agenda_item(request, pk, item_pk):
     else:
         messages.info(request, "Es wurden keine Änderungen vorgenommen.")
     return redirect("topic_edit", pk=pk)
+
+
+@login_required
+def topic_protocol_pdf(request, pk):
+    """Download a topic-centred protocol containing its visible agenda history."""
+    topic = get_object_or_404(
+        accessible_topics(request.user).select_related("series", "assigned_to"), pk=pk
+    )
+    visible_meetings = accessible_meetings(request.user)
+    items = list(
+        AgendaItem.objects.filter(topic=topic, meeting__in=visible_meetings)
+        .select_related("meeting", "meeting__series", "assigned_to")
+        .order_by("meeting__date", "meeting_id", "position", "pk")
+    )
+    snapshots = {
+        snapshot.meeting_id: snapshot
+        for snapshot in TopicSnapshot.objects.filter(
+            topic_id=topic.pk, meeting__in=visible_meetings
+        )
+    }
+
+    from io import BytesIO
+    from xml.sax.saxutils import escape
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import mm
+    from reportlab.lib.utils import ImageReader
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable, KeepTogether
+
+    organization = OrganizationSettings.objects.filter(pk=1).first()
+    organization_name = organization.name.strip() if organization and organization.name else ""
+    brand = OrganizationSettings.current_brand_colors()
+    try:
+        primary = colors.HexColor(brand.get("primary_color") or "#00549F")
+    except (TypeError, ValueError):
+        primary = colors.HexColor("#00549F")
+    try:
+        secondary = colors.HexColor(brand.get("secondary_color") or "#8FC5FF")
+    except (TypeError, ValueError):
+        secondary = colors.HexColor("#8FC5FF")
+
+    logo_image = None
+    if organization and organization.logo and organization.logo.name:
+        logo_field = organization.logo
+        prepared_logo = organization.logo_png if logo_field.name.lower().endswith(".svg") else logo_field
+        if prepared_logo:
+            try:
+                prepared_logo.open("rb")
+                try:
+                    logo_data = prepared_logo.read()
+                finally:
+                    prepared_logo.close()
+                if logo_data:
+                    logo_image = ImageReader(BytesIO(logo_data))
+            except Exception:
+                logger.exception("Themenprotokoll: Organisationslogo konnte nicht geladen werden (topic_id=%s).", topic.pk)
+                return HttpResponse(
+                    "Das konfigurierte Organisationslogo konnte nicht geladen werden. Bitte prüfen Sie die Logo-Datei.",
+                    status=503, content_type="text/plain; charset=utf-8",
+                )
+        else:
+            return HttpResponse(
+                "Für das konfigurierte SVG-Logo liegt keine vorbereitete PNG-Version vor.",
+                status=503, content_type="text/plain; charset=utf-8",
+            )
+
+    buffer = BytesIO()
+    left_margin = right_margin = 20 * mm
+    document = SimpleDocTemplate(
+        buffer, pagesize=A4, leftMargin=left_margin, rightMargin=right_margin,
+        topMargin=36 * mm, bottomMargin=25 * mm,
+        title=f"Themenprotokoll – {topic.title}",
+        author=f"Meeting Manager – {organization_name}" if organization_name else "Meeting Manager",
+        subject=f"Besprechungsverlauf zum Thema {topic.title}",
+    )
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(
+        name="TopicProtocolSection", parent=styles["Heading2"], fontName="Helvetica-Bold",
+        fontSize=13, leading=17, textColor=primary, spaceBefore=5 * mm, spaceAfter=2 * mm,
+        keepWithNext=True,
+    ))
+    styles.add(ParagraphStyle(
+        name="TopicProtocolBody", parent=styles["BodyText"], fontName="Helvetica",
+        fontSize=9.5, leading=15, textColor=colors.HexColor("#263445"), spaceAfter=2 * mm,
+        splitLongWords=True,
+    ))
+    styles.add(ParagraphStyle(
+        name="TopicProtocolMeta", parent=styles["Normal"], fontName="Helvetica",
+        fontSize=8.5, leading=12, textColor=colors.HexColor("#526170"),
+    ))
+    created_label = formats.date_format(timezone.localtime(timezone.now()), "DATETIME_FORMAT")
+    responsible = (
+        user_display_name(topic.assigned_to, include_short_description=True)
+        if topic.assigned_to else "Nicht festgelegt"
+    )
+    story = [
+        Paragraph("Themeninformationen", styles["TopicProtocolSection"]),
+        Paragraph(f"<b>Hauptzuständigkeit:</b> {escape(responsible)}", styles["TopicProtocolBody"]),
+        Paragraph(f"<b>Besprechungsreihe:</b> {escape(str(topic.series) if topic.series else '—')}", styles["TopicProtocolBody"]),
+        Paragraph(f"<b>Status:</b> {escape(topic.get_status_display())}", styles["TopicProtocolBody"]),
+        Paragraph(f"<b>Erstellt:</b> {formats.date_format(topic.created_at, 'DATE_FORMAT')} &nbsp;&nbsp; <b>Zuletzt geändert:</b> {formats.date_format(topic.updated_at, 'DATE_FORMAT')}", styles["TopicProtocolBody"]),
+        HRFlowable(width="100%", thickness=0.8, color=secondary, spaceBefore=1 * mm, spaceAfter=2 * mm),
+        Paragraph("Besprechungsverlauf", styles["TopicProtocolSection"]),
+    ]
+    for item in items:
+        snapshot = snapshots.get(item.meeting_id)
+        text = snapshot.text if snapshot else item.working_text
+        status = dict(TopicSnapshot._meta.get_field("status").choices).get(snapshot.status, snapshot.status) if snapshot else item.get_status_display()
+        responsible_name = snapshot.responsible_name if snapshot else (
+            user_display_name(item.assigned_to, include_short_description=True) if item.assigned_to else responsible
+        )
+        series_name = item.meeting.series.name if item.meeting.series_id else (
+            item.meeting.archived_series_name or "Gelöschte Besprechungsreihe"
+        )
+        meeting_label = f"{series_name} · {formats.date_format(item.meeting.date, 'DATE_FORMAT')}"
+        parts = [
+            Paragraph(escape(meeting_label), styles["TopicProtocolSection"]),
+            Paragraph(f"<b>Status:</b> {escape(status)} &nbsp;&nbsp; <b>Verantwortlich:</b> {escape(responsible_name or 'Nicht festgelegt')}", styles["TopicProtocolMeta"]),
+            Paragraph(escape(text or "Kein Text hinterlegt.").replace("\n", "<br/>"), styles["TopicProtocolBody"]),
+        ]
+        story.append(KeepTogether(parts))
+    if not items:
+        story.append(Paragraph("Für dieses Thema liegen noch keine Besprechungstexte vor.", styles["TopicProtocolBody"]))
+
+    class NumberedCanvas:
+        pass
+
+    from reportlab.pdfgen import canvas as pdf_canvas
+    class NumberedCanvas(pdf_canvas.Canvas):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self._saved_page_states = []
+        def showPage(self):
+            self._saved_page_states.append(dict(self.__dict__))
+            self._startPage()
+        def save(self):
+            page_count = len(self._saved_page_states)
+            for state in self._saved_page_states:
+                self.__dict__.update(state)
+                self.saveState()
+                page_top = A4[1] - 11 * mm
+                right_edge = A4[0] - right_margin
+                if logo_image:
+                    width, height = logo_image.getSize()
+                    scale = min((18 * mm) / height, (42 * mm) / width)
+                    self.drawImage(logo_image, right_edge - width * scale, page_top - height * scale,
+                                   width=width * scale, height=height * scale, mask="auto")
+                self.setFillColor(colors.HexColor("#263445"))
+                self.setFont("Helvetica-Bold", 8.5)
+                if organization_name:
+                    self.drawString(left_margin, page_top - 2 * mm, organization_name[:75])
+                self.setFillColor(primary)
+                self.setFont("Helvetica-Bold", 13)
+                self.drawCentredString(A4[0] / 2, page_top - 3 * mm, "THEMENPROTOKOLL")
+                self.setFillColor(colors.HexColor("#526170"))
+                self.setFont("Helvetica", 9)
+                self.drawCentredString(A4[0] / 2, page_top - 10 * mm, topic.title[:90])
+                self.setStrokeColor(primary)
+                self.setLineWidth(1.1)
+                self.line(left_margin, A4[1] - 32 * mm, right_edge, A4[1] - 32 * mm)
+                footer_y = 15 * mm
+                self.setStrokeColor(colors.HexColor("#DCE3EA"))
+                self.setLineWidth(0.5)
+                self.line(left_margin, footer_y + 4 * mm, right_edge, footer_y + 4 * mm)
+                self.setFillColor(colors.HexColor("#687684"))
+                self.setFont("Helvetica", 7)
+                self.drawString(left_margin, footer_y, "Themenprotokoll · aktueller sichtbarer Datenstand")
+                self.drawString(left_margin, footer_y - 4 * mm, f"PDF erstellt: {created_label}"[:105])
+                self.setFillColor(colors.HexColor("#263445"))
+                self.setFont("Helvetica-Bold", 7.5)
+                self.drawRightString(right_edge, footer_y - 1 * mm, f"Seite {self._pageNumber} von {page_count}")
+                self.restoreState()
+                super().showPage()
+            super().save()
+
+    document.build(story, canvasmaker=NumberedCanvas)
+    pdf_content = buffer.getvalue()
+    filename = "".join(ch if ch.isalnum() or ch in " _-" else "_" for ch in topic.title).strip(" ._") or "Thema"
+    response = HttpResponse(pdf_content, content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="Themenprotokoll_{filename[:100]}.pdf"'
+    return response
