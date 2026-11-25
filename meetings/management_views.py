@@ -1003,6 +1003,10 @@ def testing_fixtures(request):
                             start_date=today + timedelta(days=secrets.randbelow(14)),
                             end_date=today + timedelta(days=120 + secrets.randbelow(120)),
                         )
+                        SeriesAccess.objects.update_or_create(
+                            series=series, user=request.user,
+                            defaults={"role": SeriesAccess.ROLE_MODERATOR},
+                        )
                         created.append(series)
                     messages.success(request, f"{len(created)} zufällige Besprechungsserien wurden angelegt.")
                 elif action == "generate_meetings":
