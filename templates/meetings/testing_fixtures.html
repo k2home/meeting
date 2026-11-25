@@ -9,28 +9,34 @@
 <div class="testing-actions">
   <section class="management-card">
     <h2>1. Besprechungsserien anlegen</h2>
-    <p>Erzeugt zufällige wöchentliche oder monatliche Serien mit zukünftigen Start- und Enddaten.</p>
+    <p>Erzeugt zufällige wöchentliche oder monatliche Serien mit Terminen zwischen höchstens einem Jahr vor und einem Jahr nach heute.</p>
     <form method="post">{% csrf_token %}<input type="hidden" name="action" value="create_series"><label for="series-count">Anzahl der Serien (1–100)</label><input id="series-count" type="number" name="series_count" min="1" max="100" value="5" required><button class="primary" type="submit">Serien anlegen</button></form>
   </section>
   <section class="management-card">
     <h2>2. Termine für Serien generieren</h2>
-    <p>Führt die Terminplanung für die ausgewählten Serien aus. Bereits vorhandene Termine werden berücksichtigt.</p>
+    <p>Erzeugt auch vergangene und zukünftige Termine für ausgewählte Testserien. Zufällige Testnutzer werden mit unterschiedlichen Rollen zugewiesen.</p>
     <form method="post">{% csrf_token %}<input type="hidden" name="action" value="generate_meetings"><label for="meeting-series">Besprechungsserien</label><select id="meeting-series" name="series_ids" multiple size="5" required>{% for series in series_options %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select><button class="primary" type="submit">Termine generieren</button></form>
   </section>
   <section class="management-card">
     <h2>3. Themen für eine Serie generieren</h2>
-    <p>Legt zufällige Themen mit zufälligen Statuswerten und optionaler Hauptzuständigkeit an.</p>
+    <p>Legt zufällige Themen mit zufälligen Statuswerten und einer Hauptzuständigkeit aus den Testkonten an.</p>
     <form method="post">{% csrf_token %}<input type="hidden" name="action" value="create_topics"><label for="topic-series">Besprechungsserie</label><select id="topic-series" name="series_id" required><option value="">Bitte auswählen</option>{% for series in series_options %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select><label for="topic-count">Anzahl der Themen (1–100)</label><input id="topic-count" type="number" name="topic_count" min="1" max="100" value="10" required><button class="primary" type="submit">Themen generieren</button></form>
   </section>
   <section class="management-card">
     <h2>4. Punkte für ein Thema anlegen</h2>
-    <p>Legt Tagesordnungspunkte auf zufällig ausgewählten offenen Terminen der Themenserie an.</p>
+    <p>Erzeugt themenbezogene Texte auf aufeinanderfolgenden Terminen. Jeder neue Punkt wird als Wiedervorlage des vorherigen Punkts verknüpft.</p>
     <form method="post">{% csrf_token %}<input type="hidden" name="action" value="create_agenda_items"><label for="agenda-topic">Thema</label><select id="agenda-topic" name="topic_id" required><option value="">Bitte auswählen</option>{% for topic in topic_options %}<option value="{{ topic.pk }}">{{ topic.title }}{% if topic.series %} – {{ topic.series.name }}{% endif %}</option>{% endfor %}</select><label for="agenda-count">Anzahl der Punkte (1–100)</label><input id="agenda-count" type="number" name="agenda_count" min="1" max="100" value="5" required><button class="primary" type="submit">Punkte anlegen</button></form>
   </section>
   <section class="management-card">
     <h2>5. Nutzer anlegen</h2>
-    <p>Erzeugt zufällige Testkonten mit Namen und eindeutigen Test-E-Mail-Adressen.</p>
+    <p>Erzeugt zufällige Testkonten mit Namen und eindeutigen Test-E-Mail-Adressen. Sie werden bei der nächsten Termin-Generierung zufällig Serienrollen zugewiesen.</p>
     <form method="post">{% csrf_token %}<input type="hidden" name="action" value="create_users"><label for="user-count">Anzahl der Nutzer (1–100)</label><input id="user-count" type="number" name="user_count" min="1" max="100" value="5" required><button class="primary" type="submit">Nutzer anlegen</button></form>
+  </section>
+  <section class="management-card">
+    <h2>7. TEST-Daten zurücksetzen</h2>
+    <p>Entfernt alle über diese Beispielkonfiguration erzeugten Testserien, deren Termine und Themen sowie unbenutzte Testkonten. Anderweitig verwendete Testkonten bleiben erhalten.</p>
+    <p><strong>{{ series_count }}</strong> Serien · <strong>{{ meeting_count }}</strong> Termine · <strong>{{ topic_options|length }}</strong> Themen · <strong>{{ fixture_user_count }}</strong> Testkonten</p>
+    <form method="post" onsubmit="return confirm('Alle erzeugten TEST-Serien, Termine und Themen wirklich löschen?');">{% csrf_token %}<input type="hidden" name="action" value="reset_fixtures"><button class="danger" type="submit">TEST-Daten zurücksetzen</button></form>
   </section>
 </div>
 <style>
