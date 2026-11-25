@@ -14,12 +14,13 @@ class ExternalAuditLogTests(TestCase):
         )
 
         with self.assertLogs("meetings.security_audit", level="INFO") as captured:
-            event = record_event(
-                actor=user,
-                action="updated",
-                summary="Vertraulicher Freitext darf nicht im Infrastruktur-Log stehen",
-                changes={"Kommentar": {"vorher": "intern", "nachher": "geheim"}},
-            )
+            with self.captureOnCommitCallbacks(execute=True):
+                event = record_event(
+                    actor=user,
+                    action="updated",
+                    summary="Vertraulicher Freitext darf nicht im Infrastruktur-Log stehen",
+                    changes={"Kommentar": {"vorher": "intern", "nachher": "geheim"}},
+                )
 
         payload = json.loads(captured.records[0].getMessage())
         self.assertEqual(payload["event"], "meeting_manager.audit")
