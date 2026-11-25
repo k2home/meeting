@@ -127,7 +127,7 @@ class ManagedUserCreateForm(UserCreationForm):
 
 class ManagedUserEditForm(forms.ModelForm):
     is_active = forms.ChoiceField(label="Aktiv", choices=(("true", "Aktiv"), ("false", "Deaktiviert")))
-    short_description = forms.CharField(label="Kurzbeschreibung", max_length=80, required=False)
+    short_description = forms.CharField(label="Organisationskennzeichen", max_length=80, required=False)
     role = forms.ChoiceField(label="Globale Berechtigung", choices=USER_ROLE_CHOICES)
 
     class Meta:
@@ -299,7 +299,7 @@ def management_user_edit(request, pk=None):
         "E-Mail": instance.email,
         "Aktiv": instance.is_active,
         "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(instance), get_user_role(instance)),
-        "Kurzbeschreibung": getattr(getattr(instance, "meeting_profile", None), "short_description", ""),
+        "Organisationskennzeichen": getattr(getattr(instance, "meeting_profile", None), "short_description", ""),
     } if instance else {}
     if instance:
         form = ManagedUserEditForm(request.POST or None, instance=instance)
@@ -320,7 +320,7 @@ def management_user_edit(request, pk=None):
                     "E-Mail": user.email,
                     "Aktiv": user.is_active,
                     "Globale Rolle": dict(USER_ROLE_CHOICES).get(get_user_role(user), get_user_role(user)),
-                    "Kurzbeschreibung": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
+                    "Organisationskennzeichen": getattr(getattr(user, "meeting_profile", None), "short_description", ""),
                 }
                 changes = {
                     label: {"vorher": before.get(label), "nachher": value}
