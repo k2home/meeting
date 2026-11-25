@@ -24,8 +24,8 @@ def topic_deletion_date(topic):
     return retention_expiry_date(topic.archived_at, years)
 
 
-def protocol_deletion_date(meeting, topic):
+def protocol_deletion_date(meeting, topic=None):
+    """Protocol retention is always governed by the organization-wide setting."""
     if not meeting.finalized_at:
         return None
-    years = getattr(topic, "retention_effective_years", None) or effective_retention_years(topic)
-    return retention_expiry_date(meeting.date, years)
+    return retention_expiry_date(meeting.date, effective_retention_years())
