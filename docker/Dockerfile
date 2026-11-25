@@ -48,9 +48,8 @@ RUN apt-get update \
         libcairo2 \
         postgresql-client \
         python3.13 \
-    && find /usr/lib/python3.13/ensurepip -type f -name 'setuptools-*.whl' -delete \
-    && find /usr/share/python-wheels -type f -name 'setuptools-*.whl' -delete \
     && apt-get purge -y python3-setuptools-whl python3-pip-whl \
+    && find /usr -iname '*setuptools*' -exec rm -rf {} + \
     && ! find /usr -iname '*setuptools*' -print -quit | grep -q . \
     && rm -rf /var/lib/apt/lists/*
 
