@@ -147,3 +147,27 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertNotContains(response, "Aktueller Stand")
         self.assertNotContains(response, "Beschreibung / Arbeitsauftrag")
         self.assertNotContains(response, "Status")
+
+    def test_topic_sidebar_offers_pdf_protocol_between_information_and_attachments(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        information = content.index("<h2>Informationen</h2>")
+        pdf_tile = content.index("<h2>PDF-Protokoll</h2>")
+        attachments = content.index("<h2>Dateien und Anlagen</h2>")
+        self.assertLess(information, pdf_tile)
+        self.assertLess(pdf_tile, attachments)
+        self.assertContains(response, reverse("topic_protocol_pdf", args=[self.topic.pk]))
+        self.assertContains(response, "Themenprotokoll herunterladen (PDF)")
+
+    def test_topic_protocol_pdf_download_returns_a_pdf_attachment(self):
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
+        AgendaItem.objects.create(
+            meeting=meeting, topic=self.topic, working_text="Wichtiger Besprechungstext"
+        )
+        response = self.client.get(reverse("topic_protocol_pdf", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/pdf")
+        self.assertIn("attachment;", response["Content-Disposition"])
+        self.assertIn("Themenprotokoll_", response["Content-Disposition"])
+        self.assertTrue(response.content.startswith(b"%PDF"))
