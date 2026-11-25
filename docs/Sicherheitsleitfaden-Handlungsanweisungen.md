@@ -144,7 +144,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 2. Prüfen Sie vor dem Import Dateiherkunft, UTF-8-Kodierung, Pflichtfelder, betroffene Konten und Serienzuordnungen. Kontrollieren Sie die Vorschau vollständig.
 3. Brechen Sie den Import ab, wenn unerwartete Konten, Rollen oder Serienzuordnungen angezeigt werden. Klären Sie die Ursache vor einem erneuten Versuch.
 4. Sichern Sie Exporte nur in freigegebenen, zugriffsbeschränkten Speicherorten. Übermitteln Sie sie ausschließlich an benannte berechtigte Empfänger*innen und löschen Sie Arbeitskopien nach Ablauf des festgelegten Zwecks.
-5. Themen-CSV-Funktionen verwenden Moderator*innen ausschließlich für Reihen, für die sie ausdrücklich Moderatorrechte besitzen. Globale Adminrechte ersetzen diese Serienberechtigung nicht.
+5. Themen-CSV-Funktionen verwenden Moderator*innen ausschließlich für Reihen, für die sie ausdrücklich Moderator*innenrechte besitzen. Globale Adminrechte ersetzen diese Serienberechtigung nicht.
 
 ### Verbindlicher Ablauf für Vollbackup und Restore
 
@@ -165,7 +165,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### 3.1 Admin-Konten und Rechtevergabe
 
 - Nur namentlich benannten Personen globale Adminrechte erteilen. Anzahl der Admin-Konten so klein wie betrieblich möglich halten.
-- Für fachliche Mitarbeit ein separates Nutzerkonto verwenden, statt dauerhaft mit dem Admin-Konto zu arbeiten.
+- Für fachliche Mitarbeit ein separates persönliches Konto verwenden, statt dauerhaft mit dem Admin-Konto zu arbeiten.
 - Adminrechte bei Aufgabenwechsel oder Austritt unverzüglich entziehen und das Konto deaktivieren, falls es nicht mehr benötigt wird.
 - Vor jeder Rechtevergabe Zweck, Umfang und Dauer prüfen. Serienrollen unabhängig von der globalen Rolle vergeben.
 - Mindestens quartalsweise globale Admin-Konten und Serienzuweisungen prüfen und das Ergebnis dokumentieren.
@@ -203,7 +203,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### 3.5 Audit, Systemverwaltung und Datenschutz
 
 - Systemereignisse nur für legitime administrative oder prüfende Zwecke einsehen. Die Einsichtnahme nicht zur anlasslosen Verhaltens- oder Leistungskontrolle verwenden.
-- Beachten, dass Admins Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderatorrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
+- Beachten, dass Admins Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderator*innenrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
 - Passwörter und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Bei Passwortänderungen wird nur der Änderungsstatus protokolliert; Dateinamen können als Metadaten erscheinen.
 - Beim Wiederöffnen einer abgeschlossenen Besprechung bleibt der vorherige gesicherte Protokollstand als Audit-Detail erhalten. Diesen Snapshot als vertraulichen fachlichen Inhalt behandeln.
 - Audit-Details sind in der Oberfläche zunächst eingeklappt. Das ist eine Darstellungsform und keine zusätzliche Zugriffsschranke.
