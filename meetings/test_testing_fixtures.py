@@ -56,7 +56,7 @@ class TestingFixtureViewTests(TestCase):
 
         response = self.client.post(url, {"action": "create_users", "user_count": "2"})
         self.assertRedirects(response, url)
-        generated_users = User.objects.filter(username__startswith="test_")
+        generated_users = User.objects.filter(username__startswith="test_fixture_")
         self.assertEqual(generated_users.count(), 2)
         self.assertTrue(all(not user.has_usable_password() for user in generated_users))
 
