@@ -499,14 +499,6 @@ def management_settings(request):
                     "show_retention_confirmation": True,
                     "inherited_archived_count": inherited_archived_count,
                 })
-            if (
-                new_retention_years != old_retention_years
-                and inherited_archived_count
-                and retention_decision == "keep"
-            ):
-                Topic.objects.filter(
-                    status="archived", retention_years__isnull=True
-                ).update(retention_years=old_retention_years)
             before = {
                 field: getattr(instance, field)
                 for field in form.changed_data
@@ -514,9 +506,18 @@ def management_settings(request):
             }
             if "retention_years" in form.changed_data:
                 before["retention_years"] = persisted_retention_years
-            settings_obj = form.save(commit=False)
-            settings_obj.full_clean()
-            settings_obj.save()
+            with transaction.atomic():
+                if (
+                    new_retention_years != old_retention_years
+                    and inherited_archived_count
+                    and retention_decision == "keep"
+                ):
+                    Topic.objects.filter(
+                        status="archived", retention_years__isnull=True
+                    ).update(retention_years=old_retention_years)
+                settings_obj = form.save(commit=False)
+                settings_obj.full_clean()
+                settings_obj.save()
             changes = {
                 form.fields[field].label: {"vorher": before[field], "nachher": getattr(settings_obj, field)}
                 for field in before
