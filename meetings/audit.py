@@ -1,6 +1,8 @@
 import json
 import logging
 
+from django.db import transaction
+
 from .models import AuditEvent
 
 
@@ -20,7 +22,7 @@ def record_event(*, actor, action, summary, topic=None, meeting=None, series=Non
     )
     # Do not duplicate free text, before/after values, filenames or file contents
     # into infrastructure logs. The event ID links the external record to the DB row.
-    security_audit_logger.info(json.dumps({
+    payload = {
         "event": "meeting_manager.audit",
         "audit_id": event.pk,
         "timestamp": event.created_at.isoformat(),
@@ -30,7 +32,14 @@ def record_event(*, actor, action, summary, topic=None, meeting=None, series=Non
         "series_id": event.series_id,
         "meeting_id": event.meeting_id,
         "topic_id": event.topic_id,
-    }, separators=(",", ":"), ensure_ascii=True))
+    }
+    # Emit only after the database transaction commits, so rolled-back actions
+    # do not appear as completed events in the external audit stream.
+    transaction.on_commit(
+        lambda: security_audit_logger.info(
+            json.dumps(payload, separators=(",", ":"), ensure_ascii=True)
+        )
+    )
     return event
 
 
