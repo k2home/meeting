@@ -9,16 +9,16 @@
 </header>
 {% for row in rows %}
   <section class="card">
-    <div class="topline"><h2>{{ row.item.topic.title }}</h2><span class="pill">{{ row.item.get_status_display }}</span></div>
-    <p><strong>Besprechungsreihe:</strong> {{ row.item.topic.series.name }}</p>
-    <p><strong>Letzte Besprechung:</strong> {{ row.item.meeting.date|date:"DATE_FORMAT" }}</p>
-    {% if row.item.assigned_to %}<p><strong>Verantwortlich:</strong> {{ row.item.assigned_to.get_full_name|default:row.item.assigned_to.username }}</p>{% endif %}
-    {% if row.item.working_text %}<p>{{ row.item.working_text|linebreaksbr }}</p>{% endif %}
-    <p><a href="{% url 'topic_edit' row.item.topic.pk %}">Themenansicht öffnen</a></p>
+    <div class="topline"><h2>{{ row.topic.title }}</h2><span class="pill">{{ row.status_display }}</span></div>
+    <p><strong>Besprechungsreihe:</strong> {{ row.topic.series.name }}</p>
+    {% if row.item %}<p><strong>Letzte Besprechung:</strong> {{ row.item.meeting.date|date:"DATE_FORMAT" }}</p>{% else %}<p class="muted">Bisher noch nicht auf einer Tagesordnung geführt.</p>{% endif %}
+    {% if row.item and row.item.assigned_to %}<p><strong>Verantwortlich:</strong> {{ row.item.assigned_to.get_full_name|default:row.item.assigned_to.username }}</p>{% elif not row.item and row.topic.assigned_to %}<p><strong>Verantwortlich:</strong> {{ row.topic.assigned_to.get_full_name|default:row.topic.assigned_to.username }}</p>{% endif %}
+    {% if row.item and row.item.working_text %}<p>{{ row.item.working_text|linebreaksbr }}</p>{% endif %}
+    <p><a href="{% url 'topic_edit' row.topic.pk %}">Themenansicht öffnen</a></p>
     {% if row.future_meetings %}
       <form method="post" class="actions">
         {% csrf_token %}
-        <input type="hidden" name="schedule_item" value="{{ row.item.pk }}">
+        {% if row.item %}<input type="hidden" name="schedule_item" value="{{ row.item.pk }}">{% else %}<input type="hidden" name="schedule_topic" value="{{ row.topic.pk }}">{% endif %}
         <label for="target-meeting-{{ row.item.pk }}">Zukünftiger Termin</label>
         <select id="target-meeting-{{ row.item.pk }}" name="target_meeting" required>
           {% for meeting in row.future_meetings %}<option value="{{ meeting.pk }}">{{ meeting.date|date:"DATE_FORMAT" }}{% if meeting.title %} – {{ meeting.title }}{% endif %}</option>{% endfor %}
@@ -30,6 +30,6 @@
     {% endif %}
   </section>
 {% empty %}
-  <div class="card">Keine offenen Tagesordnungspunkte ohne zukünftigen Termin gefunden.</div>
+  <div class="card">Keine offenen Punkte ohne zukünftigen Termin gefunden.</div>
 {% endfor %}
 {% endblock %}
