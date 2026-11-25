@@ -7,9 +7,9 @@ ARG VCS_COMMIT_DATE=unknown
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    MEETING_BUILD_COMMIT=\${VCS_REF} \
-    MEETING_BUILD_COMMIT_DATE=\${VCS_COMMIT_DATE} \
-    MEETING_BUILD_BRANCH=\${VCS_BRANCH}
+    MEETING_BUILD_COMMIT=${VCS_REF} \
+    MEETING_BUILD_COMMIT_DATE=${VCS_COMMIT_DATE} \
+    MEETING_BUILD_BRANCH=${VCS_BRANCH}
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -18,6 +18,7 @@ RUN apt-get update \
         postgresql-client \
         python3.13 \
         python3.13-venv \
+    && find /usr/lib/python3.13/ensurepip -type f -name 'setuptools-*.whl' -delete \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3.13 -m venv /opt/venv
