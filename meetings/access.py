@@ -1,10 +1,10 @@
 from functools import wraps
 
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Q
 from django.http import HttpResponseForbidden
 from django.urls import reverse
 
-from .models import Meeting, MeetingSeries, SeriesAccess, Topic
+from .models import Meeting, MeetingSeries, RetainedAgendaEntry, SeriesAccess, Topic
 from .brand_colors import accessible_button_colors
 
 ADMIN_GROUP = "Admin"
@@ -79,15 +79,30 @@ def accessible_meetings(user):
     ).distinct()
 
 
+def accessible_retained_agenda_entries(user):
+    """Limit deleted-meeting history to the original meeting's access scope."""
+    if not user.is_authenticated or is_auditor(user):
+        return RetainedAgendaEntry.objects.none()
+    original_series_exists = MeetingSeries.objects.filter(pk=OuterRef("original_series_id"))
+    return RetainedAgendaEntry.objects.annotate(
+        _original_series_exists=Exists(original_series_exists)
+    ).filter(
+        Q(original_series_id__in=accessible_series(user).values("pk"))
+        | Q(_original_series_exists=False, access_users=user)
+    ).distinct()
+
+
 def accessible_topics(user):
     if not user.is_authenticated:
         return Topic.objects.none()
     if is_auditor(user):
         return Topic.objects.none()
     visible_meetings = accessible_meetings(user)
+    retained_topic_ids = accessible_retained_agenda_entries(user).values("topic_id")
     return Topic.objects.filter(
         Q(series__in=accessible_series(user))
         | (Q(series__isnull=True) & Q(agenda_items__meeting__in=visible_meetings))
+        | (Q(series__isnull=True) & Q(pk__in=retained_topic_ids))
     ).distinct()
 
 
