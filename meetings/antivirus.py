@@ -17,14 +17,14 @@ def scan_uploaded_file(uploaded_file):
             (settings.CLAMD_HOST, settings.CLAMD_PORT), timeout=10
         ) as client:
             client.settimeout(30)
-            client.sendall(b"zINSTREAM\\0")
+            client.sendall(b"zINSTREAM\0")
             for chunk in uploaded_file.chunks():
                 if chunk:
                     client.sendall(struct.pack("!I", len(chunk)))
                     client.sendall(chunk)
             client.sendall(struct.pack("!I", 0))
 
-            while not response.endswith(b"\\0"):
+            while not response.endswith(b"\0"):
                 part = client.recv(4096)
                 if not part:
                     raise OSError("ClamAV hat die Verbindung vor einer Antwort geschlossen.")
@@ -42,7 +42,7 @@ def scan_uploaded_file(uploaded_file):
         except (AttributeError, OSError, ValueError):
             pass
 
-    result = bytes(response).rstrip(b"\\0")
+    result = bytes(response).rstrip(b"\0")
     if b" FOUND" in result:
         raise ValidationError(
             "Die Datei wurde als Schadsoftware erkannt und kann nicht hochgeladen werden."
