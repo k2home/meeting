@@ -655,7 +655,7 @@ def topic_protocol_pdf(request, pk):
                 styles["TopicProtocolMeta"],
             ),
             Paragraph(
-                escape(entry.working_text or "Kein Tagesordnungstext hinterlegt.").replace("\\n", "<br/>"),
+                escape(entry.working_text or "Kein Tagesordnungstext hinterlegt.").replace("\n", "<br/>"),
                 styles["TopicProtocolBody"],
             ),
         ]
