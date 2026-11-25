@@ -193,12 +193,12 @@ def dashboard(request):
     today = timezone.localdate()
     open_topic_series, open_topic_items, open_topics_without_items = _open_topics_querysets(request.user, today)
     open_item_counts = dict(
-        open_topic_items.values("topic__series_id")
+        open_topic_items.order_by().values("topic__series_id")
         .annotate(total=Count("topic_id", distinct=True))
         .values_list("topic__series_id", "total")
     )
     open_without_item_counts = dict(
-        open_topics_without_items.values("series_id")
+        open_topics_without_items.order_by().values("series_id")
         .annotate(total=Count("pk"))
         .values_list("series_id", "total")
     )
