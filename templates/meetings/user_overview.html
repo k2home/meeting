@@ -60,9 +60,6 @@
               <strong>{{ row.role_label }}</strong>
               {% if row.pending_request %}
                 <span class="muted">Antrag offen: {{ row.pending_request.get_requested_role_display }}</span>
-              {% elif row.latest_request %}
-                <span class="muted">Letzter Antrag: {{ row.latest_request.get_status_display }}</span>
-                {% if row.latest_request.decision_note %}<span class="muted">{{ row.latest_request.decision_note }}</span>{% endif %}
               {% endif %}
             </div>
           </div>
@@ -103,7 +100,7 @@
 .password-change-dialog form p{display:flex;flex-direction:column;gap:.35rem}
 .password-change-dialog input{max-width:100%;width:100%;box-sizing:border-box}
 .series-access-list{display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem;margin-top:.85rem}
-.series-access-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(14rem,.8fr);gap:1rem;align-items:center;padding:.85rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.series-access-row{display:grid;grid-template-columns:minmax(0,1fr);gap:.75rem;align-items:start;padding:.85rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
 .series-access-info{min-width:0}
 .series-access-name{font-weight:650;overflow-wrap:anywhere}
 .series-access-current{min-width:0;margin-top:.25rem}
@@ -113,7 +110,7 @@
 .series-role-request label{font-size:.9rem;font-weight:600}
 .series-role-request select{width:100%;min-width:0}
 .series-role-request button{justify-self:start;white-space:nowrap}
-@media(max-width:760px){.user-settings-grid{grid-template-columns:minmax(0,1fr)}.user-series-access-card{grid-column:1}.series-access-row{grid-template-columns:minmax(0,1fr);gap:.75rem}}
+@media(max-width:760px){.user-settings-grid{grid-template-columns:minmax(0,1fr)}.user-series-access-card{grid-column:1}}
 </style>
 <script>
   const passwordDialog = document.getElementById("password-change-dialog");
