@@ -10,7 +10,7 @@
 .topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 .topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
 @media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
-.topic-pdf-link{display:inline-flex;align-items:center;gap:.6rem}.topic-pdf-icon{display:inline-flex;align-items:center;justify-content:center;width:2.35rem;height:2.65rem;border:1px solid #d92d20;border-radius:5px;color:#b42318;background:#fff;font-size:.7rem;font-weight:800;letter-spacing:.02em;flex:0 0 auto}
+.topic-pdf-link{display:inline-flex;align-items:center;gap:.6rem}.topic-pdf-drag{display:inline-flex;text-decoration:none;cursor:grab}.topic-pdf-drag:active{cursor:grabbing}.topic-pdf-icon{display:inline-flex;align-items:center;justify-content:center;width:2.35rem;height:2.65rem;border:1px solid #d92d20;border-radius:5px;color:#b42318;background:#fff;font-size:.7rem;font-weight:800;letter-spacing:.02em;flex:0 0 auto}
 </style>
 <header class="page-header">
   <div><h1>{% if topic %}{{ topic.title }}{% else %}Neues Thema anlegen{% endif %}</h1></div>
@@ -107,7 +107,10 @@
   <section class="card topic-pdf-card">
    <h2>PDF-Protokoll</h2>
    <p class="muted">Alle Besprechungstexte und der Verlauf dieses Themas als PDF zusammengefasst.</p>
-   <a class="btn secondary topic-pdf-link" href="{% url 'topic_protocol_pdf' topic.pk %}" download draggable="true" data-drag-filename="Themenprotokoll_{{ topic.pk }}.pdf" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="Themenprotokoll herunterladen oder als PDF in einen Ordner ziehen" title="Zum Herunterladen anklicken oder das PDF-Symbol in einen Ordner ziehen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span> Themenprotokoll herunterladen</a>
+   <div class="topic-pdf-link">
+    <a class="topic-pdf-drag" href="{% url 'topic_protocol_pdf' topic.pk %}" draggable="true" data-drag-filename="Themenprotokoll_{{ topic.pk }}.pdf" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="PDF-Symbol in einen Ordner ziehen" title="PDF-Symbol in einen Ordner auf dem PC ziehen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span></a>
+    <a class="btn secondary" href="{% url 'topic_protocol_pdf' topic.pk %}" download aria-label="Themenprotokoll herunterladen">PDF herunterladen</a>
+   </div>
   </section>
   <section class="card" id="topic-attachments"><h2>Dateien und Anlagen</h2>
    <p class="muted">Alle Unterlagen zu diesem Thema an einem Ort. Dateien können geöffnet oder heruntergeladen werden; Netzwerkpfade und Links bleiben direkt erreichbar.</p>
