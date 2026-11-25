@@ -11,6 +11,36 @@
   {% empty %}<p class="muted">Es gibt keine archivierten Themen.</p>{% endfor %}
 </section>
 <section class="card archive-search-group" id="archive-agenda-items">
+  <h2>Zur Archivierung bereit</h2>
+  <p class="muted">Beim Archivieren werden alle Anlagen dieses Themas einschließlich hochgeladener Dateien dauerhaft vom Server gelöscht.</p>
+  <div id="archive-topic-feedback" class="muted" role="status" aria-live="polite"></div>
+{% for topic in archivable_topics %}
+<article class="content-divider archive-ready-topic" data-topic-id="{{ topic.pk }}">
+  <div class="topline archive-ready-heading">
+    <div>
+      <h3 style="margin:.2rem 0"><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3>
+      <p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }}{% if topic.completed_at %} · Erledigt seit {{ topic.completed_at|date:"DATE_FORMAT" }}{% endif %}</p>
+    </div>
+    <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" class="archive-topic-form">
+      {% csrf_token %}
+      <button type="submit" class="topic-archive-button">Archivieren</button>
+    </form>
+  </div>
+</article>
+{% empty %}<p class="muted" id="archive-ready-empty">Es gibt derzeit keine Themen, deren Liegefrist abgelaufen ist und die archiviert werden können.</p>{% endfor %}
+</section>"meetings/base.html" %}
+{% load meeting_user_tags %}
+{% block content %}
+<header class="page-header"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></header>
+<section class="card archive-search-group" id="archive-topics">
+  <h2>Archivierte Themen</h2>
+  {% for topic in archived_topics %}
+  <article class="content-divider">
+    <div class="topline"><div><h3><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · Archiviert</p></div><span class="pill">Archiviert</span></div>
+  </article>
+  {% empty %}<p class="muted">Es gibt keine archivierten Themen.</p>{% endfor %}
+</section>
+<section class="card archive-search-group" id="archive-agenda-items">
   <h2>Erledigte Tagesordnungspunkte</h2>
 {% for item in items %}
 <article class="content-divider">
@@ -21,6 +51,54 @@
 {% empty %}<p class="muted">Es gibt noch keine erledigten Tagesordnungspunkte.</p>{% endfor %}
 </section>
 
+<!-- archive-topic-actions -->
+<script>
+(() => {
+  const section = document.getElementById("archive-agenda-items");
+  if (!section) return;
+  const feedback = document.getElementById("archive-topic-feedback");
+  section.addEventListener("submit", async event => {
+    const form = event.target.closest(".archive-topic-form");
+    if (!form) return;
+    event.preventDefault();
+    const article = form.closest(".archive-ready-topic");
+    const button = form.querySelector("button[type=submit]");
+    const next = article.nextElementSibling;
+    button.disabled = true;
+    button.textContent = "Wird archiviert …";
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: {"X-Requested-With": "XMLHttpRequest", "Accept": "application/json"}
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.error || "Archivierung fehlgeschlagen.");
+      article.remove();
+      feedback.textContent = result.message;
+      const nextButton = next?.querySelector(".archive-topic-form button");
+      if (nextButton) nextButton.focus();
+      else {
+        const empty = document.getElementById("archive-ready-empty");
+        if (!section.querySelector(".archive-ready-topic") && !empty) {
+          const message = document.createElement("p");
+          message.className = "muted";
+          message.id = "archive-ready-empty";
+          message.textContent = "Es gibt derzeit keine Themen, deren Liegefrist abgelaufen ist und die archiviert werden können.";
+          section.appendChild(message);
+        }
+        section.querySelector("h2")?.setAttribute("tabindex", "-1");
+        section.querySelector("h2")?.focus();
+      }
+    } catch (error) {
+      feedback.textContent = error.message || "Archivierung fehlgeschlagen.";
+      button.disabled = false;
+      button.textContent = "Archivieren";
+      button.focus();
+    }
+  });
+})();
+</script>
 <!-- archive-live-search -->
 <script>
 (() => {
