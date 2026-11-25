@@ -1931,6 +1931,50 @@ class SeriesAccessRequestTests(TestCase):
             summary="Besprechungsreihe „Antragsreihe“ gelöscht",
         ).exists())
 
+    def test_moderator_can_assign_and_remove_series_roles_for_other_users(self):
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertEqual(SeriesAccess.objects.get(user=self.requester, series=self.series).role, SeriesAccess.ROLE_READER)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_PARTICIPANT,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertEqual(SeriesAccess.objects.get(user=self.requester, series=self.series).role, SeriesAccess.ROLE_PARTICIPANT)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_NONE,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertFalse(SeriesAccess.objects.filter(user=self.requester, series=self.series).exists())
+
+    def test_moderator_cannot_change_or_remove_own_moderator_role(self):
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.moderator.pk, "role": SeriesAccess.ROLE_NONE,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertTrue(SeriesAccess.objects.filter(
+            user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR,
+        ).exists())
+        response = self.client.post(reverse("user_overview"), {
+            "form_type": "access_request", "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertRedirects(response, reverse("user_overview"))
+        page = self.client.get(reverse("user_overview"))
+        self.assertContains(page, 'name="role"')
+        self.assertContains(page, "disabled")
+
+    def test_moderator_cannot_manage_users_in_another_series(self):
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.other_series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(SeriesAccess.objects.filter(user=self.requester, series=self.other_series).exists())
+
     def test_user_sees_all_series_and_can_request_permission(self):
         self.client.force_login(self.requester)
         page = self.client.get(reverse("user_overview"))
