@@ -14,7 +14,7 @@ from django.utils import formats, timezone
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
 from .audit import record_event
 from .forms import UserDisplayModelChoiceField
-from .models import AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
+from .models import AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings, RetainedAgendaEntry, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
 from .user_display import user_display_name
 from .retention import effective_retention_years, protocol_deletion_date, topic_deletion_date
 
@@ -400,12 +400,15 @@ def topic_detail(request, pk):
     meetings_by_id = {item.meeting_id: item.meeting for item in items}
     meetings_by_id.update({snapshot.meeting_id: snapshot.meeting for snapshot in snapshots.values()})
     topic_meetings = sorted(meetings_by_id.values(), key=lambda meeting: (meeting.date, meeting.pk))
+    retained_agenda_entries = list(
+        RetainedAgendaEntry.objects.filter(topic=topic).order_by("-meeting_date", "position", "pk")
+    )
     topic.retention_effective_years = effective_retention_years(topic)
     for item in items:
         snapshot = snapshots.get(item.meeting_id)
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
-        item.protocol_deletion_date = protocol_deletion_date(item.meeting, topic)
+        item.protocol_deletion_date = protocol_deletion_date(item.meeting)
 
     topic.deletion_date = topic_deletion_date(topic)
     writable_series = accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
@@ -424,6 +427,7 @@ def topic_detail(request, pk):
         ],
         "is_reader": reader,
         "topic_agenda_items": items,
+        "retained_agenda_entries": retained_agenda_entries,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
         "assignees": get_user_model().objects.filter(is_active=True).order_by("last_name", "first_name", "username"),
     })
