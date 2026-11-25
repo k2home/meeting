@@ -157,11 +157,51 @@ def reader_no_access(view):
 def admin_only(user):
     return is_admin(user)
 
+def _open_topics_querysets(user, today):
+    """Return the exact topic and agenda-item querysets shown on the Open Topics page."""
+    allowed_series = MeetingSeries.objects.filter(
+        user_access__user=user,
+        user_access__role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR],
+    ).distinct()
+
+    latest_item_ids = AgendaItem.objects.filter(
+        topic_id=OuterRef("topic_id")
+    ).order_by("-meeting__date", "-pk").values("pk")[:1]
+    items = AgendaItem.objects.filter(
+        topic__series__in=allowed_series,
+        topic__status__in=["open", "in_progress", "done"],
+        status__in=["open", "in_progress"],
+        meeting__date__lte=today,
+    ).filter(
+        Q(meeting__date__lt=today)
+        | Q(meeting__date=today, meeting__finalized_at__isnull=False)
+    ).filter(pk__in=Subquery(latest_item_ids)).select_related(
+        "topic", "topic__series", "meeting", "assigned_to"
+    ).order_by("topic__series__name", "topic__title")
+    topics_without_items = Topic.objects.filter(
+        series__in=allowed_series,
+        status__in=["open", "in_progress"],
+        agenda_items__isnull=True,
+    ).select_related("series", "assigned_to").order_by("series__name", "title")
+    return allowed_series, items, topics_without_items
+
+
 @login_required
 def dashboard(request):
     if is_auditor(request.user):
         return redirect("auditor_overview")
     today = timezone.localdate()
+    _, open_topic_items, open_topics_without_items = _open_topics_querysets(request.user, today)
+    open_item_counts = dict(
+        open_topic_items.values("topic__series_id")
+        .annotate(total=Count("topic_id", distinct=True))
+        .values_list("topic__series_id", "total")
+    )
+    open_without_item_counts = dict(
+        open_topics_without_items.values("series_id")
+        .annotate(total=Count("pk"))
+        .values_list("series_id", "total")
+    )
     meetings = (
         accessible_meetings(request.user).filter(date__gte=today, series__isnull=False)
         .annotate(series_position=Window(
@@ -179,6 +219,9 @@ def dashboard(request):
         if not meeting_groups or meeting_groups[-1]["series"].pk != meeting.series_id:
             meeting_groups.append({"series": meeting.series, "meetings": []})
         meeting_groups[-1]["meetings"].append(meeting)
+    for group in meeting_groups:
+        series_id = group["series"].pk
+        group["open_topic_count"] = open_item_counts.get(series_id, 0) + open_without_item_counts.get(series_id, 0)
 
     topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
     query = request.GET.get("q", "").strip()
@@ -358,32 +401,9 @@ def meetings_overview(request):
 def open_topics(request):
     """Show the latest unfinished agenda entry for topics without a future appointment."""
     today = timezone.localdate()
-    allowed_series = MeetingSeries.objects.filter(
-        user_access__user=request.user,
-        user_access__role__in=[SeriesAccess.ROLE_PARTICIPANT, SeriesAccess.ROLE_MODERATOR],
-    ).distinct()
+    allowed_series, items, topics_without_items = _open_topics_querysets(request.user, today)
     if not allowed_series.exists():
         return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
-
-    latest_item_ids = AgendaItem.objects.filter(
-        topic_id=OuterRef("topic_id")
-    ).order_by("-meeting__date", "-pk").values("pk")[:1]
-    items = AgendaItem.objects.filter(
-        topic__series__in=allowed_series,
-        topic__status__in=["open", "in_progress", "done"],
-        status__in=["open", "in_progress"],
-        meeting__date__lte=today,
-    ).filter(
-        Q(meeting__date__lt=today)
-        | Q(meeting__date=today, meeting__finalized_at__isnull=False)
-    ).filter(pk__in=Subquery(latest_item_ids)).select_related(
-        "topic", "topic__series", "meeting", "assigned_to"
-    ).order_by("topic__series__name", "topic__title")
-    topics_without_items = Topic.objects.filter(
-        series__in=allowed_series,
-        status__in=["open", "in_progress"],
-        agenda_items__isnull=True,
-    ).select_related("series", "assigned_to").order_by("series__name", "title")
 
     if request.method == "POST":
         target_meeting_id = request.POST.get("target_meeting")
