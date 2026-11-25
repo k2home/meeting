@@ -9,7 +9,7 @@ from .models import (
     AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings,
     RetainedAgendaEntry, Topic, TopicSnapshot,
 )
-from .retention import retention_expiry_date
+from .retention import protocol_deletion_date, retention_expiry_date
 
 
 
@@ -27,6 +27,20 @@ class RetentionCleanupTests(TestCase):
         )
         self.user = get_user_model().objects.create_user(
             username="retention-test", password="test-password"
+        )
+
+    def test_protocol_deletion_date_uses_global_not_topic_retention(self):
+        topic = Topic.objects.create(
+            title="Individuelle Themenfrist", series=self.series,
+            status="in_progress", retention_years=50,
+        )
+        meeting = Meeting.objects.create(
+            series=self.series, date=date(2026, 8, 23), finalized_at=timezone.now()
+        )
+
+        self.assertEqual(
+            protocol_deletion_date(meeting, topic),
+            date(2027, 12, 31),
         )
 
     def test_archived_topic_and_all_its_content_are_deleted_after_expiry(self):
