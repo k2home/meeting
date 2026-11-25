@@ -1781,7 +1781,7 @@ class UserOverviewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'name="old_password" autofocus')
 
-    def test_series_role_and_request_share_one_column_with_hidden_submit_button(self):
+    def test_series_role_request_uses_balanced_responsive_layout(self):
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'class="user-settings-grid"')
