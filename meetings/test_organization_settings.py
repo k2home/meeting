@@ -212,6 +212,11 @@ class OrganizationSettingsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "streng-geheim")
+        self.assertNotContains(response, "Startpasswort")
+        self.assertContains(response, "Aufbewahrung und Löschung")
+        self.assertContains(response, "Abweichende Farben für den Hellmodus")
+        self.assertContains(response, "Abweichende Farben für den Dunkelmodus")
+        self.assertContains(response, "Maximale Anlagengröße")
         self.assertIn("start_password", response.context["settings"].get_deferred_fields())
 
         overview = self.client.get(reverse("auditor_overview"))
