@@ -33,8 +33,9 @@ COPY requirements.txt requirements-constraints.txt ./
 RUN python -m pip install --upgrade pip 'setuptools>=78.1.1' \
     && pip install -r requirements.txt -c requirements-constraints.txt \
     && pip uninstall --yes setuptools \
+    && find /usr /opt -type d \\( -name setuptools -o -name 'setuptools-*.dist-info' -o -name 'setuptools-*.egg-info' \\) -prune -exec rm -rf {} + \
     && find /usr /opt -type f -iname 'setuptools-*.whl' -delete \
-    && python -c 'import importlib.util; assert importlib.util.find_spec("setuptools") is None, "setuptools must not be present in the runtime image"'
+    && python -c 'import importlib.util; from importlib.metadata import distributions; assert importlib.util.find_spec("setuptools") is None, "setuptools module must not be present in the runtime image"; assert not any((dist.metadata.get("Name") or "").lower() == "setuptools" for dist in distributions()), "setuptools metadata must not be present in the runtime image"'
 
 RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2\" height=\"2\"><rect width=\"2\" height=\"2\" fill=\"#00549f\"/></svg>"); assert png.startswith(b"\x89PNG\r\n\x1a\n")'
 
