@@ -138,10 +138,16 @@ class Command(BaseCommand):
 
     @staticmethod
     def _redact_protocol_audit(meeting_id, topic_id):
-        events = AuditEvent.objects.filter(meeting_id=meeting_id).only("pk", "changes")
+        events = AuditEvent.objects.filter(meeting_id=meeting_id).only("pk", "topic_id", "changes")
         for event in events.iterator():
             changes = event.changes or {}
             modified = False
+            if event.topic_id == topic_id:
+                # Agenda edit history can also contain copies of protocol text.
+                for key in ("Text", "Besprechungstext"):
+                    if key in changes:
+                        changes.pop(key, None)
+                        modified = True
             saved = changes.get("Gesicherter Protokollstand")
             if isinstance(saved, list):
                 filtered = [
