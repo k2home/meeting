@@ -80,6 +80,9 @@ def validate_topic_attachment_content(uploaded_file):
             "Bitte exportiere die Datei erneut im angegebenen Format."
         )
 
+    from .antivirus import scan_uploaded_file
+    scan_uploaded_file(uploaded_file)
+
 
 class MeetingSeries(models.Model):
     name = models.CharField("Bezeichnung", max_length=160, unique=True)
