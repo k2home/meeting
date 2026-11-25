@@ -30,17 +30,17 @@ def validate_topic_attachment_content(uploaded_file):
         if suffix == "pdf":
             valid = signature.startswith(b"%PDF-")
         elif suffix == "png":
-            valid = signature.startswith(b"\\x89PNG\\r\\n\\x1a\\n")
+            valid = signature.startswith(b"\x89PNG\r\n\x1a\n")
         elif suffix in {"jpg", "jpeg"}:
-            valid = signature.startswith(b"\\xff\\xd8\\xff")
+            valid = signature.startswith(b"\xff\\xd8\xff")
         elif suffix == "txt":
-            valid = b"\\x00" not in signature
+            valid = b"\x00" not in signature
             decoder = codecs.getincrementaldecoder("utf-8")()
             while valid:
                 chunk = uploaded_file.read(64 * 1024)
                 if not chunk:
                     break
-                if b"\\x00" in chunk:
+                if b"\x00" in chunk:
                     valid = False
                     break
                 try:
