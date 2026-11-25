@@ -241,7 +241,7 @@ Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“
 | Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
 | Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
 
-**Themenarchiv:** Archivieren und Wiederöffnen ist ausschließlich Moderator*innen der jeweiligen Reihe vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus, löscht aber weder Thema noch Protokollhistorie. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
+**Themenarchiv und Aufbewahrung:** Archivieren und Wiederöffnen ist ausschließlich Moderator*innen der jeweiligen Reihe vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus; das Thema und seine Protokollhistorie bleiben bis zum berechneten Löschdatum erhalten. Die zentrale Aufbewahrungsfrist wird in den Organisationseinstellungen festgelegt und kann je Thema überschrieben werden. Abgelaufene archivierte Themen werden vollständig gelöscht. Bei nicht archivierten Themen werden abgelaufene Protokoll-Snapshots gelöscht, während die Texte in der Themenhistorie erhalten bleiben. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
 
 #### 3. Besprechungsreihen verwalten
 
