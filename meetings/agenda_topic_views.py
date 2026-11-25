@@ -298,7 +298,7 @@ def topic_protocol_pdf(request, pk):
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib.units import mm
     from reportlab.lib.utils import ImageReader
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable, KeepTogether
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, HRFlowable, KeepTogether
 
     organization = OrganizationSettings.objects.filter(pk=1).first()
     organization_name = organization.name.strip() if organization and organization.name else ""
@@ -326,7 +326,6 @@ def topic_protocol_pdf(request, pk):
                 if logo_data:
                     logo_image = ImageReader(BytesIO(logo_data))
             except Exception:
-                logger.exception("Themenprotokoll: Organisationslogo konnte nicht geladen werden (topic_id=%s).", topic.pk)
                 return HttpResponse(
                     "Das konfigurierte Organisationslogo konnte nicht geladen werden. Bitte prüfen Sie die Logo-Datei.",
                     status=503, content_type="text/plain; charset=utf-8",
@@ -394,9 +393,6 @@ def topic_protocol_pdf(request, pk):
         story.append(KeepTogether(parts))
     if not items:
         story.append(Paragraph("Für dieses Thema liegen noch keine Besprechungstexte vor.", styles["TopicProtocolBody"]))
-
-    class NumberedCanvas:
-        pass
 
     from reportlab.pdfgen import canvas as pdf_canvas
     class NumberedCanvas(pdf_canvas.Canvas):
