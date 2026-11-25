@@ -3,8 +3,9 @@ from django.contrib.auth.models import Group
 from datetime import date
 from django.test import TestCase
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import OrganizationSettings, Topic
+from .models import AuditEvent, OrganizationSettings, Topic
 
 
 class OrganizationSettingsTests(TestCase):
@@ -54,6 +55,34 @@ class OrganizationSettingsTests(TestCase):
         self.assertContains(response, 'value="save_logo"')
         self.assertContains(response, "Einstellungen speichern")
         self.assertContains(response, "timezone-live-preview")
+
+
+    def test_admin_can_reset_organization_logo_with_dedicated_button(self):
+        setting = OrganizationSettings.objects.create(
+            name="Fachbereich Logo",
+            logo=SimpleUploadedFile("organization-logo.png", b"logo-bytes", content_type="image/png"),
+            logo_png=SimpleUploadedFile("organization-logo-converted.png", b"png-bytes", content_type="image/png"),
+        )
+        logo_name = setting.logo.name
+        logo_png_name = setting.logo_png.name
+        admin_user = get_user_model().objects.create_user(
+            username="settings-logo-reset-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        admin_user.groups.add(admin_group)
+        self.client.force_login(admin_user)
+
+        response = self.client.post(reverse("management_settings"), {"action": "reset_logo"})
+
+        self.assertRedirects(response, reverse("management_settings"))
+        setting.refresh_from_db()
+        self.assertFalse(setting.logo)
+        self.assertFalse(setting.logo_png)
+        self.assertFalse(setting.logo.storage.exists(logo_name))
+        self.assertFalse(setting.logo_png.storage.exists(logo_png_name))
+        event = AuditEvent.objects.filter(summary="Organisationslogo zurückgesetzt").latest("pk")
+        self.assertEqual(event.actor, admin_user)
+        self.assertEqual(event.changes["Organisationslogo"]["nachher"], "Kein Logo")
 
     def test_settings_are_a_single_global_record(self):
         first = OrganizationSettings.objects.create(name="Fachbereich 20")
