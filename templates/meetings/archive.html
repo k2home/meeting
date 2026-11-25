@@ -133,6 +133,8 @@
       delete card.dataset.retentionFiltered;
       card.hidden = false;
     });
+    const search = document.getElementById("archive-search");
+    if (search) search.dispatchEvent(new Event("input"));
     feedback.textContent = "Der Löschfristfilter ist aufgehoben.";
   });
 })();
