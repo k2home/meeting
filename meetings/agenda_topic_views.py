@@ -16,7 +16,7 @@ from .audit import record_event
 from .forms import UserDisplayModelChoiceField
 from .models import AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
 from .user_display import user_display_name
-from .retention import effective_retention_years, topic_deletion_date
+from .retention import effective_retention_years, protocol_deletion_date, topic_deletion_date
 
 
 def topic_protocol_filename(topic):
@@ -402,6 +402,7 @@ def topic_detail(request, pk):
         snapshot = snapshots.get(item.meeting_id)
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
+        item.protocol_deletion_date = protocol_deletion_date(item.meeting, topic)
 
     topic.retention_effective_years = effective_retention_years(topic)
     topic.deletion_date = topic_deletion_date(topic)
