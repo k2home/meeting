@@ -27,13 +27,15 @@ class Command(BaseCommand):
 
         # A topic owns its agenda history. Delete it only when its individual
         # retention period has expired; related retained agenda entries cascade.
-        archived_topics = Topic.objects.filter(status="archived").order_by("pk")
-        for topic in archived_topics.iterator():
-            expiry = topic_deletion_date(topic)
-            if not expiry or expiry >= today:
-                continue
+        archived_topic_ids = list(
+            Topic.objects.filter(status="archived").order_by("pk").values_list("pk", flat=True)
+        )
+        for topic_id in archived_topic_ids:
             with transaction.atomic():
-                locked_topic = Topic.objects.select_for_update().get(pk=topic.pk)
+                try:
+                    locked_topic = Topic.objects.select_for_update().get(pk=topic_id)
+                except Topic.DoesNotExist:
+                    continue
                 expiry = topic_deletion_date(locked_topic)
                 if not expiry or expiry >= today:
                     continue
@@ -67,19 +69,13 @@ class Command(BaseCommand):
         # individual retention. Preserve only the topic-owned agenda text;
         # protocol snapshots and their audit copies expire with the meeting.
         organization_years = effective_retention_years()
-        meetings = Meeting.objects.select_related("series").order_by("pk")
-        for meeting in meetings.iterator():
-            was_reopened = AuditEvent.objects.filter(
-                meeting_id=meeting.pk, action="reopened"
-            ).exists()
-            if not meeting.finalized_at and not was_reopened:
-                continue
-            expiry = retention_expiry_date(meeting.date, organization_years)
-            if not expiry or expiry >= today:
-                continue
-
+        meeting_ids = list(Meeting.objects.order_by("pk").values_list("pk", flat=True))
+        for meeting_id in meeting_ids:
             with transaction.atomic():
-                locked_meeting = Meeting.objects.select_for_update().select_related("series").get(pk=meeting.pk)
+                try:
+                    locked_meeting = Meeting.objects.select_for_update().select_related("series").get(pk=meeting_id)
+                except Meeting.DoesNotExist:
+                    continue
                 was_reopened = AuditEvent.objects.filter(
                     meeting_id=locked_meeting.pk, action="reopened"
                 ).exists()
