@@ -107,7 +107,7 @@
   <section class="card topic-pdf-card">
    <h2>PDF-Protokoll</h2>
    <p class="muted">Alle Besprechungstexte und der Verlauf dieses Themas als PDF zusammengefasst.</p>
-   <a class="btn secondary topic-pdf-link" href="{% url 'topic_protocol_pdf' topic.pk %}" download aria-label="PDF-Protokoll für {{ topic.title }} herunterladen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span> Themenprotokoll herunterladen</a>
+   <a class="btn secondary topic-pdf-link" href="{% url 'topic_protocol_pdf' topic.pk %}" download draggable="true" data-drag-filename="Themenprotokoll_{{ topic.pk }}.pdf" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="Themenprotokoll herunterladen oder als PDF in einen Ordner ziehen" title="Zum Herunterladen anklicken oder das PDF-Symbol in einen Ordner ziehen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span> Themenprotokoll herunterladen</a>
   </section>
   <section class="card" id="topic-attachments"><h2>Dateien und Anlagen</h2>
    <p class="muted">Alle Unterlagen zu diesem Thema an einem Ort. Dateien können geöffnet oder heruntergeladen werden; Netzwerkpfade und Links bleiben direkt erreichbar.</p>
