@@ -319,7 +319,7 @@ Neue Benutzerkonten erhalten zunächst die globale Rolle Nutzer. Ihre Serienzuwe
 
 ## Benutzer und Serienzuweisungen verwalten
 
-Die integrierte Verwaltungsoberfläche ist über **Verwaltung** in der Seitenleiste bzw. unter `/verwaltung/` erreichbar. Sie steht ausschließlich globalen Administrator*innen und Django-Superusern zur Verfügung. Die Django-Administration unter `/django-admin/` bleibt als technische Rückfalloption vorhanden.
+Die integrierte Verwaltungsoberfläche ist über **Verwaltung** in der Seitenleiste bzw. unter `/verwaltung/` erreichbar. Sie steht ausschließlich globalen Administrator*innen und Django-Superusern zur Verfügung. Die Django-Administration unter `/django-admin/` ist ausschließlich im aktivierten TESTING-Modus erreichbar; außerhalb dieses Modus wird keine Route dafür registriert. Im TESTING-Modus steht in der Verwaltung zusätzlich die Beispielkonfiguration zum getrennten Erzeugen zufälliger Testdaten bereit.
 
 ### Nutzerverwaltung
 
