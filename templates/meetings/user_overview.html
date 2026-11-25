@@ -11,7 +11,7 @@
 <div class="user-settings-grid">
 
 
-<section class="card user-settings-card">
+<section class="card user-settings-card user-profile-card">
   <h2>Persönliche Daten</h2>
   <p class="muted">Diese Angaben kannst du selbst ändern. Der Benutzername für die Anmeldung bleibt unverändert.</p>
   <form method="post" class="profile-settings-form">
@@ -38,7 +38,7 @@
   </dialog>
 </section>
 
-<section class="card user-settings-card">
+<section class="card user-settings-card user-display-card">
   <h2>Darstellung</h2>
   <p class="muted">Wähle, ob der Meeting Manager hell oder dunkel angezeigt werden soll. Die Einstellung wird in diesem Browser gespeichert.</p>
   <button class="theme-toggle secondary" type="button" id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
@@ -91,7 +91,9 @@
 <style>
 .user-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}
 .user-settings-card{min-width:0;margin:0}
-.user-series-access-card{grid-column:1/-1}
+.user-profile-card{grid-column:1;grid-row:1}
+.user-display-card{grid-column:1;grid-row:2}
+.user-series-access-card{grid-column:2;grid-row:1 / span 2;align-self:start}
 .profile-settings-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
 .password-change-dialog{width:min(34rem,calc(100% - 2rem));max-width:34rem;max-height:calc(100% - 2rem);overflow:auto;padding:1.25rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 1rem 3rem #0004}
 .password-change-dialog::backdrop{background:#0008}
@@ -110,7 +112,7 @@
 .series-role-request label{font-size:.9rem;font-weight:600}
 .series-role-request select{width:100%;min-width:0}
 .series-role-request button{justify-self:start;white-space:nowrap}
-@media(max-width:760px){.user-settings-grid{grid-template-columns:minmax(0,1fr)}.user-series-access-card{grid-column:1}}
+@media(max-width:760px){.user-settings-grid{grid-template-columns:minmax(0,1fr)}.user-profile-card,.user-display-card,.user-series-access-card{grid-column:1;grid-row:auto}}
 </style>
 <script>
   const passwordDialog = document.getElementById("password-change-dialog");
