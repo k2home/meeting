@@ -433,7 +433,7 @@ def validate_organization_logo(uploaded_file):
                 b"<!DOCTYPE" not in upper_data
                 and b"<!ENTITY" not in upper_data
                 and b"@import" not in upper_data
-                and not re.search(rb"url\\(\\s*(?!#)", data, re.IGNORECASE)
+                and not re.search(rb"url\(\s*(?!#)", data, re.IGNORECASE)
             ):
                 try:
                     root = ET.fromstring(data)
