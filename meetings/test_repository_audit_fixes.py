@@ -183,6 +183,10 @@ class TopicArchiveWorkflowTests(TestCase):
                 self.assertEqual(response.status_code, 302)
                 self.assertFalse(TopicAttachment.objects.filter(pk=attachment.pk).exists())
                 self.assertFalse(storage.exists(stored_name))
+                archive_event = AuditEvent.objects.get(topic=self.topic, action="archived")
+                self.assertEqual(archive_event.changes["Gelöschte Anlagen"][0]["filename"], "anlage.txt")
+                archive_page = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+                self.assertContains(archive_page, "anlage.txt")
 
     def test_archive_and_reopen_restores_previous_topic_status(self):
         self.topic.status = "done"
