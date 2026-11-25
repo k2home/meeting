@@ -173,7 +173,8 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
             if group["series"].pk == self.series.pk
         )
         self.assertEqual(group["open_topic_count"], 2)
-        self.assertContains(dashboard_response, "(2 Offene Punkte)")
+        self.assertContains(dashboard_response, '>2</a>)')
+        self.assertContains(dashboard_response, f'href="{reverse("open_topics")}?series={self.series.pk}"')
 
     def test_completed_or_archived_topics_without_agenda_items_are_not_shown(self):
         Topic.objects.create(
