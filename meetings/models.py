@@ -32,7 +32,7 @@ def validate_topic_attachment_content(uploaded_file):
         elif suffix == "png":
             valid = signature.startswith(b"\x89PNG\r\n\x1a\n")
         elif suffix in {"jpg", "jpeg"}:
-            valid = signature.startswith(b"\xff\\xd8\xff")
+            valid = signature.startswith(b"\xff\xd8\xff")
         elif suffix == "txt":
             valid = b"\x00" not in signature
             decoder = codecs.getincrementaldecoder("utf-8")()
