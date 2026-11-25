@@ -5,7 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from meetings.models import AgendaItem, AuditEvent, Topic, TopicAttachment, TopicSnapshot
-from meetings.retention import protocol_deletion_date, topic_deletion_date
+from meetings.retention import effective_retention_years, protocol_deletion_date, retention_expiry_date, topic_deletion_date
 
 logger = logging.getLogger(__name__)
 
@@ -86,7 +86,7 @@ class Command(BaseCommand):
             for saved in saved_snapshots:
                 topic_id = saved.get("topic_id") if isinstance(saved, dict) else None
                 topic = active_topics.get(topic_id)
-                if topic and protocol_deletion_date(event.meeting, topic) < today:
+                if topic and retention_expiry_date(event.meeting.date, effective_retention_years(topic)) < today:
                     expired_keys.add((event.meeting_id, topic_id))
 
         for meeting_id, topic_id in expired_keys:
