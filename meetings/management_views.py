@@ -1126,7 +1126,7 @@ def testing_fixtures(request):
                     if not selected.exists():
                         raise ValidationError("Die Auswahl enthält keine gültige Besprechungsserie.")
                     created_count = 0
-                    fixture_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                    fixture_users = list(User.objects.filter(is_active=True, username__startswith="TEST", email__endswith="@beliebig.de"))
                     for series in selected.select_for_update():
                         assign_fixture_access(series, fixture_users)
                         created_count += len(generate_meetings(series, include_past=True))
@@ -1135,9 +1135,9 @@ def testing_fixtures(request):
                     count = _testing_count(request, "topic_count")
                     series = get_object_or_404(series_qs, pk=request.POST.get("series_id"))
                     assign_fixture_access(
-                        series, list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                        series, list(User.objects.filter(is_active=True, username__startswith="TEST", email__endswith="@beliebig.de"))
                     )
-                    active_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                    active_users = list(User.objects.filter(is_active=True, username__startswith="TEST", email__endswith="@beliebig.de"))
                     topic_names = [
                         "Umsetzung Projekt",
                         "Digitale Strategie",
@@ -1217,12 +1217,12 @@ def testing_fixtures(request):
                     if not topic.series_id:
                         raise ValidationError("Das ausgewählte Thema ist keiner Besprechungsserie zugeordnet.")
                     assign_fixture_access(
-                        topic.series, list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                        topic.series, list(User.objects.filter(is_active=True, username__startswith="TEST", email__endswith="@beliebig.de"))
                     )
                     meetings = list(Meeting.objects.filter(series=topic.series, finalized_at__isnull=True).order_by("date"))
                     if not meetings:
                         raise ValidationError("Für diese Serie gibt es noch keine offenen Termine. Bitte zuerst Termine generieren.")
-                    active_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                    active_users = list(User.objects.filter(is_active=True, username__startswith="TEST", email__endswith="@beliebig.de"))
                     existing_items = list(
                         AgendaItem.objects.filter(topic=topic, meeting__series=topic.series)
                         .select_related("meeting").order_by("meeting__date", "pk")
@@ -1317,7 +1317,7 @@ def testing_fixtures(request):
                     MeetingSeries.objects.filter(pk__in=test_series_ids).delete()
                     deleted_users = 0
                     protected_users = 0
-                    for fixture_user in User.objects.filter(username__startswith="test_fixture_").exclude(pk=request.user.pk):
+                    for fixture_user in User.objects.filter(username__startswith="TEST", email__endswith="@beliebig.de").exclude(pk=request.user.pk):
                         in_use = (
                             fixture_user.meeting_participations.exists()
                             or fixture_user.assigned_meeting_topics.exists()
@@ -1353,6 +1353,6 @@ def testing_fixtures(request):
         "topic_options": topics_qs,
         "series_count": series_qs.count(),
         "meeting_count": Meeting.objects.filter(series__in=series_qs).count(),
-        "fixture_user_count": User.objects.filter(username__startswith="test_fixture_").count(),
+        "fixture_user_count": User.objects.filter(username__startswith="TEST", email__endswith="@beliebig.de").count(),
         "testing_mode": True,
     })
