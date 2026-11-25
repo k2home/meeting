@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from .models import (
     AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings,
-    Topic, TopicSnapshot,
+    RetainedAgendaEntry, Topic, TopicSnapshot,
 )
 from .retention import retention_expiry_date
 
@@ -58,7 +58,8 @@ class RetentionCleanupTests(TestCase):
 
     def test_expired_snapshot_is_removed_but_active_topic_text_is_retained(self):
         topic = Topic.objects.create(
-            title="Laufendes Thema", series=self.series, status="in_progress"
+            title="Laufendes Thema", series=self.series, status="in_progress",
+            retention_years=50,
         )
         meeting = Meeting.objects.create(
             series=self.series, date=date(2010, 8, 23), finalized_at=timezone.now()
@@ -82,10 +83,14 @@ class RetentionCleanupTests(TestCase):
 
         call_command("purge_expired_data")
 
-        item.refresh_from_db()
         correction.refresh_from_db()
-        self.assertEqual(item.working_text, "Text bleibt im Thema")
+        self.assertFalse(Meeting.objects.filter(pk=meeting.pk).exists())
+        self.assertFalse(AgendaItem.objects.filter(pk=item.pk).exists())
         self.assertFalse(TopicSnapshot.objects.filter(pk=snapshot.pk).exists())
+        retained = RetainedAgendaEntry.objects.get(topic=topic, original_meeting_id=meeting.pk)
+        self.assertEqual(retained.working_text, "Text bleibt im Thema")
+        self.assertEqual(retained.meeting_date, date(2010, 8, 23))
+        self.assertEqual(topic.status, "in_progress")
         self.assertEqual(
             correction.changes["Protokollkorrektur"],
             {"Begründung": "Test"},
