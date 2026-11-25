@@ -139,7 +139,7 @@ fi
 if grep -qE '^[[:space:]]*#?[[:space:]]*StreamMaxLength' /etc/clamav/clamd.conf; then
   sed -E -i 's/^[[:space:]]*#?[[:space:]]*StreamMaxLength.*/StreamMaxLength 32M/' /etc/clamav/clamd.conf
 else
-  printf 'StreamMaxLength 32M\\n' >> /etc/clamav/clamd.conf
+  printf 'StreamMaxLength 32M\n' >> /etc/clamav/clamd.conf
 fi
 systemctl enable --now clamav-freshclam
 systemctl restart clamav-daemon
