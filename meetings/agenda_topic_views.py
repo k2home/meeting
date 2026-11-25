@@ -381,10 +381,11 @@ def topic_detail(request, pk):
         "can_archive_topic": topic.series_id is not None and is_moderator(request.user, topic.series),
         "topic_archive_allowed": _topic_archive_state(topic)[0],
         "topic_archive_reason": _topic_archive_state(topic)[1],
-        "archived_attachment_info": (
-            (AuditEvent.objects.filter(topic=topic, action="archived").order_by("-created_at", "-pk").first().changes or {}).get("Gelöschte Anlagen", [])
-            if topic.status == "archived" else []
-        ),
+        "archived_attachment_info": [
+            attachment_info
+            for archive_event in AuditEvent.objects.filter(topic=topic, action="archived").order_by("created_at", "pk")
+            for attachment_info in (archive_event.changes or {}).get("Gelöschte Anlagen", [])
+        ],
         "is_reader": reader,
         "topic_agenda_items": items,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
