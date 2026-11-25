@@ -926,3 +926,156 @@ def management_user_csv_sample(request):
         "musterbenutzer;Max;Mustermann;max.mustermann@example.org;Beispielkonto;true;user;;;\r\n"
     )
     return response
+
+
+# ---------------------------------------------------------------------------
+# Zufällige Testdaten – ausschließlich im explizit aktivierten TESTING-Modus.
+# ---------------------------------------------------------------------------
+def _require_testing_mode():
+    if not _testing_mode_enabled():
+        from django.http import Http404
+        raise Http404("Die Testdatenverwaltung ist nur im TESTING-Modus verfügbar.")
+
+
+def _testing_count(request, key, default=5, maximum=100):
+    try:
+        value = int(request.POST.get(key, default))
+    except (TypeError, ValueError):
+        raise ValidationError("Bitte gib eine gültige Anzahl ein.")
+    if not 1 <= value <= maximum:
+        raise ValidationError(f"Die Anzahl muss zwischen 1 und {maximum} liegen.")
+    return value
+
+
+def _testing_random_user():
+    import secrets
+    from django.contrib.auth import get_user_model
+    from .models import UserProfile
+    from .user_roles import sync_user_role
+
+    first_names = ["Alex", "Sam", "Robin", "Mika", "Jana", "Lena", "Noah", "Mara", "Toni", "Kim"]
+    last_names = ["Becker", "Fischer", "Wagner", "Schulz", "Hoffmann", "Koch", "Richter", "Wolf"]
+    first_name = secrets.choice(first_names)
+    last_name = secrets.choice(last_names)
+    username = f"test_{secrets.token_hex(5)}"
+    user = User.objects.create_user(
+        username=username,
+        first_name=first_name,
+        last_name=last_name,
+        email=f"{username}@example.invalid",
+    )
+    UserProfile.objects.get_or_create(user=user)
+    sync_user_role(user, "user")
+    return user
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def testing_fixtures(request):
+    _require_admin(request)
+    _require_testing_mode()
+
+    from datetime import timedelta
+    import secrets
+    from django.db import transaction
+    from .models import AgendaItem, Meeting, Topic
+    from .services import generate_meetings
+
+    series_qs = MeetingSeries.objects.order_by("name")
+    topics_qs = Topic.objects.select_related("series").order_by("title")
+    if request.method == "POST":
+        action = request.POST.get("action", "")
+        try:
+            with transaction.atomic():
+                if action == "create_series":
+                    count = _testing_count(request, "series_count")
+                    created = []
+                    today = timezone.localdate()
+                    for index in range(count):
+                        suffix = secrets.token_hex(3)
+                        series = MeetingSeries.objects.create(
+                            name=f"TEST-Besprechungsreihe {today:%Y%m%d}-{suffix}",
+                            description="Zufällig erzeugte Beispieldaten für Tests.",
+                            active=True,
+                            recurrence=secrets.choice(["weekly", "monthly"]),
+                            recurrence_interval=secrets.choice([1, 2, 3]),
+                            weekday=secrets.randbelow(5),
+                            start_date=today + timedelta(days=secrets.randbelow(14)),
+                            end_date=today + timedelta(days=120 + secrets.randbelow(120)),
+                        )
+                        created.append(series)
+                    messages.success(request, f"{len(created)} zufällige Besprechungsserien wurden angelegt.")
+                elif action == "generate_meetings":
+                    ids = request.POST.getlist("series_ids")
+                    selected = series_qs.filter(pk__in=ids)
+                    if not ids:
+                        raise ValidationError("Bitte wähle mindestens eine Besprechungsserie aus.")
+                    if not selected.exists():
+                        raise ValidationError("Die Auswahl enthält keine gültige Besprechungsserie.")
+                    created_count = 0
+                    for series in selected:
+                        created_count += len(generate_meetings(series))
+                    messages.success(request, f"{created_count} neue Termine wurden für {selected.count()} Serien generiert.")
+                elif action == "create_topics":
+                    count = _testing_count(request, "topic_count")
+                    series = get_object_or_404(series_qs, pk=request.POST.get("series_id"))
+                    active_users = list(User.objects.filter(is_active=True))
+                    title_parts = ["Projektplanung", "Qualitätssicherung", "Prozessoptimierung", "Infrastruktur", "Dokumentation", "Schnittstellen", "Ressourcenplanung", "Betriebsablauf"]
+                    for _ in range(count):
+                        Topic.objects.create(
+                            title=f"TEST-{secrets.choice(title_parts)}-{secrets.token_hex(3)}",
+                            series=series,
+                            assigned_to=secrets.choice(active_users) if active_users and secrets.randbelow(2) else None,
+                            status=secrets.choice(["open", "in_progress", "done"]),
+                        )
+                    messages.success(request, f"{count} zufällige Themen wurden für „{series.name}“ angelegt.")
+                elif action == "create_agenda_items":
+                    count = _testing_count(request, "agenda_count")
+                    topic = get_object_or_404(topics_qs, pk=request.POST.get("topic_id"))
+                    if not topic.series_id:
+                        raise ValidationError("Das ausgewählte Thema ist keiner Besprechungsserie zugeordnet.")
+                    meetings = list(Meeting.objects.filter(series=topic.series, finalized_at__isnull=True).order_by("date"))
+                    if not meetings:
+                        raise ValidationError("Für diese Serie gibt es noch keine offenen Termine. Bitte zuerst Termine generieren.")
+                    active_users = list(User.objects.filter(is_active=True))
+                    candidates = [(meeting, position) for meeting in meetings
+                                  for position in [meeting.agenda_items.count()]
+                                  if not meeting.agenda_items.filter(topic=topic).exists()]
+                    if not candidates:
+                        raise ValidationError("Das Thema steht bereits auf allen verfügbaren Terminen dieser Serie.")
+                    created = 0
+                    for _ in range(min(count, len(candidates))):
+                        meeting, position = candidates.pop(secrets.randbelow(len(candidates)))
+                        AgendaItem.objects.create(
+                            meeting=meeting, topic=topic, position=position,
+                            status=secrets.choice(["open", "in_progress", "done"]),
+                            assigned_to=secrets.choice(active_users) if active_users and secrets.randbelow(2) else None,
+                            working_text=secrets.choice([
+                                "Zufällig erzeugter Testtext: Sachstand prüfen.",
+                                "Zufällig erzeugter Testtext: Nächste Schritte abstimmen.",
+                                "Zufällig erzeugter Testtext: Ergebnis dokumentieren.",
+                                "",
+                            ]),
+                        )
+                        created += 1
+                    messages.success(request, f"{created} zufällige Tagesordnungspunkte wurden angelegt.")
+                elif action == "create_users":
+                    count = _testing_count(request, "user_count")
+                    for _ in range(count):
+                        _testing_random_user()
+                    messages.success(request, f"{count} zufällige Testnutzer wurden angelegt (ohne gesetztes Passwort).")
+                else:
+                    raise ValidationError("Unbekannte Testdatenaktion.")
+        except ValidationError as exc:
+            messages.error(request, " ".join(exc.messages))
+        except Exception as exc:
+            logger.exception("Fehler beim Erzeugen von Testdaten")
+            messages.error(request, f"Testdaten konnten nicht vollständig erzeugt werden: {exc}")
+        return redirect("testing_fixtures")
+
+    return render(request, "meetings/testing_fixtures.html", {
+        "series_options": series_qs,
+        "topic_options": topics_qs,
+        "series_count": series_qs.count(),
+        "testing_mode": True,
+    })
