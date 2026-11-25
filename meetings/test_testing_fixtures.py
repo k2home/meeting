@@ -26,7 +26,7 @@ class TestingFixtureViewTests(TestCase):
         self.assertContains(response, "Besprechungsserien anlegen")
         self.assertContains(response, "Termine für Serien generieren")
 
-        response = self.client.post(url, {"action": "create_series", "series_count": "1"})
+        response = self.client.post(url, {"action": "create_series", "series_count": "1", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
         self.assertRedirects(response, url)
         series = MeetingSeries.objects.get()
         self.assertTrue(series.name.startswith("TEST-Besprechungsreihe "))
@@ -35,7 +35,7 @@ class TestingFixtureViewTests(TestCase):
         ).exists())
 
         self.client.get(url)
-        response = self.client.post(url, {"action": "create_users", "user_count": "2"})
+        response = self.client.post(url, {"action": "create_users", "user_count": "2", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
         self.assertRedirects(response, url)
         generated_users = User.objects.filter(username__startswith="test_fixture_")
         self.assertEqual(generated_users.count(), 2)
@@ -43,14 +43,14 @@ class TestingFixtureViewTests(TestCase):
 
         self.client.get(url)
         response = self.client.post(url, {
-            "action": "generate_meetings", "series_ids": [str(series.pk)],
+            "action": "generate_meetings", "series_ids": [str(series.pk)], "fixture_nonce": self.client.session["testing_fixture_nonce"],
         })
         self.assertRedirects(response, url)
         self.assertTrue(Meeting.objects.filter(series=series).exists())
 
         self.client.get(url)
         response = self.client.post(url, {
-            "action": "create_topics", "series_id": str(series.pk), "topic_count": "2",
+            "action": "create_topics", "series_id": str(series.pk), "topic_count": "2", "fixture_nonce": self.client.session["testing_fixture_nonce"],
         })
         self.assertRedirects(response, url)
         topic = Topic.objects.filter(series=series).first()
@@ -59,7 +59,7 @@ class TestingFixtureViewTests(TestCase):
 
         self.client.get(url)
         response = self.client.post(url, {
-            "action": "create_agenda_items", "topic_id": str(topic.pk), "agenda_count": "2",
+            "action": "create_agenda_items", "topic_id": str(topic.pk), "agenda_count": "2", "fixture_nonce": self.client.session["testing_fixture_nonce"],
         })
         self.assertRedirects(response, url)
         created_items = list(AgendaItem.objects.filter(topic=topic).select_related("meeting").order_by("meeting__date"))
@@ -113,7 +113,8 @@ class TestingFixtureViewTests(TestCase):
         meeting = Meeting.objects.create(series=series, date="2026-11-20")
         AgendaItem.objects.create(meeting=meeting, topic=topic)
 
-        response = self.client.post(url, {"action": "reset_fixtures"})
+        self.client.get(url)
+        response = self.client.post(url, {"action": "reset_fixtures", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
 
         self.assertRedirects(response, url)
         self.assertFalse(MeetingSeries.objects.filter(pk=series.pk).exists())
