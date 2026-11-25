@@ -41,10 +41,10 @@ def login_view(request):
     form = UsernameLoginForm(request, data=request.POST or None)
     if request.method == "POST" and form.is_valid():
         login(request, form.get_user())
-        if request.POST.get("remember_me"):
-            request.session.set_expiry(30 * 24 * 60 * 60)
-        else:
-            request.session.set_expiry(0)
+        # Persistent sessions are deliberately capped at the configured eight-hour
+        # lifetime. "Angemeldet bleiben" only keeps the session after browser close;
+        # it must not silently extend the authentication lifetime to 30 days.
+        request.session.set_expiry(8 * 60 * 60 if request.POST.get("remember_me") else 0)
         next_url = request.POST.get("next") or request.GET.get("next", "")
         if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
             return redirect(next_url)
