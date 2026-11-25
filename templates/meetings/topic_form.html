@@ -119,10 +119,17 @@
      <button type="submit">Speichern</button>
    </form>
    {% if can_archive_topic %}
-   <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
-    {% csrf_token %}
-    <button type="submit" class="{% if topic.status == "archived" %}secondary{% else %}topic-archive-button{% endif %}">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
-   </form>
+    {% if topic.status == "archived" %}
+    <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ wieder öffnen?">
+     {% csrf_token %}<button type="submit" class="secondary">Thema wieder öffnen</button>
+    </form>
+    {% elif topic_archive_allowed %}
+    <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ wirklich archivieren? Alle Anlagen dieses Themas einschließlich hochgeladener Dateien werden dabei dauerhaft vom Server gelöscht.">
+     {% csrf_token %}<button type="submit" class="topic-archive-button">Archivieren</button>
+    </form>
+    {% else %}
+    <p class="muted" role="status">{{ topic_archive_reason }}</p>
+    {% endif %}
    {% endif %}
     </div>
    {% endif %}
