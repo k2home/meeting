@@ -29,10 +29,11 @@ WORKDIR /app
 COPY requirements.txt requirements-constraints.txt ./
 RUN python -m pip install --upgrade pip 'setuptools>=78.1.1' \
     && pip install -r requirements.txt -c requirements-constraints.txt \
-    && find /usr /opt -type f \( -name 'setuptools-*.whl' -o -path '*/setuptools-*.dist-info/METADATA' \) -print -exec grep -m1 '^Version:' {} \; \
+    && find /usr /opt -type f \( -iname '*setuptools*' -o -name 'PKG-INFO' \) -print \
+    && python -c 'import glob, zipfile; from pathlib import Path; wheels = glob.glob("/usr/share/python-wheels/setuptools-*.whl") + glob.glob("/usr/lib/python3.13/ensurepip/_bundled/setuptools-*.whl"); [(print(f"Wheel metadata: {wheel}"), print(line.decode().strip()) ) for wheel in wheels for name in zipfile.ZipFile(wheel).namelist() if name.endswith(".dist-info/METADATA") for line in zipfile.ZipFile(wheel).read(name).splitlines() if line.startswith(b"Version:")]' \
     && python -c 'import importlib.metadata as metadata; version = metadata.version("setuptools"); assert tuple(int(part) for part in version.split(".")[:2]) >= (78, 1), version'
 
-RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2\" height=\"2\"><rect width=\"2\" height=\"2\" fill=\"#00549f\"/></svg>"); assert png.startswith(b"\x89PNG\r\n\x1a\n")'
+RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"2\\" height=\\"2\\"><rect width=\\"2\\" height=\\"2\\" fill=\\"#00549f\\"/></svg>"); assert png.startswith(b"\\x89PNG\\r\\n\\x1a\\n")'
 
 RUN groupadd --system --gid 10001 meeting \
     && useradd --system --uid 10001 --gid meeting --home-dir /app --no-create-home meeting \
