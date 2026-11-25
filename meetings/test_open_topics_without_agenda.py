@@ -196,6 +196,45 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
         self.assertContains(dashboard_response, f'href="{reverse("open_topics")}?series={self.series.pk}"')
         self.assertContains(dashboard_response, '<span class="overdue">2</span>')
 
+    def test_dashboard_counts_all_open_topics_in_series_not_only_last_group(self):
+        old_meeting = Meeting.objects.create(
+            series=self.series,
+            date=self.today - timedelta(days=1),
+        )
+        for index, status in enumerate(("open", "in_progress"), start=1):
+            Topic.objects.create(
+                title=f"Thema ohne Tagesordnung {index}",
+                series=self.series,
+                status=status,
+            )
+        for index, item_status in enumerate(("open", "in_progress"), start=1):
+            topic = Topic.objects.create(
+                title=f"Thema mit Tagesordnung {index}",
+                series=self.series,
+                status="done" if index == 1 else "open",
+            )
+            AgendaItem.objects.create(
+                meeting=old_meeting,
+                topic=topic,
+                status=item_status,
+            )
+        Meeting.objects.create(
+            series=self.series,
+            date=self.today + timedelta(days=7),
+        )
+
+        open_topics_response = self.client.get(reverse("open_topics"))
+        dashboard_response = self.client.get(reverse("dashboard"))
+
+        self.assertEqual(open_topics_response.status_code, 200)
+        self.assertEqual(len(open_topics_response.context["rows"]), 4)
+        group = next(
+            group for group in dashboard_response.context["meeting_groups"]
+            if group["series"].pk == self.series.pk
+        )
+        self.assertEqual(group["open_topic_count"], 4)
+        self.assertContains(dashboard_response, '<span class="overdue">4</span>')
+
     def test_completed_or_archived_topics_without_agenda_items_are_not_shown(self):
         Topic.objects.create(
             title="Erledigt",
