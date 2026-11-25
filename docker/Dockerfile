@@ -52,7 +52,7 @@ COPY --from=builder /opt/venv /opt/venv
 
 WORKDIR /app
 
-RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2\" height=\"2\"><rect width=\"2\" height=\"2\" fill=\"#00549f\"/></svg>"); assert png.startswith(b"\\x89PNG\\r\\n\\x1a\\n")'
+RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"2\\" height=\\"2\\"><rect width=\\"2\\" height=\\"2\\" fill=\\"#00549f\\"/></svg>"); assert png.startswith(bytes([137, 80, 78, 71, 13, 10, 26, 10]))'
 
 RUN groupadd --system --gid 10001 meeting \
     && useradd --system --uid 10001 --gid meeting --home-dir /app --no-create-home meeting \
