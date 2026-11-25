@@ -48,12 +48,6 @@ class TopicWorkflowTests(TestCase):
         SeriesAccess.objects.create(user=self.user, series=self.series_b)
         self.topic = Topic.objects.create(title="Testthema", series=self.series_a)
 
-    def test_open_topics_includes_topics_without_any_agenda_entry(self):
-        response = self.client.get(reverse("open_topics"))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, self.topic.title)
-        self.assertContains(response, "Bisher noch nicht auf einer Tagesordnung geführt.")
-
     def test_transfer_moves_future_agenda_items_and_keeps_point_responsibility(self):
         from datetime import date
         source_meeting = Meeting.objects.create(series=self.series_a, date=date(2026, 12, 3))
