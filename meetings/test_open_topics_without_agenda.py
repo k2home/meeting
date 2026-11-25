@@ -233,7 +233,24 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
             if group["series"].pk == self.series.pk
         )
         self.assertEqual(group["open_topic_count"], 4)
-        self.assertContains(dashboard_response, '<span class="overdue">4</span>')
+        self.assertContains(dashboard_response, '<span class="overdue">4 offene Punkte</span>')
+
+
+    def test_dashboard_displays_singular_open_topic_label_and_keeps_link(self):
+        Topic.objects.create(
+            title="Ein offener Punkt",
+            series=self.series,
+            status="open",
+        )
+
+        response = self.client.get(reverse("dashboard"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<span class="overdue">1 offener Punkt</span>')
+        self.assertContains(
+            response,
+            f'href="{reverse("open_topics")}?series={self.series.pk}"',
+        )
 
     def test_completed_or_archived_topics_without_agenda_items_are_not_shown(self):
         Topic.objects.create(
