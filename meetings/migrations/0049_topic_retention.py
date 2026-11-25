@@ -11,7 +11,18 @@ def backfill_archived_dates(apps, schema_editor):
         archived_event = AuditEvent.objects.using(db).filter(
             topic_id=topic.pk, action="archived"
         ).order_by("-created_at", "-pk").first()
-        archived_at = archived_event.created_at.date() if archived_event else timezone.now().date()
+        reopened_event = AuditEvent.objects.using(db).filter(
+            topic_id=topic.pk, action="reopened"
+        ).order_by("-created_at", "-pk").first()
+        if archived_event and (
+            not reopened_event or archived_event.created_at > reopened_event.created_at
+        ):
+            archived_at = archived_event.created_at.date()
+        else:
+            # Some legacy archive paths (such as deleting a series or CSV import)
+            # did not create a topic-specific archive event. Use migration time
+            # rather than risk deleting those topics earlier than intended.
+            archived_at = timezone.now().date()
         Topic.objects.using(db).filter(pk=topic.pk).update(archived_at=archived_at)
 
 
