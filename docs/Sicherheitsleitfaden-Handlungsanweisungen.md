@@ -17,7 +17,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 - Den öffentlichen Zugriff ausschließlich über HTTPS zulassen. HTTP muss auf HTTPS umleiten; die Anwendung darf nicht direkt über einen unverschlüsselten, aus nicht vertrauenswürdigen Netzen erreichbaren Port angeboten werden.
 - Bei Docker den veröffentlichten Web-Port standardmäßig nur an `127.0.0.1:8080` binden. Den Reverse Proxy auf demselben Host betreiben und auf `http://127.0.0.1:8080` weiterleiten. Den App-Port 8000 und PostgreSQL niemals öffentlich veröffentlichen.
 - Bei Debian den internen Nginx-Zugang auf die tatsächlich verwendete Proxy-IP bzw. das erforderliche CIDR begrenzen. Die beim Installer angegebene Proxy-Adresse muss stimmen und darf nicht unnötig weit gefasst sein.
-- Am Proxy `X-Forwarded-Proto: https` setzen und vom Client angelieferte Forwarded-Header überschreiben. Nur dem bekannten Proxy vertrauen. Keine beliebigen Proxy-Adressen oder unkontrollierten Netze als vertrauenswürdig konfigurieren.
+- Am Proxy `X-Forwarded-Proto: https` setzen und vom Client angelieferte Forwarded-Header überschreiben. Das Login-Rate-Limit wird nur angewendet, wenn `X-Forwarded-For` vorhanden und nicht leer ist; fehlt der Header, wird die Login-Drosselung bewusst übersprungen. Soll das Rate-Limit greifen, muss der Proxy `X-Forwarded-For` mit der tatsächlichen Client-IP neu setzen und darf keinen ungeprüften Client-Wert übernehmen. Nur dem bekannten Proxy vertrauen. Keine beliebigen Proxy-Adressen oder unkontrollierten Netze als vertrauenswürdig konfigurieren.
 - Den öffentlichen Hostnamen in `ALLOWED_HOSTS` und die korrekte HTTPS-Origin in `CSRF_TRUSTED_ORIGINS` verwenden. Keine Wildcards als bequeme Dauerlösung eintragen.
 - Nach Einrichtung HTTP-Weiterleitung, Login/Logout, Session- und CSRF-Cookies, Passwort-Reset, Datei-Upload/-Download und PDF-Ausgabe über den HTTPS-Zugang testen.
 - HSTS zunächst mit einer kurzen Laufzeit testen. `includeSubDomains` und Preload nur aktivieren, wenn sämtliche betroffenen Subdomains dauerhaft HTTPS unterstützen und die Voraussetzungen geprüft sind.
@@ -40,7 +40,8 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 - Für jede Besprechungsreihe eine fachlich verantwortliche Person festlegen, die Mitglieder und Serienrollen regelmäßig überprüft.
 - Bei Eintritt, Rollenwechsel und Austritt von Mitarbeitenden Konten und Serienzuweisungen zeitnah anpassen. Nicht mehr benötigte Konten deaktivieren.
 - Prüfen, ob ein vorgeschalteter Identity Provider mit MFA eingesetzt werden kann. Falls MFA nicht vorhanden ist, den Zugriff auf vertrauenswürdige Netze bzw. einen abgesicherten VPN-Zugang beschränken und zusätzliche Anmeldekontrollen am Proxy vorsehen.
-- Anmeldeversuche und ungewöhnliche Zugriffsmuster auf Infrastruktur-Ebene überwachen. Ein anwendungsinterner Login-Rate-Limiter bzw. MFA darf nicht allein aufgrund der vorhandenen Passwortregeln angenommen werden.
+- Die mitgelieferte Nginx-Konfiguration begrenzt Anfragen an `/login/` auf 10 Requests pro Minute je über `X-Forwarded-For` identifizierter Client-IP, mit Burst 10 und anschließend HTTP 429. Ist der Header nicht vorhanden oder leer, wird das Rate-Limit bewusst nicht angewendet. Soll die Drosselung greifen, muss der vorgeschaltete Reverse Proxy `X-Forwarded-For` mit der tatsächlichen Client-IP überschreiben und darf keinen ungeprüften Client-Wert übernehmen. Das IP-basierte Limit ist kein konto-/benutzerbezogener Schutz; bei NAT oder gemeinsam genutzten Ausgängen können mehrere Personen gemeinsam betroffen sein.
+- Anmeldeversuche und ungewöhnliche Zugriffsmuster auf Infrastruktur-Ebene überwachen. MFA darf nicht allein aufgrund der vorhandenen Passwortregeln angenommen werden.
 
 ### 1.4 Datei-Uploads und Downloads schützen
 
@@ -49,7 +50,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 - Die Allowlist nur nach fachlicher Prüfung und kontrollierter Änderung erweitern. Nicht benötigte ausführbare Dateien, Skripte und Archive nicht zulassen.
 - Beachten, dass die Anwendung die Dateiendung prüft, nicht aber die tatsächliche Dateisignatur oder den Dateiinhalt. Die Endungsprüfung ist kein vollständiger Malware-Schutz.
 - Wenn Dateien aus nicht vollständig vertrauenswürdigen Quellen hochgeladen werden, einen Malware-Scanner auf dem Host bzw. in einem vorgeschalteten Quarantäneprozess einsetzen. Ungeprüfte Dateien nicht automatisch als sicher einstufen.
-- Das organisationsweite Uploadlimit auf den tatsächlichen Bedarf begrenzen. Standardmäßig sind 20 MB eingestellt; konfigurierbar sind 1 bis 24 MB. Proxy-, Nginx- und Anwendungslimits aufeinander abstimmen.
+- Das organisationsweite Uploadlimit auf den tatsächlichen Bedarf begrenzen. Standardmäßig sind 20 MB eingestellt; konfigurierbar sind 1 bis 24 MB. Nginx begrenzt allgemeine Request-Bodies zusätzlich auf 32 MiB; nur der Vollbackup-Importpfad ist für große Sicherungen auf 1 GiB freigegeben. Proxy-, Nginx- und Anwendungslimits aufeinander abstimmen.
 - Das Medienverzeichnis nicht als öffentliches Webverzeichnis freigeben. Uploads ausschließlich über die authentifizierte Anwendungsroute bereitstellen; keine zusätzliche statische Direkt-Auslieferung konfigurieren.
 - Dateispeicher und Medien-Volume mit restriktiven Dateirechten betreiben und in Backups einbeziehen. Zugriff auf Host- und Backup-Ebene nur den zuständigen Betriebsadmins gewähren.
 
@@ -67,7 +68,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 ### 1.6 Updates, Protokollierung und Notfallvorsorge
 
 - Produktionsupdates nur aus freigegebenen Branches bzw. Releases übernehmen. Version und Commit des laufenden Systems dokumentieren.
-- Das gebaute Anwendungsimage und das ClamAV-Sidecar-Image werden bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf kritische/hohe OS- und Bibliotheks-Schwachstellen geprüft. Python-Abhängigkeiten zusätzlich mit `pip-audit` prüfen und Dependabot-/Security-Updates aktivieren. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, verantwortlicher Person und Frist dokumentieren.
+- Python-Abhängigkeiten werden in Pull Requests sowie bei Pushes auf `main` und `beta` durch `pip-audit` auf bekannte Schwachstellen geprüft. Das gebaute Anwendungsimage und das ClamAV-Sidecar-Image werden bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf kritische/hohe OS- und Bibliotheks-Schwachstellen geprüft. Behebbare kritische und hohe Befunde lassen den Scan-Job fehlschlagen und werden als SARIF an GitHub Code Scanning übermittelt. Nicht behebbare Befunde werden zunächst ignoriert und müssen regelmäßig neu bewertet werden. Dependabot-/Security-Updates aktivieren sowie Basisimages und Betriebssystempakete zeitnah aktualisieren. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, verantwortlicher Person und Frist dokumentieren.
 - Updates zunächst in einer Testumgebung prüfen. Nach Updates Login, Berechtigungen, Upload/Download, CSV-Funktionen, Protokollabschluss und Wiederherstellung testen.
 - Systemlogs auf ungewöhnliche Login-Fehler, Änderungen globaler Rollen, fehlgeschlagene Downloads, unerwartete Dienstneustarts und Speicherengpässe überwachen.
 - Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
@@ -102,7 +103,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 - Das persönliche Konto ausschließlich selbst verwenden. Zugangsdaten nicht weitergeben und nicht in gemeinsam genutzten Dokumenten speichern.
 - Ein individuelles, nicht anderweitig verwendetes Passwort nutzen und die Passwortregeln der Anwendung einhalten. Ein Passwortmanager wird empfohlen.
 - Bei Verdacht auf Kenntnisnahme des Passworts unverzüglich den vorgesehenen Passwort-Reset durchführen und die Administrator\*innen informieren.
-- An gemeinsam genutzten Arbeitsplätzen nach der Arbeit abmelden und den Bildschirm sperren. Die Anwendungssitzung kann bis zu acht Stunden bestehen.
+- An gemeinsam genutzten Arbeitsplätzen nach der Arbeit abmelden und den Bildschirm sperren. Die Anwendungssitzung endet nach acht Stunden Inaktivität; die Option „Angemeldet bleiben“ hält das Cookie über das Schließen des Browsers hinaus, verlängert aber nicht das Inaktivitäts-Timeout. Aktive Nutzung erneuert die Inaktivitätsfrist.
 - Verdächtige Login-Benachrichtigungen, unerwartete Änderungen oder nicht selbst ausgelöste Aktionen unverzüglich melden.
 
 ### 2.3 Serienberechtigungen beachten
