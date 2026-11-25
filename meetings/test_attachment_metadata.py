@@ -19,9 +19,8 @@ class UploadedAttachmentMetadataTests(TestCase):
         self.series = MeetingSeries.objects.create(name="Anlagen-Reihe")
         SeriesAccess.objects.create(user=self.user, series=self.series)
         self.topic = Topic.objects.create(title="Anlagen-Thema", series=self.series)
-        self.upload = SimpleUploadedFile(
-            "sitzungsunterlage.pdf", b"%PDF-1.7\nPDF-Dateiinhalt"
-        )
+        self.pdf_content = b"%PDF-1.7\nPDF-Dateiinhalt"
+        self.upload = SimpleUploadedFile("sitzungsunterlage.pdf", self.pdf_content)
         TopicAttachment.objects.create(
             topic=self.topic,
             label="Sitzungsunterlage",
@@ -35,7 +34,7 @@ class UploadedAttachmentMetadataTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Datei öffnen")
-        self.assertContains(response, f'data-file-size="{len(b"%PDF-1.7\nPDF-Dateiinhalt")}"')
+        self.assertContains(response, f'data-file-size="{len(self.pdf_content)}"')
 
     def test_network_path_attachment_is_not_shown_as_uploaded_file(self):
         TopicAttachment.objects.create(
@@ -49,7 +48,7 @@ class UploadedAttachmentMetadataTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, r"\\server\freigabe\unterlage")
-        self.assertContains(response, f'data-file-size="{len(b"%PDF-1.7\nPDF-Dateiinhalt")}"')
+        self.assertContains(response, f'data-file-size="{len(self.pdf_content)}"')
         self.assertNotContains(response, 'data-file-size="0"')
 
     def test_user_without_topic_access_cannot_view_attachment_metadata(self):
