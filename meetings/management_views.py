@@ -160,6 +160,11 @@ class ManagedUserEditForm(forms.ModelForm):
 
 
 class OrganizationSettingsForm(forms.ModelForm):
+    retention_years = forms.IntegerField(
+        label="Zentrale Aufbewahrungsfrist (Jahre)",
+        min_value=1,
+        widget=forms.NumberInput(attrs={"min": "1", "step": "1", "inputmode": "numeric"}),
+    )
     timezone = forms.ChoiceField(
         label="Zeitzone",
         choices=[(zone, zone) for zone in sorted(available_timezones())],
@@ -189,6 +194,7 @@ class OrganizationLogoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["logo"].widget.clear_checkbox_label = "Logo zurücksetzen"
         self.fields["logo"].widget.attrs.update({
             "accept": ".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml",
         })
