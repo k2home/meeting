@@ -35,13 +35,16 @@ class TestingFixtureViewTests(TestCase):
         ).exists())
 
         self.client.get(url)
+        from .models import OrganizationSettings, UserProfile
+        OrganizationSettings.objects.create(start_password="FixtureStart-2026")
         response = self.client.post(url, {"action": "create_users", "user_count": "2", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
         self.assertRedirects(response, url)
         generated_users = User.objects.filter(username__startswith="test_fixture_")
         self.assertEqual(generated_users.count(), 2)
-        self.assertTrue(all(not user.has_usable_password() for user in generated_users))
-        from .models import UserProfile
+        self.assertTrue(all(user.check_password("FixtureStart-2026") for user in generated_users))
         profiles = list(UserProfile.objects.filter(user__in=generated_users).select_related("user"))
+        self.assertTrue(all(profile.must_change_password for profile in profiles))
+        self.assertTrue(all(profile.password_setup_expires_at is not None for profile in profiles))
         self.assertEqual(len(profiles), 2)
         short_labels = [profile.short_description for profile in profiles]
         self.assertEqual(len({label.split("/")[0] for label in short_labels}), 1)
