@@ -1030,7 +1030,7 @@ def testing_fixtures(request):
                         recurrence = secrets.choice(["weekly", "biweekly", "monthly"])
                         interval = secrets.choice([1, 2, 3])
                         weekday = secrets.randbelow(5)
-                        start_date = start_window + timedelta(days=secrets.randbelow((end_window - start_window).days // 3))
+                        start_date = start_window
                         end_date = end_window
                         suffix = secrets.token_hex(3)
                         series = MeetingSeries.objects.create(
