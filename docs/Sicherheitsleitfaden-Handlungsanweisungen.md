@@ -1,6 +1,6 @@
 # Sicherheitsleitfaden – Handlungsanweisungen zur Risikominimierung
 
-**Zielgruppen:** Hosting-/IT-Betrieb, Nutzer\*innen, globale Administrator\*innen und Auditor\*innen  
+**Zielgruppen:** Hosting-/IT-Betrieb, Nutzer\*innen, globale Admins und Auditor\*innen  
 **Geltungsbereich:** Meeting Manager gemäß der Funktions- und Sicherheitsbeschreibung in PR #498  
 **Zweck und Verbindlichkeit:** Dieses Dokument ist eine praktische Betriebs- und Nutzungsanweisung. Es legt fest, wie die vier Personengruppen den Meeting Manager einrichten, bedienen, verwalten und prüfen müssen, damit IT-Sicherheit und Datenschutz bestmöglich gewährleistet werden. Die Anweisungen sind vor der jeweiligen Handlung und anschließend fortlaufend einzuhalten. Wo eine Voraussetzung nicht erfüllt ist, darf der betreffende Vorgang bzw. die Produktivfreigabe nicht erfolgen; die zuständige Stelle ist einzuschalten.
 
@@ -101,7 +101,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 
 - Das persönliche Konto ausschließlich selbst verwenden. Zugangsdaten nicht weitergeben und nicht in gemeinsam genutzten Dokumenten speichern.
 - Ein individuelles, nicht anderweitig verwendetes Passwort nutzen und die Passwortregeln der Anwendung einhalten. Ein Passwortmanager wird empfohlen.
-- Bei Verdacht auf Kenntnisnahme des Passworts unverzüglich den vorgesehenen Passwort-Reset durchführen und die Administrator\*innen informieren.
+- Bei Verdacht auf Kenntnisnahme des Passworts unverzüglich den vorgesehenen Passwort-Reset durchführen und die Admins informieren.
 - An gemeinsam genutzten Arbeitsplätzen nach der Arbeit abmelden und den Bildschirm sperren. Die Anwendungssitzung kann bis zu acht Stunden bestehen.
 - Verdächtige Login-Benachrichtigungen, unerwartete Änderungen oder nicht selbst ausgelöste Aktionen unverzüglich melden.
 
@@ -111,7 +111,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 - Vor dem Teilen von Inhalten prüfen, ob die Empfänger\*innen tatsächlich Mitglied der betreffenden Reihe sind und die passende Serienrolle besitzen.
 - Keine Protokolle, CSV-Dateien, Screenshots oder Anlagen außerhalb des vorgesehenen Empfänger\*innenkreises weitergeben.
 - Netzwerkpfade und externe Links sind nur Verweise. Die Zugriffsberechtigung auf dem Zielsystem muss separat bestehen und darf nicht aus der Meeting-Manager-Berechtigung abgeleitet werden.
-- Bei fehlendem oder unerwartetem Zugriff nicht versuchen, Berechtigungen durch erratene URLs oder fremde Konten zu umgehen, sondern Moderator\*in oder Administrator\*in kontaktieren.
+- Bei fehlendem oder unerwartetem Zugriff nicht versuchen, Berechtigungen durch erratene URLs oder fremde Konten zu umgehen, sondern Moderator\*in oder Admin kontaktieren.
 
 ### 2.4 Anlagen sicher verwenden
 
@@ -127,7 +127,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 - Beachten, dass beim Abschluss ein Protokoll-Snapshot entsteht. Spätere Änderungen am Thema ändern diesen historischen Protokollstand nicht.
 - Änderungsdetails können zunächst eingeklappt sein. Nicht davon ausgehen, dass ein nicht sofort sichtbares Detail nicht gespeichert wurde.
 - Der Audit-Verlauf ist rollenabhängig eingeschränkt. Nutzer\*innen erhalten dadurch nicht automatisch Einsicht in alle Änderungen oder in Systemereignisse.
-- Fehlerhafte oder versehentlich eingetragene Informationen zeitnah an Moderator\*in oder Administrator\*in melden; historische Protokoll- und Audit-Daten können gesonderten Regeln unterliegen.
+- Fehlerhafte oder versehentlich eingetragene Informationen zeitnah an Moderator\*in oder Admin melden; historische Protokoll- und Audit-Daten können gesonderten Regeln unterliegen.
 
 ### Verbindlicher Ablauf für Konten- und Rechteverwaltung
 
@@ -156,9 +156,9 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 
 ### Verbindlicher Ablauf bei Audit-Einsicht
 
-Öffnen Sie Audit-Daten nur bei einem konkreten administrativen oder prüfenden Anlass. Berücksichtigen Sie die rollenabhängige Sichtbarkeit: Systemereignisse sind für Administrator\*innen sichtbar; Serienereignisse nur für Reihen, in denen die betreffende Person ausdrücklich Moderator\*in ist. Öffnen Sie eingeklappte Details nur soweit erforderlich. Behandeln Sie Protokoll-Snapshots beim Wiederöffnen abgeschlossener Besprechungen und Audit-CSV-Dateien als vertrauliche Inhalte.
+Öffnen Sie Audit-Daten nur bei einem konkreten administrativen oder prüfenden Anlass. Berücksichtigen Sie die rollenabhängige Sichtbarkeit: Systemereignisse sind für Admins sichtbar; Serienereignisse nur für Reihen, in denen die betreffende Person ausdrücklich Moderator\*in ist. Öffnen Sie eingeklappte Details nur soweit erforderlich. Behandeln Sie Protokoll-Snapshots beim Wiederöffnen abgeschlossener Besprechungen und Audit-CSV-Dateien als vertrauliche Inhalte.
 
-## 3. Globale Administrator\*innen – verbindlicher Verwaltungsablauf
+## 3. Globale Admins – verbindlicher Verwaltungsablauf
 
 Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte sind weitreichend und sollen nur für administrative Aufgaben genutzt werden. Sie verleihen nicht automatisch Zugriff auf fachliche Inhalte jeder Besprechungsreihe; dafür ist eine eigene Serienzuweisung erforderlich.
 
@@ -192,7 +192,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 
 ### 3.4 Vollbackup und Restore schützen
 
-- Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Administrator\*innen erstellen.
+- Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Admins erstellen.
 - Backups als vollständige Datenkopien mit möglicherweise vertraulichen Inhalten und personenbezogenen Daten behandeln.
 - Sicherungsdateien verschlüsselt und mit minimalem Empfänger\*innenkreis speichern bzw. übertragen. Keine Backups an private E-Mail-Adressen oder unfreigegebene Cloud-Dienste senden.
 - Vor einem Restore Anlass, Zielsystem, Datenstand und Auswirkungen prüfen. Restore nur in einem kontrollierten Wartungsfenster durchführen.
@@ -203,7 +203,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### 3.5 Audit, Systemverwaltung und Datenschutz
 
 - Systemereignisse nur für legitime administrative oder prüfende Zwecke einsehen. Die Einsichtnahme nicht zur anlasslosen Verhaltens- oder Leistungskontrolle verwenden.
-- Beachten, dass Administrator\*innen Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderator\*innenrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
+- Beachten, dass Admins Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderator\*innenrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
 - Passwörter und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Bei Passwortänderungen wird nur der Änderungsstatus protokolliert; Dateinamen können als Metadaten erscheinen.
 - Beim Wiederöffnen einer abgeschlossenen Besprechung bleibt der vorherige gesicherte Protokollstand als Audit-Detail erhalten. Diesen Snapshot als vertraulichen fachlichen Inhalt behandeln.
 - Audit-Details sind in der Oberfläche zunächst eingeklappt. Das ist eine Darstellungsform und keine zusätzliche Zugriffsschranke.
@@ -230,7 +230,7 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor\*in. Audi
 
 - Den Audit-Zugriff ausschließlich für festgelegte Prüfaufträge und nachvollziehbare Kontrollzwecke verwenden.
 - Beachten, dass Auditor\*innen ausschließlich Systemereignisse einsehen und exportieren können. Besprechungsreihen, Tagesordnungspunkte, Kommentare und Anlagen gehören nicht zum Auditor\*innen-Zugriff.
-- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Administrator\*innen erfolgen.
+- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Admins erfolgen.
 - Keine fachlichen Serienberechtigungen anfordern, um den eingeschränkten Prüfzugriff zu umgehen. Wenn eine fachliche Prüfung erforderlich ist, muss sie gesondert legitimiert und über einen geeigneten Prozess organisiert werden.
 - Die Auditor\*innen-Rolle nicht mit globalen Adminrechten kombinieren. Admin- und Superuser-Rechte sind keine Auditor\*innen-Rechte und erweitern den Zugriff erheblich.
 
@@ -266,8 +266,8 @@ Die folgenden Intervalle bilden den Mindeststandard für den Betrieb. Die verant
 | Intervall | Verantwortlich | Prüfpunkte |
 |---|---|---|
 | Bei jeder Installation / vor Produktivfreigabe | IT/Hosting | HTTPS, Proxy-Vertrauen, Firewall, Secrets, Medienpfad, initiales Admin-Konto |
-| Bei Eintritt, Rollenwechsel und Austritt | Administrator\*innen + Fachverantwortliche | Kontoaktivität, globale Rolle, Serienzuweisungen |
-| Mindestens quartalsweise | Fachverantwortliche + Administrator\*innen | Mitglieder und Serienrollen, Admin-Konten, unnötige Berechtigungen |
+| Bei Eintritt, Rollenwechsel und Austritt | Admins + Fachverantwortliche | Kontoaktivität, globale Rolle, Serienzuweisungen |
+| Mindestens quartalsweise | Fachverantwortliche + Admins | Mitglieder und Serienrollen, Admin-Konten, unnötige Berechtigungen |
 | Monatlich und bei Sicherheitsmeldungen | IT/Hosting | Betriebssystem-/Image-/Abhängigkeitsupdates, Sicherheitswarnungen, Speicherplatz |
 | Nach jedem Update | IT/Hosting + Testverantwortliche | Login, Rollen, Upload/Download, CSV, Protokolle, Backup/Restore |
 | Mindestens quartalsweise | IT/Hosting | Wiederherstellungstest für Datenbank und Medien |
