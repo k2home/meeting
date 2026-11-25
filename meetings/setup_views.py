@@ -1,4 +1,5 @@
 import logging
+import secrets
 from io import StringIO
 from pathlib import Path
 
@@ -126,6 +127,16 @@ def setup_wizard(request):
         step = "account"
 
     if not User.objects.exists():
+        if settings.SETUP_TOKEN_REQUIRED and not request.session.get("setup_token_validated"):
+            if request.method == "POST":
+                submitted_token = request.POST.get("setup_token", "")
+                if settings.SETUP_TOKEN and secrets.compare_digest(submitted_token, settings.SETUP_TOKEN):
+                    request.session["setup_token_validated"] = True
+                    return redirect("/setup/?step=account")
+                messages.error(request, "Der Aktivierungstoken ist ungültig.")
+            return render(request, "meetings/setup_wizard.html", {
+                "step": "activation", "setup_steps": SETUP_STEPS,
+            })
         if step != "account":
             step = "account"
         if request.method == "POST":
