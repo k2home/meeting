@@ -1,0 +1,112 @@
+name: Container image vulnerability scan
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - beta
+  schedule:
+    - cron: "41 4 * * 1"
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  scan:
+    name: Build and scan application image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build application image
+        run: docker build --file docker/Dockerfile --tag meeting-manager:security-scan .
+
+      - name: Scan application image and save machine-readable results
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: meeting-manager:security-scan
+          version: v0.76.2
+          format: json
+          output: trivy-results.json
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "0"
+
+      - name: Scan application image for GitHub Code Scanning
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: meeting-manager:security-scan
+          version: v0.76.2
+          format: sarif
+          output: trivy-results.sarif
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "0"
+
+      - name: Scan ClamAV sidecar image
+        if: always()
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: clamav/clamav:stable
+          version: v0.76.2
+          format: sarif
+          output: clamav-trivy-results.sarif
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+
+      - name: Upload application image scan to GitHub code scanning
+        if: always() && hashFiles('trivy-results.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: trivy-results.sarif
+          category: container-application
+
+      - name: Upload ClamAV image scan to GitHub code scanning
+        if: always() && hashFiles('clamav-trivy-results.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: clamav-trivy-results.sarif
+          category: container-clamav
+
+      - name: Archive detailed Trivy JSON report
+        if: always() && hashFiles('trivy-results.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-application-report
+          path: trivy-results.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Fail on fixable HIGH or CRITICAL application vulnerabilities
+        if: always() && hashFiles('trivy-results.json') != ''
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path("trivy-results.json").read_text())
+          findings = [
+              (result.get("Target", "unknown target"), vuln)
+              for result in report.get("Results") or []
+              for vuln in result.get("Vulnerabilities") or []
+              if vuln.get("Severity") in {"HIGH", "CRITICAL"} and vuln.get("FixedVersion")
+          ]
+          if findings:
+              print(f"Fehler: {len(findings)} behebbare HIGH-/CRITICAL-Schwachstelle(n) im Anwendungsimage:")
+              for target, vuln in findings:
+                  print(
+                      f"{vuln.get('Severity')} | {vuln.get('VulnerabilityID')} | "
+                      f"{vuln.get('PkgName')} {vuln.get('InstalledVersion')} -> "
+                      f"{vuln.get('FixedVersion')} | {target}"
+                  )
+              sys.exit(1)
+          print("OK: Keine behebbaren HIGH-/CRITICAL-Schwachstellen im Anwendungsimage.")
+          PY

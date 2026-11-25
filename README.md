@@ -37,7 +37,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
 - Linux-Host oder VM mit Docker Engine und Docker Compose v2
 - Netzwerkzugriff auf Docker Hub
-- Für produktiven Betrieb ein vorgeschalteter HTTPS-Reverse-Proxy (empfohlen)
+- Für den Betrieb erforderlich: ein auf demselben Host eingerichteter HTTPS-Reverse-Proxy mit gültigem TLS-Zertifikat
 
 **Installation**
 
@@ -64,7 +64,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
    Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Ein Aktivierungs- oder Einrichtungscode ist nicht erforderlich. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
 
-4. Die Anwendung ist standardmäßig unter `http://SERVER-IP:8080/` erreichbar. Für produktiven Betrieb den Zugriff auf Port 8080 auf das interne Netz bzw. den Reverse Proxy begrenzen und HTTPS am Proxy terminieren.
+4. Der Web-Port wird standardmäßig ausschließlich an `127.0.0.1:8080` gebunden und ist nicht direkt aus dem Netzwerk erreichbar. Einen HTTPS-Reverse-Proxy auf demselben Host einrichten und auf `http://127.0.0.1:8080` weiterleiten. Danach die Anwendung über `https://<HOSTNAME>/` öffnen.
 
 5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
 
@@ -108,7 +108,7 @@ cd meeting
 sudo bash deploy/install-debian.sh
 ```
 
-Anschließend fragt der Installer nur noch nach dem Hostnamen bzw. der IP-Adresse und richtet die benötigten Komponenten automatisch ein.
+Anschließend fragt der Installer nach dem Hostnamen bzw. der IP-Adresse und der IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys. Standardmäßig wird ein lokaler Proxy unter 127.0.0.1 erwartet.
 
 **Installation im Einzelnen**
 
@@ -125,16 +125,20 @@ Anschließend fragt der Installer nur noch nach dem Hostnamen bzw. der IP-Adress
    sudo bash deploy/install-debian.sh
    ```
 
-3. Nur den Hostnamen bzw. die IP-Adresse eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus.
+3. Hostnamen bzw. IP-Adresse und die IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus. Der lokale Nginx-Zugriff wird auf die angegebene Proxy-Adresse begrenzt; HTTPS-Redirect und sichere Cookies werden erzwungen.
 
-4. Nach erfolgreichem Start die angezeigte Adresse im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
+4. Zuerst den HTTPS-Reverse-Proxy mit gültigem Zertifikat konfigurieren. Er muss auf Port 8080 dieses Servers weiterleiten (bei lokalem Proxy z. B. `http://127.0.0.1:8080`) und `X-Forwarded-Proto: https` setzen sowie eingehende Forwarded-Header überschreiben. Danach `https://<HOSTNAME>/` im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
 
 
-Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 80 entgegen.
+Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 8080 entgegen.
 
 **HTTPS und Reverse Proxy**
 
-Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für produktiven Zugriff über HTTPS sollte ein vorgeschalteter Reverse Proxy verwendet werden. In diesem Fall müssen `CSRF_TRUSTED_ORIGINS`, `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1` sowie die sicheren Cookie- und Redirect-Optionen in `/opt/meeting-manager/.env` passend gesetzt werden. Der Proxy muss den `X-Forwarded-Proto`-Header zuverlässig setzen und darf nicht durch untrusted Clients umgangen werden. Bei Debian muss zusätzlich die lokale Nginx-Konfiguration so angepasst werden, dass nur die Proxy-IP/CIDR auf Port 80 zugreifen darf und der Header `X-Forwarded-Proto` vom Proxy übernommen wird (statt ihn mit `$scheme` zu überschreiben). Erst danach `TRUST_PROXY_SSL=1`, `USE_X_FORWARDED_HOST=1`, `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1` sowie die externe HTTPS-Adresse in `CSRF_TRUSTED_ORIGINS` setzen. Nach Änderungen an `.env` den Dienst mit `sudo systemctl restart meeting-manager` neu starten.
+Die Installationsskripte richten den Meeting Manager für den Betrieb hinter einem HTTPS-Reverse-Proxy ein und erzwingen HTTPS auf Anwendungsebene. Sie aktivieren `SECURE_SSL_REDIRECT=1`, `SESSION_COOKIE_SECURE=1`, `CSRF_COOKIE_SECURE=1`, `TRUST_PROXY_SSL=1` und `USE_X_FORWARDED_HOST=1`; `CSRF_TRUSTED_ORIGINS` wird auf die öffentliche HTTPS-Adresse gesetzt.
+
+Bei Debian wird der interne Nginx-Zugang auf die beim Setup angegebene Proxy-IP/CIDR beschränkt. Der Nginx übernimmt `X-Forwarded-Proto` nur von diesem Proxy; der Proxy muss den Header auf `https` setzen und vom Client gelieferte Forwarded-Header überschreiben. Bei Docker wird der veröffentlichte Web-Port standardmäßig ausschließlich an `127.0.0.1` gebunden. Der TLS-Reverse-Proxy muss daher auf demselben Host laufen und an `http://127.0.0.1:8080` weiterleiten (einen abweichenden `WEB_PORT` entsprechend berücksichtigen).
+
+Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und die Proxy-Konfiguration getestet werden. Ohne korrekt eingerichteten TLS-Reverse-Proxy ist die Anwendung absichtlich nicht regulär nutzbar. HSTS zunächst mit kurzer Laufzeit testen; `includeSubDomains` und Preload nur aktivieren, wenn die gesamte Domainstruktur die jeweiligen Voraussetzungen dauerhaft erfüllt.
 
 ### Wichtige Pfade und Dienste
 
@@ -154,7 +158,7 @@ Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für pro
 
 ### Besprechungsreihen und Termine
 
-- Wiederkehrende Reihen mit wöchentlichem, 14-tägigem oder monatlichem Rhythmus.
+- Wiederkehrende Reihen mit wählbarem wöchentlichem oder monatlichem Rhythmus und Intervall (1–52 Wochen bzw. 1–52 Monate).
 - Automatische Erzeugung der Besprechungstermine anhand von Startdatum, Wochentag und optionalem Enddatum.
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
@@ -179,12 +183,12 @@ Die Standardinstallation stellt die Anwendung intern über HTTP bereit. Für pro
 - Tagesordnungspunkte lassen sich per Drag-and-drop oder über die Pfeil-Schaltflächen sortieren.
 - Tagesordnungstexte und Teilnehmerliste können bis zum Abschluss bearbeitet werden.
 - Beim Abschluss wird ein unveränderlicher Protokoll-Snapshot gespeichert.
-- Protokolle können als HTML angezeigt, gedruckt sowie als PDF oder Word-Dokument exportiert werden.
+- Protokolle können als HTML angezeigt, gedruckt und als PDF exportiert werden.
 - Exporte abgeschlossener Besprechungen verwenden den gesicherten Snapshot.
 
 ### Änderungsverlauf
 
-Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Themenübertragungen, Änderungen an Tagesordnungstexten und Zuständigkeiten, Sortierungen, Anlagen, Kommentaren, Teilnehmerlisten, Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen und Einzelterminen werden mit Benutzer und Zeitpunkt protokolliert. Themenübertragungen sind in beiden beteiligten Serienverläufen sichtbar. Einsehen können den Verlauf ausschließlich Moderator*innen der jeweils moderierten Reihen und globale Administrator*innen.
+Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Themenübertragungen, Änderungen an Tagesordnungstexten und Zuständigkeiten, Sortierungen, Anlagen, Kommentaren, Teilnehmerlisten, Besprechungsabschlüssen sowie Anlage, Änderung, Verlängerung, Zurücksetzen und Löschen von Besprechungsreihen und Einzelterminen werden mit Benutzer, Zeitpunkt und ausgewählten Änderungsdetails protokolliert. Themenübertragungen sind in beiden beteiligten Serienverläufen sichtbar. Moderator*innen sehen ausschließlich die Verläufe ihrer ausdrücklich moderierten Reihen. Globale Admins sehen Systemereignisse und zusätzlich nur die Serienverläufe, für die sie selbst ausdrücklich Moderatorrechte besitzen. Auditoren sehen ausschließlich Systemereignisse und haben lesenden Zugriff. Im CSV-Export werden Admins und Auditoren auf Systemereignisse beschränkt; Moderator*innen exportieren ausschließlich Ereignisse ihrer eigenen moderierten Reihen. Passwortwerte und hochgeladene Datei-Inhalte werden nicht protokolliert; bei Passwortänderungen wird nur der Änderungsstatus festgehalten. Bei Anlagen können Dateinamen als Metadaten erscheinen. Wird eine abgeschlossene Besprechung wieder geöffnet, bleibt ihr vorheriger gesicherter Protokollstand als Audit-Detail erhalten. In der Oberfläche sind Änderungsdetails zunächst eingeklappt; der CSV-Export enthält die strukturierten Details innerhalb des jeweiligen Rollenbereichs.
 
 ### Benutzer-, Rechte- und Organisationsverwaltung
 
@@ -192,7 +196,7 @@ Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Theme
 - Benutzerkonten können angelegt, bearbeitet und aktiviert bzw. deaktiviert werden. Letzte Anmeldung und Erstellungszeitpunkt werden angezeigt.
 - Passwörter bestehender Benutzerkonten werden ausschließlich über einen E-Mail-Reset-Link zurückgesetzt; ein direktes Setzen oder Auslesen fremder Passwörter ist nicht vorgesehen.
 - Besprechungsreihen-Zuordnungen und die Rollen Leser*in, Teilnehmer*in und Moderator*in können direkt im Nutzerprofil verwaltet werden. Serienzuweisungen lassen sich außerdem suchen und filtern.
-- CSV-Import und -Export für Benutzerkonten sowie für Themen und Tagesordnungspunkte sind in die Verwaltungsoberfläche integriert. Der Themenimport bietet eine Vorschau; eine Muster-CSV steht bereit.
+- CSV-Import und -Export für Benutzerkonten sowie für Themen und Tagesordnungspunkte sind in die Verwaltungsoberfläche integriert. Benutzer-CSV sowie Vollbackup-/Restore-Funktionen sind globalen Admin-Konten vorbehalten. Themen-CSV-Import und -Export stehen ausschließlich Moderator*innen für ihre ausdrücklich moderierten Reihen zur Verfügung; globale Adminrechte allein reichen dafür nicht. Der Themenimport bietet eine Vorschau; eine Muster-CSV steht bereit.
 - Organisationseinstellungen umfassen Name, Kurzname, Zeitzone, Anlagenlimit und das Farbschema mit validierten HEX-Farbwerten.
 
 ## Rollen und Berechtigungen
@@ -430,7 +434,7 @@ In der Übersicht einen Termin öffnen. Dort können Teilnehmende ausgewählt un
 
 ### 4. Besprechung abschließen
 
-Mit **Besprechung abschließen & Protokollstand sichern** wird ein Snapshot des aktuellen Protokollstands erstellt. Danach sind Teilnehmerliste und Tagesordnungstexte gesperrt. Das Protokoll kann angezeigt, gedruckt oder als PDF bzw. Word exportiert werden.
+Mit **Besprechung abschließen & Protokollstand sichern** wird ein Snapshot des aktuellen Protokollstands erstellt. Danach sind Teilnehmerliste und Tagesordnungstexte gesperrt. Das Protokoll kann angezeigt, gedruckt oder als PDF exportiert werden.
 
 Nur Moderator*innen und Admins können eine abgeschlossene Besprechung wieder öffnen. Nach dem Wiederöffnen kann sie erneut bearbeitet und abgeschlossen werden.
 
@@ -443,6 +447,8 @@ Die Seite **Meine Aufgaben** zeigt in einem eigenen Abschnitt die offenen Themen
 Netzwerkfreigaben werden auf der **VM selbst** eingebunden, nicht auf dem Arbeitsplatz des Benutzers. Beispiel: Eine NAS-Freigabe nach `/mnt/meeting-share` mounten und diesen Pfad am Thema hinterlegen.
 
 SMB-Pfade (`smb://server/freigabe/...`) werden als anklickbare Referenz gespeichert, sofern Host und Schema gültig sind. Ob der Browser bzw. das Betriebssystem den Link öffnet, hängt von der Client-Konfiguration und einem registrierten SMB-Handler ab. UNC-Pfade werden, soweit eindeutig erkennbar, in SMB-URLs überführt; nicht unterstützte oder ungültige Pfade bleiben reiner Text. Die Anwendung greift nicht selbst auf SMB-Freigaben zu. Hochgeladene Dateien liegen unter `/opt/meeting-manager/media`.
+
+Für hochgeladene Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist: **PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG**. Andere Dateiendungen, insbesondere ausführbare Dateien, Skripte und Archive, werden beim Upload abgewiesen. Die Prüfung wertet die Dateiendung aus; sie verifiziert nicht die tatsächliche Dateisignatur oder den Dateiinhalt. Ein integrierter Malware-Scanner ist derzeit nicht vorhanden. Das organisationsweite Uploadlimit liegt standardmäßig bei 20 MB und kann in den Organisationseinstellungen auf 1 bis 24 MB gesetzt werden. Downloads sind weiterhin an Anmeldung und Serienberechtigung gebunden.
 
 ## Backup und Wiederherstellung
 
@@ -479,7 +485,7 @@ Eine ausführliche, am aktuellen Quellcode ausgerichtete Funktions-, Rollen-, Da
 **Die Anwendung ist ein internes MVP und sollte vor einem produktiven Einsatz weiter gehärtet werden.**
 
 - Zugriff auf das interne Netzwerk begrenzen und eine Firewall einsetzen.
-- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. HSTS-Subdomain-Schutz darf nur aktiviert werden, wenn sämtliche Subdomains dauerhaft HTTPS verwenden. HSTS Preload ist zusätzlich nur mit HTTPS-Weiterleitung, mindestens einem Jahr HSTS-Laufzeit und vollständiger HTTPS-Abdeckung aller Subdomains zulässig; die Anwendung prüft diese Voraussetzungen beim Start. Die Standardinstallation verwendet HTTP. Optional kann das Setup HTTPS-Terminierung durch einen vorgeschalteten Reverse Proxy konfigurieren. Dabei wird die IP/CIDR des Proxys abgefragt und der lokale Nginx-Zugang auf diese Quelle begrenzt; `X-Forwarded-Proto` wird nur in diesem Modus vertraut. `CSRF_TRUSTED_ORIGINS`, sichere Cookies und HTTPS-Weiterleitung werden entsprechend gesetzt.
+- Für Zugriffe über nicht vertrauenswürdige Netze HTTPS mit gültigem Zertifikat konfigurieren. HSTS-Subdomain-Schutz darf nur aktiviert werden, wenn sämtliche Subdomains dauerhaft HTTPS verwenden. HSTS Preload ist zusätzlich nur mit HTTPS-Weiterleitung, mindestens einem Jahr HSTS-Laufzeit und vollständiger HTTPS-Abdeckung aller Subdomains zulässig; die Anwendung prüft diese Voraussetzungen beim Start. Die Installationsskripte erzwingen HTTPS hinter einem vorgeschalteten Reverse Proxy. Debian beschränkt den lokalen Nginx-Zugriff auf die beim Setup angegebene Proxy-IP/CIDR; Docker bindet den Web-Port standardmäßig ausschließlich an Loopback. Sichere Cookies, HTTPS-Weiterleitung und CSRF-Origin werden automatisch aktiviert.
 - Regelmäßige, getestete Backups von Datenbank und Media-Verzeichnis einrichten.
 - Admin-Rechte nur gezielt vergeben und Serienzuweisungen regelmäßig überprüfen.
 - Hochgeladene Dateien werden ausschließlich über eine angemeldete, berechtigungsgeprüfte Download-Route ausgeliefert. Der Media-Ordner darf nicht direkt durch Nginx veröffentlicht werden.

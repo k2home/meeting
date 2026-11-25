@@ -1,0 +1,267 @@
+{% extends "meetings/base.html" %}
+{% block title %}IT, Informationssicherheit und Datenschutz – Meeting Manager{% endblock %}
+{% block content %}
+<style>
+.security-document{max-width:1400px;margin:0 auto}
+.security-document .document-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin:1rem 0 1.5rem}
+.security-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:1.25rem;align-items:start}
+.security-document .document-content{min-width:0}
+.security-document .document-content h1{font-size:1.8rem;margin:0 0 1rem}
+.security-document .document-content h2{font-size:1.35rem;margin:2rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);scroll-margin-top:1rem}
+.security-document .document-content h3{font-size:1.1rem;margin:1.4rem 0 .5rem;scroll-margin-top:1rem}
+.security-document .document-content p,.security-document .document-content li{line-height:1.65}
+.security-document .document-content table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:1rem 0}
+.security-document .document-content th,.security-document .document-content td{padding:.6rem;vertical-align:top;text-align:left;border:1px solid var(--border)}
+.security-document .document-content th{background:var(--soft-bg)}
+.security-document .document-content pre{overflow-x:auto;padding:.8rem;background:var(--soft-bg);border-radius:5px}
+.security-document .document-content code{overflow-wrap:anywhere}
+.review-marking mark,.security-document .document-content mark.review-selection{background:#ffe58a;color:#302600;padding:.05em .12em;border-radius:2px;box-shadow:inset 0 -2px 0 #c28a00}
+.security-document .document-content mark.review-selection{background:#ffe58a}
+.security-document .document-content mark.review-selection-1{background:#b9e5ff;box-shadow:inset 0 -2px 0 #2677a8}
+.security-document .document-content mark.review-selection-2{background:#c9efc2;box-shadow:inset 0 -2px 0 #47853d}
+.security-document .document-content mark.review-selection-3{background:#f5c8e8;box-shadow:inset 0 -2px 0 #a04c88}
+.security-document .document-content mark.review-mark-focus{outline:3px solid #d45b00;outline-offset:3px}
+.review-mark-item{padding:.5rem;border-left:3px solid var(--hagen-blue);margin:.6rem 0!important}
+.review-mark-jump{font-weight:700;text-align:left}
+.review-marking ol{padding-left:1.5rem}.review-marking li{margin:.5rem 0}.review-marking .mark-note{color:var(--muted);display:block}
+.review-marking button.danger{background:#a12626;color:#fff}
+.security-document .document-content blockquote{margin:1rem 0;padding:.6rem 1rem;border-left:4px solid var(--hagen-blue);background:var(--soft-bg)}
+.security-index{position:sticky;top:1rem;max-height:calc(100vh - 2rem);overflow-y:auto}
+.security-index .toc ul{list-style:none;margin:.2rem 0;padding-left:.9rem}
+.security-index .toc>ul{padding-left:0}
+.security-index .toc li{margin:.2rem 0}
+.security-index .toc a{display:block;padding:.22rem 0;color:var(--text);text-decoration:none;line-height:1.4}
+.security-index .toc a:hover{color:var(--hagen-blue);text-decoration:underline}
+.security-index .toc>ul>li>ul{display:block}
+.security-index .toc>ul>li>ul>li>ul{display:none}
+.security-index .toc>ul>li>ul>li.is-current>ul{display:block}
+.security-index .toc a[aria-current="location"]{font-weight:700;color:var(--hagen-blue)}
+@media(max-width:900px){.security-layout{grid-template-columns:1fr}.security-index{position:static;order:-1;max-height:none}}
+</style>
+<header class="page-header">
+  <div>
+    <h1>IT, Informationssicherheit und Datenschutz</h1>
+    <p class="muted">Vollständige Funktionsbeschreibung, Rollen- und Berechtigungskonzept sowie technische Risikobewertung</p>
+  </div>
+</header>
+<div class="security-document">
+  <section class="card">
+    <p>Diese Prüfung richtet sich an IT-Abteilung, Informationssicherheit und Datenschutzbeauftragte. Sie beschreibt den dokumentierten Stand der Anwendung und trennt vorhandene technische Kontrollen von organisatorischen beziehungsweise betrieblichen Empfehlungen.</p>
+    <div class="document-actions">
+      <a class="btn primary" href="{% url 'security_description_pdf' %}">PDF – vollständige Sicherheitsprüfung herunterladen</a>
+      <a class="btn secondary" href="{% url 'user_guide' %}">Zurück zur Hilfe</a>
+    </div>
+  </section>
+{% if testing_mode %}
+  <section class="card review-marking" aria-labelledby="review-marking-title">
+    <h2 id="review-marking-title" style="margin-top:0">Prüfmarkierungen <span class="pill">TESTING</span></h2>
+    <p>Wähle im Dokument eine Textstelle mit der Maus oder per Touch aus und drücke anschließend die Taste <kbd>M</kbd>, um sie als Prüfmarkierung zu übernehmen. Die Markierungen werden nur in diesem Browser gespeichert.</p>
+    <div class="document-actions">
+      <button type="button" class="secondary" id="export-review-marks">Markierungen kopieren</button>
+      
+      <button type="button" class="danger" id="clear-review-marks">Alle löschen</button>
+    </div>
+    <p class="muted" id="review-mark-status" role="status" aria-live="polite">Noch keine Markierungen vorhanden.</p>
+    <ol id="review-mark-list"></ol>
+    <p class="muted">Zum Überarbeiten bitte „Markierungen kopieren“ verwenden und den erzeugten Text hier im Chat einfügen.</p>
+  </section>
+{% endif %}
+  <div class="security-layout">
+    <article class="card document-content">
+      {{ security_description_html|safe }}
+    </article>
+    <aside class="card security-index" aria-label="Inhaltsverzeichnis">
+      <h2 style="margin-top:0">Inhaltsverzeichnis</h2>
+      {{ security_description_toc_html|safe }}
+    </aside>
+  </div>
+  <div class="document-actions">
+    <a class="btn primary" href="{% url 'security_description_pdf' %}">PDF – vollständige Sicherheitsprüfung herunterladen</a>
+  </div>
+</div>
+{% if testing_mode %}
+<script>
+(() => {
+  const article = document.querySelector(".security-document .document-content");
+  if (!article) return;
+
+  const storageKey = "meeting-manager-security-review-marks:" + location.pathname;
+  const list = document.getElementById("review-mark-list");
+  const status = document.getElementById("review-mark-status");
+  let marks = [];
+  try { marks = JSON.parse(localStorage.getItem(storageKey) || "[]"); } catch (_) { marks = []; }
+  if (!Array.isArray(marks)) marks = [];
+
+  const makeId = () => "review-" + (window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random().toString(36).slice(2));
+  const sectionFor = node => {
+    let element = node && (node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement);
+    while (element && article.contains(element)) {
+      if (/^H[1-3]$/.test(element.tagName)) return element.textContent.trim();
+      element = element.parentElement;
+    }
+    const headings = Array.from(article.querySelectorAll("h1,h2,h3"));
+    let current = "Dokumentanfang";
+    for (const heading of headings) {
+      if (node.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING) break;
+      current = heading.textContent.trim();
+    }
+    return current;
+  };
+
+  const wrapRange = (range, id, index) => {
+    const mark = document.createElement("mark");
+    mark.className = "review-selection review-selection-" + (index % 4);
+    mark.dataset.reviewId = id;
+    mark.title = "Prüfmarkierung " + (marks.findIndex(item => item.id === id) + 1);
+    mark.appendChild(range.extractContents());
+    range.insertNode(mark);
+  };
+
+  const findQuoteRange = (quote, occurrence) => {
+    const walker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    let fullText = "";
+    while (walker.nextNode()) {
+      nodes.push({ node: walker.currentNode, start: fullText.length, end: fullText.length + walker.currentNode.nodeValue.length });
+      fullText += walker.currentNode.nodeValue;
+    }
+    let index = -1;
+    let from = 0;
+    for (let count = 0; count <= occurrence; count++) {
+      index = fullText.indexOf(quote, from);
+      if (index < 0) return null;
+      from = index + quote.length;
+    }
+    const finish = index + quote.length;
+    const first = nodes.find(item => item.start <= index && item.end > index);
+    const last = nodes.find(item => item.start < finish && item.end >= finish);
+    if (!first || !last) return null;
+    const range = document.createRange();
+    range.setStart(first.node, index - first.start);
+    range.setEnd(last.node, finish - last.start);
+    return range;
+  };
+
+  const render = () => {
+    list.replaceChildren();
+    marks.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.className = "review-mark-item";
+      const jump = document.createElement("button");
+      jump.type = "button";
+      jump.className = "secondary review-mark-jump";
+      jump.textContent = "Markierung " + (index + 1) + " · " + (item.section || "Dokument");
+      jump.addEventListener("click", () => {
+        const target = article.querySelector('[data-review-id="' + CSS.escape(item.id) + '"]');
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "center" });
+          target.classList.add("review-mark-focus");
+          setTimeout(() => target.classList.remove("review-mark-focus"), 1400);
+        }
+      });
+      const quote = document.createElement("blockquote");
+      quote.textContent = "„" + item.quote + "“";
+      li.append(jump, quote);
+      if (item.note) {
+        const note = document.createElement("span");
+        note.className = "mark-note";
+        note.textContent = "Hinweis: " + item.note;
+        li.append(note);
+      }
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "secondary";
+      remove.textContent = "Entfernen";
+      remove.addEventListener("click", () => {
+        const target = article.querySelector('[data-review-id="' + CSS.escape(item.id) + '"]');
+        if (target) target.replaceWith(...target.childNodes);
+        marks.splice(index, 1);
+        persist();
+      });
+      li.append(remove);
+      list.append(li);
+    });
+    status.textContent = marks.length + (marks.length === 1 ? " Markierung gespeichert." : " Markierungen gespeichert.");
+    document.getElementById("export-review-marks").disabled = marks.length === 0;
+    document.getElementById("clear-review-marks").disabled = marks.length === 0;
+  };
+
+  const report = () => marks.map((item, index) =>
+    (index + 1) + ". [" + (item.section || "Dokument") + "] „" + item.quote.replace(/\s+/g, " ").trim() + "“" +
+    (item.note ? " → " + item.note.replace(/\s+/g, " ").trim() : "")
+  ).join("\n");
+
+  const persist = () => {
+    localStorage.setItem(storageKey, JSON.stringify(marks));
+    render();
+  };
+
+  marks.forEach((item, index) => {
+    if (item.id && item.quote) {
+      const range = findQuoteRange(item.quote, Number.isInteger(item.occurrence) ? item.occurrence : 0);
+      if (range) {
+        try { wrapRange(range, item.id, index); } catch (_) {}
+      }
+    }
+  });
+  render();
+
+  document.addEventListener("keydown", event => {
+    if (event.key.toLowerCase() !== "m" || event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+    const active = document.activeElement;
+    if (active && (active.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName))) return;
+    const selection = window.getSelection();
+    const quote = selection ? selection.toString().trim() : "";
+    if (!quote || !selection.rangeCount || !article.contains(selection.anchorNode) || !article.contains(selection.focusNode)) {
+      return;
+    }
+    event.preventDefault();
+    const range = selection.getRangeAt(0).cloneRange();
+    const section = sectionFor(range.startContainer);
+    const id = makeId();
+    const before = range.cloneRange();
+    before.selectNodeContents(article);
+    before.setEnd(range.startContainer, range.startOffset);
+    const precedingText = before.toString();
+    let occurrence = 0;
+    let foundAt = 0;
+    while ((foundAt = precedingText.indexOf(quote, foundAt)) !== -1) {
+      occurrence++;
+      foundAt += quote.length;
+    }
+    marks.push({ id, section, quote, note: "", occurrence });
+    try { wrapRange(range, id, marks.length - 1); } catch (_) {}
+    selection.removeAllRanges();
+    persist();
+    status.textContent = "Textstelle eindeutig als Markierung " + marks.length + " hervorgehoben.";
+  });
+
+  document.getElementById("export-review-marks").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(report());
+      status.textContent = "Kompakte Markierungsliste kopiert. Jetzt einfach hier im Chat einfügen.";
+    } catch (_) {
+      status.textContent = "Zwischenablage nicht verfügbar. Bitte Browser-Zugriff auf die Zwischenablage erlauben.";
+    }
+  });
+  document.getElementById("clear-review-marks").addEventListener("click", () => {
+    const dialog = document.createElement("dialog");
+    dialog.className = "card";
+    dialog.setAttribute("aria-labelledby", "clear-review-title");
+    dialog.innerHTML = '<form method="dialog"><h2 id="clear-review-title">Markierungen löschen?</h2><p>Alle lokalen Prüfmarkierungen werden unwiderruflich aus diesem Browser entfernt.</p><div class="document-actions"><button value="cancel" class="secondary">Abbrechen</button><button value="delete" class="danger">Alle löschen</button></div></form>';
+    document.body.appendChild(dialog);
+    dialog.addEventListener("close", () => {
+      const shouldDelete = dialog.returnValue === "delete";
+      dialog.remove();
+      if (!shouldDelete) return;
+      marks = [];
+      localStorage.removeItem(storageKey);
+      article.querySelectorAll("mark.review-selection").forEach(mark => mark.replaceWith(...mark.childNodes));
+      render();
+    }, { once: true });
+    dialog.showModal();
+  });
+})();
+</script>
+{% endif %}
+{% endblock %}

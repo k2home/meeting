@@ -5,6 +5,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
+from .forms import AttachmentForm
 from .models import AgendaItem, Meeting, MeetingSeries, SeriesAccess, Topic, TopicAttachment
 
 User = get_user_model()
@@ -51,6 +52,45 @@ class AgendaItemAttachmentTests(TestCase):
         self.assertEqual(attachment.label, "Beschlussvorlage")
         self.assertTrue(attachment.uploaded_file.storage.exists(attachment.uploaded_file.name))
         self.assertIn(f"?attachments={self.item.pk}#agenda-item-{self.item.pk}", response["Location"])
+
+    def test_agenda_attachment_upload_accepts_supported_extensions(self):
+        for extension in ("docx", "xlsx", "pptx", "txt", "png", "jpg", "jpeg"):
+            with self.subTest(extension=extension):
+                response = self.client.post(
+                    reverse("agenda_attachment_add", args=[self.meeting.pk, self.item.pk]),
+                    {
+                        "label": f"Anlage {extension}",
+                        "uploaded_file": SimpleUploadedFile(f"anlage.{extension}", b"test-content"),
+                    },
+                )
+                self.assertEqual(response.status_code, 302)
+                self.assertTrue(
+                    TopicAttachment.objects.filter(
+                        topic=self.topic, label=f"Anlage {extension}"
+                    ).exists()
+                )
+
+    def test_agenda_attachment_upload_rejects_disallowed_file_extension(self):
+        response = self.client.post(
+            reverse("agenda_attachment_add", args=[self.meeting.pk, self.item.pk]),
+            {
+                "label": "Ausführbare Datei",
+                "uploaded_file": SimpleUploadedFile("programm.exe", b"not-an-executable"),
+            },
+        )
+
+        # The view deliberately redirects after every POST, including invalid uploads.
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(f"?attachments={self.item.pk}#agenda-item-{self.item.pk}", response["Location"])
+        self.assertFalse(TopicAttachment.objects.filter(topic=self.topic).exists())
+
+        # Verify that the model form rejects the disallowed extension itself.
+        form = AttachmentForm(
+            data={"label": "Ausführbare Datei"},
+            files={"uploaded_file": SimpleUploadedFile("programm.exe", b"not-an-executable")},
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn("uploaded_file", form.errors)
 
     def test_agenda_attachment_upload_rejects_reader(self):
         reader = User.objects.create_user(

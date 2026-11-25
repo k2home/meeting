@@ -162,7 +162,14 @@ class TopicSnapshot(models.Model):
 class TopicAttachment(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="attachments")
     label = models.CharField("Bezeichnung", max_length=180)
-    uploaded_file = models.FileField("Datei-Upload", upload_to="topic-files/%Y/%m/", blank=True, validators=[validate_topic_attachment_size])
+    uploaded_file = models.FileField(
+        "Datei-Upload", upload_to="topic-files/%Y/%m/", blank=True,
+        validators=[
+            validate_topic_attachment_size,
+            FileExtensionValidator(["pdf", "docx", "xlsx", "pptx", "txt", "png", "jpg", "jpeg"]),
+        ],
+        help_text="Zulässig: PDF, DOCX, XLSX, PPTX, TXT, PNG und JPEG.",
+    )
     network_path = models.CharField("Netzwerkpfad / Link", max_length=1000, blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
 
