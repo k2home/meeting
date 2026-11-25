@@ -36,13 +36,15 @@ class SetupOrganizationSettingsForm(OrganizationSettingsForm):
         }
 
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault("initial", {})
-        kwargs["initial"] = {
-            **kwargs["initial"],
-            "primary_color": "#002D72",
-            "secondary_color": "#0072CE",
-            "tertiary_color": "#FFCD00",
-        }
+        instance = kwargs.get("instance")
+        if instance is None or instance._state.adding:
+            kwargs.setdefault("initial", {})
+            kwargs["initial"] = {
+                **kwargs["initial"],
+                "primary_color": "#002D72",
+                "secondary_color": "#0072CE",
+                "tertiary_color": "#FFCD00",
+            }
         super().__init__(*args, **kwargs)
 
 
