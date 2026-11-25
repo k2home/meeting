@@ -145,6 +145,43 @@ class AgendaOwnedTopicContentTests(TestCase):
         )
         self.assertEqual(denied.status_code, 403)
 
+    def test_topic_status_dropdown_updates_the_entire_topic_and_audit_log(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name="status"')
+        self.assertContains(response, "In Bearbeitung")
+
+        response = self.client.post(
+            reverse("topic_edit", args=[self.topic.pk]),
+            {"update_topic_status": "1", "status": "in_progress"},
+        )
+
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "in_progress")
+        event = AuditEvent.objects.get(topic=self.topic, action="updated")
+        self.assertEqual(event.changes["Themenstatus"]["vorher"], "Offen")
+        self.assertEqual(event.changes["Themenstatus"]["nachher"], "In Arbeit")
+
+    def test_reader_cannot_change_topic_wide_status(self):
+        SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_READER)
+        response = self.client.post(
+            reverse("topic_edit", args=[self.topic.pk]),
+            {"update_topic_status": "1", "status": "done"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "open")
+
+    def test_archived_topic_does_not_offer_active_status_dropdown(self):
+        self.topic.status = "archived"
+        self.topic.archive_previous_status = "open"
+        self.topic.save(update_fields=["status", "archive_previous_status"])
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Archiviert")
+        self.assertNotContains(response, 'name="status"')
+
     def test_dashboard_search_finds_agenda_text(self):
         meeting = Meeting.objects.create(series=self.series, date="2026-12-15")
         AgendaItem.objects.create(
