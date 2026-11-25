@@ -1103,7 +1103,38 @@ def testing_fixtures(request):
                     count = _testing_count(request, "user_count")
                     for _ in range(count):
                         _testing_random_user()
-                    messages.success(request, f"{count} zufällige Testnutzer wurden angelegt (ohne gesetztes Passwort).")
+                    messages.success(request, f"{count} zufällige Testnutzer wurden angelegt (mit konfiguriertem TEST-Startpasswort).")
+                elif action == "reset_fixtures":
+                    test_series = list(series_qs)
+                    test_series_ids = [series.pk for series in test_series]
+                    test_topics = list(topics_qs)
+                    meeting_count = Meeting.objects.filter(series_id__in=test_series_ids).count()
+                    topic_count = len(test_topics)
+                    series_count = len(test_series)
+                    Meeting.objects.filter(series_id__in=test_series_ids).delete()
+                    for topic in test_topics:
+                        topic.delete()
+                    MeetingSeries.objects.filter(pk__in=test_series_ids).delete()
+                    deleted_users = 0
+                    protected_users = 0
+                    for fixture_user in User.objects.filter(username__startswith="test_fixture_").exclude(pk=request.user.pk):
+                        in_use = (
+                            fixture_user.meeting_participations.exists()
+                            or fixture_user.assigned_meeting_topics.exists()
+                            or fixture_user.assigned_meeting_agenda_items.exists()
+                            or fixture_user.meeting_topic_comments.exists()
+                        )
+                        if in_use:
+                            protected_users += 1
+                            continue
+                        fixture_user.delete()
+                        deleted_users += 1
+                    messages.success(
+                        request,
+                        f"TEST-Daten zurückgesetzt: {series_count} Serien, {meeting_count} Termine, "
+                        f"{topic_count} Themen und {deleted_users} Testnutzer gelöscht. "
+                        f"{protected_users} anderweitig verwendete Testnutzer blieben erhalten."
+                    )
                 else:
                     raise ValidationError("Unbekannte Testdatenaktion.")
         except ValidationError as exc:
@@ -1117,5 +1148,7 @@ def testing_fixtures(request):
         "series_options": series_qs,
         "topic_options": topics_qs,
         "series_count": series_qs.count(),
+        "meeting_count": Meeting.objects.filter(series__name__startswith="TEST-Besprechungsreihe ").count(),
+        "fixture_user_count": User.objects.filter(username__startswith="test_fixture_").count(),
         "testing_mode": True,
     })
