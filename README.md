@@ -524,3 +524,6 @@ Die Migration `0006_series_access_and_roles` ergänzt die Serienzuweisungen. Die
 Migrationen nicht manuell aus der Datenbank löschen und nicht mit `migrate --fake` überspringen, außer wenn ein bewusst geplanter und geprüfter Reparaturvorgang dies erfordert.
 
 <!-- Harmloser PR-Test: keine funktionalen Änderungen. -->
+
+
+Im TESTING-Modus umfasst die Beispielkonfiguration außerdem zufällige Serienrollen, themenbezogene Texte und chronologisch verknüpfte Wiedervorlagen. Die generierten Serientermine reichen jeweils höchstens ein Jahr in die Vergangenheit und Zukunft. Der Reset entfernt nur gekennzeichnete Testdaten; Testkonten oder Themen, die inzwischen in anderen Daten verwendet werden, bleiben erhalten.
