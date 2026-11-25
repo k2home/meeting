@@ -17,7 +17,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 - Den öffentlichen Zugriff ausschließlich über HTTPS zulassen. HTTP muss auf HTTPS umleiten; die Anwendung darf nicht direkt über einen unverschlüsselten, aus nicht vertrauenswürdigen Netzen erreichbaren Port angeboten werden.
 - Bei Docker den veröffentlichten Web-Port standardmäßig nur an `127.0.0.1:8080` binden. Den Reverse Proxy auf demselben Host betreiben und auf `http://127.0.0.1:8080` weiterleiten. Den App-Port 8000 und PostgreSQL niemals öffentlich veröffentlichen.
 - Bei Debian den internen Nginx-Zugang auf die tatsächlich verwendete Proxy-IP bzw. das erforderliche CIDR begrenzen. Die beim Installer angegebene Proxy-Adresse muss stimmen und darf nicht unnötig weit gefasst sein.
-- Am Proxy `X-Forwarded-Proto: https` setzen und vom Client angelieferte Forwarded-Header überschreiben. Nur dem bekannten Proxy vertrauen. Keine beliebigen Proxy-Adressen oder unkontrollierten Netze als vertrauenswürdig konfigurieren.
+- Am Proxy `X-Forwarded-Proto: https` setzen und vom Client angelieferte Forwarded-Header überschreiben. Insbesondere muss `X-Forwarded-For` mit der tatsächlichen Client-IP überschrieben werden, weil die Nginx-Login-Drosselung diesen Wert verwendet. Nur dem bekannten Proxy vertrauen. Keine beliebigen Proxy-Adressen oder unkontrollierten Netze als vertrauenswürdig konfigurieren.
 - Den öffentlichen Hostnamen in `ALLOWED_HOSTS` und die korrekte HTTPS-Origin in `CSRF_TRUSTED_ORIGINS` verwenden. Keine Wildcards als bequeme Dauerlösung eintragen.
 - Nach Einrichtung HTTP-Weiterleitung, Login/Logout, Session- und CSRF-Cookies, Passwort-Reset, Datei-Upload/-Download und PDF-Ausgabe über den HTTPS-Zugang testen.
 - HSTS zunächst mit einer kurzen Laufzeit testen. `includeSubDomains` und Preload nur aktivieren, wenn sämtliche betroffenen Subdomains dauerhaft HTTPS unterstützen und die Voraussetzungen geprüft sind.
@@ -40,7 +40,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 - Für jede Besprechungsreihe einen fachlichen Verantwortlichen festlegen, der Mitglieder und Serienrollen regelmäßig überprüft.
 - Bei Eintritt, Rollenwechsel und Austritt eines Mitarbeiters Konten und Serienzuweisungen zeitnah anpassen. Nicht mehr benötigte Konten deaktivieren.
 - Prüfen, ob ein vorgeschalteter Identity Provider mit MFA eingesetzt werden kann. Falls MFA nicht vorhanden ist, den Zugriff auf vertrauenswürdige Netze bzw. einen abgesicherten VPN-Zugang beschränken und zusätzliche Anmeldekontrollen am Proxy vorsehen.
-- Anmeldeversuche und ungewöhnliche Zugriffsmuster auf Infrastruktur-Ebene überwachen. Ein anwendungsinterner Login-Rate-Limiter bzw. MFA darf nicht allein aufgrund der vorhandenen Passwortregeln angenommen werden.
+- Die mitgelieferte Debian- und Docker-Nginx-Konfiguration begrenzt Login-Anfragen quellen-IP-basiert auf 10 Requests pro Minute mit Burst 10 und antwortet bei Überschreitung mit HTTP 429. Die Regel setzt voraus, dass der vorgeschaltete Proxy `X-Forwarded-For` korrekt überschreibt. Anmeldeversuche und ungewöhnliche Zugriffsmuster zusätzlich überwachen. Diese IP-Drosselung ersetzt weder MFA noch einen konto-/benutzerbezogenen Rate-Limiter.
 
 ### 1.4 Datei-Uploads und Downloads schützen
 
