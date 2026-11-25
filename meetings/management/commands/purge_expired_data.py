@@ -2,22 +2,31 @@ import logging
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from django.utils import timezone
+from django.utils import formats, timezone
 
-from meetings.models import AgendaItem, AuditEvent, Topic, TopicAttachment, TopicSnapshot
-from meetings.retention import effective_retention_years, protocol_deletion_date, retention_expiry_date, topic_deletion_date
+from meetings.models import (
+    AgendaItem, AuditEvent, Meeting, RetainedAgendaEntry, Topic,
+    TopicAttachment, TopicSnapshot,
+)
+from meetings.retention import (
+    effective_retention_years, retention_expiry_date, topic_deletion_date,
+)
+from meetings.user_display import user_display_name
 
 logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = "Löscht abgelaufene archivierte Themen und gesicherte Protokollstände."
+    help = "Löscht abgelaufene Themen sowie Besprechungstermine und Protokolle nach der globalen Aufbewahrungsfrist."
 
     def handle(self, *args, **options):
         today = timezone.localdate()
         deleted_topics = 0
+        deleted_meetings = 0
         deleted_snapshots = 0
 
+        # A topic owns its agenda history. Delete it only when its individual
+        # retention period has expired; related retained agenda entries cascade.
         archived_topics = Topic.objects.filter(status="archived").order_by("pk")
         for topic in archived_topics.iterator():
             expiry = topic_deletion_date(topic)
@@ -28,13 +37,14 @@ class Command(BaseCommand):
                 expiry = topic_deletion_date(locked_topic)
                 if not expiry or expiry >= today:
                     continue
-                agenda_items = list(AgendaItem.objects.filter(topic=locked_topic).values("meeting_id"))
-                snapshot_meeting_ids = set(
+
+                meeting_ids = set(
+                    AgendaItem.objects.filter(topic=locked_topic).values_list("meeting_id", flat=True)
+                )
+                meeting_ids.update(
                     TopicSnapshot.objects.filter(topic_id=locked_topic.pk).values_list("meeting_id", flat=True)
                 )
-                for meeting_id in snapshot_meeting_ids | {
-                    item["meeting_id"] for item in agenda_items
-                }:
+                for meeting_id in meeting_ids:
                     self._redact_protocol_audit(meeting_id, locked_topic.pk)
 
                 attachments = list(TopicAttachment.objects.filter(topic=locked_topic))
@@ -42,11 +52,8 @@ class Command(BaseCommand):
                     (attachment.uploaded_file.storage, attachment.uploaded_file.name)
                     for attachment in attachments if attachment.uploaded_file
                 ]
-                archived_snapshot_count = TopicSnapshot.objects.filter(topic_id=locked_topic.pk).count()
+                deleted_snapshots += TopicSnapshot.objects.filter(topic_id=locked_topic.pk).count()
                 TopicSnapshot.objects.filter(topic_id=locked_topic.pk).delete()
-                deleted_snapshots += archived_snapshot_count
-                # AgendaItem protects Topic from accidental deletion; remove its
-                # rows explicitly while retaining no content after topic expiry.
                 AgendaItem.objects.filter(topic=locked_topic).delete()
                 AuditEvent.objects.filter(topic=locked_topic).delete()
                 locked_topic.delete()
@@ -56,56 +63,77 @@ class Command(BaseCommand):
                     )
             deleted_topics += 1
 
-        # Active topics retain their agenda text. Only immutable snapshots and
-        # copies of those snapshots in reopen/correction audit records expire.
-        active_topics = {
-            topic.pk: topic
-            for topic in Topic.objects.exclude(status="archived").only(
-                "id", "status", "retention_years"
-            )
-        }
-        expired_keys = set()
-        snapshots = TopicSnapshot.objects.filter(
-            meeting__finalized_at__isnull=False
-        ).select_related("meeting").order_by("pk")
-        for snapshot in snapshots.iterator():
-            topic = active_topics.get(snapshot.topic_id)
-            if topic is None:
+        # A meeting's protocol retention is independent of every topic's
+        # individual retention. Preserve only the topic-owned agenda text;
+        # protocol snapshots and their audit copies expire with the meeting.
+        organization_years = effective_retention_years()
+        meetings = Meeting.objects.select_related("series").order_by("pk")
+        for meeting in meetings.iterator():
+            was_reopened = AuditEvent.objects.filter(
+                meeting_id=meeting.pk, action="reopened"
+            ).exists()
+            if not meeting.finalized_at and not was_reopened:
                 continue
-            expiry = protocol_deletion_date(snapshot.meeting, topic)
-            if expiry and expiry < today:
-                expired_keys.add((snapshot.meeting_id, snapshot.topic_id))
-
-        # A reopened meeting moves its former snapshot into an audit event.
-        # Apply the same meeting-date retention to those retained copies.
-        reopen_events = AuditEvent.objects.filter(
-            action="reopened", meeting__isnull=False
-        ).select_related("meeting").order_by("pk")
-        for event in reopen_events.iterator():
-            saved_snapshots = (event.changes or {}).get("Gesicherter Protokollstand")
-            if not isinstance(saved_snapshots, list):
+            expiry = retention_expiry_date(meeting.date, organization_years)
+            if not expiry or expiry >= today:
                 continue
-            for saved in saved_snapshots:
-                topic_id = saved.get("topic_id") if isinstance(saved, dict) else None
-                topic = active_topics.get(topic_id)
-                if topic and retention_expiry_date(event.meeting.date, effective_retention_years(topic)) < today:
-                    expired_keys.add((event.meeting_id, topic_id))
 
-        for meeting_id, topic_id in expired_keys:
-            self._redact_protocol_audit(meeting_id, topic_id)
+            with transaction.atomic():
+                locked_meeting = Meeting.objects.select_for_update().select_related("series").get(pk=meeting.pk)
+                was_reopened = AuditEvent.objects.filter(
+                    meeting_id=locked_meeting.pk, action="reopened"
+                ).exists()
+                if not locked_meeting.finalized_at and not was_reopened:
+                    continue
+                expiry = retention_expiry_date(locked_meeting.date, organization_years)
+                if not expiry or expiry >= today:
+                    continue
 
-        if expired_keys:
-            snapshot_filter = [
-                (meeting_id, topic_id) for meeting_id, topic_id in expired_keys
-            ]
-            for meeting_id, topic_id in snapshot_filter:
-                deleted_snapshots += TopicSnapshot.objects.filter(
-                    meeting_id=meeting_id, topic_id=topic_id
-                ).delete()[0]
+                series_name = (
+                    locked_meeting.series.name if locked_meeting.series_id
+                    else locked_meeting.archived_series_name or "Gelöschte Besprechungsreihe"
+                )
+                agenda_items = list(
+                    AgendaItem.objects.filter(meeting=locked_meeting)
+                    .select_related("topic", "assigned_to")
+                )
+                topic_ids = {item.topic_id for item in agenda_items}
+                topic_ids.update(
+                    TopicSnapshot.objects.filter(meeting=locked_meeting)
+                    .values_list("topic_id", flat=True)
+                )
+                for topic_id in topic_ids:
+                    self._redact_protocol_audit(locked_meeting.pk, topic_id)
+
+                for item in agenda_items:
+                    RetainedAgendaEntry.objects.update_or_create(
+                        topic_id=item.topic_id,
+                        original_meeting_id=locked_meeting.pk,
+                        defaults={
+                            "meeting_date": locked_meeting.date,
+                            "series_name": series_name,
+                            "working_text": item.working_text,
+                            "status": item.status,
+                            "responsible_name": (
+                                user_display_name(item.assigned_to, include_short_description=True)
+                                if item.assigned_to_id else (
+                                    user_display_name(item.topic.assigned_to, include_short_description=True)
+                                    if item.topic.assigned_to_id else ""
+                                )
+                            ),
+                            "position": item.position,
+                        },
+                    )
+
+                deleted_snapshots += TopicSnapshot.objects.filter(meeting=locked_meeting).count()
+                # AuditEvent.meeting uses SET_NULL: non-protocol audit metadata
+                # remains available without keeping the meeting itself.
+                locked_meeting.delete()
+            deleted_meetings += 1
 
         self.stdout.write(self.style.SUCCESS(
-            f"Aufbewahrungsprüfung abgeschlossen: {deleted_topics} Themen und "
-            f"{deleted_snapshots} Protokollstände gelöscht."
+            f"Aufbewahrungsprüfung abgeschlossen: {deleted_topics} Themen, "
+            f"{deleted_meetings} Besprechungstermine und {deleted_snapshots} Protokollstände gelöscht."
         ))
 
     @staticmethod
