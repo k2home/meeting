@@ -473,7 +473,7 @@ Für ausgewählte Testserien lassen sich die zugehörigen Termine anhand des fes
 
 #### 4. Zufällige Themen anlegen
 
-Für eine ausgewählte Testserie können bis zu 100 Themen angelegt werden. Die Titel erhalten die Kennzeichnung `TEST-` und werden aus verschiedenen Themenkategorien gebildet. Status und Hauptzuständigkeit werden zufällig ausgewählt; als Zuständige kommen vorhandene aktive Testkonten infrage. Pro Serie werden die Themenkategorien nicht doppelt verwendet.
+Für eine ausgewählte Testserie können bis zu 100 Themen angelegt werden. Die Titel erhalten das Präfix `TEST ` und werden zufällig aus 50 kurzen Beispielthemen mit höchstens zwei Wörtern ausgewählt, beispielsweise `TEST Umsetzung Projekt`. Status und Hauptzuständigkeit werden zufällig ausgewählt; als Zuständige kommen vorhandene aktive Testkonten infrage. Pro Serie wird jedes Beispielthema höchstens einmal verwendet.
 
 #### 5. Tagesordnungspunkte und Wiedervorlagen erzeugen
 
