@@ -67,7 +67,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 ### 1.6 Updates, Protokollierung und Notfallvorsorge
 
 - Produktionsupdates nur aus freigegebenen Branches bzw. Releases übernehmen. Version und Commit des laufenden Systems dokumentieren.
-- Abhängigkeiten und Container-Images regelmäßig auf bekannte Sicherheitslücken prüfen. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, Verantwortlichem und Frist dokumentieren.
+- Python-Abhängigkeiten werden in Pull Requests sowie bei Pushes auf `main` und `beta` durch `pip-audit` auf bekannte Schwachstellen geprüft; ein Treffer lässt den CI-Job fehlschlagen. Container-Basisimages und Betriebssystempakete weiterhin separat prüfen und zeitnah aktualisieren. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, Verantwortlichem und Frist dokumentieren.
 - Updates zunächst in einer Testumgebung prüfen. Nach Updates Login, Berechtigungen, Upload/Download, CSV-Funktionen, Protokollabschluss und Wiederherstellung testen.
 - Systemlogs auf ungewöhnliche Login-Fehler, Änderungen globaler Rollen, fehlgeschlagene Downloads, unerwartete Dienstneustarts und Speicherengpässe überwachen.
 - Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
