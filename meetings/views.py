@@ -2129,7 +2129,7 @@ def series_delete(request, pk):
     messages.success(
         request,
         f"Die Besprechungsreihe „{name}“ wurde gelöscht. "
-        "Die Besprechungstermine und Protokolle bleiben im Archiv erhalten; alle zugehörigen Themen wurden archiviert."
+        "Die Besprechungstermine und Protokolle bleiben zunächst im Archiv erhalten; ihre Protokoll-Snapshots unterliegen der Aufbewahrungsfrist. Alle zugehörigen Themen wurden archiviert."
     )
     return redirect("series_admin" if is_moderator(request.user) else "dashboard")
 
