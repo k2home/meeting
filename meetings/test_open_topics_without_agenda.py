@@ -63,6 +63,68 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
         self.assertFalse(item.carried_forward)
         self.assertIsNone(item.followup_of)
 
+
+    def test_dashboard_open_topic_counts_match_open_topics_page_criteria(self):
+        no_agenda_topic = Topic.objects.create(
+            title="Ohne Tagesordnung",
+            series=self.series,
+            status="open",
+        )
+        old_meeting = Meeting.objects.create(
+            series=self.series,
+            date=self.today - timedelta(days=1),
+        )
+        unfinished_item_topic = Topic.objects.create(
+            title="Offener letzter Tagesordnungspunkt",
+            series=self.series,
+            status="done",
+        )
+        AgendaItem.objects.create(
+            meeting=old_meeting,
+            topic=unfinished_item_topic,
+            status="in_progress",
+        )
+        completed_topic = Topic.objects.create(
+            title="Abgeschlossen",
+            series=self.series,
+            status="open",
+        )
+        AgendaItem.objects.create(
+            meeting=old_meeting,
+            topic=completed_topic,
+            status="done",
+        )
+        future_topic = Topic.objects.create(
+            title="Erst künftig auf der Tagesordnung",
+            series=self.series,
+            status="open",
+        )
+        future_meeting = Meeting.objects.create(
+            series=self.series,
+            date=self.today + timedelta(days=3),
+        )
+        AgendaItem.objects.create(
+            meeting=future_meeting,
+            topic=future_topic,
+            status="open",
+        )
+        Meeting.objects.create(
+            series=self.series,
+            date=self.today + timedelta(days=10),
+        )
+
+        open_topics_response = self.client.get(reverse("open_topics"))
+        dashboard_response = self.client.get(reverse("dashboard"))
+
+        self.assertEqual(open_topics_response.status_code, 200)
+        self.assertEqual(len(open_topics_response.context["rows"]), 2)
+        group = next(
+            group for group in dashboard_response.context["meeting_groups"]
+            if group["series"].pk == self.series.pk
+        )
+        self.assertEqual(group["open_topic_count"], 2)
+        self.assertContains(dashboard_response, "(2 Offene Punkte)")
+
     def test_completed_or_archived_topics_without_agenda_items_are_not_shown(self):
         Topic.objects.create(
             title="Erledigt",
