@@ -127,6 +127,18 @@ def _update_completed_at(topic, old_status, new_status):
 
 @login_required
 @auditor_readonly
+def retained_agenda_entry(request, pk, entry_pk):
+    topic = get_object_or_404(accessible_topics(request.user), pk=pk)
+    entry = get_object_or_404(RetainedAgendaEntry, pk=entry_pk, topic=topic)
+    return render(request, "meetings/retained_agenda_entry.html", {
+        "topic": topic,
+        "entry": entry,
+        "protocol_view": request.GET.get("view") == "protocol",
+    })
+
+
+@login_required
+@auditor_readonly
 def topic_new(request):
     writable_series = accessible_series(request.user)
     writable_series = writable_series.exclude(user_access__role=SeriesAccess.ROLE_READER)
