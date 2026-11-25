@@ -1816,6 +1816,18 @@ def series_admin(request):
         item.meeting_count = len(item.ordered_meetings)
         item.completed_count = sum(1 for meeting in item.ordered_meetings if meeting.finalized_at)
         item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
+    active_users = list(
+        UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
+    )
+    for item in series:
+        assignments_by_user = {
+            access.user_id: access.role
+            for access in SeriesAccess.objects.filter(series=item)
+        }
+        item.user_management_rows = [
+            {"user": person, "role": assignments_by_user.get(person.pk, SeriesAccess.ROLE_NONE)}
+            for person in active_users
+        ]
     expanded_series_id = request.GET.get("expanded", "")
     form = SeriesForm(request.POST or None)
     form.fields.pop("end_date", None)
@@ -1884,6 +1896,54 @@ def series_admin(request):
         "expanded_series_id": expanded_series_id,
         "pending_access_requests": pending_requests,
     })
+
+
+@login_required
+@require_http_methods(["POST"])
+def series_manage_user_access(request, pk):
+    """Set or remove a user's explicit permission for one moderated series."""
+    series = get_object_or_404(MeetingSeries, pk=pk)
+    if not is_moderator(request.user, series):
+        return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+    target_user = get_object_or_404(UserModel, pk=request.POST.get("user_id"))
+    role = request.POST.get("role", "")
+    allowed_roles = {
+        SeriesAccess.ROLE_NONE,
+        SeriesAccess.ROLE_READER,
+        SeriesAccess.ROLE_PARTICIPANT,
+        SeriesAccess.ROLE_MODERATOR,
+    }
+    if role not in allowed_roles:
+        return HttpResponseForbidden("Ungültige Serienberechtigung.")
+    with transaction.atomic():
+        if not is_moderator(request.user, series):
+            return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+        access = SeriesAccess.objects.select_for_update().filter(user=target_user, series=series).first()
+        if target_user.pk == request.user.pk and access and access.role == SeriesAccess.ROLE_MODERATOR:
+            return redirect("series_admin")
+        old_role = access.role if access else SeriesAccess.ROLE_NONE
+        if old_role == role:
+            return redirect("series_admin")
+        if role == SeriesAccess.ROLE_NONE:
+            if access:
+                access.delete()
+        elif access:
+            access.role = role
+            access.save(update_fields=["role"])
+        else:
+            SeriesAccess.objects.create(user=target_user, series=series, role=role)
+        role_labels = dict(SeriesAccess.REQUEST_ROLE_CHOICES)
+        record_event(
+            actor=request.user,
+            action="deleted" if role == SeriesAccess.ROLE_NONE else ("created" if old_role == SeriesAccess.ROLE_NONE else "updated"),
+            summary=f"Serienberechtigung für {user_display_name(target_user)} in „{series.name}“ geändert",
+            series=series,
+            changes={
+                "Benutzer": user_display_name(target_user),
+                "Berechtigung": {"vorher": role_labels.get(old_role, old_role), "nachher": role_labels.get(role, role)},
+            },
+        )
+    return redirect("series_admin")
 
 
 @login_required
@@ -2561,6 +2621,8 @@ def user_overview(request):
             }
             current_access = SeriesAccess.objects.filter(user=request.user, series=series).first()
             requested_role = request_form.cleaned_data["role"]
+            if current_access and current_access.role == SeriesAccess.ROLE_MODERATOR:
+                return redirect("user_overview")
             if current_access and current_access.role == requested_role:
                 messages.info(request, "Du hast diese Berechtigung bereits.")
             elif not current_access and requested_role == SeriesAccess.ROLE_NONE:
@@ -2665,6 +2727,7 @@ def user_overview(request):
             "pending_request": pending if pending and pending.status == SeriesAccessRequest.STATUS_PENDING else None,
             "latest_request": pending,
             "can_request": not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
+            "role_locked": bool(assignment and assignment.role == SeriesAccess.ROLE_MODERATOR),
         })
 
     return render(request, "meetings/user_overview.html", {
