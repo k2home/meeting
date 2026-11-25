@@ -18,7 +18,7 @@
 .topic-responsibility label{font-size:.8rem;color:var(--muted,#667085);white-space:nowrap}
 .topic-responsibility select{max-width:min(100%,22rem);padding:.35rem .55rem;font-size:.88rem}
 .topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
+.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}\n.topic-status-form{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}.topic-status-form select{max-width:100%;padding:.35rem .55rem;font-size:.88rem}.topic-status-save{font-size:.78rem;padding:.3rem .5rem;min-height:1.9rem}
 @media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
 .topic-pdf-link{display:inline-flex;align-items:center;gap:.6rem}.topic-pdf-drag{display:inline-flex;text-decoration:none;cursor:grab}.topic-pdf-drag:active{cursor:grabbing}.topic-pdf-icon{display:inline-flex;align-items:center;justify-content:center;width:2.35rem;height:2.65rem;border:1px solid #d92d20;border-radius:5px;color:#b42318;background:#fff;font-size:.7rem;font-weight:800;letter-spacing:.02em;flex:0 0 auto}
 </style>
@@ -106,7 +106,17 @@
   <section class="card"><h2>Informationen</h2>
    <dl class="topic-meta">
     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
-    <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
+    <div><dt>Status</dt><dd>
+     {% if is_reader or topic.status == "archived" %}{{ topic.get_status_display }}
+     {% else %}
+      <form method="post" action="{% url 'topic_edit' topic.pk %}" class="topic-status-form">
+       {% csrf_token %}
+       <input type="hidden" name="update_topic_status" value="1">
+       {{ status_form.status }}
+       <button type="submit" class="btn secondary topic-status-save">Status speichern</button>
+      </form>
+     {% endif %}
+    </dd></div>
     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
     <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
    </dl>
