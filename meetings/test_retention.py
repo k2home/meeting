@@ -5,9 +5,10 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.utils import timezone
 
+from .access import accessible_retained_agenda_entries, accessible_topics
 from .models import (
     AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings,
-    RetainedAgendaEntry, Topic, TopicSnapshot,
+    RetainedAgendaEntry, SeriesAccess, Topic, TopicSnapshot,
 )
 from .retention import protocol_deletion_date, retention_expiry_date
 
@@ -135,6 +136,39 @@ class RetentionCleanupTests(TestCase):
         self.assertTrue(Meeting.objects.filter(pk=meeting.pk).exists())
         self.assertTrue(AgendaItem.objects.filter(pk=item.pk).exists())
         self.assertFalse(RetainedAgendaEntry.objects.filter(topic=topic).exists())
+
+    def test_retained_agenda_keeps_original_series_access_after_series_deletion(self):
+        topic = Topic.objects.create(
+            title="Thema mit historischer Berechtigung", series=self.series,
+            status="in_progress",
+        )
+        meeting = Meeting.objects.create(
+            series=self.series, date=date(2010, 8, 23), finalized_at=timezone.now()
+        )
+        AgendaItem.objects.create(
+            meeting=meeting, topic=topic, working_text="Nur für Serienmitglieder"
+        )
+        SeriesAccess.objects.create(
+            user=self.user, series=self.series, role=SeriesAccess.ROLE_READER
+        )
+
+        call_command("purge_expired_data")
+
+        entry = RetainedAgendaEntry.objects.get(topic=topic)
+        self.assertTrue(entry.access_users.filter(pk=self.user.pk).exists())
+        self.assertTrue(
+            accessible_retained_agenda_entries(self.user).filter(pk=entry.pk).exists()
+        )
+
+        self.series.delete()
+
+        self.assertTrue(accessible_topics(self.user).filter(pk=topic.pk).exists())
+        outsider = get_user_model().objects.create_user(
+            username="retention-outsider", password="test-password"
+        )
+        self.assertFalse(
+            accessible_retained_agenda_entries(outsider).filter(pk=entry.pk).exists()
+        )
 
     def test_reopened_protocol_copy_in_audit_history_also_expires(self):
         topic = Topic.objects.create(
