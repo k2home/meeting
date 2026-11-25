@@ -63,7 +63,7 @@ Django-Superuser werden als globale Administrator\*innen behandelt. Die Admin-Gr
 | **Teilnehmer\*in** | Zusätzlich Themen und Tagesordnungspunkte bearbeiten, Zuständigkeiten setzen, kommentieren, Anlagen ergänzen, Wiedervorlagen verwalten, Teilnehmer\*innenlisten bearbeiten und Besprechungen abschließen. Keine Reihenverwaltung und kein Wiederöffnen abgeschlossener Besprechungen. |
 | **Moderator\*in** | Zusätzlich Besprechungsreihe und Termine verwalten, Themen archivieren/wieder öffnen, abgeschlossene Besprechungen wieder öffnen und den Änderungsverlauf der eigenen moderierten Reihe einsehen. |
 
-Nutzer\*innen können in verschiedenen Reihen unterschiedliche Rollen besitzen. Eine Moderator\*innenrolle in einer Reihe verleiht keine Rechte in einer anderen Reihe.
+Nutzer\*innen können in verschiedenen Reihen unterschiedliche Rollen besitzen. Eine Moderator\*innenrolle in einer Reihe verleiht keine Rechte in einer anderen Reihe. Moderator\*innen können die Serienrollen anderer Benutzer\*innen in der eigenen Reihe verwalten; die eigene Moderatorzuweisung ist in der Serienverwaltung und den persönlichen Einstellungen gegen Änderung und Entzug gesperrt.
 
 ### 3.3 Historische Zugriffe und Änderungsverlauf
 
