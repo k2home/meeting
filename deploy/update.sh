@@ -298,6 +298,10 @@ runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set 
 chown -R meetingapp:www-data "$APP_DIR/staticfiles"
 find "$APP_DIR/staticfiles" -type d -exec chmod 750 {} +
 find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
+install -m 0644 "$APP_DIR/deploy/meeting-manager-retention.service" /etc/systemd/system/meeting-manager-retention.service
+install -m 0644 "$APP_DIR/deploy/meeting-manager-retention.timer" /etc/systemd/system/meeting-manager-retention.timer
+systemctl daemon-reload
+systemctl enable --now meeting-manager-retention.timer
 systemctl restart meeting-manager
 systemctl --no-pager --full status meeting-manager
 rm -rf "$APP_DIR/.venv.previous-python"
