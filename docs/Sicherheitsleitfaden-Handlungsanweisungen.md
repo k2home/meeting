@@ -49,7 +49,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 - Die Allowlist nur nach fachlicher Prüfung und kontrollierter Änderung erweitern. Nicht benötigte ausführbare Dateien, Skripte und Archive nicht zulassen.
 - Beachten, dass die Anwendung die Dateiendung prüft, nicht aber die tatsächliche Dateisignatur oder den Dateiinhalt. Die Endungsprüfung ist kein vollständiger Malware-Schutz.
 - Wenn Dateien aus nicht vollständig vertrauenswürdigen Quellen hochgeladen werden, einen Malware-Scanner auf dem Host bzw. in einem vorgeschalteten Quarantäneprozess einsetzen. Ungeprüfte Dateien nicht automatisch als sicher einstufen.
-- Das organisationsweite Uploadlimit auf den tatsächlichen Bedarf begrenzen. Standardmäßig sind 20 MB eingestellt; konfigurierbar sind 1 bis 24 MB. Proxy-, Nginx- und Anwendungslimits aufeinander abstimmen.
+- Das organisationsweite Uploadlimit auf den tatsächlichen Bedarf begrenzen. Standardmäßig sind 20 MB eingestellt; konfigurierbar sind 1 bis 24 MB. Nginx begrenzt allgemeine Request-Bodies zusätzlich auf 32 MiB; nur der Vollbackup-Importpfad ist für große Sicherungen auf 1 GiB freigegeben. Proxy-, Nginx- und Anwendungslimits aufeinander abstimmen.
 - Das Medienverzeichnis nicht als öffentliches Webverzeichnis freigeben. Uploads ausschließlich über die authentifizierte Anwendungsroute bereitstellen; keine zusätzliche statische Direkt-Auslieferung konfigurieren.
 - Dateispeicher und Medien-Volume mit restriktiven Dateirechten betreiben und in Backups einbeziehen. Zugriff auf Host- und Backup-Ebene nur den zuständigen Betriebsadmins gewähren.
 
