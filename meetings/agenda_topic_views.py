@@ -4,15 +4,23 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
+from django.utils.http import content_disposition_header
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import formats, timezone
-from django.utils.text import slugify
 
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
 from .audit import record_event
 from .forms import UserDisplayModelChoiceField
 from .models import AgendaItem, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicSnapshot
 from .user_display import user_display_name
+
+
+def topic_protocol_filename(topic):
+    """Return the dated, filesystem-safe filename used by both PDF download methods."""
+    import re
+
+    title = re.sub(r'[\\/:*?"<>|\\x00-\\x1f]', "_", topic.title).strip(" .")
+    return f"{timezone.localdate():%Y%m%d}-{title or 'Thema'}.pdf"
 
 
 class TopicTitleForm(forms.ModelForm):
@@ -219,6 +227,7 @@ def topic_detail(request, pk):
     return render(request, "meetings/topic_form.html", {
         "form": form,
         "topic": topic,
+        "topic_protocol_filename": topic_protocol_filename(topic),
         "can_archive_topic": topic.series_id is not None and is_moderator(request.user, topic.series),
         "is_reader": reader,
         "topic_agenda_items": items,
@@ -462,7 +471,8 @@ def topic_protocol_pdf(request, pk):
 
     document.build(story, canvasmaker=NumberedCanvas)
     pdf_content = buffer.getvalue()
-    filename = slugify(topic.title)[:80] or "thema"
     response = HttpResponse(pdf_content, content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="Themenprotokoll_{filename}.pdf"'
+    response["Content-Disposition"] = content_disposition_header(
+        True, topic_protocol_filename(topic)
+    )
     return response
