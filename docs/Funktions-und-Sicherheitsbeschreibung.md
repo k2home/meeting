@@ -184,7 +184,7 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 1. Die vorhandenen Rollenprüfungen beibehalten: Benutzer-CSV sowie Vollbackup-/Restore-Funktionen sind globalen Admin-Konten vorbehalten. Themen-CSV-Import und -Export sind dagegen Moderator*innen vorbehalten und auf die Reihen begrenzt, in denen sie ausdrücklich Moderator*innenrechte besitzen. Diese Unterscheidung bei neuen Import-/Export-Endpunkten mit Negativtests absichern.
 2. Exportdateien ausschließlich in zugriffsbeschränkten, verschlüsselten Verzeichnissen ablegen und über einen sicheren Übertragungsweg weitergeben. Nach erfolgreicher Übergabe lokal löschen; Papierkorb und Synchronisationskopien berücksichtigen.
 3. Vor Importen die Vorschau vollständig prüfen. Änderungen an Benutzerrollen, Serienzuweisungen und bestehenden Themen nur nach Vier-Augen-Kontrolle übernehmen.
-4. Vor Datenbank-Restore immer einen aktuellen zusätzlichen Sicherungsstand erstellen und Restore nur in einem kontrollierten Wartungsfenster durch autorisierte Administratoren durchführen.
+4. Vor Datenbank-Restore immer einen aktuellen zusätzlichen Sicherungsstand erstellen und Restore nur in einem kontrollierten Wartungsfenster durch autorisierte Administrator*innen durchführen.
 5. Datenbank und Medienverzeichnis zeitlich passend und gemeinsam sichern. Mindestens eine verschlüsselte Kopie getrennt vom Produktivhost aufbewahren; Schreibzugriff des Produktivsystems auf diese Kopie vermeiden.
 6. RPO/RTO festlegen und mindestens quartalsweise eine Wiederherstellung in einer isolierten Testumgebung durchführen. Prüfen, ob Datenbank, Anhänge, Logos und statische Betriebsdaten konsistent sind.
 
