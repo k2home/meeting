@@ -10,7 +10,7 @@ class LoginRememberMeTests(TestCase):
             password="A-Strong-Test-Password-123!",
         )
 
-    def test_checked_remember_me_keeps_session_for_30_days(self):
+    def test_checked_remember_me_keeps_session_for_eight_hours(self):
         response = self.client.post(reverse("login"), {
             "username": self.user.username,
             "password": "A-Strong-Test-Password-123!",
@@ -19,7 +19,7 @@ class LoginRememberMeTests(TestCase):
 
         self.assertRedirects(response, reverse("dashboard"))
         self.assertFalse(self.client.session.get_expire_at_browser_close())
-        self.assertEqual(self.client.session.get_expiry_age(), 30 * 24 * 60 * 60)
+        self.assertEqual(self.client.session.get_expiry_age(), 8 * 60 * 60)
 
     def test_unchecked_remember_me_expires_session_when_browser_closes(self):
         response = self.client.post(reverse("login"), {
