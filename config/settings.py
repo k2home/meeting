@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "meetings.middleware.ContentSecurityPolicyMiddleware",
     "meetings.middleware.OrganizationTimezoneMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
