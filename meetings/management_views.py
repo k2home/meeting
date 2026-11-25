@@ -31,7 +31,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 
 from .access import is_admin, is_auditor, is_moderator
-from .models import AuditEvent, MeetingSeries, OrganizationSettings, SeriesAccess, UserProfile
+from .models import AuditEvent, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, UserProfile
 from .user_csv import export_users_csv, import_users_csv
 from .topic_csv import export_topic_agenda_csv, import_topic_agenda_csv, sample_csv_response
 from .user_display import user_display_name_with_login
@@ -174,7 +174,7 @@ class OrganizationSettingsForm(forms.ModelForm):
     class Meta:
         model = OrganizationSettings
         fields = (
-            "name", "short_name", "timezone", "start_password", "attachment_max_size_mb",
+            "name", "short_name", "timezone", "start_password", "retention_years", "attachment_max_size_mb",
             "primary_color", "primary_color_light", "primary_color_dark",
             "secondary_color", "secondary_color_light", "secondary_color_dark",
             "tertiary_color", "tertiary_color_light", "tertiary_color_dark",
@@ -481,6 +481,31 @@ def management_settings(request):
     elif request.method == "POST":
         form = OrganizationSettingsForm(request.POST, instance=instance)
         if form.is_valid():
+            old_retention_years = instance.retention_years
+            new_retention_years = form.cleaned_data["retention_years"]
+            retention_decision = request.POST.get("retention_change_decision", "")
+            inherited_archived_count = Topic.objects.filter(
+                status="archived", retention_years__isnull=True
+            ).count()
+            if (
+                new_retention_years != old_retention_years
+                and inherited_archived_count
+                and retention_decision not in {"apply", "keep"}
+            ):
+                return render(request, "meetings/management_settings.html", {
+                    "form": form, "logo_form": logo_form,
+                    "organization_settings": instance,
+                    "show_retention_confirmation": True,
+                    "inherited_archived_count": inherited_archived_count,
+                })
+            if (
+                new_retention_years != old_retention_years
+                and inherited_archived_count
+                and retention_decision == "keep"
+            ):
+                Topic.objects.filter(
+                    status="archived", retention_years__isnull=True
+                ).update(retention_years=old_retention_years)
             before = {
                 field: getattr(instance, field)
                 for field in form.changed_data
