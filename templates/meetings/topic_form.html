@@ -81,17 +81,13 @@
          </select>
         </form>
        </div>
-       <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
+       <form id="topic-text-form-{{ item.pk }}" method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
         {% csrf_token %}
         <label for="working-text-{{ item.pk }}">Text für diese Besprechung</label>
         <textarea id="working-text-{{ item.pk }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
        </form>
        <div class="topic-meeting-actions topic-compact-actions">
-        <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
-         {% csrf_token %}
-         <input type="hidden" name="working_text" value="{{ item.working_text }}">
-         <button type="submit">Speichern</button>
-        </form>
+        <button type="submit" form="topic-text-form-{{ item.pk }}">Speichern</button>
         <a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Tagesordnung</a>
         <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll</a>
         <form method="post" action="{% url 'agenda_item_delete' item.meeting_id item.pk %}" data-confirm-message="„{{ topic.title }}“ nur aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen? Das Thema und andere Termine bleiben erhalten.">
