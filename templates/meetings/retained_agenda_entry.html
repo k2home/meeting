@@ -1,0 +1,20 @@
+{% extends "meetings/base.html" %}
+{% block content %}
+<section class="card">
+ <h1>{{ topic.title }}</h1>
+ <p class="muted">{{ entry.series_name|default:"Besprechung" }} · {{ entry.meeting_date|date:"DATE_FORMAT" }}</p>
+ <p class="muted">Der zugehörige Besprechungstermin wurde nach Ablauf seiner Aufbewahrungsfrist gelöscht.</p>
+ {% if protocol_view %}
+  <h2>Protokoll</h2>
+  <p>Der Protokoll-Snapshot wurde gemäß der globalen Aufbewahrungsfrist gelöscht. Der Tagesordnungstext bleibt unabhängig davon im Thema erhalten.</p>
+  <p><a href="{% url 'retained_agenda_entry' topic.pk entry.pk %}">Erhaltenen Tagesordnungspunkt anzeigen</a></p>
+ {% else %}
+  <h2>Tagesordnungspunkt</h2>
+  <p><strong>Status:</strong> {{ entry.get_status_display }}</p>
+  {% if entry.responsible_name %}<p><strong>Verantwortlich:</strong> {{ entry.responsible_name }}</p>{% endif %}
+  <div>{{ entry.working_text|default:"Kein Tagesordnungstext hinterlegt."|linebreaksbr }}</div>
+  <p><a href="{% url 'retained_agenda_entry' topic.pk entry.pk %}?view=protocol">Protokoll</a></p>
+ {% endif %}
+ <p><a href="{% url 'topic_edit' topic.pk %}">Zurück zum Thema</a></p>
+</section>
+{% endblock %}
