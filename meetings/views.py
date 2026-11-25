@@ -27,7 +27,7 @@ from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginFo
 from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess, RetainedAgendaEntry
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
-from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
+from .access import accessible_meetings, accessible_retained_agenda_entries, accessible_series, accessible_topics, auditor_readonly, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
 from .models import SeriesAccess, SeriesAccessRequest
 from .user_display import user_display_name
 
@@ -1079,7 +1079,7 @@ def agenda_topic_history(request, pk, topic_pk):
             "responsible": snapshot.responsible_name,
         }
     # Topic-owned agenda text survives deletion of its original meeting.
-    for entry in RetainedAgendaEntry.objects.filter(topic=item.topic).order_by("-meeting_date", "position", "pk"):
+    for entry in accessible_retained_agenda_entries(request.user).filter(topic=item.topic).order_by("-meeting_date", "position", "pk"):
         history[f"deleted-{entry.pk}"] = {
             "series": entry.series_name or "Besprechung",
             "date": entry.meeting_date,
