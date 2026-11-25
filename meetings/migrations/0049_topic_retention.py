@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             name="retention_years",
             field=models.PositiveSmallIntegerField(
                 default=10,
-                validators=[MinValueValidator(1), MaxValueValidator(100)],
+                validators=[MinValueValidator(1)],
                 verbose_name="Aufbewahrungsfrist für Themen und Protokolle (Jahre)",
                 help_text="Gilt als Standard für archivierte Themen und abgeschlossene Protokollstände. Eine abweichende Frist kann im jeweiligen Thema festgelegt werden.",
             ),
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
             name="retention_years",
             field=models.PositiveSmallIntegerField(
                 blank=True, null=True,
-                validators=[MinValueValidator(1), MaxValueValidator(100)],
+                validators=[MinValueValidator(1)],
                 verbose_name="Löschfrist (Jahre)",
             ),
         ),
