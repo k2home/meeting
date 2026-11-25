@@ -3,7 +3,7 @@ import subprocess
 from pathlib import Path
 
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import OrganizationSettings
@@ -11,6 +11,7 @@ from .models import OrganizationSettings
 User = get_user_model()
 
 
+@override_settings(SETUP_TOKEN_REQUIRED=False)
 class InitialSetupWizardTests(TestCase):
     def test_first_visit_redirects_login_to_setup_when_no_users_exist(self):
         response = self.client.get(reverse("login"))
@@ -32,10 +33,19 @@ class InitialSetupWizardTests(TestCase):
         self.assertTrue(user.groups.filter(name="Admin").exists())
         self.assertEqual(int(self.client.session["initial_setup_user_id"]), user.pk)
 
-    def test_first_administrator_form_does_not_require_activation_code(self):
-        response = self.client.get(reverse("setup_wizard"))
-        self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, "Einrichtungscode")
+    def test_setup_requires_valid_activation_token_by_default(self):
+        with override_settings(SETUP_TOKEN_REQUIRED=True, SETUP_TOKEN="test-activation-token"):
+            response = self.client.get(reverse("setup_wizard"))
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Aktivierungstoken")
+            response = self.client.post(reverse("setup_wizard"), {"setup_token": "wrong-token"})
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "ungültig")
+            self.assertFalse(User.objects.exists())
+            response = self.client.post(reverse("setup_wizard"), {"setup_token": "test-activation-token"})
+            self.assertRedirects(response, "/setup/?step=account")
+            response = self.client.get("/setup/?step=account")
+            self.assertContains(response, "Administratorkonto anlegen")
 
     def test_setup_account_creation_is_disabled_after_first_user_exists(self):
         User.objects.create_user(username="existing", password="StrongPassword123!")
