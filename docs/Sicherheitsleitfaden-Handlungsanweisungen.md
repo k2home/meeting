@@ -196,7 +196,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### 3.2 Serienberechtigungen verantwortungsvoll verwalten
 
 - Für jede Reihe eine fachlich verantwortliche Person benennen und die Mitgliederliste regelmäßig durch diese bestätigen lassen.
-- Nur die erforderliche Serienrolle vergeben: Leser\*in für Lesezugriff, Teilnehmer\*in für laufende Mitarbeit, Moderator\*in nur für tatsächliche Reihenverwaltung.
+- Nur die erforderliche Serienrolle vergeben: Leser\*in für Lesezugriff, Teilnehmer\*in für laufende Mitarbeit, Moderator\*in nur für tatsächliche Reihenverwaltung. Moderator\*innen verwalten die Rollen anderer Mitglieder über „Besprechungsreihen“ → „Reihe verwalten“ → „Benutzer verwalten“; die eigene Moderatorberechtigung kann nicht geändert oder entzogen werden.
 - Bei Änderungen der Organisation oder Aufgabenverteilung Serienzuweisungen sofort aktualisieren.
 - Beachten, dass globale Adminrechte allein keinen fachlichen Zugriff auf eine Reihe gewähren. Für die eigene Einsichtnahme ist eine explizite Serienzuweisung erforderlich.
 - Bei Supportfällen keine Serienzuweisung nur aus Bequemlichkeit vergeben. Stattdessen die betroffene Person bzw. die zuständige Moderator\*in um Prüfung bitten.
