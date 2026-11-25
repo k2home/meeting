@@ -261,6 +261,7 @@ class TopicAttachment(models.Model):
             and not getattr(self.uploaded_file, "_committed", True)
             and not getattr(self, "_attachment_content_validated", False)
         ):
+            validate_topic_attachment_size(self.uploaded_file)
             validate_topic_attachment_content(self.uploaded_file)
         return super().save(*args, **kwargs)
 
