@@ -12,6 +12,7 @@
 .topic-compact-actions .btn,.topic-compact-actions button{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;font-size:.82rem;padding:.35rem .6rem;min-height:2rem;line-height:1.2;vertical-align:middle}
 .topic-compact-actions .topic-remove-button{background:#dc2626!important;border-color:#dc2626!important;color:#fff!important}
 .topic-compact-actions .topic-remove-button:hover{background:#b91c1c!important;border-color:#b91c1c!important}
+.topic-archive-button{background:#dc2626!important;border-color:#dc2626!important;color:#fff!important}.topic-archive-button:hover{background:#b91c1c!important;border-color:#b91c1c!important}
 
 .topic-responsibility{display:flex;align-items:center;gap:.5rem;margin:.45rem 0 .7rem}
 .topic-responsibility form{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
@@ -120,7 +121,7 @@
    {% if can_archive_topic %}
    <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
     {% csrf_token %}
-    <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
+    <button type="submit" class="{% if topic.status == "archived" %}secondary{% else %}topic-archive-button{% endif %}">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
    </form>
    {% endif %}
     </div>
