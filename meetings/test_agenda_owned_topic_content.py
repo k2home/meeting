@@ -158,7 +158,8 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertLess(information, pdf_tile)
         self.assertLess(pdf_tile, attachments)
         self.assertContains(response, reverse("topic_protocol_pdf", args=[self.topic.pk]))
-        self.assertContains(response, "Themenprotokoll herunterladen (PDF)")
+        self.assertContains(response, "Themenprotokoll herunterladen")
+        self.assertContains(response, 'class="topic-pdf-icon"')
 
     def test_topic_protocol_pdf_download_returns_a_pdf_attachment(self):
         meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
