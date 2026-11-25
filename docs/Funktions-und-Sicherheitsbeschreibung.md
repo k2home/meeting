@@ -205,8 +205,9 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 1. Nur erforderliche Ports öffnen. PostgreSQL nicht veröffentlichen; Docker-App-Port 8000 nicht nach außen freigeben. SSH nur aus Admin-Netzen zulassen.
 2. Reverse-Proxy-Limits für Request-Größe, Verbindungszahl und Zeitüberschreitungen setzen; Upload-Grenzen mit der Anwendung abstimmen.
 3. CPU, RAM, Plattenplatz, PostgreSQL-Verbindungen, HTTP-Fehler und Dienstverfügbarkeit überwachen. Alarmgrenzen und Eskalationskontakte festlegen.
-4. Netzwerkpfade und externe Links als Verweise behandeln: Die Berechtigung am Zielsystem muss separat geprüft werden. Keine Passwörter oder Zugriffstoken in URLs hinterlegen.
-5. Notfallverfahren für Ausfall, Ransomware, kompromittiertes Konto und Datenpanne dokumentieren und regelmäßig durchspielen.
+4. Den strukturierten Audit-Logstream aus dem Anwendungsprozess an einen getrennt administrierten zentralen Logdienst weiterleiten. Schreibrechte für Anwendungs- und Host-Administratoren minimieren, Aufbewahrung und Zugriff dokumentieren und Alarmierung für ungewöhnliche Admin-/Rollenereignisse einrichten. Ohne externe Weiterleitung besteht kein manipulationsgeschützter Audit-Nachweis.
+5. Netzwerkpfade und externe Links als Verweise behandeln: Die Berechtigung am Zielsystem muss separat geprüft werden. Keine Passwörter oder Zugriffstoken in URLs hinterlegen.
+6. Notfallverfahren für Ausfall, Ransomware, kompromittiertes Konto und Datenpanne dokumentieren und regelmäßig durchspielen.
 
 **Nachweis:** Firewall-Regeln, Monitoring-Dashboard, Alarmtest und Incident-Response-Runbook.
 
