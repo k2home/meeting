@@ -263,6 +263,7 @@ def edit_topic_agenda_item(request, pk, item_pk):
             return redirect("topic_edit", pk=pk)
     old_text = item.working_text
     old_assignee = item.assigned_to_id
+    old_assignee_user = User.objects.filter(pk=old_assignee).first() if old_assignee else None
     changes = {}
     update_fields = []
     if "working_text" in request.POST:
@@ -275,7 +276,7 @@ def edit_topic_agenda_item(request, pk, item_pk):
         item.assigned_to = assignee
         update_fields.append("assigned_to")
         changes["Zuständigkeit"] = {
-            "vorher": user_display_name(item.assigned_to) if item.assigned_to else None,
+            "vorher": user_display_name(old_assignee_user) if old_assignee_user else None,
             "nachher": user_display_name(assignee) if assignee else None,
         }
     if update_fields:
