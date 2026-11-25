@@ -6,6 +6,9 @@
     <h1>Offene Tagesordnungspunkte</h1>
     <p class="muted">Hier findest du den jeweils letzten noch offenen Tagesordnungspunkt eines Themas, für den noch kein zukünftiger Besprechungstermin vorgesehen ist.</p>
   </div>
+  {% if selected_series_name %}
+    <p class="muted">Gefilterte Besprechungsreihe: <strong>{{ selected_series_name }}</strong> · <a href="{% url 'open_topics' %}">Filter zurücksetzen</a></p>
+  {% endif %}
 </header>
 {% for row in rows %}
   <section class="card">
