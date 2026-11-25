@@ -72,6 +72,7 @@ urlpatterns = [
     path("verwaltung/themen/csv-muster/", management_views.management_topic_csv_sample, name="management_topic_csv_sample"),
     path("admin/updates/", views.deployment_updates, name="deployment_updates"),
     path("admin/series/", views.series_admin, name="series_admin"),
+    path("admin/series/<int:pk>/users/", views.series_manage_user_access, name="series_manage_user_access"),
     path("admin/series/<int:pk>/edit/", views.series_edit, name="series_edit"),
     path("admin/series/<int:pk>/delete/", views.series_delete, name="series_delete"),
     path("admin/series/<int:pk>/delete-future/", views.series_delete_future, name="series_delete_future"),
