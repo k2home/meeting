@@ -71,6 +71,27 @@ class TestingFixtureViewTests(TestCase):
         ).exists())
 
 
+    @patch("meetings.management_views._testing_mode_enabled", return_value=True)
+    def test_reset_removes_fixture_series_meetings_topics_and_unused_users(self, _testing_mode):
+        url = reverse("testing_fixtures")
+        series = MeetingSeries.objects.create(
+            name="TEST-Besprechungsreihe reset",
+            start_date="2026-01-01", end_date="2026-12-31",
+        )
+        user = User.objects.create_user(username="test_fixture_reset")
+        SeriesAccess.objects.create(user=user, series=series)
+        topic = Topic.objects.create(title="TEST-Reset-Thema", series=series)
+        meeting = Meeting.objects.create(series=series, date="2026-11-20")
+        AgendaItem.objects.create(meeting=meeting, topic=topic)
+
+        response = self.client.post(url, {"action": "reset_fixtures"})
+
+        self.assertRedirects(response, url)
+        self.assertFalse(MeetingSeries.objects.filter(pk=series.pk).exists())
+        self.assertFalse(Meeting.objects.filter(pk=meeting.pk).exists())
+        self.assertFalse(Topic.objects.filter(pk=topic.pk).exists())
+        self.assertFalse(User.objects.filter(pk=user.pk).exists())
+
     @patch("meetings.management_views._testing_mode_enabled", return_value=False)
     def test_fixture_page_is_unavailable_outside_testing_mode(self, _testing_mode):
         response = self.client.get(reverse("testing_fixtures"))
