@@ -97,6 +97,8 @@
     <div><dt>Zuständigkeit</dt><dd>{% if topic.assigned_to %}{{ topic.assigned_to|user_display }}{% else %}—{% endif %}</dd></div>
     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
     <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
+    <div><dt>Löschfrist</dt><dd>{{ topic.retention_effective_years }} Jahre</dd></div>
+    {% if topic.deletion_date %}<div><dt>Löschung am</dt><dd>{{ topic.deletion_date|date:"DATE_FORMAT" }}</dd></div>{% endif %}
     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
     <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
    </dl>
@@ -112,6 +114,8 @@
       {% if topic.status == "archived" %}{{ topic.get_status_display }}
       {% else %}{{ status_form.status }}{{ status_form.status.errors }}{% endif %}
      </dd></div>
+     <div><dt><label for="{{ form.retention_years.id_for_label }}">Löschfrist (Jahre)</label></dt><dd>{{ form.retention_years }}{{ form.retention_years.errors }}<small class="muted">{{ form.retention_years.help_text }}</small></dd></div>
+     {% if topic.deletion_date %}<div><dt>Löschung am</dt><dd>{{ topic.deletion_date|date:"DATE_FORMAT" }}</dd></div>{% endif %}
      <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
      <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
     </dl>
