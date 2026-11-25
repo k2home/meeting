@@ -423,9 +423,9 @@ def validate_organization_logo(uploaded_file):
         uploaded_file.seek(0)
         data = uploaded_file.read(2 * 1024 * 1024 + 1)
         if suffix == "png":
-            valid = data.startswith(b"\\x89PNG\\r\\n\\x1a\\n")
+            valid = data.startswith(b"\x89PNG\r\n\x1a\n")
         elif suffix in {"jpg", "jpeg"}:
-            valid = data.startswith(b"\\xff\\xd8\\xff")
+            valid = data.startswith(b"\xff\xd8\xff")
         elif suffix == "svg":
             upper_data = data.upper()
             if b"<!DOCTYPE" not in upper_data and b"<!ENTITY" not in upper_data:
