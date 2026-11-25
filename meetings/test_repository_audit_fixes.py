@@ -118,6 +118,9 @@ class TopicArchiveWorkflowTests(TestCase):
             date=timezone.localdate() + timedelta(days=7),
         )
         AgendaItem.objects.create(meeting=meeting, topic=self.topic)
+        self.topic.status = "done"
+        self.topic.completed_at = timezone.localdate() - timedelta(days=190)
+        self.topic.save(update_fields=["status", "completed_at"])
         response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
         self.assertEqual(response.status_code, 302)
         self.topic.refresh_from_db()
@@ -133,6 +136,7 @@ class TopicArchiveWorkflowTests(TestCase):
         self.topic.refresh_from_db()
         self.assertEqual(self.topic.status, "done")
         self.assertEqual(self.topic.completed_at, timezone.localdate())
+
     def test_topic_must_be_done_before_archive(self):
         response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
         self.assertEqual(response.status_code, 302)
