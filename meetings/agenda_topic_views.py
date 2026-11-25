@@ -36,13 +36,26 @@ class TopicTitleForm(forms.ModelForm):
 
     class Meta:
         model = Topic
-        fields = ["title", "assigned_to"]
+        fields = ["title", "assigned_to", "retention_years"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["assigned_to"].queryset = get_user_model().objects.filter(
             is_active=True
         ).order_by("last_name", "first_name", "username")
+        self.fields["retention_years"].label = "Löschfrist (Jahre)"
+        self.fields["retention_years"].required = False
+        self.fields["retention_years"].help_text = "Leer bedeutet: zentrale Frist aus den Organisationseinstellungen verwenden."
+        if not self.is_bound and self.instance and self.instance.pk and self.instance.retention_years is None:
+            self.initial["retention_years"] = OrganizationSettings.objects.filter(pk=1).values_list("retention_years", flat=True).first() or 10
+
+
+    def clean_retention_years(self):
+        value = self.cleaned_data.get("retention_years")
+        default_years = OrganizationSettings.objects.filter(pk=1).values_list(
+            "retention_years", flat=True
+        ).first() or 10
+        return None if value == default_years else value
 
 
 class TopicStatusForm(forms.Form):
@@ -245,7 +258,7 @@ def topic_detail(request, pk):
     # ModelForm validation writes submitted values onto its instance before
     # is_valid() returns. Snapshot persisted values before constructing it.
     original_values = Topic.objects.filter(pk=topic.pk).values(
-        "title", "assigned_to_id", "status"
+        "title", "assigned_to_id", "status", "retention_years"
     ).get()
     form = TopicTitleForm(request.POST or None, instance=topic)
     updating_details = request.method == "POST" and "save_topic_details" in request.POST
@@ -279,6 +292,11 @@ def topic_detail(request, pk):
                         changes["Zuständigkeit"] = {
                             "vorher": user_display_name(old_assignee) if old_assignee else None,
                             "nachher": user_display_name(updated.assigned_to) if updated.assigned_to else None,
+                        }
+                    if "retention_years" in changed_fields:
+                        changes["Löschfrist (Jahre)"] = {
+                            "vorher": original_values["retention_years"] or effective_retention_years(topic),
+                            "nachher": updated.retention_years or effective_retention_years(topic),
                         }
                     if topic.status != "archived":
                         new_status = status_form.cleaned_data["status"]
@@ -382,6 +400,9 @@ def topic_detail(request, pk):
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
 
+    from .retention import effective_retention_years, topic_deletion_date
+    topic.retention_effective_years = effective_retention_years(topic)
+    topic.deletion_date = topic_deletion_date(topic)
     writable_series = accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
     return render(request, "meetings/topic_form.html", {
         "form": form,
