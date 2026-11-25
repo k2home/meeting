@@ -40,7 +40,7 @@
   </section>
   <section class="card">
     <h2>Aufbewahrung und Löschung</h2>
-    <p class="muted">Die Frist gilt für archivierte Themen und für gesicherte Protokollstände abgeschlossener Besprechungen. Bei laufenden Themen bleiben die Texte im Thema erhalten, auch wenn der jeweilige gesicherte Protokollstand gelöscht wird. Die Frist beginnt mit dem Folgejahr und endet am 31. Dezember des letzten Fristjahres.</p>
+    <p class="muted">Die globale Frist gilt einheitlich für abgeschlossene Besprechungstermine und deren Protokolle – unabhängig von den enthaltenen Themen. Die Tagesordnungstexte bleiben im jeweiligen Thema bis zum Ablauf der eigenen Themenfrist erhalten. Für archivierte Themen gilt die globale Frist als Standard; einzelne Themen können eine abweichende Frist erhalten. Die Frist beginnt mit dem Folgejahr und endet am 31. Dezember des letzten Fristjahres.</p>
     {% with field=form.retention_years %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
     {% if show_retention_confirmation %}
       <div class="messages" role="group" aria-labelledby="retention-confirm-title">
