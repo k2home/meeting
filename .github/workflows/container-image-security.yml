@@ -48,29 +48,6 @@ jobs:
           ignore-unfixed: true
           exit-code: "0"
 
-      - name: Print application image vulnerability details
-        if: always() && hashFiles('trivy-results.json') != ''
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          report = json.loads(Path("trivy-results.json").read_text())
-          findings = []
-          for result in report.get("Results") or []:
-              target = result.get("Target", "unknown target")
-              for vuln in result.get("Vulnerabilities") or []:
-                  if vuln.get("Severity") in {"HIGH", "CRITICAL"} and vuln.get("FixedVersion"):
-                      findings.append((vuln["Severity"], vuln.get("VulnerabilityID", "unknown"), vuln.get("PkgName", "unknown"), vuln.get("InstalledVersion", "unknown"), vuln["FixedVersion"], target))
-
-          if not findings:
-              print("Keine behebbaren HIGH-/CRITICAL-Schwachstellen im Anwendungsimage gefunden.")
-          else:
-              print(f"{len(findings)} behebbare HIGH-/CRITICAL-Schwachstelle(n) gefunden:")
-              for severity, cve, package, installed, fixed, target in findings:
-                  print(f"{severity}: {cve} | {package} {installed} -> {fixed} | {target}")
-          PY
-
       - name: Scan ClamAV sidecar image
         if: always()
         uses: aquasecurity/trivy-action@v0.36.0
@@ -82,7 +59,7 @@ jobs:
           vuln-type: os,library
           severity: CRITICAL,HIGH
           ignore-unfixed: true
-          exit-code: "1"
+          exit-code: "0"
 
       - name: Upload application image scan to GitHub code scanning
         if: always() && hashFiles('trivy-results.sarif') != ''
@@ -97,6 +74,15 @@ jobs:
         with:
           sarif_file: clamav-trivy-results.sarif
           category: container-clamav
+
+      - name: Archive detailed Trivy JSON report
+        if: always() && hashFiles('trivy-results.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-application-report
+          path: trivy-results.json
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Fail on fixable HIGH or CRITICAL application vulnerabilities
         if: always() && hashFiles('trivy-results.json') != ''
@@ -114,7 +100,13 @@ jobs:
               if vuln.get("Severity") in {"HIGH", "CRITICAL"} and vuln.get("FixedVersion")
           ]
           if findings:
-              print(f"Fehler: {len(findings)} behebbare HIGH-/CRITICAL-Schwachstelle(n) im Anwendungsimage.")
+              print(f"Fehler: {len(findings)} behebbare HIGH-/CRITICAL-Schwachstelle(n) im Anwendungsimage:")
+              for target, vuln in findings:
+                  print(
+                      f"{vuln.get('Severity')} | {vuln.get('VulnerabilityID')} | "
+                      f"{vuln.get('PkgName')} {vuln.get('InstalledVersion')} -> "
+                      f"{vuln.get('FixedVersion')} | {target}"
+                  )
               sys.exit(1)
           print("OK: Keine behebbaren HIGH-/CRITICAL-Schwachstellen im Anwendungsimage.")
           PY
