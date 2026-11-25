@@ -20,6 +20,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 - Am Proxy `X-Forwarded-Proto: https` setzen und vom Client angelieferte Forwarded-Header überschreiben. Nur dem bekannten Proxy vertrauen. Keine beliebigen Proxy-Adressen oder unkontrollierten Netze als vertrauenswürdig konfigurieren.
 - Den öffentlichen Hostnamen in `ALLOWED_HOSTS` und die korrekte HTTPS-Origin in `CSRF_TRUSTED_ORIGINS` verwenden. Keine Wildcards als bequeme Dauerlösung eintragen.
 - Nach Einrichtung HTTP-Weiterleitung, Login/Logout, Session- und CSRF-Cookies, Passwort-Reset, Datei-Upload/-Download und PDF-Ausgabe über den HTTPS-Zugang testen.
+- Die Anwendung setzt zusätzlich eine same-origin Content-Security-Policy. Da vorhandene Templates noch Inline-Skripte verwenden, ist `unsafe-inline` vorerst erforderlich; die Policy ist daher ein Basisschutz und keine vollständige XSS-Abwehr. Änderungen an Templates und externen Ressourcen nach jedem Update prüfen.
 - HSTS zunächst mit einer kurzen Laufzeit testen. `includeSubDomains` und Preload nur aktivieren, wenn sämtliche betroffenen Subdomains dauerhaft HTTPS unterstützen und die Voraussetzungen geprüft sind.
 
 **Freigabekriterium:** Kein Produktivzugriff, bevor Zertifikat, Proxy-Vertrauen, Portbindung und HTTPS-Tests dokumentiert erfolgreich geprüft wurden.
