@@ -49,6 +49,7 @@ RUN apt-get update \
         postgresql-client \
         python3.13 \
     && apt-get purge -y python3-setuptools-whl python3-pip-whl \
+    && rm -rf /usr/lib/python3.13/ensurepip /usr/lib/python3.13/site-packages/setuptools* /usr/lib/python3/dist-packages/setuptools* \
     && find /usr -iname '*setuptools*' -exec rm -rf {} + \
     && ! find /usr -iname '*setuptools*' -print -quit | grep -q . \
     && rm -rf /var/lib/apt/lists/*
