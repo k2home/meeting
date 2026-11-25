@@ -52,7 +52,14 @@ class TestingFixtureViewTests(TestCase):
             "action": "create_agenda_items", "topic_id": str(topic.pk), "agenda_count": "2",
         })
         self.assertRedirects(response, url)
-        self.assertGreaterEqual(AgendaItem.objects.filter(topic=topic).count(), 1)
+        created_items = list(AgendaItem.objects.filter(topic=topic).select_related("meeting").order_by("meeting__date"))
+        self.assertEqual(len(created_items), 2)
+        self.assertLess(created_items[0].meeting.date, created_items[1].meeting.date)
+        self.assertIsNone(created_items[0].followup_of)
+        self.assertEqual(created_items[1].followup_of, created_items[0])
+        self.assertTrue(all(item.working_text for item in created_items))
+        from django.utils import timezone
+        self.assertTrue(Meeting.objects.filter(series=series, date__lt=timezone.localdate()).exists())
 
         response = self.client.post(url, {"action": "create_users", "user_count": "2"})
         self.assertRedirects(response, url)
