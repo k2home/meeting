@@ -4,6 +4,7 @@ from io import StringIO
 from pathlib import Path
 
 from django.conf import settings
+from django import forms
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.core.management import call_command
@@ -21,6 +22,29 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 SETUP_LOCK_ID = 741029381
 SETUP_STEPS = (("account", "Administrator"), ("organization", "Organisation"), ("system", "Systemprüfung"), ("complete", "Abschluss"))
+
+class SetupOrganizationSettingsForm(OrganizationSettingsForm):
+    class Meta(OrganizationSettingsForm.Meta):
+        fields = (
+            "name", "short_name", "timezone", "start_password", "attachment_max_size_mb",
+            "primary_color", "secondary_color", "tertiary_color",
+        )
+        widgets = {
+            "primary_color": forms.TextInput(attrs={"type": "color"}),
+            "secondary_color": forms.TextInput(attrs={"type": "color"}),
+            "tertiary_color": forms.TextInput(attrs={"type": "color"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("initial", {})
+        kwargs["initial"] = {
+            **kwargs["initial"],
+            "primary_color": "#002D72",
+            "secondary_color": "#0072CE",
+            "tertiary_color": "#FFCD00",
+        }
+        super().__init__(*args, **kwargs)
+
 
 
 def _setup_checks():
@@ -76,7 +100,7 @@ def _setup_checks():
 
 def _save_organization(request):
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
-    form = OrganizationSettingsForm(request.POST, instance=instance)
+    form = SetupOrganizationSettingsForm(request.POST, instance=instance)
     form.fields["name"].required = True
     logo_form = OrganizationLogoForm(request.POST, request.FILES, instance=instance)
     if not form.is_valid() or not logo_form.is_valid():
@@ -181,7 +205,7 @@ def setup_wizard(request):
         return redirect("login" if not request.user.is_authenticated else "dashboard")
 
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
-    form = OrganizationSettingsForm(instance=instance)
+    form = SetupOrganizationSettingsForm(instance=instance)
     form.fields["name"].required = True
     logo_form = OrganizationLogoForm(instance=instance)
 
