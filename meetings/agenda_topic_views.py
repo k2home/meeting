@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import content_disposition_header
 from django.utils import formats, timezone
@@ -163,7 +163,10 @@ def topic_archive_toggle(request, pk):
     if request.method != "POST":
         return HttpResponseForbidden("Diese Aktion ist nur per POST möglich.")
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
+    is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
     if topic.series_id is None or not is_moderator(request.user, topic.series):
+        if is_ajax:
+            return JsonResponse({"success": False, "error": "Keine Berechtigung zum Archivieren dieses Themas."}, status=403)
         return HttpResponseForbidden("Nur Moderator*innen der Besprechungsreihe dürfen Themen archivieren oder wieder öffnen.")
     with transaction.atomic():
         topic = Topic.objects.select_for_update().get(pk=topic.pk)
@@ -182,16 +185,18 @@ def topic_archive_toggle(request, pk):
         else:
             can_archive, archive_reason = _topic_archive_state(topic)
             if not can_archive:
+                if is_ajax:
+                    return JsonResponse({"success": False, "error": archive_reason}, status=409)
                 messages.error(request, archive_reason)
                 return redirect("topic_edit", pk=topic.pk)
             has_future_agenda = topic.agenda_items.filter(
                 meeting__finalized_at__isnull=True,
             ).exists()
             if has_future_agenda:
-                messages.error(
-                    request,
-                    "Das Thema kann noch nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht. Entferne zuerst die geplanten Tagesordnungspunkte.",
-                )
+                error = "Das Thema kann noch nicht archiviert werden, solange es auf einer zukünftigen oder offenen Tagesordnung steht. Entferne zuerst die geplanten Tagesordnungspunkte."
+                if is_ajax:
+                    return JsonResponse({"success": False, "error": error}, status=409)
+                messages.error(request, error)
                 return redirect("topic_edit", pk=topic.pk)
             previous_status = topic.status
             attachments = list(TopicAttachment.objects.filter(topic=topic))
@@ -223,6 +228,8 @@ def topic_archive_toggle(request, pk):
                 },
             )
             messages.success(request, f"„{topic.title}“ wurde archiviert.")
+    if is_ajax:
+        return JsonResponse({"success": True, "message": f"„{topic.title}“ wurde archiviert."})
     return redirect("topic_edit", pk=topic.pk)
 
 
