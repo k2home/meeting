@@ -7,6 +7,10 @@
 .topic-meeting{padding:1rem 0;border-bottom:1px solid var(--border,#ddd)}
 .topic-meeting:last-child{border:0}.topic-meeting textarea{min-height:120px}
 .topic-meeting-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.topic-responsibility{display:flex;align-items:center;gap:.5rem;margin:.45rem 0 .7rem}
+.topic-responsibility form{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.topic-responsibility label{font-size:.8rem;color:var(--muted,#667085);white-space:nowrap}
+.topic-responsibility select{max-width:min(100%,22rem);padding:.35rem .55rem;font-size:.88rem}
 .topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 .topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
 @media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
@@ -63,15 +67,20 @@
        {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Noch kein Text hinterlegt.</p>{% endif %}
        <p><a href="{% url 'protocol' item.meeting_id %}">Besprechungsprotokoll öffnen</a></p>
      {% else %}
+       <div class="topic-responsibility">
+        <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
+         {% csrf_token %}
+         <label for="assigned-to-{{ item.pk }}">Zuständig</label>
+         <select id="assigned-to-{{ item.pk }}" name="assigned_to" aria-label="Zuständigkeit für diesen Tagesordnungspunkt" onchange="this.form.requestSubmit()">
+          <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Wie Hauptzuständigkeit{% if topic.assigned_to %}: {{ topic.assigned_to|user_display }}{% endif %}</option>
+          {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
+         </select>
+        </form>
+       </div>
        <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
         {% csrf_token %}
         <label for="working-text-{{ item.pk }}">Text für diese Besprechung</label>
         <textarea id="working-text-{{ item.pk }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
-        <label for="assigned-to-{{ item.pk }}">Verantwortlich für diesen Tagesordnungspunkt</label>
-        <select id="assigned-to-{{ item.pk }}" name="assigned_to">
-          <option value="">Nicht abweichend zugewiesen</option>
-          {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
-        </select>
         <div class="topic-meeting-actions">
           <button type="submit">Besprechungstext speichern</button>
         </div>
