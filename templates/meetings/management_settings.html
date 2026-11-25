@@ -15,11 +15,13 @@
     <h2>Logo</h2>
   </div>
   <div class="settings-logo-content">
-    {% if organization_settings.logo %}
-      <div class="settings-logo-preview">
+    <div class="settings-logo-preview">
+      {% if organization_settings.logo %}
         <img src="{% url "organization_logo" %}" alt="Aktuelles Organisationslogo">
-      </div>
-    {% endif %}
+      {% else %}
+        <span class="muted">Noch kein Logo hinterlegt.</span>
+      {% endif %}
+    </div>
     <form method="post" enctype="multipart/form-data" class="settings-logo-form">
       {% csrf_token %}
       {% with field=logo_form.logo %}
@@ -164,12 +166,12 @@
 .settings-logo-card{display:grid;grid-column:2;grid-row:1;grid-template-columns:minmax(0,1fr);width:100%;box-sizing:border-box;gap:.55rem;align-items:start;margin:0}
 .settings-logo-card h2,.settings-card h2{margin:0 0 .35rem;font-size:1.08rem;line-height:1.35}
 .settings-logo-card p,.settings-card-heading p{margin:.2rem 0 0;line-height:1.5}
-.settings-logo-content{display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem;align-items:start;min-width:0}
-.settings-logo-preview{display:flex;flex-direction:column;gap:.45rem;min-width:0}
-.settings-logo-preview img{display:block;max-width:180px;max-height:56px;object-fit:contain;object-position:left center}
+.settings-logo-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;align-items:center;min-width:0}
+.settings-logo-preview{display:flex;flex-direction:column;justify-content:center;gap:.45rem;min-width:0;min-height:5rem}
+.settings-logo-preview img{display:block;width:100%;max-width:100%;max-height:140px;object-fit:contain;object-position:left center}
 .settings-logo-form{min-width:0}
 .settings-logo-form .settings-field{margin:0}
-.settings-logo-form input[type="file"]{display:block;max-width:100%;margin-top:.25rem}
+.settings-logo-form input[type="file"]{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;margin-top:.25rem;font-size:.9rem}
 .settings-logo-form .actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.65rem}
 .organization-settings-form{display:contents}
 .organization-settings-form>section.settings-card:first-of-type{grid-column:1;grid-row:1}
