@@ -7,7 +7,7 @@
 <div class="upcoming-grid">
 {% for group in meeting_groups %}
   <div class="upcoming-series">
-    <h3>{{ group.series.name|default:'Gelöschte Besprechungsreihe' }} ({{ group.open_topic_count }} Offene Punkte)</h3>
+    <h3>{{ group.series.name|default:'Gelöschte Besprechungsreihe' }} (<a href="{% url 'open_topics' %}?series={{ group.series.pk }}" aria-label="{{ group.open_topic_count }} offene Punkte in der Reihe {{ group.series.name }}">{{ group.open_topic_count }}</a>)</h3>
     <div class="upcoming-dates">
       {% for m in group.meetings %}
         <span class="upcoming-date"><a href="{% url 'meeting' m.id %}">{{ m.date|date:"SHORT_DATE_WITH_WEEKDAY_FORMAT" }}</a></span>
