@@ -1,6 +1,6 @@
 # Sicherheitsleitfaden – Handlungsanweisungen zur Risikominimierung
 
-**Zielgruppen:** Hosting-/IT-Betrieb, Nutzer\*innen, globale Administrator*innen und Auditor\*innen  
+**Zielgruppen:** Hosting-/IT-Betrieb, Nutzer\*innen, globale Administrator\*innen und Auditor\*innen  
 **Geltungsbereich:** Meeting Manager gemäß der Funktions- und Sicherheitsbeschreibung in PR #498  
 **Zweck und Verbindlichkeit:** Dieses Dokument ist eine praktische Betriebs- und Nutzungsanweisung. Es legt fest, wie die vier Personengruppen den Meeting Manager einrichten, bedienen, verwalten und prüfen müssen, damit IT-Sicherheit und Datenschutz bestmöglich gewährleistet werden. Die Anweisungen sind vor der jeweiligen Handlung und anschließend fortlaufend einzuhalten. Wo eine Voraussetzung nicht erfüllt ist, darf der betreffende Vorgang bzw. die Produktivfreigabe nicht erfolgen; die zuständige Stelle ist einzuschalten.
 
@@ -26,7 +26,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 
 ### 1.2 Netzwerk und Serverzugänge begrenzen
 
-- Nur erforderliche Ports öffnen. Verwaltungszugänge wie SSH auf Administrator*in-Netze bzw. definierte Administrationssysteme beschränken.
+- Nur erforderliche Ports öffnen. Verwaltungszugänge wie SSH auf Administrator\*in-Netze bzw. definierte Administrationssysteme beschränken.
 - Datenbank und interne App-Kommunikation ausschließlich im internen Netz bzw. Docker-Netz erreichbar machen. PostgreSQL nicht mit einem öffentlichen Host-Port versehen.
 - Firewall-Regeln so gestalten, dass der Webdienst nur über den vorgesehenen Reverse Proxy erreichbar ist.
 - Betriebssystem, Docker Engine, Docker Compose, PostgreSQL, Nginx und Python-Laufzeit zeitnah mit Sicherheitsupdates versorgen.
@@ -60,8 +60,8 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 - Aufbewahrungsfristen, Sicherungsintervalle, Verantwortliche sowie Wiederherstellungsziele (RPO/RTO) schriftlich festlegen.
 - Vor Updates und Datenbankmigrationen einen überprüften Sicherungsstand erstellen.
 - Wiederherstellung regelmäßig in einer isolierten Testumgebung durchführen. Dabei Datenbank, Medien, Logos und die Funktionsfähigkeit der Anwendung prüfen.
-- Vollbackup- und Restore-Funktionen nur globalen Administrator*in-Konten zugänglich machen. Vollbackups wie besonders schützenswerte Daten behandeln; sie können Konten, Inhalte und Anlagen umfassen.
-- Benutzer-CSV-Import/-Export und Vollbackup/Restore sind globale Administrator*in-Funktionen. Themen-CSV-Import/-Export steht Moderator\*innen nur für ihre ausdrücklich moderierten Reihen zur Verfügung; globale Adminrechte allein gewähren dafür keinen zusätzlichen Zugriff.
+- Vollbackup- und Restore-Funktionen nur globalen Administrator\*in-Konten zugänglich machen. Vollbackups wie besonders schützenswerte Daten behandeln; sie können Konten, Inhalte und Anlagen umfassen.
+- Benutzer-CSV-Import/-Export und Vollbackup/Restore sind globale Administrator\*in-Funktionen. Themen-CSV-Import/-Export steht Moderator\*innen nur für ihre ausdrücklich moderierten Reihen zur Verfügung; globale Adminrechte allein gewähren dafür keinen zusätzlichen Zugriff.
 - Exportdateien verschlüsselt und zugriffsbeschränkt ablegen, nur an benannte Empfänger\*innen übermitteln und nicht mehr benötigte lokale Kopien sicher löschen.
 
 ### 1.6 Updates, Protokollierung und Notfallvorsorge
@@ -101,7 +101,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 
 - Das persönliche Konto ausschließlich selbst verwenden. Zugangsdaten nicht weitergeben und nicht in gemeinsam genutzten Dokumenten speichern.
 - Ein individuelles, nicht anderweitig verwendetes Passwort nutzen und die Passwortregeln der Anwendung einhalten. Ein Passwortmanager wird empfohlen.
-- Bei Verdacht auf Kenntnisnahme des Passworts unverzüglich den vorgesehenen Passwort-Reset durchführen und die Administrator*innen informieren.
+- Bei Verdacht auf Kenntnisnahme des Passworts unverzüglich den vorgesehenen Passwort-Reset durchführen und die Administrator\*innen informieren.
 - An gemeinsam genutzten Arbeitsplätzen nach der Arbeit abmelden und den Bildschirm sperren. Die Anwendungssitzung kann bis zu acht Stunden bestehen.
 - Verdächtige Login-Benachrichtigungen, unerwartete Änderungen oder nicht selbst ausgelöste Aktionen unverzüglich melden.
 
@@ -111,7 +111,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 - Vor dem Teilen von Inhalten prüfen, ob die Empfänger\*innen tatsächlich Mitglied der betreffenden Reihe sind und die passende Serienrolle besitzen.
 - Keine Protokolle, CSV-Dateien, Screenshots oder Anlagen außerhalb des vorgesehenen Empfänger\*innenkreises weitergeben.
 - Netzwerkpfade und externe Links sind nur Verweise. Die Zugriffsberechtigung auf dem Zielsystem muss separat bestehen und darf nicht aus der Meeting-Manager-Berechtigung abgeleitet werden.
-- Bei fehlendem oder unerwartetem Zugriff nicht versuchen, Berechtigungen durch erratene URLs oder fremde Konten zu umgehen, sondern Moderator\*in oder Administrator*in kontaktieren.
+- Bei fehlendem oder unerwartetem Zugriff nicht versuchen, Berechtigungen durch erratene URLs oder fremde Konten zu umgehen, sondern Moderator\*in oder Administrator\*in kontaktieren.
 
 ### 2.4 Anlagen sicher verwenden
 
@@ -127,7 +127,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 - Beachten, dass beim Abschluss ein Protokoll-Snapshot entsteht. Spätere Änderungen am Thema ändern diesen historischen Protokollstand nicht.
 - Änderungsdetails können zunächst eingeklappt sein. Nicht davon ausgehen, dass ein nicht sofort sichtbares Detail nicht gespeichert wurde.
 - Der Audit-Verlauf ist rollenabhängig eingeschränkt. Nutzer\*innen erhalten dadurch nicht automatisch Einsicht in alle Änderungen oder in Systemereignisse.
-- Fehlerhafte oder versehentlich eingetragene Informationen zeitnah an Moderator\*in oder Administrator*in melden; historische Protokoll- und Audit-Daten können gesonderten Regeln unterliegen.
+- Fehlerhafte oder versehentlich eingetragene Informationen zeitnah an Moderator\*in oder Administrator\*in melden; historische Protokoll- und Audit-Daten können gesonderten Regeln unterliegen.
 
 ### Verbindlicher Ablauf für Konten- und Rechteverwaltung
 
@@ -135,12 +135,12 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 2. **Identität und Bedarf prüfen:** Vergewissern Sie sich, dass das Konto zur richtigen Person gehört und der beantragte Umfang erforderlich ist. Erteilen Sie keine globale Adminrolle, wenn eine Serienrolle genügt.
 3. **Berechtigung setzen:** Vergeben Sie globale Rollen und Serienrollen getrennt. Globale Adminrechte gewähren nicht automatisch Einsicht in fachliche Reihen. Für fachliche Mitarbeit ist die ausdrückliche Serienzuweisung erforderlich.
 4. **Änderung kontrollieren:** Prüfen Sie nach dem Speichern die resultierende Rolle und Serienzuordnung. Dokumentieren Sie Antrag, Entscheidung, Umfang und Zeitpunkt außerhalb des vertraulichen Inhaltsbereichs nach dem organisationsinternen Verfahren.
-5. **Regelmäßig rezertifizieren:** Lassen Sie mindestens quartalsweise bestätigen, dass globale Administrator*in-Konten und Serienmitgliedschaften weiterhin benötigt werden. Entziehen Sie nicht mehr erforderliche Rechte unverzüglich.
+5. **Regelmäßig rezertifizieren:** Lassen Sie mindestens quartalsweise bestätigen, dass globale Administrator\*in-Konten und Serienmitgliedschaften weiterhin benötigt werden. Entziehen Sie nicht mehr erforderliche Rechte unverzüglich.
 6. **Austritt oder Sicherheitsverdacht:** Deaktivieren Sie das betroffene Konto bzw. entziehen Sie die betroffenen Rechte unverzüglich nach dem internen Prozess. Bei kompromittierten Zugangsdaten veranlassen Sie zusätzlich Passwortzurücksetzung und Vorfallprüfung.
 
 ### Verbindlicher Ablauf für CSV-Importe und -Exporte
 
-1. Führen Sie Benutzer-CSV-Funktionen nur mit dem globalen Administrator*in-Konto und für einen konkreten administrativen Vorgang aus.
+1. Führen Sie Benutzer-CSV-Funktionen nur mit dem globalen Administrator\*in-Konto und für einen konkreten administrativen Vorgang aus.
 2. Prüfen Sie vor dem Import Dateiherkunft, UTF-8-Kodierung, Pflichtfelder, betroffene Konten und Serienzuordnungen. Kontrollieren Sie die Vorschau vollständig.
 3. Brechen Sie den Import ab, wenn unerwartete Konten, Rollen oder Serienzuordnungen angezeigt werden. Klären Sie die Ursache vor einem erneuten Versuch.
 4. Sichern Sie Exporte nur in freigegebenen, zugriffsbeschränkten Speicherorten. Übermitteln Sie sie ausschließlich an benannte berechtigte Empfänger\*innen und löschen Sie Arbeitskopien nach Ablauf des festgelegten Zwecks.
@@ -156,19 +156,19 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 
 ### Verbindlicher Ablauf bei Audit-Einsicht
 
-Öffnen Sie Audit-Daten nur bei einem konkreten administrativen oder prüfenden Anlass. Berücksichtigen Sie die rollenabhängige Sichtbarkeit: Systemereignisse sind für Administrator*innen sichtbar; Serienereignisse nur für Reihen, in denen die betreffende Person ausdrücklich Moderator\*in ist. Öffnen Sie eingeklappte Details nur soweit erforderlich. Behandeln Sie Protokoll-Snapshots beim Wiederöffnen abgeschlossener Besprechungen und Audit-CSV-Dateien als vertrauliche Inhalte.
+Öffnen Sie Audit-Daten nur bei einem konkreten administrativen oder prüfenden Anlass. Berücksichtigen Sie die rollenabhängige Sichtbarkeit: Systemereignisse sind für Administrator\*innen sichtbar; Serienereignisse nur für Reihen, in denen die betreffende Person ausdrücklich Moderator\*in ist. Öffnen Sie eingeklappte Details nur soweit erforderlich. Behandeln Sie Protokoll-Snapshots beim Wiederöffnen abgeschlossener Besprechungen und Audit-CSV-Dateien als vertrauliche Inhalte.
 
-## 3. Globale Administrator*innen – verbindlicher Verwaltungsablauf
+## 3. Globale Administrator\*innen – verbindlicher Verwaltungsablauf
 
 Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte sind weitreichend und sollen nur für administrative Aufgaben genutzt werden. Sie verleihen nicht automatisch Zugriff auf fachliche Inhalte jeder Besprechungsreihe; dafür ist eine eigene Serienzuweisung erforderlich.
 
-### 3.1 Administrator*in-Konten und Rechtevergabe
+### 3.1 Administrator\*in-Konten und Rechtevergabe
 
-- Nur namentlich benannten Personen globale Adminrechte erteilen. Anzahl der Administrator*in-Konten so klein wie betrieblich möglich halten.
-- Für fachliche Mitarbeit ein separates persönliches Konto verwenden, statt dauerhaft mit dem Administrator*in-Konto zu arbeiten.
+- Nur namentlich benannten Personen globale Adminrechte erteilen. Anzahl der Administrator\*in-Konten so klein wie betrieblich möglich halten.
+- Für fachliche Mitarbeit ein separates persönliches Konto verwenden, statt dauerhaft mit dem Administrator\*in-Konto zu arbeiten.
 - Adminrechte bei Aufgabenwechsel oder Austritt unverzüglich entziehen und das Konto deaktivieren, falls es nicht mehr benötigt wird.
 - Vor jeder Rechtevergabe Zweck, Umfang und Dauer prüfen. Serienrollen unabhängig von der globalen Rolle vergeben.
-- Mindestens quartalsweise globale Administrator*in-Konten und Serienzuweisungen prüfen und das Ergebnis dokumentieren.
+- Mindestens quartalsweise globale Administrator\*in-Konten und Serienzuweisungen prüfen und das Ergebnis dokumentieren.
 - Auditor\*innen-Konten nicht mit Adminrechten kombinieren. Die Auditor\*innen-Rolle ist für einen lesenden, fachlich eingeschränkten Prüfzugriff vorgesehen.
 
 ### 3.2 Serienberechtigungen verantwortungsvoll verwalten
@@ -192,7 +192,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 
 ### 3.4 Vollbackup und Restore schützen
 
-- Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Administrator*innen erstellen.
+- Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Administrator\*innen erstellen.
 - Backups als vollständige Datenkopien mit möglicherweise vertraulichen Inhalten und personenbezogenen Daten behandeln.
 - Sicherungsdateien verschlüsselt und mit minimalem Empfänger\*innenkreis speichern bzw. übertragen. Keine Backups an private E-Mail-Adressen oder unfreigegebene Cloud-Dienste senden.
 - Vor einem Restore Anlass, Zielsystem, Datenstand und Auswirkungen prüfen. Restore nur in einem kontrollierten Wartungsfenster durchführen.
@@ -203,7 +203,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### 3.5 Audit, Systemverwaltung und Datenschutz
 
 - Systemereignisse nur für legitime administrative oder prüfende Zwecke einsehen. Die Einsichtnahme nicht zur anlasslosen Verhaltens- oder Leistungskontrolle verwenden.
-- Beachten, dass Administrator*innen Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderator\*innenrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
+- Beachten, dass Administrator\*innen Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderator\*innenrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
 - Passwörter und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Bei Passwortänderungen wird nur der Änderungsstatus protokolliert; Dateinamen können als Metadaten erscheinen.
 - Beim Wiederöffnen einer abgeschlossenen Besprechung bleibt der vorherige gesicherte Protokollstand als Audit-Detail erhalten. Diesen Snapshot als vertraulichen fachlichen Inhalt behandeln.
 - Audit-Details sind in der Oberfläche zunächst eingeklappt. Das ist eine Darstellungsform und keine zusätzliche Zugriffsschranke.
@@ -213,7 +213,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### Verbindlicher Ablauf eines Audit-Prüfvorgangs
 
 1. **Prüfauftrag prüfen:** Beginnen Sie nur mit einem autorisierten Prüfauftrag. Halten Sie Prüfziel, Zeitraum, Umfang und zuständige auftraggebende Stelle fest.
-2. **Zugriff begrenzen:** Verwenden Sie Ihr persönliches Auditor\*innen-Konto. Nutzen Sie keine Administrator*in- oder fremden Konten. Der Auditor\*innen-Zugriff ist auf Systemereignisse und lesbare administrative Stammdaten beschränkt; er eröffnet keinen Zugriff auf Besprechungsinhalte.
+2. **Zugriff begrenzen:** Verwenden Sie Ihr persönliches Auditor\*innen-Konto. Nutzen Sie keine Administrator\*in- oder fremden Konten. Der Auditor\*innen-Zugriff ist auf Systemereignisse und lesbare administrative Stammdaten beschränkt; er eröffnet keinen Zugriff auf Besprechungsinhalte.
 3. **Gezielt filtern:** Begrenzen Sie Zeitraum und Ereignisauswahl auf das Prüfziel. Öffnen Sie eingeklappte Änderungsdetails nur, wenn sie für die Prüfung erforderlich sind.
 4. **Inhalte richtig einordnen:** Passwortwerte und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Passwortänderungen erscheinen als Statusereignis; Dateinamen können Metadaten sein. Beim Wiederöffnen einer abgeschlossenen Besprechung kann ein vorheriger Protokoll-Snapshot als Detail erscheinen. Behandeln Sie diesen wie vertrauliche Besprechungsdaten und greifen Sie nur bei geklärter Berechtigung darauf zu.
 5. **Ergebnisse sichern:** Exportieren Sie Audit-CSV nur, wenn sie für den Prüfauftrag erforderlich ist. Speichern Sie Exporte verschlüsselt bzw. zugriffsbeschränkt, geben Sie sie nur an den autorisierten Empfänger\*innenkreis und löschen Sie Arbeitskopien nach Abschluss gemäß Aufbewahrungsregel.
@@ -230,9 +230,9 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor\*in. Audi
 
 - Den Audit-Zugriff ausschließlich für festgelegte Prüfaufträge und nachvollziehbare Kontrollzwecke verwenden.
 - Beachten, dass Auditor\*innen ausschließlich Systemereignisse einsehen und exportieren können. Besprechungsreihen, Tagesordnungspunkte, Kommentare und Anlagen gehören nicht zum Auditor\*innen-Zugriff.
-- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Administrator*innen erfolgen.
+- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Administrator\*innen erfolgen.
 - Keine fachlichen Serienberechtigungen anfordern, um den eingeschränkten Prüfzugriff zu umgehen. Wenn eine fachliche Prüfung erforderlich ist, muss sie gesondert legitimiert und über einen geeigneten Prozess organisiert werden.
-- Die Auditor\*innen-Rolle nicht mit globalen Adminrechten kombinieren. Administrator*in- und Superuser-Rechte sind keine Auditor\*innen-Rechte und erweitern den Zugriff erheblich.
+- Die Auditor\*innen-Rolle nicht mit globalen Adminrechten kombinieren. Administrator\*in- und Superuser-Rechte sind keine Auditor\*innen-Rechte und erweitern den Zugriff erheblich.
 
 ### 4.2 System-Audit sorgfältig auswerten
 
@@ -265,9 +265,9 @@ Die folgenden Intervalle bilden den Mindeststandard für den Betrieb. Die verant
 
 | Intervall | Verantwortlich | Prüfpunkte |
 |---|---|---|
-| Bei jeder Installation / vor Produktivfreigabe | IT/Hosting | HTTPS, Proxy-Vertrauen, Firewall, Secrets, Medienpfad, initiales Administrator*in-Konto |
-| Bei Eintritt, Rollenwechsel und Austritt | Administrator*innen + Fachverantwortliche | Kontoaktivität, globale Rolle, Serienzuweisungen |
-| Mindestens quartalsweise | Fachverantwortliche + Administrator*innen | Mitglieder und Serienrollen, Administrator*in-Konten, unnötige Berechtigungen |
+| Bei jeder Installation / vor Produktivfreigabe | IT/Hosting | HTTPS, Proxy-Vertrauen, Firewall, Secrets, Medienpfad, initiales Administrator\*in-Konto |
+| Bei Eintritt, Rollenwechsel und Austritt | Administrator\*innen + Fachverantwortliche | Kontoaktivität, globale Rolle, Serienzuweisungen |
+| Mindestens quartalsweise | Fachverantwortliche + Administrator\*innen | Mitglieder und Serienrollen, Administrator\*in-Konten, unnötige Berechtigungen |
 | Monatlich und bei Sicherheitsmeldungen | IT/Hosting | Betriebssystem-/Image-/Abhängigkeitsupdates, Sicherheitswarnungen, Speicherplatz |
 | Nach jedem Update | IT/Hosting + Testverantwortliche | Login, Rollen, Upload/Download, CSV, Protokolle, Backup/Restore |
 | Mindestens quartalsweise | IT/Hosting | Wiederherstellungstest für Datenbank und Medien |
