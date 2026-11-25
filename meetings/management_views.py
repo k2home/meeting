@@ -1046,6 +1046,10 @@ def testing_fixtures(request):
                     topic = get_object_or_404(topics_qs, pk=request.POST.get("topic_id"))
                     if not topic.series_id:
                         raise ValidationError("Das ausgewählte Thema ist keiner Besprechungsserie zugeordnet.")
+                    SeriesAccess.objects.update_or_create(
+                        series=topic.series, user=request.user,
+                        defaults={"role": SeriesAccess.ROLE_MODERATOR},
+                    )
                     meetings = list(Meeting.objects.filter(series=topic.series, finalized_at__isnull=True).order_by("date"))
                     if not meetings:
                         raise ValidationError("Für diese Serie gibt es noch keine offenen Termine. Bitte zuerst Termine generieren.")
