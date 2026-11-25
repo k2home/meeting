@@ -51,7 +51,7 @@ Das Modell kombiniert eine globale Rolle und unabhängige Berechtigungen je Besp
 |---|---|
 | **Nutzer\*innen** | Standardrolle. Fachlicher Zugriff ausschließlich auf ausdrücklich zugewiesene Besprechungsreihen und gemäß der dortigen Serienrolle. |
 | **Admin** | Globale Verwaltungsrechte für Benutzerkonten, globale Rollen, Serienzuweisungen und Organisationseinstellungen sowie administrative Funktionen. Kein automatischer Zugriff auf fachliche Reiheninhalte. Fachliche Aktionen und Reiheninhalte setzen eine passende Serienzuweisung voraus. |
-| **Auditor\*in** | Lesender Zugriff auf administrative Prüfdaten: System-Änderungsverlauf, Benutzerkonten und Rollen-/Serienzuordnungen sowie Organisationseinstellungen. Kein Zugriff auf Besprechungsreihen oder fachliche Besprechungsinhalte und keine Änderungsrechte. |
+| **Auditor\*in** | Lesender Zugriff auf administrative Prüfdaten: System-Änderungsverlauf, Benutzerkonten und Rollen-/Serienzuordnungen sowie Organisationseinstellungen einschließlich Aufbewahrungsfrist und Markenfarben. Das Startpasswort ist ausgeschlossen. Kein Zugriff auf Besprechungsreihen oder fachliche Besprechungsinhalte und keine Änderungsrechte. |
 
 Django-Superuser werden als globale Administrator\*innen behandelt. Die Admin-Gruppe wird mit dem Django-Staff-Status synchronisiert. Die Auditor\*innen-Rolle ist gegenüber Administrator\*in nachrangig: Ein Konto mit Administrator\*in- oder Superuser-Rechten wird nicht als Auditor\*in behandelt.
 
