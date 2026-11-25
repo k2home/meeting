@@ -40,6 +40,17 @@ class TestingFixtureViewTests(TestCase):
         generated_users = User.objects.filter(username__startswith="test_fixture_")
         self.assertEqual(generated_users.count(), 2)
         self.assertTrue(all(not user.has_usable_password() for user in generated_users))
+        from .models import UserProfile
+        profiles = list(UserProfile.objects.filter(user__in=generated_users).select_related("user"))
+        self.assertEqual(len(profiles), 2)
+        short_labels = [profile.short_description for profile in profiles]
+        self.assertEqual(len(set(label.split("/")[0] for label in short_labels)), 2)
+        for profile in profiles:
+            self.assertRegex(profile.short_description, r"^\\d{2}/\\d{2}$")
+            self.assertRegex(profile.user.email, r"^[a-zäöü]+\\.[a-zäöü]+@beliebig\\.de$")
+            self.assertTrue(profile.user.first_name)
+            self.assertTrue(profile.user.last_name)
+            self.assertEqual(profile.user.email, f"{profile.user.first_name}.{profile.user.last_name}".lower() + "@beliebig.de")
 
         self.client.get(url)
         response = self.client.post(url, {
