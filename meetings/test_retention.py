@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, timedelta
+from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
@@ -29,6 +30,22 @@ class RetentionCleanupTests(TestCase):
         self.user = get_user_model().objects.create_user(
             username="retention-test", password="test-password"
         )
+
+    @patch("meetings.management.commands.purge_expired_data.timezone.localdate")
+    def test_archived_topic_is_kept_on_expiry_date_and_deleted_the_next_day(self, localdate):
+        expiry = date(2021, 12, 31)
+        topic = Topic.objects.create(
+            title="Grenzfall Aufbewahrung", series=self.series, status="archived",
+            archived_at=date(2020, 8, 23), retention_years=1,
+        )
+
+        localdate.return_value = expiry
+        call_command("purge_expired_data")
+        self.assertTrue(Topic.objects.filter(pk=topic.pk).exists())
+
+        localdate.return_value = expiry + timedelta(days=1)
+        call_command("purge_expired_data")
+        self.assertFalse(Topic.objects.filter(pk=topic.pk).exists())
 
     def test_protocol_deletion_date_uses_global_not_topic_retention(self):
         topic = Topic.objects.create(
