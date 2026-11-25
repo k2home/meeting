@@ -9,6 +9,7 @@
   <a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a>
 </div>
 
+<div class="organization-settings-layout">
 <section class="card settings-logo-card">
   <div class="settings-logo-intro">
     <h2>Logo</h2>
@@ -156,9 +157,11 @@
 
   <div class="actions settings-form-actions"><button class="primary" type="submit">Einstellungen speichern</button></div>
 </form>
+</div>
 
 <style>
-.settings-logo-card{display:grid;grid-template-columns:minmax(0,1fr);width:calc(50% - .5rem);box-sizing:border-box;gap:.55rem;align-items:start;margin-bottom:1rem}
+.organization-settings-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:stretch}
+.settings-logo-card{display:grid;grid-column:2;grid-row:1;grid-template-columns:minmax(0,1fr);width:100%;box-sizing:border-box;gap:.55rem;align-items:start;margin:0}
 .settings-logo-card h2,.settings-card h2{margin:0 0 .35rem;font-size:1.08rem;line-height:1.35}
 .settings-logo-card p,.settings-card-heading p{margin:.2rem 0 0;line-height:1.5}
 .settings-logo-content{display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem;align-items:start;min-width:0}
@@ -168,7 +171,8 @@
 .settings-logo-form .settings-field{margin:0}
 .settings-logo-form input[type="file"]{display:block;max-width:100%;margin-top:.25rem}
 .settings-logo-form .actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.65rem}
-.organization-settings-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:stretch}
+.organization-settings-form{display:contents}
+.organization-settings-form>section.settings-card:first-of-type{grid-column:1;grid-row:1}
 .organization-settings-form>.settings-card{min-width:0;margin:0;padding:1.15rem}
 .settings-card-heading{margin-bottom:.85rem}
 .settings-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
@@ -178,7 +182,8 @@
 .settings-field small{line-height:1.4}
 .settings-field .errorlist,.brand-color-field .errorlist{margin:.1rem 0}
 .settings-card-wide,.settings-form-errors,.settings-form-actions{grid-column:1/-1}
-.settings-retention-field{max-width:360px}\n.settings-retention-field input[type="number"]{width:100%;min-height:2.6rem;padding:.45rem .6rem;font-variant-numeric:tabular-nums}
+.settings-retention-field{max-width:360px}
+.settings-retention-field input[type="number"]{width:100%;min-height:2.6rem;padding:.45rem .6rem;font-variant-numeric:tabular-nums}
 .settings-retention-confirmation{margin-top:1rem}
 .settings-retention-confirmation p{margin:.5rem 0}
 .settings-retention-confirmation .actions{display:flex;flex-wrap:wrap;gap:.6rem}
@@ -195,7 +200,7 @@
 .optional-theme-colors summary:focus-visible{outline:3px solid #d9e9f7;outline-offset:4px;border-radius:2px}
 .optional-theme-colors .brand-color-grid{margin-left:.25rem}
 @media(max-width:900px){.brand-color-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:700px){.organization-settings-form{grid-template-columns:minmax(0,1fr)}.settings-card-wide,.settings-form-errors,.settings-form-actions{grid-column:1}.settings-logo-card{width:100%;grid-template-columns:minmax(0,1fr)}.settings-logo-content{grid-template-columns:minmax(0,1fr)}.settings-fields{grid-template-columns:minmax(0,1fr)}.brand-color-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){.organization-settings-layout{grid-template-columns:minmax(0,1fr)}.organization-settings-form>section.settings-card:first-of-type{grid-column:1;grid-row:auto}.settings-card-wide,.settings-form-errors,.settings-form-actions{grid-column:1}.settings-logo-card{grid-column:1;grid-row:auto;width:100%;grid-template-columns:minmax(0,1fr)}.settings-logo-content{grid-template-columns:minmax(0,1fr)}.settings-fields{grid-template-columns:minmax(0,1fr)}.brand-color-grid{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.optional-theme-colors{scroll-behavior:auto}}
 </style>
 
