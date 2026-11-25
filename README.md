@@ -477,7 +477,7 @@ Für eine ausgewählte Testserie können bis zu 100 Themen angelegt werden. Die 
 
 #### 5. Tagesordnungspunkte und Wiedervorlagen erzeugen
 
-Für ein ausgewähltes Testthema können bis zu 100 Tagesordnungspunkte auf noch nicht abgeschlossenen Terminen derselben Serie angelegt werden. Die Punkte erhalten zufällig ausgewählte Statuswerte, bei Bedarf eine Testzuständigkeit und einen themenbezogenen Beispieltext. Die Punkte werden chronologisch auf aufeinanderfolgenden verfügbaren Terminen angelegt und über eine Wiedervorlage-Kette miteinander verknüpft. Weitere Erzeugungsläufe setzen eine vorhandene Kette am letzten Punkt fort. Reichen die verfügbaren Termine nicht aus, müssen zunächst weitere Termine generiert oder eine kleinere Anzahl gewählt werden.
+Für ein ausgewähltes Testthema können bis zu 100 Tagesordnungspunkte auf noch nicht abgeschlossenen Terminen derselben Serie angelegt werden. Die Punkte erhalten zufällig ausgewählte Statuswerte, bei Bedarf eine Testzuständigkeit und einen zufällig ausgewählten themenbezogenen Beispieltext aus einem Pool von 100 Texten. Jeder Beispieltext umfasst zwei bis 20 Sätze. Die Punkte werden chronologisch auf aufeinanderfolgenden verfügbaren Terminen angelegt und über eine Wiedervorlage-Kette miteinander verknüpft. Weitere Erzeugungsläufe setzen eine vorhandene Kette am letzten Punkt fort. Reichen die verfügbaren Termine nicht aus, müssen zunächst weitere Termine generiert oder eine kleinere Anzahl gewählt werden.
 
 #### 6. Erzeugte Testdaten zurücksetzen
 
