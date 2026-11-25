@@ -6,6 +6,7 @@ from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import formats, timezone
+from django.utils.text import slugify
 
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
 from .audit import record_event
@@ -461,7 +462,7 @@ def topic_protocol_pdf(request, pk):
 
     document.build(story, canvasmaker=NumberedCanvas)
     pdf_content = buffer.getvalue()
-    filename = "".join(ch if ch.isalnum() or ch in " _-" else "_" for ch in topic.title).strip(" ._") or "Thema"
+    filename = slugify(topic.title)[:80] or "thema"
     response = HttpResponse(pdf_content, content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="Themenprotokoll_{filename[:100]}.pdf"'
+    response["Content-Disposition"] = f'attachment; filename="Themenprotokoll_{filename}.pdf"'
     return response
