@@ -20,7 +20,8 @@ WORKDIR /app
 
 COPY requirements.txt requirements-constraints.txt ./
 RUN python -m pip install --upgrade pip 'setuptools>=78.1.1' \
-    && pip install -r requirements.txt -c requirements-constraints.txt
+    && pip install -r requirements.txt -c requirements-constraints.txt \
+    && python -c 'import importlib.metadata as metadata, pathlib, shutil; version = metadata.version("setuptools"); assert tuple(int(part) for part in version.split(".")[:2]) >= (78, 1), version; roots = (pathlib.Path("/usr/local/lib/python3.13/site-packages"), pathlib.Path("/usr/lib/python3/dist-packages"), pathlib.Path("/usr/lib/python3.13/site-packages")); [shutil.rmtree(path) for root in roots if root.exists() for path in root.glob("setuptools-*.dist-info") if path.name != f"setuptools-{version}.dist-info"]'
 
 RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2\" height=\"2\"><rect width=\"2\" height=\"2\" fill=\"#00549f\"/></svg>"); assert png.startswith(b"\x89PNG\r\n\x1a\n")'
 
