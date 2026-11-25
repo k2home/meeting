@@ -14,6 +14,7 @@
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
   <a class="btn meeting-menu-button" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
+  <a class="pdf-drag-link" href="{% url 'protocol_pdf' meeting.id %}" draggable="true" data-drag-filename="Protokoll_{{ meeting.id }}_{{ meeting.date|date:'Y-m-d' }}.pdf" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="Besprechungsprotokoll als PDF in einen Ordner ziehen" title="PDF-Symbol in einen Ordner ziehen, um das Protokoll dort abzulegen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span></a>
   <a class="meeting-menu-link protocol-back-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">
@@ -58,5 +59,6 @@
 {% endfor %}
 
 <style>
+.pdf-drag-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:grab}.pdf-drag-link:active{cursor:grabbing}.topic-pdf-icon{display:inline-flex;align-items:center;justify-content:center;width:2.35rem;height:2.65rem;border:1px solid #d92d20;border-radius:5px;color:#b42318;background:#fff;font-size:.7rem;font-weight:800;letter-spacing:.02em;flex:0 0 auto}
 </style>
 {% endblock %}
