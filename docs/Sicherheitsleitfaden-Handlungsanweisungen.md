@@ -44,7 +44,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 
 ### 1.4 Datei-Uploads und Downloads schützen
 
-Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sind **PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG**. Andere Dateiendungen werden abgewiesen. Zusätzlich prüft die Anwendung grundlegende Signaturen und bei Office-Dateien die ZIP-Paketstruktur samt erforderlichem Hauptbestandteil. In den mitgelieferten Debian- und Docker-Installationen werden Uploads vor Speicherung durch ClamAV geprüft.
+Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sind **PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG**. Andere Dateiendungen werden abgewiesen. Zusätzlich prüft die Anwendung grundlegende Signaturen und bei Office-Dateien die ZIP-Paketstruktur samt erforderlichem Hauptbestandteil. Auch Organisationslogos (PNG, JPEG, SVG) werden mit ClamAV geprüft und sind auf 2 MB begrenzt. In den mitgelieferten Debian- und Docker-Installationen werden Uploads vor Speicherung durch ClamAV geprüft.
 
 - Die Allowlist nur nach fachlicher Prüfung und kontrollierter Änderung erweitern. Nicht benötigte ausführbare Dateien, Skripte und Archive nicht zulassen.
 - Beachten, dass die Anwendung grundlegende Dateisignaturen und Office-Paketbestandteile prüft und in den vorgesehenen Debian-/Docker-Installationen ClamAV verwendet. Der Upload wird abgewiesen, wenn ClamAV Malware meldet oder nicht erreichbar ist. Dies ist keine vollständige Formatvalidierung und kein Schutz vor jeder unbekannten oder gezielt verschleierten Schadsoftware.
