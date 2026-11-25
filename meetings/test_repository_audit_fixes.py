@@ -138,6 +138,8 @@ class TopicArchiveWorkflowTests(TestCase):
         self.assertEqual(self.topic.completed_at, timezone.localdate())
 
     def test_topic_must_be_done_before_archive(self):
+        page = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertContains(page, "Das Thema kann erst archiviert werden")
         response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
         self.assertEqual(response.status_code, 302)
         self.topic.refresh_from_db()
