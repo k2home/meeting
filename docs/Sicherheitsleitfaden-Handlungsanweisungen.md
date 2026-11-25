@@ -1,7 +1,8 @@
 # Sicherheitsleitfaden – Handlungsanweisungen zur Risikominimierung
 
 **Zielgruppen:** Hosting-/IT-Betrieb, Nutzer\*innen, globale Administrator\*innen und Auditor\*innen  
-**Geltungsbereich:** Meeting Manager gemäß der Funktions- und Sicherheitsbeschreibung in PR #498  
+**Prüfstand:** Branch `main`, Anwendungscode bis Commit `ed6fdd73e5fbe78569ff2112d88294fb6fe229d2` (Merge von PR #511); Abgleich mit der aktuellen Funktions- und Sicherheitsbeschreibung auf `main`  
+**Geltungsbereich:** Meeting Manager gemäß der Funktions- und Sicherheitsbeschreibung auf dem Branch `main`  
 **Zweck und Verbindlichkeit:** Dieses Dokument ist eine praktische Betriebs- und Nutzungsanweisung. Es legt fest, wie die vier Personengruppen den Meeting Manager einrichten, bedienen, verwalten und prüfen müssen, damit IT-Sicherheit und Datenschutz bestmöglich gewährleistet werden. Die Anweisungen sind vor der jeweiligen Handlung und anschließend fortlaufend einzuhalten. Wo eine Voraussetzung nicht erfüllt ist, darf der betreffende Vorgang bzw. die Produktivfreigabe nicht erfolgen; die zuständige Stelle ist einzuschalten.
 
 Die Anweisungen unterscheiden zwischen technisch durch die Anwendung erzwungenen Schutzmaßnahmen und organisatorischen bzw. betrieblichen Pflichten. Eine Empfehlung ersetzt keine fehlende technische Funktion: Insbesondere sind Dateiendungsprüfung und Malware-Prüfung nicht gleichzusetzen, und ein Anwendungs-Audit ersetzt keine Infrastrukturüberwachung. Organisationsspezifische Zuständigkeiten und Meldewege müssen vor Produktivbetrieb namentlich festgelegt werden.
@@ -68,11 +69,31 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 ### 1.6 Updates, Protokollierung und Notfallvorsorge
 
 - Produktionsupdates nur aus freigegebenen Branches bzw. Releases übernehmen. Version und Commit des laufenden Systems dokumentieren.
-- Python-Abhängigkeiten werden in Pull Requests sowie bei Pushes auf `main` und `beta` durch `pip-audit` auf bekannte Schwachstellen geprüft. Das gebaute Anwendungsimage und das ClamAV-Sidecar-Image werden bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf kritische/hohe OS- und Bibliotheks-Schwachstellen geprüft. Behebbare kritische und hohe Befunde lassen den Scan-Job fehlschlagen und werden als SARIF an GitHub Code Scanning übermittelt. Nicht behebbare Befunde werden zunächst ignoriert und müssen regelmäßig neu bewertet werden. Dependabot-/Security-Updates aktivieren sowie Basisimages und Betriebssystempakete zeitnah aktualisieren. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, verantwortlicher Person und Frist dokumentieren.
+- Python-Abhängigkeiten werden bei Pull Requests sowie Pushes auf `main` und `beta` durch `pip-audit --local --strict` geprüft. CodeQL analysiert Python-Code bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich. Das Anwendungsimage und das ClamAV-Image werden bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf OS- und Bibliotheks-Schwachstellen geprüft. Beim Anwendungsimage erstellen die Trivy-Schritte JSON-/SARIF-Berichte mit `exit-code: 0`; ein nachgelagerter Prüfschritt lässt den Job jedoch fehlschlagen, wenn behebbare HIGH-/CRITICAL-Befunde mit vorhandener `FixedVersion` gefunden werden. Beim ClamAV-Image kann der Scan mit `exit-code: 1` bei HIGH-/CRITICAL-Befunden fehlschlagen. `ignore-unfixed: true` schließt nicht behebbare Befunde von diesen automatischen Fehlerentscheidungen aus. Der Anwendungsbericht wird sieben Tage als Artifact aufbewahrt; SARIF-Berichte werden, sofern vorhanden, an GitHub Code Scanning übermittelt. Nicht behebbare Befunde müssen vor der Freigabe anhand der Berichte bewertet und mit Begründung, kompensierenden Maßnahmen, verantwortlicher Person und Frist dokumentiert werden. CI-Scans ersetzen weder die Prüfung des konkreten Release-Artefakts noch die Laufzeitüberwachung. Basisimages, Betriebssystempakete und Python-Abhängigkeiten zeitnah aktualisieren; Sicherheitsmeldungen und Scanberichte regelmäßig prüfen.
 - Updates zunächst in einer Testumgebung prüfen. Nach Updates Login, Berechtigungen, Upload/Download, CSV-Funktionen, Protokollabschluss und Wiederherstellung testen.
 - Systemlogs auf ungewöhnliche Login-Fehler, Änderungen globaler Rollen, fehlgeschlagene Downloads, unerwartete Dienstneustarts und Speicherengpässe überwachen.
 - Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
 - Verfahren für kompromittierte Konten, Datenpannen, Ransomware, Systemausfall und Wiederherstellung festlegen. Zuständigkeiten und Eskalationskontakte aktuell halten.
+
+### 1.7 Offline-Betrieb und kontrollierte Updates
+
+Die aktuelle Repository-Version stellt **keinen vollständigen automatisierten Offline-Updateimport** bereit. Die vorhandenen Updatewege benötigen externe Quellen:
+
+- Der Debian-Updater bezieht Quellcode über Git und installiert System- sowie Python-Abhängigkeiten über APT- und Python-Paketquellen.
+- Der Docker-Updater fragt verfügbare Branches über GitHub ab und bezieht Anwendungsimages aus GHCR. Der Docker-Installer lädt Images initial aus Docker Hub.
+- Diese Wege sind in einer vollständig vom Internet getrennten Produktivumgebung nicht verwendbar. Ein vorhandener Web-Updater ist kein Offline-Updateverfahren.
+
+**Vor Produktivfreigabe einer Offline-Instanz muss der Betreiber einen getrennten, nachvollziehbaren Transferprozess einrichten und testen:**
+
+1. Artefakte in einer getrennten, internetfähigen Bereitstellungsumgebung ausschließlich aus festgelegten Quellen beziehen. Dazu gehören je nach Installationsart Quellcode/Release, Container-Images oder Debian-Pakete samt Abhängigkeiten, Python-Wheels sowie benötigte Malware-Definitionsdateien.
+2. Version, Quell-Commit, Herkunft, Bezugszeitpunkt und verantwortliche Person dokumentieren. Für Releases ein signiertes Manifest und kryptografische Prüfsummen erstellen; Signaturschlüssel getrennt und geschützt aufbewahren.
+3. Artefakte vor dem Transfer auf Schwachstellen und Schadsoftware prüfen. Scanberichte und Freigabeentscheidung dem konkreten Release zuordnen. Das aktuelle CI-Gate blockiert behebbare HIGH-/CRITICAL-Befunde im Anwendungsimage sowie HIGH-/CRITICAL-Befunde im ClamAV-Image; nicht behebbare Befunde werden durch `ignore-unfixed: true` nicht blockiert und benötigen eine dokumentierte Risikobewertung.
+4. Transfermedien kontrollieren, gegen unbefugte Veränderung schützen und den Transport protokollieren. Auf dem Offline-Ziel Signatur und Prüfsummen mit unabhängig bereitgestellten Vertrauensankern erneut prüfen, bevor Artefakte importiert oder installiert werden.
+5. Für Debian ein lokales, reproduzierbares APT-Repository und Python-Wheelhouse bereitstellen; für Docker geprüfte Image-Archive importieren. Quellcode, Pakete, Images und Datenbankmigrationen versionsmäßig konsistent halten.
+6. Update zunächst in einer isolierten Testinstanz einspielen. Datenbank und Medien vorher gemeinsam sichern; anschließend Anmeldung, Rollen, Upload/Download, CSV-Funktionen, Protokolle und Restore prüfen. Erst nach dokumentierter Freigabe produktiv aktualisieren.
+7. Release-Manifest, Prüfsummen- und Signaturprüfprotokolle, Scanberichte, Freigabe, Transferkette und Update-/Rollback-Ergebnis revisionsfähig dokumentieren.
+
+**Freigabekriterium:** Solange kein getesteter Offline-Importprozess existiert, darf nicht behauptet werden, dass Updates in der Offline-Produktivinstanz automatisiert oder ohne Internetzugang eingespielt werden können. Ein manueller Transfer darf nur nach dokumentierter Integritätsprüfung und formeller Freigabe erfolgen.
 
 ### Verbindlicher Ablauf vor, während und nach jeder Nutzung
 
