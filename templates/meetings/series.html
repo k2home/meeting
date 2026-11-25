@@ -166,7 +166,7 @@
                 {% csrf_token %}
                 <button class="danger" type="submit">Zukünftige Termine löschen</button>
               </form>
-              <form method="post" action="{% url 'series_delete' s.pk %}" data-confirm-message="Die Besprechungsreihe „{{ s.name }}“ wirklich vollständig löschen? Alle zugehörigen Themen werden ins Archiv verschoben. Bestehende Termine und Protokolle bleiben dort erhalten.">
+              <form method="post" action="{% url 'series_delete' s.pk %}" data-confirm-message="Die Besprechungsreihe „{{ s.name }}“ wirklich vollständig löschen? Alle zugehörigen Themen werden ins Archiv verschoben. Bestehende Termine bleiben dort erhalten; Protokoll-Snapshots werden nach Ablauf ihrer Aufbewahrungsfrist gelöscht.">
                 {% csrf_token %}
                 <button class="danger" type="submit">Reihe vollständig löschen</button>
               </form>
