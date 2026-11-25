@@ -6,7 +6,7 @@ from django.utils import timezone
 
 from meetings.models import (
     AgendaItem, AuditEvent, Meeting, RetainedAgendaEntry, Topic,
-    TopicAttachment, TopicSnapshot,
+    TopicAttachment, TopicSnapshot, SeriesAccess,
 )
 from meetings.retention import (
     effective_retention_years, retention_expiry_date, topic_deletion_date,
@@ -119,11 +119,21 @@ class Command(BaseCommand):
                 for topic_id in topic_ids:
                     self._redact_protocol_audit(locked_meeting.pk, topic_id)
 
+                access_user_ids = set(
+                    locked_meeting.archived_access.values_list("user_id", flat=True)
+                )
+                if locked_meeting.series_id:
+                    access_user_ids.update(
+                        SeriesAccess.objects.filter(series_id=locked_meeting.series_id)
+                        .values_list("user_id", flat=True)
+                    )
+
                 for item in agenda_items:
-                    RetainedAgendaEntry.objects.update_or_create(
+                    retained_entry, _created = RetainedAgendaEntry.objects.update_or_create(
                         topic_id=item.topic_id,
                         original_meeting_id=locked_meeting.pk,
                         defaults={
+                            "original_series_id": locked_meeting.series_id,
                             "meeting_date": locked_meeting.date,
                             "series_name": series_name,
                             "working_text": item.working_text,
@@ -138,6 +148,7 @@ class Command(BaseCommand):
                             "position": item.position,
                         },
                     )
+                    retained_entry.access_users.set(access_user_ids)
 
                 deleted_snapshots += TopicSnapshot.objects.filter(meeting=locked_meeting).count()
                 # AuditEvent.meeting uses SET_NULL: non-protocol audit metadata
