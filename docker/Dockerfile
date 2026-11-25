@@ -23,6 +23,8 @@ RUN apt-get update \
     && find /usr/share/python-wheels -type f -name 'setuptools-*.whl' -delete \
     && apt-get purge -y python3-setuptools-whl python3-pip-whl \
     && ! dpkg-query -W -f='${Status}' python3-setuptools-whl python3-pip-whl 2>/dev/null | grep -q 'install ok installed' \
+    && find /usr -iname '*setuptools*' -exec rm -rf {} + \
+    && ! find /usr -iname '*setuptools*' -print -quit | grep -q . \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/opt/venv/bin:$PATH"
