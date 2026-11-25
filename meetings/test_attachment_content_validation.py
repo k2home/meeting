@@ -132,7 +132,9 @@ class AttachmentContentValidationTests(TestCase):
         self.assertIn("image: clamav/clamav:stable", compose)
         self.assertIn('CLAMD_ENABLED: "1"', compose)
         self.assertIn("CLAMD_HOST: clamav", compose)
+        self.assertIn("CLAMD_CONF_StreamMaxLength: 32M", compose)
         self.assertIn("clamav-daemon clamav-freshclam", installer)
+        self.assertIn("StreamMaxLength 32M", installer)
         self.assertIn('set_env_value "CLAMD_ENABLED" "1"', installer)
         self.assertIn("TCPAddr 127.0.0.1", installer)
 
