@@ -1,9 +1,17 @@
+import json
+import logging
+
+from django.db import transaction
+
 from .models import AuditEvent
 
 
+security_audit_logger = logging.getLogger("meetings.security_audit")
+
+
 def record_event(*, actor, action, summary, topic=None, meeting=None, series=None, changes=None):
-    """Write one append-only audit entry. Never store passwords or uploaded file contents."""
-    return AuditEvent.objects.create(
+    """Persist an audit entry and emit a metadata-only event for external log forwarding."""
+    event = AuditEvent.objects.create(
         actor=actor if getattr(actor, "is_authenticated", False) else None,
         action=action,
         summary=summary[:500],
@@ -12,6 +20,27 @@ def record_event(*, actor, action, summary, topic=None, meeting=None, series=Non
         series=(series or (meeting.series if meeting is not None and meeting.series_id else (topic.series if topic is not None else None))),
         changes=changes or {},
     )
+    # Do not duplicate free text, before/after values, filenames or file contents
+    # into infrastructure logs. The event ID links the external record to the DB row.
+    payload = {
+        "event": "meeting_manager.audit",
+        "audit_id": event.pk,
+        "timestamp": event.created_at.isoformat(),
+        "scope": event.scope,
+        "actor_id": event.actor_id,
+        "action": event.action,
+        "series_id": event.series_id,
+        "meeting_id": event.meeting_id,
+        "topic_id": event.topic_id,
+    }
+    # Emit only after the database transaction commits, so rolled-back actions
+    # do not appear as completed events in the external audit stream.
+    transaction.on_commit(
+        lambda: security_audit_logger.info(
+            json.dumps(payload, separators=(",", ":"), ensure_ascii=True)
+        )
+    )
+    return event
 
 
 def changed_fields(before, after, fields):

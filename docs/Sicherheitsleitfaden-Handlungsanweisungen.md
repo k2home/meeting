@@ -70,7 +70,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 - Abhängigkeiten und Container-Images regelmäßig auf bekannte Sicherheitslücken prüfen. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, verantwortlicher Person und Frist dokumentieren.
 - Updates zunächst in einer Testumgebung prüfen. Nach Updates Login, Berechtigungen, Upload/Download, CSV-Funktionen, Protokollabschluss und Wiederherstellung testen.
 - Systemlogs auf ungewöhnliche Login-Fehler, Änderungen globaler Rollen, fehlgeschlagene Downloads, unerwartete Dienstneustarts und Speicherengpässe überwachen.
-- Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
+- Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Die Anwendung gibt nach erfolgreichem Datenbank-Commit zusätzlich metadatenarme JSON-Audit-Ereignisse an stdout/stderr aus (Event-ID, Zeit, Bereich, Akteur-ID, Aktion und Objekt-IDs; keine Freitexte oder Änderungswerte). Diese Ausgabe an einen getrennt administrierten zentralen Logdienst weiterleiten. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern. Ohne externe Weiterleitung ist die Datenbank-Auditspur nicht manipulationsgeschützt.
 - Verfahren für kompromittierte Konten, Datenpannen, Ransomware, Systemausfall und Wiederherstellung festlegen. Zuständigkeiten und Eskalationskontakte aktuell halten.
 
 ### Verbindlicher Ablauf vor, während und nach jeder Nutzung
