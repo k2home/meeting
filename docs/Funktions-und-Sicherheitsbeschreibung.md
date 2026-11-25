@@ -53,7 +53,7 @@ Das Modell kombiniert eine globale Rolle und unabhängige Berechtigungen je Besp
 | **Admin** | Globale Verwaltungsrechte für Benutzerkonten, globale Rollen, Serienzuweisungen und Organisationseinstellungen sowie administrative Funktionen. Kein automatischer Zugriff auf fachliche Reiheninhalte. Fachliche Aktionen und Reiheninhalte setzen eine passende Serienzuweisung voraus. |
 | **Auditor*in** | Lesender Zugriff auf administrative Prüfdaten: System-Änderungsverlauf, Benutzerkonten und Rollen-/Serienzuordnungen sowie Organisationseinstellungen. Kein Zugriff auf Besprechungsreihen oder fachliche Besprechungsinhalte und keine Änderungsrechte. |
 
-Django-Superuser werden als globale Admins behandelt. Die Admin-Gruppe wird mit dem Django-Staff-Status synchronisiert. Die Auditor*innen-Rolle ist gegenüber Admin nachrangig: Ein Konto mit Admin- oder Superuser-Rechten wird nicht als Auditor behandelt.
+Django-Superuser werden als globale Admins behandelt. Die Admin-Gruppe wird mit dem Django-Staff-Status synchronisiert. Die Auditor*innen-Rolle ist gegenüber Admin nachrangig: Ein Konto mit Admin- oder Superuser-Rechten wird nicht als Auditor*in behandelt.
 
 ### 3.2 Serienrollen
 
