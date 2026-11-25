@@ -108,8 +108,8 @@
    <h2>PDF-Protokoll</h2>
    <p class="muted">Alle Besprechungstexte und der Verlauf dieses Themas als PDF zusammengefasst.</p>
    <div class="topic-pdf-link">
-    <a class="topic-pdf-drag" href="{% url 'topic_protocol_pdf' topic.pk %}" draggable="true" data-drag-filename="{{ topic_protocol_filename }}" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="PDF-Symbol in einen Ordner ziehen" title="PDF-Symbol in einen Ordner auf dem PC ziehen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span></a>
     <a class="btn secondary" href="{% url 'topic_protocol_pdf' topic.pk %}" download aria-label="Themenprotokoll herunterladen">PDF herunterladen</a>
+    <a class="topic-pdf-drag" href="{% url 'topic_protocol_pdf' topic.pk %}" draggable="true" data-drag-filename="{{ topic_protocol_filename }}" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="PDF-Symbol in einen Ordner ziehen" title="PDF-Symbol in einen Ordner auf dem PC ziehen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span></a>
    </div>
   </section>
   <section class="card" id="topic-attachments"><h2>Dateien und Anlagen</h2>
