@@ -73,7 +73,7 @@ Der Änderungsverlauf ist in zwei Bereiche getrennt:
 
 - Serienereignisse sind ausschließlich für Moderator\*innen der jeweiligen Reihe sichtbar. Administrator\*innen sehen Serienereignisse ebenfalls nur für Reihen, in denen sie selbst ausdrücklich Moderator\*innenrechte besitzen.
 - Systemereignisse sind für globale Administrator\*innen und Auditor\*innen sichtbar. Auditor\*innen haben ausschließlich lesenden Zugriff auf Systemereignisse und keinen Zugriff auf Serienereignisse oder fachliche Reiheninhalte.
-- Die CSV-Exportansichten wenden dieselbe Bereichstrennung an: Admins/Auditor\*innen exportieren Systemereignisse; Moderator\*innen exportieren Ereignisse ihrer eigenen moderierten Reihen.
+- Die CSV-Exportansichten wenden dieselbe Bereichstrennung an: Administrator\*innen/Auditor\*innen exportieren Systemereignisse; Moderator\*innen exportieren Ereignisse ihrer eigenen moderierten Reihen.
 
 Das Modell ist damit auf das Need-to-know-Prinzip ausgerichtet. Kritisch bleibt die konsequente Prüfung jedes neuen Endpunkts, Exports und administrativen Sonderwegs gegen diese Regeln.
 
