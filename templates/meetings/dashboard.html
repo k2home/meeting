@@ -61,7 +61,8 @@
     <label for="dashboard-topic-primary-assignee">Hauptzuständigkeit für das Thema</label>
     <select id="dashboard-topic-primary-assignee" name="assigned_to">
       <option value="">Keine Hauptzuständigkeit</option>
-      {% for assignee in new_topic_assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}
+      <option value="{{ request.user.pk }}">{{ own_assignee_label }}</option>
+      {% for assignee in assignee_options %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}
     </select>
     <label for="dashboard-topic-series">Besprechungsreihe</label>
     <select id="dashboard-topic-series" name="series" required>
