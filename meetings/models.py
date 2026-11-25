@@ -234,17 +234,26 @@ class TopicAttachment(models.Model):
         validators=[
             validate_topic_attachment_size,
             FileExtensionValidator(["pdf", "docx", "xlsx", "pptx", "txt", "png", "jpg", "jpeg"]),
-            validate_topic_attachment_content,
         ],
         help_text="Zulässig: PDF, DOCX, XLSX, PPTX, TXT, PNG und JPEG.",
     )
     network_path = models.CharField("Netzwerkpfad / Link", max_length=1000, blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        # Model.save() does not run field validators. Protect programmatic upload
-        # paths as well as ModelForms and the Django admin.
+    def clean(self):
+        super().clean()
         if self.uploaded_file and not getattr(self.uploaded_file, "_committed", True):
+            validate_topic_attachment_content(self.uploaded_file)
+            self._attachment_content_validated = True
+
+    def save(self, *args, **kwargs):
+        # Model.save() does not run model validation. Protect programmatic upload
+        # paths as well as ModelForms and the Django admin without scanning twice.
+        if (
+            self.uploaded_file
+            and not getattr(self.uploaded_file, "_committed", True)
+            and not getattr(self, "_attachment_content_validated", False)
+        ):
             validate_topic_attachment_content(self.uploaded_file)
         return super().save(*args, **kwargs)
 
