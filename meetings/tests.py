@@ -2203,6 +2203,24 @@ class OrganizationLogoDeliveryTests(TestCase):
                 self.assertIn("Organisationslogo", response.content.decode("utf-8"))
                 self.assertNotEqual(response.status_code, 500)
 
+    def test_protocol_page_offers_draggable_pdf_icon_next_to_download_button(self):
+        from datetime import date
+        from .models import Meeting, MeetingSeries
+
+        series = MeetingSeries.objects.create(name="Testreihe")
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
+        meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
+        self.client.force_login(self.admin)
+
+        response = self.client.get(reverse("protocol", args=[meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'href="' + reverse("protocol_pdf", args=[meeting.pk]) + '"')
+        self.assertContains(response, 'draggable="true"')
+        self.assertContains(response, 'class="topic-pdf-icon"')
+        self.assertContains(response, "DownloadURL")
+        self.assertContains(response, "application/pdf:")
+
     def test_protocol_pdf_without_configured_logo_still_downloads(self):
         from datetime import date
         from .models import Meeting, MeetingSeries
