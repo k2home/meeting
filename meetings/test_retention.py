@@ -96,6 +96,25 @@ class RetentionCleanupTests(TestCase):
             {"Begründung": "Test"},
         )
 
+    def test_meeting_retention_uses_global_period_not_topic_override(self):
+        OrganizationSettings.objects.filter(pk=1).update(retention_years=10)
+        topic = Topic.objects.create(
+            title="Kurze Themenfrist", series=self.series, status="in_progress",
+            retention_years=1,
+        )
+        meeting = Meeting.objects.create(
+            series=self.series, date=date(2020, 8, 23), finalized_at=timezone.now()
+        )
+        item = AgendaItem.objects.create(
+            meeting=meeting, topic=topic, working_text="Bleibt bis zur globalen Frist"
+        )
+
+        call_command("purge_expired_data")
+
+        self.assertTrue(Meeting.objects.filter(pk=meeting.pk).exists())
+        self.assertTrue(AgendaItem.objects.filter(pk=item.pk).exists())
+        self.assertFalse(RetainedAgendaEntry.objects.filter(topic=topic).exists())
+
     def test_reopened_protocol_copy_in_audit_history_also_expires(self):
         topic = Topic.objects.create(
             title="Laufendes Thema", series=self.series, status="in_progress"
