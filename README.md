@@ -447,37 +447,39 @@ Bei aktivem Modus wird der Seitentitel mit `TEST ·` gekennzeichnet. Die Kennzei
 
 Der Pfad `/django-admin/` wird nur bei aktiviertem TESTING-Modus registriert und ist außerhalb dieses Modus nicht erreichbar. Dort steht die Django-Administration mit den im Projekt eingerichteten Verwaltungsfunktionen zur Verfügung. Der Zugriff bleibt an die Django-Administrationsberechtigungen gebunden.
 
-### 4. Verwaltung zufälliger Beispieldaten
+### 4. Vereinfachte Passwortprüfung bei manueller Nutzeranlage
+
+Wenn der TESTING-Modus aktiv ist, überspringt das Formular zur manuellen Neuanlage eines Benutzerkontos die regulären Passwort-Komplexitätsprüfungen. Die beiden Passwortfelder müssen weiterhin übereinstimmen, sofern ein Passwort eingegeben wird. Diese Erleichterung ist ausschließlich für Testinstallationen gedacht und reduziert bewusst die Passwortsicherheit. Außerhalb des TESTING-Modus gelten die normalen Django-Passwortprüfungen.
+
+### 5. Beispielkonfiguration in der Verwaltung
 
 In der globalen Verwaltungsoberfläche erscheint die zusätzliche Kachel **Beispielkonfiguration**. Sie führt zur Seite **Verwaltung → Beispielkonfiguration** unter `/verwaltung/testdaten/`. Die Seite ist ausschließlich für globale Administrator*innen und nur im aktivierten TESTING-Modus erreichbar. Dort lassen sich Testdaten in getrennten Schritten erzeugen und zurücksetzen; die Mengenangaben sind jeweils auf 1 bis 100 begrenzt.
 
-### 5. Zufällige Testnutzer anlegen
+Die folgenden Funktionen sind in der Beispielkonfiguration zusammengefasst. Die Erzeugung baut aufeinander auf: Zuerst werden Testnutzer und Besprechungsserien angelegt, danach Termine, Themen und Tagesordnungspunkte.
+
+#### 1. Zufällige Testnutzer anlegen
 
 Die Beispielkonfiguration kann bis zu 100 Testkonten pro Vorgang erzeugen. Die Konten erhalten zufällig ausgewählte Vor- und Nachnamen, eine daraus gebildete E-Mail-Adresse unter `@beliebig.de` sowie eine Kurzbezeichnung im Format `NN/NN`. Die Konten werden zunächst mit der globalen Rolle **Nutzer** angelegt. Bei der anschließenden Termin-Generierung können sie zufällige Rollen in den jeweiligen Besprechungsserien erhalten.
 
 Für alle automatisch erzeugten Testkonten gilt das in den Organisationseinstellungen hinterlegte Startpasswort. Bei der Anlage wird eine Passwortänderung innerhalb von 24 Stunden erzwungen. Testkonten, die bereits anderweitig in regulären Daten verwendet werden, werden beim Zurücksetzen geschützt.
 
-### 6. Vereinfachte Passwortprüfung bei manueller Nutzeranlage
-
-Wenn der TESTING-Modus aktiv ist, überspringt das Formular zur manuellen Neuanlage eines Benutzerkontos die regulären Passwort-Komplexitätsprüfungen. Die beiden Passwortfelder müssen weiterhin übereinstimmen, sofern ein Passwort eingegeben wird. Diese Erleichterung ist ausschließlich für Testinstallationen gedacht und reduziert bewusst die Passwortsicherheit. Außerhalb des TESTING-Modus gelten die normalen Django-Passwortprüfungen.
-
-### 7. Zufällige Besprechungsserien anlegen
+#### 2. Zufällige Besprechungsserien anlegen
 
 Die Beispielkonfiguration kann bis zu 100 Test-Besprechungsserien auf einmal anlegen. Jede Serie erhält einen festen Wochentag von Montag bis Freitag und einen regelmäßigen Rhythmus: wöchentlich, zweiwöchentlich oder monatlich, jeweils mit einem Intervall von ein bis drei. Der gemeinsame Testzeitraum reicht vom 1. Januar 2026 bis zum 31. März 2027. Die Serien werden mit `TEST-Besprechungsreihe` gekennzeichnet.
 
-### 8. Termine für Testserien generieren
+#### 3. Termine für Testserien generieren
 
 Für ausgewählte Testserien lassen sich die zugehörigen Termine anhand des festgelegten Rhythmus erzeugen. Dabei werden ausdrücklich auch vergangene Termine berücksichtigt. Der Generator erzeugt keine unabhängig zufällig verteilten Einzeltermine, sondern hält Wochentag und Wiederholungsrhythmus der jeweiligen Serie ein. Bei der Generierung werden Testnutzer den Serien mit zufälligen Serienrollen zugeordnet; bereits bestehende Rollen werden bei erneuter Generierung nicht überschrieben.
 
-### 9. Zufällige Themen anlegen
+#### 4. Zufällige Themen anlegen
 
 Für eine ausgewählte Testserie können bis zu 100 Themen angelegt werden. Die Titel erhalten die Kennzeichnung `TEST-` und werden aus verschiedenen Themenkategorien gebildet. Status und Hauptzuständigkeit werden zufällig ausgewählt; als Zuständige kommen vorhandene aktive Testkonten infrage. Pro Serie werden die Themenkategorien nicht doppelt verwendet.
 
-### 10. Tagesordnungspunkte und Wiedervorlagen erzeugen
+#### 5. Tagesordnungspunkte und Wiedervorlagen erzeugen
 
 Für ein ausgewähltes Testthema können bis zu 100 Tagesordnungspunkte auf noch nicht abgeschlossenen Terminen derselben Serie angelegt werden. Die Punkte erhalten zufällig ausgewählte Statuswerte, bei Bedarf eine Testzuständigkeit und einen themenbezogenen Beispieltext. Die Punkte werden chronologisch auf aufeinanderfolgenden verfügbaren Terminen angelegt und über eine Wiedervorlage-Kette miteinander verknüpft. Weitere Erzeugungsläufe setzen eine vorhandene Kette am letzten Punkt fort. Reichen die verfügbaren Termine nicht aus, müssen zunächst weitere Termine generiert oder eine kleinere Anzahl gewählt werden.
 
-### 11. Erzeugte Testdaten zurücksetzen
+#### 6. Erzeugte Testdaten zurücksetzen
 
 Die Funktion **TEST-Daten zurücksetzen** entfernt die von der Beispielkonfiguration gekennzeichneten Testserien, deren Termine und die entsprechend markierten Themen. Testkonten mit dem internen Präfix `test_fixture_` werden ebenfalls entfernt, sofern sie nicht mehr anderweitig verwendet werden. Themen oder Konten, die durch reguläre Daten referenziert werden, bleiben erhalten. Reguläre Besprechungsserien und nicht als Testdaten gekennzeichnete Themen werden durch diesen Reset nicht pauschal gelöscht.
 
