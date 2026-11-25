@@ -459,7 +459,7 @@ Die folgenden Funktionen sind in der Beispielkonfiguration zusammengefasst. Die 
 
 #### 1. Zufällige Testnutzer anlegen
 
-Die Beispielkonfiguration kann bis zu 100 Testkonten pro Vorgang erzeugen. Die Konten erhalten zufällig ausgewählte Vor- und Nachnamen, eine daraus gebildete E-Mail-Adresse unter `@beliebig.de` sowie eine Kurzbezeichnung im Format `NN/NN`. Die Konten werden zunächst mit der globalen Rolle **Nutzer** angelegt. Bei der anschließenden Termin-Generierung können sie zufällige Rollen in den jeweiligen Besprechungsserien erhalten.
+Die Beispielkonfiguration kann bis zu 100 Testkonten pro Vorgang erzeugen. Die Konten erhalten zufällig ausgewählte Vor- und Nachnamen. Der Benutzername besteht aus `TEST` direkt gefolgt vom Nachnamen (z. B. `TESTWeber`); jeder Benutzername wird nur einmal vergeben. Dazu kommen eine daraus gebildete E-Mail-Adresse unter `@beliebig.de` sowie eine Kurzbezeichnung im Format `NN/NN`. Die Konten werden zunächst mit der globalen Rolle **Nutzer** angelegt. Bei der anschließenden Termin-Generierung können sie zufällige Rollen in den jeweiligen Besprechungsserien erhalten.
 
 Für alle automatisch erzeugten Testkonten gilt das in den Organisationseinstellungen hinterlegte Startpasswort. Bei der Anlage wird eine Passwortänderung innerhalb von 24 Stunden erzwungen. Testkonten, die bereits anderweitig in regulären Daten verwendet werden, werden beim Zurücksetzen geschützt.
 
