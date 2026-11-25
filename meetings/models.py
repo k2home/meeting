@@ -36,6 +36,10 @@ def validate_topic_attachment_content(uploaded_file):
         elif suffix == "txt":
             valid = b"\x00" not in signature
             decoder = codecs.getincrementaldecoder("utf-8")()
+            try:
+                decoder.decode(signature)
+            except UnicodeDecodeError:
+                valid = False
             while valid:
                 chunk = uploaded_file.read(64 * 1024)
                 if not chunk:
