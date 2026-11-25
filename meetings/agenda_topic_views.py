@@ -176,8 +176,9 @@ def topic_detail(request, pk):
         "title", "assigned_to_id", "status"
     ).get()
     form = TopicTitleForm(request.POST or None, instance=topic)
+    updating_details = request.method == "POST" and "save_topic_details" in request.POST
     status_form = TopicStatusForm(
-        request.POST if request.method == "POST" and "update_topic_status" in request.POST else None,
+        request.POST if updating_details and topic.status != "archived" else None,
         initial={"status": topic.status if topic.status in {"open", "in_progress", "done"} else "open"},
     )
     if reader:
@@ -186,7 +187,51 @@ def topic_detail(request, pk):
     if request.method == "POST":
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
-        if "update_topic_status" in request.POST:
+        if updating_details:
+            details_valid = form.is_valid()
+            status_valid = topic.status == "archived" or status_form.is_valid()
+            if details_valid and status_valid:
+                old_title = original_values["title"]
+                old_assignee_id = original_values["assigned_to_id"]
+                old_assignee = (
+                    get_user_model().objects.filter(pk=old_assignee_id).first()
+                    if old_assignee_id else None
+                )
+                changed_fields = set(form.changed_data)
+                changes = {}
+                with transaction.atomic():
+                    updated = form.save(commit=False)
+                    if "title" in changed_fields:
+                        changes["Titel"] = {"vorher": old_title, "nachher": updated.title}
+                    if "assigned_to" in changed_fields:
+                        changes["Zuständigkeit"] = {
+                            "vorher": user_display_name(old_assignee) if old_assignee else None,
+                            "nachher": user_display_name(updated.assigned_to) if updated.assigned_to else None,
+                        }
+                    if topic.status != "archived":
+                        new_status = status_form.cleaned_data["status"]
+                        if new_status != original_values["status"]:
+                            changes["Themenstatus"] = {
+                                "vorher": dict(Topic.STATUS).get(original_values["status"], original_values["status"]),
+                                "nachher": dict(Topic.STATUS).get(new_status, new_status),
+                            }
+                            updated.status = new_status
+                    if changes:
+                        updated.save()
+                        if "assigned_to" in changed_fields:
+                            form.save_m2m()
+                        record_event(
+                            actor=request.user, action="updated",
+                            summary=f"Thema „{updated.title}“ geändert",
+                            topic=updated, changes=changes,
+                        )
+                        messages.success(request, "Thema gespeichert.")
+                    else:
+                        messages.info(request, "Es wurden keine Änderungen vorgenommen.")
+                return redirect("topic_edit", pk=topic.pk)
+        elif "update_topic_status" in request.POST:
+            # Backwards-compatible handling for clients still submitting the
+            # earlier status-only form.
             if topic.status == "archived":
                 return HttpResponseForbidden("Archivierte Themen müssen zuerst wieder geöffnet werden.")
             if status_form.is_valid():
@@ -210,9 +255,7 @@ def topic_detail(request, pk):
                     messages.info(request, "Der Themenstatus ist unverändert.")
                 return redirect("topic_edit", pk=topic.pk)
         elif form.is_valid():
-            # Capture the persisted values before ModelForm.save() mutates the
-            # instance. Keep the write and its audit record in the same
-            # transaction so an audit failure cannot leave an unaudited edit.
+            # Capture persisted values before ModelForm.save() mutates its instance.
             old_title = original_values["title"]
             old_assignee_id = original_values["assigned_to_id"]
             old_assignee = (
