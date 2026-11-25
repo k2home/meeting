@@ -85,12 +85,18 @@ if ! runuser -u postgres -- psql -tAc "SELECT 1 FROM pg_database WHERE datname='
 fi
 
 echo "==> Erzeuge Python-Umgebung"
-# Recreate only the virtual environment; application data and PostgreSQL stay intact.
+# Django 6.1 requires Python 3.12+. Keep the OS Python untouched and
+# install a separately managed CPython runtime for the application.
+PYTHON_BIN="$(bash "$APP_DIR/deploy/ensure-python.sh")"
+UV_BIN="/opt/meeting-manager-updater/uv-venv/bin/uv"
+UV_CACHE_DIR="/var/cache/meeting-manager-updater"
+install -d -o meetingapp -g www-data "$UV_CACHE_DIR"
 rm -rf "$APP_DIR/.venv"
-install -d -o meetingapp -g www-data "$APP_DIR/.venv"
-runuser -u meetingapp -- python3 -m venv "$APP_DIR/.venv"
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install --upgrade pip
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -m pip install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
+runuser -u meetingapp -- env UV_CACHE_DIR="$UV_CACHE_DIR" "$UV_BIN" venv --python "$PYTHON_BIN" "$APP_DIR/.venv"
+runuser -u meetingapp -- env UV_CACHE_DIR="$UV_CACHE_DIR" "$UV_BIN" pip install \
+  --python "$APP_DIR/.venv/bin/python" \
+  -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
+runuser -u meetingapp -- "$APP_DIR/.venv/bin/python" -c 'import sys, django; assert sys.version_info >= (3, 12); assert django.VERSION >= (6, 1)'
 
 if [[ ! -f "$APP_DIR/.env" ]]; then
   umask 077
