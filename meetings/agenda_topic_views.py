@@ -298,7 +298,7 @@ def topic_detail(request, pk):
                         }
                     if "retention_years" in changed_fields:
                         changes["Löschfrist (Jahre)"] = {
-                            "vorher": original_values["retention_years"] or effective_retention_years(topic),
+                            "vorher": original_values["retention_years"] or effective_retention_years(),
                             "nachher": updated.retention_years or effective_retention_years(updated),
                         }
                     if topic.status != "archived":
