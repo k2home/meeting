@@ -1,5 +1,6 @@
 from io import BytesIO
 from pathlib import Path
+import tempfile
 from zipfile import ZipFile
 from unittest.mock import patch
 
@@ -137,9 +138,10 @@ class AttachmentContentValidationTests(TestCase):
 
     def test_organization_logo_upload_is_scanned(self):
         logo = SimpleUploadedFile("logo.svg", b"<svg xmlns='http://www.w3.org/2000/svg'/>")
-        with patch("meetings.antivirus.scan_uploaded_file") as scan:
-            OrganizationSettings(logo=logo).save()
-        scan.assert_called_once()
+        with tempfile.TemporaryDirectory() as media_dir, override_settings(MEDIA_ROOT=media_dir):
+            with patch("meetings.antivirus.scan_uploaded_file") as scan:
+                OrganizationSettings(logo=logo).save()
+            scan.assert_called_once()
 
     def test_organization_logo_size_is_limited_before_scanning(self):
         logo = SimpleUploadedFile("logo.svg", b"x" * (2 * 1024 * 1024 + 1))
