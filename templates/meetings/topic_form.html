@@ -18,7 +18,8 @@
 .topic-responsibility label{font-size:.8rem;color:var(--muted,#667085);white-space:nowrap}
 .topic-responsibility select{max-width:min(100%,22rem);padding:.35rem .55rem;font-size:.88rem}
 .topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}\n.topic-status-form{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}.topic-status-form select{max-width:100%;padding:.35rem .55rem;font-size:.88rem}.topic-status-save{font-size:.78rem;padding:.3rem .5rem;min-height:1.9rem}
+.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}.topic-meta input,.topic-meta select{width:100%;max-width:100%;box-sizing:border-box;padding:.4rem .5rem;font-size:.9rem}
+.topic-info-actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:1rem}.topic-info-actions form{display:inline-flex;margin:0}
 @media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
 .topic-pdf-link{display:inline-flex;align-items:center;gap:.6rem}.topic-pdf-drag{display:inline-flex;text-decoration:none;cursor:grab}.topic-pdf-drag:active{cursor:grabbing}.topic-pdf-icon{display:inline-flex;align-items:center;justify-content:center;width:2.35rem;height:2.65rem;border:1px solid #d92d20;border-radius:5px;color:#b42318;background:#fff;font-size:.7rem;font-weight:800;letter-spacing:.02em;flex:0 0 auto}
 </style>
@@ -43,20 +44,6 @@
 
 <div class="topic-layout">
  <div class="topic-main">
-  <section class="card">
-   <h2>Thema</h2>
-   {% if is_reader %}
-     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
-     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
-   {% else %}<form method="post">{% csrf_token %}
-     {{ form.title.errors }}
-     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
-     {{ form.assigned_to.errors }}
-     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
-     <p class="muted">Die Hauptzuständigkeit gilt für das gesamte Thema. Abweichende Zuständigkeiten einzelner Tagesordnungspunkte bleiben davon unberührt.</p>
-     <button type="submit">Thema speichern</button>
-   </form>{% endif %}
-  </section>
   <section class="card">
    <h2>Besprechungen und Tagesordnungstexte</h2>
    <p class="muted">Jeder Text gehört zu genau dem Besprechungstermin, in dem er bearbeitet wurde. Abgeschlossene Protokolle bleiben unverändert erhalten.</p>
@@ -104,27 +91,42 @@
  </div>
  <aside class="topic-side">
   <section class="card"><h2>Informationen</h2>
+   {% if is_reader %}
    <dl class="topic-meta">
+    <div><dt>Titel</dt><dd>{{ topic.title }}</dd></div>
+    <div><dt>Zuständigkeit</dt><dd>{{ topic.assigned_to|user_display|default:"—" }}</dd></div>
     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
-    <div><dt>Status</dt><dd>
-     {% if is_reader or topic.status == "archived" %}{{ topic.get_status_display }}
-     {% else %}
-      <form method="post" action="{% url 'topic_edit' topic.pk %}" class="topic-status-form">
-       {% csrf_token %}
-       <input type="hidden" name="update_topic_status" value="1">
-       {{ status_form.status }}
-       <button type="submit" class="btn secondary topic-status-save">Status speichern</button>
-      </form>
-     {% endif %}
-    </dd></div>
+    <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
     <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
    </dl>
-   {% if can_archive_topic %}
-   <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
+   {% else %}
+   <form method="post" action="{% url 'topic_edit' topic.pk %}">
     {% csrf_token %}
-    <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
-   </form>
+    <input type="hidden" name="save_topic_details" value="1">
+    <dl class="topic-meta">
+     <div><dt><label for="{{ form.title.id_for_label }}">Titel</label></dt><dd>{{ form.title }}{{ form.title.errors }}</dd></div>
+     <div><dt><label for="{{ form.assigned_to.id_for_label }}">Zuständigkeit</label></dt><dd>{{ form.assigned_to }}{{ form.assigned_to.errors }}</dd></div>
+     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
+     <div><dt>Status</dt><dd>
+      {% if topic.status == "archived" %}{{ topic.get_status_display }}
+      {% else %}{{ status_form.status }}{{ status_form.status.errors }}{% endif %}
+     </dd></div>
+     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
+     <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
+    </dl>
+    <div class="topic-info-actions">
+     <button type="submit">Thema speichern</button>
+     {% if can_archive_topic %}
+     </form>
+     <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
+      {% csrf_token %}
+      <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
+     </form>
+     {% else %}
+    </div>
+    </form>
+     {% endif %}
    {% endif %}
   </section>
   <section class="card topic-pdf-card">
