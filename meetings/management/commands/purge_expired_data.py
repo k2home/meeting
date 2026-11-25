@@ -110,11 +110,12 @@ class Command(BaseCommand):
                             entry["topic_id"] for entry in saved
                             if isinstance(entry, dict) and entry.get("topic_id")
                         )
-                    correction = changes.get("Protokollkorrektur") or {}
-                    for side in ("vorher", "nachher"):
-                        entry = correction.get(side) or {}
-                        if entry.get("topic_id"):
-                            topic_ids.add(entry["topic_id"])
+                    correction = changes.get("Protokollkorrektur")
+                    if isinstance(correction, dict):
+                        for side in ("vorher", "nachher"):
+                            entry = correction.get(side) or {}
+                            if isinstance(entry, dict) and entry.get("topic_id"):
+                                topic_ids.add(entry["topic_id"])
                 for topic_id in topic_ids:
                     self._redact_protocol_audit(locked_meeting.pk, topic_id)
 
