@@ -335,7 +335,7 @@ class AuditHistoryTests(TestCase):
         event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="target-account")
         self.assertEqual(event.changes["Vorname"], {"vorher": "Alt", "nachher": "Neu"})
         self.assertEqual(event.changes["E-Mail"], {"vorher": "old@example.test", "nachher": "new@example.test"})
-        self.assertEqual(event.changes["Kurzbeschreibung"], {"vorher": "", "nachher": "Team A"})
+        self.assertEqual(event.changes["Organisationskennzeichen"], {"vorher": "", "nachher": "Team A"})
         self.assertEqual(event.changes["Globale Rolle"]["nachher"], "Auditor")
 
     def test_admin_can_delete_user_and_deletion_is_audited(self):
@@ -362,6 +362,7 @@ class AuditHistoryTests(TestCase):
         target = User.objects.create_user(username="active-field-target", password="strong-test-password")
         self.client.force_login(admin)
         response = self.client.get(reverse("management_user_edit", args=[target.pk]))
+        self.assertContains(response, "Organisationskennzeichen")
         self.assertContains(response, '<select name="is_active"')
         self.assertContains(response, '<option value="true" selected>')
         response = self.client.post(reverse("management_user_edit", args=[target.pk]), {
