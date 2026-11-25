@@ -21,6 +21,8 @@ RUN apt-get update \
     && find /usr/lib/python3.13/ensurepip -type f -name 'setuptools-*.whl' -delete \
     && python3.13 -m venv /opt/venv \
     && find /usr/share/python-wheels -type f -name 'setuptools-*.whl' -delete \
+    && apt-get purge -y python3-setuptools-whl \
+    && ! dpkg-query -W -f='${Status}' python3-setuptools-whl 2>/dev/null | grep -q 'install ok installed' \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/opt/venv/bin:$PATH"
