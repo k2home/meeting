@@ -2,7 +2,7 @@ from io import BytesIO
 from zipfile import ZipFile
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import SimpleTestCase
+from django.test import TestCase
 
 from .forms import AttachmentForm
 
@@ -15,7 +15,7 @@ def office_document_bytes(part):
     return buffer.getvalue()
 
 
-class AttachmentContentValidationTests(SimpleTestCase):
+class AttachmentContentValidationTests(TestCase):
     def make_form(self, filename, content):
         uploaded = SimpleUploadedFile(filename, content)
         return AttachmentForm(
