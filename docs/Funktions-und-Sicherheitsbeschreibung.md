@@ -67,7 +67,7 @@ Nutzer\*innen können in verschiedenen Reihen unterschiedliche Rollen besitzen. 
 
 ### 3.3 Historische Zugriffe und Änderungsverlauf
 
-Wird eine Besprechungsreihe gelöscht, bleiben historische Termine und Protokolle zunächst erhalten. Die früheren Reihenmitglieder erhalten für noch vorhandene Inhalte einen gesonderten Lesezugriff. Protokoll-Snapshots werden nach Ablauf der zentral oder je Thema konfigurierten Aufbewahrungsfrist automatisch gelöscht; archivierte Themen werden zum berechneten Löschdatum vollständig entfernt. Eine ausdrücklich gewählte endgültige Löschung kann abgeschlossene Besprechungen und Protokolle zusätzlich entfernen.
+Wird eine Besprechungsreihe gelöscht, bleiben historische Termine und Protokolle zunächst erhalten. Die früheren Reihenmitglieder erhalten für noch vorhandene Inhalte einen gesonderten Lesezugriff. Abgeschlossene Besprechungstermine und Protokoll-Snapshots werden nach Ablauf der globalen Organisationsfrist automatisch gelöscht. Tagesordnungstexte bleiben bis zum Ablauf der unabhängigen Themenfrist erhalten; archivierte Themen werden zum berechneten Löschdatum vollständig entfernt. Eine ausdrücklich gewählte endgültige Löschung kann abgeschlossene Besprechungen und Protokolle zusätzlich entfernen.
 
 Der Änderungsverlauf ist in zwei Bereiche getrennt:
 
