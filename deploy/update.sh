@@ -251,10 +251,44 @@ fi
 # From this point onward the environment or database may no longer be
 # compatible with the previous source revision; do not switch code back blindly.
 ROLLBACK_SAFE=0
-# CairoSVG wraps the native Cairo library; install it on Debian hosts too.
 apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libcairo2
-runuser -u meetingapp -- "$APP_DIR/.venv/bin/pip" install -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  libcairo2 python3-venv ca-certificates curl
+
+# Debian 12's system Python is 3.11. Ensure the managed CPython 3.12 runtime
+# exists before installing Django 6.1. Never replace /usr/bin/python3.
+PYTHON_BIN="$(bash "$APP_DIR/deploy/ensure-python.sh")"
+UV_BIN="/opt/meeting-manager-updater/uv-venv/bin/uv"
+UV_CACHE_DIR="/var/cache/meeting-manager-updater"
+install -d -o meetingapp -g www-data "$UV_CACHE_DIR"
+
+NEEDS_PYTHON_UPGRADE=1
+if [[ -x "$APP_DIR/.venv/bin/python" ]] \
+  && "$APP_DIR/.venv/bin/python" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 12) else 1)'; then
+  NEEDS_PYTHON_UPGRADE=0
+fi
+
+if [[ "$NEEDS_PYTHON_UPGRADE" -eq 1 ]]; then
+  echo "==> Erzeuge neue Python-3.12-Umgebung; die bisherige Umgebung bleibt zunächst erhalten."
+  NEXT_VENV="$APP_DIR/.venv.next"
+  rm -rf "$NEXT_VENV"
+  install -d -o meetingapp -g www-data "$NEXT_VENV"
+  runuser -u meetingapp -- env UV_CACHE_DIR="$UV_CACHE_DIR" "$UV_BIN" venv --python "$PYTHON_BIN" "$NEXT_VENV"
+  runuser -u meetingapp -- env UV_CACHE_DIR="$UV_CACHE_DIR" "$UV_BIN" pip install \
+    --python "$NEXT_VENV/bin/python" \
+    -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
+  runuser -u meetingapp -- "$NEXT_VENV/bin/python" -c 'import sys, django; assert sys.version_info >= (3, 12); assert django.VERSION >= (6, 1)'
+  if [[ -d "$APP_DIR/.venv" ]]; then
+    rm -rf "$APP_DIR/.venv.previous-python"
+    mv "$APP_DIR/.venv" "$APP_DIR/.venv.previous-python"
+  fi
+  mv "$NEXT_VENV" "$APP_DIR/.venv"
+else
+  runuser -u meetingapp -- env UV_CACHE_DIR="$UV_CACHE_DIR" "$UV_BIN" pip install \
+    --python "$APP_DIR/.venv/bin/python" \
+    -r "$APP_DIR/requirements.txt" -c "$APP_DIR/requirements-constraints.txt"
+fi
+
 runuser -u meetingapp -- bash -c 'set -a; source /opt/meeting-manager/.env; set +a; exec "$@"' _ \
   "$APP_DIR/.venv/bin/python" "$APP_DIR/manage.py" migrate --fake-initial --noinput
 # Keep collected CSS/JS readable and traversable by Nginx (www-data).
@@ -266,3 +300,4 @@ find "$APP_DIR/staticfiles" -type d -exec chmod 750 {} +
 find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 systemctl restart meeting-manager
 systemctl --no-pager --full status meeting-manager
+rm -rf "$APP_DIR/.venv.previous-python"

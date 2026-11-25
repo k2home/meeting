@@ -1,7 +1,7 @@
-Django>=5.1,<6.0
+Django>=6.1.3,<7.0
 psycopg[binary]>=3.2,<4
-gunicorn>=23,<24
-reportlab>=4.2,<5
-CairoSVG>=2.7,<3
-Markdown>=3.6,<4
+gunicorn>=27.0.1,<28
+reportlab>=5.1.0,<6
+CairoSVG>=2.9.1,<3
+Markdown>=3.11.3,<4
 
