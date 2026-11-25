@@ -166,7 +166,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 - Automatische Erzeugung der Besprechungstermine anhand von Startdatum, Wochentag und optionalem Enddatum.
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
-- Besprechungsreihen können von Moderator*innen und Admins verwaltet werden.
+- Moderator*innen verwalten ausschließlich die ihnen zugewiesenen Besprechungsreihen. Admins können neue Reihen anlegen und dabei einen ersten Moderator festlegen; die laufende fachliche Verwaltung einer bestehenden Reihe setzt eine eigene Moderatorzuweisung voraus.
 - Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder lesbar; Admins behalten den globalen Zugriff.
 
 ### Themen und Aufgaben
