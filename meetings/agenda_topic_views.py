@@ -1,3 +1,6 @@
+import calendar
+from pathlib import Path
+
 from django import forms
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -11,7 +14,7 @@ from django.utils import formats, timezone
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
 from .audit import record_event
 from .forms import UserDisplayModelChoiceField
-from .models import AgendaItem, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicSnapshot
+from .models import AgendaItem, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
 from .user_display import user_display_name
 
 
@@ -68,6 +71,42 @@ class NewTopicForm(forms.ModelForm):
         self.fields["assigned_to"].queryset = get_user_model().objects.filter(
             is_active=True
         ).order_by("last_name", "first_name", "username")
+
+
+TESTING_MODE_FILE = Path("/var/lib/meeting-manager-updater/testing-mode")
+
+
+def _topic_testing_mode_enabled():
+    return TESTING_MODE_FILE.is_file()
+
+
+def _add_calendar_months(value, months):
+    month_index = value.month - 1 + months
+    year = value.year + month_index // 12
+    month = month_index % 12 + 1
+    day = min(value.day, calendar.monthrange(year, month)[1])
+    return value.replace(year=year, month=month, day=day)
+
+
+def _topic_archive_state(topic, today=None):
+    if topic.status != "done":
+        return False, "Das Thema kann erst archiviert werden, wenn sein Status auf „Erledigt“ steht."
+    if _topic_testing_mode_enabled():
+        return True, ""
+    if not topic.completed_at:
+        return False, "Das Abschlussdatum fehlt. Bitte den Status erneut auf „Erledigt“ setzen."
+    archive_date = _add_calendar_months(topic.completed_at, 6)
+    today = today or timezone.localdate()
+    if today < archive_date:
+        return False, f"Eine Archivierung ist erst ab dem {formats.date_format(archive_date, 'DATE_FORMAT')} möglich (sechs Monate nach Abschluss)."
+    return True, ""
+
+
+def _update_completed_at(topic, old_status, new_status):
+    if old_status != "done" and new_status == "done":
+        topic.completed_at = timezone.localdate()
+    elif old_status == "done" and new_status != "done":
+        topic.completed_at = None
 
 
 @login_required
@@ -141,6 +180,10 @@ def topic_archive_toggle(request, pk):
             )
             messages.success(request, f"„{topic.title}“ wurde wieder geöffnet.")
         else:
+            can_archive, archive_reason = _topic_archive_state(topic)
+            if not can_archive:
+                messages.error(request, archive_reason)
+                return redirect("topic_edit", pk=topic.pk)
             has_future_agenda = topic.agenda_items.filter(
                 meeting__finalized_at__isnull=True,
             ).exists()
@@ -151,6 +194,14 @@ def topic_archive_toggle(request, pk):
                 )
                 return redirect("topic_edit", pk=topic.pk)
             previous_status = topic.status
+            attachments = list(TopicAttachment.objects.filter(topic=topic))
+            stored_files = [
+                (attachment.uploaded_file.storage, attachment.uploaded_file.name)
+                for attachment in attachments if attachment.uploaded_file
+            ]
+            TopicAttachment.objects.filter(topic=topic).delete()
+            for storage, file_name in stored_files:
+                transaction.on_commit(lambda storage=storage, file_name=file_name: storage.delete(file_name))
             topic.archive_previous_status = previous_status
             topic.status = "archived"
             topic.save(update_fields=["status", "archive_previous_status", "updated_at"])
@@ -216,6 +267,7 @@ def topic_detail(request, pk):
                                 "nachher": dict(Topic.STATUS).get(new_status, new_status),
                             }
                             updated.status = new_status
+                            _update_completed_at(updated, original_values["status"], new_status)
                     if changes:
                         updated.save()
                         if "assigned_to" in changed_fields:
@@ -240,7 +292,9 @@ def topic_detail(request, pk):
                 if new_status != old_status:
                     with transaction.atomic():
                         topic.status = new_status
-                        topic.save(update_fields=["status", "updated_at"])
+                        topic.status = new_status
+                        _update_completed_at(topic, old_status, new_status)
+                        topic.save(update_fields=["status", "completed_at", "updated_at"])
                         record_event(
                             actor=request.user, action="updated",
                             summary=f"Status des Themas „{topic.title}“ geändert",
@@ -312,6 +366,8 @@ def topic_detail(request, pk):
         "topic": topic,
         "topic_protocol_filename": topic_protocol_filename(topic),
         "can_archive_topic": topic.series_id is not None and is_moderator(request.user, topic.series),
+        "topic_archive_allowed": _topic_archive_state(topic)[0],
+        "topic_archive_reason": _topic_archive_state(topic)[1],
         "is_reader": reader,
         "topic_agenda_items": items,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
