@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM debian:trixie-slim
 
 ARG VCS_REF=unknown
 ARG VCS_BRANCH=unknown
@@ -13,15 +13,22 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends libcairo2 postgresql-client \
+    && apt-get install -y --no-install-recommends \
+        libcairo2 \
+        postgresql-client \
+        python3.13 \
+        python3.13-venv \
     && rm -rf /var/lib/apt/lists/*
+
+RUN python3.13 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 WORKDIR /app
 
 COPY requirements.txt requirements-constraints.txt ./
 RUN python -m pip install --upgrade pip 'setuptools>=78.1.1' \
     && pip install -r requirements.txt -c requirements-constraints.txt \
-    && python -c 'import importlib.metadata as metadata, pathlib, shutil; version = metadata.version("setuptools"); assert tuple(int(part) for part in version.split(".")[:2]) >= (78, 1), version; roots = (pathlib.Path("/usr/local/lib/python3.13/site-packages"), pathlib.Path("/usr/lib/python3/dist-packages"), pathlib.Path("/usr/lib/python3.13/site-packages")); [shutil.rmtree(path) for root in roots if root.exists() for path in root.glob("setuptools-*.dist-info") if path.name != f"setuptools-{version}.dist-info"]'
+    && python -c 'import importlib.metadata as metadata; version = metadata.version("setuptools"); assert tuple(int(part) for part in version.split(".")[:2]) >= (78, 1), version'
 
 RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2\" height=\"2\"><rect width=\"2\" height=\"2\" fill=\"#00549f\"/></svg>"); assert png.startswith(b"\x89PNG\r\n\x1a\n")'
 
