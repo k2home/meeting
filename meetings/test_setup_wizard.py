@@ -65,15 +65,32 @@ class InitialSetupWizardTests(TestCase):
         session.save()
         response = self.client.post("/setup/?step=organization", {
             "name": "Fachbereich 20", "short_name": "FB20", "timezone": "Europe/Berlin", "start_password": "Neu",
-            "attachment_max_size_mb": "20", "primary_color": "#00549F",
-            "primary_color_light": "", "primary_color_dark": "",
-            "secondary_color": "#8FC5FF", "secondary_color_light": "", "secondary_color_dark": "",
-            "tertiary_color": "#FFCC00", "tertiary_color_light": "", "tertiary_color_dark": "",
+            "attachment_max_size_mb": "20", "primary_color": "#002D72",
+            "secondary_color": "#0072CE", "tertiary_color": "#FFCD00",
         })
         self.assertRedirects(response, "/setup/?step=system")
         settings_obj = OrganizationSettings.objects.get(pk=1)
         self.assertEqual(settings_obj.name, "Fachbereich 20")
         self.assertEqual(settings_obj.short_name, "FB20")
+        self.assertEqual(settings_obj.primary_color, "#002D72")
+        self.assertEqual(settings_obj.secondary_color, "#0072CE")
+        self.assertEqual(settings_obj.tertiary_color, "#FFCD00")
+        self.assertEqual(settings_obj.primary_color_light, "")
+        self.assertEqual(settings_obj.primary_color_dark, "")
+
+    def test_setup_organization_form_shows_only_three_base_colors_with_defaults(self):
+        user = User.objects.create_superuser(username="root", email="root@example.org", password="StrongPassword123!")
+        self.client.force_login(user)
+        session = self.client.session
+        session["initial_setup_user_id"] = user.pk
+        session.save()
+        response = self.client.get("/setup/?step=organization")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'value="#002D72"')
+        self.assertContains(response, 'value="#0072CE"')
+        self.assertContains(response, 'value="#FFCD00"')
+        self.assertNotContains(response, "Primärfarbe – Hellmodus")
+        self.assertNotContains(response, "Primärfarbe – Dunkelmodus")
 
     def test_existing_users_cannot_reenter_setup_wizard_without_setup_session(self):
         user = User.objects.create_superuser(username="root", email="root@example.org", password="StrongPassword123!")
