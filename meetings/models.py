@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import formats, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import codecs
+import re
 from pathlib import Path
 import zipfile
 import xml.etree.ElementTree as ET
@@ -428,7 +429,12 @@ def validate_organization_logo(uploaded_file):
             valid = data.startswith(b"\xff\xd8\xff")
         elif suffix == "svg":
             upper_data = data.upper()
-            if b"<!DOCTYPE" not in upper_data and b"<!ENTITY" not in upper_data:
+            if (
+                b"<!DOCTYPE" not in upper_data
+                and b"<!ENTITY" not in upper_data
+                and b"@import" not in upper_data
+                and not re.search(rb"url\\(\\s*(?!#)", data, re.IGNORECASE)
+            ):
                 try:
                     root = ET.fromstring(data)
                     valid = root.tag.rsplit("}", 1)[-1].lower() == "svg"
@@ -441,8 +447,6 @@ def validate_organization_logo(uploaded_file):
                             if attribute_name.startswith("on") or "javascript:" in lower_value:
                                 valid = False
                             if attribute_name == "href" and not value.startswith("#"):
-                                valid = False
-                            if "url(" in lower_value and "url(#" not in lower_value:
                                 valid = False
                 except ET.ParseError:
                     valid = False
