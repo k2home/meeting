@@ -82,6 +82,10 @@ def topic_new(request):
                     topic=topic, meeting=meeting,
                     changes={
                         "Titel": {"vorher": None, "nachher": topic.title},
+                        "Hauptzuständigkeit": {
+                            "vorher": None,
+                            "nachher": user_display_name(topic.assigned_to) if topic.assigned_to else None,
+                        },
                         "Erster Besprechungstermin": {"vorher": None, "nachher": meeting.date.isoformat()},
                     },
                 )
