@@ -52,6 +52,7 @@
      <div class="topline">
       <strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"DATE_FORMAT" }}</strong>
       {% if item.meeting.finalized_at %}<span class="pill">Protokoll abgeschlossen</span>{% else %}<span class="pill">In Bearbeitung</span>{% endif %}
+      {% if item.protocol_deletion_date %}<span class="muted">Protokoll-Löschung am {{ item.protocol_deletion_date|date:"DATE_FORMAT" }}</span>{% endif %}
      </div>
      {% if item.meeting.finalized_at %}
        {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein Text hinterlegt.</p>{% endif %}
