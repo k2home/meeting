@@ -89,6 +89,8 @@ class Topic(models.Model):
     completed_at = models.DateField("Abschlussdatum", null=True, blank=True)
     completion_note = models.TextField("Abschlussvermerk", blank=True)
     archive_previous_status = models.CharField("Status vor Archivierung", max_length=12, blank=True)
+    archived_at = models.DateField("Archiviert am", null=True, blank=True)
+    retention_years = models.PositiveSmallIntegerField("Löschfrist (Jahre)", null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(100)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -326,6 +328,11 @@ class OrganizationSettings(models.Model):
     start_password = models.TextField(
         "Startpasswort", default="Neu",
         help_text="Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
+    )
+    retention_years = models.PositiveSmallIntegerField(
+        "Aufbewahrungsfrist für Themen und Protokolle (Jahre)", default=10,
+        validators=[MinValueValidator(1), MaxValueValidator(100)],
+        help_text="Gilt als Standard für archivierte Themen und abgeschlossene Protokollstände. Eine abweichende Frist kann im jeweiligen Thema festgelegt werden.",
     )
     attachment_max_size_mb = models.PositiveSmallIntegerField(
         "Maximale Dateigröße für Anlagen (MB)", default=20,
