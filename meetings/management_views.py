@@ -948,26 +948,50 @@ def _testing_count(request, key, default=5, maximum=100):
 
 
 def _testing_random_user():
+    import re
     import secrets
-    from django.contrib.auth import get_user_model
+    from django.core.exceptions import ValidationError
     from .models import UserProfile
     from .user_roles import sync_user_role
 
-    first_names = ["Alex", "Sam", "Robin", "Mika", "Jana", "Lena", "Noah", "Mara", "Toni", "Kim"]
-    last_names = ["Becker", "Fischer", "Wagner", "Schulz", "Hoffmann", "Koch", "Richter", "Wolf"]
+    first_names = [
+        "Alex", "Sam", "Robin", "Mika", "Jana", "Lena", "Noah", "Mara",
+        "Toni", "Kim", "Emma", "Paul", "Mia", "Leon", "Nina", "Jonas",
+        "Lara", "Ben", "Clara", "Felix", "Sofia", "Oskar", "Ida", "Emil",
+    ]
+    last_names = [
+        "Becker", "Fischer", "Wagner", "Schulz", "Hoffmann", "Koch",
+        "Richter", "Wolf", "Schneider", "Weber", "Meyer", "Bauer",
+        "Schröder", "Neumann", "Krüger", "Hartmann", "Lange", "Krause",
+    ]
+
+    used_numbers = set()
+    for description in UserProfile.objects.filter(
+        user__username__startswith="test_fixture_"
+    ).values_list("short_description", flat=True):
+        match = re.match(r"^(\d{2})/\d{2}$", description or "")
+        if match:
+            used_numbers.add(match.group(1))
+    available_numbers = [f"{number:02d}" for number in range(100) if f"{number:02d}" not in used_numbers]
+    if not available_numbers:
+        raise ValidationError("Alle 100 Kurzbezeichnungsnummern für Testnutzer sind bereits vergeben.")
+
     first_name = secrets.choice(first_names)
     last_name = secrets.choice(last_names)
     username = f"test_fixture_{secrets.token_hex(5)}"
+    email_name = f"{first_name}.{last_name}".replace(" ", "").lower()
+    short_number = secrets.choice(available_numbers)
+    short_description = f"{short_number}/{secrets.randbelow(100):02d}"
+
     user = User.objects.create_user(
         username=username,
         first_name=first_name,
         last_name=last_name,
-        email=f"{username}@example.invalid",
+        email=f"{email_name}@beliebig.de",
     )
-    UserProfile.objects.get_or_create(user=user)
+    UserProfile.objects.create(user=user, short_description=short_description)
     sync_user_role(user, "user")
     return user
-
 
 @login_required
 @require_http_methods(["GET", "POST"])
