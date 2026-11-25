@@ -67,7 +67,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 ### 1.6 Updates, Protokollierung und Notfallvorsorge
 
 - Produktionsupdates nur aus freigegebenen Branches bzw. Releases übernehmen. Version und Commit des laufenden Systems dokumentieren.
-- Der Docker-Build wird bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf kritische/hohe OS- und Python-Bibliotheks-Schwachstellen geprüft. Python-Abhängigkeiten zusätzlich mit `pip-audit` prüfen und Dependabot-/Security-Updates aktivieren. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, verantwortlicher Person und Frist dokumentieren.
+- Das gebaute Anwendungsimage und das ClamAV-Sidecar-Image werden bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf kritische/hohe OS- und Bibliotheks-Schwachstellen geprüft. Python-Abhängigkeiten zusätzlich mit `pip-audit` prüfen und Dependabot-/Security-Updates aktivieren. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, verantwortlicher Person und Frist dokumentieren.
 - Updates zunächst in einer Testumgebung prüfen. Nach Updates Login, Berechtigungen, Upload/Download, CSV-Funktionen, Protokollabschluss und Wiederherstellung testen.
 - Systemlogs auf ungewöhnliche Login-Fehler, Änderungen globaler Rollen, fehlgeschlagene Downloads, unerwartete Dienstneustarts und Speicherengpässe überwachen.
 - Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
