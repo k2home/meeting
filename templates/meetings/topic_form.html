@@ -107,8 +107,8 @@
      {% endif %}
      <p class="muted">Der zugehörige Besprechungstermin wurde nach Ablauf seiner Aufbewahrungsfrist gelöscht. Der Protokoll-Snapshot wurde gemäß der globalen Aufbewahrungsfrist gelöscht.</p>
      <div class="topic-meeting-actions topic-compact-actions">
-      <a class="btn secondary" href="#retained-agenda-{{ entry.pk }}">Tagesordnung</a>
-      <a class="btn secondary" href="#retained-agenda-{{ entry.pk }}">Protokoll</a>
+      <a class="btn secondary" href="{% url 'retained_agenda_entry' topic.pk entry.pk %}">Tagesordnung</a>
+      <a class="btn secondary" href="{% url 'retained_agenda_entry' topic.pk entry.pk %}?view=protocol">Protokoll</a>
      </div>
     </article>
    {% endfor %}
