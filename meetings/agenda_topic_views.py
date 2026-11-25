@@ -277,6 +277,29 @@ def topic_detail(request, pk):
     if request.method == "POST":
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
+        if request.POST.get("save_retained_agenda_entry"):
+            if topic.status == "archived":
+                return HttpResponseForbidden("Archivierte Themen sind schreibgeschützt.")
+            entry = get_object_or_404(
+                RetainedAgendaEntry,
+                pk=request.POST.get("save_retained_agenda_entry"),
+                topic=topic,
+            )
+            new_text = request.POST.get("working_text", "")
+            if entry.working_text != new_text:
+                old_text = entry.working_text
+                entry.working_text = new_text
+                entry.save(update_fields=["working_text"])
+                record_event(
+                    actor=request.user, action="agenda_edited",
+                    summary=f"Historischer Tagesordnungstext zu „{topic.title}“ vom {formats.date_format(entry.meeting_date, 'DATE_FORMAT')} geändert",
+                    topic=topic,
+                    changes={"Besprechungstext": {"vorher": old_text, "nachher": new_text}},
+                )
+                messages.success(request, "Historischer Tagesordnungstext gespeichert.")
+            else:
+                messages.info(request, "Es wurden keine Änderungen vorgenommen.")
+            return redirect("topic_edit", pk=topic.pk)
         if updating_details:
             details_valid = form.is_valid()
             status_valid = topic.status == "archived" or status_form.is_valid()
