@@ -94,7 +94,7 @@
    {% if is_reader %}
    <dl class="topic-meta">
     <div><dt>Titel</dt><dd>{{ topic.title }}</dd></div>
-    <div><dt>Zuständigkeit</dt><dd>{{ topic.assigned_to|user_display|default:"—" }}</dd></div>
+    <div><dt>Zuständigkeit</dt><dd>{% if topic.assigned_to %}{{ topic.assigned_to|user_display }}{% else %}—{% endif %}</dd></div>
     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
     <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
