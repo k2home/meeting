@@ -13,8 +13,8 @@
   {% else %}
   <span class="meeting-menu-link muted" aria-disabled="true">Protokoll verschicken (keine E-Mail-Adressen hinterlegt)</span>
   {% endif %}
-  <a class="btn meeting-menu-button" href="{% url 'protocol_pdf' meeting.id %}">PDF herunterladen</a>
   <a class="pdf-drag-link" href="{% url 'protocol_pdf' meeting.id %}" draggable="true" data-drag-filename="Protokoll_{{ meeting.id }}_{{ meeting.date|date:'Y-m-d' }}.pdf" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="Besprechungsprotokoll als PDF in einen Ordner ziehen" title="PDF-Symbol in einen Ordner ziehen, um das Protokoll dort abzulegen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span></a>
+  <a class="btn meeting-menu-button" href="{% url 'protocol_pdf' meeting.id %}" download>PDF herunterladen</a>
   <a class="meeting-menu-link protocol-back-link" href="{% url 'meeting' meeting.id %}">Zur Besprechung</a>
   {% if meeting.finalized_at and can_reopen_meeting %}
   <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">
