@@ -42,6 +42,17 @@ class TopicTitleForm(forms.ModelForm):
         ).order_by("last_name", "first_name", "username")
 
 
+class TopicStatusForm(forms.Form):
+    status = forms.ChoiceField(
+        label="Status",
+        choices=[
+            ("open", "Offen"),
+            ("in_progress", "In Bearbeitung"),
+            ("done", "Erledigt"),
+        ],
+    )
+
+
 class NewTopicForm(forms.ModelForm):
     assigned_to = UserDisplayModelChoiceField(
         queryset=get_user_model().objects.none(), required=False,
@@ -162,16 +173,43 @@ def topic_detail(request, pk):
     # ModelForm validation writes submitted values onto its instance before
     # is_valid() returns. Snapshot persisted values before constructing it.
     original_values = Topic.objects.filter(pk=topic.pk).values(
-        "title", "assigned_to_id"
+        "title", "assigned_to_id", "status"
     ).get()
     form = TopicTitleForm(request.POST or None, instance=topic)
+    status_form = TopicStatusForm(
+        request.POST if request.method == "POST" and "update_topic_status" in request.POST else None,
+        initial={"status": topic.status if topic.status in {"open", "in_progress", "done"} else "open"},
+    )
     if reader:
         form.fields["title"].disabled = True
         form.fields["assigned_to"].disabled = True
     if request.method == "POST":
         if reader:
             return HttpResponseForbidden("Leser*innen haben ausschließlich Leserechte.")
-        if form.is_valid():
+        if "update_topic_status" in request.POST:
+            if topic.status == "archived":
+                return HttpResponseForbidden("Archivierte Themen müssen zuerst wieder geöffnet werden.")
+            if status_form.is_valid():
+                new_status = status_form.cleaned_data["status"]
+                old_status = original_values["status"]
+                if new_status != old_status:
+                    with transaction.atomic():
+                        topic.status = new_status
+                        topic.save(update_fields=["status", "updated_at"])
+                        record_event(
+                            actor=request.user, action="updated",
+                            summary=f"Status des Themas „{topic.title}“ geändert",
+                            topic=topic,
+                            changes={"Themenstatus": {
+                                "vorher": dict(Topic.STATUS).get(old_status, old_status),
+                                "nachher": dict(Topic.STATUS).get(new_status, new_status),
+                            }},
+                        )
+                    messages.success(request, "Themenstatus gespeichert.")
+                else:
+                    messages.info(request, "Der Themenstatus ist unverändert.")
+                return redirect("topic_edit", pk=topic.pk)
+        elif form.is_valid():
             # Capture the persisted values before ModelForm.save() mutates the
             # instance. Keep the write and its audit record in the same
             # transaction so an audit failure cannot leave an unaudited edit.
@@ -227,6 +265,7 @@ def topic_detail(request, pk):
     writable_series = accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
     return render(request, "meetings/topic_form.html", {
         "form": form,
+        "status_form": status_form,
         "topic": topic,
         "topic_protocol_filename": topic_protocol_filename(topic),
         "can_archive_topic": topic.series_id is not None and is_moderator(request.user, topic.series),
