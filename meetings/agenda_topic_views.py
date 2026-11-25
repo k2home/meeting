@@ -52,6 +52,8 @@ class TopicTitleForm(forms.ModelForm):
 
 
     def clean_retention_years(self):
+        if self.is_bound and "retention_years" not in self.data:
+            return self.instance.retention_years
         value = self.cleaned_data.get("retention_years")
         default_years = OrganizationSettings.objects.filter(pk=1).values_list(
             "retention_years", flat=True
@@ -296,7 +298,7 @@ def topic_detail(request, pk):
                             "vorher": user_display_name(old_assignee) if old_assignee else None,
                             "nachher": user_display_name(updated.assigned_to) if updated.assigned_to else None,
                         }
-                    if "retention_years" in changed_fields:
+                    if "retention_years" in changed_fields and original_values["retention_years"] != updated.retention_years:
                         changes["Löschfrist (Jahre)"] = {
                             "vorher": original_values["retention_years"] or effective_retention_years(),
                             "nachher": updated.retention_years or effective_retention_years(updated),
