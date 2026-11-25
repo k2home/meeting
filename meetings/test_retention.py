@@ -9,9 +9,17 @@ from .models import (
     AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings,
     Topic, TopicSnapshot,
 )
+from .retention import retention_expiry_date
+
 
 
 class RetentionCleanupTests(TestCase):
+    def test_retention_runs_from_first_january_after_reference_year(self):
+        self.assertEqual(
+            retention_expiry_date(date(2026, 8, 23), 5),
+            date(2031, 12, 31),
+        )
+
     def setUp(self):
         OrganizationSettings.objects.create(name="Test", retention_years=1)
         self.series = MeetingSeries.objects.create(
