@@ -42,7 +42,9 @@ class Command(BaseCommand):
                     (attachment.uploaded_file.storage, attachment.uploaded_file.name)
                     for attachment in attachments if attachment.uploaded_file
                 ]
+                archived_snapshot_count = TopicSnapshot.objects.filter(topic_id=locked_topic.pk).count()
                 TopicSnapshot.objects.filter(topic_id=locked_topic.pk).delete()
+                deleted_snapshots += archived_snapshot_count
                 # AgendaItem protects Topic from accidental deletion; remove its
                 # rows explicitly while retaining no content after topic expiry.
                 AgendaItem.objects.filter(topic=locked_topic).delete()
