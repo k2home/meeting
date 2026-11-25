@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
-from django.utils.http import content_disposition_header
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.http import content_disposition_header
 from django.utils import formats, timezone
 
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
@@ -17,9 +17,10 @@ from .user_display import user_display_name
 
 def topic_protocol_filename(topic):
     """Return the dated, filesystem-safe filename used by both PDF download methods."""
-    import re
-
-    title = re.sub(r'[\\/:*?"<>|\\x00-\\x1f]', "_", topic.title).strip(" .")
+    title = "".join(
+        "_" if not char.isprintable() or char in '\\\\/:*?"<>|' else char
+        for char in topic.title
+    ).strip(" .")
     return f"{timezone.localdate():%Y%m%d}-{title or 'Thema'}.pdf"
 
 
