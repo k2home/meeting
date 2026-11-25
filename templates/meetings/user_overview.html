@@ -9,16 +9,7 @@
 </header>
 
 <div class="user-settings-grid">
-<section class="card user-settings-card">
-  <h2>Passwort ändern</h2>
-  <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
-  <form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="form_type" value="password">
-    {{ password_form.as_p }}
-    <button type="submit">Passwort ändern</button>
-  </form>
-</section>
+
 
 <section class="card user-settings-card">
   <h2>Persönliche Daten</h2>
@@ -28,6 +19,17 @@
     <input type="hidden" name="form_type" value="profile">
     {{ profile_form.as_p }}
     <button type="submit">Persönliche Daten speichern</button>
+  </form>
+</section>
+
+<section class="card user-settings-card">
+  <h2>Passwort ändern</h2>
+  <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="password">
+    {{ password_form.as_p }}
+    <button type="submit">Passwort ändern</button>
   </form>
 </section>
 
