@@ -71,7 +71,8 @@ class TestingFixtureViewTests(TestCase):
         self.assertRedirects(response, url)
         topic = Topic.objects.filter(series=series).first()
         self.assertIsNotNone(topic)
-        self.assertTrue(topic.title.startswith("TEST-"))
+        self.assertTrue(topic.title.startswith("TEST "))
+        self.assertLessEqual(len(topic.title[len("TEST "):].split()), 2)
 
         self.client.get(url)
         response = self.client.post(url, {
