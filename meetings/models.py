@@ -4,6 +4,8 @@ from django.core.validators import FileExtensionValidator, MaxValueValidator, Mi
 from django.db import models
 from django.utils import formats, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+import codecs
+import zipfile
 
 
 def validate_topic_attachment_size(uploaded_file):
@@ -13,6 +15,70 @@ def validate_topic_attachment_size(uploaded_file):
     if uploaded_file.size > limit:
         limit_mb = limit // (1024 * 1024)
         raise ValidationError(f"Die Datei darf höchstens {limit_mb} MB groß sein.")
+
+def validate_topic_attachment_content(uploaded_file):
+    """Reject files whose bytes do not match the allow-listed extension."""
+    if not uploaded_file:
+        return
+
+    suffix = Path(uploaded_file.name).suffix.lower().lstrip(".")
+    try:
+        uploaded_file.seek(0)
+        signature = uploaded_file.read(16)
+
+        if suffix == "pdf":
+            valid = signature.startswith(b"%PDF-")
+        elif suffix == "png":
+            valid = signature.startswith(b"\\x89PNG\\r\\n\\x1a\\n")
+        elif suffix in {"jpg", "jpeg"}:
+            valid = signature.startswith(b"\\xff\\xd8\\xff")
+        elif suffix == "txt":
+            valid = b"\\x00" not in signature
+            decoder = codecs.getincrementaldecoder("utf-8")()
+            while valid:
+                chunk = uploaded_file.read(64 * 1024)
+                if not chunk:
+                    break
+                if b"\\x00" in chunk:
+                    valid = False
+                    break
+                try:
+                    decoder.decode(chunk)
+                except UnicodeDecodeError:
+                    valid = False
+            if valid:
+                try:
+                    decoder.decode(b"", final=True)
+                except UnicodeDecodeError:
+                    valid = False
+        elif suffix in {"docx", "xlsx", "pptx"}:
+            required_parts = {
+                "docx": "word/document.xml",
+                "xlsx": "xl/workbook.xml",
+                "pptx": "ppt/presentation.xml",
+            }
+            try:
+                with zipfile.ZipFile(uploaded_file) as archive:
+                    names = set(archive.namelist())
+                valid = "[Content_Types].xml" in names and required_parts[suffix] in names
+            except (zipfile.BadZipFile, OSError, ValueError):
+                valid = False
+        else:
+            valid = False
+    except (OSError, ValueError):
+        valid = False
+    finally:
+        try:
+            uploaded_file.seek(0)
+        except (AttributeError, OSError, ValueError):
+            pass
+
+    if not valid:
+        raise ValidationError(
+            "Der Dateiinhalt passt nicht zum Dateiformat der Dateiendung. "
+            "Bitte exportiere die Datei erneut im angegebenen Format."
+        )
+
 
 class MeetingSeries(models.Model):
     name = models.CharField("Bezeichnung", max_length=160, unique=True)
@@ -167,6 +233,7 @@ class TopicAttachment(models.Model):
         validators=[
             validate_topic_attachment_size,
             FileExtensionValidator(["pdf", "docx", "xlsx", "pptx", "txt", "png", "jpg", "jpeg"]),
+            validate_topic_attachment_content,
         ],
         help_text="Zulässig: PDF, DOCX, XLSX, PPTX, TXT, PNG und JPEG.",
     )
