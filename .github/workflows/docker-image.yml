@@ -32,7 +32,7 @@ jobs:
 
       - name: Docker image metadata
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/k2home/meeting
           tags: |
@@ -82,7 +82,7 @@ jobs:
 
       - name: Docker Hub image metadata
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: docker.io/k2hadocker/meeting-manager
           tags: |
