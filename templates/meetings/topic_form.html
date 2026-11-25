@@ -103,6 +103,11 @@
    </form>
    {% endif %}
   </section>
+  <section class="card topic-pdf-card">
+   <h2>PDF-Protokoll</h2>
+   <p class="muted">Alle Besprechungstexte und der Verlauf dieses Themas als PDF zusammengefasst.</p>
+   <a class="btn secondary" href="{% url 'topic_protocol_pdf' topic.pk %}" download aria-label="PDF-Protokoll für {{ topic.title }} herunterladen"><span aria-hidden="true">📄</span> Themenprotokoll herunterladen (PDF)</a>
+  </section>
   <section class="card" id="topic-attachments"><h2>Dateien und Anlagen</h2>
    <p class="muted">Alle Unterlagen zu diesem Thema an einem Ort. Dateien können geöffnet oder heruntergeladen werden; Netzwerkpfade und Links bleiben direkt erreichbar.</p>
    {% for a in topic.attachments.all %}
