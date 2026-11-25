@@ -981,8 +981,9 @@ def testing_fixtures(request):
     from .models import AgendaItem, Meeting, Topic
     from .services import generate_meetings
 
-    series_qs = MeetingSeries.objects.order_by("name")
-    topics_qs = Topic.objects.select_related("series").order_by("title")
+    # Only operate on records created by this fixture tool; never bulk-edit real data.
+    series_qs = MeetingSeries.objects.filter(name__startswith="TEST-Besprechungsreihe ").order_by("name")
+    topics_qs = Topic.objects.filter(title__startswith="TEST-").select_related("series").order_by("title")
     if request.method == "POST":
         action = request.POST.get("action", "")
         try:
