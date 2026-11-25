@@ -58,7 +58,7 @@ jobs:
           if missing:
               raise SystemExit("README one-click installer is incomplete: " + ", ".join(missing))
           PY
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
