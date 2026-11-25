@@ -1001,8 +1001,8 @@ def testing_fixtures(request):
                             recurrence=secrets.choice(["weekly", "monthly"]),
                             recurrence_interval=secrets.choice([1, 2, 3]),
                             weekday=secrets.randbelow(5),
-                            start_date=today - timedelta(days=secrets.randbelow(366)),
-                            end_date=today + timedelta(days=secrets.randbelow(366)),
+                            start_date=today - timedelta(days=300 + secrets.randbelow(66)),
+                            end_date=today + timedelta(days=300 + secrets.randbelow(66)),
                         )
                         SeriesAccess.objects.update_or_create(
                             series=series, user=request.user,
