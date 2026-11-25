@@ -168,6 +168,7 @@ def topic_archive_toggle(request, pk):
         if is_ajax:
             return JsonResponse({"success": False, "error": "Keine Berechtigung zum Archivieren dieses Themas."}, status=403)
         return HttpResponseForbidden("Nur Moderator*innen der Besprechungsreihe dürfen Themen archivieren oder wieder öffnen.")
+    archived_now = False
     with transaction.atomic():
         topic = Topic.objects.select_for_update().get(pk=topic.pk)
         if topic.status == "archived":
@@ -228,8 +229,10 @@ def topic_archive_toggle(request, pk):
                 },
             )
             messages.success(request, f"„{topic.title}“ wurde archiviert.")
+            archived_now = True
     if is_ajax:
-        return JsonResponse({"success": True, "message": f"„{topic.title}“ wurde archiviert."})
+        action_message = f"„{topic.title}“ wurde " + ("archiviert." if archived_now else "wieder geöffnet.")
+        return JsonResponse({"success": True, "archived": archived_now, "message": action_message})
     return redirect("topic_edit", pk=topic.pk)
 
 
