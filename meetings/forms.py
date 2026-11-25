@@ -71,10 +71,6 @@ class AgendaItemCreateForm(forms.Form):
         queryset=get_user_model().objects.none(), required=False,
         label="Hauptzuständigkeit für das Thema",
     )
-    working_text = forms.CharField(
-        label="Text für dieses Protokoll", required=False,
-        widget=forms.Textarea(attrs={"rows": 4}),
-    )
     assigned_to = UserDisplayModelChoiceField(
         queryset=get_user_model().objects.none(), required=False,
         label="Abweichend verantwortlich für diesen Tagesordnungspunkt",
