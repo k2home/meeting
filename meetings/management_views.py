@@ -947,6 +947,35 @@ def _testing_count(request, key, default=5, maximum=100):
     return value
 
 
+def _testing_agenda_texts(topic_title):
+    """Build 100 distinct, topic-specific sample texts, each containing two sentences."""
+    openings = [
+        f"Zum Thema {topic_title} wird der aktuelle Sachstand zusammengefasst.",
+        f"Die bisherige Entwicklung bei {topic_title} wird gemeinsam eingeordnet.",
+        f"Für {topic_title} werden die wichtigsten Rahmenbedingungen vorgestellt.",
+        f"Die Beteiligten betrachten den aktuellen Stand von {topic_title}.",
+        f"Im Mittelpunkt steht die weitere Bearbeitung von {topic_title}.",
+        f"Die bisherigen Erfahrungen zu {topic_title} werden ausgewertet.",
+        f"Der nächste Umsetzungsschritt für {topic_title} wird vorbereitet.",
+        f"Offene Aspekte rund um {topic_title} werden strukturiert betrachtet.",
+        f"Die Ergebnisse der letzten Arbeitsschritte zu {topic_title} werden vorgestellt.",
+        f"Die weitere Abstimmung zu {topic_title} wird besprochen.",
+    ]
+    conclusions = [
+        "Anschließend werden offene Fragen gesammelt und nach Dringlichkeit geordnet.",
+        "Dabei werden Abhängigkeiten geprüft und die nächsten Schritte festgehalten.",
+        "Die Teilnehmenden gleichen unterschiedliche Einschätzungen ab und dokumentieren das Ergebnis.",
+        "Mögliche Risiken werden bewertet und geeignete Gegenmaßnahmen vorgeschlagen.",
+        "Zuständigkeiten werden geklärt und ein realistischer Zeitrahmen wird abgestimmt.",
+        "Die verfügbaren Optionen werden verglichen und eine Empfehlung wird vorbereitet.",
+        "Erforderliche Informationen werden zusammengetragen und für die nächste Beratung aufbereitet.",
+        "Vereinbarte Maßnahmen werden priorisiert und zur weiteren Bearbeitung festgehalten.",
+        "Der aktuelle Klärungsbedarf wird dokumentiert und ein Folgetermin wird vorbereitet.",
+        "Zum Abschluss werden Entscheidungen und noch ausstehende Rückmeldungen protokolliert.",
+    ]
+    return [f"{opening} {conclusion}" for opening in openings for conclusion in conclusions]
+
+
 def _testing_random_user(block_number, unique_number):
     import secrets
     from .models import UserProfile
@@ -1239,14 +1268,7 @@ def testing_fixtures(request):
                         raise ValidationError(
                             f"Es gibt nur {len(candidates)} freie Termine. Bitte generiere weitere Termine oder reduziere die Anzahl."
                         )
-                    text_templates = [
-                        "Sachstand: {topic}. Der aktuelle Umsetzungsstand wird vorgestellt; offene Fragen und Abhängigkeiten werden gesammelt.",
-                        "Beratung: {topic}. Die Teilnehmenden bewerten die vorliegenden Optionen und halten eine Empfehlung fest.",
-                        "Beschlussvorbereitung: {topic}. Entscheidungsgrundlagen, Risiken und benötigte Ressourcen werden geprüft.",
-                        "Maßnahmen: {topic}. Verantwortlichkeiten, nächste Schritte und ein realistischer Zeitplan werden abgestimmt.",
-                        "Rückmeldung: {topic}. Seit dem letzten Termin gab es folgende Entwicklungen; verbleibende Punkte werden priorisiert.",
-                        "Prüfauftrag: {topic}. Die Ergebnisse der Prüfung werden dokumentiert und mögliche Folgeaufgaben festgelegt.",
-                    ]
+                    text_templates = _testing_agenda_texts(topic.title)
                     created_items = []
                     for index in range(count):
                         meeting = candidates[index]
