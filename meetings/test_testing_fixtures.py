@@ -29,7 +29,8 @@ class TestingFixtureViewTests(TestCase):
         response = self.client.post(url, {"action": "create_series", "series_count": "1", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
         self.assertRedirects(response, url)
         series = MeetingSeries.objects.get()
-        self.assertTrue(series.name.startswith("TEST-Besprechungsreihe "))
+        self.assertTrue(series.name.startswith("TEST "))
+        self.assertIn(series.name, ["TEST Digitalisierung","TEST IT-Sicherheit","TEST Datenschutz","TEST Prozessoptimierung","TEST Personalentwicklung","TEST Projektmanagement","TEST Infrastruktur","TEST Cloud-Strategie","TEST Kommunikation","TEST Qualitätsmanagement","TEST Risikomanagement","TEST Nachhaltigkeit","TEST Kundenservice","TEST Datenmanagement","TEST Automatisierung","TEST Zusammenarbeit","TEST Weiterbildung","TEST Ressourcenplanung","TEST Informationsmanagement","TEST Compliance","TEST Innovation","TEST Change Management","TEST Beschaffung","TEST Gebäudemanagement","TEST Notfallplanung","TEST Softwareentwicklung","TEST Netzwerk","TEST Controlling","TEST Dokumentation","TEST Strategie"])
         self.assertTrue(SeriesAccess.objects.filter(
             user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR
         ).exists())
