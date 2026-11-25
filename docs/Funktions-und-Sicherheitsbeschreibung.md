@@ -137,7 +137,7 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 ### 7.1 Rollen und Serienberechtigungen – laufender Kontrollprozess
 
 1. Globale Admin-Konten auf einen kleinen, namentlich festgelegten Personenkreis begrenzen. Für normale Arbeit persönliche Konten verwenden, nicht das Admin-Konto.
-2. Für jede Besprechungsreihe einen fachlichen Eigentümer benennen. Dieser bestätigt bei Anlage und mindestens quartalsweise die Mitglieder und deren Rolle.
+2. Für jede Besprechungsreihe eine fachlich verantwortliche Person benennen. Diese bestätigt bei Anlage und mindestens quartalsweise die Mitglieder und deren Rolle.
 3. Bei Eintritt, Rollenwechsel und Austritt von Mitarbeitenden die Serienzuweisungen unmittelbar anpassen. Deaktivierte Konten und nicht mehr benötigte Serienzuweisungen in einem dokumentierten Offboarding-Prozess berücksichtigen.
 4. Bei jeder Änderung an Views, Exporten, Downloads oder APIs eine Berechtigungsmatrix mit Positiv- und Negativtests ergänzen: Leser*innen, Teilnehmer*innen, Moderator*innen, Admin ohne Serienzuweisung, Admin mit Serienzuweisung und Auditor*innen.
 5. Für jede Ressource sowohl Listenansichten als auch direkte Objekt-IDs testen. Eine nicht berechtigte Person muss auch durch Erraten einer URL/ID keinen Inhalt erhalten oder ändern können.
@@ -215,7 +215,7 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 Vor produktiver Nutzung sind mit Verantwortlichem, IT, Informationssicherheit und Datenschutzbeauftragten mindestens folgende Punkte zu klären:
 
 - Zweck(e), Rechtsgrundlage(n) und Verantwortlichkeit für Besprechungsdokumentation und Beschäftigtendaten.
-- Datenkategorien, Empfänger*innen, Hostingstandort, Unterauftragnehmer und Supportzugriffe.
+- Datenkategorien, Empfänger*innen, Hostingstandort, Unterauftragnehmer*innen und Supportzugriffe.
 - Verzeichnis der Verarbeitungstätigkeiten und Transparenzinformation für Nutzer*innen.
 - Notwendigkeit einer Datenschutz-Folgenabschätzung; Beteiligung einer Personalvertretung, soweit erforderlich.
 - Aufbewahrungs- und Löschfristen für aktive Inhalte, Protokoll-Snapshots, Kommentare, Audit-Daten, Exportdateien und Backups.
