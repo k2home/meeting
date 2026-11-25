@@ -402,6 +402,26 @@ def open_topics(request):
     """Show the latest unfinished agenda entry for topics without a future appointment."""
     today = timezone.localdate()
     allowed_series, items, topics_without_items = _open_topics_querysets(request.user, today)
+    selected_series = request.GET.get("series", "").strip()
+    selected_series_id = None
+    if selected_series:
+        if selected_series.isdigit() and allowed_series.filter(pk=int(selected_series)).exists():
+            selected_series_id = int(selected_series)
+            items = items.filter(topic__series_id=selected_series_id)
+            topics_without_items = topics_without_items.filter(series_id=selected_series_id)
+        else:
+            # An invalid or unauthorized series filter must not fall back to an
+            # unfiltered list.
+            items = items.none()
+            topics_without_items = topics_without_items.none()
+            selected_series = ""
+    selected_series_name = (
+        allowed_series.filter(pk=selected_series_id).values_list("name", flat=True).first()
+        if selected_series_id else ""
+    )
+    open_topics_url = reverse("open_topics") + (
+        f"?series={selected_series_id}" if selected_series_id else ""
+    )
     if not allowed_series.exists():
         return HttpResponseForbidden("Für diese Funktion ist eine Teilnehmer- oder Moderatorrolle erforderlich.")
 
@@ -430,7 +450,7 @@ def open_topics(request):
                     changes={"Tagesordnung": {"nachher": target_meeting.date.isoformat()}},
                 )
             messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt.")
-            return redirect("open_topics")
+            return redirect(open_topics_url)
 
         item = get_object_or_404(items, pk=request.POST.get("schedule_item"))
         target_meeting = get_object_or_404(
@@ -467,7 +487,7 @@ def open_topics(request):
                 changes={"Wiedervorlage": {"nachher": target_meeting.date.isoformat()}},
             )
         messages.success(request, f"„{item.topic.title}“ wurde auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt.")
-        return redirect("open_topics")
+        return redirect(open_topics_url)
 
     rows = []
     for item in items:
@@ -487,7 +507,10 @@ def open_topics(request):
             "future_meetings": future_meetings,
         })
     rows.sort(key=lambda row: (row["topic"].series.name.casefold(), row["topic"].title.casefold()))
-    return render(request, "meetings/open_topics.html", {"rows": rows, "today": today})
+    return render(request, "meetings/open_topics.html", {
+        "rows": rows, "today": today, "selected_series": selected_series_id,
+        "selected_series_name": selected_series_name,
+    })
 
 @login_required
 def my_tasks(request):
