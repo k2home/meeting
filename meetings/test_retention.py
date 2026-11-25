@@ -80,10 +80,16 @@ class RetentionCleanupTests(TestCase):
                 "nachher": {"topic_id": topic.pk, "text": "Korrigierter Snapshot"},
             }},
         )
+        agenda_edit = AuditEvent.objects.create(
+            meeting=meeting, topic=topic, actor=self.user, action="agenda_edited",
+            summary="Tagesordnungstext geändert",
+            changes={"Text": {"vorher": "Alter Text", "nachher": "Neuer Text"}},
+        )
 
         call_command("purge_expired_data")
 
         correction.refresh_from_db()
+        agenda_edit.refresh_from_db()
         self.assertFalse(Meeting.objects.filter(pk=meeting.pk).exists())
         self.assertFalse(AgendaItem.objects.filter(pk=item.pk).exists())
         self.assertFalse(TopicSnapshot.objects.filter(pk=snapshot.pk).exists())
@@ -95,6 +101,7 @@ class RetentionCleanupTests(TestCase):
             correction.changes["Protokollkorrektur"],
             {"Begründung": "Test"},
         )
+        self.assertEqual(agenda_edit.changes, {})
 
     def test_meeting_retention_uses_global_period_not_topic_override(self):
         OrganizationSettings.objects.filter(pk=1).update(retention_years=10)
