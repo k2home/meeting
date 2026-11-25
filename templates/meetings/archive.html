@@ -6,7 +6,7 @@
   <h2>Archivierte Themen</h2>
   {% for topic in archived_topics %}
   <article class="content-divider">
-    <div class="topline"><div><h3><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · Archiviert</p></div><span class="pill">Archiviert</span></div>
+    <div class="topline"><div><h3><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · Archiviert</p></div><form method="post" action="{% url 'topic_archive_toggle' topic.pk %}">{% csrf_token %}<button type="submit" class="archive-undo-button">Archivierung rückgängig</button></form></div>
   </article>
   {% empty %}<p class="muted">Es gibt keine archivierten Themen.</p>{% endfor %}
 </section>
@@ -31,6 +31,9 @@
 </section>
 <style>
   .archive-topic-button-done { background: #6b7280 !important; border-color: #6b7280 !important; color: #fff !important; }
+  .archive-topic-form .topic-archive-button:not(.archive-topic-button-done) { background: #dc2626 !important; border: 1px solid #dc2626 !important; color: #fff !important; }
+  .archive-topic-form .topic-archive-button:not(.archive-topic-button-done):hover { background: #b91c1c !important; border-color: #b91c1c !important; }
+  .archive-undo-button { background: #6b7280; border: 1px solid #6b7280; color: #fff; }
 </style>
 
 <!-- archive-topic-actions -->
