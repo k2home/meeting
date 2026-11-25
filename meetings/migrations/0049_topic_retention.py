@@ -1,5 +1,6 @@
 from django.db import migrations, models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
 
 
 def backfill_archived_dates(apps, schema_editor):
@@ -10,7 +11,7 @@ def backfill_archived_dates(apps, schema_editor):
         archived_event = AuditEvent.objects.using(db).filter(
             topic_id=topic.pk, action="archived"
         ).order_by("-created_at", "-pk").first()
-        archived_at = archived_event.created_at.date() if archived_event else topic.updated_at.date()
+        archived_at = archived_event.created_at.date() if archived_event else timezone.now().date()
         Topic.objects.using(db).filter(pk=topic.pk).update(archived_at=archived_at)
 
 
