@@ -34,6 +34,7 @@ services:
       CLAMD_ENABLED: "1"
       CLAMD_HOST: clamav
       CLAMD_PORT: 3310
+      CLAMD_CONF_StreamMaxLength: 32M
     group_add:
       - "10002"
     volumes:
