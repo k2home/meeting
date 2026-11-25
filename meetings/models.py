@@ -90,7 +90,7 @@ class Topic(models.Model):
     completion_note = models.TextField("Abschlussvermerk", blank=True)
     archive_previous_status = models.CharField("Status vor Archivierung", max_length=12, blank=True)
     archived_at = models.DateField("Archiviert am", null=True, blank=True)
-    retention_years = models.PositiveSmallIntegerField("Löschfrist (Jahre)", null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(100)])
+    retention_years = models.PositiveSmallIntegerField("Löschfrist (Jahre)", null=True, blank=True, validators=[MinValueValidator(1)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -331,7 +331,7 @@ class OrganizationSettings(models.Model):
     )
     retention_years = models.PositiveSmallIntegerField(
         "Aufbewahrungsfrist für Themen und Protokolle (Jahre)", default=10,
-        validators=[MinValueValidator(1), MaxValueValidator(100)],
+        validators=[MinValueValidator(1)],
         help_text="Gilt als Standard für archivierte Themen und abgeschlossene Protokollstände. Eine abweichende Frist kann im jeweiligen Thema festgelegt werden.",
     )
     attachment_max_size_mb = models.PositiveSmallIntegerField(
