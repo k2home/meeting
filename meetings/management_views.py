@@ -1018,11 +1018,19 @@ def testing_fixtures(request):
                         raise ValidationError("Die Auswahl enthält keine gültige Besprechungsserie.")
                     created_count = 0
                     for series in selected:
+                        SeriesAccess.objects.update_or_create(
+                            series=series, user=request.user,
+                            defaults={"role": SeriesAccess.ROLE_MODERATOR},
+                        )
                         created_count += len(generate_meetings(series))
                     messages.success(request, f"{created_count} neue Termine wurden für {selected.count()} Serien generiert.")
                 elif action == "create_topics":
                     count = _testing_count(request, "topic_count")
                     series = get_object_or_404(series_qs, pk=request.POST.get("series_id"))
+                    SeriesAccess.objects.update_or_create(
+                        series=series, user=request.user,
+                        defaults={"role": SeriesAccess.ROLE_MODERATOR},
+                    )
                     active_users = list(User.objects.filter(is_active=True))
                     title_parts = ["Projektplanung", "Qualitätssicherung", "Prozessoptimierung", "Infrastruktur", "Dokumentation", "Schnittstellen", "Ressourcenplanung", "Betriebsablauf"]
                     for _ in range(count):
