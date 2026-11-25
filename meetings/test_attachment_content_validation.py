@@ -149,3 +149,12 @@ class AttachmentContentValidationTests(TestCase):
             with self.assertRaisesMessage(ValidationError, "2 MB"):
                 OrganizationSettings(logo=logo).save()
         scan.assert_not_called()
+
+    def test_organization_logo_rejects_active_svg_content(self):
+        logo = SimpleUploadedFile(
+            "logo.svg",
+            b"<svg xmlns='http://www.w3.org/2000/svg'><script>alert(1)</script></svg>",
+        )
+        with tempfile.TemporaryDirectory() as media_dir, override_settings(MEDIA_ROOT=media_dir):
+            with self.assertRaisesMessage(ValidationError, "aktive Inhalte"):
+                OrganizationSettings(logo=logo).save()
