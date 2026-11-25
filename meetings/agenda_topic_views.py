@@ -203,8 +203,12 @@ def topic_detail(request, pk):
         snapshot.meeting_id: snapshot
         for snapshot in TopicSnapshot.objects.filter(
             topic_id=topic.pk, meeting__in=visible_meetings
-        )
+        ).select_related("meeting", "meeting__series")
     }
+    items_by_meeting = {item.meeting_id: item for item in items}
+    meetings_by_id = {item.meeting_id: item.meeting for item in items}
+    meetings_by_id.update({snapshot.meeting_id: snapshot.meeting for snapshot in snapshots.values()})
+    topic_meetings = sorted(meetings_by_id.values(), key=lambda meeting: (meeting.date, meeting.pk))
     for item in items:
         snapshot = snapshots.get(item.meeting_id)
         item.display_text = snapshot.text if snapshot else item.working_text
@@ -374,24 +378,28 @@ def topic_protocol_pdf(request, pk):
         HRFlowable(width="100%", thickness=0.8, color=secondary, spaceBefore=1 * mm, spaceAfter=2 * mm),
         Paragraph("Besprechungsverlauf", styles["TopicProtocolSection"]),
     ]
-    for item in items:
-        snapshot = snapshots.get(item.meeting_id)
-        text = snapshot.text if snapshot else item.working_text
-        status = dict(AgendaItem.STATUS).get(snapshot.status, snapshot.status) if snapshot else item.get_status_display()
+    for meeting in topic_meetings:
+        item = items_by_meeting.get(meeting.pk)
+        snapshot = snapshots.get(meeting.pk)
+        text = snapshot.text if snapshot else (item.working_text if item else "")
+        status = dict(AgendaItem.STATUS).get(snapshot.status, snapshot.status) if snapshot else (
+            item.get_status_display() if item else "Unbekannt"
+        )
         responsible_name = snapshot.responsible_name if snapshot else (
-            user_display_name(item.assigned_to, include_short_description=True) if item.assigned_to else responsible
+            user_display_name(item.assigned_to, include_short_description=True)
+            if item and item.assigned_to else responsible
         )
-        series_name = item.meeting.series.name if item.meeting.series_id else (
-            item.meeting.archived_series_name or "Gelöschte Besprechungsreihe"
+        series_name = meeting.series.name if meeting.series_id else (
+            meeting.archived_series_name or "Gelöschte Besprechungsreihe"
         )
-        meeting_label = f"{series_name} · {formats.date_format(item.meeting.date, 'DATE_FORMAT')}"
+        meeting_label = f"{series_name} · {formats.date_format(meeting.date, 'DATE_FORMAT')}"
         parts = [
             Paragraph(escape(meeting_label), styles["TopicProtocolSection"]),
             Paragraph(f"<b>Status:</b> {escape(status)} &nbsp;&nbsp; <b>Verantwortlich:</b> {escape(responsible_name or 'Nicht festgelegt')}", styles["TopicProtocolMeta"]),
             Paragraph(escape(text or "Kein Text hinterlegt.").replace("\n", "<br/>"), styles["TopicProtocolBody"]),
         ]
         story.append(KeepTogether(parts))
-    if not items:
+    if not topic_meetings:
         story.append(Paragraph("Für dieses Thema liegen noch keine Besprechungstexte vor.", styles["TopicProtocolBody"]))
 
     from reportlab.pdfgen import canvas as pdf_canvas
