@@ -49,7 +49,7 @@ class UploadedAttachmentMetadataTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, r"\\server\freigabe\unterlage")
-        self.assertContains(response, f'data-file-size="{len(b"PDF-Dateiinhalt")}"')
+        self.assertContains(response, f'data-file-size="{len(b"%PDF-1.7\nPDF-Dateiinhalt")}"')
         self.assertNotContains(response, 'data-file-size="0"')
 
     def test_user_without_topic_access_cannot_view_attachment_metadata(self):
