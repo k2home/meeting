@@ -19,8 +19,8 @@
       <form method="post" class="actions">
         {% csrf_token %}
         {% if row.item %}<input type="hidden" name="schedule_item" value="{{ row.item.pk }}">{% else %}<input type="hidden" name="schedule_topic" value="{{ row.topic.pk }}">{% endif %}
-        <label for="target-meeting-{{ row.item.pk }}">Zukünftiger Termin</label>
-        <select id="target-meeting-{{ row.item.pk }}" name="target_meeting" required>
+        <label for="target-meeting-{{ row.topic.pk }}">Zukünftiger Termin</label>
+        <select id="target-meeting-{{ row.topic.pk }}" name="target_meeting" required>
           {% for meeting in row.future_meetings %}<option value="{{ meeting.pk }}">{{ meeting.date|date:"DATE_FORMAT" }}{% if meeting.title %} – {{ meeting.title }}{% endif %}</option>{% endfor %}
         </select>
         <button type="submit">Auf Tagesordnung setzen</button>
