@@ -69,7 +69,7 @@
               <input type="hidden" name="form_type" value="access_request">
               <input type="hidden" name="series_id" value="{{ row.series.pk }}">
               <label for="role-{{ row.series.pk }}">Berechtigung ändern</label>
-              <select id="role-{{ row.series.pk }}" name="role" data-current-role="{{ row.role_value }}">
+              <select id="role-{{ row.series.pk }}" name="role" data-current-role="{{ row.role_value }}" {% if row.role_locked %}disabled{% endif %}>
                 {% if not row.role_value %}<option value="" selected>Bitte auswählen</option>{% endif %}
                 {% for value,label in request_role_choices %}
                   <option value="{{ value }}" {% if value == row.role_value %}selected{% endif %}>{{ label }}</option>
