@@ -1,5 +1,5 @@
 **Adressaten:** IT-Abteilung, Informationssicherheit und Datenschutzbeauftragte  
-**Prüfstand:** Branch `main`  
+**Prüfstand:** Branch `docs/security-review-help-page` (Quellcode- und Konfigurationsstand zum Prüfdatum; der konkrete Commit ist über den Branch-Verlauf nachvollziehbar)  
 **Stand:** 25. November 2026  
 **Geltungsbereich:** Anwendungscode und Repository-Konfiguration. Die konkrete Server-, Proxy-, Netzwerk- und Backup-Konfiguration ist vor Ort gesondert zu prüfen.
 
@@ -11,7 +11,7 @@ Meeting Manager ist eine deutschsprachige Webanwendung zur Organisation wiederke
 
 Ein Thema beschreibt einen fortlaufenden Vorgang. Ein Tagesordnungspunkt ist die Behandlung dieses Themas in einem konkreten Termin. Der zu einem Termin gehörende Text und Status werden getrennt geführt. Beim Abschluss einer Besprechung speichert die Anwendung einen Protokoll-Snapshot. Spätere Änderungen am Thema verändern diesen historischen Snapshot nicht.
 
-Die Anwendung ist laut Repository für interne Netze vorgesehen. Sie wird entweder auf Debian/Ubuntu mit PostgreSQL, Gunicorn und Nginx oder containerisiert mit Docker Compose betrieben.
+Die Anwendung ist für den Betrieb in internen Netzen vorgesehen. Der verbindliche Produktivbetrieb dieser Installation erfolgt ausschließlich im Intranet; die Produktivinstanz besitzt keine direkte Internetverbindung. Zusätzlich ist eine optionale Online-Betriebsvariante für Betreiber möglich, die ihre Anwendung bewusst mit Internetzugriff betreiben. Beide Betriebsvarianten verwenden dieselbe Anwendung, unterscheiden sich aber bei Netzfreigaben, Release- und Updatewegen sowie bei der Aktualisierung von Betriebssystempaketen und Malware-Signaturen. Die Anwendung wird entweder auf Debian/Ubuntu mit PostgreSQL, Gunicorn und Nginx oder containerisiert mit Docker Compose betrieben.
 
 ## 2. Funktionsumfang und Datenverarbeitung
 
@@ -86,7 +86,35 @@ Das Modell ist damit auf das Need-to-know-Prinzip ausgerichtet. Kritisch bleibt 
 - **Container:** App-Prozess läuft als nicht privilegierter Benutzer. PostgreSQL ist im Compose-Netz erreichbar und erhält keinen veröffentlichten Host-Port. Der App-Container veröffentlicht Port 8000 nur intern; der Nginx-Container veröffentlicht den konfigurierten Web-Port.
 - **Konfiguration:** Umgebungsvariablen und lokale `.env`-Datei. `SECRET_KEY` und Datenbankzugangsdaten sind vertraulich zu behandeln.
 
-Die Installationsskripte erzwingen HTTPS auf Anwendungsebene: SECURE_SSL_REDIRECT, SESSION_COOKIE_SECURE und CSRF_COOKIE_SECURE werden aktiviert; CSRF_TRUSTED_ORIGINS wird auf die öffentliche HTTPS-Adresse gesetzt. Django vertraut X-Forwarded-Proto nur im vorgesehenen Reverse-Proxy-Betrieb. Bei Debian nimmt die lokale Nginx-Konfiguration HTTP auf Port 8080 entgegen und begrenzt den Zugriff auf die beim Setup angegebene Proxy-IP/CIDR. Bei Docker wird der veröffentlichte Nginx-Port standardmäßig ausschließlich an 127.0.0.1 gebunden. In beiden Varianten muss vor dem produktiven Zugriff ein TLS-Reverse-Proxy mit gültigem Zertifikat eingerichtet sein, der X-Forwarded-Proto: https setzt und eingehende Client-Header überschreibt. Ohne diesen Proxy ist die Anwendung absichtlich nicht regulär erreichbar.
+Die Installationsskripte konfigurieren HTTPS-Schutzmechanismen: SECURE_SSL_REDIRECT, SESSION_COOKIE_SECURE und CSRF_COOKIE_SECURE können durch die Installationskonfiguration aktiviert werden; CSRF_TRUSTED_ORIGINS enthält die konfigurierte Anwendungs-Origin. Django vertraut X-Forwarded-Proto nur bei ausdrücklich aktiviertem TRUST_PROXY_SSL. Bei Debian nimmt die lokale Nginx-Konfiguration HTTP auf Port 8080 entgegen und begrenzt den Zugriff auf die beim Setup angegebene Proxy-IP/CIDR. Bei Docker wird der veröffentlichte Nginx-Port standardmäßig ausschließlich an 127.0.0.1 gebunden. Vor dem produktiven Zugriff muss ein TLS-Reverse-Proxy mit einem von den Clients vertrauten Zertifikat eingerichtet sein, der X-Forwarded-Proto korrekt setzt und eingehende Client-Header überschreibt. Im Intranet kann dafür eine interne Zertifizierungsstelle verwendet werden; ein öffentliches Zertifikat ist nicht zwingend. Im verbindlichen Offline-Betrieb bleibt die Produktivinstanz ohne direkte Internetverbindung.
+
+### 4.1 Betriebsvarianten und Netzwerkgrenzen
+
+**Verbindliche Offline-Produktivvariante**
+
+- Die Webanwendung ist ausschließlich aus dem vorgesehenen Intranet bzw. über den dafür freigegebenen internen Zugangsweg erreichbar.
+- Die Produktivinstanz besitzt keine direkte ausgehende Internetverbindung. DNS, Zeitquelle, Identitätsdienst, SMTP, Monitoring und sonstige benötigte Infrastruktur müssen intern bereitgestellt oder ausdrücklich als Ausnahme freigegeben werden.
+- Es bestehen keine Laufzeitabhängigkeiten von GitHub, Docker Hub, Paket-Repositories, externen APIs oder Cloud-Telemetrie.
+- Die Netzwerksegmentierung begrenzt den Zugriff auf notwendige Clients, den Reverse Proxy, die Datenbank und administrative Systeme. Die Datenbank wird nicht für Benutzer-Netze veröffentlicht.
+- „Offline“ bedeutet hier ohne Internetanbindung der Produktivinstanz, nicht ohne interne Netzkommunikation. Der Betrieb benötigt weiterhin interne Kommunikation zwischen Proxy, Anwendung, Datenbank, Administratorarbeitsplätzen und gegebenenfalls internen Infrastruktur-Diensten.
+
+**Optionale Online-Betriebsvariante**
+
+Betreiber können die Anwendung alternativ mit Internetanbindung betreiben. Dies ist eine eigenständige Betriebsentscheidung und keine Voraussetzung für die Anwendung. In dieser Variante sind eingehende Erreichbarkeit, ausgehende Verbindungen und externe Dienste ausdrücklich zu dokumentieren und auf das notwendige Minimum zu begrenzen. Insbesondere dürfen Datenbank und interne Verwaltungsports nicht öffentlich erreichbar sein. Updates und Images dürfen nicht ungeprüft automatisch in Produktion übernommen werden; auch online ist ein kontrollierter Freigabeprozess erforderlich.
+
+**Kontrollierte Updates im Offline-Betrieb**
+
+Der Offline-Betrieb schließt Sicherheitsupdates ausdrücklich nicht aus. Er verlangt einen geregelten, nachvollziehbaren Offline-Updateprozess:
+
+1. Release, Container-Images, Betriebssystempakete und erforderliche Signatur-/Definitionsdateien werden in einer getrennten, internetfähigen Bereitstellungsumgebung bezogen.
+2. Die konkrete Version und Herkunft werden dokumentiert. Verfügbare Hersteller-/Repository-Signaturen und Prüfsummen werden geprüft; für die Übergabe wird ein signiertes Release-Manifest mit Versionsnummer, Artefaktbezeichnung und SHA-256-Prüfsummen bereitgestellt.
+3. Die Artefakte werden vor der Übertragung auf Schadsoftware und bekannte Schwachstellen geprüft. Sicherheits- und Dependency-Scans sowie die Ergebnisse der CI-Prüfungen werden der Releasefreigabe zugeordnet.
+4. Die freigegebenen Artefakte werden über einen kontrollierten Übertragungsweg (z. B. freigegebenes Transfermedium oder ein gesichertes internes Übergabesystem) in die Offline-Umgebung eingebracht.
+5. Dort werden Signatur und Prüfsummen erneut geprüft, bevor die Artefakte importiert bzw. installiert werden. Abweichungen führen zum Abbruch.
+6. Vor dem Update werden Datenbank und Medien gesichert. Das Update wird zunächst in einer geeigneten Test-/Abnahmeumgebung geprüft und anschließend im Wartungsfenster eingespielt.
+7. Release-Version, Quell-Commit, Image-Digests, Prüfergebnisse, Freigabe, Installationszeitpunkt und verantwortliche Personen werden protokolliert. Ein getesteter Wiederherstellungs-/Rollback-Weg ist vorzuhalten.
+
+Die genaue technische Umsetzung (z. B. signierte Container-Archive, signierte Debian-Pakete oder ein signiertes Offline-Updatepaket) ist durch den Betreiber festzulegen. Ein bloßer Dateiname oder eine Prüfsumme aus derselben ungesicherten Quelle beweist keine authentische Herkunft; Signaturen bzw. Manifest müssen über einen getrennt vertrauenswürdigen Schlüssel geprüft werden.
 
 ## 5. Bereits vorhandene Sicherheitskontrollen
 
@@ -104,7 +132,7 @@ Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsd
 | Logos / SVG | Logo-Auslieferung ist angemeldet, auf MEDIA_ROOT begrenzt und privat/no-store. SVG erhält eine restriktive CSP-Sandbox. | Upload- und Konvertierungspfad weiter beobachten. |
 | Audit | Protokolliert werden handelnde Person, Zeitpunkt, Aktion, eine begrenzte Zusammenfassung und gezielt ausgewählte Änderungsmetadaten. Passwortwerte und hochgeladene Datei-Inhalte werden nicht gespeichert; bei Passwortänderungen wird nur der Status der Änderung festgehalten. Dateinamen können als Metadaten erscheinen. Eine fachliche Ausnahme ist das Wiederöffnen einer abgeschlossenen Besprechung: Der vorherige gesicherte Protokollstand wird als Audit-Detail aufbewahrt. Systemereignisse sehen globale Administrator\*innen und Auditor\*innen. Serienereignisse sehen Moderator\*innen ausschließlich für ihre moderierten Reihen; globale Administrator\*innen sehen sie ebenfalls nur, wenn sie in der jeweiligen Reihe ausdrücklich als Moderator\*in zugewiesen sind. | Die Datenbankablage ist nicht manipulationsgeschützt. Die Oberfläche zeigt nur freigegebene Ereignisse und aufklappbare, ausgewählte Änderungsdetails; sie ist kein vollständiges Aktivitäts- oder Inhaltsprotokoll. |
 | CSV | Import mit Vorschau/Bestätigung; Exportwerte werden gegen Tabellenformel-Präfixe abgesichert. Benutzer-CSV und Vollbackup/Restore sind Administrator\*in-Funktionen; Themen-CSV ist auf Moderator\*innen und ihre moderierten Reihen begrenzt. | Import-/Exportdateien bleiben sensible Datenkopien. |
-| Betrieb | Docker-App läuft als nicht-root; DB nicht nach außen veröffentlicht; Updater nutzt lokalen Socket statt Docker-Socket im App-Container. | Host, Socket-Berechtigungen, Images, Volumes und Updater bleiben Teil der Vertrauensgrenze. |
+| Betrieb | Docker-App läuft als nicht-root; DB nicht nach außen veröffentlicht; Updater nutzt lokalen Socket statt Docker-Socket im App-Container. | Host, Socket-Berechtigungen, Images, Volumes und Updater bleiben Teil der Vertrauensgrenze. Offline-Updates müssen über geprüfte, freigegebene Artefakte erfolgen; der Updater darf keine Internetverbindung voraussetzen. |
 | Backups | Integrierter Datenbank-Vollbackup-Export/-Import und dokumentierte Backup-Wege für Datenbank und Medien. | Ein belastbarer externer Backup-, Verschlüsselungs- und Restore-Prozess muss von den Betreiber\*innen eingerichtet werden. |
 
 ## 6. Häufige Sicherheitsrisiken und Bewertung der Schutzmaßnahmen
@@ -123,7 +151,7 @@ Die folgende Bewertung orientiert sich an typischen Risiken von Webanwendungen. 
 | **Datenabfluss über Anlagen, CSV und Backups** | Anlagen werden über eine geschützte Download-Route ausgeliefert. CSV-Import hat eine Vorschau; Exportwerte werden gegen Tabellenformeln abgesichert. Benutzer-CSV und Vollbackup/Restore sind Administrator\*in-Funktionen; Themen-CSV ist auf Moderator\*innen und ihre moderierten Reihen begrenzt. | **Im normalen Anwendungspfad adressiert, Betrieb bleibt kritisch.** MEDIA-Verzeichnis nicht öffentlich ausliefern; Exportdateien und Backups verschlüsseln, Zugriff beschränken, Aufbewahrung und Löschung regeln. |
 | **Missbrauch privilegierter Konten / Insider-Risiko** | Administrator\*in- und Auditor\*innen-Rollen sind getrennt; Auditor\*innen haben ausschließlich Leserechte. Administrator\*innen erhalten fachlichen Reihen-Zugriff nicht allein durch ihre globale Rolle. Administrative und fachliche Ereignisse werden protokolliert. | **Teilweise adressiert.** Administrator\*in-Konten minimieren, MFA einsetzen, Administrator\*in-Aktionen überwachen und regelmäßige Rechteprüfungen durchführen. Privilegierte Host-/DB-Zugriffe bleiben außerhalb der Anwendungsautorisierung. |
 | **Manipulation oder Verlust von Audit-Daten** | Serienereignisse sind für Moderator\*innen ihrer jeweils moderierten Reihen sichtbar; globale Administrator\*innen sehen sie nur mit eigener Moderator\*innen-Zuweisung. Systemereignisse sind für globale Administrator\*innen und Auditor\*innen sichtbar. Die Erfassung beschränkt sich auf Ereignismetadaten und ausgewählte Änderungen. Passwortwerte und hochgeladene Datei-Inhalte werden nicht protokolliert. Beim Wiederöffnen einer abgeschlossenen Besprechung wird jedoch der vorherige Protokoll-Snapshot als fachliches Audit-Detail gespeichert. | **Zugriff und Darstellung sind eng begrenzt.** In der Weboberfläche sind Änderungsdetails zunächst eingeklappt; der CSV-Export enthält die strukturierten Änderungsdetails im Exportumfang der jeweiligen Rolle. Beim Wiederöffnen einer abgeschlossenen Besprechung bleibt der vorherige Protokoll-Snapshot im Audit erhalten. Die Datenbank selbst ist kein manipulationsgeschützter/WORM-Speicher. |
-| **Veraltete Abhängigkeiten und Container-Images** | Python-Abhängigkeiten werden bei Pull Requests sowie Pushes auf `main` und `beta` durch `pip-audit` geprüft. Das gebaute Anwendungsimage und das ClamAV-Sidecar-Image werden bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf OS- und Bibliotheks-Schwachstellen geprüft. Kritische und hohe, behebbare Befunde lassen den Job fehlschlagen und werden als SARIF an GitHub Code Scanning übermittelt. | **Python-Abhängigkeiten und Container-Images werden automatisiert geprüft.** Nicht behebbare Befunde werden durch `ignore-unfixed` nicht als Job-Fehler gewertet und müssen regelmäßig neu bewertet werden; Basisimages und Betriebssystempakete zeitnah aktualisieren. |
+| **Veraltete Abhängigkeiten und Container-Images** | Python-Abhängigkeiten werden bei Pull Requests sowie Pushes auf `main` und `beta` durch `pip-audit` geprüft. CodeQL analysiert Python-Code bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich. Das gebaute Anwendungsimage und das ClamAV-Image werden bei Pull Requests, Pushes auf `main`/`beta` und wöchentlich mit Trivy auf OS- und Bibliotheks-Schwachstellen geprüft. Beim Anwendungsimage führen behebbare HIGH-/CRITICAL-Befunde zum Fehler; beim ClamAV-Image führt der konfigurierte Trivy-Scan bei HIGH-/CRITICAL-Befunden ebenfalls zum Fehler. | **Automatisierte Prüfungen in CI/CD sind vorhanden, aber kein Laufzeitschutz der Offline-Instanz.** Nicht behebbare Befunde werden durch `ignore-unfixed` nicht als Job-Fehler gewertet und müssen regelmäßig neu bewertet werden. Die Scan-Ergebnisse müssen dem tatsächlich freigegebenen Release zugeordnet werden. |
 | **Denial of Service und Ressourcenerschöpfung** | Uploadgrößen sind begrenzt; Datenbank und App sind in getrennten Diensten organisiert. | **Nur teilweise adressiert.** Request-Größen, Verbindungen, Rate-Limits, Timeouts, CPU, RAM und Speicherplatz am Proxy und Host begrenzen und überwachen. |
 | **Datenverlust / fehlende Wiederherstellbarkeit** | Datenbank- und Medien-Backups sowie Import-/Restore-Funktionen sind vorhanden und dokumentiert. | **Nicht durch den Code garantiert.** Getrennte, verschlüsselte Backups, definierte RPO/RTO und regelmäßige Restore-Tests sind zwingend durch die Betreiber\*innen einzurichten. |
 | **Fehlkonfiguration von HTTPS und Proxy-Vertrauen** | Die Installer setzen HTTPS-Redirect, Secure-Cookies, CSRF-Origin und Proxy-Vertrauen verbindlich. Debian beschränkt den internen Nginx-Zugriff auf die angegebene Proxy-IP/CIDR; Docker bindet den Web-Port nur an Loopback. | **Im Installationsstandard deutlich reduziert.** Ein gültiger TLS-Reverse-Proxy muss tatsächlich eingerichtet sein, Forwarded-Header überschreiben und darf nicht umgangen werden. HSTS bleibt eine bewusst zu prüfende Zusatzmaßnahme. |
@@ -192,13 +220,16 @@ Die folgenden Schritte sind bewusst als umsetzbare Arbeitsanweisungen formuliert
 
 ### 7.6 Patch- und Lieferkettenmanagement
 
-1. Für Betriebssystem, PostgreSQL, Python-Abhängigkeiten, Docker-Basisimages und Nginx einen festen Patch-Rhythmus mit kurzfristigem Prozess für kritische Sicherheitsupdates definieren.
-2. Bei jedem Build Abhängigkeitsscans und Container-Image-Scans ausführen. Kritische und hohe Befunde vor Freigabe beheben oder mit verantwortlicher Person, Begründung und Frist dokumentiert akzeptieren.
-3. Produktionsimages nur aus freigegebenen Branches/Tags beziehen. Version und Commit des laufenden Builds dokumentieren; keine ungeprüften Branches im Produktivsystem verwenden.
-4. Updates zunächst in einer Testumgebung mit Datenbankkopie prüfen. Vor Migrationen Backup erstellen und nach dem Update Login, Berechtigungen, Upload/Download, PDF-Export und Protokollabschluss testen.
-5. Rollback nicht mit Datenbank-Rollback gleichsetzen: Bereits angewendete Migrationen können eine Wiederherstellung aus Backup erfordern. Vorgehen vorab testen.
+1. Für Betriebssystem, PostgreSQL, Python-Abhängigkeiten, Docker-Basisimages und Nginx einen festen Patch-Rhythmus mit kurzfristigem Prozess für kritische Sicherheitsupdates definieren. Dies gilt für Offline- und Online-Betrieb.
+2. Bei jedem Build Abhängigkeitsscans, Codeanalyse und Container-Image-Scans ausführen. Kritische und hohe Befunde vor Freigabe beheben oder mit verantwortlicher Person, Begründung, kompensierenden Maßnahmen und Frist dokumentiert akzeptieren.
+3. **Offline-Betrieb:** Updates werden in einer getrennten Bereitstellungsumgebung bezogen, geprüft und als versionierte, signierte Artefakte bereitgestellt. Mindestens Releasepaket/Container-Archive, Manifest, SHA-256-Prüfsummen, Signatur und Scanberichte werden gemeinsam übergeben. In der Offline-Umgebung werden Signatur und Prüfsummen vor Import erneut geprüft. Für Debian-Pakete sind Repository-Metadaten/Signaturen und Paketabhängigkeiten offline verfügbar zu halten; für Docker sind die vollständigen Image-Layer als Archive zu übertragen. Die Produktivinstanz lädt keine Images oder Pakete selbst aus dem Internet.
+4. **Optionale Online-Variante:** Direkte Bezugsquellen dürfen genutzt werden, wenn Quelle und Version festgelegt, Signaturen/Prüfsummen geprüft und Freigaben dokumentiert sind. Automatische ungeprüfte Updates in Produktion sind auch hier nicht vorgesehen.
+5. Produktionsimages nur aus freigegebenen Releases beziehen. Version, Quell-Commit und unveränderliche Image-Digests des laufenden Builds dokumentieren; keine ungeprüften Branches oder beweglichen `latest`-Tags als Freigabenachweis verwenden.
+6. Updates zunächst in einer Testumgebung mit Datenbankkopie prüfen. Vor Migrationen Backup erstellen und nach dem Update Login, Berechtigungen, Upload/Download, PDF-Export und Protokollabschluss testen.
+7. Rollback nicht mit Datenbank-Rollback gleichsetzen: Bereits angewendete Migrationen können eine Wiederherstellung aus Backup erfordern. Vorgehen vorab testen.
+8. Falls ClamAV für Datei-Uploads eingesetzt wird, Signaturdaten im Offline-Betrieb ebenfalls kontrolliert und signaturgeprüft importieren. Aktualisierungsdatum und Scannerstatus anzeigen bzw. überwachen; bei fehlenden oder zu alten Signaturen keine ungeprüften Dateien freigeben. Derzeit belegt der Repository-Workflow einen Scan des ClamAV-Images, nicht den laufenden Scan hochgeladener Dateien.
 
-**Nachweis:** Scanberichte, Patchprotokoll, Releasefreigabe und dokumentierter Rollback-/Restore-Ablauf.
+**Nachweis:** Scanberichte, signiertes Release-Manifest, Prüfsummen- und Signaturprüfprotokoll, Patchprotokoll, Releasefreigabe und dokumentierter Rollback-/Restore-Ablauf.
 
 ### 7.7 Netzwerk- und Verfügbarkeitsbetrieb
 
@@ -245,12 +276,13 @@ Geprüft wurden insbesondere:
 - `meetings/secure_files.py`, `meetings/views.py`: geschützte Datei-Auslieferung und fachliche Zugriffspfade.
 - `meetings/audit.py`, `meetings/audit_export.py`: Ereigniserfassung und Export.
 - `config/settings.py`: Django-Sicherheitseinstellungen, Middleware, Sessions und Passwortvalidierung.
+- `.github/workflows/codeql.yml`, `.github/workflows/dependency-security.yml`, `.github/workflows/container-image-security.yml`, `.github/workflows/tests.yml`: automatisierte Code-, Abhängigkeits-, Container- und Regressionstests.
 - `meetings/management_views.py`, `meetings/setup_views.py`: Verwaltung, Import/Export und Ersteinrichtung.
 - `meetings/guide_views.py`, `templates/meetings/user_guide.html`: Hilfe-Bereich.
 - `docker/compose.yaml`, `docker/Dockerfile`, `.env.example`, Installationsskripte: Bereitstellung und Konfigurationsdefaults.
 - Berechtigungs-, Audit-, CSV- und Sicherheitsregressionstests im Repository.
 
-Nicht untersucht wurden eine laufende Instanz, tatsächliche Firewall-/Proxy-/DNS-Konfiguration, Betriebssystemhärtung, reale Datenbestände, Auftragsverarbeitungsverträge, organisatorische Prozesse oder ein unabhängiger Penetrationstest. Die Risikobewertung muss daher vor Ort bestätigt und nach wesentlichen Änderungen aktualisiert werden.
+Nicht untersucht wurden eine laufende Instanz, tatsächliche Firewall-/Proxy-/DNS-Konfiguration, die technische Durchsetzung der fehlenden Internetverbindung, Betriebssystemhärtung, reale Datenbestände, Auftragsverarbeitungsverträge, organisatorische Prozesse, die konkrete Offline-Übertragungskette oder ein unabhängiger Penetrationstest. Insbesondere ist die beschriebene Offline-Updatekette eine Betriebsanforderung und muss vor Ort technisch umgesetzt und nachgewiesen werden. Die Risikobewertung muss daher vor Ort bestätigt und nach wesentlichen Änderungen aktualisiert werden.
 
 ## 11. Freigabevermerk
 
