@@ -2220,6 +2220,8 @@ class OrganizationLogoDeliveryTests(TestCase):
         self.assertContains(response, 'class="topic-pdf-icon"')
         self.assertContains(response, "DownloadURL")
         self.assertContains(response, "application/pdf:")
+        self.assertContains(response, 'href="' + reverse("protocol_pdf", args=[meeting.pk]) + '" download')
+        self.assertContains(response, "PDF herunterladen")
 
     def test_protocol_pdf_without_configured_logo_still_downloads(self):
         from datetime import date
