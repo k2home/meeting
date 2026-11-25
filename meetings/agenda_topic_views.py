@@ -16,6 +16,7 @@ from .audit import record_event
 from .forms import UserDisplayModelChoiceField
 from .models import AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
 from .user_display import user_display_name
+from .retention import effective_retention_years, topic_deletion_date
 
 
 def topic_protocol_filename(topic):
@@ -188,7 +189,8 @@ def topic_archive_toggle(request, pk):
             previous_status = topic.archive_previous_status or "open"
             topic.status = previous_status if previous_status in {"open", "in_progress", "done"} else "open"
             topic.archive_previous_status = ""
-            topic.save(update_fields=["status", "archive_previous_status", "updated_at"])
+            topic.archived_at = None
+            topic.save(update_fields=["status", "archive_previous_status", "archived_at", "updated_at"])
             record_event(
                 actor=request.user, action="reopened",
                 summary=f"Thema „{topic.title}“ aus dem Archiv wieder geöffnet",
@@ -231,7 +233,8 @@ def topic_archive_toggle(request, pk):
                 transaction.on_commit(lambda storage=storage, file_name=file_name: storage.delete(file_name))
             topic.archive_previous_status = previous_status
             topic.status = "archived"
-            topic.save(update_fields=["status", "archive_previous_status", "updated_at"])
+            topic.archived_at = timezone.localdate()
+            topic.save(update_fields=["status", "archive_previous_status", "archived_at", "updated_at"])
             record_event(
                 actor=request.user, action="archived",
                 summary=f"Thema „{topic.title}“ archiviert",
@@ -400,7 +403,6 @@ def topic_detail(request, pk):
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
 
-    from .retention import effective_retention_years, topic_deletion_date
     topic.retention_effective_years = effective_retention_years(topic)
     topic.deletion_date = topic_deletion_date(topic)
     writable_series = accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
