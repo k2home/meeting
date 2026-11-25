@@ -465,7 +465,7 @@ Für alle automatisch erzeugten Testkonten gilt das in den Organisationseinstell
 
 #### 2. Zufällige Besprechungsserien anlegen
 
-Die Beispielkonfiguration kann bis zu 100 Test-Besprechungsserien auf einmal anlegen. Jede Serie erhält einen festen Wochentag von Montag bis Freitag und einen regelmäßigen Rhythmus: wöchentlich, zweiwöchentlich oder monatlich, jeweils mit einem Intervall von ein bis drei. Der gemeinsame Testzeitraum reicht vom 1. Januar 2026 bis zum 31. März 2027. Die Serien werden mit `TEST-Besprechungsreihe` gekennzeichnet.
+Die Beispielkonfiguration kann bis zu 100 Test-Besprechungsserien auf einmal anlegen. Jede Serie erhält einen festen Wochentag von Montag bis Freitag und einen regelmäßigen Rhythmus: wöchentlich, zweiwöchentlich oder monatlich, jeweils mit einem Intervall von ein bis drei. Der gemeinsame Testzeitraum reicht vom 1. Januar 2026 bis zum 31. März 2027. Für die Seriennamen wird zufällig aus 30 kurzen, sprechenden Bezeichnungen gewählt, beispielsweise `TEST Digitalisierung` oder `TEST IT-Sicherheit`. Jeder Name beginnt mit `TEST`; technische Datums- oder Zufallssuffixe entfallen.
 
 #### 3. Termine für Testserien generieren
 
