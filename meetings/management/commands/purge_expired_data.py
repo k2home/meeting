@@ -2,7 +2,7 @@ import logging
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from django.utils import formats, timezone
+from django.utils import timezone
 
 from meetings.models import (
     AgendaItem, AuditEvent, Meeting, RetainedAgendaEntry, Topic,
