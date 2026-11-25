@@ -261,21 +261,25 @@ def edit_topic_agenda_item(request, pk, item_pk):
         if assignee is None:
             messages.error(request, "Bitte wähle eine gültige verantwortliche Person.")
             return redirect("topic_edit", pk=pk)
-    new_text = request.POST.get("working_text", "")
     old_text = item.working_text
     old_assignee = item.assigned_to_id
-    item.working_text = new_text
-    item.assigned_to = assignee
-    if old_text != new_text or old_assignee != item.assigned_to_id:
-        item.save(update_fields=["working_text", "assigned_to"])
-        changes = {}
+    changes = {}
+    update_fields = []
+    if "working_text" in request.POST:
+        new_text = request.POST.get("working_text", "")
         if old_text != new_text:
+            item.working_text = new_text
+            update_fields.append("working_text")
             changes["Besprechungstext"] = {"vorher": old_text, "nachher": new_text}
-        if old_assignee != item.assigned_to_id:
-            changes["Zuständigkeit"] = {
-                "vorher": str(old_assignee) if old_assignee else None,
-                "nachher": str(item.assigned_to_id) if item.assigned_to_id else None,
-            }
+    if "assigned_to" in request.POST and old_assignee != (assignee.pk if assignee else None):
+        item.assigned_to = assignee
+        update_fields.append("assigned_to")
+        changes["Zuständigkeit"] = {
+            "vorher": user_display_name(item.assigned_to) if item.assigned_to else None,
+            "nachher": user_display_name(assignee) if assignee else None,
+        }
+    if update_fields:
+        item.save(update_fields=update_fields)
         record_event(
             actor=request.user, action="agenda_edited",
             summary=f"Agenda-Punkt „{item.topic.title}“ am {formats.date_format(item.meeting.date, 'DATE_FORMAT')} geändert",
