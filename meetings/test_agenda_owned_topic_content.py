@@ -175,7 +175,9 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/pdf")
         self.assertIn("attachment;", response["Content-Disposition"])
-        from django.utils.text import slugify
-        expected_filename = f'Themenprotokoll_{slugify(self.topic.title)[:80] or "thema"}.pdf'
-        self.assertIn(f'filename="{expected_filename}"', response["Content-Disposition"])
+        from django.utils import timezone
+        expected_filename = f"{timezone.localdate():%Y%m%d}-{self.topic.title}.pdf"
+        self.assertIn(expected_filename, response["Content-Disposition"])
+        page = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertContains(page, f'data-drag-filename="{expected_filename}"')
         self.assertTrue(response.content.startswith(b"%PDF"))
