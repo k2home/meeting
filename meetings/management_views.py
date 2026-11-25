@@ -428,6 +428,7 @@ def management_groups(request):
 def management_settings(request):
     _require_admin(request)
     instance = OrganizationSettings.objects.filter(pk=1).first() or OrganizationSettings()
+    persisted_retention_years = instance.retention_years
     logo_form = OrganizationLogoForm(instance=instance)
     form = OrganizationSettingsForm(instance=instance)
 
@@ -481,7 +482,7 @@ def management_settings(request):
     elif request.method == "POST":
         form = OrganizationSettingsForm(request.POST, instance=instance)
         if form.is_valid():
-            old_retention_years = instance.retention_years
+            old_retention_years = persisted_retention_years
             new_retention_years = form.cleaned_data["retention_years"]
             retention_decision = request.POST.get("retention_change_decision", "")
             inherited_archived_count = Topic.objects.filter(
@@ -511,6 +512,8 @@ def management_settings(request):
                 for field in form.changed_data
                 if field not in {"logo", "logo_png", "start_password"}
             }
+            if "retention_years" in form.changed_data:
+                before["retention_years"] = persisted_retention_years
             settings_obj = form.save(commit=False)
             settings_obj.full_clean()
             settings_obj.save()
