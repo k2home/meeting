@@ -1203,7 +1203,11 @@ def archive(request):
                 continue
         archivable_topics.append(topic)
 
+    from .retention import effective_retention_years, topic_deletion_date
     archived_topics = accessible_topics(request.user).filter(status="archived").select_related("series").order_by("title")
+    for archived_topic in archived_topics:
+        archived_topic.retention_effective_years = effective_retention_years(archived_topic)
+        archived_topic.deletion_date = topic_deletion_date(archived_topic)
     return render(request, "meetings/archive.html", {
         "archivable_topics": archivable_topics,
         "archived_topics": archived_topics,
