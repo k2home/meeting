@@ -17,6 +17,9 @@ if _local_env.is_file():
         _value = _value.strip().strip('"').strip("'")
         os.environ.setdefault(_key.strip(), _value)
 
+SETUP_TOKEN = os.getenv("SETUP_TOKEN", "")
+SETUP_TOKEN_REQUIRED = os.getenv("SETUP_TOKEN_REQUIRED", "1") == "1"
+
 DEBUG = os.getenv("DEBUG", "0") == "1"
 SECRET_KEY = os.getenv("SECRET_KEY", "")
 if not SECRET_KEY:
