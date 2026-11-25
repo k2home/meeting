@@ -292,7 +292,6 @@ def topic_detail(request, pk):
                 if new_status != old_status:
                     with transaction.atomic():
                         topic.status = new_status
-                        topic.status = new_status
                         _update_completed_at(topic, old_status, new_status)
                         topic.save(update_fields=["status", "completed_at", "updated_at"])
                         record_event(
