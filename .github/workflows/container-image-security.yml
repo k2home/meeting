@@ -36,8 +36,29 @@ jobs:
           ignore-unfixed: true
           exit-code: "1"
 
-      - name: Upload Trivy results to GitHub code scanning
+      - name: Scan ClamAV sidecar image
+        if: always()
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: clamav/clamav:stable
+          version: v0.76.2
+          format: sarif
+          output: clamav-trivy-results.sarif
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+
+      - name: Upload application image scan to GitHub code scanning
         if: always() && hashFiles('trivy-results.sarif') != ''
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: trivy-results.sarif
+          category: container-application
+
+      - name: Upload ClamAV image scan to GitHub code scanning
+        if: always() && hashFiles('clamav-trivy-results.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: clamav-trivy-results.sarif
+          category: container-clamav
