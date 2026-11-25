@@ -108,40 +108,50 @@ def _save_organization(request):
     if not form.is_valid() or not logo_form.is_valid():
         return form, logo_form, False
 
+    png_data = None
+    uploaded_logo = request.FILES.get("logo")
+    if uploaded_logo and uploaded_logo.name.lower().endswith(".svg"):
+        try:
+            import cairosvg
+            png_data = cairosvg.svg2png(
+                bytestring=uploaded_logo.read(), output_width=1600,
+                background_color="#ffffff",
+            )
+            uploaded_logo.seek(0)
+        except Exception:
+            logger.exception("Organisationslogo konnte nicht für den PDF-Export konvertiert werden.")
+            logo_form.add_error("logo", "Das Logo konnte nicht verarbeitet werden. Bitte PNG oder JPEG verwenden.")
+            return form, logo_form, False
+
     with transaction.atomic():
         settings_obj = form.save(commit=False)
         settings_obj.full_clean()
         settings_obj.save()
-        if request.FILES.get("logo"):
+        if uploaded_logo:
             logo_form.instance = settings_obj
             logo_form.save()
-            uploaded_logo = settings_obj.logo
-            if uploaded_logo and uploaded_logo.name.lower().endswith(".svg"):
-                try:
-                    import cairosvg
-                    from django.core.files.base import ContentFile
-                    uploaded_logo.open("rb")
-                    try:
-                        svg_data = uploaded_logo.read()
-                    finally:
-                        uploaded_logo.close()
-                    png_data = cairosvg.svg2png(bytestring=svg_data, output_width=1600, background_color="#ffffff")
-                    png_name = uploaded_logo.name.rsplit("/", 1)[-1].rsplit(".", 1)[0] + ".png"
-                    settings_obj.logo_png.save(png_name, ContentFile(png_data), save=True)
-                except Exception:
-                    logger.exception("Organisationslogo konnte nicht für den PDF-Export konvertiert werden.")
-                    logo_form.add_error("logo", "Das Logo konnte nicht verarbeitet werden. Bitte PNG oder JPEG verwenden.")
-                    return form, logo_form, False
+            if png_data is not None:
+                from django.core.files.base import ContentFile
+                png_name = settings_obj.logo.name.rsplit("/", 1)[-1].rsplit(".", 1)[0] + ".png"
+                settings_obj.logo_png.save(png_name, ContentFile(png_data), save=True)
+            elif settings_obj.logo_png:
+                old_png = settings_obj.logo_png
+                settings_obj.logo_png = None
+                settings_obj.save(update_fields=["logo_png"])
+                transaction.on_commit(lambda old_png=old_png: old_png.delete(save=False))
+        changes = {
+            field.label: {"nachher": getattr(settings_obj, field_name)}
+            for field_name, field in form.fields.items()
+            if field_name != "start_password" and hasattr(settings_obj, field_name)
+        }
+        if "start_password" in form.changed_data:
+            changes["Startpasswort"] = {"nachher": "Geändert"}
+        if uploaded_logo:
+            changes["Organisationslogo"] = {"nachher": settings_obj.logo.name if settings_obj.logo else "Kein Logo"}
         AuditEvent.objects.create(
             actor=request.user, scope=AuditEvent.SCOPE_SYSTEM, action="created",
             summary="Organisationseinstellungen bei der Ersteinrichtung gespeichert",
-            changes={
-                field.label: {"nachher": getattr(settings_obj, field_name)}
-                for field_name, field in form.fields.items()
-                if hasattr(settings_obj, field_name)
-            } | ({
-                "Organisationslogo": {"nachher": settings_obj.logo.name if settings_obj.logo else "Kein Logo"}
-            } if request.FILES.get("logo") else {}),
+            changes=changes,
         )
     return form, logo_form, True
 
