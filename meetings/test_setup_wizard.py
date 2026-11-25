@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from .models import OrganizationSettings
+from .models import AuditEvent, OrganizationSettings
 
 User = get_user_model()
 
@@ -77,6 +77,9 @@ class InitialSetupWizardTests(TestCase):
         self.assertEqual(settings_obj.tertiary_color, "#FFCD00")
         self.assertEqual(settings_obj.primary_color_light, "")
         self.assertEqual(settings_obj.primary_color_dark, "")
+        setup_event = AuditEvent.objects.get(summary="Organisationseinstellungen bei der Ersteinrichtung gespeichert")
+        self.assertNotIn("Neu", str(setup_event.changes))
+        self.assertEqual(setup_event.changes["Startpasswort"]["nachher"], "Geändert")
 
     def test_setup_organization_form_shows_only_three_base_colors_with_defaults(self):
         user = User.objects.create_superuser(username="root", email="root@example.org", password="StrongPassword123!")
