@@ -378,7 +378,7 @@ def topic_protocol_pdf(request, pk):
     for item in items:
         snapshot = snapshots.get(item.meeting_id)
         text = snapshot.text if snapshot else item.working_text
-        status = dict(TopicSnapshot._meta.get_field("status").choices).get(snapshot.status, snapshot.status) if snapshot else item.get_status_display()
+        status = dict(AgendaItem.STATUS).get(snapshot.status, snapshot.status) if snapshot else item.get_status_display()
         responsible_name = snapshot.responsible_name if snapshot else (
             user_display_name(item.assigned_to, include_short_description=True) if item.assigned_to else responsible
         )
