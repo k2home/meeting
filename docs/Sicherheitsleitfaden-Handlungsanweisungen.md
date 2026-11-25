@@ -2,17 +2,17 @@
 
 **Zielgruppen:** Hosting-/IT-Betrieb, Nutzer*innen, globale Administrator*innen und Auditor*innen  
 **Geltungsbereich:** Meeting Manager gemäß der Funktions- und Sicherheitsbeschreibung in PR #498  
-**Zweck:** Dieser Leitfaden übersetzt die dort beschriebenen Risiken und vorhandenen Schutzmaßnahmen in konkrete Handlungen. Er ergänzt die technische Bestandsaufnahme; er ersetzt weder eine Prüfung der konkreten Betriebsumgebung noch interne Datenschutz- und Sicherheitsvorgaben.
+**Zweck und Verbindlichkeit:** Dieses Dokument ist eine praktische Betriebs- und Nutzungsanweisung. Es legt fest, wie die vier Personengruppen den Meeting Manager einrichten, bedienen, verwalten und prüfen müssen, damit IT-Sicherheit und Datenschutz bestmöglich gewährleistet werden. Die Anweisungen sind vor der jeweiligen Handlung und anschließend fortlaufend einzuhalten. Wo eine Voraussetzung nicht erfüllt ist, darf der betreffende Vorgang bzw. die Produktivfreigabe nicht erfolgen; die zuständige Stelle ist einzuschalten.
 
-> **Wichtig:** Die Anwendung stellt technische Schutzfunktionen bereit, kann aber sichere Betriebsabläufe und einen sorgfältigen Umgang mit Inhalten nicht allein gewährleisten. Die jeweils verantwortliche Stelle muss die nachfolgenden Maßnahmen umsetzen, dokumentieren und regelmäßig überprüfen.
+Die Anweisungen unterscheiden zwischen technisch durch die Anwendung erzwungenen Schutzmaßnahmen und organisatorischen bzw. betrieblichen Pflichten. Eine Empfehlung ersetzt keine fehlende technische Funktion: Insbesondere sind Dateiendungsprüfung und Malware-Prüfung nicht gleichzusetzen, und ein Anwendungs-Audit ersetzt keine Infrastrukturüberwachung. Organisationsspezifische Zuständigkeiten und Meldewege müssen vor Produktivbetrieb namentlich festgelegt werden.
 
-## 1. Technik und Hosting – Einrichtung und sicherer Betrieb
+## 1. Technik und Hosting – verbindlicher Einrichtungs- und Betriebsablauf
 
 Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, Datenbank, Netzwerk, Updates und Sicherungen betreiben.
 
 ### 1.1 Installation und HTTPS-Zugang absichern
 
-- [ ] Den vorgesehenen Installer für Debian/Ubuntu oder Docker verwenden und die Installation vollständig abschließen. Die Installer setzen die Django-Sicherheitsoptionen für HTTPS, Session-Cookies und CSRF-Cookies sowie die Proxy-Vertrauenskonfiguration.
+- Den vorgesehenen Installer für Debian/Ubuntu oder Docker verwenden und die Installation vollständig abschließen. Die Installer setzen die Django-Sicherheitsoptionen für HTTPS, Session-Cookies und CSRF-Cookies sowie die Proxy-Vertrauenskonfiguration.
 - [ ] Vor der Freigabe einen HTTPS-Reverse-Proxy mit gültigem Zertifikat auf demselben Host einrichten. Die Installer richten nicht automatisch den TLS-Proxy und das Zertifikat ein.
 - [ ] Den öffentlichen Zugriff ausschließlich über HTTPS zulassen. HTTP muss auf HTTPS umleiten; die Anwendung darf nicht direkt über einen unverschlüsselten, aus nicht vertrauenswürdigen Netzen erreichbaren Port angeboten werden.
 - [ ] Bei Docker den veröffentlichten Web-Port standardmäßig nur an `127.0.0.1:8080` binden. Den Reverse Proxy auf demselben Host betreiben und auf `http://127.0.0.1:8080` weiterleiten. Den App-Port 8000 und PostgreSQL niemals öffentlich veröffentlichen.
@@ -73,7 +73,19 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 - [ ] Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
 - [ ] Verfahren für kompromittierte Konten, Datenpannen, Ransomware, Systemausfall und Wiederherstellung festlegen. Zuständigkeiten und Eskalationskontakte aktuell halten.
 
-## 2. Nutzer*innen – sicherer Umgang mit Besprechungsdaten
+### Verbindlicher Ablauf vor, während und nach jeder Nutzung
+
+1. **Vor der Anmeldung:** Öffnen Sie den Meeting Manager ausschließlich über die freigegebene HTTPS-Adresse. Verwenden Sie Ihr persönliches Konto. Nutzen Sie keine fremden oder gemeinsam verwendeten Zugangsdaten.
+2. **Vor dem Öffnen einer Reihe:** Prüfen Sie, ob Sie für genau diese Besprechungsreihe berechtigt sind. Bei fehlender Berechtigung beantragen Sie die Zuweisung bei der zuständigen Moderation; umgehen Sie die Sperre nicht.
+3. **Vor dem Erfassen von Inhalten:** Prüfen Sie den fachlichen Zweck und beschränken Sie Einträge auf erforderliche Informationen. Zugangsdaten und nicht freigegebene sensible Angaben gehören niemals in Besprechungsinhalte oder Anlagen.
+4. **Vor dem Upload:** Prüfen Sie Empfängerkreis, Dateiendung und Herkunft. Laden Sie nur die freigegebenen Formate hoch. Öffnen Sie verdächtige Dateien nicht; melden Sie sie dem IT-Support. Eine erlaubte Endung ist kein Sicherheitsnachweis für den Dateiinhalt.
+5. **Vor dem Teilen oder Exportieren:** Prüfen Sie jede empfangende Person und jeden Zielort. Geben Sie Inhalte nur an Personen weiter, die sie für ihre Aufgabe benötigen und berechtigt sind.
+6. **Vor dem Abschluss einer Besprechung:** Prüfen Sie Tagesordnung, Zuständigkeiten und Protokoll auf Richtigkeit und Datenminimierung. Bedenken Sie, dass ein historischer Protokoll-Snapshot erhalten bleibt.
+7. **Nach der Nutzung:** Melden Sie sich an gemeinsam genutzten Geräten ab und sperren Sie den Bildschirm. Melden Sie verdächtige Aktivitäten unverzüglich über den festgelegten Meldeweg.
+
+**Abbruchregel:** Wenn Berechtigung, Empfängerkreis, Dateisicherheit oder Zulässigkeit eines Inhalts unklar ist, führen Sie die Handlung nicht aus. Fragen Sie die zuständige Moderation oder Administration.
+
+## 2. Nutzer*innen – verbindlicher Ablauf bei jeder Nutzung
 
 Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Tagesordnungspunkte, Kommentare, Anlagen oder Protokolle verwenden.
 
@@ -117,7 +129,36 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 - [ ] Der Audit-Verlauf ist rollenabhängig eingeschränkt. Nutzer*innen erhalten dadurch nicht automatisch Einsicht in alle Änderungen oder in Systemereignisse.
 - [ ] Fehlerhafte oder versehentlich eingetragene Informationen zeitnah an Moderator*in oder Administrator*in melden; historische Protokoll- und Audit-Daten können gesonderten Regeln unterliegen.
 
-## 3. Globale Administrator*innen – sichere Verwaltung und Kontrolle
+### Verbindlicher Ablauf für Konten- und Rechteverwaltung
+
+1. **Antrag entgegennehmen:** Verlangen Sie einen nachvollziehbaren fachlichen Grund, die betroffene Person, den benötigten Zugriff und – soweit möglich – eine Befristung.
+2. **Identität und Bedarf prüfen:** Vergewissern Sie sich, dass das Konto zur richtigen Person gehört und der beantragte Umfang erforderlich ist. Erteilen Sie keine globale Adminrolle, wenn eine Serienrolle genügt.
+3. **Berechtigung setzen:** Vergeben Sie globale Rollen und Serienrollen getrennt. Globale Adminrechte gewähren nicht automatisch Einsicht in fachliche Reihen. Für fachliche Mitarbeit ist die ausdrückliche Serienzuweisung erforderlich.
+4. **Änderung kontrollieren:** Prüfen Sie nach dem Speichern die resultierende Rolle und Serienzuordnung. Dokumentieren Sie Antrag, Entscheidung, Umfang und Zeitpunkt außerhalb des vertraulichen Inhaltsbereichs nach dem organisationsinternen Verfahren.
+5. **Regelmäßig rezertifizieren:** Lassen Sie mindestens quartalsweise bestätigen, dass globale Admin-Konten und Serienmitgliedschaften weiterhin benötigt werden. Entziehen Sie nicht mehr erforderliche Rechte unverzüglich.
+6. **Austritt oder Sicherheitsverdacht:** Deaktivieren Sie das betroffene Konto bzw. entziehen Sie die betroffenen Rechte unverzüglich nach dem internen Prozess. Bei kompromittierten Zugangsdaten veranlassen Sie zusätzlich Passwortzurücksetzung und Vorfallprüfung.
+
+### Verbindlicher Ablauf für CSV-Importe und -Exporte
+
+1. Führen Sie Benutzer-CSV-Funktionen nur mit dem globalen Admin-Konto und für einen konkreten administrativen Vorgang aus.
+2. Prüfen Sie vor dem Import Dateiherkunft, UTF-8-Kodierung, Pflichtfelder, betroffene Konten und Serienzuordnungen. Kontrollieren Sie die Vorschau vollständig.
+3. Brechen Sie den Import ab, wenn unerwartete Benutzer, Rollen oder Serienzuordnungen angezeigt werden. Klären Sie die Ursache vor einem erneuten Versuch.
+4. Sichern Sie Exporte nur in freigegebenen, zugriffsbeschränkten Speicherorten. Übermitteln Sie sie ausschließlich an benannte berechtigte Empfänger und löschen Sie Arbeitskopien nach Ablauf des festgelegten Zwecks.
+5. Themen-CSV-Funktionen verwenden Moderator*innen ausschließlich für Reihen, für die sie ausdrücklich Moderatorrechte besitzen. Globale Adminrechte ersetzen diese Serienberechtigung nicht.
+
+### Verbindlicher Ablauf für Vollbackup und Restore
+
+1. Erstellen Sie ein Vollbackup nur bei dokumentiertem Betriebsbedarf und speichern Sie es verschlüsselt an einem freigegebenen Ort.
+2. Vor einem Restore prüfen Sie Freigabe, Zielsystem, Sicherungszeitpunkt und Zusammengehörigkeit von Datenbank und Medien.
+3. Erstellen Sie unmittelbar vor dem Restore einen zusätzlichen Sicherungsstand, sofern der Zustand des Zielsystems dies zulässt.
+4. Führen Sie den Restore im angekündigten Wartungsfenster aus und begrenzen Sie den Zugriff auf die beteiligten Betriebsadmins.
+5. Prüfen Sie anschließend Anmeldung, Konten, Serienberechtigungen, Protokolle und Anlagen. Dokumentieren Sie Ergebnis und Abweichungen.
+
+### Verbindlicher Ablauf bei Audit-Einsicht
+
+Öffnen Sie Audit-Daten nur bei einem konkreten administrativen oder prüfenden Anlass. Berücksichtigen Sie die rollenabhängige Sichtbarkeit: Systemereignisse sind für Admins sichtbar; Serienereignisse nur für Reihen, in denen die Person ausdrücklich Moderator ist. Öffnen Sie eingeklappte Details nur soweit erforderlich. Behandeln Sie Protokoll-Snapshots beim Wiederöffnen abgeschlossener Besprechungen und Audit-CSV-Dateien als vertrauliche Inhalte.
+
+## 3. Globale Administrator*innen – verbindlicher Verwaltungsablauf
 
 Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte sind weitreichend und sollen nur für administrative Aufgaben genutzt werden. Sie verleihen nicht automatisch Zugriff auf fachliche Inhalte jeder Besprechungsreihe; dafür ist eine eigene Serienzuweisung erforderlich.
 
@@ -169,7 +210,19 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 - [ ] Audit-CSV-Exporte enthalten strukturierte Details und sind entsprechend der eigenen Berechtigung eingeschränkt. Exportdateien vertraulich behandeln und nicht unnötig vervielfältigen.
 - [ ] Bei Verdacht auf unberechtigte Einsicht, fehlerhafte Rechte oder ungewöhnliche Systemereignisse den Vorfall dokumentieren und an IT-Sicherheit bzw. Datenschutzverantwortliche eskalieren.
 
-## 4. Auditor*innen – kontrollierter Prüfzugriff
+### Verbindlicher Ablauf eines Audit-Prüfvorgangs
+
+1. **Prüfauftrag prüfen:** Beginnen Sie nur mit einem autorisierten Prüfauftrag. Halten Sie Prüfziel, Zeitraum, Umfang und zuständige auftraggebende Stelle fest.
+2. **Zugriff begrenzen:** Verwenden Sie Ihr persönliches Auditor-Konto. Nutzen Sie keine Admin- oder fremden Konten. Der Auditor-Zugriff ist auf Systemereignisse und lesbare administrative Stammdaten beschränkt; er eröffnet keinen Zugriff auf Besprechungsinhalte.
+3. **Gezielt filtern:** Begrenzen Sie Zeitraum und Ereignisauswahl auf das Prüfziel. Öffnen Sie eingeklappte Änderungsdetails nur, wenn sie für die Prüfung erforderlich sind.
+4. **Inhalte richtig einordnen:** Passwortwerte und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Passwortänderungen erscheinen als Statusereignis; Dateinamen können Metadaten sein. Beim Wiederöffnen einer abgeschlossenen Besprechung kann ein vorheriger Protokoll-Snapshot als Detail erscheinen. Behandeln Sie diesen wie vertrauliche Besprechungsdaten und greifen Sie nur bei geklärter Berechtigung darauf zu.
+5. **Ergebnisse sichern:** Exportieren Sie Audit-CSV nur, wenn sie für den Prüfauftrag erforderlich ist. Speichern Sie Exporte verschlüsselt bzw. zugriffsbeschränkt, geben Sie sie nur an den autorisierten Empfängerkreis und löschen Sie Arbeitskopien nach Abschluss gemäß Aufbewahrungsregel.
+6. **Feststellungen berichten:** Dokumentieren Sie Tatsachen, Zeitraum und relevante Ereignisse getrennt von Bewertungen. Ziehen Sie aus fehlenden Ereignissen nicht den Schluss, dass eine Handlung unmöglich stattgefunden hat.
+7. **Auffälligkeiten eskalieren:** Melden Sie Hinweise auf unberechtigte Rollenänderungen, Kontoübernahmen oder Datenschutzverletzungen über den festgelegten Sicherheits- bzw. Datenschutzprozess. Für Host-, Proxy- und Datenbankereignisse fordern Sie die zuständigen Infrastrukturprotokolle an.
+
+**Abbruchregel:** Wenn ein Prüfauftrag keinen ausreichenden Umfang oder keine Berechtigung für ein sichtbares fachliches Detail umfasst, öffnen, exportieren oder verbreiten Sie dieses Detail nicht. Klären Sie den Auftrag vor der Fortsetzung.
+
+## 4. Auditor*innen – verbindlicher Prüfablauf
 
 Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor. Auditor*innen haben einen lesenden Zugriff auf administrative Prüfdaten, nicht auf fachliche Besprechungsinhalte.
 
@@ -206,9 +259,9 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor. Auditor*
 - [ ] Für Fragen zu Host-, Proxy-, Datenbank- oder Betriebssystemereignissen die zuständigen IT-Betriebsprotokolle anfordern. Diese liegen außerhalb des fachlichen System-Audits der Anwendung.
 - [ ] Hinweise auf Datenschutzverletzungen oder unberechtigte Zugriffe nach dem organisationsinternen Melde- und Eskalationsprozess weitergeben.
 
-## 5. Regelmäßige Überprüfung
+## 5. Verbindlicher Kontroll- und Freigabezyklus
 
-Die folgenden Mindestintervalle sind eine organisatorische Empfehlung und müssen an Schutzbedarf und interne Vorgaben angepasst werden.
+Die folgenden Intervalle bilden den Mindeststandard für den Betrieb. Die verantwortliche Organisation benennt die ausführenden Personen und dokumentiert jede Prüfung. Kürzere Intervalle sind bei erhöhtem Schutzbedarf festzulegen.
 
 | Intervall | Verantwortlich | Prüfpunkte |
 |---|---|---|
@@ -233,4 +286,4 @@ Bei Verdacht auf kompromittierte Konten, versehentliche Offenlegung, schädliche
 
 ---
 
-**Hinweis zur Verbindlichkeit:** Die Checklisten sind praktische Mindestempfehlungen. Verbindliche Zuständigkeiten, Fristen, Rechtsgrundlagen, Aufbewahrungsregeln und Freigabeprozesse müssen durch die betreibende Organisation festgelegt werden.
+**Verbindlichkeit:** Die vorstehenden Abläufe sind als Mindeststandard umzusetzen. Vor Produktivbetrieb müssen die Organisation und der Betreiber konkrete Verantwortliche, erreichbare Sicherheits- und Datenschutzkontakte, Freigabewege, Aufbewahrungsfristen und Löschverfahren schriftlich festlegen. Kann eine Anweisung nicht umgesetzt werden, ist dies vorab als Abweichung mit Risiko, kompensierender Maßnahme, verantwortlicher Freigabe und Überprüfungstermin zu dokumentieren. Eine nicht freigegebene Abweichung berechtigt nicht zur Produktivnutzung.
