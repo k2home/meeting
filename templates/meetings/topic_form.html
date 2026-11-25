@@ -9,7 +9,9 @@
 .topic-meeting-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
 .topic-compact-actions{gap:.4rem;margin-top:.55rem}
 .topic-compact-actions form{display:inline-flex;margin:0}
-.topic-compact-actions .btn,.topic-compact-actions button{font-size:.82rem;padding:.35rem .6rem;min-height:2rem;line-height:1.2}
+.topic-compact-actions .btn,.topic-compact-actions button{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;font-size:.82rem;padding:.35rem .6rem;min-height:2rem;line-height:1.2;vertical-align:middle}
+.topic-compact-actions .topic-remove-button{background:#dc2626!important;border-color:#dc2626!important;color:#fff!important}
+.topic-compact-actions .topic-remove-button:hover{background:#b91c1c!important;border-color:#b91c1c!important}
 
 .topic-responsibility{display:flex;align-items:center;gap:.5rem;margin:.45rem 0 .7rem}
 .topic-responsibility form{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
@@ -66,7 +68,7 @@
      </div>
      {% if item.meeting.finalized_at %}
        {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein Text hinterlegt.</p>{% endif %}
-       <p><a href="{% url 'protocol' item.meeting_id %}">Gesichertes Besprechungsprotokoll öffnen</a></p>
+       <div class="topic-meeting-actions topic-compact-actions"><a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll</a></div>
      {% elif is_reader %}
        {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Noch kein Text hinterlegt.</p>{% endif %}
        <p><a href="{% url 'protocol' item.meeting_id %}">Besprechungsprotokoll öffnen</a></p>
@@ -92,7 +94,7 @@
         <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll</a>
         <form method="post" action="{% url 'agenda_item_delete' item.meeting_id item.pk %}" data-confirm-message="„{{ topic.title }}“ nur aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen? Das Thema und andere Termine bleiben erhalten.">
           {% csrf_token %}
-          <button type="submit" class="secondary" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen">Entfernen</button>
+          <button type="submit" class="topic-remove-button" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen">Entfernen</button>
         </form>
        </div>
      {% endif %}
