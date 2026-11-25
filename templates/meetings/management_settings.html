@@ -45,7 +45,7 @@
     {% if show_retention_confirmation %}
       <div class="messages" role="group" aria-labelledby="retention-confirm-title">
         <strong id="retention-confirm-title">Gilt die neue Frist auch für bereits archivierte Themen?</strong>
-        <p>Es gibt {{ inherited_archived_count }} archivierte Themen, die derzeit die zentrale Frist verwenden.</p>
+        <p>Es gibt {{ inherited_archived_count }} archivierte Themen, die derzeit die zentrale Frist verwenden. Für abgeschlossene Besprechungen und Protokolle gilt die neue globale Frist unabhängig von dieser Auswahl.</p>
         <div class="actions">
           <button class="primary" type="submit" name="retention_change_decision" value="apply">Ja, neue Frist übernehmen</button>
           <button class="secondary" type="submit" name="retention_change_decision" value="keep">Nein, bisherige Frist beibehalten</button>
