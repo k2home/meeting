@@ -974,8 +974,14 @@ def _testing_random_user(block_number, unique_number):
         first_name=first_name,
         last_name=last_name,
         email=f"{email_name}@beliebig.de",
+        password=OrganizationSettings.current_start_password(),
     )
-    UserProfile.objects.create(user=user, short_description=short_description)
+    UserProfile.objects.create(
+        user=user,
+        short_description=short_description,
+        must_change_password=True,
+        password_setup_expires_at=timezone.now() + timedelta(hours=24),
+    )
     sync_user_role(user, "user")
     return user
 
@@ -1181,7 +1187,7 @@ def testing_fixtures(request):
                     messages.success(
                         request,
                         f"{count} zufällige Testnutzer wurden im Kurzbezeichnungsblock "
-                        f"{block_number:02d} ohne nutzbares Passwort angelegt."
+                        f"{block_number:02d} angelegt. Für alle gilt das konfigurierte Startpasswort; es muss innerhalb von 24 Stunden geändert werden."
                     )
                 elif action == "reset_fixtures":
                     test_series = list(series_qs)
