@@ -190,7 +190,7 @@ class OrganizationLogoForm(forms.ModelForm):
     class Meta:
         model = OrganizationSettings
         fields = ("logo",)
-        labels = {"logo": "Organisationslogo auswählen"}
+        labels = {"logo": "Neues Logo auswählen"}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
