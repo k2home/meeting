@@ -1008,8 +1008,9 @@ def testing_fixtures(request):
                             series=series, user=request.user,
                             defaults={"role": SeriesAccess.ROLE_MODERATOR},
                         )
-                        for fixture_user in User.objects.filter(is_active=True, username__startswith="test_fixture_"):
-                            if secrets.randbelow(100) < 65:
+                        fixture_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                        for user_index, fixture_user in enumerate(fixture_users):
+                            if user_index == 0 or secrets.randbelow(100) < 65:
                                 SeriesAccess.objects.update_or_create(
                                     series=series, user=fixture_user,
                                     defaults={"role": secrets.choice([
@@ -1034,8 +1035,8 @@ def testing_fixtures(request):
                             series=series, user=request.user,
                             defaults={"role": SeriesAccess.ROLE_MODERATOR},
                         )
-                        for fixture_user in fixture_users:
-                            if secrets.randbelow(100) < 65:
+                        for user_index, fixture_user in enumerate(fixture_users):
+                            if user_index == 0 or secrets.randbelow(100) < 65:
                                 SeriesAccess.objects.update_or_create(
                                     series=series, user=fixture_user,
                                     defaults={"role": secrets.choice([
