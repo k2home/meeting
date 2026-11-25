@@ -34,18 +34,21 @@ class TestingFixtureViewTests(TestCase):
             user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR
         ).exists())
 
+        self.client.get(url)
         response = self.client.post(url, {"action": "create_users", "user_count": "2"})
         self.assertRedirects(response, url)
         generated_users = User.objects.filter(username__startswith="test_fixture_")
         self.assertEqual(generated_users.count(), 2)
         self.assertTrue(all(not user.has_usable_password() for user in generated_users))
 
+        self.client.get(url)
         response = self.client.post(url, {
             "action": "generate_meetings", "series_ids": [str(series.pk)],
         })
         self.assertRedirects(response, url)
         self.assertTrue(Meeting.objects.filter(series=series).exists())
 
+        self.client.get(url)
         response = self.client.post(url, {
             "action": "create_topics", "series_id": str(series.pk), "topic_count": "2",
         })
@@ -54,6 +57,7 @@ class TestingFixtureViewTests(TestCase):
         self.assertIsNotNone(topic)
         self.assertTrue(topic.title.startswith("TEST-"))
 
+        self.client.get(url)
         response = self.client.post(url, {
             "action": "create_agenda_items", "topic_id": str(topic.pk), "agenda_count": "2",
         })
@@ -70,6 +74,31 @@ class TestingFixtureViewTests(TestCase):
             series=series, user__username__startswith="test_fixture_"
         ).exists())
 
+
+    @patch("meetings.management_views._testing_mode_enabled", return_value=True)
+    def test_repeated_agenda_generation_extends_existing_followup_chain(self, _testing_mode):
+        from datetime import date
+        from .services import generate_meetings
+
+        series = MeetingSeries.objects.create(
+            name="TEST-Besprechungsreihe chain", recurrence="weekly", recurrence_interval=1,
+            weekday=1, start_date=date(2026, 1, 1), end_date=date(2026, 3, 31),
+        )
+        Topic.objects.create(title="TEST-Kette", series=series)
+        topic = Topic.objects.get(title="TEST-Kette")
+        generate_meetings(series, include_past=True)
+        url = reverse("testing_fixtures")
+        self.client.get(url)
+        self.client.post(url, {"action": "create_agenda_items", "topic_id": str(topic.pk), "agenda_count": "2", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
+        first_chain = list(AgendaItem.objects.filter(topic=topic).order_by("meeting__date", "pk"))
+        self.assertEqual(len(first_chain), 2)
+        self.client.get(url)
+        self.client.post(url, {"action": "create_agenda_items", "topic_id": str(topic.pk), "agenda_count": "2", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
+        full_chain = list(AgendaItem.objects.filter(topic=topic).order_by("meeting__date", "pk"))
+        self.assertEqual(len(full_chain), 4)
+        self.assertIsNone(full_chain[0].followup_of)
+        self.assertEqual([item.followup_of_id for item in full_chain[1:]], [item.pk for item in full_chain[:-1]])
+        self.assertTrue(all(item.meeting.date.weekday() == 1 for item in full_chain))
 
     @patch("meetings.management_views._testing_mode_enabled", return_value=True)
     def test_reset_removes_fixture_series_meetings_topics_and_unused_users(self, _testing_mode):
