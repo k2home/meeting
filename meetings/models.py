@@ -4,6 +4,11 @@ from django.core.validators import FileExtensionValidator, MaxValueValidator, Mi
 from django.db import models
 from django.utils import formats, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+import codecs
+import re
+from pathlib import Path
+import zipfile
+import xml.etree.ElementTree as ET
 
 
 def validate_topic_attachment_size(uploaded_file):
@@ -13,6 +18,77 @@ def validate_topic_attachment_size(uploaded_file):
     if uploaded_file.size > limit:
         limit_mb = limit // (1024 * 1024)
         raise ValidationError(f"Die Datei darf höchstens {limit_mb} MB groß sein.")
+
+def validate_topic_attachment_content(uploaded_file):
+    """Reject files whose bytes do not match the allow-listed extension."""
+    if not uploaded_file:
+        return
+
+    suffix = Path(uploaded_file.name).suffix.lower().lstrip(".")
+    try:
+        uploaded_file.seek(0)
+        signature = uploaded_file.read(16)
+
+        if suffix == "pdf":
+            valid = signature.startswith(b"%PDF-")
+        elif suffix == "png":
+            valid = signature.startswith(b"\x89PNG\r\n\x1a\n")
+        elif suffix in {"jpg", "jpeg"}:
+            valid = signature.startswith(b"\xff\xd8\xff")
+        elif suffix == "txt":
+            valid = b"\x00" not in signature
+            decoder = codecs.getincrementaldecoder("utf-8")()
+            try:
+                decoder.decode(signature)
+            except UnicodeDecodeError:
+                valid = False
+            while valid:
+                chunk = uploaded_file.read(64 * 1024)
+                if not chunk:
+                    break
+                if b"\x00" in chunk:
+                    valid = False
+                    break
+                try:
+                    decoder.decode(chunk)
+                except UnicodeDecodeError:
+                    valid = False
+            if valid:
+                try:
+                    decoder.decode(b"", final=True)
+                except UnicodeDecodeError:
+                    valid = False
+        elif suffix in {"docx", "xlsx", "pptx"}:
+            required_parts = {
+                "docx": "word/document.xml",
+                "xlsx": "xl/workbook.xml",
+                "pptx": "ppt/presentation.xml",
+            }
+            try:
+                with zipfile.ZipFile(uploaded_file) as archive:
+                    names = set(archive.namelist())
+                valid = "[Content_Types].xml" in names and required_parts[suffix] in names
+            except (zipfile.BadZipFile, OSError, ValueError):
+                valid = False
+        else:
+            valid = False
+    except (OSError, ValueError):
+        valid = False
+    finally:
+        try:
+            uploaded_file.seek(0)
+        except (AttributeError, OSError, ValueError):
+            pass
+
+    if not valid:
+        raise ValidationError(
+            "Der Dateiinhalt passt nicht zum Dateiformat der Dateiendung. "
+            "Bitte exportiere die Datei erneut im angegebenen Format."
+        )
+
+    from .antivirus import scan_uploaded_file
+    scan_uploaded_file(uploaded_file)
+
 
 class MeetingSeries(models.Model):
     name = models.CharField("Bezeichnung", max_length=160, unique=True)
@@ -173,8 +249,27 @@ class TopicAttachment(models.Model):
     network_path = models.CharField("Netzwerkpfad / Link", max_length=1000, blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
 
+    def clean(self):
+        super().clean()
+        if self.uploaded_file and not getattr(self.uploaded_file, "_committed", True):
+            validate_topic_attachment_content(self.uploaded_file)
+            self._attachment_content_validated = True
+
+    def save(self, *args, **kwargs):
+        # Model.save() does not run model validation. Protect programmatic upload
+        # paths as well as ModelForms and the Django admin without scanning twice.
+        if (
+            self.uploaded_file
+            and not getattr(self.uploaded_file, "_committed", True)
+            and not getattr(self, "_attachment_content_validated", False)
+        ):
+            validate_topic_attachment_size(self.uploaded_file)
+            validate_topic_attachment_content(self.uploaded_file)
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return self.label
+
     @property
     def network_url(self):
         """Return a validated SMB URL; unsupported paths remain plain text."""
@@ -316,6 +411,61 @@ class UserProfile(models.Model):
         return f"{self.user} – {self.short_description}" if self.short_description else str(self.user)
 
 
+def validate_organization_logo(uploaded_file):
+    """Validate, bound and malware-scan user-provided organization logos."""
+    if not uploaded_file:
+        return
+    if uploaded_file.size > 2 * 1024 * 1024:
+        raise ValidationError("Das Organisationslogo darf höchstens 2 MB groß sein.")
+
+    suffix = Path(uploaded_file.name).suffix.lower().lstrip(".")
+    valid = False
+    try:
+        uploaded_file.seek(0)
+        data = uploaded_file.read(2 * 1024 * 1024 + 1)
+        if suffix == "png":
+            valid = data.startswith(b"\x89PNG\r\n\x1a\n")
+        elif suffix in {"jpg", "jpeg"}:
+            valid = data.startswith(b"\xff\xd8\xff")
+        elif suffix == "svg":
+            upper_data = data.upper()
+            if (
+                b"<!DOCTYPE" not in upper_data
+                and b"<!ENTITY" not in upper_data
+                and b"@import" not in upper_data
+                and not re.search(rb"url\(\s*(?!#)", data, re.IGNORECASE)
+            ):
+                try:
+                    root = ET.fromstring(data)
+                    valid = root.tag.rsplit("}", 1)[-1].lower() == "svg"
+                    for element in root.iter():
+                        if element.tag.rsplit("}", 1)[-1].lower() in {"script", "foreignobject"}:
+                            valid = False
+                        for attribute, value in element.attrib.items():
+                            attribute_name = attribute.rsplit("}", 1)[-1].lower()
+                            lower_value = value.lower()
+                            if attribute_name.startswith("on") or "javascript:" in lower_value:
+                                valid = False
+                            if attribute_name == "href" and not value.startswith("#"):
+                                valid = False
+                except ET.ParseError:
+                    valid = False
+    except (OSError, ValueError):
+        valid = False
+    finally:
+        try:
+            uploaded_file.seek(0)
+        except (AttributeError, OSError, ValueError):
+            pass
+
+    if not valid:
+        raise ValidationError(
+            "Das Organisationslogo passt nicht zum Dateiformat oder enthält unzulässige aktive Inhalte."
+        )
+    from .antivirus import scan_uploaded_file
+    scan_uploaded_file(uploaded_file)
+
+
 class OrganizationSettings(models.Model):
     """Globale Bezeichnung der Organisationseinheit für den Meeting Manager."""
 
@@ -368,10 +518,19 @@ class OrganizationSettings(models.Model):
             ZoneInfo(self.timezone)
         except (ZoneInfoNotFoundError, TypeError, ValueError):
             raise ValidationError({"timezone": "Bitte eine gültige Zeitzone auswählen."})
+        if self.logo and not getattr(self.logo, "_committed", True):
+            validate_organization_logo(self.logo)
+            self._organization_logo_validated = True
 
     def save(self, *args, **kwargs):
         # Es gibt genau einen globalen Konfigurationsdatensatz.
         self.pk = 1
+        if (
+            self.logo
+            and not getattr(self.logo, "_committed", True)
+            and not getattr(self, "_organization_logo_validated", False)
+        ):
+            validate_organization_logo(self.logo)
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

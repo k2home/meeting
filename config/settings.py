@@ -114,6 +114,11 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Production installers enable ClamAV. Local development may leave it disabled.
+CLAMD_ENABLED = os.getenv("CLAMD_ENABLED", "0") == "1"
+CLAMD_HOST = os.getenv("CLAMD_HOST", "127.0.0.1")
+CLAMD_PORT = int(os.getenv("CLAMD_PORT", "3310"))
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "login"
 SESSION_COOKIE_AGE = 28800

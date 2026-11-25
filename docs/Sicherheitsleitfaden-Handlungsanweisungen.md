@@ -44,11 +44,11 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 
 ### 1.4 Datei-Uploads und Downloads schützen
 
-Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sind **PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG**. Andere Dateiendungen werden abgewiesen.
+Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sind **PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG**. Andere Dateiendungen werden abgewiesen. Zusätzlich prüft die Anwendung grundlegende Signaturen und bei Office-Dateien die ZIP-Paketstruktur samt erforderlichem Hauptbestandteil. Auch Organisationslogos (PNG, JPEG, SVG) werden mit ClamAV geprüft und sind auf 2 MB begrenzt. SVG-Uploads werden zusätzlich als XML geprüft; Skripte, Event-Handler, DTD/Entities und externe Referenzen werden abgewiesen. In den mitgelieferten Debian- und Docker-Installationen werden Uploads vor Speicherung durch ClamAV geprüft.
 
 - Die Allowlist nur nach fachlicher Prüfung und kontrollierter Änderung erweitern. Nicht benötigte ausführbare Dateien, Skripte und Archive nicht zulassen.
-- Beachten, dass die Anwendung die Dateiendung prüft, nicht aber die tatsächliche Dateisignatur oder den Dateiinhalt. Die Endungsprüfung ist kein vollständiger Malware-Schutz.
-- Wenn Dateien aus nicht vollständig vertrauenswürdigen Quellen hochgeladen werden, einen Malware-Scanner auf dem Host bzw. in einem vorgeschalteten Quarantäneprozess einsetzen. Ungeprüfte Dateien nicht automatisch als sicher einstufen.
+- Beachten, dass die Anwendung grundlegende Dateisignaturen und Office-Paketbestandteile prüft und in den vorgesehenen Debian-/Docker-Installationen ClamAV verwendet. Der Upload wird abgewiesen, wenn ClamAV Malware meldet oder nicht erreichbar ist. Dies ist keine vollständige Formatvalidierung und kein Schutz vor jeder unbekannten oder gezielt verschleierten Schadsoftware.
+- ClamAV-Dienst und Signaturdatenbank aktuell halten und die Erreichbarkeit überwachen. Den Scanner-Port 3310 niemals öffentlich freigeben. Bei individuellen Installationen außerhalb der mitgelieferten Installer `CLAMD_ENABLED=1`, Host und Port korrekt konfigurieren; ohne erreichbaren Scanner müssen Uploads fehlschlagen.
 - Das organisationsweite Uploadlimit auf den tatsächlichen Bedarf begrenzen. Standardmäßig sind 20 MB eingestellt; konfigurierbar sind 1 bis 24 MB. Proxy-, Nginx- und Anwendungslimits aufeinander abstimmen.
 - Das Medienverzeichnis nicht als öffentliches Webverzeichnis freigeben. Uploads ausschließlich über die authentifizierte Anwendungsroute bereitstellen; keine zusätzliche statische Direkt-Auslieferung konfigurieren.
 - Dateispeicher und Medien-Volume mit restriktiven Dateirechten betreiben und in Backups einbeziehen. Zugriff auf Host- und Backup-Ebene nur den zuständigen Betriebsadmins gewähren.

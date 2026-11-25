@@ -15,7 +15,7 @@ echo "==> Installiere Systempakete"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3 python3-venv python3-dev build-essential libpq-dev \
-  postgresql postgresql-contrib nginx git openssl sudo libcairo2
+  postgresql postgresql-contrib nginx git openssl sudo libcairo2 clamav-daemon clamav-freshclam
 
 echo "==> Richte Dienstkonto und Verzeichnisse ein"
 if ! id meetingapp >/dev/null 2>&1; then
@@ -124,6 +124,30 @@ else
     sed -i "s/^ALLOWED_HOSTS=.*/ALLOWED_HOSTS=$CURRENT_HOSTS,$SITE_HOST/" "$APP_DIR/.env"
   fi
 fi
+
+# Keep the ClamAV TCP listener local to this host; never expose port 3310 publicly.
+if grep -qE '^[[:space:]]*#?[[:space:]]*TCPSocket' /etc/clamav/clamd.conf; then
+  sed -E -i 's/^[[:space:]]*#?[[:space:]]*TCPSocket.*/TCPSocket 3310/' /etc/clamav/clamd.conf
+else
+  printf '\nTCPSocket 3310\n' >> /etc/clamav/clamd.conf
+fi
+if grep -qE '^[[:space:]]*#?[[:space:]]*TCPAddr' /etc/clamav/clamd.conf; then
+  sed -E -i 's/^[[:space:]]*#?[[:space:]]*TCPAddr.*/TCPAddr 127.0.0.1/' /etc/clamav/clamd.conf
+else
+  printf 'TCPAddr 127.0.0.1\n' >> /etc/clamav/clamd.conf
+fi
+if grep -qE '^[[:space:]]*#?[[:space:]]*StreamMaxLength' /etc/clamav/clamd.conf; then
+  sed -E -i 's/^[[:space:]]*#?[[:space:]]*StreamMaxLength.*/StreamMaxLength 32M/' /etc/clamav/clamd.conf
+else
+  printf 'StreamMaxLength 32M\n' >> /etc/clamav/clamd.conf
+fi
+systemctl enable --now clamav-freshclam
+systemctl restart clamav-daemon
+
+# Productive installs require a reachable malware scanner; uploads fail closed if it stops.
+set_env_value "CLAMD_ENABLED" "1"
+set_env_value "CLAMD_HOST" "127.0.0.1"
+set_env_value "CLAMD_PORT" "3310"
 
 # Productive installs always require HTTPS at the trusted reverse proxy.
 set_env_value "CSRF_TRUSTED_ORIGINS" "https://$SITE_HOST"
