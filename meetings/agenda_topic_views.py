@@ -292,8 +292,17 @@ def topic_protocol_pdf(request, pk):
         snapshot.meeting_id: snapshot
         for snapshot in TopicSnapshot.objects.filter(
             topic_id=topic.pk, meeting__in=visible_meetings
-        )
+        ).select_related("meeting", "meeting__series")
     }
+    items_by_meeting = {item.meeting_id: item for item in items}
+    meetings_by_id = {item.meeting_id: item.meeting for item in items}
+    meetings_by_id.update({
+        snapshot.meeting_id: snapshot.meeting
+        for snapshot in snapshots.values()
+    })
+    topic_meetings = sorted(
+        meetings_by_id.values(), key=lambda meeting: (meeting.date, meeting.pk)
+    )
 
     from io import BytesIO
     from xml.sax.saxutils import escape
