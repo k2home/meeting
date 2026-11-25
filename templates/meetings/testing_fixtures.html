@@ -10,7 +10,7 @@
   <section class="management-card">
     <h2>1. Besprechungsserien anlegen</h2>
     <p>Erzeugt Serien mit festem Wochentag (Montag bis Freitag) und wöchentlichem, zweiwöchentlichem oder monatlichem Rhythmus. Der Zeitraum reicht von einem zufälligen Startdatum ab Januar 2026 bis März 2027. Eine Serie findet niemals an mehreren Wochentagen statt.</p>
-    <form method="post"><input type="hidden" name="fixture_nonce" value="{{ fixture_nonce }}"><input type="hidden" name="fixture_nonce" value="{{ fixture_nonce }}">{% csrf_token %}<input type="hidden" name="action" value="create_series"><label for="series-count">Anzahl der Serien (1–100)</label><input id="series-count" type="number" name="series_count" min="1" max="100" value="5" required><button class="primary" type="submit">Serien anlegen</button></form>
+    <form method="post"><input type="hidden" name="fixture_nonce" value="{{ fixture_nonce }}">{% csrf_token %}<input type="hidden" name="action" value="create_series"><label for="series-count">Anzahl der Serien (1–100)</label><input id="series-count" type="number" name="series_count" min="1" max="100" value="5" required><button class="primary" type="submit">Serien anlegen</button></form>
   </section>
   <section class="management-card">
     <h2>2. Termine für Serien generieren</h2>
