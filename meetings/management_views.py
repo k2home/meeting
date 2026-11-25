@@ -957,7 +957,7 @@ def _testing_random_user():
     last_names = ["Becker", "Fischer", "Wagner", "Schulz", "Hoffmann", "Koch", "Richter", "Wolf"]
     first_name = secrets.choice(first_names)
     last_name = secrets.choice(last_names)
-    username = f"test_{secrets.token_hex(5)}"
+    username = f"test_fixture_{secrets.token_hex(5)}"
     user = User.objects.create_user(
         username=username,
         first_name=first_name,
@@ -1001,8 +1001,8 @@ def testing_fixtures(request):
                             recurrence=secrets.choice(["weekly", "monthly"]),
                             recurrence_interval=secrets.choice([1, 2, 3]),
                             weekday=secrets.randbelow(5),
-                            start_date=today + timedelta(days=secrets.randbelow(14)),
-                            end_date=today + timedelta(days=120 + secrets.randbelow(120)),
+                            start_date=today - timedelta(days=secrets.randbelow(366)),
+                            end_date=today + timedelta(days=secrets.randbelow(366)),
                         )
                         SeriesAccess.objects.update_or_create(
                             series=series, user=request.user,
@@ -1018,12 +1018,23 @@ def testing_fixtures(request):
                     if not selected.exists():
                         raise ValidationError("Die Auswahl enthält keine gültige Besprechungsserie.")
                     created_count = 0
+                    fixture_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
                     for series in selected:
                         SeriesAccess.objects.update_or_create(
                             series=series, user=request.user,
                             defaults={"role": SeriesAccess.ROLE_MODERATOR},
                         )
-                        created_count += len(generate_meetings(series))
+                        for fixture_user in fixture_users:
+                            if secrets.randbelow(100) < 65:
+                                SeriesAccess.objects.update_or_create(
+                                    series=series, user=fixture_user,
+                                    defaults={"role": secrets.choice([
+                                        SeriesAccess.ROLE_PARTICIPANT,
+                                        SeriesAccess.ROLE_MODERATOR,
+                                        SeriesAccess.ROLE_READER,
+                                    ])},
+                                )
+                        created_count += len(generate_meetings(series, include_past=True))
                     messages.success(request, f"{created_count} neue Termine wurden für {selected.count()} Serien generiert.")
                 elif action == "create_topics":
                     count = _testing_count(request, "topic_count")
@@ -1032,7 +1043,7 @@ def testing_fixtures(request):
                         series=series, user=request.user,
                         defaults={"role": SeriesAccess.ROLE_MODERATOR},
                     )
-                    active_users = list(User.objects.filter(is_active=True))
+                    active_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
                     title_parts = ["Projektplanung", "Qualitätssicherung", "Prozessoptimierung", "Infrastruktur", "Dokumentation", "Schnittstellen", "Ressourcenplanung", "Betriebsablauf"]
                     for _ in range(count):
                         Topic.objects.create(
@@ -1055,27 +1066,39 @@ def testing_fixtures(request):
                     if not meetings:
                         raise ValidationError("Für diese Serie gibt es noch keine offenen Termine. Bitte zuerst Termine generieren.")
                     active_users = list(User.objects.filter(is_active=True))
-                    candidates = [(meeting, position) for meeting in meetings
-                                  for position in [meeting.agenda_items.count()]
+                    candidates = [meeting for meeting in meetings
                                   if not meeting.agenda_items.filter(topic=topic).exists()]
                     if not candidates:
                         raise ValidationError("Das Thema steht bereits auf allen verfügbaren Terminen dieser Serie.")
-                    created = 0
-                    for _ in range(min(count, len(candidates))):
-                        meeting, position = candidates.pop(secrets.randbelow(len(candidates)))
-                        AgendaItem.objects.create(
-                            meeting=meeting, topic=topic, position=position,
+                    if len(candidates) < count:
+                        raise ValidationError(
+                            f"Es gibt nur {len(candidates)} freie Termine. Bitte generiere weitere Termine oder reduziere die Anzahl."
+                        )
+                    text_templates = [
+                        "Sachstand: {topic}. Der aktuelle Umsetzungsstand wird vorgestellt; offene Fragen und Abhängigkeiten werden gesammelt.",
+                        "Beratung: {topic}. Die Teilnehmenden bewerten die vorliegenden Optionen und halten eine Empfehlung fest.",
+                        "Beschlussvorbereitung: {topic}. Entscheidungsgrundlagen, Risiken und benötigte Ressourcen werden geprüft.",
+                        "Maßnahmen: {topic}. Verantwortlichkeiten, nächste Schritte und ein realistischer Zeitplan werden abgestimmt.",
+                        "Rückmeldung: {topic}. Seit dem letzten Termin gab es folgende Entwicklungen; verbleibende Punkte werden priorisiert.",
+                        "Prüfauftrag: {topic}. Die Ergebnisse der Prüfung werden dokumentiert und mögliche Folgeaufgaben festgelegt.",
+                    ]
+                    created_items = []
+                    for index in range(count):
+                        meeting = candidates[index]
+                        previous_item = created_items[-1] if created_items else None
+                        item = AgendaItem.objects.create(
+                            meeting=meeting, topic=topic,
+                            position=meeting.agenda_items.count(),
                             status=secrets.choice(["open", "in_progress", "done"]),
                             assigned_to=secrets.choice(active_users) if active_users and secrets.randbelow(2) else None,
-                            working_text=secrets.choice([
-                                "Zufällig erzeugter Testtext: Sachstand prüfen.",
-                                "Zufällig erzeugter Testtext: Nächste Schritte abstimmen.",
-                                "Zufällig erzeugter Testtext: Ergebnis dokumentieren.",
-                                "",
-                            ]),
+                            working_text=secrets.choice(text_templates).format(topic=topic.title),
+                            followup_of=previous_item,
                         )
-                        created += 1
-                    messages.success(request, f"{created} zufällige Tagesordnungspunkte wurden angelegt.")
+                        created_items.append(item)
+                    messages.success(
+                        request,
+                        f"{len(created_items)} Tagesordnungspunkte mit themenbezogenen Texten und chronologischer Wiedervorlage wurden angelegt."
+                    )
                 elif action == "create_users":
                     count = _testing_count(request, "user_count")
                     for _ in range(count):
