@@ -131,6 +131,8 @@
     <label for="new-topic-title">Thema</label>
     <input id="new-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
     <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"><span class="muted">Gib mindestens zwei Zeichen ein, um vorhandene Themen zu finden.</span></div>
+    <label for="new-topic-primary-assignee">Hauptzuständigkeit für das Thema</label>
+    <select id="new-topic-primary-assignee" name="primary_assigned_to"><option value="">Keine Hauptzuständigkeit</option>{% for assignee in assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}</select>
     <label for="new-topic-text">Text für dieses Protokoll</label>
     <textarea id="new-topic-text" name="working_text" rows="4"></textarea>
     <label for="new-topic-assignee">Abweichend verantwortlich für diesen Tagesordnungspunkt</label>
@@ -166,10 +168,10 @@
               {% csrf_token %}<input type="hidden" name="update_agenda_assignee" value="{{ item.id }}">
             </form>
             <select id="topic-assignee-{{ item.id }}" name="assigned_to" form="topic-assignee-form-{{ item.id }}" aria-label="Zuständigkeit für {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-assignee-form-{{ item.id }}&quot;).requestSubmit()">
-              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Nicht zugewiesen</option>
+              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>{% if item.topic.assigned_to %}Hauptzuständigkeit: {{ item.topic.assigned_to|user_display_context }}{% else %}Keine Zuständigkeit{% endif %}</option>
               {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_context }}</option>{% endfor %}
             </select>
-            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_assignee }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_assignee }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_assignee }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>
