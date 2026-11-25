@@ -37,7 +37,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 
 - Für jede Person ein eigenes Konto verwenden; keine Konten oder Passwörter teilen.
 - Globale Adminrechte auf wenige benannte Personen begrenzen. Adminrechte nicht für die tägliche fachliche Arbeit verwenden.
-- Für jede Besprechungsreihe einen fachlichen Verantwortlichen festlegen, der Mitglieder und Serienrollen regelmäßig überprüft.
+- Für jede Besprechungsreihe eine fachlich verantwortliche Person festlegen, die Mitglieder und Serienrollen regelmäßig überprüft.
 - Bei Eintritt, Rollenwechsel und Austritt von Mitarbeitenden Konten und Serienzuweisungen zeitnah anpassen. Nicht mehr benötigte Konten deaktivieren.
 - Prüfen, ob ein vorgeschalteter Identity Provider mit MFA eingesetzt werden kann. Falls MFA nicht vorhanden ist, den Zugriff auf vertrauenswürdige Netze bzw. einen abgesicherten VPN-Zugang beschränken und zusätzliche Anmeldekontrollen am Proxy vorsehen.
 - Anmeldeversuche und ungewöhnliche Zugriffsmuster auf Infrastruktur-Ebene überwachen. Ein anwendungsinterner Login-Rate-Limiter bzw. MFA darf nicht allein aufgrund der vorhandenen Passwortregeln angenommen werden.
@@ -67,7 +67,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 ### 1.6 Updates, Protokollierung und Notfallvorsorge
 
 - Produktionsupdates nur aus freigegebenen Branches bzw. Releases übernehmen. Version und Commit des laufenden Systems dokumentieren.
-- Abhängigkeiten und Container-Images regelmäßig auf bekannte Sicherheitslücken prüfen. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, Verantwortlichem und Frist dokumentieren.
+- Abhängigkeiten und Container-Images regelmäßig auf bekannte Sicherheitslücken prüfen. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, verantwortlicher Person und Frist dokumentieren.
 - Updates zunächst in einer Testumgebung prüfen. Nach Updates Login, Berechtigungen, Upload/Download, CSV-Funktionen, Protokollabschluss und Wiederherstellung testen.
 - Systemlogs auf ungewöhnliche Login-Fehler, Änderungen globaler Rollen, fehlgeschlagene Downloads, unerwartete Dienstneustarts und Speicherengpässe überwachen.
 - Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
@@ -94,7 +94,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 - Nur Informationen eintragen, die für Zweck und Durchführung der Besprechung erforderlich sind.
 - Keine Passwörter, Zugangstoken, privaten Schlüssel oder sonstigen Zugangsdaten in Themen, Kommentaren, Tagesordnungstexten oder Anlagen hinterlegen.
 - Keine besonders sensiblen personenbezogenen Angaben (z. B. Gesundheitsdaten oder private Personalangelegenheiten) eintragen, sofern dies nicht ausdrücklich freigegeben, erforderlich und datenschutzrechtlich geklärt ist.
-- Bei Unsicherheit vor dem Eintragen die zuständige Führungskraft bzw. der fachlich verantwortlichen Person fragen.
+- Bei Unsicherheit vor dem Eintragen die zuständige Führungskraft bzw. die fachlich verantwortliche Person fragen.
 - Sachlich, knapp und aufgabenbezogen formulieren. Wertende oder private Kommentare vermeiden.
 
 ### 2.2 Konten und Sitzungen schützen
@@ -156,7 +156,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 
 ### Verbindlicher Ablauf bei Audit-Einsicht
 
-Öffnen Sie Audit-Daten nur bei einem konkreten administrativen oder prüfenden Anlass. Berücksichtigen Sie die rollenabhängige Sichtbarkeit: Systemereignisse sind für Administrator*innen sichtbar; Serienereignisse nur für Reihen, in denen die betreffende Person ausdrücklich Moderator\*in ist. Öffnen Sie eingeklappte Details nur soweit erforderlich. Behandeln Sie Protokoll-Snapshots beim Wiederöffnen abgeschlossener Besprechungen und Audit-CSV-Dateien als vertrauliche Inhalte.
+Öffnen Sie Audit-Daten nur bei einem konkreten administrativen oder prüfenden Anlass. Berücksichtigen Sie die rollenabhängige Sichtbarkeit: Systemereignisse sind für Administrator\*innen sichtbar; Serienereignisse nur für Reihen, in denen die betreffende Person ausdrücklich Moderator\*in ist. Öffnen Sie eingeklappte Details nur soweit erforderlich. Behandeln Sie Protokoll-Snapshots beim Wiederöffnen abgeschlossener Besprechungen und Audit-CSV-Dateien als vertrauliche Inhalte.
 
 ## 3. Globale Administrator\*innen – verbindlicher Verwaltungsablauf
 
@@ -173,7 +173,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 
 ### 3.2 Serienberechtigungen verantwortungsvoll verwalten
 
-- Für jede Reihe einen fachlichen Verantwortlichen benennen und die Mitgliederliste regelmäßig durch diesen bestätigen lassen.
+- Für jede Reihe eine fachlich verantwortliche Person benennen und die Mitgliederliste regelmäßig durch diese bestätigen lassen.
 - Nur die erforderliche Serienrolle vergeben: Leser\*in für Lesezugriff, Teilnehmer\*in für laufende Mitarbeit, Moderator\*in nur für tatsächliche Reihenverwaltung.
 - Bei Änderungen der Organisation oder Aufgabenverteilung Serienzuweisungen sofort aktualisieren.
 - Beachten, dass globale Adminrechte allein keinen fachlichen Zugriff auf eine Reihe gewähren. Für die eigene Einsichtnahme ist eine explizite Serienzuweisung erforderlich.
@@ -192,7 +192,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 
 ### 3.4 Vollbackup und Restore schützen
 
-- Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Administrator*innen erstellen.
+- Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Administrator\*innen erstellen.
 - Backups als vollständige Datenkopien mit möglicherweise vertraulichen Inhalten und personenbezogenen Daten behandeln.
 - Sicherungsdateien verschlüsselt und mit minimalem Empfänger\*innenkreis speichern bzw. übertragen. Keine Backups an private E-Mail-Adressen oder unfreigegebene Cloud-Dienste senden.
 - Vor einem Restore Anlass, Zielsystem, Datenstand und Auswirkungen prüfen. Restore nur in einem kontrollierten Wartungsfenster durchführen.
@@ -203,7 +203,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### 3.5 Audit, Systemverwaltung und Datenschutz
 
 - Systemereignisse nur für legitime administrative oder prüfende Zwecke einsehen. Die Einsichtnahme nicht zur anlasslosen Verhaltens- oder Leistungskontrolle verwenden.
-- Beachten, dass Administrator*innen Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderator\*innenrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
+- Beachten, dass Administrator\*innen Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderator\*innenrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
 - Passwörter und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Bei Passwortänderungen wird nur der Änderungsstatus protokolliert; Dateinamen können als Metadaten erscheinen.
 - Beim Wiederöffnen einer abgeschlossenen Besprechung bleibt der vorherige gesicherte Protokollstand als Audit-Detail erhalten. Diesen Snapshot als vertraulichen fachlichen Inhalt behandeln.
 - Audit-Details sind in der Oberfläche zunächst eingeklappt. Das ist eine Darstellungsform und keine zusätzliche Zugriffsschranke.
@@ -230,7 +230,7 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor\*in. Audi
 
 - Den Audit-Zugriff ausschließlich für festgelegte Prüfaufträge und nachvollziehbare Kontrollzwecke verwenden.
 - Beachten, dass Auditor\*innen ausschließlich Systemereignisse einsehen und exportieren können. Besprechungsreihen, Tagesordnungspunkte, Kommentare und Anlagen gehören nicht zum Auditor\*innen-Zugriff.
-- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Administrator*innen erfolgen.
+- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Administrator\*innen erfolgen.
 - Keine fachlichen Serienberechtigungen anfordern, um den eingeschränkten Prüfzugriff zu umgehen. Wenn eine fachliche Prüfung erforderlich ist, muss sie gesondert legitimiert und über einen geeigneten Prozess organisiert werden.
 - Die Auditor\*innen-Rolle nicht mit globalen Adminrechten kombinieren. Admin- und Superuser-Rechte sind keine Auditor\*innen-Rechte und erweitern den Zugriff erheblich.
 
@@ -266,8 +266,8 @@ Die folgenden Intervalle bilden den Mindeststandard für den Betrieb. Die verant
 | Intervall | Verantwortlich | Prüfpunkte |
 |---|---|---|
 | Bei jeder Installation / vor Produktivfreigabe | IT/Hosting | HTTPS, Proxy-Vertrauen, Firewall, Secrets, Medienpfad, initiales Admin-Konto |
-| Bei Eintritt, Rollenwechsel und Austritt | Administrator*innen + Fachverantwortliche | Kontoaktivität, globale Rolle, Serienzuweisungen |
-| Mindestens quartalsweise | Fachverantwortliche + Administrator*innen | Mitglieder und Serienrollen, Admin-Konten, unnötige Berechtigungen |
+| Bei Eintritt, Rollenwechsel und Austritt | Administrator\*innen + Fachverantwortliche | Kontoaktivität, globale Rolle, Serienzuweisungen |
+| Mindestens quartalsweise | Fachverantwortliche + Administrator\*innen | Mitglieder und Serienrollen, Admin-Konten, unnötige Berechtigungen |
 | Monatlich und bei Sicherheitsmeldungen | IT/Hosting | Betriebssystem-/Image-/Abhängigkeitsupdates, Sicherheitswarnungen, Speicherplatz |
 | Nach jedem Update | IT/Hosting + Testverantwortliche | Login, Rollen, Upload/Download, CSV, Protokolle, Backup/Restore |
 | Mindestens quartalsweise | IT/Hosting | Wiederherstellungstest für Datenbank und Medien |
