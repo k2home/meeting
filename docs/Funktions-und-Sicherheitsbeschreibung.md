@@ -1,5 +1,5 @@
 **Adressaten:** IT-Abteilung, Informationssicherheit und Datenschutzbeauftragte  
-**Prüfstand:** Branch `main`, Commit `ed6fdd73e5fbe78569ff2112d88294fb6fe229d2` (Merge von PR 511; Stand der Repository-Prüfung)  
+**Prüfstand:** Branch `beta`, einschließlich der Sicherheitsbewertung auf Basis von `main` (Commit `ed6fdd73e5fbe78569ff2112d88294fb6fe229d2`, Merge PR #511); die Python-3.12-Laufzeit und der Updater aus PR #524 sind Bestandteil des geprüften Beta-Stands.  
 **Stand:** 25. November 2026  
 **Geltungsbereich:** Anwendungscode und Repository-Konfiguration. Die konkrete Server-, Proxy-, Netzwerk- und Backup-Konfiguration ist vor Ort gesondert zu prüfen.
 
