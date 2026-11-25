@@ -78,9 +78,12 @@ class AgendaItemAttachmentTests(TestCase):
             },
         )
 
-        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(
+            response,
+            f"{reverse('meeting', args=[self.meeting.pk])}?attachments={self.item.pk}#agenda-item-{self.item.pk}",
+            fetch_redirect_response=False,
+        )
         self.assertFalse(TopicAttachment.objects.filter(topic=self.topic).exists())
-        self.assertContains(response, "Datei-Upload")
 
     def test_agenda_attachment_upload_rejects_reader(self):
         reader = User.objects.create_user(
