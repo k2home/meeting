@@ -165,6 +165,10 @@ class RetainedAgendaEntry(models.Model):
     """Agenda content retained with its topic after the original meeting expires."""
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="retained_agenda_entries")
     original_meeting_id = models.PositiveBigIntegerField(db_index=True)
+    original_series_id = models.PositiveBigIntegerField(null=True, blank=True, db_index=True)
+    access_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, related_name="retained_agenda_entries",
+    )
     meeting_date = models.DateField("Ursprünglicher Besprechungstermin")
     series_name = models.CharField("Ursprüngliche Besprechungsreihe", max_length=160, blank=True)
     working_text = models.TextField(blank=True)
