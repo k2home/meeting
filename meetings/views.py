@@ -511,6 +511,7 @@ def open_topics(request):
     return render(request, "meetings/open_topics.html", {
         "rows": rows, "today": today, "selected_series": selected_series_id,
         "selected_series_name": selected_series_name,
+        "series_options": allowed_series.order_by("name"),
     })
 
 @login_required
