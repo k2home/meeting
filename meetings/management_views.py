@@ -994,8 +994,45 @@ def testing_fixtures(request):
     from datetime import date
     import secrets
     from django.db import transaction
+    from django.db.models import Q
     from .models import AgendaItem, Meeting, Topic
     from .services import generate_meetings
+
+    series_names = [
+        "TEST Digitalisierung",
+        "TEST IT-Sicherheit",
+        "TEST Datenschutz",
+        "TEST Prozessoptimierung",
+        "TEST Personalentwicklung",
+        "TEST Projektmanagement",
+        "TEST Infrastruktur",
+        "TEST Cloud-Strategie",
+        "TEST Kommunikation",
+        "TEST Qualitätsmanagement",
+        "TEST Risikomanagement",
+        "TEST Nachhaltigkeit",
+        "TEST Kundenservice",
+        "TEST Datenmanagement",
+        "TEST Automatisierung",
+        "TEST Zusammenarbeit",
+        "TEST Weiterbildung",
+        "TEST Ressourcenplanung",
+        "TEST Informationsmanagement",
+        "TEST Compliance",
+        "TEST Innovation",
+        "TEST Change Management",
+        "TEST Beschaffung",
+        "TEST Gebäudemanagement",
+        "TEST Notfallplanung",
+        "TEST Softwareentwicklung",
+        "TEST Netzwerk",
+        "TEST Controlling",
+        "TEST Dokumentation",
+        "TEST Strategie",
+    ]
+    fixture_series_description = (
+        "TEST-Fixture: Zufällig erzeugte Beispieldaten mit festem Wochentag und regelmäßigem Rhythmus."
+    )
 
     def assign_fixture_access(series, fixture_users):
         SeriesAccess.objects.update_or_create(
@@ -1025,7 +1062,9 @@ def testing_fixtures(request):
 
 
     # Only operate on records created by this fixture tool; never bulk-edit real data.
-    series_qs = MeetingSeries.objects.filter(name__startswith="TEST-Besprechungsreihe ").order_by("name")
+    series_qs = MeetingSeries.objects.filter(
+        Q(name__startswith="TEST-Besprechungsreihe ") | Q(description__startswith="TEST-Fixture:")
+    ).order_by("name")
     topics_qs = Topic.objects.filter(title__startswith="TEST-").select_related("series").order_by("title")
     if request.method == "POST":
         action = request.POST.get("action", "")
@@ -1048,10 +1087,9 @@ def testing_fixtures(request):
                         weekday = secrets.randbelow(5)
                         start_date = start_window
                         end_date = end_window
-                        suffix = secrets.token_hex(3)
                         series = MeetingSeries.objects.create(
-                            name=f"TEST-Besprechungsreihe {start_date:%Y%m%d}-{suffix}",
-                            description="Zufällig erzeugte Beispieldaten mit festem Wochentag und regelmäßigem Rhythmus.",
+                            name=secrets.choice(series_names),
+                            description=fixture_series_description,
                             active=True,
                             recurrence=recurrence,
                             recurrence_interval=interval,
@@ -1216,7 +1254,7 @@ def testing_fixtures(request):
                             or fixture_user.assigned_meeting_agenda_items.exists()
                             or fixture_user.meeting_topic_comments.exists()
                             or fixture_user.meeting_series_access.exclude(
-                                series__name__startswith="TEST-Besprechungsreihe "
+                                series__in=series_qs
                             ).exists()
                         )
                         if in_use:
@@ -1244,7 +1282,7 @@ def testing_fixtures(request):
         "series_options": series_qs,
         "topic_options": topics_qs,
         "series_count": series_qs.count(),
-        "meeting_count": Meeting.objects.filter(series__name__startswith="TEST-Besprechungsreihe ").count(),
+        "meeting_count": Meeting.objects.filter(series__in=series_qs).count(),
         "fixture_user_count": User.objects.filter(username__startswith="test_fixture_").count(),
         "testing_mode": True,
     })
