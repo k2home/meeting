@@ -28,27 +28,6 @@
   </div>
 </article>
 {% empty %}<p class="muted" id="archive-ready-empty">Es gibt derzeit keine Themen, deren Liegefrist abgelaufen ist und die archiviert werden können.</p>{% endfor %}
-</section>"meetings/base.html" %}
-{% load meeting_user_tags %}
-{% block content %}
-<header class="page-header"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></header>
-<section class="card archive-search-group" id="archive-topics">
-  <h2>Archivierte Themen</h2>
-  {% for topic in archived_topics %}
-  <article class="content-divider">
-    <div class="topline"><div><h3><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · Archiviert</p></div><span class="pill">Archiviert</span></div>
-  </article>
-  {% empty %}<p class="muted">Es gibt keine archivierten Themen.</p>{% endfor %}
-</section>
-<section class="card archive-search-group" id="archive-agenda-items">
-  <h2>Erledigte Tagesordnungspunkte</h2>
-{% for item in items %}
-<article class="content-divider">
-  <div class="topline"><div><h2 style="margin:.2rem 0"><a href="{% url 'topic_edit' item.topic_id %}">{{ item.topic.title }}</a></h2><p class="muted">{% if item.meeting.series_id %}{{ item.meeting.series.name }}{% else %}{{ item.meeting.archived_series_name|default:"Ohne Besprechungsreihe" }}{% endif %} · {{ item.meeting.date|date:"DATE_FORMAT" }}</p></div><span class="pill">Erledigt</span></div>
-  {% if item.working_text %}<p>{{ item.working_text|linebreaksbr }}</p>{% endif %}
-  <p><a href="{% url 'protocol' item.meeting_id %}">Besprechungsprotokoll öffnen</a></p>
-</article>
-{% empty %}<p class="muted">Es gibt noch keine erledigten Tagesordnungspunkte.</p>{% endfor %}
 </section>
 
 <!-- archive-topic-actions -->
