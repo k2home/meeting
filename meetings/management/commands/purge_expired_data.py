@@ -98,6 +98,23 @@ class Command(BaseCommand):
                     TopicSnapshot.objects.filter(meeting=locked_meeting)
                     .values_list("topic_id", flat=True)
                 )
+                # Reopened protocols may survive only as JSON copies in audit
+                # events and no longer have a live agenda item or snapshot.
+                for event in AuditEvent.objects.filter(meeting=locked_meeting).only("topic_id", "changes"):
+                    if event.topic_id:
+                        topic_ids.add(event.topic_id)
+                    changes = event.changes or {}
+                    saved = changes.get("Gesicherter Protokollstand")
+                    if isinstance(saved, list):
+                        topic_ids.update(
+                            entry["topic_id"] for entry in saved
+                            if isinstance(entry, dict) and entry.get("topic_id")
+                        )
+                    correction = changes.get("Protokollkorrektur") or {}
+                    for side in ("vorher", "nachher"):
+                        entry = correction.get(side) or {}
+                        if entry.get("topic_id"):
+                            topic_ids.add(entry["topic_id"])
                 for topic_id in topic_ids:
                     self._redact_protocol_audit(locked_meeting.pk, topic_id)
 
