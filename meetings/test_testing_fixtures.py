@@ -46,8 +46,8 @@ class TestingFixtureViewTests(TestCase):
         short_labels = [profile.short_description for profile in profiles]
         self.assertEqual(len(set(label.split("/")[0] for label in short_labels)), 2)
         for profile in profiles:
-            self.assertRegex(profile.short_description, r"^\\d{2}/\\d{2}$")
-            self.assertRegex(profile.user.email, r"^[a-zäöü]+\\.[a-zäöü]+@beliebig\\.de$")
+            self.assertRegex(profile.short_description, r"^\d{2}/\d{2}$")
+            self.assertRegex(profile.user.email, r"^[a-zäöü]+\.[a-zäöü]+@beliebig\.de$")
             self.assertTrue(profile.user.first_name)
             self.assertTrue(profile.user.last_name)
             self.assertEqual(profile.user.email, f"{profile.user.first_name}.{profile.user.last_name}".lower() + "@beliebig.de")
