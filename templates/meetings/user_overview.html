@@ -10,6 +10,17 @@
 
 <div class="user-settings-grid">
 <section class="card user-settings-card">
+  <h2>Passwort ändern</h2>
+  <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="password">
+    {{ password_form.as_p }}
+    <button type="submit">Passwort ändern</button>
+  </form>
+</section>
+
+<section class="card user-settings-card">
   <h2>Persönliche Daten</h2>
   <p class="muted">Diese Angaben kannst du selbst ändern. Der Benutzername für die Anmeldung bleibt unverändert.</p>
   <form method="post">
@@ -71,16 +82,7 @@
   {% endif %}
 </section>
 
-<section class="card user-settings-card">
-  <h2>Passwort ändern</h2>
-  <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
-  <form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="form_type" value="password">
-    {{ password_form.as_p }}
-    <button type="submit">Passwort ändern</button>
-  </form>
-</section>
+
 </div>
 <style>
 .user-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}
