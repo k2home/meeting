@@ -20,10 +20,12 @@ def retention_expiry_date(reference_date, years):
 def topic_deletion_date(topic):
     if topic.status != "archived" or not topic.archived_at:
         return None
-    return retention_expiry_date(topic.archived_at, effective_retention_years(topic))
+    years = getattr(topic, "retention_effective_years", None) or effective_retention_years(topic)
+    return retention_expiry_date(topic.archived_at, years)
 
 
 def protocol_deletion_date(meeting, topic):
     if not meeting.finalized_at:
         return None
-    return retention_expiry_date(meeting.date, effective_retention_years(topic))
+    years = getattr(topic, "retention_effective_years", None) or effective_retention_years(topic)
+    return retention_expiry_date(meeting.date, years)
