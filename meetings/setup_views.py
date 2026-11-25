@@ -149,7 +149,7 @@ def _save_organization(request):
 @require_http_methods(["GET", "POST"])
 def setup_wizard(request):
     step = request.GET.get("step", "account")
-    if step not in {"account", "organization", "system", "complete"}:
+    if step not in {"activation", "account", "organization", "system", "complete"}:
         step = "account"
 
     if not User.objects.exists():
