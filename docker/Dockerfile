@@ -7,12 +7,10 @@ ARG VCS_COMMIT_DATE=unknown
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    MEETING_BUILD_COMMIT=${VCS_REF} \
-    MEETING_BUILD_COMMIT_DATE=${VCS_COMMIT_DATE} \
-    MEETING_BUILD_BRANCH=${VCS_BRANCH}
+    MEETING_BUILD_COMMIT=\${VCS_REF} \
+    MEETING_BUILD_COMMIT_DATE=\${VCS_COMMIT_DATE} \
+    MEETING_BUILD_BRANCH=\${VCS_BRANCH}
 
-# Apply Debian security updates to packages already present in the base image
-# as well as packages installed below.
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends libcairo2 postgresql-client \
@@ -24,8 +22,7 @@ COPY requirements.txt requirements-constraints.txt ./
 RUN python -m pip install --upgrade pip 'setuptools>=78.1.1' \
     && pip install -r requirements.txt -c requirements-constraints.txt
 
-# Fail the image build if CairoSVG or its native Cairo runtime is unavailable.
-RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"2\\" height=\\"2\\"><rect width=\\"2\\" height=\\"2\\" fill=\\"#00549f\\"/></svg>"); assert png.startswith(b"\\x89PNG\\r\\n\\x1a\\n")'
+RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=b"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"2\" height=\"2\"><rect width=\"2\" height=\"2\" fill=\"#00549f\"/></svg>"); assert png.startswith(b"\x89PNG\r\n\x1a\n")'
 
 RUN groupadd --system --gid 10001 meeting \
     && useradd --system --uid 10001 --gid meeting --home-dir /app --no-create-home meeting \
