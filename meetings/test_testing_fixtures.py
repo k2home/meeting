@@ -34,6 +34,12 @@ class TestingFixtureViewTests(TestCase):
             user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR
         ).exists())
 
+        response = self.client.post(url, {"action": "create_users", "user_count": "2"})
+        self.assertRedirects(response, url)
+        generated_users = User.objects.filter(username__startswith="test_fixture_")
+        self.assertEqual(generated_users.count(), 2)
+        self.assertTrue(all(not user.has_usable_password() for user in generated_users))
+
         response = self.client.post(url, {
             "action": "generate_meetings", "series_ids": [str(series.pk)],
         })
@@ -60,12 +66,10 @@ class TestingFixtureViewTests(TestCase):
         self.assertTrue(all(item.working_text for item in created_items))
         from django.utils import timezone
         self.assertTrue(Meeting.objects.filter(series=series, date__lt=timezone.localdate()).exists())
+        self.assertTrue(SeriesAccess.objects.filter(
+            series=series, user__username__startswith="test_fixture_"
+        ).exists())
 
-        response = self.client.post(url, {"action": "create_users", "user_count": "2"})
-        self.assertRedirects(response, url)
-        generated_users = User.objects.filter(username__startswith="test_fixture_")
-        self.assertEqual(generated_users.count(), 2)
-        self.assertTrue(all(not user.has_usable_password() for user in generated_users))
 
     @patch("meetings.management_views._testing_mode_enabled", return_value=False)
     def test_fixture_page_is_unavailable_outside_testing_mode(self, _testing_mode):
