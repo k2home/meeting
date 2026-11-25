@@ -59,7 +59,7 @@ jobs:
           vuln-type: os,library
           severity: CRITICAL,HIGH
           ignore-unfixed: true
-          exit-code: "0"
+          exit-code: "1"
 
       - name: Upload application image scan to GitHub code scanning
         if: always() && hashFiles('trivy-results.sarif') != ''
