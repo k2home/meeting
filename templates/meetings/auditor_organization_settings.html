@@ -1,10 +1,114 @@
 {% extends "meetings/base.html" %}
 {% block title %}Organisationseinstellungen · Lesemodus{% endblock %}
 {% block content %}
-<div class="page-header"><div><h1>Organisationseinstellungen</h1><p class="muted">Nur lesende Ansicht für Auditoren.</p></div><a class="btn secondary" href="{% url 'auditor_overview' %}">Zur Auditor-Übersicht</a></div>
+<div class="page-header">
+  <div>
+    <h1>Organisationseinstellungen</h1>
+    <p class="muted">Aktuelle Organisationseinstellungen in der schreibgeschützten Auditor-Ansicht.</p>
+  </div>
+  <a class="btn secondary" href="{% url 'auditor_overview' %}">Zur Auditor-Übersicht</a>
+</div>
+
 {% if settings %}
-<section class="card"><h2>Organisation</h2><dl><dt>Name</dt><dd>{{ settings.name|default:"–" }}</dd><dt>Kurzname</dt><dd>{{ settings.short_name|default:"–" }}</dd><dt>Zeitzone</dt><dd>{{ settings.timezone|default:"–" }}</dd><dt>Maximale Anlagengröße</dt><dd>{{ settings.attachment_max_size_mb }} MB</dd><dt>Aufbewahrungsfrist</dt><dd>{{ settings.retention_years }} Jahre</dd></dl></section>
-<section class="card"><h2>Markenfarben</h2><dl><dt>Primärfarbe</dt><dd>{{ settings.primary_color|default:"–" }}</dd><dt>Sekundärfarbe</dt><dd>{{ settings.secondary_color|default:"–" }}</dd><dt>Tertiärfarbe</dt><dd>{{ settings.tertiary_color|default:"–" }}</dd></dl></section>
-<section class="card"><h2>Organisationslogo</h2>{% if settings.logo %}<img src="{% url 'organization_logo' %}" alt="Organisationslogo" style="max-width:220px;max-height:100px;object-fit:contain">{% else %}<p class="muted">Kein Logo hinterlegt.</p>{% endif %}</section>
-{% else %}<div class="card">Es sind noch keine Organisationseinstellungen gespeichert.</div>{% endif %}
+<div class="auditor-settings-layout">
+  <section class="card auditor-logo-card">
+    <h2>Logo</h2>
+    <div class="auditor-logo-content">
+      <div class="auditor-logo-preview">
+        {% if settings.logo %}
+          <img src="{% url 'organization_logo' %}" alt="Aktuelles Organisationslogo">
+        {% else %}
+          <span class="muted">Noch kein Logo hinterlegt.</span>
+        {% endif %}
+      </div>
+      <p class="muted">Das Logo wird in der Anwendung und in exportierten Dokumenten verwendet.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Organisation</h2>
+    <dl class="auditor-settings-list">
+      <dt>Name</dt><dd>{{ settings.name|default:"–" }}</dd>
+      <dt>Kurzname</dt><dd>{{ settings.short_name|default:"–" }}</dd>
+    </dl>
+  </section>
+
+  <section class="card">
+    <h2>Region und Zeitzone</h2>
+    <dl class="auditor-settings-list">
+      <dt>Zeitzone</dt><dd>{{ settings.timezone|default:"–" }}</dd>
+    </dl>
+  </section>
+
+  <section class="card">
+    <h2>Dateianlagen</h2>
+    <dl class="auditor-settings-list">
+      <dt>Maximale Anlagengröße</dt><dd>{{ settings.attachment_max_size_mb }} MB</dd>
+    </dl>
+    <p class="muted">Begrenzt die Größe hochgeladener Anlagen an Themen.</p>
+  </section>
+
+  <section class="card auditor-settings-wide">
+    <h2>Aufbewahrung und Löschung</h2>
+    <p class="muted">Die globale Frist gilt einheitlich für abgeschlossene Besprechungstermine und deren Protokolle – unabhängig von den enthaltenen Themen. Tagesordnungstexte bleiben im jeweiligen Thema bis zum Ablauf der eigenen Themenfrist erhalten. Für archivierte Themen gilt die globale Frist als Standard; einzelne Themen können eine abweichende Frist erhalten. Die Frist beginnt mit dem Folgejahr und endet am 31. Dezember des letzten Fristjahres.</p>
+    <dl class="auditor-settings-list auditor-settings-retention">
+      <dt>Zentrale Aufbewahrungsfrist</dt><dd>{{ settings.retention_years }} Jahre</dd>
+    </dl>
+  </section>
+
+  <section class="card auditor-settings-wide">
+    <h2>Markenfarben</h2>
+    <p class="muted">Grundfarben für die wichtigsten Elemente der Oberfläche. Optionale Abweichungen können getrennt für Hell- und Dunkelmodus festgelegt werden.</p>
+    <div class="auditor-color-group">
+      <h3>Grundfarben</h3>
+      <dl class="auditor-settings-list auditor-color-list">
+        <dt>Primärfarbe</dt><dd><span class="auditor-color-swatch" style="background-color:{{ settings.primary_color }}"></span>{{ settings.primary_color|default:"–" }}</dd>
+        <dt>Sekundärfarbe</dt><dd><span class="auditor-color-swatch" style="background-color:{{ settings.secondary_color }}"></span>{{ settings.secondary_color|default:"–" }}</dd>
+        <dt>Tertiärfarbe</dt><dd><span class="auditor-color-swatch" style="background-color:{{ settings.tertiary_color }}"></span>{{ settings.tertiary_color|default:"–" }}</dd>
+      </dl>
+    </div>
+    <div class="auditor-color-group">
+      <h3>Abweichende Farben für den Hellmodus</h3>
+      <p class="muted">Nicht ausgefüllte Farben übernehmen automatisch die Grundfarbe.</p>
+      <dl class="auditor-settings-list auditor-color-list">
+        <dt>Primärfarbe</dt><dd>{{ settings.primary_color_light|default:"Grundfarbe verwenden" }}</dd>
+        <dt>Sekundärfarbe</dt><dd>{{ settings.secondary_color_light|default:"Grundfarbe verwenden" }}</dd>
+        <dt>Tertiärfarbe</dt><dd>{{ settings.tertiary_color_light|default:"Grundfarbe verwenden" }}</dd>
+      </dl>
+    </div>
+    <div class="auditor-color-group">
+      <h3>Abweichende Farben für den Dunkelmodus</h3>
+      <p class="muted">Nicht ausgefüllte Farben übernehmen automatisch die Grundfarbe.</p>
+      <dl class="auditor-settings-list auditor-color-list">
+        <dt>Primärfarbe</dt><dd>{{ settings.primary_color_dark|default:"Grundfarbe verwenden" }}</dd>
+        <dt>Sekundärfarbe</dt><dd>{{ settings.secondary_color_dark|default:"Grundfarbe verwenden" }}</dd>
+        <dt>Tertiärfarbe</dt><dd>{{ settings.tertiary_color_dark|default:"Grundfarbe verwenden" }}</dd>
+      </dl>
+    </div>
+  </section>
+</div>
+{% else %}
+<div class="card">Es sind noch keine Organisationseinstellungen gespeichert.</div>
+{% endif %}
+
+<style>
+.auditor-settings-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}
+.auditor-settings-layout>.card{min-width:0;margin:0}
+.auditor-settings-layout h2{margin:0 0 .8rem;font-size:1.08rem}
+.auditor-settings-layout h3{margin:0 0 .55rem;font-size:.98rem}
+.auditor-settings-layout p{line-height:1.5}
+.auditor-logo-card{grid-column:2;grid-row:1}
+.auditor-logo-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem;align-items:center}
+.auditor-logo-preview{display:flex;align-items:center;justify-content:flex-start;min-height:5rem;min-width:0}
+.auditor-logo-preview img{display:block;max-width:100%;max-height:140px;object-fit:contain;object-position:left center}
+.auditor-settings-list{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.55rem 1rem;margin:0}
+.auditor-settings-list dt{font-weight:600;color:var(--muted)}
+.auditor-settings-list dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.auditor-settings-wide{grid-column:1/-1}
+.auditor-settings-retention{max-width:520px;margin-top:1rem}
+.auditor-color-group{margin-top:1rem;padding-top:.85rem;border-top:1px solid var(--border)}
+.auditor-color-list dd{display:flex;align-items:center;gap:.55rem}
+.auditor-color-swatch{display:inline-block;width:1.3rem;height:1.3rem;border:1px solid var(--border);border-radius:4px;flex:0 0 auto}
+@media(max-width:700px){.auditor-settings-layout{grid-template-columns:minmax(0,1fr)}.auditor-logo-card,.auditor-settings-wide{grid-column:1;grid-row:auto}.auditor-logo-content{grid-template-columns:minmax(0,1fr)}.auditor-settings-list{grid-template-columns:minmax(0,1fr);gap:.2rem}.auditor-settings-list dd{margin-bottom:.55rem}}
+</style>
 {% endblock %}
