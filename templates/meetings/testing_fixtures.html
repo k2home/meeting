@@ -36,7 +36,7 @@
     <h2>7. TEST-Daten zurücksetzen</h2>
     <p>Entfernt alle über diese Beispielkonfiguration erzeugten Testserien, deren Termine und Themen sowie unbenutzte Testkonten. Anderweitig verwendete Testkonten bleiben erhalten.</p>
     <p><strong>{{ series_count }}</strong> Serien · <strong>{{ meeting_count }}</strong> Termine · <strong>{{ topic_options|length }}</strong> Themen · <strong>{{ fixture_user_count }}</strong> Testkonten</p>
-    <form method="post"><input type="hidden" name="fixture_nonce" value="{{ fixture_nonce }}" onsubmit="return confirm('Alle erzeugten TEST-Serien, Termine und Themen wirklich löschen?');">{% csrf_token %}<input type="hidden" name="action" value="reset_fixtures"><button class="danger" type="submit">TEST-Daten zurücksetzen</button></form>
+    <form method="post" onsubmit="return confirm('Alle erzeugten TEST-Serien, Termine und Themen wirklich löschen?');"><input type="hidden" name="fixture_nonce" value="{{ fixture_nonce }}">{% csrf_token %}<input type="hidden" name="action" value="reset_fixtures"><button class="danger" type="submit">TEST-Daten zurücksetzen</button></form>
   </section>
 </div>
 <style>
