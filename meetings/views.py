@@ -1188,13 +1188,27 @@ def topic_transfer(request, pk):
 def archive(request):
     if is_auditor(request.user):
         return redirect("auditor_overview")
-    items = AgendaItem.objects.filter(
-        meeting__in=accessible_meetings(request.user), status="done"
-    ).select_related("topic", "meeting", "meeting__series", "assigned_to").order_by(
-        "-meeting__date", "topic__title", "position"
-    )
+    from .agenda_topic_views import _topic_archive_state
+
+    archivable_topics = []
+    topics = accessible_topics(request.user).filter(status="done").select_related(
+        "series", "assigned_to"
+    ).prefetch_related("agenda_items__meeting").order_by("title")
+    for topic in topics:
+        if topic.series_id is None or not is_moderator(request.user, topic.series):
+            continue
+        can_archive, _reason = _topic_archive_state(topic)
+        if not can_archive:
+            continue
+        if topic.agenda_items.filter(meeting__finalized_at__isnull=True).exists():
+            continue
+        archivable_topics.append(topic)
+
     archived_topics = accessible_topics(request.user).filter(status="archived").select_related("series").order_by("title")
-    return render(request, "meetings/archive.html", {"items": items, "archived_topics": archived_topics})
+    return render(request, "meetings/archive.html", {
+        "archivable_topics": archivable_topics,
+        "archived_topics": archived_topics,
+    })
 
 @login_required
 @reader_no_access
