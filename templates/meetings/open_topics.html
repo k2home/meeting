@@ -1,13 +1,20 @@
 {% extends "meetings/base.html" %}
-{% block title %}Offene Tagesordnungspunkte{% endblock %}
+{% block title %}Offene Tagesordnungspunkte<style>
+.open-topics-filter{align-items:flex-end;margin-top:.75rem}
+.open-topics-filter-field{display:flex;flex-direction:column;gap:.3rem}
+.open-topics-filter-field label{margin:0}
+.open-topics-filter select,.open-topics-filter button,.open-topics-filter .btn{box-sizing:border-box;min-height:2.5rem}
+@media(max-width:560px){.open-topics-filter{align-items:stretch}.open-topics-filter-field,.open-topics-filter select{width:100%}}
+</style>
+{% endblock %}
 {% block content %}
 <header class="page-header">
   <div>
     <h1>Offene Tagesordnungspunkte</h1>
     <p class="muted">Hier findest du den jeweils letzten noch offenen Tagesordnungspunkt eines Themas, für den noch kein zukünftiger Besprechungstermin vorgesehen ist.</p>
   </div>
-  <form method="get" action="{% url 'open_topics' %}" class="actions" style="align-items:end;margin-top:.75rem">
-    <div>
+  <form method="get" action="{% url 'open_topics' %}" class="actions open-topics-filter">
+    <div class="open-topics-filter-field">
       <label for="open-topics-series-filter">Besprechungsreihe</label>
       <select id="open-topics-series-filter" name="series">
         <option value="">Alle Besprechungsreihen</option>
