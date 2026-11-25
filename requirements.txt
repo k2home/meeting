@@ -3,5 +3,5 @@ psycopg[binary]>=3.2,<4
 gunicorn>=23,<24
 reportlab>=4.2,<5
 CairoSVG>=2.7,<3
-Markdown>=3.6,<4
+Markdown>=3.11.3,<4
 
