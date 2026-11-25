@@ -1112,8 +1112,15 @@ def testing_fixtures(request):
                     topic_count = len(test_topics)
                     series_count = len(test_series)
                     Meeting.objects.filter(series_id__in=test_series_ids).delete()
+                    protected_topics = 0
                     for topic in test_topics:
-                        topic.delete()
+                        try:
+                            topic.delete()
+                        except Exception as exc:
+                            from django.db.models.deletion import ProtectedError
+                            if not isinstance(exc, ProtectedError):
+                                raise
+                            protected_topics += 1
                     MeetingSeries.objects.filter(pk__in=test_series_ids).delete()
                     deleted_users = 0
                     protected_users = 0
@@ -1123,6 +1130,9 @@ def testing_fixtures(request):
                             or fixture_user.assigned_meeting_topics.exists()
                             or fixture_user.assigned_meeting_agenda_items.exists()
                             or fixture_user.meeting_topic_comments.exists()
+                            or fixture_user.meeting_series_access.exclude(
+                                series__name__startswith="TEST-Besprechungsreihe "
+                            ).exists()
                         )
                         if in_use:
                             protected_users += 1
@@ -1132,8 +1142,8 @@ def testing_fixtures(request):
                     messages.success(
                         request,
                         f"TEST-Daten zurückgesetzt: {series_count} Serien, {meeting_count} Termine, "
-                        f"{topic_count} Themen und {deleted_users} Testnutzer gelöscht. "
-                        f"{protected_users} anderweitig verwendete Testnutzer blieben erhalten."
+                        f"{topic_count - protected_topics} Themen und {deleted_users} Testnutzer gelöscht. "
+                        f"{protected_topics} anderweitig verwendete Themen und {protected_users} Testnutzer blieben erhalten."
                     )
                 else:
                     raise ValidationError("Unbekannte Testdatenaktion.")
