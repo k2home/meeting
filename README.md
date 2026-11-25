@@ -202,7 +202,7 @@ Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Theme
 - Passwörter bestehender Benutzerkonten werden ausschließlich über einen E-Mail-Reset-Link zurückgesetzt; ein direktes Setzen oder Auslesen fremder Passwörter ist nicht vorgesehen.
 - Besprechungsreihen-Zuordnungen und die Rollen Leser*in, Teilnehmer*in und Moderator*in können direkt im Nutzerprofil verwaltet werden. Serienzuweisungen lassen sich außerdem suchen und filtern.
 - CSV-Import und -Export für Benutzerkonten sowie für Themen und Tagesordnungspunkte sind in die Verwaltungsoberfläche integriert. Benutzer-CSV sowie Vollbackup-/Restore-Funktionen sind globalen Admin-Konten vorbehalten. Themen-CSV-Import und -Export stehen ausschließlich Moderator*innen für ihre ausdrücklich moderierten Reihen zur Verfügung; globale Adminrechte allein reichen dafür nicht. Der Themenimport bietet eine Vorschau; eine Muster-CSV steht bereit.
-- Organisationseinstellungen umfassen Name, Kurzname, Zeitzone, Anlagenlimit und das Farbschema mit validierten HEX-Farbwerten.
+- Organisationseinstellungen umfassen Name, Kurzname, Zeitzone, Anlagenlimit, zentrale Aufbewahrungsfrist und das Farbschema mit Grundfarben sowie optionalen Hell-/Dunkelmodus-Abweichungen. Auditoren können diese Angaben lesend prüfen; das Startpasswort bleibt ausschließlich Administratoren vorbehalten.
 
 ## Rollen und Berechtigungen
 
