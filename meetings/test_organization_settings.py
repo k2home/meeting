@@ -39,6 +39,7 @@ class OrganizationSettingsTests(TestCase):
             "short_name": setting.short_name,
             "timezone": setting.timezone,
             "start_password": "einfach",
+            "retention_years": setting.retention_years,
             "attachment_max_size_mb": setting.attachment_max_size_mb,
             "primary_color": setting.primary_color,
             "primary_color_light": setting.primary_color_light,
