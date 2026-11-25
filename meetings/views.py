@@ -2094,8 +2094,14 @@ def series_delete(request, pk):
         # belonging to the deleted series as a standalone archived topic.
         topics = Topic.objects.filter(series=series)
         archived_topic_count = topics.count()
-        topics.exclude(status="archived").update(archive_previous_status=models.F("status"))
-        topics.update(status="archived", series=None)
+        newly_archived_topics = topics.exclude(status="archived")
+        newly_archived_topics.update(
+            archive_previous_status=models.F("status"),
+            status="archived",
+            archived_at=timezone.localdate(),
+            series=None,
+        )
+        topics.filter(status="archived").update(series=None)
         Meeting.objects.filter(series=series).update(archived_series_name=name, series=None)
         AuditEvent.objects.create(
             actor=request.user,
