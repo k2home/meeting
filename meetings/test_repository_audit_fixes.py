@@ -13,7 +13,7 @@ from django.utils import timezone
 
 from .forms import AttachmentForm, SeriesForm
 from .models import AgendaItem, ArchivedMeetingAccess, AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic, TopicAttachment
-from .services import ensure_agenda
+from .services import ensure_agenda, generate_meetings
 
 User = get_user_model()
 
@@ -68,6 +68,46 @@ class ProtocolAndAgendaIntegrityTests(TestCase):
         event = AuditEvent.objects.get(meeting=meeting, summary__contains="sortiert")
         self.assertEqual(event.changes["Reihenfolge"]["vorher"], ["Alpha", "Beta"])
         self.assertEqual(event.changes["Reihenfolge"]["nachher"], ["Beta", "Alpha"])
+
+
+class MeetingRecurrenceGenerationTests(TestCase):
+    def test_weekly_and_biweekly_recurrence_keep_the_selected_weekday(self):
+        for recurrence, expected in (
+            ("weekly", [date(2026, 1, 6), date(2026, 1, 13), date(2026, 1, 20), date(2026, 1, 27)]),
+            ("biweekly", [date(2026, 1, 6), date(2026, 1, 20)]),
+        ):
+            with self.subTest(recurrence=recurrence):
+                series = MeetingSeries.objects.create(
+                    name=f"{recurrence} recurrence",
+                    recurrence=recurrence,
+                    recurrence_interval=1,
+                    weekday=1,
+                    start_date=date(2026, 1, 1),
+                    end_date=date(2026, 1, 31),
+                )
+                generate_meetings(series, include_past=True)
+                actual = list(Meeting.objects.filter(series=series).order_by("date").values_list("date", flat=True))
+                self.assertEqual(actual, expected)
+                generate_meetings(series, include_past=True)
+                self.assertEqual(Meeting.objects.filter(series=series).count(), len(expected))
+
+    def test_monthly_fifth_weekday_falls_back_to_last_occurrence(self):
+        series = MeetingSeries.objects.create(
+            name="monthly fifth weekday",
+            recurrence="monthly",
+            recurrence_interval=1,
+            weekday=5,
+            start_date=date(2026, 1, 31),
+            end_date=date(2026, 4, 30),
+        )
+
+        generate_meetings(series, include_past=True)
+
+        actual = list(Meeting.objects.filter(series=series).order_by("date").values_list("date", flat=True))
+        self.assertEqual(
+            actual,
+            [date(2026, 1, 31), date(2026, 2, 28), date(2026, 3, 28), date(2026, 4, 25)],
+        )
 
 
 class MeetingSeriesValidationTests(TestCase):
