@@ -880,7 +880,6 @@ def meeting_detail(request, pk):
             create_form = AgendaItemCreateForm(request.POST)
             if create_form.is_valid():
                 title = create_form.cleaned_data["title"].strip()
-                working_text = create_form.cleaned_data["working_text"]
                 if not title:
                     messages.error(request, "Bitte gib einen Thementitel ein.")
                 else:
@@ -889,7 +888,7 @@ def meeting_detail(request, pk):
                         assigned_to=create_form.cleaned_data["primary_assigned_to"],
                     )
                     AgendaItem.objects.create(
-                        meeting=meeting, topic=topic, working_text=working_text,
+                        meeting=meeting, topic=topic, working_text="",
                         assigned_to=create_form.cleaned_data["assigned_to"],
                         position=(meeting.agenda_items.order_by("-position").values_list("position", flat=True).first() if meeting.agenda_items.exists() else -1) + 1,
                     )
