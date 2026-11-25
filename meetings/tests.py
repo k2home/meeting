@@ -1977,6 +1977,14 @@ class SeriesAccessRequestTests(TestCase):
         self.assertContains(page, 'name="role"')
         self.assertContains(page, "disabled")
 
+    def test_non_moderator_cannot_manage_series_users(self):
+        self.client.force_login(self.requester)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(SeriesAccess.objects.filter(user=self.requester, series=self.series).exists())
+
     def test_moderator_cannot_manage_users_in_another_series(self):
         self.client.force_login(self.moderator)
         response = self.client.post(reverse("series_manage_user_access", args=[self.other_series.pk]), {
