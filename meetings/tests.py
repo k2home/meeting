@@ -1931,6 +1931,16 @@ class SeriesAccessRequestTests(TestCase):
             summary="Besprechungsreihe „Antragsreihe“ gelöscht",
         ).exists())
 
+    def test_series_admin_shows_user_management_for_moderated_series(self):
+        self.client.force_login(self.moderator)
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Benutzer verwalten")
+        self.assertContains(response, self.requester.username)
+        self.assertContains(response, 'value="reader"')
+        self.assertContains(response, 'value="participant"')
+        self.assertContains(response, 'value="moderator"')
+
     def test_moderator_can_assign_and_remove_series_roles_for_other_users(self):
         self.client.force_login(self.moderator)
         response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
