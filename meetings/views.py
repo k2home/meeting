@@ -886,6 +886,7 @@ def meeting_detail(request, pk):
                 else:
                     topic = Topic.objects.create(
                         title=title, series=meeting.series,
+                        assigned_to=create_form.cleaned_data["primary_assigned_to"],
                     )
                     AgendaItem.objects.create(
                         meeting=meeting, topic=topic, working_text=working_text,
@@ -896,7 +897,13 @@ def meeting_detail(request, pk):
                         actor=request.user, action="created",
                         summary=f"Thema „{topic.title}“ zur Tagesordnung am {formats.date_format(meeting.date, 'DATE_FORMAT')} hinzugefügt",
                         topic=topic, meeting=meeting,
-                        changes={"Titel": {"vorher": None, "nachher": topic.title}},
+                        changes={
+                            "Titel": {"vorher": None, "nachher": topic.title},
+                            "Hauptzuständigkeit": {
+                                "vorher": None,
+                                "nachher": user_display_name(topic.assigned_to) if topic.assigned_to else None,
+                            },
+                        },
                     )
                     messages.success(request, f"„{topic.title}“ wurde neu angelegt und zur Tagesordnung hinzugefügt.")
             else:
