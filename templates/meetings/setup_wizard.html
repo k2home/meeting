@@ -9,7 +9,10 @@
       {% for key,label in setup_steps %}
         <span class="pill" {% if key == step %}aria-current="step" style="font-weight:700;background:var(--soft-bg)"{% endif %}>{{ forloop.counter }}. {{ label }}</span>
       {% empty %}
-        <span class="muted">{% if step == "activation" %}
+        <span class="muted">{% if step == "account" %}Schritt 1 von 4{% elif step == "organization" %}Schritt 2 von 4{% elif step == "system" %}Schritt 3 von 4{% else %}Schritt 4 von 4{% endif %}</span>
+      {% endfor %}
+    </nav>
+    {% if step == "activation" %}
       <h2>Ersteinrichtung freischalten</h2>
       <p>Gib den Aktivierungstoken ein, den das Installationsskript nach der Installation ausgegeben hat.</p>
       <form method="post">
@@ -17,10 +20,7 @@
         <p><label for="id_setup_token">Aktivierungstoken</label><input id="id_setup_token" name="setup_token" type="password" autocomplete="off" required></p>
         <button class="primary" type="submit">Einrichtung freischalten</button>
       </form>
-    {% elif step == "account" %}Schritt 1 von 4{% elif step == "organization" %}Schritt 2 von 4{% elif step == "system" %}Schritt 3 von 4{% else %}Schritt 4 von 4{% endif %}</span>
-      {% endfor %}
-    </nav>
-    {% if step == "account" %}
+    {% elif step == "account" %}
       <h2>1. Administratorkonto anlegen</h2>
       <p>Erstelle das erste Benutzerkonto. Es erhält automatisch globale Administratorrechte.</p>
       <form method="post">
