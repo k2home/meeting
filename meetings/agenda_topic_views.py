@@ -178,7 +178,7 @@ def topic_detail(request, pk):
     form = TopicTitleForm(request.POST or None, instance=topic)
     updating_details = request.method == "POST" and "save_topic_details" in request.POST
     status_form = TopicStatusForm(
-        request.POST if updating_details and topic.status != "archived" else None,
+        request.POST if request.method == "POST" and ("save_topic_details" in request.POST or "update_topic_status" in request.POST) and topic.status != "archived" else None,
         initial={"status": topic.status if topic.status in {"open", "in_progress", "done"} else "open"},
     )
     if reader:
