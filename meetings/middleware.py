@@ -58,3 +58,30 @@ class EnforcePasswordChangeMiddleware:
                 if (profile is not None and profile.must_change_password) or not user.has_usable_password():
                     return redirect("/konto/passwort-aendern/")
         return self.get_response(request)
+
+
+class ContentSecurityPolicyMiddleware:
+    """Apply a same-origin baseline CSP while preserving the SVG sandbox policy."""
+
+    POLICY = (
+        "default-src 'self'; "
+        "base-uri 'self'; "
+        "object-src 'none'; "
+        "frame-ancestors 'none'; "
+        "form-action 'self'; "
+        "img-src 'self' data:; "
+        "font-src 'self' data:; "
+        "style-src 'self' 'unsafe-inline'; "
+        "script-src 'self' 'unsafe-inline'; "
+        "connect-src 'self'"
+    )
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if "Content-Security-Policy" not in response:
+            response["Content-Security-Policy"] = self.POLICY
+        return response
+
