@@ -400,13 +400,13 @@ def topic_detail(request, pk):
     meetings_by_id = {item.meeting_id: item.meeting for item in items}
     meetings_by_id.update({snapshot.meeting_id: snapshot.meeting for snapshot in snapshots.values()})
     topic_meetings = sorted(meetings_by_id.values(), key=lambda meeting: (meeting.date, meeting.pk))
+    topic.retention_effective_years = effective_retention_years(topic)
     for item in items:
         snapshot = snapshots.get(item.meeting_id)
         item.display_text = snapshot.text if snapshot else item.working_text
         item.snapshot_exists = snapshot is not None
         item.protocol_deletion_date = protocol_deletion_date(item.meeting, topic)
 
-    topic.retention_effective_years = effective_retention_years(topic)
     topic.deletion_date = topic_deletion_date(topic)
     writable_series = accessible_series(request.user).exclude(user_access__role=SeriesAccess.ROLE_READER)
     return render(request, "meetings/topic_form.html", {
