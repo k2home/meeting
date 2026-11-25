@@ -1816,17 +1816,17 @@ def series_admin(request):
         item.meeting_count = len(item.ordered_meetings)
         item.completed_count = sum(1 for meeting in item.ordered_meetings if meeting.finalized_at)
         item.upcoming_count = sum(1 for meeting in item.ordered_meetings if meeting.date >= today and not meeting.finalized_at)
-    active_users = list(
-        UserModel.objects.filter(is_active=True).order_by("last_name", "first_name", "username")
-    )
     for item in series:
         assignments_by_user = {
             access.user_id: access.role
             for access in SeriesAccess.objects.filter(series=item)
         }
+        users_for_series = UserModel.objects.filter(
+            Q(is_active=True) | Q(meeting_series_access__series=item)
+        ).distinct().order_by("last_name", "first_name", "username")
         item.user_management_rows = [
             {"user": person, "role": assignments_by_user.get(person.pk, SeriesAccess.ROLE_NONE)}
-            for person in active_users
+            for person in users_for_series
         ]
     expanded_series_id = request.GET.get("expanded", "")
     form = SeriesForm(request.POST or None)
