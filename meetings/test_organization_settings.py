@@ -23,6 +23,11 @@ class OrganizationSettingsTests(TestCase):
         self.assertContains(response, 'class="settings-card settings-card-wide"')
         self.assertContains(response, "grid-template-columns:repeat(2,minmax(0,1fr))")
         self.assertContains(response, "settings-logo-card")
+        self.assertContains(response, "Logo zurücksetzen")
+        self.assertContains(response, "Neues Logo auswählen")
+        self.assertNotContains(response, "Optionales Organisationslogo für die Seitenleiste")
+        self.assertRegex(response.content.decode(), r'<input[^>]*type="number"[^>]*name="retention_years"|<input[^>]*name="retention_years"[^>]*type="number"')
+        self.assertContains(response, 'min="1"')
         for field_name in (
             "logo",
             "name",
