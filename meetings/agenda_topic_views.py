@@ -199,6 +199,14 @@ def topic_archive_toggle(request, pk):
                 (attachment.uploaded_file.storage, attachment.uploaded_file.name)
                 for attachment in attachments if attachment.uploaded_file
             ]
+            deleted_attachment_info = [
+                {
+                    "label": attachment.label,
+                    "filename": Path(attachment.uploaded_file.name).name if attachment.uploaded_file else "",
+                    "network_path": attachment.network_path,
+                }
+                for attachment in attachments
+            ]
             TopicAttachment.objects.filter(topic=topic).delete()
             for storage, file_name in stored_files:
                 transaction.on_commit(lambda storage=storage, file_name=file_name: storage.delete(file_name))
@@ -209,7 +217,10 @@ def topic_archive_toggle(request, pk):
                 actor=request.user, action="archived",
                 summary=f"Thema „{topic.title}“ archiviert",
                 topic=topic,
-                changes={"Themenstatus": {"vorher": dict(Topic.STATUS).get(previous_status, previous_status), "nachher": "Archiviert"}},
+                changes={
+                    "Themenstatus": {"vorher": dict(Topic.STATUS).get(previous_status, previous_status), "nachher": "Archiviert"},
+                    "Gelöschte Anlagen": deleted_attachment_info,
+                },
             )
             messages.success(request, f"„{topic.title}“ wurde archiviert.")
     return redirect("topic_edit", pk=topic.pk)
@@ -370,6 +381,10 @@ def topic_detail(request, pk):
         "can_archive_topic": topic.series_id is not None and is_moderator(request.user, topic.series),
         "topic_archive_allowed": _topic_archive_state(topic)[0],
         "topic_archive_reason": _topic_archive_state(topic)[1],
+        "archived_attachment_info": (
+            (AuditEvent.objects.filter(topic=topic, action="archived").order_by("-created_at", "-pk").first().changes or {}).get("Gelöschte Anlagen", [])
+            if topic.status == "archived" else []
+        ),
         "is_reader": reader,
         "topic_agenda_items": items,
         "transfer_series": writable_series.filter(active=True).exclude(pk=topic.series_id),
