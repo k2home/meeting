@@ -194,8 +194,7 @@ class OrganizationLogoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["logo"].widget.clear_checkbox_label = "Logo zurücksetzen"
-        self.fields["logo"].widget.attrs.update({
+        self.fields["logo"].widget = forms.FileInput(attrs={
             "accept": ".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml",
         })
 
@@ -437,6 +436,30 @@ def management_settings(request):
     persisted_retention_years = instance.retention_years
     logo_form = OrganizationLogoForm(instance=instance)
     form = OrganizationSettingsForm(instance=instance)
+
+    if request.method == "POST" and request.POST.get("action") == "reset_logo":
+        previous_logo = instance.logo.name if instance.logo else ""
+        previous_png = instance.logo_png.name if instance.logo_png else ""
+        if previous_logo or previous_png:
+            if instance.logo:
+                instance.logo.delete(save=False)
+            if instance.logo_png:
+                instance.logo_png.delete(save=False)
+            instance.save(update_fields=["logo", "logo_png"])
+            _record_system_change(
+                actor=request.user, action="updated",
+                summary="Organisationslogo zurückgesetzt",
+                changes={
+                    "Organisationslogo": {
+                        "vorher": previous_logo or "Kein Logo",
+                        "nachher": "Kein Logo",
+                    },
+                },
+            )
+            messages.success(request, "Das Organisationslogo wurde zurückgesetzt.")
+        else:
+            messages.info(request, "Es ist kein Organisationslogo hinterlegt.")
+        return redirect("management_settings")
 
     if request.method == "POST" and request.POST.get("action") == "save_logo":
         logo_form = OrganizationLogoForm(request.POST, request.FILES, instance=instance)
