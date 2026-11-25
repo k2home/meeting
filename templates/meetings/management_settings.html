@@ -12,12 +12,10 @@
 <section class="card settings-logo-card">
   <div class="settings-logo-intro">
     <h2>Logo</h2>
-    <p class="muted">Optionales Organisationslogo für die Seitenleiste und Protokoll-PDFs. PNG, JPEG und SVG werden unterstützt.</p>
   </div>
   <div class="settings-logo-content">
     {% if organization_settings.logo %}
       <div class="settings-logo-preview">
-        <span class="muted">Aktuell verwendetes Logo</span>
         <img src="{% url "organization_logo" %}" alt="Aktuelles Organisationslogo">
       </div>
     {% endif %}
@@ -26,7 +24,6 @@
       {% with field=logo_form.logo %}
         <div class="settings-field">
           {{ field.label_tag }}{{ field }}
-          {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
           {{ field.errors }}
         </div>
       {% endwith %}
@@ -165,7 +162,7 @@
 .settings-logo-preview{display:flex;flex-direction:column;gap:.45rem;min-width:0}
 .settings-logo-preview img{display:block;max-width:100%;max-height:76px;object-fit:contain;object-position:left center}
 .settings-logo-form{min-width:0}
-.settings-logo-form .settings-field{margin:0}
+.settings-logo-form .settings-field{margin:0}\n.settings-logo-form input[type="checkbox"]{width:auto;max-width:none;min-width:0;display:inline-block;vertical-align:middle;margin:0 .4rem 0 0}\n.settings-logo-form input[type="checkbox"]+label{display:inline;vertical-align:middle;font-weight:500}\n.settings-logo-form .settings-field:has(input[type="checkbox"]){display:block}\n.settings-logo-form input[type="file"]{display:block;max-width:100%;margin-top:.25rem}
 .settings-logo-form .actions{margin-top:.65rem}
 .organization-settings-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:stretch}
 .organization-settings-form>.settings-card{min-width:0;margin:0;padding:1.15rem}
@@ -177,7 +174,7 @@
 .settings-field small{line-height:1.4}
 .settings-field .errorlist,.brand-color-field .errorlist{margin:.1rem 0}
 .settings-card-wide,.settings-form-errors,.settings-form-actions{grid-column:1/-1}
-.settings-retention-field{max-width:360px}
+.settings-retention-field{max-width:360px}\n.settings-retention-field input[type="number"]{width:100%;min-height:2.6rem;padding:.45rem .6rem;font-variant-numeric:tabular-nums}
 .settings-retention-confirmation{margin-top:1rem}
 .settings-retention-confirmation p{margin:.5rem 0}
 .settings-retention-confirmation .actions{display:flex;flex-wrap:wrap;gap:.6rem}
