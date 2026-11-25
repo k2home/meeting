@@ -14,7 +14,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Apply Debian security updates to packages already present in the base image
 # as well as packages installed below.
 RUN apt-get update \
-    && apt-get upgrade -y --no-install-recommends \
+    && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends libcairo2 postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
