@@ -126,15 +126,15 @@ else
 fi
 
 # Keep the ClamAV TCP listener local to this host; never expose port 3310 publicly.
-if grep -q '^#\\?TCPSocket' /etc/clamav/clamd.conf; then
-  sed -i 's/^#\\?TCPSocket.*/TCPSocket 3310/' /etc/clamav/clamd.conf
+if grep -qE '^[[:space:]]*#?[[:space:]]*TCPSocket' /etc/clamav/clamd.conf; then
+  sed -E -i 's/^[[:space:]]*#?[[:space:]]*TCPSocket.*/TCPSocket 3310/' /etc/clamav/clamd.conf
 else
-  printf '\\nTCPSocket 3310\\n' >> /etc/clamav/clamd.conf
+  printf '\nTCPSocket 3310\n' >> /etc/clamav/clamd.conf
 fi
-if grep -q '^#\\?TCPAddr' /etc/clamav/clamd.conf; then
-  sed -i 's/^#\\?TCPAddr.*/TCPAddr 127.0.0.1/' /etc/clamav/clamd.conf
+if grep -qE '^[[:space:]]*#?[[:space:]]*TCPAddr' /etc/clamav/clamd.conf; then
+  sed -E -i 's/^[[:space:]]*#?[[:space:]]*TCPAddr.*/TCPAddr 127.0.0.1/' /etc/clamav/clamd.conf
 else
-  printf 'TCPAddr 127.0.0.1\\n' >> /etc/clamav/clamd.conf
+  printf 'TCPAddr 127.0.0.1\n' >> /etc/clamav/clamd.conf
 fi
 systemctl enable --now clamav-freshclam
 systemctl restart clamav-daemon
