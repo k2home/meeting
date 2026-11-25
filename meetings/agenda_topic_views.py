@@ -538,6 +538,9 @@ def topic_protocol_pdf(request, pk):
     topic_meetings = sorted(
         meetings_by_id.values(), key=lambda meeting: (meeting.date, meeting.pk)
     )
+    retained_entries = list(
+        RetainedAgendaEntry.objects.filter(topic=topic).order_by("meeting_date", "position", "pk")
+    )
 
     from io import BytesIO
     from xml.sax.saxutils import escape
@@ -643,7 +646,21 @@ def topic_protocol_pdf(request, pk):
             Paragraph(escape(text or "Kein Text hinterlegt.").replace("\n", "<br/>"), styles["TopicProtocolBody"]),
         ]
         story.append(KeepTogether(parts))
-    if not topic_meetings:
+    for entry in retained_entries:
+        meeting_label = f"{entry.series_name or 'Besprechung'} · {formats.date_format(entry.meeting_date, 'DATE_FORMAT')}"
+        parts = [
+            Paragraph(escape(meeting_label), styles["TopicProtocolSection"]),
+            Paragraph(
+                "<b>Hinweis:</b> Der zugehörige Besprechungstermin wurde nach Ablauf seiner Aufbewahrungsfrist gelöscht. Der Protokoll-Snapshot wurde gemäß der globalen Aufbewahrungsfrist gelöscht.",
+                styles["TopicProtocolMeta"],
+            ),
+            Paragraph(
+                escape(entry.working_text or "Kein Tagesordnungstext hinterlegt.").replace("\\n", "<br/>"),
+                styles["TopicProtocolBody"],
+            ),
+        ]
+        story.append(KeepTogether(parts))
+    if not topic_meetings and not retained_entries:
         story.append(Paragraph("Für dieses Thema liegen noch keine Besprechungstexte vor.", styles["TopicProtocolBody"]))
 
     from reportlab.pdfgen import canvas as pdf_canvas
