@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.http import content_disposition_header
 from django.utils import formats, timezone
 
-from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
+from .access import accessible_meetings, accessible_retained_agenda_entries, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
 from .audit import record_event
 from .forms import UserDisplayModelChoiceField
 from .models import AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings, RetainedAgendaEntry, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
@@ -129,7 +129,7 @@ def _update_completed_at(topic, old_status, new_status):
 @auditor_readonly
 def retained_agenda_entry(request, pk, entry_pk):
     topic = get_object_or_404(accessible_topics(request.user), pk=pk)
-    entry = get_object_or_404(RetainedAgendaEntry, pk=entry_pk, topic=topic)
+    entry = get_object_or_404(accessible_retained_agenda_entries(request.user), pk=entry_pk, topic=topic)
     return render(request, "meetings/retained_agenda_entry.html", {
         "topic": topic,
         "entry": entry,
@@ -293,7 +293,7 @@ def topic_detail(request, pk):
             if topic.status == "archived":
                 return HttpResponseForbidden("Archivierte Themen sind schreibgeschützt.")
             entry = get_object_or_404(
-                RetainedAgendaEntry,
+                accessible_retained_agenda_entries(request.user),
                 pk=request.POST.get("save_retained_agenda_entry"),
                 topic=topic,
             )
@@ -436,7 +436,7 @@ def topic_detail(request, pk):
     meetings_by_id.update({snapshot.meeting_id: snapshot.meeting for snapshot in snapshots.values()})
     topic_meetings = sorted(meetings_by_id.values(), key=lambda meeting: (meeting.date, meeting.pk))
     retained_agenda_entries = list(
-        RetainedAgendaEntry.objects.filter(topic=topic).order_by("-meeting_date", "position", "pk")
+        accessible_retained_agenda_entries(request.user).filter(topic=topic).order_by("-meeting_date", "position", "pk")
     )
     topic.retention_effective_years = effective_retention_years(topic)
     for item in items:
@@ -551,7 +551,7 @@ def topic_protocol_pdf(request, pk):
         meetings_by_id.values(), key=lambda meeting: (meeting.date, meeting.pk)
     )
     retained_entries = list(
-        RetainedAgendaEntry.objects.filter(topic=topic).order_by("meeting_date", "position", "pk")
+        accessible_retained_agenda_entries(request.user).filter(topic=topic).order_by("meeting_date", "position", "pk")
     )
 
     from io import BytesIO
