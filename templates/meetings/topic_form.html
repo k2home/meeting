@@ -117,17 +117,14 @@
     </dl>
     <div class="topic-info-actions">
      <button type="submit">Thema speichern</button>
-     {% if can_archive_topic %}
-     </form>
-     <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
-      {% csrf_token %}
-      <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
-     </form>
-     {% else %}
-    </div>
-    </form>
-     {% endif %}
+   </form>
+   {% if can_archive_topic %}
+   <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
+    {% csrf_token %}
+    <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
+   </form>
    {% endif %}
+    </div>
   </section>
   <section class="card topic-pdf-card">
    <h2>PDF-Protokoll</h2>
