@@ -209,9 +209,10 @@ document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],inp
   picker.addEventListener('input',function(){input.value=picker.value.toUpperCase();});
   var control=document.createElement('div');
   control.className='color-control';
+  var parent=input.parentNode;
+  parent.insertBefore(control,input);
   control.appendChild(input);
   control.appendChild(picker);
-  input.parentNode.insertBefore(control,input);
   input.addEventListener('input',function(){
     if(/^#[0-9A-Fa-f]{6}$/.test(input.value)) picker.value=input.value;
   });
