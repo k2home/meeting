@@ -1008,6 +1008,16 @@ def testing_fixtures(request):
                             series=series, user=request.user,
                             defaults={"role": SeriesAccess.ROLE_MODERATOR},
                         )
+                        for fixture_user in User.objects.filter(is_active=True, username__startswith="test_fixture_"):
+                            if secrets.randbelow(100) < 65:
+                                SeriesAccess.objects.update_or_create(
+                                    series=series, user=fixture_user,
+                                    defaults={"role": secrets.choice([
+                                        SeriesAccess.ROLE_PARTICIPANT,
+                                        SeriesAccess.ROLE_MODERATOR,
+                                        SeriesAccess.ROLE_READER,
+                                    ])},
+                                )
                         created.append(series)
                     messages.success(request, f"{len(created)} zufällige Besprechungsserien wurden angelegt.")
                 elif action == "generate_meetings":
@@ -1065,7 +1075,7 @@ def testing_fixtures(request):
                     meetings = list(Meeting.objects.filter(series=topic.series, finalized_at__isnull=True).order_by("date"))
                     if not meetings:
                         raise ValidationError("Für diese Serie gibt es noch keine offenen Termine. Bitte zuerst Termine generieren.")
-                    active_users = list(User.objects.filter(is_active=True))
+                    active_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
                     candidates = [meeting for meeting in meetings
                                   if not meeting.agenda_items.filter(topic=topic).exists()]
                     if not candidates:
@@ -1103,7 +1113,7 @@ def testing_fixtures(request):
                     count = _testing_count(request, "user_count")
                     for _ in range(count):
                         _testing_random_user()
-                    messages.success(request, f"{count} zufällige Testnutzer wurden angelegt (mit konfiguriertem TEST-Startpasswort).")
+                    messages.success(request, f"{count} zufällige Testnutzer wurden ohne nutzbares Passwort angelegt.")
                 elif action == "reset_fixtures":
                     test_series = list(series_qs)
                     test_series_ids = [series.pk for series in test_series]
