@@ -1,4 +1,6 @@
 from datetime import date
+from io import BytesIO
+from zipfile import ZipFile
 
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -8,6 +10,26 @@ from django.urls import reverse
 from .models import AgendaItem, Meeting, MeetingSeries, SeriesAccess, Topic, TopicAttachment
 
 User = get_user_model()
+
+
+
+def supported_file_content(extension):
+    if extension == "txt":
+        return b"test-content"
+    if extension == "png":
+        return b"\\x89PNG\\r\\n\\x1a\\nminimal"
+    if extension in {"jpg", "jpeg"}:
+        return b"\\xff\\xd8\\xffminimal"
+    required_parts = {
+        "docx": "word/document.xml",
+        "xlsx": "xl/workbook.xml",
+        "pptx": "ppt/presentation.xml",
+    }
+    buffer = BytesIO()
+    with ZipFile(buffer, "w") as archive:
+        archive.writestr("[Content_Types].xml", "<Types/>")
+        archive.writestr(required_parts[extension], "<document/>")
+    return buffer.getvalue()
 
 
 class AgendaItemAttachmentTests(TestCase):
@@ -42,7 +64,7 @@ class AgendaItemAttachmentTests(TestCase):
             reverse("agenda_attachment_add", args=[self.meeting.pk, self.item.pk]),
             {
                 "label": "Beschlussvorlage",
-                "uploaded_file": SimpleUploadedFile("vorlage.pdf", b"PDF-Inhalt"),
+                "uploaded_file": SimpleUploadedFile("vorlage.pdf", b"%PDF-1.7\\nPDF-Inhalt"),
             },
         )
 
@@ -59,7 +81,7 @@ class AgendaItemAttachmentTests(TestCase):
                     reverse("agenda_attachment_add", args=[self.meeting.pk, self.item.pk]),
                     {
                         "label": f"Anlage {extension}",
-                        "uploaded_file": SimpleUploadedFile(f"anlage.{extension}", b"test-content"),
+                        "uploaded_file": SimpleUploadedFile(f"anlage.{extension}", supported_file_content(extension)),
                     },
                 )
                 self.assertEqual(response.status_code, 302)
