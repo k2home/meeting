@@ -87,7 +87,21 @@
        </div>
      {% endif %}
     </article>
-   {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
+   {% empty %}{% if not retained_agenda_entries %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endif %}{% endfor %}
+   {% for entry in retained_agenda_entries %}
+    <article class="topic-meeting" id="retained-agenda-{{ entry.pk }}">
+     <div class="topline">
+      <strong>{{ entry.series_name|default:"Besprechung" }} · {{ entry.meeting_date|date:"DATE_FORMAT" }}</strong>
+      <span class="pill">Termin gelöscht</span>
+     </div>
+     {% if entry.working_text %}<p>{{ entry.working_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein Tagesordnungstext hinterlegt.</p>{% endif %}
+     <p class="muted">Der zugehörige Besprechungstermin wurde nach Ablauf seiner Aufbewahrungsfrist gelöscht.</p>
+     <div class="topic-meeting-actions topic-compact-actions">
+      <a class="btn secondary" href="#retained-agenda-{{ entry.pk }}">Tagesordnung</a>
+      <a class="btn secondary" href="#retained-agenda-{{ entry.pk }}">Protokoll</a>
+     </div>
+    </article>
+   {% endfor %}
   </section>
  </div>
  <aside class="topic-side">
