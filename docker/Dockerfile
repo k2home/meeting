@@ -25,8 +25,9 @@ RUN python3.13 -m venv /opt/venv \
     && /opt/venv/bin/pip install -r requirements.txt -c requirements-constraints.txt \
     && /opt/venv/bin/pip uninstall --yes setuptools \
     && find /opt/venv -iname '*setuptools*' -delete \
+    && rm -rf /opt/venv/lib/python3.13/site-packages/pip /opt/venv/lib/python3.13/site-packages/pip-*.dist-info /opt/venv/bin/pip* \
     && ! find /opt/venv -iname '*setuptools*' -print -quit | grep -q . \
-    && /opt/venv/bin/python -c 'import importlib.util; from importlib.metadata import distributions; assert importlib.util.find_spec("setuptools") is None, "setuptools module must not be present in the runtime environment"; assert not any((dist.metadata.get("Name") or "").lower() == "setuptools" for dist in distributions()), "setuptools metadata must not be present in the runtime environment"'
+    && /opt/venv/bin/python -c 'import importlib.util; from importlib.metadata import distributions; assert importlib.util.find_spec("setuptools") is None, "setuptools module must not be present in the runtime environment"; assert not any((dist.metadata.get("Name") or "").lower() == "setuptools" for dist in distributions()), "setuptools metadata must not be present in the runtime environment"; assert importlib.util.find_spec("pip") is None, "pip must not be present in the runtime environment"'
 
 FROM debian:trixie-slim AS runtime
 
@@ -58,7 +59,7 @@ COPY --from=builder /opt/venv /opt/venv
 
 WORKDIR /app
 
-RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=bytes.fromhex("3c73766720786d6c6e733d22687474703a2f2f7777772e77332e6f72672f323030302f737667222077696474683d223222206865696768743d2232223e3c726563742077696474683d223222206865696768743d2232222066696c6c3d2223303035343966222f3e3c2f7376673e")); assert png.startswith(bytes([137, 80, 78, 71, 13, 10, 26, 10]))'
+RUN python -c 'import cairosvg; png = cairosvg.svg2png(bytestring=bytes.fromhex("3c73766720786d6c6e733d22687474703a2f2f7777772e77332e6f72672f323030302f737667222077696474683d223222206865696768743d2232223e3c726563742077696474683d223222206865696768743d2232222066696c6c3d2223303035343966222f3e3c2f7376673e")); assert png.startswith(bytes([137, 80, 78, 13, 10, 26, 10]))'
 
 RUN groupadd --system --gid 10001 meeting \
     && useradd --system --uid 10001 --gid meeting --home-dir /app --no-create-home meeting \
