@@ -14,7 +14,7 @@ from django.utils import formats, timezone
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, is_admin, is_auditor, is_moderator, is_reader
 from .audit import record_event
 from .forms import UserDisplayModelChoiceField
-from .models import AgendaItem, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
+from .models import AgendaItem, AuditEvent, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic, TopicAttachment, TopicSnapshot
 from .user_display import user_display_name
 
 
