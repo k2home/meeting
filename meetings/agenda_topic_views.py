@@ -94,7 +94,7 @@ def _topic_archive_state(topic, today=None):
     if _topic_testing_mode_enabled():
         return True, ""
     if not topic.completed_at:
-        return False, "Das Abschlussdatum fehlt. Bitte den Status erneut auf „Erledigt“ setzen."
+        return False, "Das Abschlussdatum fehlt. Bitte das Thema einmal speichern, damit der Abschlusszeitpunkt erfasst wird."
     archive_date = _add_calendar_months(topic.completed_at, 6)
     today = today or timezone.localdate()
     if today < archive_date:
@@ -268,6 +268,9 @@ def topic_detail(request, pk):
                             }
                             updated.status = new_status
                             _update_completed_at(updated, original_values["status"], new_status)
+                    if updated.status == "done" and not updated.completed_at:
+                        updated.completed_at = timezone.localdate()
+                        changes["Abschlussdatum"] = {"vorher": None, "nachher": updated.completed_at.isoformat()}
                     if changes:
                         updated.save()
                         if "assigned_to" in changed_fields:
