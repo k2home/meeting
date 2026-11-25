@@ -33,9 +33,20 @@ class TopicTitleForm(forms.ModelForm):
 
 
 class NewTopicForm(forms.ModelForm):
+    assigned_to = UserDisplayModelChoiceField(
+        queryset=get_user_model().objects.none(), required=False,
+        label="Hauptzuständigkeit",
+    )
+
     class Meta:
         model = Topic
-        fields = ["title", "series"]
+        fields = ["title", "series", "assigned_to"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["assigned_to"].queryset = get_user_model().objects.filter(
+            is_active=True
+        ).order_by("last_name", "first_name", "username")
 
 
 @login_required
