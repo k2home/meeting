@@ -150,7 +150,7 @@
    {% if can_archive_topic %}
     {% if topic.status == "archived" %}
     <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ wieder öffnen?">
-     {% csrf_token %}<button type="submit" class="secondary">Thema wieder öffnen</button>
+     {% csrf_token %}<button type="submit" class="secondary">Wieder öffnen</button>
     </form>
     {% elif topic_archive_allowed %}
     <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ wirklich archivieren? Alle Anlagen dieses Themas einschließlich hochgeladener Dateien werden dabei dauerhaft vom Server gelöscht.">
