@@ -40,6 +40,56 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
         self.assertIsNone(response.context["rows"][0]["item"])
         self.assertEqual(response.context["rows"][0]["topic"], topic)
 
+    def test_series_filter_shows_only_open_topics_from_selected_series(self):
+        selected_topic = Topic.objects.create(
+            title="Thema der ausgewählten Reihe",
+            series=self.series,
+            status="open",
+        )
+        other_series = MeetingSeries.objects.create(name="Andere Reihe")
+        SeriesAccess.objects.create(
+            user=self.user,
+            series=other_series,
+            role=SeriesAccess.ROLE_PARTICIPANT,
+        )
+        other_topic = Topic.objects.create(
+            title="Thema einer anderen Reihe",
+            series=other_series,
+            status="in_progress",
+        )
+
+        response = self.client.get(
+            reverse("open_topics"),
+            {"series": self.series.pk},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            [row["topic"].pk for row in response.context["rows"]],
+            [selected_topic.pk],
+        )
+        self.assertContains(response, selected_topic.title)
+        self.assertNotContains(response, other_topic.title)
+        self.assertEqual(response.context["selected_series"], self.series.pk)
+        self.assertEqual(response.context["selected_series_name"], self.series.name)
+
+    def test_invalid_or_unassigned_series_filter_does_not_show_unfiltered_topics(self):
+        topic = Topic.objects.create(
+            title="Berechtigtes Thema",
+            series=self.series,
+            status="open",
+        )
+        other_series = MeetingSeries.objects.create(name="Nicht zugewiesene Reihe")
+
+        response = self.client.get(
+            reverse("open_topics"),
+            {"series": other_series.pk},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["rows"], [])
+        self.assertNotContains(response, topic.title)
+
     def test_topic_without_agenda_item_can_be_added_to_future_meeting(self):
         topic = Topic.objects.create(
             title="Erster Tagesordnungspunkt",
