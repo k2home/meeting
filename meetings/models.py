@@ -484,7 +484,7 @@ class OrganizationSettings(models.Model):
     )
     logo = models.FileField(
         "Organisationslogo", upload_to="organization/logo/", blank=True, validators=[FileExtensionValidator(["png", "jpg", "jpeg", "svg"])],
-        help_text="Optionales Logo (max. 2 MB) für die Kopfzeile von Protokoll-PDFs. Unterstützte Formate: PNG, JPEG und SVG; Uploads werden durch ClamAV geprüft.",
+        help_text="Optionales Logo für die Kopfzeile von Protokoll-PDFs. Unterstützte Formate: PNG, JPEG und SVG.",
     )
     logo_png = models.FileField(
         "Organisationslogo (PNG)", upload_to="organization/logo/converted/", blank=True,
