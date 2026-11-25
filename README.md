@@ -87,7 +87,7 @@ docker compose -f docker/compose.yaml restart app
 sudo systemctl status meeting-manager-docker-updater.service
 ```
 
-Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für die automatische Aufbewahrungsprüfung läuft zusätzlich der Compose-Dienst `retention`; er prüft täglich abgelaufene Themen und Protokoll-Snapshots. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
+Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für die automatische Aufbewahrungsprüfung läuft zusätzlich der Compose-Dienst `retention`; er löscht täglich abgelaufene archivierte Themen sowie abgeschlossene Besprechungstermine und deren Protokolle nach der globalen Organisationsfrist. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
 
 ### Debian / Ubuntu mit systemd und Nginx
 
