@@ -177,6 +177,8 @@ find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
+install -m 0644 "$APP_DIR/deploy/meeting-manager-retention.service" /etc/systemd/system/meeting-manager-retention.service
+install -m 0644 "$APP_DIR/deploy/meeting-manager-retention.timer" /etc/systemd/system/meeting-manager-retention.timer
 bash "$APP_DIR/deploy/install-debian-updater.sh"
 NGINX_CONFIG="/etc/nginx/sites-available/meeting-manager"
 install -m 0644 "$APP_DIR/deploy/nginx-meeting-manager.conf" "$NGINX_CONFIG"
@@ -187,6 +189,7 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl daemon-reload
 systemctl enable --now meeting-manager
+systemctl enable --now meeting-manager-retention.timer
 systemctl enable --now nginx
 systemctl reload nginx
 
