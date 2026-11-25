@@ -55,11 +55,11 @@ class AttachmentContentValidationTests(TestCase):
         self.assertIn("uploaded_file", form.errors)
 
     def test_accepts_png_with_png_signature(self):
-        form = self.make_form("image.png", b"\\x89PNG\\r\\n\\x1a\\nminimal")
+        form = self.make_form("image.png", b"\x89PNG\r\n\x1a\nminimal")
         self.assertTrue(form.is_valid(), form.errors)
 
     def test_accepts_jpeg_with_jpeg_signature(self):
-        form = self.make_form("image.jpg", b"\\xff\\xd8\\xffminimal")
+        form = self.make_form("image.jpg", b"\xff\xd8\xffminimal")
         self.assertTrue(form.is_valid(), form.errors)
 
     @override_settings(CLAMD_ENABLED=True, CLAMD_HOST="127.0.0.1", CLAMD_PORT=3310)
@@ -76,17 +76,17 @@ class AttachmentContentValidationTests(TestCase):
             def sendall(self, value):
                 self.sent.append(value)
             def recv(self, size):
-                return b"stream: OK\\0"
+                return b"stream: OK\0"
 
         uploaded = SimpleUploadedFile("clean.txt", b"hello")
         fake = FakeClamdSocket()
         with patch("meetings.antivirus.socket.create_connection", return_value=fake):
             scan_uploaded_file(uploaded)
 
-        self.assertEqual(fake.sent[0], b"zINSTREAM\\0")
+        self.assertEqual(fake.sent[0], b"zINSTREAM\0")
         self.assertEqual(fake.sent[1], (5).to_bytes(4, "big"))
         self.assertEqual(fake.sent[2], b"hello")
-        self.assertEqual(fake.sent[3], b"\\0\\0\\0\\0")
+        self.assertEqual(fake.sent[3], b"\0\0\0\0")
 
     @override_settings(CLAMD_ENABLED=True, CLAMD_HOST="127.0.0.1", CLAMD_PORT=3310)
     def test_clamav_detected_malware_rejects_upload(self):
@@ -100,7 +100,7 @@ class AttachmentContentValidationTests(TestCase):
             def sendall(self, value):
                 pass
             def recv(self, size):
-                return b"stream: Eicar-Test-Signature FOUND\\0"
+                return b"stream: Eicar-Test-Signature FOUND\0"
 
         uploaded = SimpleUploadedFile("infected.txt", b"test")
         with patch("meetings.antivirus.socket.create_connection", return_value=FakeClamdSocket()):
