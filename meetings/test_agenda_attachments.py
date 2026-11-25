@@ -17,9 +17,9 @@ def supported_file_content(extension):
     if extension == "txt":
         return b"test-content"
     if extension == "png":
-        return b"\\x89PNG\\r\\n\\x1a\\nminimal"
+        return b"\x89PNG\r\n\x1a\nminimal"
     if extension in {"jpg", "jpeg"}:
-        return b"\\xff\\xd8\\xffminimal"
+        return b"\xff\xd8\xffminimal"
     required_parts = {
         "docx": "word/document.xml",
         "xlsx": "xl/workbook.xml",
@@ -64,7 +64,7 @@ class AgendaItemAttachmentTests(TestCase):
             reverse("agenda_attachment_add", args=[self.meeting.pk, self.item.pk]),
             {
                 "label": "Beschlussvorlage",
-                "uploaded_file": SimpleUploadedFile("vorlage.pdf", b"%PDF-1.7\\nPDF-Inhalt"),
+                "uploaded_file": SimpleUploadedFile("vorlage.pdf", b"%PDF-1.7\nPDF-Inhalt"),
             },
         )
 
