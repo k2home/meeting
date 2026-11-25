@@ -31,11 +31,12 @@
       </form>
     {% elif step == "organization" %}
       <h2>2. Organisation einrichten</h2>
-      <p>Name, Kurzbezeichnung, Zeitzone und Farben werden für die Oberfläche und Protokolle verwendet. Logo und individuelle Farben sind optional.</p>
+      <p>Name, Kurzbezeichnung, Zeitzone und Farben werden für die Oberfläche und Protokolle verwendet. Die vorgeschlagene Farbpalette kann bei Bedarf angepasst werden.</p>
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if form.non_field_errors %}<div class="messages error">{{ form.non_field_errors }}</div>{% endif %}
         {% for field in form %}
+          {% if field.name == "primary_color" %}<h3>Farben</h3>{% endif %}
           <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
         {% endfor %}
         <h3>Organisationslogo (optional)</h3>
