@@ -24,7 +24,7 @@ from django.utils import formats, timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm, UserDisplayModelChoiceField
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess, RetainedAgendaEntry
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_retained_agenda_entries, accessible_series, accessible_topics, auditor_readonly, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
@@ -2091,6 +2091,12 @@ def series_delete(request, pk):
         former_access = list(
             SeriesAccess.objects.filter(series=series).values("user_id", "role")
         )
+        former_user_ids = [access["user_id"] for access in former_access]
+        # Retained agenda entries no longer have a Meeting row to receive
+        # ArchivedMeetingAccess records, so carry forward the same former
+        # series membership before deleting the series.
+        for retained_entry in RetainedAgendaEntry.objects.filter(original_series_id=series.pk):
+            retained_entry.access_users.set(former_user_ids)
         meeting_ids = list(Meeting.objects.filter(series=series).values_list("pk", flat=True))
         ArchivedMeetingAccess.objects.bulk_create(
             [
