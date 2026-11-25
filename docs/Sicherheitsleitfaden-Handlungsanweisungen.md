@@ -252,7 +252,7 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor\*in. Audi
 
 - Den Audit-Zugriff ausschließlich für festgelegte Prüfaufträge und nachvollziehbare Kontrollzwecke verwenden.
 - Beachten, dass Auditor\*innen ausschließlich Systemereignisse einsehen und exportieren können. Besprechungsreihen, Tagesordnungspunkte, Kommentare und Anlagen gehören nicht zum Auditor\*innen-Zugriff.
-- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Administrator\*innen erfolgen.
+- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen einschließlich Aufbewahrungsfrist und Markenfarben lesend prüfen. Das konfigurierte Startpasswort ist von der Auditor-Ansicht ausgeschlossen. Änderungen müssen durch die zuständigen Administrator\*innen erfolgen.
 - Keine fachlichen Serienberechtigungen anfordern, um den eingeschränkten Prüfzugriff zu umgehen. Wenn eine fachliche Prüfung erforderlich ist, muss sie gesondert legitimiert und über einen geeigneten Prozess organisiert werden.
 - Die Auditor\*innen-Rolle nicht mit globalen Adminrechten kombinieren. Administrator\*in- und Superuser-Rechte sind keine Auditor\*innen-Rechte und erweitern den Zugriff erheblich.
 
