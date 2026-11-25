@@ -125,7 +125,7 @@ Anschließend fragt der Installer nach dem Hostnamen bzw. der IP-Adresse und der
    sudo bash deploy/install-debian.sh
    ```
 
-3. Hostnamen bzw. IP-Adresse und die IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus. Der lokale Nginx-Zugriff wird auf die angegebene Proxy-Adresse begrenzt; HTTPS-Redirect und sichere Cookies werden erzwungen.
+3. Hostnamen bzw. IP-Adresse und die IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus. Für Django 6.1 wird CPython 3.12 verwaltet unter `/opt/meeting-manager-updater/python` installiert (über `uv` und python-build-standalone); das System-Python von Debian 12 bleibt unverändert. Der lokale Nginx-Zugriff wird auf die angegebene Proxy-Adresse begrenzt; HTTPS-Redirect und sichere Cookies werden erzwungen.
 
 4. Zuerst den HTTPS-Reverse-Proxy mit gültigem Zertifikat konfigurieren. Er muss auf Port 8080 dieses Servers weiterleiten (bei lokalem Proxy z. B. `http://127.0.0.1:8080`) und `X-Forwarded-Proto: https` setzen sowie eingehende Forwarded-Header überschreiben. Danach `https://<HOSTNAME>/` im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
 
@@ -139,6 +139,10 @@ Die Installationsskripte richten den Meeting Manager für den Betrieb hinter ein
 Bei Debian wird der interne Nginx-Zugang auf die beim Setup angegebene Proxy-IP/CIDR beschränkt. Der Nginx übernimmt `X-Forwarded-Proto` nur von diesem Proxy; der Proxy muss den Header auf `https` setzen und vom Client gelieferte Forwarded-Header überschreiben. Bei Docker wird der veröffentlichte Web-Port standardmäßig ausschließlich an `127.0.0.1` gebunden. Der TLS-Reverse-Proxy muss daher auf demselben Host laufen und an `http://127.0.0.1:8080` weiterleiten (einen abweichenden `WEB_PORT` entsprechend berücksichtigen).
 
 Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und die Proxy-Konfiguration getestet werden. Ohne korrekt eingerichteten TLS-Reverse-Proxy ist die Anwendung absichtlich nicht regulär nutzbar. HSTS zunächst mit kurzer Laufzeit testen; `includeSubDomains` und Preload nur aktivieren, wenn die gesamte Domainstruktur die jeweiligen Voraussetzungen dauerhaft erfüllt.
+
+
+
+**Python-Laufzeit:** Django 6.1 benötigt Python 3.12 oder neuer. Auf Debian 12 stellt das Installations- und Update-Skript deshalb eine separate, von `uv` verwaltete CPython-3.12-Laufzeit bereit und baut die Anwendungsumgebung bei Bedarf neu auf. Das vom Betriebssystem verwendete Python wird nicht ersetzt. Für diesen Schritt sind Zugriff auf PyPI und die Veröffentlichungen von python-build-standalone auf GitHub erforderlich; in vollständig offline betriebenen Netzen muss die Laufzeit samt Prüfsummen kontrolliert vorab bereitgestellt werden.
 
 ### Wichtige Pfade und Dienste
 
