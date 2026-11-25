@@ -241,8 +241,16 @@ class TopicAttachment(models.Model):
     network_path = models.CharField("Netzwerkpfad / Link", max_length=1000, blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        # Model.save() does not run field validators. Protect programmatic upload
+        # paths as well as ModelForms and the Django admin.
+        if self.uploaded_file and not getattr(self.uploaded_file, "_committed", True):
+            validate_topic_attachment_content(self.uploaded_file)
+        return super().save(*args, **kwargs)
+
     def __str__(self):
         return self.label
+
     @property
     def network_url(self):
         """Return a validated SMB URL; unsupported paths remain plain text."""
