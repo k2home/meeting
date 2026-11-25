@@ -10,7 +10,7 @@
 <div class="card">
   <h2>Termine neu aufsetzen</h2>
   <p>Alle nicht abgeschlossenen Termine werden entfernt und anhand der aktuellen Serieneinstellungen neu angelegt. Bereits vorhandene Tagesordnungspunkte werden auf den nächsten neuen Termin übertragen. Abgeschlossene Termine bleiben erhalten; ihre Protokoll-Snapshots unterliegen weiterhin der konfigurierten Aufbewahrungsfrist.</p>
-  <form method="post" action="{% url 'series_reset_meetings' series.pk %}" data-confirm-message="Alle nicht abgeschlossenen Termine dieser Reihe löschen und neu erzeugen? Tagesordnungspunkte werden auf den nächsten Termin übertragen. Abgeschlossene Protokolle bleiben erhalten.">
+  <form method="post" action="{% url 'series_reset_meetings' series.pk %}" data-confirm-message="Alle nicht abgeschlossenen Termine dieser Reihe löschen und neu erzeugen? Tagesordnungspunkte werden auf den nächsten Termin übertragen. Abgeschlossene Protokolle bleiben bis zum Ablauf ihrer Aufbewahrungsfrist erhalten.">
     {% csrf_token %}
     <button class="danger" type="submit">Alle nicht abgeschlossenen Termine löschen und neu anlegen …</button>
   </form>
