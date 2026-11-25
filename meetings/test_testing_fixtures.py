@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from .management_views import _testing_agenda_texts
 from .models import AgendaItem, Meeting, MeetingSeries, SeriesAccess, Topic
 
 
@@ -11,6 +12,16 @@ User = get_user_model()
 
 
 class TestingFixtureViewTests(TestCase):
+    def test_agenda_text_pool_contains_100_distinct_texts_of_two_to_twenty_sentences(self):
+        texts = _testing_agenda_texts("TEST Digitalisierung")
+        self.assertEqual(len(texts), 100)
+        self.assertEqual(len(set(texts)), 100)
+        for text in texts:
+            sentence_count = len([part for part in text.split(".") if part.strip()])
+            self.assertGreaterEqual(sentence_count, 2)
+            self.assertLessEqual(sentence_count, 20)
+            self.assertIn("TEST Digitalisierung", text)
+
     def setUp(self):
         self.admin = User.objects.create_superuser(
             username="testing-admin", email="testing-admin@example.invalid",
