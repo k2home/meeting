@@ -144,6 +144,16 @@
   </section>
   <section class="card" id="topic-attachments"><h2>Dateien und Anlagen</h2>
    <p class="muted">Alle Unterlagen zu diesem Thema an einem Ort. Dateien können geöffnet oder heruntergeladen werden; Netzwerkpfade und Links bleiben direkt erreichbar.</p>
+   {% if archived_attachment_info %}
+    <div class="topic-archived-attachments" style="margin:.75rem 0;padding:.75rem;border:1px solid var(--border);border-radius:.5rem">
+     <strong>Frühere Anlagen (Dateien gelöscht)</strong>
+     <ul style="margin:.4rem 0 0;padding-left:1.25rem">
+      {% for a in archived_attachment_info %}
+       <li>{% if a.label %}{{ a.label }}{% endif %}{% if a.filename %} – {{ a.filename }}{% endif %}{% if a.network_path %} <span class="muted">({{ a.network_path }})</span>{% endif %}</li>
+      {% endfor %}
+     </ul>
+    </div>
+   {% endif %}
    {% for a in topic.attachments.all %}
     <div class="topic-attachment" style="display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap;padding:.7rem 0;border-bottom:1px solid var(--border)">
      <div style="min-width:0;overflow-wrap:anywhere">
