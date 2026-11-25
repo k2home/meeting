@@ -117,6 +117,34 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(item.assigned_to, self.user)
         self.assertNotIn("description", {field.name for field in Topic._meta.get_fields()})
 
+    def test_open_agenda_item_responsibility_can_be_changed_without_changing_text(self):
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
+        other_user = User.objects.create_user(username="agenda-assignee", password="strong-test-password")
+        item = AgendaItem.objects.create(meeting=meeting, topic=self.topic, working_text="Unveränderter Text")
+        response = self.client.post(
+            reverse("topic_agenda_edit", args=[self.topic.pk, item.pk]),
+            {"assigned_to": str(other_user.pk)},
+        )
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        item.refresh_from_db()
+        self.assertEqual(item.assigned_to, other_user)
+        self.assertEqual(item.working_text, "Unveränderter Text")
+
+    def test_finalized_agenda_item_responsibility_is_read_only(self):
+        meeting = Meeting.objects.create(
+            series=self.series, date="2026-11-10", finalized_at="2026-11-10T10:00:00Z"
+        )
+        item = AgendaItem.objects.create(meeting=meeting, topic=self.topic, assigned_to=self.user)
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, f'id="assigned-to-{item.pk}"')
+        self.assertContains(response, "Protokoll abgeschlossen")
+        denied = self.client.post(
+            reverse("topic_agenda_edit", args=[self.topic.pk, item.pk]),
+            {"assigned_to": ""},
+        )
+        self.assertEqual(denied.status_code, 403)
+
     def test_dashboard_search_finds_agenda_text(self):
         meeting = Meeting.objects.create(series=self.series, date="2026-12-15")
         AgendaItem.objects.create(
