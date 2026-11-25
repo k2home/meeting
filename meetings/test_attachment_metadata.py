@@ -20,7 +20,7 @@ class UploadedAttachmentMetadataTests(TestCase):
         SeriesAccess.objects.create(user=self.user, series=self.series)
         self.topic = Topic.objects.create(title="Anlagen-Thema", series=self.series)
         self.upload = SimpleUploadedFile(
-            "sitzungsunterlage.pdf", b"PDF-Dateiinhalt"
+            "sitzungsunterlage.pdf", b"%PDF-1.7\nPDF-Dateiinhalt"
         )
         TopicAttachment.objects.create(
             topic=self.topic,
@@ -35,7 +35,7 @@ class UploadedAttachmentMetadataTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Datei öffnen")
-        self.assertContains(response, f'data-file-size="{len(b"PDF-Dateiinhalt")}"')
+        self.assertContains(response, f'data-file-size="{len(b"%PDF-1.7\nPDF-Dateiinhalt")}"')
 
     def test_network_path_attachment_is_not_shown_as_uploaded_file(self):
         TopicAttachment.objects.create(
@@ -152,7 +152,7 @@ class TopicAttachmentManagementTests(TestCase):
             reverse("attachment_add", args=[self.topic.pk]),
             {
                 "label": "Themenunterlage",
-                "uploaded_file": SimpleUploadedFile("themenunterlage.pdf", b"PDF-Inhalt"),
+                "uploaded_file": SimpleUploadedFile("themenunterlage.pdf", b"%PDF-1.7\nPDF-Inhalt"),
                 "next": self.topic_url + "#topic-attachments",
             },
         )
