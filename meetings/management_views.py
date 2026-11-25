@@ -947,10 +947,8 @@ def _testing_count(request, key, default=5, maximum=100):
     return value
 
 
-def _testing_random_user():
-    import re
+def _testing_random_user(block_number, unique_number):
     import secrets
-    from django.core.exceptions import ValidationError
     from .models import UserProfile
     from .user_roles import sync_user_role
 
@@ -965,23 +963,11 @@ def _testing_random_user():
         "Schröder", "Neumann", "Krüger", "Hartmann", "Lange", "Krause",
     ]
 
-    used_numbers = set()
-    for description in UserProfile.objects.filter(
-        user__username__startswith="test_fixture_"
-    ).values_list("short_description", flat=True):
-        match = re.match(r"^(\d{2})/\d{2}$", description or "")
-        if match:
-            used_numbers.add(match.group(1))
-    available_numbers = [f"{number:02d}" for number in range(100) if f"{number:02d}" not in used_numbers]
-    if not available_numbers:
-        raise ValidationError("Alle 100 Kurzbezeichnungsnummern für Testnutzer sind bereits vergeben.")
-
     first_name = secrets.choice(first_names)
     last_name = secrets.choice(last_names)
     username = f"test_fixture_{secrets.token_hex(5)}"
     email_name = f"{first_name}.{last_name}".replace(" ", "").lower()
-    short_number = secrets.choice(available_numbers)
-    short_description = f"{short_number}/{secrets.randbelow(100):02d}"
+    short_description = f"{block_number:02d}/{unique_number:02d}"
 
     user = User.objects.create_user(
         username=username,
@@ -1165,10 +1151,41 @@ def testing_fixtures(request):
                         f"{len(created_items)} Tagesordnungspunkte mit themenbezogenen Texten und chronologischer Wiedervorlage wurden angelegt."
                     )
                 elif action == "create_users":
-                    count = _testing_count(request, "user_count")
-                    for _ in range(count):
-                        _testing_random_user()
-                    messages.success(request, f"{count} zufällige Testnutzer wurden ohne nutzbares Passwort angelegt.")
+                    count = _testing_count(request, "user_count", maximum=100)
+                    from .models import UserProfile
+                    import re
+
+                    used_suffixes = {}
+                    used_blocks = set()
+                    for description in UserProfile.objects.filter(
+                        user__username__startswith="test_fixture_"
+                    ).values_list("short_description", flat=True):
+                        match = re.match(r"^(\\d{2})/(\\d{2})$", description or "")
+                        if match:
+                            block_number, unique_number = map(int, match.groups())
+                            used_blocks.add(block_number)
+                            used_suffixes.setdefault(block_number, set()).add(unique_number)
+
+                    available_blocks = [
+                        block for block in range(100)
+                        if block not in used_blocks
+                    ]
+                    if not available_blocks:
+                        raise ValidationError("Alle 100 Kurzbezeichnungsblöcke sind bereits vergeben.")
+
+                    block_number = secrets.choice(available_blocks)
+                    unique_numbers = list(range(100))
+                    secrets.SystemRandom().shuffle(unique_numbers)
+                    if count > len(unique_numbers):
+                        raise ValidationError("Ein Kurzbezeichnungsblock kann höchstens 100 Testnutzer enthalten.")
+
+                    for unique_number in unique_numbers[:count]:
+                        _testing_random_user(block_number, unique_number)
+                    messages.success(
+                        request,
+                        f"{count} zufällige Testnutzer wurden im Kurzbezeichnungsblock "
+                        f"{block_number:02d} ohne nutzbares Passwort angelegt."
+                    )
                 elif action == "reset_fixtures":
                     test_series = list(series_qs)
                     test_series_ids = [series.pk for series in test_series]
