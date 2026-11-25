@@ -1155,16 +1155,13 @@ def testing_fixtures(request):
                     from .models import UserProfile
                     import re
 
-                    used_suffixes = {}
                     used_blocks = set()
                     for description in UserProfile.objects.filter(
                         user__username__startswith="test_fixture_"
                     ).values_list("short_description", flat=True):
-                        match = re.match(r"^(\\d{2})/(\\d{2})$", description or "")
+                        match = re.match(r"^(\\d{2})/\\d{2}$", description or "")
                         if match:
-                            block_number, unique_number = map(int, match.groups())
-                            used_blocks.add(block_number)
-                            used_suffixes.setdefault(block_number, set()).add(unique_number)
+                            used_blocks.add(int(match.group(1)))
 
                     available_blocks = [
                         block for block in range(100)
