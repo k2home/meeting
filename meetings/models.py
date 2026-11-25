@@ -351,9 +351,9 @@ class OrganizationSettings(models.Model):
         help_text="Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
     )
     retention_years = models.PositiveSmallIntegerField(
-        "Aufbewahrungsfrist für Themen und Protokolle (Jahre)", default=10,
+        "Zentrale Aufbewahrungsfrist (Jahre)", default=10,
         validators=[MinValueValidator(1)],
-        help_text="Gilt als Standard für archivierte Themen und abgeschlossene Protokollstände. Eine abweichende Frist kann im jeweiligen Thema festgelegt werden.",
+        help_text="Gilt einheitlich für abgeschlossene Besprechungstermine und deren Protokolle. Zugleich Standard für archivierte Themen; einzelne Themen können eine abweichende Frist erhalten.",
     )
     attachment_max_size_mb = models.PositiveSmallIntegerField(
         "Maximale Dateigröße für Anlagen (MB)", default=20,
