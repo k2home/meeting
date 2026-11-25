@@ -38,7 +38,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 - Für jede Person ein eigenes Konto verwenden; keine Konten oder Passwörter teilen.
 - Globale Adminrechte auf wenige benannte Personen begrenzen. Adminrechte nicht für die tägliche fachliche Arbeit verwenden.
 - Für jede Besprechungsreihe einen fachlichen Verantwortlichen festlegen, der Mitglieder und Serienrollen regelmäßig überprüft.
-- Bei Eintritt, Rollenwechsel und Austritt eines Mitarbeiters Konten und Serienzuweisungen zeitnah anpassen. Nicht mehr benötigte Konten deaktivieren.
+- Bei Eintritt, Rollenwechsel und Austritt von Mitarbeitenden Konten und Serienzuweisungen zeitnah anpassen. Nicht mehr benötigte Konten deaktivieren.
 - Prüfen, ob ein vorgeschalteter Identity Provider mit MFA eingesetzt werden kann. Falls MFA nicht vorhanden ist, den Zugriff auf vertrauenswürdige Netze bzw. einen abgesicherten VPN-Zugang beschränken und zusätzliche Anmeldekontrollen am Proxy vorsehen.
 - Anmeldeversuche und ungewöhnliche Zugriffsmuster auf Infrastruktur-Ebene überwachen. Ein anwendungsinterner Login-Rate-Limiter bzw. MFA darf nicht allein aufgrund der vorhandenen Passwortregeln angenommen werden.
 
@@ -78,12 +78,12 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 1. **Vor der Anmeldung:** Öffnen Sie den Meeting Manager ausschließlich über die freigegebene HTTPS-Adresse. Verwenden Sie Ihr persönliches Konto. Nutzen Sie keine fremden oder gemeinsam verwendeten Zugangsdaten.
 2. **Vor dem Öffnen einer Reihe:** Prüfen Sie, ob Sie für genau diese Besprechungsreihe berechtigt sind. Bei fehlender Berechtigung beantragen Sie die Zuweisung bei der zuständigen Moderation; umgehen Sie die Sperre nicht.
 3. **Vor dem Erfassen von Inhalten:** Prüfen Sie den fachlichen Zweck und beschränken Sie Einträge auf erforderliche Informationen. Zugangsdaten und nicht freigegebene sensible Angaben gehören niemals in Besprechungsinhalte oder Anlagen.
-4. **Vor dem Upload:** Prüfen Sie Empfängerkreis, Dateiendung und Herkunft. Laden Sie nur die freigegebenen Formate hoch. Öffnen Sie verdächtige Dateien nicht; melden Sie sie dem IT-Support. Eine erlaubte Endung ist kein Sicherheitsnachweis für den Dateiinhalt.
+4. **Vor dem Upload:** Prüfen Sie Empfänger*innenkreis, Dateiendung und Herkunft. Laden Sie nur die freigegebenen Formate hoch. Öffnen Sie verdächtige Dateien nicht; melden Sie sie dem IT-Support. Eine erlaubte Endung ist kein Sicherheitsnachweis für den Dateiinhalt.
 5. **Vor dem Teilen oder Exportieren:** Prüfen Sie jede empfangende Person und jeden Zielort. Geben Sie Inhalte nur an Personen weiter, die sie für ihre Aufgabe benötigen und berechtigt sind.
 6. **Vor dem Abschluss einer Besprechung:** Prüfen Sie Tagesordnung, Zuständigkeiten und Protokoll auf Richtigkeit und Datenminimierung. Bedenken Sie, dass ein historischer Protokoll-Snapshot erhalten bleibt.
 7. **Nach der Nutzung:** Melden Sie sich an gemeinsam genutzten Geräten ab und sperren Sie den Bildschirm. Melden Sie verdächtige Aktivitäten unverzüglich über den festgelegten Meldeweg.
 
-**Abbruchregel:** Wenn Berechtigung, Empfängerkreis, Dateisicherheit oder Zulässigkeit eines Inhalts unklar ist, führen Sie die Handlung nicht aus. Fragen Sie die zuständige Moderation oder Administration.
+**Abbruchregel:** Wenn Berechtigung, Empfänger*innenkreis, Dateisicherheit oder Zulässigkeit eines Inhalts unklar ist, führen Sie die Handlung nicht aus. Fragen Sie die zuständige Moderation oder Administration.
 
 ## 2. Nutzer*innen – verbindlicher Ablauf bei jeder Nutzung
 
@@ -109,7 +109,7 @@ Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Ta
 
 - Nur Besprechungsreihen öffnen und verwenden, für die eine ausdrückliche Serienzuweisung besteht.
 - Vor dem Teilen von Inhalten prüfen, ob die Empfänger*innen tatsächlich Mitglied der betreffenden Reihe sind und die passende Serienrolle besitzen.
-- Keine Protokolle, CSV-Dateien, Screenshots oder Anlagen außerhalb des vorgesehenen Empfängerkreises weitergeben.
+- Keine Protokolle, CSV-Dateien, Screenshots oder Anlagen außerhalb des vorgesehenen Empfänger*innenkreises weitergeben.
 - Netzwerkpfade und externe Links sind nur Verweise. Die Zugriffsberechtigung auf dem Zielsystem muss separat bestehen und darf nicht aus der Meeting-Manager-Berechtigung abgeleitet werden.
 - Bei fehlendem oder unerwartetem Zugriff nicht versuchen, Berechtigungen durch erratene URLs oder fremde Konten zu umgehen, sondern Moderator*in oder Administrator*in kontaktieren.
 
@@ -177,7 +177,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 - Nur die erforderliche Serienrolle vergeben: Leser*in für Lesezugriff, Teilnehmer*in für laufende Mitarbeit, Moderator*in nur für tatsächliche Reihenverwaltung.
 - Bei Änderungen der Organisation oder Aufgabenverteilung Serienzuweisungen sofort aktualisieren.
 - Beachten, dass globale Adminrechte allein keinen fachlichen Zugriff auf eine Reihe gewähren. Für die eigene Einsichtnahme ist eine explizite Serienzuweisung erforderlich.
-- Bei Supportfällen keine Serienzuweisung nur aus Bequemlichkeit vergeben. Stattdessen die betroffene Person bzw. den zuständige Moderator*in um Prüfung bitten.
+- Bei Supportfällen keine Serienzuweisung nur aus Bequemlichkeit vergeben. Stattdessen die betroffene Person bzw. die zuständige Moderator*in um Prüfung bitten.
 - Berechtigungsanträge und ihre Begründungen sorgfältig prüfen; nur den tatsächlich benötigten Umfang genehmigen.
 
 ### 3.3 CSV-Importe und -Exporte kontrollieren
@@ -194,7 +194,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 
 - Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Admins erstellen.
 - Backups als vollständige Datenkopien mit möglicherweise vertraulichen Inhalten und personenbezogenen Daten behandeln.
-- Sicherungsdateien verschlüsselt und mit minimalem Empfängerkreis speichern bzw. übertragen. Keine Backups an private E-Mail-Adressen oder unfreigegebene Cloud-Dienste senden.
+- Sicherungsdateien verschlüsselt und mit minimalem Empfänger*innenkreis speichern bzw. übertragen. Keine Backups an private E-Mail-Adressen oder unfreigegebene Cloud-Dienste senden.
 - Vor einem Restore Anlass, Zielsystem, Datenstand und Auswirkungen prüfen. Restore nur in einem kontrollierten Wartungsfenster durchführen.
 - Vor dem Restore einen zusätzlichen aktuellen Sicherungsstand erstellen und sicherstellen, dass Datenbank und Medienstand zusammenpassen.
 - Nach der Wiederherstellung Login, Benutzer-/Serienberechtigungen, Protokolle und Anlagen stichprobenartig prüfen und das Ergebnis dokumentieren.
@@ -216,7 +216,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 2. **Zugriff begrenzen:** Verwenden Sie Ihr persönliches Auditor*innen-Konto. Nutzen Sie keine Admin- oder fremden Konten. Der Auditor*innen-Zugriff ist auf Systemereignisse und lesbare administrative Stammdaten beschränkt; er eröffnet keinen Zugriff auf Besprechungsinhalte.
 3. **Gezielt filtern:** Begrenzen Sie Zeitraum und Ereignisauswahl auf das Prüfziel. Öffnen Sie eingeklappte Änderungsdetails nur, wenn sie für die Prüfung erforderlich sind.
 4. **Inhalte richtig einordnen:** Passwortwerte und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Passwortänderungen erscheinen als Statusereignis; Dateinamen können Metadaten sein. Beim Wiederöffnen einer abgeschlossenen Besprechung kann ein vorheriger Protokoll-Snapshot als Detail erscheinen. Behandeln Sie diesen wie vertrauliche Besprechungsdaten und greifen Sie nur bei geklärter Berechtigung darauf zu.
-5. **Ergebnisse sichern:** Exportieren Sie Audit-CSV nur, wenn sie für den Prüfauftrag erforderlich ist. Speichern Sie Exporte verschlüsselt bzw. zugriffsbeschränkt, geben Sie sie nur an den autorisierten Empfängerkreis und löschen Sie Arbeitskopien nach Abschluss gemäß Aufbewahrungsregel.
+5. **Ergebnisse sichern:** Exportieren Sie Audit-CSV nur, wenn sie für den Prüfauftrag erforderlich ist. Speichern Sie Exporte verschlüsselt bzw. zugriffsbeschränkt, geben Sie sie nur an den autorisierten Empfänger*innenkreis und löschen Sie Arbeitskopien nach Abschluss gemäß Aufbewahrungsregel.
 6. **Feststellungen berichten:** Dokumentieren Sie Tatsachen, Zeitraum und relevante Ereignisse getrennt von Bewertungen. Ziehen Sie aus fehlenden Ereignissen nicht den Schluss, dass eine Handlung unmöglich stattgefunden hat.
 7. **Auffälligkeiten eskalieren:** Melden Sie Hinweise auf unberechtigte Rollenänderungen, Kontoübernahmen oder Datenschutzverletzungen über den festgelegten Sicherheits- bzw. Datenschutzprozess. Für Host-, Proxy- und Datenbankereignisse fordern Sie die zuständigen Infrastrukturprotokolle an.
 
@@ -232,7 +232,7 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor*in. Audit
 - Beachten, dass Auditor*innen ausschließlich Systemereignisse einsehen und exportieren können. Besprechungsreihen, Tagesordnungspunkte, Kommentare und Anlagen gehören nicht zum Auditor*innen-Zugriff.
 - Auditor*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Admins erfolgen.
 - Keine fachlichen Serienberechtigungen anfordern, um den eingeschränkten Prüfzugriff zu umgehen. Wenn eine fachliche Prüfung erforderlich ist, muss sie gesondert legitimiert und über einen geeigneten Prozess organisiert werden.
-- Die Auditor*innen-Rolle nicht mit globalen Adminrechten kombinieren. Admin- und Superuser-Rechte sind keine Auditor-Rechte und erweitern den Zugriff erheblich.
+- Die Auditor*innen-Rolle nicht mit globalen Adminrechten kombinieren. Admin- und Superuser-Rechte sind keine Auditor*innen-Rechte und erweitern den Zugriff erheblich.
 
 ### 4.2 System-Audit sorgfältig auswerten
 
@@ -246,7 +246,7 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor*in. Audit
 ### 4.3 Audit-Exporte und Prüfergebnisse schützen
 
 - System-Audit-CSV nur exportieren, wenn die Prüfung es erfordert. Die Exportfunktion erweitert nicht den fachlichen Zugriff auf Besprechungsreihen.
-- Exportdateien wie vertrauliche personenbezogene Prüfdaten behandeln. Empfängerkreis, Speicherort und Aufbewahrungsfrist vorab festlegen.
+- Exportdateien wie vertrauliche personenbezogene Prüfdaten behandeln. Empfänger*innenkreis, Speicherort und Aufbewahrungsfrist vorab festlegen.
 - Dateien nur über freigegebene, zugriffsbeschränkte und möglichst verschlüsselte Speicher- und Übertragungswege verarbeiten.
 - Keine Audit-Exporte in offene Tickets, allgemeine Teamablagen oder unverschlüsselte E-Mail-Anhänge kopieren.
 - Nach Abschluss der Prüfung Arbeitskopien löschen und erforderliche Prüfunterlagen gemäß den geltenden Aufbewahrungsregeln ablegen.
