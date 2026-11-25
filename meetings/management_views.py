@@ -1120,22 +1120,74 @@ def testing_fixtures(request):
                         series, list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
                     )
                     active_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
-                    title_parts = ["Projektplanung", "Qualitätssicherung", "Prozessoptimierung", "Infrastruktur", "Dokumentation", "Schnittstellen", "Ressourcenplanung", "Betriebsablauf"]
-                    existing_titles = Topic.objects.filter(series=series, title__startswith="TEST-").values_list("title", flat=True)
-                    used_parts = {
-                        part for part in title_parts
-                        if any(title.startswith(f"TEST-{part}-") for title in existing_titles)
-                    }
-                    available_parts = [part for part in title_parts if part not in used_parts]
-                    if count > len(available_parts):
+                    topic_names = [
+                        "Umsetzung Projekt",
+                        "Digitale Strategie",
+                        "IT Sicherheit",
+                        "Datenschutz Konzept",
+                        "Prozess Analyse",
+                        "Qualitätsmanagement",
+                        "Personalentwicklung",
+                        "Projekt Steuerung",
+                        "Cloud Migration",
+                        "Daten Analyse",
+                        "Software Einführung",
+                        "Netzwerk Planung",
+                        "System Wartung",
+                        "Ressourcen Planung",
+                        "Risiko Bewertung",
+                        "Notfall Management",
+                        "Change Management",
+                        "Kunden Service",
+                        "Wissens Transfer",
+                        "Team Zusammenarbeit",
+                        "Dokumenten Verwaltung",
+                        "Schnittstellen Prüfung",
+                        "Automatisierung Prozesse",
+                        "Betriebs Optimierung",
+                        "Infrastruktur Ausbau",
+                        "Schulungs Konzept",
+                        "Budget Planung",
+                        "Aufgaben Verteilung",
+                        "Termin Koordination",
+                        "Anforderungs Management",
+                        "Technische Architektur",
+                        "Berechtigungs Konzept",
+                        "Sicherheits Prüfung",
+                        "Daten Migration",
+                        "Release Planung",
+                        "Fehler Analyse",
+                        "Support Prozesse",
+                        "Kommunikations Konzept",
+                        "Lieferanten Bewertung",
+                        "Vertrags Management",
+                        "Nachhaltige Beschaffung",
+                        "Service Qualität",
+                        "Arbeitsplatz Gestaltung",
+                        "Mobile Anwendungen",
+                        "Backup Strategie",
+                        "Monitoring Konzept",
+                        "Performance Analyse",
+                        "Digitale Akten",
+                        "Workflow Optimierung",
+                        "Zukunfts Planung",
+                    ]
+                    existing_titles = set(
+                        Topic.objects.filter(series=series, title__startswith="TEST ")
+                        .values_list("title", flat=True)
+                    )
+                    available_names = [
+                        name for name in topic_names if f"TEST {name}" not in existing_titles
+                    ]
+                    if count > len(available_names):
                         raise ValidationError(
-                            f"Für diese Serie gibt es nur {len(available_parts)} noch nicht verwendete Themenkategorien. "
+                            f"Für diese Serie gibt es nur {len(available_names)} noch nicht verwendete Beispielthemen. "
                             "Bitte reduziere die Anzahl oder verwende eine weitere Testserie."
                         )
-                    selected_parts = secrets.SystemRandom().sample(available_parts, count)
-                    for part in selected_parts:
+                    selected_names = secrets.SystemRandom().sample(available_names, count)
+                    for name in selected_names:
                         Topic.objects.create(
-                            title=f"TEST-{part}-{secrets.token_hex(3)}",
+                            title=f"TEST {name}",
                             series=series,
                             assigned_to=secrets.choice(active_users) if active_users and secrets.randbelow(2) else None,
                             status=secrets.choice(["open", "in_progress", "done"]),
