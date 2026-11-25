@@ -1,5 +1,5 @@
 from django.db import migrations, models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
 from django.utils import timezone
 
 
