@@ -3,6 +3,7 @@ import subprocess
 from pathlib import Path
 
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
@@ -80,6 +81,30 @@ class InitialSetupWizardTests(TestCase):
         setup_event = AuditEvent.objects.get(summary="Organisationseinstellungen bei der Ersteinrichtung gespeichert")
         self.assertNotIn("Neu", str(setup_event.changes))
         self.assertEqual(setup_event.changes["Startpasswort"]["nachher"], "Geändert")
+
+    @patch("cairosvg.svg2png", side_effect=ValueError("invalid SVG"))
+    def test_invalid_setup_svg_does_not_persist_partial_organization_settings(self, _convert):
+        user = User.objects.create_superuser(username="root-svg", email="root-svg@example.org", password="StrongSetupPassword1!")
+        self.client.force_login(user)
+        session = self.client.session
+        session["initial_setup_user_id"] = user.pk
+        session.save()
+
+        response = self.client.post("/setup/?step=organization", {
+            "name": "Nicht speichern",
+            "short_name": "NS",
+            "timezone": "Europe/Berlin",
+            "start_password": "Nicht-im-Audit",
+            "attachment_max_size_mb": "20",
+            "primary_color": "#002D72",
+            "secondary_color": "#0072CE",
+            "tertiary_color": "#FFCD00",
+            "logo": SimpleUploadedFile("invalid.svg", b"<svg>ungueltig", content_type="image/svg+xml"),
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(OrganizationSettings.objects.filter(pk=1).exists())
+        self.assertContains(response, "Das Logo konnte nicht verarbeitet werden")
 
     def test_setup_organization_form_shows_only_three_base_colors_with_defaults(self):
         user = User.objects.create_superuser(username="root", email="root@example.org", password="StrongPassword123!")
