@@ -24,7 +24,7 @@ from django.utils import formats, timezone
 from django.utils.text import slugify
 from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import PersonalProfileForm, SeriesAccessRequestForm, UsernameLoginForm, TopicCommentForm, AgendaTextForm, AttachmentForm, SeriesForm, MeetingParticipantsForm, MeetingDateForm, AgendaItemCreateForm, AgendaScheduleForm, UserDisplayModelChoiceField
-from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess
+from .models import Meeting, MeetingSeries, Topic, TopicAttachment, TopicTransferHistory, AuditEvent, AgendaItem, OrganizationSettings, TopicComment, ArchivedMeetingAccess, RetainedAgendaEntry
 from .audit import record_event, record_transfer_events
 from .services import ensure_agenda, generate_meetings, finalize_meeting
 from .access import accessible_meetings, accessible_series, accessible_topics, auditor_readonly, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
@@ -1078,6 +1078,16 @@ def agenda_topic_history(request, pk, topic_pk):
             "text": snapshot.text,
             "responsible": snapshot.responsible_name,
         }
+    # Topic-owned agenda text survives deletion of its original meeting.
+    for entry in RetainedAgendaEntry.objects.filter(topic=item.topic).order_by("-meeting_date", "position", "pk"):
+        history[f"deleted-{entry.pk}"] = {
+            "series": entry.series_name or "Besprechung",
+            "date": entry.meeting_date,
+            "text": entry.working_text,
+            "responsible": entry.responsible_name,
+            "meeting_deleted": True,
+        }
+
     # Include a planned follow-up meeting even if its agenda item has not
     # yet been materialized by opening that meeting's agenda.
 
