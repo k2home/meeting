@@ -96,7 +96,7 @@ Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsd
 |---|---|---|
 | Anmeldung | Django-Authentifizierung; geschützte Anwendungsbereiche verlangen Anmeldung. | Keine Aussage über externe Identitätsverwaltung. |
 | Passwörter | Django-Passworthashing; Mindestlänge 8, Komplexitätsvalidator, Ähnlichkeits- und häufige-Passwort-Prüfung. | MFA und ein anwendungsinterner Login-Rate-Limiter sind im geprüften Kern nicht belegt. |
-| Sessions | Session-Laufzeit 8 Stunden; Session wird bei Requests gespeichert/erneuert. | Bei langen aktiven Sitzungen erhöht dies die Bedeutung von Geräteschutz und Logout. |
+| Sessions | Maximale Session-Laufzeit 8 Stunden. „Angemeldet bleiben“ hält die Session über das Schließen des Browsers hinaus, verlängert aber nicht mehr die maximale Laufzeit. | Bei langen aktiven Sitzungen erhöht dies die Bedeutung von Geräteschutz und Logout. |
 | Autorisierung | Zentrale Serienzugriffsabfragen; Auditoren werden aus fachlichen Reihenabfragen ausgeschlossen; Admin ist keine Serienrolle. | Endpunkt- und Exporttests müssen die Regeln vollständig abdecken. |
 | CSRF / Browser-Header | Django-CSRF-Middleware; nosniff, Referrer-Policy same-origin und X-Frame-Options DENY. | Eine umfassende Content-Security-Policy für alle Seiten ist nicht belegt. |
 | TLS / Cookies / CSRF | Die Installer erzwingen HTTPS-Redirect und Secure-Cookies, setzen die HTTPS-CSRF-Origin und aktivieren Proxy-Vertrauen. Debian begrenzt den Zugriff auf die angegebene Proxy-IP/CIDR; Docker bindet den Web-Port an Loopback. | Ein gültiges TLS-Zertifikat und ein korrekt konfigurierter Reverse Proxy bleiben erforderlich. HSTS-Preload wird validiert und muss bewusst separat aktiviert werden. |
