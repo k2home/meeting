@@ -1,0 +1,236 @@
+# Sicherheitsleitfaden – Handlungsanweisungen zur Risikominimierung
+
+**Zielgruppen:** Hosting-/IT-Betrieb, Nutzer*innen, globale Administrator*innen und Auditor*innen  
+**Geltungsbereich:** Meeting Manager gemäß der Funktions- und Sicherheitsbeschreibung in PR #498  
+**Zweck:** Dieser Leitfaden übersetzt die dort beschriebenen Risiken und vorhandenen Schutzmaßnahmen in konkrete Handlungen. Er ergänzt die technische Bestandsaufnahme; er ersetzt weder eine Prüfung der konkreten Betriebsumgebung noch interne Datenschutz- und Sicherheitsvorgaben.
+
+> **Wichtig:** Die Anwendung stellt technische Schutzfunktionen bereit, kann aber sichere Betriebsabläufe und einen sorgfältigen Umgang mit Inhalten nicht allein gewährleisten. Die jeweils verantwortliche Stelle muss die nachfolgenden Maßnahmen umsetzen, dokumentieren und regelmäßig überprüfen.
+
+## 1. Technik und Hosting – Einrichtung und sicherer Betrieb
+
+Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, Datenbank, Netzwerk, Updates und Sicherungen betreiben.
+
+### 1.1 Installation und HTTPS-Zugang absichern
+
+- [ ] Den vorgesehenen Installer für Debian/Ubuntu oder Docker verwenden und die Installation vollständig abschließen. Die Installer setzen die Django-Sicherheitsoptionen für HTTPS, Session-Cookies und CSRF-Cookies sowie die Proxy-Vertrauenskonfiguration.
+- [ ] Vor der Freigabe einen HTTPS-Reverse-Proxy mit gültigem Zertifikat auf demselben Host einrichten. Die Installer richten nicht automatisch den TLS-Proxy und das Zertifikat ein.
+- [ ] Den öffentlichen Zugriff ausschließlich über HTTPS zulassen. HTTP muss auf HTTPS umleiten; die Anwendung darf nicht direkt über einen unverschlüsselten, aus nicht vertrauenswürdigen Netzen erreichbaren Port angeboten werden.
+- [ ] Bei Docker den veröffentlichten Web-Port standardmäßig nur an `127.0.0.1:8080` binden. Den Reverse Proxy auf demselben Host betreiben und auf `http://127.0.0.1:8080` weiterleiten. Den App-Port 8000 und PostgreSQL niemals öffentlich veröffentlichen.
+- [ ] Bei Debian den internen Nginx-Zugang auf die tatsächlich verwendete Proxy-IP bzw. das erforderliche CIDR begrenzen. Die beim Installer angegebene Proxy-Adresse muss stimmen und darf nicht unnötig weit gefasst sein.
+- [ ] Am Proxy `X-Forwarded-Proto: https` setzen und vom Client angelieferte Forwarded-Header überschreiben. Nur dem bekannten Proxy vertrauen. Keine beliebigen Proxy-Adressen oder unkontrollierten Netze als vertrauenswürdig konfigurieren.
+- [ ] Den öffentlichen Hostnamen in `ALLOWED_HOSTS` und die korrekte HTTPS-Origin in `CSRF_TRUSTED_ORIGINS` verwenden. Keine Wildcards als bequeme Dauerlösung eintragen.
+- [ ] Nach Einrichtung HTTP-Weiterleitung, Login/Logout, Session- und CSRF-Cookies, Passwort-Reset, Datei-Upload/-Download und PDF-Ausgabe über den HTTPS-Zugang testen.
+- [ ] HSTS zunächst mit einer kurzen Laufzeit testen. `includeSubDomains` und Preload nur aktivieren, wenn sämtliche betroffenen Subdomains dauerhaft HTTPS unterstützen und die Voraussetzungen geprüft sind.
+
+**Freigabekriterium:** Kein Produktivzugriff, bevor Zertifikat, Proxy-Vertrauen, Portbindung und HTTPS-Tests dokumentiert erfolgreich geprüft wurden.
+
+### 1.2 Netzwerk und Serverzugänge begrenzen
+
+- [ ] Nur erforderliche Ports öffnen. Verwaltungszugänge wie SSH auf Admin-Netze bzw. definierte Administrationssysteme beschränken.
+- [ ] Datenbank und interne App-Kommunikation ausschließlich im internen Netz bzw. Docker-Netz erreichbar machen. PostgreSQL nicht mit einem öffentlichen Host-Port versehen.
+- [ ] Firewall-Regeln so gestalten, dass der Webdienst nur über den vorgesehenen Reverse Proxy erreichbar ist.
+- [ ] Betriebssystem, Docker Engine, Docker Compose, PostgreSQL, Nginx und Python-Laufzeit zeitnah mit Sicherheitsupdates versorgen.
+- [ ] Keine Secrets in Git, Tickets, Chatnachrichten, Shell-Historien oder allgemein lesbaren Dateien ablegen. `.env`, Datenbankpasswort und `SECRET_KEY` mit restriktiven Dateirechten schützen; Zugriffsrechte regelmäßig prüfen.
+- [ ] Für administrative Tätigkeiten persönliche Konten verwenden. Gemeinsame Root-, SSH- oder Datenbankkonten vermeiden bzw. deren Nutzung auf technisch unvermeidbare Fälle begrenzen und nachvollziehbar kontrollieren.
+
+### 1.3 Nutzerkonten und Berechtigungen organisatorisch absichern
+
+- [ ] Für jede Person ein eigenes Konto verwenden; keine Konten oder Passwörter teilen.
+- [ ] Globale Adminrechte auf wenige benannte Personen begrenzen. Adminrechte nicht für die tägliche fachliche Arbeit verwenden.
+- [ ] Für jede Besprechungsreihe einen fachlichen Verantwortlichen festlegen, der Mitglieder und Serienrollen regelmäßig überprüft.
+- [ ] Bei Eintritt, Rollenwechsel und Austritt eines Mitarbeiters Konten und Serienzuweisungen zeitnah anpassen. Nicht mehr benötigte Konten deaktivieren.
+- [ ] Prüfen, ob ein vorgeschalteter Identity Provider mit MFA eingesetzt werden kann. Falls MFA nicht vorhanden ist, den Zugriff auf vertrauenswürdige Netze bzw. einen abgesicherten VPN-Zugang beschränken und zusätzliche Anmeldekontrollen am Proxy vorsehen.
+- [ ] Anmeldeversuche und ungewöhnliche Zugriffsmuster auf Infrastruktur-Ebene überwachen. Ein anwendungsinterner Login-Rate-Limiter bzw. MFA darf nicht allein aufgrund der vorhandenen Passwortregeln angenommen werden.
+
+### 1.4 Datei-Uploads und Downloads schützen
+
+Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sind **PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG**. Andere Dateiendungen werden abgewiesen.
+
+- [ ] Die Allowlist nur nach fachlicher Prüfung und kontrollierter Änderung erweitern. Nicht benötigte ausführbare Dateien, Skripte und Archive nicht zulassen.
+- [ ] Beachten, dass die Anwendung die Dateiendung prüft, nicht aber die tatsächliche Dateisignatur oder den Dateiinhalt. Die Endungsprüfung ist kein vollständiger Malware-Schutz.
+- [ ] Wenn Dateien aus nicht vollständig vertrauenswürdigen Quellen hochgeladen werden, einen Malware-Scanner auf dem Host bzw. in einem vorgeschalteten Quarantäneprozess einsetzen. Ungeprüfte Dateien nicht automatisch als sicher einstufen.
+- [ ] Das organisationsweite Uploadlimit auf den tatsächlichen Bedarf begrenzen. Standardmäßig sind 20 MB eingestellt; konfigurierbar sind 1 bis 24 MB. Proxy-, Nginx- und Anwendungslimits aufeinander abstimmen.
+- [ ] Das Medienverzeichnis nicht als öffentliches Webverzeichnis freigeben. Uploads ausschließlich über die authentifizierte Anwendungsroute bereitstellen; keine zusätzliche statische Direkt-Auslieferung konfigurieren.
+- [ ] Dateispeicher und Medien-Volume mit restriktiven Dateirechten betreiben und in Backups einbeziehen. Zugriff auf Host- und Backup-Ebene nur den zuständigen Betriebsadmins gewähren.
+
+### 1.5 Backups, Wiederherstellung und Verfügbarkeit
+
+- [ ] Datenbank und Medienverzeichnis gemeinsam und zeitlich konsistent sichern. Ein Datenbankbackup allein enthält nicht die hochgeladenen Anlagen.
+- [ ] Mindestens eine verschlüsselte Sicherungskopie getrennt vom Produktivhost aufbewahren. Schreibrechte des Produktivsystems auf die getrennte Sicherung so weit wie möglich vermeiden.
+- [ ] Aufbewahrungsfristen, Sicherungsintervalle, Verantwortliche sowie Wiederherstellungsziele (RPO/RTO) schriftlich festlegen.
+- [ ] Vor Updates und Datenbankmigrationen einen überprüften Sicherungsstand erstellen.
+- [ ] Wiederherstellung regelmäßig in einer isolierten Testumgebung durchführen. Dabei Datenbank, Medien, Logos und die Funktionsfähigkeit der Anwendung prüfen.
+- [ ] Vollbackup- und Restore-Funktionen nur globalen Admin-Konten zugänglich machen. Vollbackups wie besonders schützenswerte Daten behandeln; sie können Konten, Inhalte und Anlagen umfassen.
+- [ ] Benutzer-CSV-Import/-Export und Vollbackup/Restore sind globale Admin-Funktionen. Themen-CSV-Import/-Export steht Moderator*innen nur für ihre ausdrücklich moderierten Reihen zur Verfügung; globale Adminrechte allein gewähren dafür keinen zusätzlichen Zugriff.
+- [ ] Exportdateien verschlüsselt und zugriffsbeschränkt ablegen, nur an benannte Empfänger übermitteln und nicht mehr benötigte lokale Kopien sicher löschen.
+
+### 1.6 Updates, Protokollierung und Notfallvorsorge
+
+- [ ] Produktionsupdates nur aus freigegebenen Branches bzw. Releases übernehmen. Version und Commit des laufenden Systems dokumentieren.
+- [ ] Abhängigkeiten und Container-Images regelmäßig auf bekannte Sicherheitslücken prüfen. Kritische Befunde priorisiert beheben und Ausnahmen mit Begründung, Verantwortlichem und Frist dokumentieren.
+- [ ] Updates zunächst in einer Testumgebung prüfen. Nach Updates Login, Berechtigungen, Upload/Download, CSV-Funktionen, Protokollabschluss und Wiederherstellung testen.
+- [ ] Systemlogs auf ungewöhnliche Login-Fehler, Änderungen globaler Rollen, fehlgeschlagene Downloads, unerwartete Dienstneustarts und Speicherengpässe überwachen.
+- [ ] Audit-Daten und Systemlogs als vertrauliche Informationen behandeln. Bei zentraler Logsammlung Zugriffe und Aufbewahrungsfristen begrenzen; besonders schützenswerte Protokolle möglichst getrennt vom Produktivsystem speichern.
+- [ ] Verfahren für kompromittierte Konten, Datenpannen, Ransomware, Systemausfall und Wiederherstellung festlegen. Zuständigkeiten und Eskalationskontakte aktuell halten.
+
+## 2. Nutzer*innen – sicherer Umgang mit Besprechungsdaten
+
+Dieses Kapitel richtet sich an alle Personen, die Besprechungsreihen, Themen, Tagesordnungspunkte, Kommentare, Anlagen oder Protokolle verwenden.
+
+### 2.1 Nur erforderliche Informationen erfassen
+
+- [ ] Nur Informationen eintragen, die für Zweck und Durchführung der Besprechung erforderlich sind.
+- [ ] Keine Passwörter, Zugangstoken, privaten Schlüssel oder sonstigen Zugangsdaten in Themen, Kommentaren, Tagesordnungstexten oder Anlagen hinterlegen.
+- [ ] Keine besonders sensiblen personenbezogenen Angaben (z. B. Gesundheitsdaten oder private Personalangelegenheiten) eintragen, sofern dies nicht ausdrücklich freigegeben, erforderlich und datenschutzrechtlich geklärt ist.
+- [ ] Bei Unsicherheit vor dem Eintragen die zuständige Führungskraft bzw. den fachlichen Verantwortlichen fragen.
+- [ ] Sachlich, knapp und aufgabenbezogen formulieren. Wertende oder private Kommentare vermeiden.
+
+### 2.2 Konten und Sitzungen schützen
+
+- [ ] Das persönliche Konto ausschließlich selbst verwenden. Zugangsdaten nicht weitergeben und nicht in gemeinsam genutzten Dokumenten speichern.
+- [ ] Ein individuelles, nicht anderweitig verwendetes Passwort nutzen und die Passwortregeln der Anwendung einhalten. Ein Passwortmanager wird empfohlen.
+- [ ] Bei Verdacht auf Kenntnisnahme des Passworts unverzüglich den vorgesehenen Passwort-Reset durchführen und den Administrator informieren.
+- [ ] An gemeinsam genutzten Arbeitsplätzen nach der Arbeit abmelden und den Bildschirm sperren. Die Anwendungssitzung kann bis zu acht Stunden bestehen.
+- [ ] Verdächtige Login-Benachrichtigungen, unerwartete Änderungen oder nicht selbst ausgelöste Aktionen unverzüglich melden.
+
+### 2.3 Serienberechtigungen beachten
+
+- [ ] Nur Besprechungsreihen öffnen und verwenden, für die eine ausdrückliche Serienzuweisung besteht.
+- [ ] Vor dem Teilen von Inhalten prüfen, ob die Empfänger tatsächlich Mitglied der betreffenden Reihe sind und die passende Serienrolle besitzen.
+- [ ] Keine Protokolle, CSV-Dateien, Screenshots oder Anlagen außerhalb des vorgesehenen Empfängerkreises weitergeben.
+- [ ] Netzwerkpfade und externe Links sind nur Verweise. Die Zugriffsberechtigung auf dem Zielsystem muss separat bestehen und darf nicht aus der Meeting-Manager-Berechtigung abgeleitet werden.
+- [ ] Bei fehlendem oder unerwartetem Zugriff nicht versuchen, Berechtigungen durch erratene URLs oder fremde Konten zu umgehen, sondern Moderator*in oder Administrator*in kontaktieren.
+
+### 2.4 Anlagen sicher verwenden
+
+- [ ] Nur fachlich erforderliche Dateien hochladen. Zulässige Dateiendungen sind PDF, DOCX, XLSX, PPTX, TXT, PNG, JPG und JPEG.
+- [ ] Keine Dateien durch Umbenennen einer Endung vermeintlich sicher machen. Die Anwendung prüft die Dateiendung, nicht den tatsächlichen Dateiinhalt.
+- [ ] Dateien aus E-Mails oder externen Quellen vor dem Öffnen mit dem bereitgestellten Virenschutz prüfen. Bei unerwarteten oder verdächtigen Dateien nicht öffnen und den IT-Support informieren.
+- [ ] Keine ausführbaren Dateien, Skripte oder Archive als Umweg über Netzwerkpfade oder externe Links bereitstellen.
+- [ ] Vor dem Hochladen prüfen, ob die Datei vertrauliche Informationen enthält und ob alle Mitglieder der Reihe diese sehen dürfen.
+
+### 2.5 Protokolle und Änderungsverlauf richtig einordnen
+
+- [ ] Vor Abschluss einer Besprechung Tagesordnung, Zuständigkeiten und Protokolltext auf Richtigkeit und erforderlichen Inhalt prüfen.
+- [ ] Beachten, dass beim Abschluss ein Protokoll-Snapshot entsteht. Spätere Änderungen am Thema ändern diesen historischen Protokollstand nicht.
+- [ ] Änderungsdetails können zunächst eingeklappt sein. Nicht davon ausgehen, dass ein nicht sofort sichtbares Detail nicht gespeichert wurde.
+- [ ] Der Audit-Verlauf ist rollenabhängig eingeschränkt. Nutzer*innen erhalten dadurch nicht automatisch Einsicht in alle Änderungen oder in Systemereignisse.
+- [ ] Fehlerhafte oder versehentlich eingetragene Informationen zeitnah an Moderator*in oder Administrator*in melden; historische Protokoll- und Audit-Daten können gesonderten Regeln unterliegen.
+
+## 3. Globale Administrator*innen – sichere Verwaltung und Kontrolle
+
+Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte sind weitreichend und sollen nur für administrative Aufgaben genutzt werden. Sie verleihen nicht automatisch Zugriff auf fachliche Inhalte jeder Besprechungsreihe; dafür ist eine eigene Serienzuweisung erforderlich.
+
+### 3.1 Admin-Konten und Rechtevergabe
+
+- [ ] Nur namentlich benannten Personen globale Adminrechte erteilen. Anzahl der Admin-Konten so klein wie betrieblich möglich halten.
+- [ ] Für fachliche Mitarbeit ein separates Nutzerkonto verwenden, statt dauerhaft mit dem Admin-Konto zu arbeiten.
+- [ ] Adminrechte bei Aufgabenwechsel oder Austritt unverzüglich entziehen und das Konto deaktivieren, falls es nicht mehr benötigt wird.
+- [ ] Vor jeder Rechtevergabe Zweck, Umfang und Dauer prüfen. Serienrollen unabhängig von der globalen Rolle vergeben.
+- [ ] Mindestens quartalsweise globale Admin-Konten und Serienzuweisungen prüfen und das Ergebnis dokumentieren.
+- [ ] Auditor-Konten nicht mit Adminrechten kombinieren. Die Auditor-Rolle ist für einen lesenden, fachlich eingeschränkten Prüfzugriff vorgesehen.
+
+### 3.2 Serienberechtigungen verantwortungsvoll verwalten
+
+- [ ] Für jede Reihe einen fachlichen Verantwortlichen benennen und die Mitgliederliste regelmäßig durch diesen bestätigen lassen.
+- [ ] Nur die erforderliche Serienrolle vergeben: Leser*in für Lesezugriff, Teilnehmer*in für laufende Mitarbeit, Moderator*in nur für tatsächliche Reihenverwaltung.
+- [ ] Bei Änderungen der Organisation oder Aufgabenverteilung Serienzuweisungen sofort aktualisieren.
+- [ ] Beachten, dass globale Adminrechte allein keinen fachlichen Zugriff auf eine Reihe gewähren. Für die eigene Einsichtnahme ist eine explizite Serienzuweisung erforderlich.
+- [ ] Bei Supportfällen keine Serienzuweisung nur aus Bequemlichkeit vergeben. Stattdessen die betroffene Person bzw. den zuständigen Moderator um Prüfung bitten.
+- [ ] Berechtigungsanträge und ihre Begründungen sorgfältig prüfen; nur den tatsächlich benötigten Umfang genehmigen.
+
+### 3.3 CSV-Importe und -Exporte kontrollieren
+
+- [ ] Benutzer-CSV-Importe und -Exporte nur für einen konkreten administrativen Zweck ausführen.
+- [ ] Vor dem Benutzerimport UTF-8-Datei, Pflichtfelder, Benutzerkonten, Rollen und Serienzuordnungen prüfen. Die Importvorschau vollständig kontrollieren, bevor die Übernahme bestätigt wird.
+- [ ] Beachten, dass CSV-Angaben zu Serienzuordnungen bestehende Zuordnungen aktualisieren können. Vor Änderungen einen nachvollziehbaren Ausgangsstand sichern.
+- [ ] Benutzer-CSV-Dateien enthalten personenbezogene Kontodaten und Berechtigungsinformationen. Sie nur in zugriffsbeschränkten Verzeichnissen speichern und über sichere Wege übertragen.
+- [ ] Themen-CSV-Import/-Export ist Moderator*innen für ihre ausdrücklich moderierten Reihen vorbehalten. Globale Adminrechte allein berechtigen nicht zu diesem fachlichen CSV-Zugriff.
+- [ ] Bei Importproblemen nicht durch direkte Datenbankänderungen oder manuelle Dateimanipulationen ausweichen, sondern den vorgesehenen Prozess bzw. einen kontrollierten Supportweg verwenden.
+- [ ] Exportdateien nach Erfüllung des Zwecks sicher löschen und keine unkontrollierten Kopien in persönlichen Cloudspeichern oder E-Mail-Postfächern belassen.
+
+### 3.4 Vollbackup und Restore schützen
+
+- [ ] Vollbackups nur bei betrieblicher Notwendigkeit und durch autorisierte Admins erstellen.
+- [ ] Backups als vollständige Datenkopien mit möglicherweise vertraulichen Inhalten und personenbezogenen Daten behandeln.
+- [ ] Sicherungsdateien verschlüsselt und mit minimalem Empfängerkreis speichern bzw. übertragen. Keine Backups an private E-Mail-Adressen oder unfreigegebene Cloud-Dienste senden.
+- [ ] Vor einem Restore Anlass, Zielsystem, Datenstand und Auswirkungen prüfen. Restore nur in einem kontrollierten Wartungsfenster durchführen.
+- [ ] Vor dem Restore einen zusätzlichen aktuellen Sicherungsstand erstellen und sicherstellen, dass Datenbank und Medienstand zusammenpassen.
+- [ ] Nach der Wiederherstellung Login, Benutzer-/Serienberechtigungen, Protokolle und Anlagen stichprobenartig prüfen und das Ergebnis dokumentieren.
+- [ ] Regelmäßige Restore-Tests mit dem IT-Betrieb abstimmen; ein erfolgreich erzeugtes Backup ist noch kein Nachweis erfolgreicher Wiederherstellbarkeit.
+
+### 3.5 Audit, Systemverwaltung und Datenschutz
+
+- [ ] Systemereignisse nur für legitime administrative oder prüfende Zwecke einsehen. Die Einsichtnahme nicht zur anlasslosen Verhaltens- oder Leistungskontrolle verwenden.
+- [ ] Beachten, dass Admins Systemereignisse sehen und Serienereignisse nur für Reihen, in denen sie selbst Moderatorrechte besitzen. Eine globale Adminrolle allein öffnet keine fachlichen Serienverläufe.
+- [ ] Passwörter und hochgeladene Datei-Inhalte werden nicht als Audit-Werte gespeichert. Bei Passwortänderungen wird nur der Änderungsstatus protokolliert; Dateinamen können als Metadaten erscheinen.
+- [ ] Beim Wiederöffnen einer abgeschlossenen Besprechung bleibt der vorherige gesicherte Protokollstand als Audit-Detail erhalten. Diesen Snapshot als vertraulichen fachlichen Inhalt behandeln.
+- [ ] Audit-Details sind in der Oberfläche zunächst eingeklappt. Das ist eine Darstellungsform und keine zusätzliche Zugriffsschranke.
+- [ ] Audit-CSV-Exporte enthalten strukturierte Details und sind entsprechend der eigenen Berechtigung eingeschränkt. Exportdateien vertraulich behandeln und nicht unnötig vervielfältigen.
+- [ ] Bei Verdacht auf unberechtigte Einsicht, fehlerhafte Rechte oder ungewöhnliche Systemereignisse den Vorfall dokumentieren und an IT-Sicherheit bzw. Datenschutzverantwortliche eskalieren.
+
+## 4. Auditor*innen – kontrollierter Prüfzugriff
+
+Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor. Auditor*innen haben einen lesenden Zugriff auf administrative Prüfdaten, nicht auf fachliche Besprechungsinhalte.
+
+### 4.1 Umfang und Grenzen des Zugriffs verstehen
+
+- [ ] Den Audit-Zugriff ausschließlich für festgelegte Prüfaufträge und nachvollziehbare Kontrollzwecke verwenden.
+- [ ] Beachten, dass Auditor*innen ausschließlich Systemereignisse einsehen und exportieren können. Besprechungsreihen, Tagesordnungspunkte, Kommentare und Anlagen gehören nicht zum Auditor-Zugriff.
+- [ ] Auditor*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Admins erfolgen.
+- [ ] Keine fachlichen Serienberechtigungen anfordern, um den eingeschränkten Prüfzugriff zu umgehen. Wenn eine fachliche Prüfung erforderlich ist, muss sie gesondert legitimiert und über einen geeigneten Prozess organisiert werden.
+- [ ] Die Auditor-Rolle nicht mit globalen Adminrechten kombinieren. Admin- und Superuser-Rechte sind keine Auditor-Rechte und erweitern den Zugriff erheblich.
+
+### 4.2 System-Audit sorgfältig auswerten
+
+- [ ] Bei jeder Prüfung Zeitraum, Prüfziel, betrachtete Ereignistypen und verwendete Filter dokumentieren.
+- [ ] Ereignisse anhand von Akteur, Zeitpunkt, Aktion und verfügbaren Änderungsdetails einordnen. Einzelne Ereignisse nicht ohne Kontext als Fehlverhalten bewerten.
+- [ ] Beachten, dass die Oberfläche Änderungsdetails zunächst eingeklappt darstellt. Details nur bei konkretem Prüfbedarf öffnen.
+- [ ] Keine Passwörter oder Datei-Inhalte im Audit erwarten: Passwortwerte werden nicht protokolliert; bei Passwortänderungen wird nur der Änderungsstatus festgehalten. Hochgeladene Datei-Inhalte werden nicht gespeichert; Dateinamen können als Metadaten vorkommen.
+- [ ] Wird eine abgeschlossene Besprechung wieder geöffnet, kann der vorherige Protokoll-Snapshot als Audit-Detail enthalten sein. Solche Inhalte nur einsehen, wenn der konkrete Prüfauftrag dies erfordert und die Berechtigung dafür geklärt ist.
+- [ ] Die Audit-Ansicht als begrenzte Nachvollziehbarkeit verstehen, nicht als vollständiges, manipulationsgeschütztes Sicherheitsprotokoll der gesamten Hosting-Infrastruktur.
+
+### 4.3 Audit-Exporte und Prüfergebnisse schützen
+
+- [ ] System-Audit-CSV nur exportieren, wenn die Prüfung es erfordert. Die Exportfunktion erweitert nicht den fachlichen Zugriff auf Besprechungsreihen.
+- [ ] Exportdateien wie vertrauliche personenbezogene Prüfdaten behandeln. Empfängerkreis, Speicherort und Aufbewahrungsfrist vorab festlegen.
+- [ ] Dateien nur über freigegebene, zugriffsbeschränkte und möglichst verschlüsselte Speicher- und Übertragungswege verarbeiten.
+- [ ] Keine Audit-Exporte in offene Tickets, allgemeine Teamablagen oder unverschlüsselte E-Mail-Anhänge kopieren.
+- [ ] Nach Abschluss der Prüfung Arbeitskopien löschen und erforderliche Prüfunterlagen gemäß den geltenden Aufbewahrungsregeln ablegen.
+- [ ] Feststellungen sachlich formulieren und nur die für den Prüfzweck erforderlichen personenbezogenen Angaben in Berichte übernehmen.
+
+### 4.4 Auffälligkeiten und Grenzen eskalieren
+
+- [ ] Ungewöhnliche Änderungen globaler Rollen, Benutzerkonten oder Organisationseinstellungen zeitnah mit IT-Betrieb bzw. Anwendungsadministration abgleichen.
+- [ ] Fehlende oder unerwartete Ereignisse nicht automatisch als Beweis werten, dass eine Aktion nicht stattgefunden hat. Der Audit-Verlauf bildet die von der Anwendung erfassten Ereignisse ab.
+- [ ] Für Fragen zu Host-, Proxy-, Datenbank- oder Betriebssystemereignissen die zuständigen IT-Betriebsprotokolle anfordern. Diese liegen außerhalb des fachlichen System-Audits der Anwendung.
+- [ ] Hinweise auf Datenschutzverletzungen oder unberechtigte Zugriffe nach dem organisationsinternen Melde- und Eskalationsprozess weitergeben.
+
+## 5. Regelmäßige Überprüfung
+
+Die folgenden Mindestintervalle sind eine organisatorische Empfehlung und müssen an Schutzbedarf und interne Vorgaben angepasst werden.
+
+| Intervall | Verantwortlich | Prüfpunkte |
+|---|---|---|
+| Bei jeder Installation / vor Produktivfreigabe | IT/Hosting | HTTPS, Proxy-Vertrauen, Firewall, Secrets, Medienpfad, initiales Admin-Konto |
+| Bei Eintritt, Rollenwechsel und Austritt | Admin + Fachverantwortliche | Kontoaktivität, globale Rolle, Serienzuweisungen |
+| Mindestens quartalsweise | Fachverantwortliche + Admin | Mitglieder und Serienrollen, Admin-Konten, unnötige Berechtigungen |
+| Monatlich und bei Sicherheitsmeldungen | IT/Hosting | Betriebssystem-/Image-/Abhängigkeitsupdates, Sicherheitswarnungen, Speicherplatz |
+| Nach jedem Update | IT/Hosting + Testverantwortliche | Login, Rollen, Upload/Download, CSV, Protokolle, Backup/Restore |
+| Mindestens quartalsweise | IT/Hosting | Wiederherstellungstest für Datenbank und Medien |
+| Nach Prüfauftrag bzw. anlassbezogen | Auditor*innen | System-Audit, Rollen-/Kontrollprüfung, sichere Behandlung von Exporten |
+| Jährlich und bei wesentlichen Änderungen | Verantwortliche, Datenschutz, IT-Sicherheit | Zwecke, Datenkategorien, Empfänger, Aufbewahrung, Löschung und Risikobewertung |
+
+## 6. Vorfälle melden
+
+Bei Verdacht auf kompromittierte Konten, versehentliche Offenlegung, schädliche Dateien, unberechtigte Zugriffe oder Datenverlust:
+
+1. Keine verdächtigen Dateien öffnen und keine weiteren Datenkopien erzeugen.
+2. Zeitpunkt, betroffene Besprechungsreihe bzw. Funktion und beobachtetes Verhalten sachlich festhalten. Keine Passwörter oder sonstigen Geheimnisse in die Meldung schreiben.
+3. Unverzüglich den zuständigen IT-Support bzw. die benannte Sicherheitskontaktstelle informieren.
+4. Bei möglichem Personenbezug zusätzlich den internen Datenschutz-Meldeweg nutzen. Die Bewertung und Meldung einer Datenschutzverletzung erfolgt durch die dafür zuständigen Stellen.
+5. Betroffene Konten, Systeme oder Dateien nicht eigenmächtig löschen oder verändern, sofern dadurch Beweise oder Wiederherstellungsmöglichkeiten verloren gehen könnten.
+
+---
+
+**Hinweis zur Verbindlichkeit:** Die Checklisten sind praktische Mindestempfehlungen. Verbindliche Zuständigkeiten, Fristen, Rechtsgrundlagen, Aufbewahrungsregeln und Freigabeprozesse müssen durch die betreibende Organisation festgelegt werden.
