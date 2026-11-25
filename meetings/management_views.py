@@ -975,11 +975,38 @@ def testing_fixtures(request):
     _require_admin(request)
     _require_testing_mode()
 
-    from datetime import timedelta
+    from datetime import date, timedelta
     import secrets
     from django.db import transaction
     from .models import AgendaItem, Meeting, Topic
     from .services import generate_meetings
+
+    def assign_fixture_access(series, fixture_users):
+        SeriesAccess.objects.update_or_create(
+            series=series, user=request.user,
+            defaults={"role": SeriesAccess.ROLE_MODERATOR},
+        )
+        for index, fixture_user in enumerate(fixture_users):
+            if index == 0 or secrets.randbelow(100) < 65:
+                SeriesAccess.objects.get_or_create(
+                    series=series, user=fixture_user,
+                    defaults={"role": secrets.choice([
+                        SeriesAccess.ROLE_PARTICIPANT,
+                        SeriesAccess.ROLE_MODERATOR,
+                        SeriesAccess.ROLE_READER,
+                    ])},
+                )
+
+    # A per-form nonce makes browser retries/double clicks harmless. Each
+    # rendered form gets its own nonce, consumed on the first POST.
+    nonce = request.POST.get("fixture_nonce") if request.method == "POST" else None
+    if request.method == "GET":
+        import secrets as _secrets
+        fixture_nonce = _secrets.token_urlsafe(24)
+        request.session["testing_fixture_nonce"] = fixture_nonce
+    else:
+        fixture_nonce = request.session.pop("testing_fixture_nonce", None)
+
 
     # Only operate on records created by this fixture tool; never bulk-edit real data.
     series_qs = MeetingSeries.objects.filter(name__startswith="TEST-Besprechungsreihe ").order_by("name")
@@ -988,39 +1015,37 @@ def testing_fixtures(request):
         action = request.POST.get("action", "")
         try:
             with transaction.atomic():
+                if not nonce or nonce != fixture_nonce:
+                    raise ValidationError("Diese Aktion wurde bereits verarbeitet oder das Formular ist abgelaufen. Bitte lade die Seite neu.")
                 if action == "create_series":
                     count = _testing_count(request, "series_count")
                     created = []
-                    today = timezone.localdate()
-                    for index in range(count):
+                    # Use a shared, explicit test window and a single weekday
+                    # per series. Meetings are generated from the recurrence,
+                    # never from independently randomized dates.
+                    start_window = date(2026, 1, 1)
+                    end_window = date(2027, 3, 31)
+                    fixture_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                    for _ in range(count):
+                        recurrence = secrets.choice(["weekly", "biweekly", "monthly"])
+                        interval = secrets.choice([1, 2, 3])
+                        weekday = secrets.randbelow(5)
+                        start_date = start_window + timedelta(days=secrets.randbelow((end_window - start_window).days // 3))
+                        end_date = end_window
                         suffix = secrets.token_hex(3)
                         series = MeetingSeries.objects.create(
-                            name=f"TEST-Besprechungsreihe {today:%Y%m%d}-{suffix}",
-                            description="Zufällig erzeugte Beispieldaten für Tests.",
+                            name=f"TEST-Besprechungsreihe {start_date:%Y%m%d}-{suffix}",
+                            description="Zufällig erzeugte Beispieldaten mit festem Wochentag und regelmäßigem Rhythmus.",
                             active=True,
-                            recurrence=secrets.choice(["weekly", "monthly"]),
-                            recurrence_interval=secrets.choice([1, 2, 3]),
-                            weekday=secrets.randbelow(5),
-                            start_date=today - timedelta(days=300 + secrets.randbelow(66)),
-                            end_date=today + timedelta(days=300 + secrets.randbelow(66)),
+                            recurrence=recurrence,
+                            recurrence_interval=interval,
+                            weekday=weekday,
+                            start_date=start_date,
+                            end_date=end_date,
                         )
-                        SeriesAccess.objects.update_or_create(
-                            series=series, user=request.user,
-                            defaults={"role": SeriesAccess.ROLE_MODERATOR},
-                        )
-                        fixture_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
-                        for user_index, fixture_user in enumerate(fixture_users):
-                            if user_index == 0 or secrets.randbelow(100) < 65:
-                                SeriesAccess.objects.update_or_create(
-                                    series=series, user=fixture_user,
-                                    defaults={"role": secrets.choice([
-                                        SeriesAccess.ROLE_PARTICIPANT,
-                                        SeriesAccess.ROLE_MODERATOR,
-                                        SeriesAccess.ROLE_READER,
-                                    ])},
-                                )
+                        assign_fixture_access(series, fixture_users)
                         created.append(series)
-                    messages.success(request, f"{len(created)} zufällige Besprechungsserien wurden angelegt.")
+                    messages.success(request, f"{len(created)} zufällige Besprechungsserien mit jeweils festem Wochentag und Rhythmus wurden angelegt.")
                 elif action == "generate_meetings":
                     ids = request.POST.getlist("series_ids")
                     selected = series_qs.filter(pk__in=ids)
@@ -1030,29 +1055,15 @@ def testing_fixtures(request):
                         raise ValidationError("Die Auswahl enthält keine gültige Besprechungsserie.")
                     created_count = 0
                     fixture_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
-                    for series in selected:
-                        SeriesAccess.objects.update_or_create(
-                            series=series, user=request.user,
-                            defaults={"role": SeriesAccess.ROLE_MODERATOR},
-                        )
-                        for user_index, fixture_user in enumerate(fixture_users):
-                            if user_index == 0 or secrets.randbelow(100) < 65:
-                                SeriesAccess.objects.update_or_create(
-                                    series=series, user=fixture_user,
-                                    defaults={"role": secrets.choice([
-                                        SeriesAccess.ROLE_PARTICIPANT,
-                                        SeriesAccess.ROLE_MODERATOR,
-                                        SeriesAccess.ROLE_READER,
-                                    ])},
-                                )
+                    for series in selected.select_for_update():
+                        assign_fixture_access(series, fixture_users)
                         created_count += len(generate_meetings(series, include_past=True))
                     messages.success(request, f"{created_count} neue Termine wurden für {selected.count()} Serien generiert.")
                 elif action == "create_topics":
                     count = _testing_count(request, "topic_count")
                     series = get_object_or_404(series_qs, pk=request.POST.get("series_id"))
-                    SeriesAccess.objects.update_or_create(
-                        series=series, user=request.user,
-                        defaults={"role": SeriesAccess.ROLE_MODERATOR},
+                    assign_fixture_access(
+                        series, list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
                     )
                     active_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
                     title_parts = ["Projektplanung", "Qualitätssicherung", "Prozessoptimierung", "Infrastruktur", "Dokumentation", "Schnittstellen", "Ressourcenplanung", "Betriebsablauf"]
@@ -1069,16 +1080,23 @@ def testing_fixtures(request):
                     topic = get_object_or_404(topics_qs, pk=request.POST.get("topic_id"))
                     if not topic.series_id:
                         raise ValidationError("Das ausgewählte Thema ist keiner Besprechungsserie zugeordnet.")
-                    SeriesAccess.objects.update_or_create(
-                        series=topic.series, user=request.user,
-                        defaults={"role": SeriesAccess.ROLE_MODERATOR},
+                    assign_fixture_access(
+                        topic.series, list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
                     )
                     meetings = list(Meeting.objects.filter(series=topic.series, finalized_at__isnull=True).order_by("date"))
                     if not meetings:
                         raise ValidationError("Für diese Serie gibt es noch keine offenen Termine. Bitte zuerst Termine generieren.")
                     active_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
-                    candidates = [meeting for meeting in meetings
-                                  if not meeting.agenda_items.filter(topic=topic).exists()]
+                    existing_items = list(
+                        AgendaItem.objects.filter(topic=topic, meeting__series=topic.series)
+                        .select_related("meeting").order_by("meeting__date", "pk")
+                    )
+                    last_item = existing_items[-1] if existing_items else None
+                    candidates = [
+                        meeting for meeting in meetings
+                        if (last_item is None or meeting.date > last_item.meeting.date)
+                        and not meeting.agenda_items.filter(topic=topic).exists()
+                    ]
                     if not candidates:
                         raise ValidationError("Das Thema steht bereits auf allen verfügbaren Terminen dieser Serie.")
                     if len(candidates) < count:
@@ -1096,7 +1114,7 @@ def testing_fixtures(request):
                     created_items = []
                     for index in range(count):
                         meeting = candidates[index]
-                        previous_item = created_items[-1] if created_items else None
+                        previous_item = created_items[-1] if created_items else last_item
                         item = AgendaItem.objects.create(
                             meeting=meeting, topic=topic,
                             position=meeting.agenda_items.count(),
@@ -1166,6 +1184,7 @@ def testing_fixtures(request):
         return redirect("testing_fixtures")
 
     return render(request, "meetings/testing_fixtures.html", {
+        "fixture_nonce": fixture_nonce,
         "series_options": series_qs,
         "topic_options": topics_qs,
         "series_count": series_qs.count(),
