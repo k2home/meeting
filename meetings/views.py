@@ -191,7 +191,7 @@ def dashboard(request):
     if is_auditor(request.user):
         return redirect("auditor_overview")
     today = timezone.localdate()
-    _, open_topic_items, open_topics_without_items = _open_topics_querysets(request.user, today)
+    open_topic_series, open_topic_items, open_topics_without_items = _open_topics_querysets(request.user, today)
     open_item_counts = dict(
         open_topic_items.values("topic__series_id")
         .annotate(total=Count("topic_id", distinct=True))
@@ -222,6 +222,7 @@ def dashboard(request):
     for group in meeting_groups:
         series_id = group["series"].pk
         group["open_topic_count"] = open_item_counts.get(series_id, 0) + open_without_item_counts.get(series_id, 0)
+        group["can_view_open_topics"] = open_topic_series.filter(pk=series_id).exists()
 
     topics = accessible_topics(request.user).exclude(status="archived").select_related("series")
     query = request.GET.get("q", "").strip()
