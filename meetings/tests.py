@@ -1781,17 +1781,31 @@ class UserOverviewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'name="old_password" autofocus')
 
-    def test_series_role_request_uses_balanced_responsive_layout(self):
+    def test_password_change_is_available_in_dialog_from_profile_card(self):
+        response = self.client.get(reverse("user_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="open-password-dialog"')
+        self.assertContains(response, "Daten speichern")
+        self.assertNotContains(response, "Persönliche Daten speichern")
+        self.assertContains(response, '<dialog class="password-change-dialog" id="password-change-dialog"')
+        self.assertContains(response, 'name="form_type" value="password"')
+        self.assertContains(response, 'id="close-password-dialog"')
+        self.assertContains(response, 'passwordDialog?.showModal()')
+
+    def test_series_role_request_uses_single_list_with_balanced_rows(self):
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'class="user-settings-grid"')
         self.assertContains(response, 'class="user-series-access-card"')
+        self.assertContains(response, 'class="series-access-list"')
         self.assertContains(response, 'class="series-access-row"')
-        self.assertContains(response, 'class="series-access-details"')
+        self.assertContains(response, 'class="series-access-info"')
+        self.assertNotContains(response, 'class="series-access-details"')
         self.assertContains(response, 'id="role-%s"' % self.series.pk)
         self.assertContains(response, 'data-current-role="reader"')
         self.assertContains(response, '<button type="submit" hidden>Antrag senden</button>', html=True)
-        self.assertContains(response, ".series-access-row{display:grid;grid-template-columns:minmax(12rem, .8fr) minmax(0,1.7fr)")
+        self.assertContains(response, ".series-access-list{display:grid;grid-template-columns:minmax(0,1fr)")
+        self.assertContains(response, ".series-access-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(14rem,.8fr)")
 
     def test_user_can_edit_own_profile(self):
         response = self.client.post(reverse("user_overview"), {
