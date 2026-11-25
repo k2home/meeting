@@ -958,14 +958,32 @@ def _testing_random_user(block_number, unique_number):
         "Lara", "Ben", "Clara", "Felix", "Sofia", "Oskar", "Ida", "Emil",
     ]
     last_names = [
-        "Becker", "Fischer", "Wagner", "Schulz", "Hoffmann", "Koch",
-        "Richter", "Wolf", "Schneider", "Weber", "Meyer", "Bauer",
-        "Schröder", "Neumann", "Krüger", "Hartmann", "Lange", "Krause",
+        "Becker", "Fischer", "Wagner", "Schulz", "Hoffmann", "Koch", "Richter",
+        "Wolf", "Schneider", "Weber", "Meyer", "Bauer", "Schröder", "Neumann",
+        "Krüger", "Hartmann", "Lange", "Krause", "Zimmermann", "Braun", "Krüger",
+        "Hofmann", "Schmitt", "Werner", "Schmitz", "Kraus", "Meier", "Lehmann",
+        "Schmid", "Schulze", "Maier", "Köhler", "Herrmann", "König", "Walter",
+        "Mayer", "Huber", "Kaiser", "Fuchs", "Peters", "Lang", "Scholz", "Möller",
+        "Weiß", "Jung", "Hahn", "Schubert", "Vogel", "Friedrich", "Keller",
+        "Günther", "Frank", "Berger", "Winkler", "Roth", "Beck", "Lorenz",
+        "Baumann", "Franke", "Albrecht", "Winter", "Kramer", "Schumacher",
+        "Ludwig", "Vogt", "Jäger", "Stein", "Otto", "Sommer", "Groß", "Seidel",
+        "Heinrich", "Brandt", "Haas", "Schreiber", "Graf", "Schulte", "Dietrich",
+        "Ziegler", "Kuhn", "Pohl", "Engel", "Horn", "Busch", "Bergmann",
+        "Thomas", "Voigt", "Sauer", "Arnold", "Wolff", "Pfeiffer", "Lenz",
+        "Böhm", "Unger", "Kühn", "Schenk", "Auer", "Ebert", "Heß", "Bender",
+        "Ritter", "Conrad",
     ]
 
     first_name = secrets.choice(first_names)
-    last_name = secrets.choice(last_names)
-    username = f"test_fixture_{secrets.token_hex(5)}"
+    available_last_names = [
+        name for name in last_names
+        if not User.objects.filter(username=f"TEST{name}").exists()
+    ]
+    if not available_last_names:
+        raise ValidationError("Alle verfügbaren TEST-Benutzernamen sind bereits vergeben.")
+    last_name = secrets.choice(available_last_names)
+    username = f"TEST{last_name}"
     email_name = f"{first_name}.{last_name}".replace(" ", "").lower()
     short_description = f"{block_number:02d}/{unique_number:02d}"
 
@@ -1080,7 +1098,7 @@ def testing_fixtures(request):
                     # never from independently randomized dates.
                     start_window = date(2026, 1, 1)
                     end_window = date(2027, 3, 31)
-                    fixture_users = list(User.objects.filter(is_active=True, username__startswith="test_fixture_"))
+                    fixture_users = list(User.objects.filter(is_active=True, username__startswith="TEST", email__endswith="@beliebig.de"))
                     for _ in range(count):
                         recurrence = secrets.choice(["weekly", "biweekly", "monthly"])
                         interval = secrets.choice([1, 2, 3])
@@ -1253,7 +1271,7 @@ def testing_fixtures(request):
 
                     used_blocks = set()
                     for description in UserProfile.objects.filter(
-                        user__username__startswith="test_fixture_"
+                        user__username__startswith="TEST", user__email__endswith="@beliebig.de"
                     ).values_list("short_description", flat=True):
                         match = re.match(r"^(\\d{2})/\\d{2}$", description or "")
                         if match:
