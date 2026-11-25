@@ -1784,11 +1784,14 @@ class UserOverviewTests(TestCase):
     def test_series_role_and_request_share_one_column_with_hidden_submit_button(self):
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<th>Berechtigung</th>", html=True)
-        self.assertNotContains(response, "<th>Deine Berechtigung</th>", html=True)
+        self.assertContains(response, 'class="user-settings-grid"')
+        self.assertContains(response, 'class="user-series-access-card"')
+        self.assertContains(response, 'class="series-access-row"')
+        self.assertContains(response, 'class="series-access-details"')
         self.assertContains(response, 'id="role-%s"' % self.series.pk)
         self.assertContains(response, 'data-current-role="reader"')
         self.assertContains(response, '<button type="submit" hidden>Antrag senden</button>', html=True)
+        self.assertContains(response, ".series-access-row{display:grid;grid-template-columns:minmax(12rem, .8fr) minmax(0,1.7fr)")
 
     def test_user_can_edit_own_profile(self):
         response = self.client.post(reverse("user_overview"), {
