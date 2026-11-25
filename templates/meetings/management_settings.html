@@ -28,7 +28,10 @@
         </div>
       {% endwith %}
       {% if logo_form.non_field_errors %}<div class="messages error">{{ logo_form.non_field_errors }}</div>{% endif %}
-      <div class="actions"><button class="primary" type="submit" name="action" value="save_logo">Logo speichern</button></div>
+      <div class="actions settings-logo-actions">
+        <button class="primary" type="submit" name="action" value="save_logo">Logo speichern</button>
+        {% if organization_settings.logo %}<button class="secondary" type="submit" name="action" value="reset_logo">Logo zurücksetzen</button>{% endif %}
+      </div>
     </form>
   </div>
 </section>
@@ -155,15 +158,15 @@
 </form>
 
 <style>
-.settings-logo-card{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.8fr);gap:1rem 2rem;align-items:center;margin-bottom:1rem}
+.settings-logo-card{display:grid;grid-template-columns:minmax(0,1fr);gap:.55rem;align-items:start;margin-bottom:1rem}
 .settings-logo-card h2,.settings-card h2{margin:0 0 .35rem;font-size:1.08rem;line-height:1.35}
 .settings-logo-card p,.settings-card-heading p{margin:.2rem 0 0;line-height:1.5}
-.settings-logo-content{display:grid;grid-template-columns:minmax(120px,.65fr) minmax(0,1.35fr);gap:1rem;align-items:center;min-width:0}
+.settings-logo-content{display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem;align-items:start;min-width:0}
 .settings-logo-preview{display:flex;flex-direction:column;gap:.45rem;min-width:0}
-.settings-logo-preview img{display:block;max-width:100%;max-height:76px;object-fit:contain;object-position:left center}
+.settings-logo-preview img{display:block;max-width:180px;max-height:56px;object-fit:contain;object-position:left center}
 .settings-logo-form{min-width:0}
 .settings-logo-form .settings-field{margin:0}\n.settings-logo-form input[type="checkbox"]{width:auto;max-width:none;min-width:0;display:inline-block;vertical-align:middle;margin:0 .4rem 0 0}\n.settings-logo-form input[type="checkbox"]+label{display:inline;vertical-align:middle;font-weight:500}\n.settings-logo-form .settings-field:has(input[type="checkbox"]){display:block}\n.settings-logo-form input[type="file"]{display:block;max-width:100%;margin-top:.25rem}
-.settings-logo-form .actions{margin-top:.65rem}
+.settings-logo-form .actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.65rem}
 .organization-settings-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:stretch}
 .organization-settings-form>.settings-card{min-width:0;margin:0;padding:1.15rem}
 .settings-card-heading{margin-bottom:.85rem}
