@@ -24,6 +24,8 @@ RUN python3.13 -m venv /opt/venv \
     && /opt/venv/bin/python -m pip install --upgrade pip 'setuptools>=78.1.1' \
     && /opt/venv/bin/pip install -r requirements.txt -c requirements-constraints.txt \
     && /opt/venv/bin/pip uninstall --yes setuptools \
+    && find /opt/venv -iname '*setuptools*' -delete \
+    && ! find /opt/venv -iname '*setuptools*' -print -quit | grep -q . \
     && /opt/venv/bin/python -c 'import importlib.util; from importlib.metadata import distributions; assert importlib.util.find_spec("setuptools") is None, "setuptools module must not be present in the runtime environment"; assert not any((dist.metadata.get("Name") or "").lower() == "setuptools" for dist in distributions()), "setuptools metadata must not be present in the runtime environment"'
 
 FROM debian:trixie-slim AS runtime
