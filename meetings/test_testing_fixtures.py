@@ -40,8 +40,10 @@ class TestingFixtureViewTests(TestCase):
         OrganizationSettings.objects.create(start_password="FixtureStart-2026")
         response = self.client.post(url, {"action": "create_users", "user_count": "2", "fixture_nonce": self.client.session["testing_fixture_nonce"]})
         self.assertRedirects(response, url)
-        generated_users = User.objects.filter(username__startswith="test_fixture_")
+        generated_users = User.objects.filter(username__startswith="TEST", email__endswith="@beliebig.de")
         self.assertEqual(generated_users.count(), 2)
+        for user in generated_users:
+            self.assertEqual(user.username, f"TEST{user.last_name}")
         self.assertTrue(all(user.check_password("FixtureStart-2026") for user in generated_users))
         profiles = list(UserProfile.objects.filter(user__in=generated_users).select_related("user"))
         self.assertTrue(all(profile.must_change_password for profile in profiles))
