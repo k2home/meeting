@@ -1,4 +1,5 @@
 from io import BytesIO
+from pathlib import Path
 from zipfile import ZipFile
 from unittest.mock import patch
 
@@ -120,3 +121,15 @@ class AttachmentContentValidationTests(TestCase):
         with patch("meetings.antivirus.socket.create_connection") as connect:
             scan_uploaded_file(uploaded)
         connect.assert_not_called()
+
+    def test_production_installers_enable_private_clamav_scanning(self):
+        root = Path(__file__).resolve().parent.parent
+        compose = (root / "docker" / "compose.yaml").read_text(encoding="utf-8")
+        installer = (root / "deploy" / "install-debian.sh").read_text(encoding="utf-8")
+
+        self.assertIn("image: clamav/clamav:stable", compose)
+        self.assertIn('CLAMD_ENABLED: "1"', compose)
+        self.assertIn("CLAMD_HOST: clamav", compose)
+        self.assertIn("clamav-daemon clamav-freshclam", installer)
+        self.assertIn('set_env_value "CLAMD_ENABLED" "1"', installer)
+        self.assertIn("TCPAddr 127.0.0.1", installer)
