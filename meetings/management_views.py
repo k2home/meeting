@@ -1065,7 +1065,7 @@ def testing_fixtures(request):
     series_qs = MeetingSeries.objects.filter(
         Q(name__startswith="TEST-Besprechungsreihe ") | Q(description__startswith="TEST-Fixture:")
     ).order_by("name")
-    topics_qs = Topic.objects.filter(title__startswith="TEST-").select_related("series").order_by("title")
+    topics_qs = Topic.objects.filter(Q(title__startswith="TEST-") | Q(title__startswith="TEST ")).select_related("series").order_by("title")
     if request.method == "POST":
         action = request.POST.get("action", "")
         try:
