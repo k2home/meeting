@@ -77,7 +77,7 @@
       article.remove();
       feedback.textContent = result.message;
       const nextButton = next?.querySelector(".archive-topic-form button");
-      if (nextButton) nextButton.focus();
+      if (nextButton) nextButton.focus({preventScroll: true});
       else {
         const empty = document.getElementById("archive-ready-empty");
         if (!section.querySelector(".archive-ready-topic") && !empty) {
@@ -88,7 +88,7 @@
           section.appendChild(message);
         }
         section.querySelector("h2")?.setAttribute("tabindex", "-1");
-        section.querySelector("h2")?.focus();
+        section.querySelector("h2")?.focus({preventScroll: true});
       }
     } catch (error) {
       feedback.textContent = error.message || "Archivierung fehlgeschlagen.";
