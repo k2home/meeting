@@ -118,3 +118,26 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "login"
 SESSION_COOKIE_AGE = 28800
 SESSION_SAVE_EVERY_REQUEST = True
+
+# Metadata-only audit events are written to stdout/stderr so the host or container
+# logging driver can forward them to a separately controlled log collector.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "audit_json": {"format": "%(message)s"},
+    },
+    "handlers": {
+        "audit_console": {
+            "class": "logging.StreamHandler",
+            "formatter": "audit_json",
+        },
+    },
+    "loggers": {
+        "meetings.security_audit": {
+            "handlers": ["audit_console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
