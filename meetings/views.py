@@ -379,12 +379,43 @@ def open_topics(request):
     ).filter(pk__in=Subquery(latest_item_ids)).select_related(
         "topic", "topic__series", "meeting", "assigned_to"
     ).order_by("topic__series__name", "topic__title")
+    topics_without_items = Topic.objects.filter(
+        series__in=allowed_series,
+        status__in=["open", "in_progress"],
+        agenda_items__isnull=True,
+    ).select_related("series", "assigned_to").order_by("series__name", "title")
 
     if request.method == "POST":
+        target_meeting_id = request.POST.get("target_meeting")
+        if request.POST.get("schedule_topic"):
+            topic = get_object_or_404(topics_without_items, pk=request.POST.get("schedule_topic"))
+            target_meeting = get_object_or_404(
+                Meeting.objects.filter(series=topic.series, date__gt=today, finalized_at__isnull=True),
+                pk=target_meeting_id,
+            )
+            with transaction.atomic():
+                next_position = (
+                    target_meeting.agenda_items.order_by("-position").values_list("position", flat=True).first()
+                )
+                AgendaItem.objects.create(
+                    meeting=target_meeting,
+                    topic=topic,
+                    status=topic.status if topic.status in {"open", "in_progress"} else "open",
+                    position=(next_position if next_position is not None else -1) + 1,
+                )
+                record_event(
+                    actor=request.user, action="updated",
+                    summary=f"„{topic.title}“ erstmals auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt",
+                    topic=topic, meeting=target_meeting,
+                    changes={"Tagesordnung": {"nachher": target_meeting.date.isoformat()}},
+                )
+            messages.success(request, f"„{topic.title}“ wurde auf die Tagesordnung am {formats.date_format(target_meeting.date, 'DATE_FORMAT')} gesetzt.")
+            return redirect("open_topics")
+
         item = get_object_or_404(items, pk=request.POST.get("schedule_item"))
         target_meeting = get_object_or_404(
             Meeting.objects.filter(series=item.topic.series, date__gt=today, finalized_at__isnull=True),
-            pk=request.POST.get("target_meeting"),
+            pk=target_meeting_id,
         )
         with transaction.atomic():
             source_item = item.followup_of or item
@@ -423,7 +454,19 @@ def open_topics(request):
         future_meetings = Meeting.objects.filter(
             series=item.topic.series, date__gt=today, finalized_at__isnull=True
         ).order_by("date")
-        rows.append({"item": item, "future_meetings": future_meetings})
+        rows.append({
+            "item": item, "topic": item.topic, "status_display": item.get_status_display(),
+            "future_meetings": future_meetings,
+        })
+    for topic in topics_without_items:
+        future_meetings = Meeting.objects.filter(
+            series=topic.series, date__gt=today, finalized_at__isnull=True
+        ).order_by("date")
+        rows.append({
+            "item": None, "topic": topic, "status_display": topic.get_status_display(),
+            "future_meetings": future_meetings,
+        })
+    rows.sort(key=lambda row: (row["topic"].series.name.casefold(), row["topic"].title.casefold()))
     return render(request, "meetings/open_topics.html", {"rows": rows, "today": today})
 
 @login_required
