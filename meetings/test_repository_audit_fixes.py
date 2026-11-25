@@ -124,6 +124,15 @@ class TopicArchiveWorkflowTests(TestCase):
         self.assertEqual(self.topic.status, "open")
         self.assertFalse(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
 
+    def test_setting_topic_status_to_done_records_completion_date(self):
+        response = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
+            "save_topic_details": "1", "title": self.topic.title,
+            "assigned_to": "", "status": "done",
+        })
+        self.assertEqual(response.status_code, 302)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "done")
+        self.assertEqual(self.topic.completed_at, timezone.localdate())
     def test_topic_must_be_done_before_archive(self):
         response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
         self.assertEqual(response.status_code, 302)
@@ -168,6 +177,7 @@ class TopicArchiveWorkflowTests(TestCase):
                 self.assertEqual(response.status_code, 302)
                 self.assertFalse(TopicAttachment.objects.filter(pk=attachment.pk).exists())
                 self.assertFalse(storage.exists(stored_name))
+
     def test_archive_and_reopen_restores_previous_topic_status(self):
         self.topic.status = "done"
         self.topic.completed_at = timezone.localdate() - timedelta(days=190)
@@ -177,7 +187,7 @@ class TopicArchiveWorkflowTests(TestCase):
         self.assertEqual(archived.status_code, 302)
         self.topic.refresh_from_db()
         self.assertEqual(self.topic.status, "archived")
-        self.assertEqual(self.topic.archive_previous_status, "in_progress")
+        self.assertEqual(self.topic.archive_previous_status, "done")
         self.assertTrue(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
 
         archive_page = self.client.get(reverse("archive"))
