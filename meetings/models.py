@@ -161,6 +161,27 @@ class TopicSnapshot(models.Model):
         return dict(AgendaItem.STATUS).get(self.status, self.status)
 
 
+class RetainedAgendaEntry(models.Model):
+    """Agenda content retained with its topic after the original meeting expires."""
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="retained_agenda_entries")
+    original_meeting_id = models.PositiveBigIntegerField(db_index=True)
+    meeting_date = models.DateField("Ursprünglicher Besprechungstermin")
+    series_name = models.CharField("Ursprüngliche Besprechungsreihe", max_length=160, blank=True)
+    working_text = models.TextField(blank=True)
+    status = models.CharField(max_length=12, choices=AgendaItem.STATUS, default="open")
+    responsible_name = models.CharField(max_length=255, blank=True)
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["-meeting_date", "position", "pk"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["topic", "original_meeting_id"],
+                name="unique_retained_agenda_topic_meeting",
+            )
+        ]
+
+
 class TopicAttachment(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="attachments")
     label = models.CharField("Bezeichnung", max_length=180)
