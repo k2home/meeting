@@ -14,23 +14,28 @@
 <section class="card user-settings-card">
   <h2>Persönliche Daten</h2>
   <p class="muted">Diese Angaben kannst du selbst ändern. Der Benutzername für die Anmeldung bleibt unverändert.</p>
-  <form method="post">
+  <form method="post" class="profile-settings-form">
     {% csrf_token %}
     <input type="hidden" name="form_type" value="profile">
     {{ profile_form.as_p }}
-    <button type="submit">Persönliche Daten speichern</button>
+    <div class="profile-settings-actions">
+      <button type="submit">Daten speichern</button>
+      <button class="secondary" type="button" id="open-password-dialog">Passwort ändern</button>
+    </div>
   </form>
-</section>
-
-<section class="card user-settings-card">
-  <h2>Passwort ändern</h2>
-  <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
-  <form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="form_type" value="password">
-    {{ password_form.as_p }}
-    <button type="submit">Passwort ändern</button>
-  </form>
+  <dialog class="password-change-dialog" id="password-change-dialog" aria-labelledby="password-dialog-title">
+    <div class="password-dialog-heading">
+      <h2 id="password-dialog-title">Passwort ändern</h2>
+      <button class="secondary" type="button" id="close-password-dialog" aria-label="Fenster schließen">Schließen</button>
+    </div>
+    <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="form_type" value="password">
+      {{ password_form.as_p }}
+      <div class="actions"><button type="submit">Neues Passwort speichern</button></div>
+    </form>
+  </dialog>
 </section>
 
 <section class="card user-settings-card">
@@ -49,8 +54,8 @@
     <div class="series-access-list">
       {% for row in series_rows %}
         <article class="series-access-row">
-          <div class="series-access-name">{{ row.series.name }}</div>
-          <div class="series-access-details">
+          <div class="series-access-info">
+            <div class="series-access-name">{{ row.series.name }}</div>
             <div class="series-access-current">
               <strong>{{ row.role_label }}</strong>
               {% if row.pending_request %}
@@ -60,22 +65,22 @@
                 {% if row.latest_request.decision_note %}<span class="muted">{{ row.latest_request.decision_note }}</span>{% endif %}
               {% endif %}
             </div>
-            {% if row.can_request %}
-              <form method="post" class="series-role-request">
-                {% csrf_token %}
-                <input type="hidden" name="form_type" value="access_request">
-                <input type="hidden" name="series_id" value="{{ row.series.pk }}">
-                <label for="role-{{ row.series.pk }}">Berechtigung ändern</label>
-                <select id="role-{{ row.series.pk }}" name="role" data-current-role="{{ row.role_value }}">
-                  {% if not row.role_value %}<option value="" selected>Bitte auswählen</option>{% endif %}
-                  {% for value,label in request_role_choices %}
-                    <option value="{{ value }}" {% if value == row.role_value %}selected{% endif %}>{{ label }}</option>
-                  {% endfor %}
-                </select>
-                <button type="submit" hidden>Antrag senden</button>
-              </form>
-            {% endif %}
           </div>
+          {% if row.can_request %}
+            <form method="post" class="series-role-request">
+              {% csrf_token %}
+              <input type="hidden" name="form_type" value="access_request">
+              <input type="hidden" name="series_id" value="{{ row.series.pk }}">
+              <label for="role-{{ row.series.pk }}">Berechtigung ändern</label>
+              <select id="role-{{ row.series.pk }}" name="role" data-current-role="{{ row.role_value }}">
+                {% if not row.role_value %}<option value="" selected>Bitte auswählen</option>{% endif %}
+                {% for value,label in request_role_choices %}
+                  <option value="{{ value }}" {% if value == row.role_value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit" hidden>Antrag senden</button>
+            </form>
+          {% endif %}
         </article>
       {% endfor %}
     </div>
@@ -90,20 +95,35 @@
 .user-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}
 .user-settings-card{min-width:0;margin:0}
 .user-series-access-card{grid-column:1/-1}
-.series-access-list{display:grid;gap:.65rem;margin-top:.85rem}
-.series-access-row{display:grid;grid-template-columns:minmax(12rem, .8fr) minmax(0,1.7fr);gap:1rem;align-items:center;padding:.85rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.profile-settings-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.password-change-dialog{width:min(34rem,calc(100% - 2rem));max-width:34rem;max-height:calc(100% - 2rem);overflow:auto;padding:1.25rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 1rem 3rem #0004}
+.password-change-dialog::backdrop{background:#0008}
+.password-dialog-heading{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.password-dialog-heading h2{margin:0}
+.password-change-dialog form p{display:flex;flex-direction:column;gap:.35rem}
+.password-change-dialog input{max-width:100%;width:100%;box-sizing:border-box}
+.series-access-list{display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem;margin-top:.85rem}
+.series-access-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(14rem,.8fr);gap:1rem;align-items:center;padding:.85rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.series-access-info{min-width:0}
 .series-access-name{font-weight:650;overflow-wrap:anywhere}
-.series-access-details{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:.5rem 1rem;align-items:center;min-width:0}
-.series-access-current{min-width:0}
+.series-access-current{min-width:0;margin-top:.25rem}
 .series-access-current strong{display:block}
 .series-access-current .muted{display:block;margin-top:.2rem}
-.series-role-request{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.55rem;align-items:end;margin:0}
-.series-role-request label{grid-column:1/-1;font-size:.9rem;font-weight:600}
+.series-role-request{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;align-items:start;margin:0}
+.series-role-request label{font-size:.9rem;font-weight:600}
 .series-role-request select{width:100%;min-width:0}
-.series-role-request button{white-space:nowrap}
-@media(max-width:760px){.user-settings-grid{grid-template-columns:minmax(0,1fr)}.user-series-access-card{grid-column:1}.series-access-row{grid-template-columns:minmax(0,1fr);gap:.55rem}.series-access-details{grid-template-columns:minmax(0,1fr)}.series-role-request{grid-template-columns:minmax(0,1fr) auto}}
+.series-role-request button{justify-self:start;white-space:nowrap}
+@media(max-width:760px){.user-settings-grid{grid-template-columns:minmax(0,1fr)}.user-series-access-card{grid-column:1}.series-access-row{grid-template-columns:minmax(0,1fr);gap:.75rem}}
 </style>
 <script>
+  const passwordDialog = document.getElementById("password-change-dialog");
+  document.getElementById("open-password-dialog")?.addEventListener("click", () => passwordDialog?.showModal());
+  document.getElementById("close-password-dialog")?.addEventListener("click", () => passwordDialog?.close());
+  passwordDialog?.addEventListener("click", (event) => {
+    if (event.target === passwordDialog) passwordDialog.close();
+  });
+  {% if password_form.errors %}passwordDialog?.showModal();{% endif %}
+
   document.querySelectorAll(".series-role-request select").forEach((select) => {
     const button = select.form.querySelector('button[type="submit"]');
     const updateButton = () => {
