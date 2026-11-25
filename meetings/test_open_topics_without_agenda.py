@@ -40,6 +40,25 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
         self.assertIsNone(response.context["rows"][0]["item"])
         self.assertEqual(response.context["rows"][0]["topic"], topic)
 
+    def test_open_topics_page_renders_series_dropdown_with_current_selection(self):
+        other_series = MeetingSeries.objects.create(name="Weitere Reihe")
+        SeriesAccess.objects.create(
+            user=self.user,
+            series=other_series,
+            role=SeriesAccess.ROLE_PARTICIPANT,
+        )
+
+        response = self.client.get(
+            reverse("open_topics"),
+            {"series": self.series.pk},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'id="open-topics-series-filter"')
+        self.assertContains(response, f'<option value="{self.series.pk}" selected>')
+        self.assertContains(response, other_series.name)
+        self.assertContains(response, "Filter zurücksetzen")
+
     def test_series_filter_shows_only_open_topics_from_selected_series(self):
         selected_topic = Topic.objects.create(
             title="Thema der ausgewählten Reihe",
@@ -175,6 +194,7 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
         self.assertEqual(group["open_topic_count"], 2)
         self.assertContains(dashboard_response, '>2</a>)')
         self.assertContains(dashboard_response, f'href="{reverse("open_topics")}?series={self.series.pk}"')
+        self.assertContains(dashboard_response, '<span class="overdue">2</span>')
 
     def test_completed_or_archived_topics_without_agenda_items_are_not_shown(self):
         Topic.objects.create(
