@@ -997,8 +997,8 @@ def testing_fixtures(request):
                     ])},
                 )
 
-    # A per-form nonce makes browser retries/double clicks harmless. Each
-    # rendered form gets its own nonce, consumed on the first POST.
+    # A page token makes browser retries/double clicks harmless. It is
+    # consumed on the first POST and must be refreshed after the redirect.
     nonce = request.POST.get("fixture_nonce") if request.method == "POST" else None
     if request.method == "GET":
         import secrets as _secrets
