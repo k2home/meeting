@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import codecs
 from pathlib import Path
 import zipfile
+import xml.etree.ElementTree as ET
 
 
 def validate_topic_attachment_size(uploaded_file):
@@ -410,11 +411,53 @@ class UserProfile(models.Model):
 
 
 def validate_organization_logo(uploaded_file):
-    """Bound and malware-scan user-provided organization logos."""
+    """Validate, bound and malware-scan user-provided organization logos."""
     if not uploaded_file:
         return
     if uploaded_file.size > 2 * 1024 * 1024:
         raise ValidationError("Das Organisationslogo darf höchstens 2 MB groß sein.")
+
+    suffix = Path(uploaded_file.name).suffix.lower().lstrip(".")
+    valid = False
+    try:
+        uploaded_file.seek(0)
+        data = uploaded_file.read(2 * 1024 * 1024 + 1)
+        if suffix == "png":
+            valid = data.startswith(b"\\x89PNG\\r\\n\\x1a\\n")
+        elif suffix in {"jpg", "jpeg"}:
+            valid = data.startswith(b"\\xff\\xd8\\xff")
+        elif suffix == "svg":
+            upper_data = data.upper()
+            if b"<!DOCTYPE" not in upper_data and b"<!ENTITY" not in upper_data:
+                try:
+                    root = ET.fromstring(data)
+                    valid = root.tag.rsplit("}", 1)[-1].lower() == "svg"
+                    for element in root.iter():
+                        if element.tag.rsplit("}", 1)[-1].lower() in {"script", "foreignobject"}:
+                            valid = False
+                        for attribute, value in element.attrib.items():
+                            attribute_name = attribute.rsplit("}", 1)[-1].lower()
+                            lower_value = value.lower()
+                            if attribute_name.startswith("on") or "javascript:" in lower_value:
+                                valid = False
+                            if attribute_name == "href" and not value.startswith("#"):
+                                valid = False
+                            if "url(" in lower_value and "url(#" not in lower_value:
+                                valid = False
+                except ET.ParseError:
+                    valid = False
+    except (OSError, ValueError):
+        valid = False
+    finally:
+        try:
+            uploaded_file.seek(0)
+        except (AttributeError, OSError, ValueError):
+            pass
+
+    if not valid:
+        raise ValidationError(
+            "Das Organisationslogo passt nicht zum Dateiformat oder enthält unzulässige aktive Inhalte."
+        )
     from .antivirus import scan_uploaded_file
     scan_uploaded_file(uploaded_file)
 
