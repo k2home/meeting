@@ -8,6 +8,44 @@ from .models import OrganizationSettings, Topic
 
 
 class OrganizationSettingsTests(TestCase):
+    def test_organization_settings_page_keeps_all_controls_in_compact_card_layout(self):
+        admin_user = get_user_model().objects.create_user(
+            username="settings-layout-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        admin_user.groups.add(admin_group)
+        self.client.force_login(admin_user)
+
+        response = self.client.get(reverse("management_settings"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="organization-settings-form"')
+        self.assertContains(response, 'class="settings-card settings-card-wide"')
+        self.assertContains(response, "grid-template-columns:repeat(2,minmax(0,1fr))")
+        self.assertContains(response, "settings-logo-card")
+        for field_name in (
+            "logo",
+            "name",
+            "short_name",
+            "timezone",
+            "start_password",
+            "attachment_max_size_mb",
+            "retention_years",
+            "primary_color",
+            "primary_color_light",
+            "primary_color_dark",
+            "secondary_color",
+            "secondary_color_light",
+            "secondary_color_dark",
+            "tertiary_color",
+            "tertiary_color_light",
+            "tertiary_color_dark",
+        ):
+            self.assertContains(response, f'name="{field_name}"')
+        self.assertContains(response, 'value="save_logo"')
+        self.assertContains(response, "Einstellungen speichern")
+        self.assertContains(response, "timezone-live-preview")
+
     def test_settings_are_a_single_global_record(self):
         first = OrganizationSettings.objects.create(name="Fachbereich 20")
         second = OrganizationSettings(name="Fachbereich 30")
