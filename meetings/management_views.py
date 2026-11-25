@@ -975,7 +975,7 @@ def testing_fixtures(request):
     _require_admin(request)
     _require_testing_mode()
 
-    from datetime import date, timedelta
+    from datetime import date
     import secrets
     from django.db import transaction
     from .models import AgendaItem, Meeting, Topic
