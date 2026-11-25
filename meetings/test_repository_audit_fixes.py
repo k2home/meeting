@@ -1,16 +1,18 @@
 from datetime import date, timedelta
+import tempfile
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import override_settings
 from django.db import IntegrityError, transaction
 from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
 from django.utils import timezone
 
 from .forms import AttachmentForm, SeriesForm
-from .models import AgendaItem, ArchivedMeetingAccess, AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic
+from .models import AgendaItem, ArchivedMeetingAccess, AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic, TopicAttachment
 from .services import ensure_agenda
 
 User = get_user_model()
@@ -122,9 +124,54 @@ class TopicArchiveWorkflowTests(TestCase):
         self.assertEqual(self.topic.status, "open")
         self.assertFalse(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
 
+    def test_topic_must_be_done_before_archive(self):
+        response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "open")
+        self.assertFalse(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
+
+    def test_topic_cannot_be_archived_before_six_calendar_months(self):
+        self.topic.status = "done"
+        self.topic.completed_at = timezone.localdate() - timedelta(days=30)
+        self.topic.save(update_fields=["status", "completed_at"])
+        response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "done")
+        self.assertFalse(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
+
+    @patch("meetings.agenda_topic_views._topic_testing_mode_enabled", return_value=True)
+    def test_testing_mode_allows_immediate_archive_of_done_topic(self, _testing_mode):
+        self.topic.status = "done"
+        self.topic.completed_at = timezone.localdate()
+        self.topic.save(update_fields=["status", "completed_at"])
+        response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 302)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "archived")
+
+    def test_archiving_deletes_attachment_records_and_uploaded_files(self):
+        with tempfile.TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root):
+                attachment = TopicAttachment.objects.create(
+                    topic=self.topic, label="Zu löschen",
+                    uploaded_file=SimpleUploadedFile("anlage.txt", b"Dateiinhalt"),
+                )
+                stored_name = attachment.uploaded_file.name
+                storage = attachment.uploaded_file.storage
+                self.topic.status = "done"
+                self.topic.completed_at = timezone.localdate() - timedelta(days=190)
+                self.topic.save(update_fields=["status", "completed_at"])
+                with self.captureOnCommitCallbacks(execute=True):
+                    response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
+                self.assertEqual(response.status_code, 302)
+                self.assertFalse(TopicAttachment.objects.filter(pk=attachment.pk).exists())
+                self.assertFalse(storage.exists(stored_name))
     def test_archive_and_reopen_restores_previous_topic_status(self):
-        self.topic.status = "in_progress"
-        self.topic.save(update_fields=["status"])
+        self.topic.status = "done"
+        self.topic.completed_at = timezone.localdate() - timedelta(days=190)
+        self.topic.save(update_fields=["status", "completed_at"])
 
         archived = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
         self.assertEqual(archived.status_code, 302)
@@ -139,7 +186,7 @@ class TopicArchiveWorkflowTests(TestCase):
         reopened = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
         self.assertEqual(reopened.status_code, 302)
         self.topic.refresh_from_db()
-        self.assertEqual(self.topic.status, "in_progress")
+        self.assertEqual(self.topic.status, "done")
         self.assertEqual(self.topic.archive_previous_status, "")
         self.assertTrue(AuditEvent.objects.filter(topic=self.topic, action="reopened").exists())
 
