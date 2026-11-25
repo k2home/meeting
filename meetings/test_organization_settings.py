@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from datetime import date
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import OrganizationSettings
+from .models import OrganizationSettings, Topic
 
 
 class OrganizationSettingsTests(TestCase):
@@ -58,6 +59,58 @@ class OrganizationSettingsTests(TestCase):
         event = AuditEvent.objects.filter(summary="Organisationseinstellungen geändert").latest("pk")
         self.assertNotIn("einfach", str(event.changes))
         self.assertEqual(event.changes["Startpasswort"]["nachher"], "Geändert")
+
+    def test_retention_setting_asks_before_changing_existing_archived_topics(self):
+        setting = OrganizationSettings.objects.create(
+            name="Fachbereich 10", retention_years=10
+        )
+        topic = Topic.objects.create(
+            title="Bereits archiviert", status="archived",
+            archived_at=date(2026, 8, 23),
+        )
+        admin_user = get_user_model().objects.create_user(
+            username="retention-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        admin_user.groups.add(admin_group)
+        self.client.force_login(admin_user)
+        payload = {
+            "name": setting.name,
+            "short_name": setting.short_name,
+            "timezone": setting.timezone,
+            "start_password": setting.start_password,
+            "retention_years": "5",
+            "attachment_max_size_mb": str(setting.attachment_max_size_mb),
+            "primary_color": setting.primary_color,
+            "primary_color_light": setting.primary_color_light,
+            "primary_color_dark": setting.primary_color_dark,
+            "secondary_color": setting.secondary_color,
+            "secondary_color_light": setting.secondary_color_light,
+            "secondary_color_dark": setting.secondary_color_dark,
+            "tertiary_color": setting.tertiary_color,
+            "tertiary_color_light": setting.tertiary_color_light,
+            "tertiary_color_dark": setting.tertiary_color_dark,
+        }
+
+        response = self.client.post(reverse("management_settings"), payload)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["show_retention_confirmation"])
+        setting.refresh_from_db()
+        topic.refresh_from_db()
+        self.assertEqual(setting.retention_years, 10)
+        self.assertIsNone(topic.retention_years)
+
+        response = self.client.post(
+            reverse("management_settings"),
+            {**payload, "retention_change_decision": "keep"},
+        )
+
+        self.assertRedirects(response, reverse("management_settings"))
+        setting.refresh_from_db()
+        topic.refresh_from_db()
+        self.assertEqual(setting.retention_years, 5)
+        self.assertEqual(topic.retention_years, 10)
 
     def test_auditor_cannot_read_start_password(self):
         setting = OrganizationSettings.objects.create(name="Fachbereich 10", start_password="streng-geheim")
