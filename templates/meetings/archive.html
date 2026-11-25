@@ -4,9 +4,17 @@
 <header class="page-header"><div><h1>Archiv</h1><p class="muted">Hier findest du erledigte Tagesordnungspunkte und ausdrücklich archivierte Themen.</p></div></header>
 <section class="card archive-search-group" id="archive-topics">
   <h2>Archivierte Themen</h2>
+  <div class="archive-retention-filter" style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:.75rem 0 1rem">
+    <label for="archive-retention-months">Nur Themen mit Löschung innerhalb der nächsten</label>
+    <input id="archive-retention-months" type="number" min="0" max="600" step="1" value="12" style="width:5.5rem" aria-label="Monate bis zur Löschung">
+    <span>Monate anzeigen</span>
+    <button type="button" class="secondary" id="archive-retention-apply">Filtern</button>
+    <button type="button" class="secondary" id="archive-retention-clear">Filter aufheben</button>
+  </div>
+  <p id="archive-retention-feedback" class="muted" role="status" aria-live="polite"></p>
   {% for topic in archived_topics %}
-  <article class="content-divider">
-    <div class="topline"><div><h3><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · Archiviert</p></div></div>
+  <article class="content-divider archive-topic-card" data-deletion-date="{% if topic.deletion_date %}{{ topic.deletion_date|date:'Y-m-d' }}{% endif %}">
+    <div class="topline"><div><h3><a href="{% url 'topic_edit' topic.pk %}">{{ topic.title }}</a></h3><p class="muted">{{ topic.series|default:"Ohne Besprechungsreihe" }} · Archiviert</p></div><span class="pill">{% if topic.deletion_date %}Löschung am {{ topic.deletion_date|date:"DATE_FORMAT" }}{% else %}Löschdatum offen{% endif %}</span></div>
   </article>
   {% empty %}<p class="muted">Es gibt keine archivierten Themen.</p>{% endfor %}
 </section>
@@ -75,6 +83,60 @@
   });
 })();
 </script>
+<!-- archive-retention-filter -->
+<script>
+(() => {
+  const input = document.getElementById("archive-retention-months");
+  const apply = document.getElementById("archive-retention-apply");
+  const clear = document.getElementById("archive-retention-clear");
+  const feedback = document.getElementById("archive-retention-feedback");
+  if (!input || !apply || !clear) return;
+  const cards = [...document.querySelectorAll(".archive-topic-card")];
+  const localDate = date => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return year + "-" + month + "-" + day;
+  };
+  const addMonths = (date, months) => {
+    const result = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const day = result.getDate();
+    result.setMonth(result.getMonth() + months);
+    if (result.getDate() < day) result.setDate(0);
+    return result;
+  };
+  const applyFilter = () => {
+    const months = Number.parseInt(input.value, 10);
+    if (!Number.isInteger(months) || months < 0 || months > 600) {
+      input.setCustomValidity("Bitte einen Wert zwischen 0 und 600 Monaten eingeben.");
+      input.reportValidity();
+      return;
+    }
+    input.setCustomValidity("");
+    const today = localDate(new Date());
+    const until = localDate(addMonths(new Date(), months));
+    let count = 0;
+    cards.forEach(card => {
+      const due = card.dataset.deletionDate || "";
+      const match = Boolean(due && due >= today && due <= until);
+      card.dataset.retentionFiltered = match ? "false" : "true";
+      card.hidden = !match;
+      if (match) count++;
+    });
+    feedback.textContent = count + " archivierte(s) Thema/Themen mit Löschdatum bis " + until.split("-").reverse().join(".") + ".";
+    input.dataset.filterActive = "true";
+  };
+  apply.addEventListener("click", applyFilter);
+  clear.addEventListener("click", () => {
+    delete input.dataset.filterActive;
+    cards.forEach(card => {
+      delete card.dataset.retentionFiltered;
+      card.hidden = false;
+    });
+    feedback.textContent = "Der Löschfristfilter ist aufgehoben.";
+  });
+})();
+</script>
 <!-- archive-live-search -->
 <script>
 (() => {
@@ -95,7 +157,9 @@
     const term = input.value.trim().toLocaleLowerCase("de");
     let visibleCount = 0;
     lists.forEach(section => section.querySelectorAll("article").forEach(article => {
-      const visible = !term || article.textContent.toLocaleLowerCase("de").includes(term);
+      const searchMatch = !term || article.textContent.toLocaleLowerCase("de").includes(term);
+      const retentionMatch = article.dataset.retentionFiltered !== "true";
+      const visible = searchMatch && retentionMatch;
       article.hidden = !visible;
       if (visible) visibleCount++;
     }));
