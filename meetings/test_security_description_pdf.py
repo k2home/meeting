@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from unittest.mock import patch
 
@@ -111,6 +111,35 @@ class GitBackedTestChecklistTests(TestCase):
         self.assertEqual(updated, "# Bereich\n- [x] Erster Test\n- [x] Zweiter Test\n")
         unchecked = _apply_test_documentation_checkbox(updated, second_id, False)
         self.assertEqual(unchecked, "# Bereich\n- [x] Erster Test\n- [ ] Zweiter Test\n")
+
+    @override_settings(
+        TEST_DOCUMENTATION_GITHUB_TOKEN="test-token",
+        TEST_DOCUMENTATION_GITHUB_REPOSITORY="k2home/meeting",
+        TEST_DOCUMENTATION_GITHUB_BRANCH="beta",
+    )
+    @patch("meetings.guide_views._github_checklist_api_request")
+    def test_save_commits_updated_markdown_to_configured_branch(self, github_request):
+        import base64
+        from meetings.guide_views import _save_test_documentation_checkbox, _test_documentation_checkbox_id
+
+        markdown_source = "# Bereich\n- [ ] Erster Test\n"
+        github_request.side_effect = [
+            {
+                "content": base64.b64encode(markdown_source.encode("utf-8")).decode("ascii"),
+                "sha": "original-blob-sha",
+            },
+            {"commit": {"sha": "new-commit-sha"}},
+        ]
+        checkbox_id = _test_documentation_checkbox_id(2, 1, "- [ ] Erster Test\n")
+
+        result = _save_test_documentation_checkbox(checkbox_id, True)
+
+        self.assertEqual(result["commit"]["sha"], "new-commit-sha")
+        method, payload = github_request.call_args_list[1].args
+        self.assertEqual(method, "PUT")
+        self.assertEqual(payload["branch"], "beta")
+        saved_markdown = base64.b64decode(payload["content"]).decode("utf-8")
+        self.assertEqual(saved_markdown, "# Bereich\n- [x] Erster Test\n")
 
     @patch("meetings.guide_views._test_documentation_github_configured", return_value=True)
     @patch("meetings.guide_views._save_test_documentation_checkbox")
