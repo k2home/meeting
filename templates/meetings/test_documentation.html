@@ -55,6 +55,7 @@
 
   let revision = config.dataset.revision;
   let refreshing = false;
+  let pendingSaves = 0;
   const checkboxes = () => root.querySelectorAll(
     "input.test-checklist-box[data-checklist-line][data-checklist-occurrence]"
   );
@@ -69,7 +70,7 @@
     });
   };
   const refresh = async () => {
-    if (refreshing) return;
+    if (refreshing || pendingSaves > 0) return;
     refreshing = true;
     try {
       const response = await fetch(config.dataset.statusUrl, {
@@ -78,7 +79,7 @@
       });
       if (response.ok) {
         const data = await response.json();
-        if (data.revision !== revision) applyStatuses(data);
+        if (pendingSaves === 0 && data.revision !== revision) applyStatuses(data);
       }
     } catch (_) {
       status.textContent = "Live-Aktualisierung derzeit nicht erreichbar.";
@@ -90,6 +91,7 @@
   checkboxes().forEach((checkbox) => {
     checkbox.addEventListener("change", async () => {
       const desired = checkbox.checked;
+      pendingSaves += 1;
       const payload = {
         line: Number(checkbox.dataset.checklistLine),
         occurrence: Number(checkbox.dataset.checklistOccurrence),
@@ -132,6 +134,7 @@
         checkbox.checked = !desired;
         status.textContent = error.message || "Speichern fehlgeschlagen. Bitte erneut versuchen.";
       } finally {
+        pendingSaves = Math.max(0, pendingSaves - 1);
         checkbox.disabled = false;
       }
     });
