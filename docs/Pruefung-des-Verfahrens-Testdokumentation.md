@@ -4956,22 +4956,21 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 8.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-**Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+#### 8.3.7 Zugriff auf fachliche Inhalte einer nicht zugewiesenen Reihe prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
+
+**Berechtigungserwartung für Moderator: Zugriff auf eigene Reihe erlaubt, auf nicht zugewiesene Reihen verweigert.** Die Moderatorrolle gilt ausschließlich für die ausdrücklich zugewiesene Reihe.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem Moderator-Konto anmelden, das für Testreihe A als Moderator zugewiesen ist.
+- [ ] Sicherstellen, dass für Testreihe B keine Serienzuweisung besteht.
+- [ ] Einen Termin und ein Thema aus Testreihe A über die vorgesehenen Ansichten öffnen.
+- [ ] Die bekannten direkten URLs eines Termins und eines Themas aus Testreihe B aufrufen.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Inhalte und Termine aus Testreihe A sind entsprechend der Moderatorrolle erreichbar.
+- [ ] Die direkten URLs zu Terminen und Themen aus Testreihe B liefern keinen fachlichen Inhalt.
+- [ ] Es werden keine Daten oder Anlagen aus Testreihe B offengelegt.
+- [ ] Die Serienzuweisung und Inhalte beider Testreihen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 8.3.8 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -6057,22 +6056,21 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-#### 9.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+#### 9.3.7 Zugriff auf fachliche Inhalte ohne Serienzuweisung prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
+
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff auf administrative Serienverwaltung erlaubt, fachliche Reiheninhalte ohne Moderatorzuweisung verweigert.** Die globale Adminrolle verleiht keinen automatischen Zugriff auf bestehende Termine oder Themen.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für Testreihe A anmelden.
+- [ ] Die administrative Serienverwaltungsübersicht öffnen.
+- [ ] Einen Termin und ein Thema aus Testreihe A über deren bekannte direkte URLs aufrufen.
+- [ ] Keine fachlichen Änderungen vornehmen.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Die administrative Serienverwaltungsübersicht ist erreichbar.
+- [ ] Die direkten URLs zu Terminen und Themen aus Testreihe A liefern keinen fachlichen Inhalt.
+- [ ] Es werden keine Tagesordnungspunkte, Teilnehmerdaten oder Anlagen aus Testreihe A offengelegt.
+- [ ] Die globale Adminrolle allein gewährt keine fachliche Serienberechtigung.
 
 **Test erfolgreich:** [ ]
 #### 9.3.8 Globaler Admin mit Moderatorzuweisung in Testreihe A – Prüfrolle: globale Adminrolle + Moderator*in in Testreihe A
