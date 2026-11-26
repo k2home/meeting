@@ -1585,20 +1585,23 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
-**Berechtigungserwartung für Globale Rolle Nutzer + Moderator*in der geprüften Reihe: Zugriff erlaubt.** Ein normaler Nutzer darf offene Anträge nur für Reihen entscheiden, in denen er ausdrücklich Moderator ist.
+#### 4.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Nutzerrolle (Moderator*in der geprüften Reihe)
+
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt für Anträge der eigenen moderierten Reihe; Zugriff verweigert für fremde Reihen.**
 
 **Prüfschritt**
-- [ ] Mit einem Moderator-Konto mit Zuweisung zur betroffenen Reihe anmelden.
-- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für eine Testreihe vorbereiten.
-- [ ] Die Liste offener Anträge öffnen, den vorbereiteten Antrag auswählen und einmal genehmigen oder ablehnen.
-- [ ] Die Liste und den Berechtigungsstatus des antragstellenden Testkontos erneut laden.
+- [ ] Mit einem globalen Nutzerkonto anmelden, das für Testreihe A ausdrücklich als Moderator*in zugewiesen ist.
+- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für Testreihe A vorbereiten.
+- [ ] Den Antrag für Testreihe A öffnen und einmal genehmigen oder ablehnen.
+- [ ] Zusätzlich einen offenen Antrag für Testreihe B vorbereiten, für die keine Moderatorzuweisung besteht, und versuchen, diesen zu entscheiden.
+- [ ] Die Antragsliste und die Serienzuweisungen beider Testkonten neu laden.
 
 **Ergebnisprüfung**
-- [ ] Der Antrag wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
-- [ ] Die gespeicherte Entscheidung entspricht exakt der gewählten Genehmigung oder Ablehnung.
-- [ ] Bei Genehmigung erhält das Testkonto ausschließlich die genehmigte Serienrolle für die ausgewählte Reihe.
-- [ ] Bei Ablehnung entsteht keine Serienzuweisung; andere Anträge und Reihen bleiben unverändert.
+- [ ] Der Antrag für die eigene moderierte Testreihe A wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
+- [ ] Die gespeicherte Entscheidung für Testreihe A entspricht exakt der gewählten Genehmigung oder Ablehnung.
+- [ ] Der Antrag für die fremde Testreihe B kann nicht entschieden werden und bleibt unverändert offen.
+- [ ] Bei Genehmigung für Testreihe A erhält das Testkonto ausschließlich die genehmigte Serienrolle für diese Reihe.
+- [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 4.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Nutzerrolle ohne Serienzuweisung
@@ -5587,19 +5590,22 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 #### 8.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Berechtigungserwartung für Moderator: Zugriff erlaubt für Anträge der eigenen moderierten Reihe; Zugriff verweigert für fremde Reihen.**
 
 **Prüfschritt**
-- [ ] Mit einem Moderator-Konto mit Zuweisung zur betroffenen Reihe anmelden.
-- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für eine Testreihe vorbereiten.
-- [ ] Die Liste offener Anträge öffnen, den vorbereiteten Antrag auswählen und einmal genehmigen oder ablehnen.
-- [ ] Die Liste und den Berechtigungsstatus des antragstellenden Testkontos erneut laden.
+- [ ] Mit einem Moderator-Konto anmelden, das für Testreihe A ausdrücklich als Moderator*in zugewiesen ist.
+- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für Testreihe A vorbereiten.
+- [ ] Den Antrag für Testreihe A öffnen und einmal genehmigen oder ablehnen.
+- [ ] Zusätzlich einen offenen Antrag für Testreihe B vorbereiten, für die keine Moderatorzuweisung besteht, und versuchen, diesen zu entscheiden.
+- [ ] Die Antragsliste und die Serienzuweisungen beider Testkonten neu laden.
 
 **Ergebnisprüfung**
-- [ ] Der Antrag wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
-- [ ] Die gespeicherte Entscheidung entspricht exakt der gewählten Genehmigung oder Ablehnung.
-- [ ] Bei Genehmigung erhält das Testkonto ausschließlich die genehmigte Serienrolle für die ausgewählte Reihe.
-- [ ] Bei Ablehnung entsteht keine Serienzuweisung; andere Anträge und Reihen bleiben unverändert.
+- [ ] Der Antrag für die eigene moderierte Testreihe A wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
+- [ ] Die gespeicherte Entscheidung für Testreihe A entspricht exakt der gewählten Genehmigung oder Ablehnung.
+- [ ] Der Antrag für die fremde Testreihe B kann nicht entschieden werden und bleibt unverändert offen.
+- [ ] Bei Genehmigung für Testreihe A erhält das Testkonto ausschließlich die genehmigte Serienrolle für diese Reihe.
+- [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 8.10.3 Bereits vorhandenen Antrag für die eigene moderierte Reihe erneut bearbeiten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
