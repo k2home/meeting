@@ -899,7 +899,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 #### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Ergebnisprüfung**
 
@@ -912,6 +912,44 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 
 ---
+
+#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+
+**Ergebnisprüfung**
+
+- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
+- [ ] In Testreihe B wird der Zugriff verweigert.
+- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
+- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+- [ ] Ein Moderator-Konto für Testreihe A verwenden.
+- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- [ ] Testreihe A über die Serienverwaltung öffnen.
+- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Testreihe A kann verwaltet werden.
+- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
+- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 
 ### Termine und Besprechungsübersicht
 
@@ -1697,7 +1735,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 #### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Ergebnisprüfung**
 
@@ -1710,6 +1748,44 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Test erfolgreich:** [ ]
 
 ---
+
+#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+
+**Ergebnisprüfung**
+
+- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
+- [ ] In Testreihe B wird der Zugriff verweigert.
+- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
+- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Moderator-Konto für Testreihe A verwenden.
+- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- [ ] Testreihe A über die Serienverwaltung öffnen.
+- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Testreihe A kann verwaltet werden.
+- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
+- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 
 ### Termine und Besprechungsübersicht
 
@@ -2509,6 +2585,44 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
+#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+
+**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+
+**Ergebnisprüfung**
+
+- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
+- [ ] In Testreihe B wird der Zugriff verweigert.
+- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
+- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+
+**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Moderator-Konto für Testreihe A verwenden.
+- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- [ ] Testreihe A über die Serienverwaltung öffnen.
+- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Testreihe A kann verwaltet werden.
+- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
+- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
 ### Termine und Besprechungsübersicht
 
 #### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
@@ -3307,6 +3421,44 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
+#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+
+**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+
+**Ergebnisprüfung**
+
+- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
+- [ ] In Testreihe B wird der Zugriff verweigert.
+- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
+- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+
+**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Moderator-Konto für Testreihe A verwenden.
+- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- [ ] Testreihe A über die Serienverwaltung öffnen.
+- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Testreihe A kann verwaltet werden.
+- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
+- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
 ### Termine und Besprechungsübersicht
 
 #### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
@@ -4091,7 +4243,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 #### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
-**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Ergebnisprüfung**
 
@@ -4104,6 +4256,44 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 
 ---
+
+#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+
+**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+
+**Ergebnisprüfung**
+
+- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
+- [ ] In Testreihe B wird der Zugriff verweigert.
+- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
+- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+
+**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+- [ ] Ein Moderator-Konto für Testreihe A verwenden.
+- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- [ ] Testreihe A über die Serienverwaltung öffnen.
+- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Testreihe A kann verwaltet werden.
+- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
+- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 
 ### Termine und Besprechungsübersicht
 
@@ -4889,7 +5079,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 #### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Ergebnisprüfung**
 
@@ -4902,6 +5092,44 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 ---
+
+#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+
+**Ergebnisprüfung**
+
+- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
+- [ ] In Testreihe B wird der Zugriff verweigert.
+- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
+- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Moderator-Konto für Testreihe A verwenden.
+- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- [ ] Testreihe A über die Serienverwaltung öffnen.
+- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Testreihe A kann verwaltet werden.
+- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
+- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 
 ### Termine und Besprechungsübersicht
 
@@ -5700,6 +5928,44 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Test erfolgreich:** [ ]
 
 ---
+
+#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+
+**Ergebnisprüfung**
+
+- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
+- [ ] In Testreihe B wird der Zugriff verweigert.
+- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
+- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Moderator-Konto für Testreihe A verwenden.
+- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- [ ] Testreihe A über die Serienverwaltung öffnen.
+- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Testreihe A kann verwaltet werden.
+- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
+- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 
 ### Termine und Besprechungsübersicht
 
