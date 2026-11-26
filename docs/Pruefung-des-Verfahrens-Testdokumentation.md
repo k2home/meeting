@@ -9,7 +9,7 @@
 - Die Testfälle in einer geeigneten Testinstallation mit vorbereiteten Testkonten durchführen.
 - Testblöcke mit **PR-Test erforderlich** sind durch die Änderungen des aktuellen Pull Requests betroffen und müssen in diesem PR erneut ausgeführt werden.
 - Ein PR-Test-Marker ist kein Erfolgsnachweis. Die zugehörigen Kästchen bleiben bis zur tatsächlichen erfolgreichen Prüfung leer.
-- Für jeden Testfall die einzelnen Aktionen der Reihe nach ausführen und im aktivierten TESTING-Modus die Kästchen auf der Hilfeseite abhaken. Jeder Klick wird unmittelbar in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen Änderungen automatisch spätestens nach zwei Sekunden. Der vollständige Prüfstand kann über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell in GitHub hochgeladen oder in den gewünschten Branch übernommen werden. Außerhalb des TESTING-Modus ist die Checkliste schreibgeschützt. Die Speicherung erfolgt weder in einer Datenbank noch automatisch in GitHub. Mehrere Serverinstallationen führen unabhängige lokale Checklisten ohne Synchronisierung.
+- Für jeden Testfall die einzelnen Aktionen der Reihe nach ausführen und im aktivierten TESTING-Modus die Kästchen auf der Hilfeseite abhaken. Jeder Klick wird unmittelbar in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen Änderungen automatisch spätestens nach 15 Sekunden. Der vollständige Prüfstand kann über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell in GitHub hochgeladen oder in den gewünschten Branch übernommen werden. Außerhalb des TESTING-Modus ist die Checkliste schreibgeschützt. Die Speicherung erfolgt weder in einer Datenbank noch automatisch in GitHub. Mehrere Serverinstallationen führen unabhängige lokale Checklisten ohne Synchronisierung.
 - Am Ende jedes Testfalls den angezeigten Systemstand mit den erwarteten Ergebnissen vergleichen.
 - Den Erfolgs-Haken nur setzen, wenn alle Prüfpunkte erfüllt sind. Bei Abweichungen den Test nicht als erfolgreich markieren und die Abweichung separat dokumentieren.
 - Rollenprüfungen mit getrennten Konten durchführen. Eine globale Administratorrolle ersetzt keine Serienzuweisung und gewährt nicht automatisch Zugriff auf fachliche Reiheninhalte.
@@ -685,7 +685,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
 - [ ] Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
 - [ ] Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
-- [ ] Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach zwei Sekunden aktualisiert wird, ohne die Seite neu zu laden.
+- [ ] Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach 15 Sekunden aktualisiert wird, ohne die Seite neu zu laden.
 - [ ] In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
 - [ ] Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
 - [ ] **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
@@ -700,7 +700,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
 - [ ] Bearbeitung und Download sind ausschließlich im TESTING-Modus verfügbar.
 - [ ] Jeder Klick wird direkt in der lokalen Markdown-Datei auf dem Anwendungsserver gespeichert.
-- [ ] Andere Nutzer derselben Serverinstallation sehen Änderungen spätestens nach zwei Sekunden ohne Neuladen.
+- [ ] Andere Nutzer derselben Serverinstallation sehen Änderungen spätestens nach 15 Sekunden ohne Neuladen.
 - [ ] Gleichzeitige Änderungen überschreiben einander nicht unbemerkt.
 - [ ] Die Datei wird atomar geschrieben und bleibt auch bei parallelen Zugriffen vollständig lesbar.
 - [ ] Der Download enthält den vollständigen aktuellen Stand als `.md`-Datei.
