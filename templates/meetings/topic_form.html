@@ -132,8 +132,8 @@
     {% csrf_token %}
     <input type="hidden" name="save_topic_details" value="1">
     <dl class="topic-meta">
-     <div><dt><label for="{{ form.title.id_for_label }}">Titel</label></dt><dd>{{ form.title }}{{ form.title.errors }}</dd></div>
-     <div><dt><label for="{{ form.assigned_to.id_for_label }}">Zuständigkeit</label></dt><dd>{{ form.assigned_to }}{{ form.assigned_to.errors }}</dd></div>
+     <div><dt><label for="{{ form.title.id_for_label }}">Thementitel</label></dt><dd>{{ form.title }}{{ form.title.errors }}</dd></div>
+     <div><dt><label for="{{ form.assigned_to.id_for_label }}">Zuständigkeit</label></dt><dd>{{ form.assigned_to }}{{ form.assigned_to.errors }}<small class="muted">Die Hauptzuständigkeit gilt für das gesamte Thema.</small></dd></div>
      <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
      <div><dt>Status</dt><dd>
       {% if topic.status == "archived" %}{{ topic.get_status_display }}
