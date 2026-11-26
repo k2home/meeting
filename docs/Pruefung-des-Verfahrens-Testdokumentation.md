@@ -922,34 +922,15 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
 - [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Eine Moderatorzuweisung in einer anderen Reihe gewährt keine Rechte für die geprüfte Testreihe.
 - [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Testkonto gemäß seiner dortigen Moderatorrolle erreichbar.
 
 **Test erfolgreich:** [ ]
 
 ---
 
-#### 4.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
-
-- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
-- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
-- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
-- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
-- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
-
-**Ergebnisprüfung**
-
-- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
-- [ ] In Testreihe B wird der Zugriff verweigert.
-- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
-- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
-
-**Test erfolgreich:** [ ]
-
-#### 4.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.8 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff auf die eigene Reihe erlaubt, auf fremde Reihen verweigert.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
 
@@ -1705,7 +1686,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Leser*in zugewiesen ist.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
 - [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
 - [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
@@ -2639,7 +2620,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
 - [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
 - [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
@@ -3550,7 +3531,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Mit einem globalen Auditor-Konto anmelden.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
 - [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
 - [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
