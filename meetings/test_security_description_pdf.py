@@ -113,7 +113,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'data-save-url="' + reverse("test_documentation_toggle") + '"')
         self.assertContains(response, reverse("test_documentation_status"))
         self.assertContains(response, reverse("test_documentation_download"))
-        self.assertContains(response, "alle zwei Sekunden")
+        self.assertContains(response, "spätestens nach zwei Sekunden")
         self.assertNotContains(response, "localStorage")
 
     def test_user_guide_links_to_test_documentation(self):
