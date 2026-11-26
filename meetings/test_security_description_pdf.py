@@ -195,7 +195,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'querySelectorAll(\":scope > ul > li > ul > li > ul > li\")')
         self.assertContains(response, 'window.addEventListener("scroll", updateCurrentSection')
         self.assertContains(response, '.test-document-index .toc li.is-complete>a{background:#dcffdc')
-        self.assertContains(response, ':root[data-theme="dark"] .test-document-index .toc li.is-complete>a{background:hsl(120,80%,75%)}')
+        self.assertContains(response, ':root[data-theme="dark"] .test-document-index .toc li.is-complete>a{background:hsl(120,25%,24%)}')
         self.assertContains(response, 'const completionByCheckbox = new WeakMap()')
         self.assertContains(response, 'window.updateTestDocumentationCompletionForCheckbox = updateCompletionForCheckbox;')
         self.assertContains(response, 'setInterval(refresh, 15000)')
