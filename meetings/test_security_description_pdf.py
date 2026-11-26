@@ -178,6 +178,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe")
         self.assertContains(response, "17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe")
         self.assertContains(response, "20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen")
+        self.assertContains(response, "12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe")
         self.assertContains(response, "<p><strong>Test erfolgreich:</strong>")
         self.assertNotContains(response, "<h2><strong>Test erfolgreich:</strong>")
         self.assertContains(response, "document-content ul")
