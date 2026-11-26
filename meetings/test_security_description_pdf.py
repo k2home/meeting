@@ -62,3 +62,35 @@ class SecurityDescriptionPageTests(TestCase):
         self.assertContains(response, 'id="export-review-marks"')
         self.assertContains(response, "localStorage")
         self.assertContains(response, "Prüfmarkierungen")
+
+
+class TestDocumentationPageTests(TestCase):
+    def test_test_documentation_requires_authentication(self):
+        response = self.client.get(reverse("test_documentation"))
+        self.assertEqual(response.status_code, 302)
+
+    def test_authenticated_user_can_open_interactive_test_checklist(self):
+        user = get_user_model().objects.create_user(
+            username="test-documentation-reader", password="Strong-test-password-123!"
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("test_documentation"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Prüfung des Verfahrens")
+        self.assertContains(response, 'type="checkbox"')
+        self.assertContains(response, "Test erfolgreich")
+        self.assertContains(response, reverse("user_guide"))
+
+    def test_user_guide_links_to_test_documentation(self):
+        user = get_user_model().objects.create_user(
+            username="test-documentation-guide-reader", password="Strong-test-password-123!"
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("user_guide"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, reverse("test_documentation"))
+        self.assertContains(response, "Prüfung des Verfahrens – Testcheckliste")
