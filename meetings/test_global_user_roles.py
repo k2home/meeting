@@ -156,6 +156,22 @@ class GlobalUserRoleTests(TestCase):
         self.assertFalse(SeriesAccessRequest.objects.filter(user=auditor, series=self.series).exists())
         self.assertFalse(SeriesAccess.objects.filter(user=auditor, series=self.series).exists())
 
+        existing_request = SeriesAccessRequest.objects.create(
+            user=auditor, series=self.series, requested_role=SeriesAccess.ROLE_READER
+        )
+        repeated = self.client.post(reverse("user_overview"), {
+            "form_type": "access_request",
+            "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertEqual(repeated.status_code, 403)
+        existing_request.refresh_from_db()
+        self.assertEqual(existing_request.status, SeriesAccessRequest.STATUS_PENDING)
+        self.assertEqual(
+            SeriesAccessRequest.objects.filter(user=auditor, series=self.series).count(), 1
+        )
+        self.assertFalse(SeriesAccess.objects.filter(user=auditor, series=self.series).exists())
+
     def test_auditor_cannot_read_or_change_meetings_or_topics(self):
         auditor = User.objects.create_user(username="auditor", password="test-password")
         sync_user_role(auditor, "auditor")
