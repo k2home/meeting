@@ -69,6 +69,19 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
 5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
 
+
+**Git-versionierte Testcheckliste (optional)**
+
+Damit gesetzte Prüfhaken installationsübergreifend und ohne Datenbank gespeichert werden, kann die Testcheckliste direkt in einem GitHub-Branch versioniert werden. Dazu in der geschützten Installationsdatei `.env` diese Variablen setzen:
+
+```dotenv
+TEST_DOCUMENTATION_GITHUB_TOKEN=<GitHub-Token-mit-Contents-Read-und-Write>
+TEST_DOCUMENTATION_GITHUB_REPOSITORY=k2home/meeting
+TEST_DOCUMENTATION_GITHUB_BRANCH=beta
+```
+
+Der Token benötigt für das angegebene Repository ausschließlich die Repository-Berechtigung **Contents: Read and write**. Er wird nur serverseitig verwendet und darf nicht in Git eingecheckt oder an den Browser ausgeliefert werden. Alle Installationen, die denselben Repository-/Branch-Zielwert verwenden, lesen und ändern dieselbe Markdown-Datei. Jeder Klick erzeugt einen Commit der geänderten Checkbox in `docs/Pruefung-des-Verfahrens-Testdokumentation.md`; der Prüfstand wird dadurch mit Git gemergt und ist nach dem Deployment des gemergten Branches vorhanden. Ohne diese Konfiguration ist die Seite lesbar, aber schreibgeschützt. Für den produktiven Betrieb sollte ein dedizierter GitHub-App-Token oder ein eng begrenzter Fine-grained Personal Access Token verwendet werden.
+
 **Daten und Persistenz**
 
 - PostgreSQL-Daten liegen im benannten Volume `postgres_data`.
