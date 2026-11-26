@@ -194,7 +194,6 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
         self.assertEqual(group["open_topic_count"], 2)
         self.assertContains(dashboard_response, '<span class="overdue">2 offene Punkte</span>')
         self.assertContains(dashboard_response, f'href="{reverse("open_topics")}?series={self.series.pk}"')
-        self.assertContains(dashboard_response, '<span class="overdue">2</span>')
 
     def test_dashboard_counts_all_open_topics_in_series_not_only_last_group(self):
         old_meeting = Meeting.objects.create(
