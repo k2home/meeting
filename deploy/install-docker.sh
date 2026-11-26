@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+NO_CODE=0
+for arg in "$@"; do
+  if [[ "$arg" == "-nocode" ]]; then
+    NO_CODE=1
+  else
+    echo "Unbekannte Option: $arg (erlaubt: -nocode)" >&2
+    exit 2
+  fi
+done
+
 if [[ "${EUID}" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo bash deploy/install-docker.sh" >&2
   exit 1
@@ -85,8 +95,6 @@ USE_X_FORWARDED_HOST=1
 EOF
   chmod 600 "$APP_DIR/.env"
 else
-  # Remove the obsolete activation code from installations created by older versions.
-  sed -i '/^SETUP_TOKEN=/d' "$APP_DIR/.env"
   chown root:root "$APP_DIR/.env"
   chmod 600 "$APP_DIR/.env"
   if ! grep -q '^SECRET_KEY=.' "$APP_DIR/.env" || ! grep -q '^POSTGRES_PASSWORD=.' "$APP_DIR/.env"; then
@@ -94,6 +102,19 @@ else
     exit 1
   fi
   echo "Vorhandene .env wird beibehalten; Sicherheitsoptionen werden auf HTTPS-Betrieb gesetzt."
+fi
+
+if [[ "$NO_CODE" -eq 1 ]]; then
+  set_env_value "SETUP_TOKEN" ""
+  set_env_value "SETUP_TOKEN_REQUIRED" "0"
+  SETUP_TOKEN=""
+else
+  SETUP_TOKEN="$(read_existing_env SETUP_TOKEN)"
+  if [[ -z "$SETUP_TOKEN" ]]; then
+    SETUP_TOKEN="$(openssl rand -hex 32)"
+    set_env_value "SETUP_TOKEN" "$SETUP_TOKEN"
+  fi
+  set_env_value "SETUP_TOKEN_REQUIRED" "1"
 fi
 
 CURRENT_HOSTS="$(read_existing_env ALLOWED_HOSTS)"
@@ -132,3 +153,9 @@ echo "Status:     docker compose -f $COMPOSE_FILE ps"
 echo "Logs:       docker compose -f $COMPOSE_FILE logs -f app"
 echo "Secrets:    $APP_DIR/.env (nur root lesbar)"
 echo "HTTPS ist erzwungen: Ohne vorgeschalteten TLS-Reverse-Proxy mit gültigem Zertifikat ist die Anwendung nicht nutzbar."
+if [[ "$NO_CODE" -eq 1 ]]; then
+  echo "Ersteinrichtung: Aktivierungstoken deaktiviert (-nocode)."
+else
+  echo "AKTIVIERUNGSTOKEN FÜR DIE ERSTEINRICHTUNG: $SETUP_TOKEN"
+  echo "Bitte sicher notieren und nicht öffentlich weitergeben."
+fi

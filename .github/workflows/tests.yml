@@ -106,4 +106,8 @@ jobs:
               raise SystemExit("Conflicting Django migrations: " + details)
           PY
           python manage.py migrate --noinput
+          # Simulate the updater-managed testing installation: config.urls exposes
+          # Django admin routes only while this marker is present.
+          sudo mkdir -p /var/lib/meeting-manager-updater
+          sudo touch /var/lib/meeting-manager-updater/testing-mode
           python manage.py test meetings

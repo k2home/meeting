@@ -461,11 +461,16 @@ def import_topic_agenda_csv(request, allowed_series_ids=None):
                     topic.series_id = data["series_id"]
                     topic.title = data["title"]
                     if "status" in data and data["status"] is not None:
+                        previous_status = topic.status
                         topic.status = data["status"]
                         topic.archive_previous_status = (
                             data.get("archive_previous_status", "open")
                             if data["status"] == "archived" else ""
                         )
+                        if data["status"] == "archived" and previous_status != "archived":
+                            topic.archived_at = timezone.localdate()
+                        elif data["status"] != "archived" and previous_status == "archived":
+                            topic.archived_at = None
                     if "assigned_to_id" in data:
                         topic.assigned_to_id = data["assigned_to_id"]
                     topic.save()

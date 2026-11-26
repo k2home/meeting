@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily Meeting Manager retention cleanup
+
+[Timer]
+OnCalendar=*-*-* 03:17:00
+Persistent=true
+RandomizedDelaySec=10m
+Unit=meeting-manager-retention.service
+
+[Install]
+WantedBy=timers.target

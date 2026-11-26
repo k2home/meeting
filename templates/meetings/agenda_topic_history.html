@@ -4,8 +4,10 @@
   {% for entry in history_entries %}
     <article class="agenda-history-entry">
       <strong>{{ entry.series }}</strong> · {{ entry.date|date:"DATE_FORMAT" }}
+      {% if entry.meeting_deleted %}<span class="pill">Termin gelöscht</span>{% endif %}
       {% if entry.responsible %}<p><strong>Verantwortlich:</strong> {{ entry.responsible }}</p>{% endif %}
       <p>{{ entry.text|default:"Kein Protokolltext hinterlegt."|linebreaksbr }}</p>
+      {% if entry.meeting_deleted %}<p class="muted">Der zugehörige Besprechungstermin wurde nach Ablauf seiner Aufbewahrungsfrist gelöscht.</p>{% endif %}
     </article>
   {% endfor %}
 {% else %}

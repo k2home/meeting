@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from .models import Meeting, MeetingSeries, SeriesAccess, Topic, TopicTransferHistory, AgendaItem
+from .models import AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic, TopicTransferHistory, AgendaItem
 
 User = get_user_model()
 
@@ -283,8 +283,12 @@ class AuditHistoryTests(TestCase):
         self.assertContains(response, "Änderungsverlauf")
         self.assertNotContains(response, "enaio-Einstellungen")
 
+        from .models import UserProfile
+        UserProfile.objects.create(user=auditor, short_description="27/04")
         response = self.client.get(reverse("auditor_users"))
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Organisationskennzeichen")
+        self.assertContains(response, "27/04")
         self.assertContains(response, "Globale Rolle")
         self.assertNotContains(response, "Nutzer hinzufügen")
         self.assertNotContains(response, "Bearbeiten")
@@ -316,6 +320,27 @@ class AuditHistoryTests(TestCase):
         response = self.client.get(reverse("management_data"))
         self.assertEqual(response.status_code, 403)
 
+    def test_management_user_overview_displays_organization_label(self):
+        from .models import UserProfile
+
+        admin = User.objects.create_superuser(
+            username="overview-admin", email="overview-admin@example.com",
+            password="strong-test-password",
+        )
+        target = User.objects.create_user(
+            username="overview-target", email="overview-target@example.test",
+            password="strong-test-password",
+        )
+        UserProfile.objects.create(user=target, short_description="26/03")
+        self.client.force_login(admin)
+
+        response = self.client.get(reverse("management_users"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Organisationskennzeichen")
+        self.assertContains(response, "26/03")
+        self.assertContains(response, "overview-target@example.test")
+
     def test_admin_user_edit_audits_each_changed_field(self):
         admin = User.objects.create_superuser(
             username="editor-admin", email="editor-admin@example.com",
@@ -335,7 +360,7 @@ class AuditHistoryTests(TestCase):
         event = AuditEvent.objects.get(scope=AuditEvent.SCOPE_SYSTEM, summary__contains="target-account")
         self.assertEqual(event.changes["Vorname"], {"vorher": "Alt", "nachher": "Neu"})
         self.assertEqual(event.changes["E-Mail"], {"vorher": "old@example.test", "nachher": "new@example.test"})
-        self.assertEqual(event.changes["Kurzbeschreibung"], {"vorher": "", "nachher": "Team A"})
+        self.assertEqual(event.changes["Organisationskennzeichen"], {"vorher": "", "nachher": "Team A"})
         self.assertEqual(event.changes["Globale Rolle"]["nachher"], "Auditor")
 
     def test_admin_can_delete_user_and_deletion_is_audited(self):
@@ -362,6 +387,7 @@ class AuditHistoryTests(TestCase):
         target = User.objects.create_user(username="active-field-target", password="strong-test-password")
         self.client.force_login(admin)
         response = self.client.get(reverse("management_user_edit", args=[target.pk]))
+        self.assertContains(response, "Organisationskennzeichen")
         self.assertContains(response, '<select name="is_active"')
         self.assertContains(response, '<option value="true" selected>')
         response = self.client.post(reverse("management_user_edit", args=[target.pk]), {
@@ -424,7 +450,7 @@ class TopicTaskManagementTests(TestCase):
         from .models import AuditEvent
         event = AuditEvent.objects.get(topic=self.topic, action="agenda_edited")
         self.assertEqual(event.changes["Zuständigkeit"]["vorher"], None)
-        self.assertEqual(event.changes["Zuständigkeit"]["nachher"], str(self.owner.pk))
+        self.assertEqual(event.changes["Zuständigkeit"]["nachher"], "owner")
 
     def test_user_can_add_comment_and_comment_is_audited(self):
         self.client.force_login(self.member)
@@ -1440,7 +1466,7 @@ class AgendaItemDeletionTests(TestCase):
 
         topic_response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
         self.assertEqual(topic_response.status_code, 200)
-        self.assertContains(topic_response, "Punkt aus diesem Termin entfernen")
+        self.assertContains(topic_response, "Entfernen")
         self.assertContains(
             topic_response,
             reverse("agenda_item_delete", args=[self.meeting.pk, self.item.pk]),
@@ -1781,14 +1807,31 @@ class UserOverviewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'name="old_password" autofocus')
 
-    def test_series_role_and_request_share_one_column_with_hidden_submit_button(self):
+    def test_password_change_is_available_in_dialog_from_profile_card(self):
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<th>Berechtigung</th>", html=True)
-        self.assertNotContains(response, "<th>Deine Berechtigung</th>", html=True)
+        self.assertContains(response, 'id="open-password-dialog"')
+        self.assertContains(response, "Daten speichern")
+        self.assertNotContains(response, "Persönliche Daten speichern")
+        self.assertContains(response, '<dialog class="password-change-dialog" id="password-change-dialog"')
+        self.assertContains(response, 'name="form_type" value="password"')
+        self.assertContains(response, 'id="close-password-dialog"')
+        self.assertContains(response, 'passwordDialog?.showModal()')
+
+    def test_series_role_request_uses_single_list_with_balanced_rows(self):
+        response = self.client.get(reverse("user_overview"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="user-settings-grid"')
+        self.assertContains(response, "user-series-access-card")
+        self.assertContains(response, 'class="series-access-list"')
+        self.assertContains(response, 'class="series-access-row"')
+        self.assertContains(response, 'class="series-access-info"')
+        self.assertNotContains(response, 'class="series-access-details"')
         self.assertContains(response, 'id="role-%s"' % self.series.pk)
         self.assertContains(response, 'data-current-role="reader"')
         self.assertContains(response, '<button type="submit" hidden>Antrag senden</button>', html=True)
+        self.assertContains(response, ".series-access-list{display:grid;grid-template-columns:minmax(0,1fr)")
+        self.assertContains(response, ".series-access-row{display:grid;grid-template-columns:minmax(0,1fr)")
 
     def test_user_can_edit_own_profile(self):
         response = self.client.post(reverse("user_overview"), {
@@ -1914,6 +1957,165 @@ class SeriesAccessRequestTests(TestCase):
             summary="Besprechungsreihe „Antragsreihe“ gelöscht",
         ).exists())
 
+    def test_series_admin_shows_user_management_for_moderated_series(self):
+        self.client.force_login(self.moderator)
+        response = self.client.get(reverse("series_admin"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Benutzer verwalten")
+        self.assertContains(response, "Alle speichern")
+        self.assertContains(response, "Organisationskennzeichen")
+        self.assertContains(response, "Vorname")
+        self.assertContains(response, "Nachname")
+        self.assertContains(response, self.requester.username)
+        self.assertContains(response, 'value="reader"')
+        self.assertContains(response, 'value="participant"')
+        self.assertContains(response, 'value="moderator"')
+
+    def test_series_user_management_displays_organization_label_and_sorts_by_role(self):
+        from .models import UserProfile
+
+        participant_later = User.objects.create_user(
+            username="participant-later", password="strong-test-password"
+        )
+        participant_earlier = User.objects.create_user(
+            username="participant-earlier", password="strong-test-password"
+        )
+        unassigned = User.objects.create_user(
+            username="unassigned", password="strong-test-password"
+        )
+        SeriesAccess.objects.create(
+            user=self.requester, series=self.series, role=SeriesAccess.ROLE_READER
+        )
+        SeriesAccess.objects.create(
+            user=participant_later, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT
+        )
+        SeriesAccess.objects.create(
+            user=participant_earlier, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT
+        )
+        UserProfile.objects.create(user=self.moderator, short_description="28/01")
+        UserProfile.objects.create(user=participant_later, short_description="27/01")
+        UserProfile.objects.create(user=participant_earlier, short_description="26/03")
+        UserProfile.objects.create(user=self.requester, short_description="25/12")
+
+        self.client.force_login(self.moderator)
+        response = self.client.get(reverse("series_admin"))
+
+        self.assertEqual(response.status_code, 200)
+        rows = response.context["series"][0].user_management_rows
+        self.assertEqual(
+            [(row["role"], row["organization_label"], row["user"].username) for row in rows],
+            [
+                (SeriesAccess.ROLE_MODERATOR, "28/01", "series-moderator"),
+                (SeriesAccess.ROLE_PARTICIPANT, "26/03", "participant-earlier"),
+                (SeriesAccess.ROLE_PARTICIPANT, "27/01", "participant-later"),
+                (SeriesAccess.ROLE_READER, "25/12", "requester"),
+                (SeriesAccess.ROLE_NONE, "", "unassigned"),
+            ],
+        )
+        self.assertContains(response, "26/03")
+        self.assertContains(response, "participant-earlier")
+
+    def test_moderator_can_assign_and_remove_series_roles_for_other_users(self):
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertEqual(SeriesAccess.objects.get(user=self.requester, series=self.series).role, SeriesAccess.ROLE_READER)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_PARTICIPANT,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertEqual(SeriesAccess.objects.get(user=self.requester, series=self.series).role, SeriesAccess.ROLE_PARTICIPANT)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_NONE,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertFalse(SeriesAccess.objects.filter(user=self.requester, series=self.series).exists())
+
+    def test_moderator_can_save_multiple_series_roles_in_one_submission(self):
+        participant = User.objects.create_user(
+            username="bulk-participant", password="strong-test-password"
+        )
+        self.client.force_login(self.moderator)
+        response = self.client.post(
+            reverse("series_manage_user_access", args=[self.series.pk]),
+            {
+                f"role_{self.requester.pk}": SeriesAccess.ROLE_READER,
+                f"role_{participant.pk}": SeriesAccess.ROLE_PARTICIPANT,
+                f"role_{self.moderator.pk}": SeriesAccess.ROLE_NONE,
+            },
+        )
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertEqual(
+            SeriesAccess.objects.get(user=self.requester, series=self.series).role,
+            SeriesAccess.ROLE_READER,
+        )
+        self.assertEqual(
+            SeriesAccess.objects.get(user=participant, series=self.series).role,
+            SeriesAccess.ROLE_PARTICIPANT,
+        )
+        self.assertTrue(SeriesAccess.objects.filter(
+            user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR,
+        ).exists())
+        self.assertTrue(AuditEvent.objects.filter(
+            summary__contains="Serienberechtigung für",
+            series=self.series,
+            actor=self.moderator,
+        ).exists())
+
+    def test_invalid_bulk_series_role_does_not_commit_partial_changes(self):
+        SeriesAccess.objects.create(
+            user=self.requester, series=self.series, role=SeriesAccess.ROLE_READER
+        )
+        self.client.force_login(self.moderator)
+        response = self.client.post(
+            reverse("series_manage_user_access", args=[self.series.pk]),
+            {
+                f"role_{self.requester.pk}": SeriesAccess.ROLE_PARTICIPANT,
+                f"role_{self.moderator.pk}": "invalid-role",
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(
+            SeriesAccess.objects.get(user=self.requester, series=self.series).role,
+            SeriesAccess.ROLE_READER,
+        )
+
+    def test_moderator_cannot_change_or_remove_own_moderator_role(self):
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.moderator.pk, "role": SeriesAccess.ROLE_NONE,
+        })
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertTrue(SeriesAccess.objects.filter(
+            user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR,
+        ).exists())
+        response = self.client.post(reverse("user_overview"), {
+            "form_type": "access_request", "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertRedirects(response, reverse("user_overview"))
+        page = self.client.get(reverse("user_overview"))
+        self.assertContains(page, 'name="role"')
+        self.assertContains(page, "disabled")
+
+    def test_non_moderator_cannot_manage_series_users(self):
+        self.client.force_login(self.requester)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(SeriesAccess.objects.filter(user=self.requester, series=self.series).exists())
+
+    def test_moderator_cannot_manage_users_in_another_series(self):
+        self.client.force_login(self.moderator)
+        response = self.client.post(reverse("series_manage_user_access", args=[self.other_series.pk]), {
+            "user_id": self.requester.pk, "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(SeriesAccess.objects.filter(user=self.requester, series=self.other_series).exists())
+
     def test_user_sees_all_series_and_can_request_permission(self):
         self.client.force_login(self.requester)
         page = self.client.get(reverse("user_overview"))
@@ -1931,7 +2133,7 @@ class SeriesAccessRequestTests(TestCase):
             status=self.SeriesAccessRequest.STATUS_PENDING,
         ).exists())
 
-    def test_lower_role_request_is_automatically_approved_and_applied(self):
+    def test_moderator_cannot_self_demote_from_personal_settings(self):
         SeriesAccess.objects.create(
             user=self.requester, series=self.series, role=SeriesAccess.ROLE_MODERATOR
         )
@@ -1944,14 +2146,10 @@ class SeriesAccessRequestTests(TestCase):
 
         self.assertRedirects(response, reverse("user_overview"))
         access = SeriesAccess.objects.get(user=self.requester, series=self.series)
-        self.assertEqual(access.role, SeriesAccess.ROLE_READER)
-        access_request = self.SeriesAccessRequest.objects.get(
-            user=self.requester, series=self.series
-        )
-        self.assertEqual(access_request.status, self.SeriesAccessRequest.STATUS_APPROVED)
-        self.assertEqual(access_request.requested_role, SeriesAccess.ROLE_READER)
-        self.assertIsNotNone(access_request.decided_at)
-        self.assertIsNone(access_request.decided_by)
+        self.assertEqual(access.role, SeriesAccess.ROLE_MODERATOR)
+        self.assertFalse(self.SeriesAccessRequest.objects.filter(
+            user=self.requester, series=self.series,
+        ).exists())
 
     def test_only_one_pending_request_per_user_and_series(self):
         self.client.force_login(self.requester)
@@ -2202,6 +2400,26 @@ class OrganizationLogoDeliveryTests(TestCase):
                 self.assertEqual(response.status_code, 503)
                 self.assertIn("Organisationslogo", response.content.decode("utf-8"))
                 self.assertNotEqual(response.status_code, 500)
+
+    def test_protocol_page_offers_draggable_pdf_icon_next_to_download_button(self):
+        from datetime import date
+        from .models import Meeting, MeetingSeries
+
+        series = MeetingSeries.objects.create(name="Testreihe")
+        SeriesAccess.objects.create(user=self.admin, series=series, role=SeriesAccess.ROLE_MODERATOR)
+        meeting = Meeting.objects.create(series=series, date=date(2026, 11, 23))
+        self.client.force_login(self.admin)
+
+        response = self.client.get(reverse("protocol", args=[meeting.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'href="' + reverse("protocol_pdf", args=[meeting.pk]) + '"')
+        self.assertContains(response, 'draggable="true"')
+        self.assertContains(response, 'class="topic-pdf-icon"')
+        self.assertContains(response, "DownloadURL")
+        self.assertContains(response, "application/pdf:")
+        self.assertContains(response, 'href="' + reverse("protocol_pdf", args=[meeting.pk]) + '" download')
+        self.assertContains(response, "PDF herunterladen")
 
     def test_protocol_pdf_without_configured_logo_still_downloads(self):
         from datetime import date

@@ -67,15 +67,19 @@ class AgendaTextForm(forms.ModelForm):
 
 class AgendaItemCreateForm(forms.Form):
     title = forms.CharField(label="Neues Thema", max_length=240)
-    working_text = forms.CharField(
-        label="Text für dieses Protokoll", required=False,
-        widget=forms.Textarea(attrs={"rows": 4}),
+    primary_assigned_to = UserDisplayModelChoiceField(
+        queryset=get_user_model().objects.none(), required=False,
+        label="Hauptzuständigkeit für das Thema",
     )
-    assigned_to = UserDisplayModelChoiceField(queryset=get_user_model().objects.none(), required=False, label="Abweichend verantwortlich für diesen Tagesordnungspunkt")
+    assigned_to = UserDisplayModelChoiceField(
+        queryset=get_user_model().objects.none(), required=False,
+        label="Abweichend verantwortlich für diesen Tagesordnungspunkt",
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        active_users = get_user_model().objects.filter(is_active=True).order_by("username")
+        active_users = get_user_model().objects.filter(is_active=True).order_by("last_name", "first_name", "username")
+        self.fields["primary_assigned_to"].queryset = active_users
         self.fields["assigned_to"].queryset = active_users
 
 

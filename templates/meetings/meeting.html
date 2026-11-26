@@ -118,7 +118,7 @@
   {% if not is_reader and not meeting.finalized_at %}
     <form method="post" action="{% url 'finalize' meeting.id %}" data-confirm-message="Besprechung wirklich abschließen?">{% csrf_token %}<button class="meeting-menu-button secondary finish-button" type="submit">Besprechung abschließen</button></form>
   {% elif is_moderator %}
-    <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt, bleibt aber im Änderungsverlauf erhalten.">{% csrf_token %}<button class="meeting-menu-button" type="submit">Besprechung wieder öffnen</button></form>
+    <form method="post" action="{% url 'meeting_reopen' meeting.id %}" data-confirm-message="Besprechung vom {{ meeting.date|date:'DATE_FORMAT' }} wieder öffnen? Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt und zunächst im Änderungsverlauf dokumentiert; auch diese Kopie unterliegt der Aufbewahrungsfrist.">{% csrf_token %}<button class="meeting-menu-button" type="submit">Besprechung wieder öffnen</button></form>
   {% endif %}
   {% if not is_reader and not meeting.finalized_at %}<button class="meeting-menu-button" type="button" id="open-new-agenda-topic">+ Neu</button>{% endif %}
 </nav>
@@ -131,8 +131,8 @@
     <label for="new-topic-title">Thema</label>
     <input id="new-topic-title" name="title" maxlength="240" required autocomplete="off" placeholder="Thema eingeben …">
     <div id="topic-suggestions" class="topic-suggestions" role="status" aria-live="polite"><span class="muted">Gib mindestens zwei Zeichen ein, um vorhandene Themen zu finden.</span></div>
-    <label for="new-topic-text">Text für dieses Protokoll</label>
-    <textarea id="new-topic-text" name="working_text" rows="4"></textarea>
+    <label for="new-topic-primary-assignee">Hauptzuständigkeit für das Thema</label>
+    <select id="new-topic-primary-assignee" name="primary_assigned_to"><option value="">Keine Hauptzuständigkeit</option>{% for assignee in assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display_assignee }}</option>{% endfor %}</select>
     <label for="new-topic-assignee">Abweichend verantwortlich für diesen Tagesordnungspunkt</label>
     <select id="new-topic-assignee" name="assigned_to"><option value="">Nicht zugewiesen</option>{% for assignee in assignees %}<option value="{{ assignee.pk }}">{{ assignee|user_display }}</option>{% endfor %}</select>
     <div class="agenda-item-tools"><button type="submit">Thema anlegen und hinzufügen</button></div>
@@ -166,10 +166,10 @@
               {% csrf_token %}<input type="hidden" name="update_agenda_assignee" value="{{ item.id }}">
             </form>
             <select id="topic-assignee-{{ item.id }}" name="assigned_to" form="topic-assignee-form-{{ item.id }}" aria-label="Zuständigkeit für {{ item.topic.title }}" onchange="document.getElementById(&quot;topic-assignee-form-{{ item.id }}&quot;).requestSubmit()">
-              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Nicht zugewiesen</option>
-              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_context }}</option>{% endfor %}
+              <option value="" {% if not item.assigned_to_id %}selected{% endif %}>{% if item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_assignee }} (Hauptzuständigkeit){% else %}Keine Zuständigkeit{% endif %}</option>
+              {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display_assignee }}{% if item.topic.assigned_to_id == assignee.pk %} (Hauptzuständigkeit){% endif %}</option>{% endfor %}
             </select>
-            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_assignee }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
+            {% else %}{% if item.assigned_to %}{{ item.assigned_to|user_display_assignee }}{% elif item.topic.assigned_to %}{{ item.topic.assigned_to|user_display_assignee }}{% else %}Nicht zugewiesen{% endif %}{% endif %}
           </span>
         </h2>
       </div>

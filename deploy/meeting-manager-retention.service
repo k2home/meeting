@@ -1,0 +1,17 @@
+[Unit]
+Description=Meeting Manager retention cleanup
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=oneshot
+User=meetingapp
+Group=www-data
+WorkingDirectory=/opt/meeting-manager
+EnvironmentFile=/opt/meeting-manager/.env
+ExecStart=/opt/meeting-manager/.venv/bin/python /opt/meeting-manager/manage.py purge_expired_data
+UMask=0007
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/meeting-manager

@@ -38,7 +38,9 @@ class SeriesRolePermissionTests(TestCase):
 
         topic_response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
         self.assertEqual(topic_response.status_code, 200)
-        self.assertContains(topic_response, 'disabled')
+        self.assertNotContains(topic_response, 'name="save_topic_details"')
+        self.assertNotContains(topic_response, 'id="id_title"')
+        self.assertNotContains(topic_response, 'id="id_assigned_to"')
 
         denied_edit = self.client.post(reverse("topic_edit", args=[self.topic.pk]), {
             "title": "Manipuliert", "description": "", "status": "open",

@@ -8,86 +8,120 @@
   </div>
 </header>
 
-<section class="card">
+<div class="user-settings-grid">
+  <div class="user-settings-left-column">
+<section class="card user-settings-card user-profile-card">
   <h2>Persönliche Daten</h2>
   <p class="muted">Diese Angaben kannst du selbst ändern. Der Benutzername für die Anmeldung bleibt unverändert.</p>
-  <form method="post">
+  <form method="post" class="profile-settings-form">
     {% csrf_token %}
     <input type="hidden" name="form_type" value="profile">
     {{ profile_form.as_p }}
-    <button type="submit">Persönliche Daten speichern</button>
+    <div class="profile-settings-actions">
+      <button type="submit">Daten speichern</button>
+      <button class="secondary" type="button" id="open-password-dialog">Passwort ändern</button>
+    </div>
   </form>
+  <dialog class="password-change-dialog" id="password-change-dialog" aria-labelledby="password-dialog-title">
+    <div class="password-dialog-heading">
+      <h2 id="password-dialog-title">Passwort ändern</h2>
+      <button class="secondary" type="button" id="close-password-dialog" aria-label="Fenster schließen">Schließen</button>
+    </div>
+    <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="form_type" value="password">
+      {{ password_form.as_p }}
+      <div class="actions"><button type="submit">Neues Passwort speichern</button></div>
+    </form>
+  </dialog>
 </section>
 
-<section class="card">
+<section class="card user-settings-card user-display-card">
   <h2>Darstellung</h2>
   <p class="muted">Wähle, ob der Meeting Manager hell oder dunkel angezeigt werden soll. Die Einstellung wird in diesem Browser gespeichert.</p>
   <button class="theme-toggle secondary" type="button" id="theme-toggle" aria-pressed="false">☾ Dunkelmodus</button>
 </section>
+  </div>
 
-<section class="card">
+<section class="card user-settings-card user-series-access-card">
   <h2>Meine Besprechungsreihen und Berechtigungen</h2>
   <p class="muted">Hier siehst du alle Besprechungsreihen. Wähle bei Bedarf eine andere Berechtigung aus und sende anschließend den Antrag.</p>
   {% if is_admin_user %}
     <p>Die globale Adminberechtigung erweitert deine Serienrechte nicht. Zugriff auf Inhalte erhältst du nur über eine ausdrückliche Zuordnung zur jeweiligen Besprechungsreihe.</p>
   {% endif %}
   {% if series_rows %}
-    <table>
-      <thead><tr><th>Besprechungsreihe</th><th>Berechtigung</th></tr></thead>
-      <tbody>
+    <div class="series-access-list">
       {% for row in series_rows %}
-        <tr>
-          <td>{{ row.series.name }}</td>
-          <td>
-            <strong>{{ row.role_label }}</strong>
-            {% if row.pending_request %}
-              <div class="muted" style="margin-top:.25rem">
-                Antrag offen: {{ row.pending_request.get_requested_role_display }}
-              </div>
-            {% else %}
-              {% if row.latest_request %}
-                <div class="muted" style="margin-top:.25rem">
-                  Letzter Antrag: {{ row.latest_request.get_status_display }}
-                  {% if row.latest_request.decision_note %}<div>{{ row.latest_request.decision_note }}</div>{% endif %}
-                </div>
+        <article class="series-access-row">
+          <div class="series-access-info">
+            <div class="series-access-name">{{ row.series.name }}</div>
+            <div class="series-access-current">
+              <strong>{{ row.role_label }}</strong>
+              {% if row.pending_request %}
+                <span class="muted">Antrag offen: {{ row.pending_request.get_requested_role_display }}</span>
               {% endif %}
-              {% if row.can_request %}
-                <form method="post" class="series-role-request" style="margin-top:.5rem">
-                  {% csrf_token %}
-                  <input type="hidden" name="form_type" value="access_request">
-                  <input type="hidden" name="series_id" value="{{ row.series.pk }}">
-                  <label for="role-{{ row.series.pk }}">Berechtigung ändern</label>
-                  <select id="role-{{ row.series.pk }}" name="role" data-current-role="{{ row.role_value }}">
-                    {% if not row.role_value %}<option value="" selected>Bitte auswählen</option>{% endif %}
-                    {% for value,label in request_role_choices %}
-                      <option value="{{ value }}" {% if value == row.role_value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                  </select>
-                  <button type="submit" hidden>Antrag senden</button>
-                </form>
-              {% endif %}
-            {% endif %}
-          </td>
-        </tr>
+            </div>
+          </div>
+          {% if row.can_request %}
+            <form method="post" class="series-role-request">
+              {% csrf_token %}
+              <input type="hidden" name="form_type" value="access_request">
+              <input type="hidden" name="series_id" value="{{ row.series.pk }}">
+              <label for="role-{{ row.series.pk }}">Berechtigung ändern</label>
+              <select id="role-{{ row.series.pk }}" name="role" data-current-role="{{ row.role_value }}" {% if row.role_locked %}disabled{% endif %}>
+                {% if not row.role_value %}<option value="" selected>Bitte auswählen</option>{% endif %}
+                {% for value,label in request_role_choices %}
+                  <option value="{{ value }}" {% if value == row.role_value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit" hidden>Antrag senden</button>
+            </form>
+          {% endif %}
+        </article>
       {% endfor %}
-      </tbody>
-    </table>
+    </div>
   {% else %}
     <p>Es sind derzeit keine Besprechungsreihen vorhanden.</p>
   {% endif %}
 </section>
 
-<section class="card">
-  <h2>Passwort ändern</h2>
-  <p class="muted">Zur Sicherheit musst du dein bisheriges Passwort eingeben.</p>
-  <form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="form_type" value="password">
-    {{ password_form.as_p }}
-    <button type="submit">Passwort ändern</button>
-  </form>
-</section>
+
+</div>
+<style>
+.user-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}
+.user-settings-left-column{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;align-content:start;min-width:0}
+.user-settings-card{min-width:0;margin:0}
+.user-series-access-card{grid-column:2;grid-row:1;align-self:start}
+.profile-settings-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.password-change-dialog{width:min(34rem,calc(100% - 2rem));max-width:34rem;max-height:calc(100% - 2rem);overflow:auto;padding:1.25rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 1rem 3rem #0004}
+.password-change-dialog::backdrop{background:#0008}
+.password-dialog-heading{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.password-dialog-heading h2{margin:0}
+.password-change-dialog form p{display:flex;flex-direction:column;gap:.35rem}
+.password-change-dialog input{max-width:100%;width:100%;box-sizing:border-box}
+.series-access-list{display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem;margin-top:.85rem}
+.series-access-row{display:grid;grid-template-columns:minmax(0,1fr);gap:.75rem;align-items:start;padding:.85rem 1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.series-access-info{min-width:0}
+.series-access-name{font-weight:650;overflow-wrap:anywhere}
+.series-access-current{min-width:0;margin-top:.25rem}
+.series-access-current strong{display:block}
+.series-access-current .muted{display:block;margin-top:.2rem}
+.series-role-request{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;align-items:start;margin:0}
+.series-role-request label{font-size:.9rem;font-weight:600}
+.series-role-request select{width:100%;min-width:0}
+.series-role-request button{justify-self:start;white-space:nowrap}
+@media(max-width:760px){.user-settings-grid{grid-template-columns:minmax(0,1fr)}.user-series-access-card{grid-column:1;grid-row:auto}}
+</style>
 <script>
+  const passwordDialog = document.getElementById("password-change-dialog");
+  document.getElementById("open-password-dialog")?.addEventListener("click", () => passwordDialog?.showModal());
+  document.getElementById("close-password-dialog")?.addEventListener("click", () => passwordDialog?.close());
+  passwordDialog?.addEventListener("click", (event) => {
+    if (event.target === passwordDialog) passwordDialog.close();
+  });
+  {% if password_form.errors %}passwordDialog?.showModal();{% endif %}
+
   document.querySelectorAll(".series-role-request select").forEach((select) => {
     const button = select.form.querySelector('button[type="submit"]');
     const updateButton = () => {

@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+NO_CODE=0
+for arg in "$@"; do
+  if [[ "$arg" == "-nocode" ]]; then
+    NO_CODE=1
+  else
+    echo "Unbekannte Option: $arg (erlaubt: -nocode)" >&2
+    exit 2
+  fi
+done
+
 if [[ "${EUID}" -ne 0 ]]; then
   echo "Bitte mit sudo ausführen: sudo bash deploy/install-debian.sh" >&2
   exit 1
@@ -122,13 +132,24 @@ USE_X_FORWARDED_HOST=1
 TRUSTED_PROXY=$TRUSTED_PROXY
 EOF
 else
-  # Remove the obsolete activation code from installations created by older versions.
-  sed -i '/^SETUP_TOKEN=/d' "$APP_DIR/.env"
   # Keep reverse-proxy, HTTPS and other local settings intact on existing systems.
   CURRENT_HOSTS="$(read_existing_env ALLOWED_HOSTS)"
   if [[ -n "$CURRENT_HOSTS" && ",$CURRENT_HOSTS," != *",$SITE_HOST,"* ]]; then
     sed -i "s/^ALLOWED_HOSTS=.*/ALLOWED_HOSTS=$CURRENT_HOSTS,$SITE_HOST/" "$APP_DIR/.env"
   fi
+fi
+
+if [[ "$NO_CODE" -eq 1 ]]; then
+  set_env_value "SETUP_TOKEN" ""
+  set_env_value "SETUP_TOKEN_REQUIRED" "0"
+  SETUP_TOKEN=""
+else
+  SETUP_TOKEN="$(read_existing_env SETUP_TOKEN)"
+  if [[ -z "$SETUP_TOKEN" ]]; then
+    SETUP_TOKEN="$(openssl rand -hex 32)"
+    set_env_value "SETUP_TOKEN" "$SETUP_TOKEN"
+  fi
+  set_env_value "SETUP_TOKEN_REQUIRED" "1"
 fi
 
 # Productive installs always require HTTPS at the trusted reverse proxy.
@@ -156,6 +177,8 @@ find "$APP_DIR/staticfiles" -type f -exec chmod 640 {} +
 
 echo "==> Installiere systemd- und Nginx-Konfiguration"
 install -m 0644 "$APP_DIR/deploy/meeting-manager.service" /etc/systemd/system/meeting-manager.service
+install -m 0644 "$APP_DIR/deploy/meeting-manager-retention.service" /etc/systemd/system/meeting-manager-retention.service
+install -m 0644 "$APP_DIR/deploy/meeting-manager-retention.timer" /etc/systemd/system/meeting-manager-retention.timer
 bash "$APP_DIR/deploy/install-debian-updater.sh"
 NGINX_CONFIG="/etc/nginx/sites-available/meeting-manager"
 install -m 0644 "$APP_DIR/deploy/nginx-meeting-manager.conf" "$NGINX_CONFIG"
@@ -166,6 +189,7 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl daemon-reload
 systemctl enable --now meeting-manager
+systemctl enable --now meeting-manager-retention.timer
 systemctl enable --now nginx
 systemctl reload nginx
 
@@ -181,4 +205,10 @@ echo
 echo "Die technischen Zugangsdaten wurden automatisch erzeugt und in $APP_DIR/.env gespeichert."
 echo "WICHTIG: .env enthält Secrets und ist nur für root und www-data lesbar. Nicht einchecken oder weitergeben."
 echo "HTTPS ist erzwungen: Ohne vorgeschalteten TLS-Reverse-Proxy mit gültigem Zertifikat ist die Anwendung nicht nutzbar."
+if [[ "$NO_CODE" -eq 1 ]]; then
+  echo "Ersteinrichtung: Aktivierungstoken deaktiviert (-nocode)."
+else
+  echo "AKTIVIERUNGSTOKEN FÜR DIE ERSTEINRICHTUNG: $SETUP_TOKEN"
+  echo "Bitte sicher notieren und nicht öffentlich weitergeben."
+fi
 echo "Django vertraut X-Forwarded-Proto ausschließlich über Nginx-Zugriffe von $TRUSTED_PROXY."

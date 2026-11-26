@@ -46,7 +46,7 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<div class="topic-main">')
         self.assertNotContains(response, '<main class="topic-main">')
-        self.assertContains(response, '.topic-layout>.topic-main{margin:0;padding:0;width:auto}')
+        self.assertContains(response, '.topic-layout>.topic-main{margin:0;padding:0;width:auto;grid-column:1;grid-row:1}')
 
     def test_sidebar_navigation_groups_have_requested_order_and_separation(self):
         from pathlib import Path
@@ -72,7 +72,8 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, f"Thema #{self.topic.pk}")
         self.assertNotContains(response, '<label for="id_title">Titel</label>')
-        self.assertContains(response, "<h2>Thema</h2>")
+        self.assertContains(response, "<h2>Besprechungen und Tagesordnungstexte</h2>")
+        self.assertNotContains(response, "<h2>Thema</h2>")
         self.assertContains(response, '<label for="id_title">Thementitel</label>')
         self.assertContains(response, self.topic.title)
 
@@ -117,6 +118,71 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(item.assigned_to, self.user)
         self.assertNotIn("description", {field.name for field in Topic._meta.get_fields()})
 
+    def test_open_agenda_item_responsibility_can_be_changed_without_changing_text(self):
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
+        other_user = User.objects.create_user(username="agenda-assignee", password="strong-test-password")
+        item = AgendaItem.objects.create(meeting=meeting, topic=self.topic, working_text="Unveränderter Text")
+        response = self.client.post(
+            reverse("topic_agenda_edit", args=[self.topic.pk, item.pk]),
+            {"assigned_to": str(other_user.pk)},
+        )
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        item.refresh_from_db()
+        self.assertEqual(item.assigned_to, other_user)
+        self.assertEqual(item.working_text, "Unveränderter Text")
+
+    def test_finalized_agenda_item_responsibility_is_read_only(self):
+        meeting = Meeting.objects.create(
+            series=self.series, date="2026-11-10", finalized_at="2026-11-10T10:00:00Z"
+        )
+        item = AgendaItem.objects.create(meeting=meeting, topic=self.topic, assigned_to=self.user)
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, f'id="assigned-to-{item.pk}"')
+        self.assertContains(response, "Protokoll abgeschlossen")
+        denied = self.client.post(
+            reverse("topic_agenda_edit", args=[self.topic.pk, item.pk]),
+            {"assigned_to": ""},
+        )
+        self.assertEqual(denied.status_code, 403)
+
+    def test_topic_status_dropdown_updates_the_entire_topic_and_audit_log(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name="status"')
+        self.assertContains(response, "In Bearbeitung")
+
+        response = self.client.post(
+            reverse("topic_edit", args=[self.topic.pk]),
+            {"update_topic_status": "1", "status": "in_progress"},
+        )
+
+        self.assertRedirects(response, reverse("topic_edit", args=[self.topic.pk]))
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "in_progress")
+        event = AuditEvent.objects.get(topic=self.topic, action="updated")
+        self.assertEqual(event.changes["Themenstatus"]["vorher"], "Offen")
+        self.assertEqual(event.changes["Themenstatus"]["nachher"], "In Arbeit")
+
+    def test_reader_cannot_change_topic_wide_status(self):
+        SeriesAccess.objects.filter(user=self.user, series=self.series).update(role=SeriesAccess.ROLE_READER)
+        response = self.client.post(
+            reverse("topic_edit", args=[self.topic.pk]),
+            {"update_topic_status": "1", "status": "done"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.status, "open")
+
+    def test_archived_topic_does_not_offer_active_status_dropdown(self):
+        self.topic.status = "archived"
+        self.topic.archive_previous_status = "open"
+        self.topic.save(update_fields=["status", "archive_previous_status"])
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Archiviert")
+        self.assertNotContains(response, 'name="status"')
+
     def test_dashboard_search_finds_agenda_text(self):
         meeting = Meeting.objects.create(series=self.series, date="2026-12-15")
         AgendaItem.objects.create(
@@ -147,3 +213,37 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertNotContains(response, "Aktueller Stand")
         self.assertNotContains(response, "Beschreibung / Arbeitsauftrag")
         self.assertNotContains(response, "Status")
+
+    def test_topic_sidebar_offers_pdf_protocol_between_information_and_attachments(self):
+        response = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        information = content.index("<h2>Informationen</h2>")
+        pdf_tile = content.index("<h2>PDF-Protokoll</h2>")
+        attachments = content.index("<h2>Dateien und Anlagen</h2>")
+        self.assertLess(information, pdf_tile)
+        self.assertLess(pdf_tile, attachments)
+        self.assertContains(response, reverse("topic_protocol_pdf", args=[self.topic.pk]))
+        self.assertContains(response, "Themenprotokoll herunterladen")
+        self.assertContains(response, 'class="topic-pdf-icon"')
+        self.assertContains(response, 'draggable="true"')
+        self.assertContains(response, "DownloadURL")
+        self.assertContains(response, "application/pdf:")
+        self.assertContains(response, 'href="' + reverse("topic_protocol_pdf", args=[self.topic.pk]) + '" download')
+        self.assertContains(response, "PDF herunterladen")
+
+    def test_topic_protocol_pdf_download_returns_a_pdf_attachment(self):
+        meeting = Meeting.objects.create(series=self.series, date="2026-12-08")
+        AgendaItem.objects.create(
+            meeting=meeting, topic=self.topic, working_text="Wichtiger Besprechungstext"
+        )
+        response = self.client.get(reverse("topic_protocol_pdf", args=[self.topic.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/pdf")
+        self.assertIn("attachment;", response["Content-Disposition"])
+        from django.utils import timezone
+        expected_filename = f"{timezone.localdate():%Y%m%d}-{self.topic.title}.pdf"
+        self.assertIn(expected_filename, response["Content-Disposition"])
+        page = self.client.get(reverse("topic_edit", args=[self.topic.pk]))
+        self.assertContains(page, f'data-drag-filename="{expected_filename}"')
+        self.assertTrue(response.content.startswith(b"%PDF"))

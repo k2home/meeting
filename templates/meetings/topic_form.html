@@ -3,13 +3,26 @@
 {% block content %}
 <style>
 .topic-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:1.2rem;align-items:start}
-.topic-main,.topic-side{min-width:0}.topic-layout>.topic-main{margin:0;padding:0;width:auto}.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
+.topic-main,.topic-side{min-width:0}.topic-layout>.topic-main{margin:0;padding:0;width:auto;grid-column:1;grid-row:1}.topic-side{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:1.2rem}.topic-side>.card{margin:0}.topic-hero{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap}
 .topic-meeting{padding:1rem 0;border-bottom:1px solid var(--border,#ddd)}
 .topic-meeting:last-child{border:0}.topic-meeting textarea{min-height:120px}
 .topic-meeting-actions{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.topic-compact-actions{gap:.4rem;margin-top:.55rem}
+.topic-compact-actions form{display:inline-flex;margin:0}
+.topic-compact-actions .btn,.topic-compact-actions button{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;font-size:.82rem;padding:.35rem .6rem;min-height:2rem;line-height:1.2;vertical-align:middle}
+.topic-compact-actions .topic-remove-button{background:#dc2626!important;border-color:#dc2626!important;color:#fff!important}
+.topic-compact-actions .topic-remove-button:hover{background:#b91c1c!important;border-color:#b91c1c!important}
+.topic-archive-button{background:#dc2626!important;border-color:#dc2626!important;color:#fff!important}.topic-archive-button:hover{background:#b91c1c!important;border-color:#b91c1c!important}
+
+.topic-responsibility{display:flex;align-items:center;gap:.5rem;margin:.45rem 0 .7rem}
+.topic-responsibility form{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.topic-responsibility label{font-size:.8rem;color:var(--muted,#667085);white-space:nowrap}
+.topic-responsibility select{max-width:min(100%,22rem);padding:.35rem .55rem;font-size:.88rem}
 .topic-meta{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}
-@media(max-width:800px){.topic-layout{grid-template-columns:1fr}}
+.topic-meta dt{font-size:.82rem;color:var(--muted,#667085)}.topic-meta dd{margin:.2rem 0 0;font-weight:600}.topic-meta>div:nth-child(-n+2){grid-column:1/-1}.topic-meta input,.topic-meta select{width:100%;max-width:100%;box-sizing:border-box;padding:.4rem .5rem;font-size:.9rem}
+.topic-info-actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:1rem}.topic-info-actions form{display:inline-flex;margin:0}
+@media(max-width:800px){.topic-layout{grid-template-columns:1fr}.topic-side{display:contents}.topic-layout>.topic-main{grid-column:1;grid-row:auto;order:2}.topic-side>.topic-info-card{grid-column:1;grid-row:auto;order:1}.topic-side>.card:not(.topic-info-card){grid-column:1;order:3}}
+.topic-pdf-link{display:inline-flex;align-items:center;gap:.6rem}.topic-pdf-drag{display:inline-flex;text-decoration:none;cursor:grab}.topic-pdf-drag:active{cursor:grabbing}.topic-pdf-icon{display:inline-flex;align-items:center;justify-content:center;width:2.35rem;height:2.65rem;border:1px solid #d92d20;border-radius:5px;color:#b42318;background:#fff;font-size:.7rem;font-weight:800;letter-spacing:.02em;flex:0 0 auto}
 </style>
 <header class="page-header">
   <div><h1>{% if topic %}{{ topic.title }}{% else %}Neues Thema anlegen{% endif %}</h1></div>
@@ -33,78 +46,143 @@
 <div class="topic-layout">
  <div class="topic-main">
   <section class="card">
-   <h2>Thema</h2>
-   {% if is_reader %}
-     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
-     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
-   {% else %}<form method="post">{% csrf_token %}
-     {{ form.title.errors }}
-     <label for="{{ form.title.id_for_label }}">Thementitel</label>{{ form.title }}
-     {{ form.assigned_to.errors }}
-     <label for="{{ form.assigned_to.id_for_label }}">Hauptzuständigkeit</label>{{ form.assigned_to }}
-     <p class="muted">Die Hauptzuständigkeit gilt für das gesamte Thema. Abweichende Zuständigkeiten einzelner Tagesordnungspunkte bleiben davon unberührt.</p>
-     <button type="submit">Thema speichern</button>
-   </form>{% endif %}
-  </section>
-  <section class="card">
    <h2>Besprechungen und Tagesordnungstexte</h2>
-   <p class="muted">Jeder Text gehört zu genau dem Besprechungstermin, in dem er bearbeitet wurde. Abgeschlossene Protokolle bleiben unverändert erhalten.</p>
    {% for item in topic_agenda_items %}
     <article class="topic-meeting">
      <div class="topline">
       <strong>{{ item.meeting.series.name|default:"Besprechung" }} · {{ item.meeting.date|date:"DATE_FORMAT" }}</strong>
       {% if item.meeting.finalized_at %}<span class="pill">Protokoll abgeschlossen</span>{% else %}<span class="pill">In Bearbeitung</span>{% endif %}
+      {% if item.protocol_deletion_date %}<span class="muted">Protokoll-Löschung am {{ item.protocol_deletion_date|date:"DATE_FORMAT" }}</span>{% endif %}
      </div>
      {% if item.meeting.finalized_at %}
        {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein Text hinterlegt.</p>{% endif %}
-       <p><a href="{% url 'protocol' item.meeting_id %}">Gesichertes Besprechungsprotokoll öffnen</a></p>
+       <div class="topic-meeting-actions topic-compact-actions"><a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll</a></div>
      {% elif is_reader %}
        {% if item.display_text %}<p>{{ item.display_text|linebreaksbr }}</p>{% else %}<p class="muted">Noch kein Text hinterlegt.</p>{% endif %}
        <p><a href="{% url 'protocol' item.meeting_id %}">Besprechungsprotokoll öffnen</a></p>
      {% else %}
-       <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
+       <div class="topic-responsibility">
+        <form method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
+         {% csrf_token %}
+         <label for="assigned-to-{{ item.pk }}">Zuständig</label>
+         <select id="assigned-to-{{ item.pk }}" name="assigned_to" aria-label="Zuständigkeit für diesen Tagesordnungspunkt" onchange="this.form.requestSubmit()">
+          <option value="" {% if not item.assigned_to_id %}selected{% endif %}>Wie Hauptzuständigkeit{% if topic.assigned_to %}: {{ topic.assigned_to|user_display }}{% endif %}</option>
+          {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
+         </select>
+        </form>
+       </div>
+       <form id="topic-text-form-{{ item.pk }}" method="post" action="{% url 'topic_agenda_edit' topic.pk item.pk %}">
         {% csrf_token %}
         <label for="working-text-{{ item.pk }}">Text für diese Besprechung</label>
         <textarea id="working-text-{{ item.pk }}" name="working_text" rows="6">{{ item.working_text }}</textarea>
-        <label for="assigned-to-{{ item.pk }}">Verantwortlich für diesen Tagesordnungspunkt</label>
-        <select id="assigned-to-{{ item.pk }}" name="assigned_to">
-          <option value="">Nicht abweichend zugewiesen</option>
-          {% for assignee in assignees %}<option value="{{ assignee.pk }}" {% if item.assigned_to_id == assignee.pk %}selected{% endif %}>{{ assignee|user_display }}</option>{% endfor %}
-        </select>
-        <div class="topic-meeting-actions">
-          <button type="submit">Besprechungstext speichern</button>
-        </div>
        </form>
-       <div class="topic-meeting-actions">
-        <a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Zur Tagesordnung</a>
-        <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll ansehen</a>
+       <div class="topic-meeting-actions topic-compact-actions">
+        <button type="submit" form="topic-text-form-{{ item.pk }}">Speichern</button>
+        <a class="btn secondary" href="{% url 'meeting' item.meeting_id %}">Tagesordnung</a>
+        <a class="btn secondary" href="{% url 'protocol' item.meeting_id %}">Protokoll</a>
         <form method="post" action="{% url 'agenda_item_delete' item.meeting_id item.pk %}" data-confirm-message="„{{ topic.title }}“ nur aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen? Das Thema und andere Termine bleiben erhalten.">
           {% csrf_token %}
-          <button type="submit" class="secondary" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen">Punkt aus diesem Termin entfernen</button>
+          <button type="submit" class="topic-remove-button" aria-label="Thema {{ topic.title }} aus dem Besprechungstermin am {{ item.meeting.date|date:'DATE_FORMAT' }} entfernen">Entfernen</button>
         </form>
        </div>
      {% endif %}
     </article>
-   {% empty %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endfor %}
+   {% empty %}{% if not retained_agenda_entries %}<p class="muted">Dieses Thema ist noch keinem Besprechungstermin zugeordnet.</p>{% endif %}{% endfor %}
+   {% for entry in retained_agenda_entries %}
+    <article class="topic-meeting" id="retained-agenda-{{ entry.pk }}">
+     <div class="topline">
+      <strong>{{ entry.series_name|default:"Besprechung" }} · {{ entry.meeting_date|date:"DATE_FORMAT" }}</strong>
+      <span class="pill">Termin gelöscht</span>
+     </div>
+     {% if is_reader or topic.status == "archived" %}
+      {% if entry.working_text %}<p>{{ entry.working_text|linebreaksbr }}</p>{% else %}<p class="muted">Kein Tagesordnungstext hinterlegt.</p>{% endif %}
+     {% else %}
+      <form method="post" action="{% url 'topic_edit' topic.pk %}">
+       {% csrf_token %}
+       <input type="hidden" name="save_retained_agenda_entry" value="{{ entry.pk }}">
+       <label for="retained-working-text-{{ entry.pk }}">Erhaltener Tagesordnungstext</label>
+       <textarea id="retained-working-text-{{ entry.pk }}" name="working_text" rows="5">{{ entry.working_text }}</textarea>
+       <button type="submit">Speichern</button>
+      </form>
+     {% endif %}
+     <p class="muted">Der zugehörige Besprechungstermin wurde nach Ablauf seiner Aufbewahrungsfrist gelöscht. Der Protokoll-Snapshot wurde gemäß der globalen Aufbewahrungsfrist gelöscht.</p>
+     <div class="topic-meeting-actions topic-compact-actions">
+      <a class="btn secondary" href="{% url 'retained_agenda_entry' topic.pk entry.pk %}">Tagesordnung</a>
+      <a class="btn secondary" href="{% url 'retained_agenda_entry' topic.pk entry.pk %}?view=protocol">Protokoll</a>
+     </div>
+    </article>
+   {% endfor %}
   </section>
  </div>
  <aside class="topic-side">
-  <section class="card"><h2>Informationen</h2>
+  <section class="card topic-info-card"><h2>Informationen</h2>
+   {% if is_reader %}
    <dl class="topic-meta">
+    <div><dt>Titel</dt><dd>{{ topic.title }}</dd></div>
+    <div><dt>Zuständigkeit</dt><dd>{% if topic.assigned_to %}{{ topic.assigned_to|user_display }}{% else %}—{% endif %}</dd></div>
     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
     <div><dt>Status</dt><dd>{{ topic.get_status_display }}</dd></div>
+    <div><dt>Löschfrist</dt><dd>{{ topic.retention_effective_years }} Jahre</dd></div>
+    {% if topic.deletion_date %}<div><dt>Löschung am</dt><dd>{{ topic.deletion_date|date:"DATE_FORMAT" }}</dd></div>{% endif %}
     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
     <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
    </dl>
-   {% if can_archive_topic %}
-   <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="{% if topic.status == 'archived' %}Thema „{{ topic.title }}“ wieder öffnen?{% else %}Thema „{{ topic.title }}“ archivieren? Es bleibt erhalten und kann später wieder geöffnet werden.{% endif %}">
+   {% else %}
+   <form method="post" action="{% url 'topic_edit' topic.pk %}">
     {% csrf_token %}
-    <button type="submit" class="secondary">{% if topic.status == "archived" %}Thema wieder öffnen{% else %}Thema archivieren{% endif %}</button>
+    <input type="hidden" name="save_topic_details" value="1">
+    <dl class="topic-meta">
+     <div><dt><label for="{{ form.title.id_for_label }}">Thementitel</label></dt><dd>{{ form.title }}{{ form.title.errors }}</dd></div>
+     <div><dt><label for="{{ form.assigned_to.id_for_label }}">Zuständigkeit</label></dt><dd>{{ form.assigned_to }}{{ form.assigned_to.errors }}<small class="muted">Die Hauptzuständigkeit gilt für das gesamte Thema.</small></dd></div>
+     <div><dt>Besprechungsreihe</dt><dd>{{ topic.series|default:"—" }}</dd></div>
+     <div><dt>Status</dt><dd>
+      {% if topic.status == "archived" %}{{ topic.get_status_display }}
+      {% else %}{{ status_form.status }}{{ status_form.status.errors }}{% endif %}
+     </dd></div>
+     <div><dt><label for="{{ form.retention_years.id_for_label }}">Löschfrist (Jahre)</label></dt><dd>{{ form.retention_years }}{{ form.retention_years.errors }}</dd></div>
+     {% if topic.deletion_date %}<div><dt>Löschung am</dt><dd>{{ topic.deletion_date|date:"DATE_FORMAT" }}</dd></div>{% endif %}
+     <div><dt>Erstellt</dt><dd>{{ topic.created_at|date:"DATE_FORMAT" }}</dd></div>
+     <div><dt>Zuletzt geändert</dt><dd>{{ topic.updated_at|date:"DATE_FORMAT" }}</dd></div>
+    </dl>
+    <div class="topic-info-actions">
+     <button type="submit">Speichern</button>
    </form>
+   {% if can_archive_topic %}
+    {% if topic.status == "archived" %}
+    <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ wieder öffnen?">
+     {% csrf_token %}<button type="submit" class="secondary">Wieder öffnen</button>
+    </form>
+    {% elif topic_archive_allowed %}
+    <form method="post" action="{% url 'topic_archive_toggle' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ wirklich archivieren? Alle Anlagen dieses Themas einschließlich hochgeladener Dateien werden dabei dauerhaft vom Server gelöscht.">
+     {% csrf_token %}<button type="submit" class="topic-archive-button">Archivieren</button>
+    </form>
+    {% else %}
+    <p class="muted" role="status">{{ topic_archive_reason }}</p>
+    {% endif %}
    {% endif %}
+    </div>
+   {% endif %}
+  </section>
+  <section class="card topic-pdf-card">
+   <h2>PDF-Protokoll</h2>
+   <p class="muted">Alle Besprechungstexte und der Verlauf dieses Themas als PDF zusammengefasst.</p>
+   <div class="topic-pdf-link">
+    <a class="btn secondary" href="{% url 'topic_protocol_pdf' topic.pk %}" download aria-label="Themenprotokoll herunterladen">PDF herunterladen</a>
+    <a class="topic-pdf-drag" href="{% url 'topic_protocol_pdf' topic.pk %}" draggable="true" data-drag-filename="{{ topic_protocol_filename }}" ondragstart="event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('DownloadURL','application/pdf:'+this.dataset.dragFilename+':'+this.href);event.dataTransfer.setData('text/uri-list',this.href)" aria-label="PDF-Symbol in einen Ordner ziehen" title="PDF-Symbol in einen Ordner auf dem PC ziehen"><span class="topic-pdf-icon" aria-hidden="true">PDF</span></a>
+   </div>
   </section>
   <section class="card" id="topic-attachments"><h2>Dateien und Anlagen</h2>
    <p class="muted">Alle Unterlagen zu diesem Thema an einem Ort. Dateien können geöffnet oder heruntergeladen werden; Netzwerkpfade und Links bleiben direkt erreichbar.</p>
+   {% if archived_attachment_info %}
+    <div class="topic-archived-attachments" style="margin:.75rem 0;padding:.75rem;border:1px solid var(--border);border-radius:.5rem">
+     <strong>Frühere Anlagen (Dateien gelöscht)</strong>
+     <ul style="margin:.4rem 0 0;padding-left:1.25rem">
+      {% for a in archived_attachment_info %}
+       <li>{% if a.label %}{{ a.label }}{% endif %}{% if a.filename %} – {{ a.filename }}{% endif %}{% if a.network_path %} <span class="muted">({{ a.network_path }})</span>{% endif %}</li>
+      {% endfor %}
+     </ul>
+    </div>
+   {% endif %}
    {% for a in topic.attachments.all %}
     <div class="topic-attachment" style="display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap;padding:.7rem 0;border-bottom:1px solid var(--border)">
      <div style="min-width:0;overflow-wrap:anywhere">
@@ -130,16 +208,6 @@
     </form>
    {% endif %}
   </section>
-  {% if not is_reader and transfer_series %}
-  <section class="card"><h2>Besprechungsreihe wechseln</h2>
-   <form method="post" action="{% url 'topic_transfer' topic.pk %}" data-confirm-message="Thema „{{ topic.title }}“ in die ausgewählte Besprechungsreihe übertragen? Zukünftige Tagesordnungspunkte werden ebenfalls verschoben.">{% csrf_token %}
-    <label for="transfer-series">Zielreihe</label>
-    <select id="transfer-series" name="series" required>{% for series in transfer_series %}<option value="{{ series.pk }}">{{ series.name }}</option>{% endfor %}</select>
-    <label for="transfer-note">Hinweis (optional)</label><input id="transfer-note" name="note" maxlength="500">
-    <button type="submit">Thema übertragen</button>
-   </form>
-  </section>
-  {% endif %}
   {% if topic.transfer_history.exists %}
   <section class="card"><h2>Transferhistorie</h2>
    {% for transfer in topic.transfer_history.all %}<p>{{ transfer.transferred_at|date:"DATETIME_FORMAT" }}: {{ transfer.from_series|default:"Ohne Reihe" }} → {{ transfer.to_series|default:"Ohne Reihe" }}{% if transfer.note %} — {{ transfer.note }}{% endif %}</p>{% endfor %}

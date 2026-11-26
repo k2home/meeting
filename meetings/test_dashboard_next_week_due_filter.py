@@ -1,4 +1,5 @@
 from datetime import timedelta
+import re
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -90,5 +91,12 @@ class DashboardAssigneeFilterOptionsTests(TestCase):
             ["Anna Example", "Bernd Example"],
         )
         content = response.content.decode()
-        self.assertIn(">Zoe Current</option>", content)
-        self.assertEqual(content.count(">Zoe Current</option>"), 1)
+        filter_select = re.search(
+            r'<select[^>]*id="filter-assignee"[^>]*>(.*?)</select>',
+            content,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(filter_select)
+        filter_options = filter_select.group(1)
+        self.assertIn(">Zoe Current</option>", filter_options)
+        self.assertEqual(filter_options.count(">Zoe Current</option>"), 1)

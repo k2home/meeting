@@ -26,7 +26,7 @@ class ManagementUsersLiveSearchTests(SimpleTestCase):
             ".map(index => row.cells[index]?.textContent || \"\")",
             content,
         )
-        self.assertIn("[0, 1, 2]", content)
+        self.assertIn("[0, 1, 2, 3]", content)
         self.assertNotIn("row.textContent", content)
 
 
