@@ -35,7 +35,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellung der Anwendung.
 
-### 16. Datenverwaltung und Sicherung
+### 1. Datenverwaltung und Sicherung
 
 #### 16.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
 
@@ -87,7 +87,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 ---
 
 
-### 21. Administration und Software-Updates
+### 2. Administration und Software-Updates
 
 #### 21.1 Updatebereich aufrufen – Rolle: Admin
 
@@ -130,7 +130,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
 
-### 1. Anmeldung und Sitzung
+### 3. Anmeldung und Sitzung
 
 #### 1.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
 
@@ -211,7 +211,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 ---
 
 
-### 12. Benutzerverwaltung
+### 4. Benutzerverwaltung
 
 #### 12.1 Benutzerkonto anlegen – Rolle: Admin
 
@@ -325,7 +325,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 ---
 
 
-### 15. Organisationsverwaltung
+### 5. Organisationsverwaltung
 
 #### 15.1 Organisationseinstellungen bearbeiten – Rolle: Admin
 
@@ -398,7 +398,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 ---
 
 
-### 22. Rollenübergreifende Zugriffsmatrix
+### 6. Rollenübergreifende Zugriffsmatrix
 
 Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit getrennten Konten und direkten URL-Aufrufen auszuführen.
 
@@ -493,12 +493,11 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des abschließenden Testlaufs.
 
-### 19. TESTING-Modus und Beispielkonfiguration
+### 7. TESTING-Modus und Beispielkonfiguration
 
 #### 19.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
 
-- [ ] TESTING-Modus in der Testinstallation aktivieren.
-- [ ] Dashboard öffnen.
+- [ ] TESTING-Modus in der Testinstallation aktivieren.- [ ] Dashboard öffnen.
 - [ ] Browser-Tab bzw. Seitentitel prüfen.
 - [ ] Django-Administrationspfad aufrufen.
 - [ ] TESTING-Modus deaktivieren.
@@ -610,7 +609,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 ---
 
-### 20. Hilfe und Dokumentation
+### 8. Hilfe und Dokumentation
 
 #### 20.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
 
@@ -680,7 +679,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 ---
 
 
-### 23. Abschluss der Gesamtprüfung
+### 9. Abschluss der Gesamtprüfung
 
 #### 23.1 Vollständigkeit und Nachprüfung
 
@@ -714,7 +713,7 @@ ____________________________________________________________________
 
 Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und Betriebsfunktionen.
 
-### 2. Dashboard und Navigation
+### 10. Dashboard und Navigation
 
 #### 2.1 Dashboard aufrufen – Rolle: alle Rollen
 
@@ -749,7 +748,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 3. Persönliches Konto und eigene Aufgaben
+### 11. Persönliches Konto und eigene Aufgaben
 
 #### 3.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
@@ -787,7 +786,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 4. Besprechungsreihen verwalten
+### 12. Besprechungsreihen verwalten
 
 #### 4.1 Besprechungsreihe anlegen – Rolle: Admin oder Moderator*in
 
@@ -921,7 +920,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 5. Termine und Besprechungsübersicht
+### 13. Termine und Besprechungsübersicht
 
 #### 5.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
@@ -997,8 +996,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
 - [ ] Den Termin erneut laden.
 
-**Ergebnisprüfung**
-- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
+**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
 - [ ] Der gespeicherte Protokollstand bleibt unverändert.
 - [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
 
@@ -1006,7 +1004,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 6. Themen anlegen und bearbeiten
+### 14. Themen anlegen und bearbeiten
 
 #### 6.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
@@ -1136,7 +1134,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 7. Tagesordnungspunkte und Wiedervorlagen
+### 15. Tagesordnungspunkte und Wiedervorlagen
 
 #### 7.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
@@ -1237,7 +1235,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 8. Kommentare, Anlagen und Links
+### 16. Kommentare, Anlagen und Links
 
 #### 8.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
@@ -1336,7 +1334,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 9. Besprechung abschließen und Protokoll
+### 17. Besprechung abschließen und Protokoll
 
 #### 9.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
@@ -1421,7 +1419,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 10. Offene Themen und Archiv
+### 18. Offene Themen und Archiv
 
 #### 10.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
@@ -1471,7 +1469,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 11. Berechtigungsanträge
+### 19. Berechtigungsanträge
 
 #### 11.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
@@ -1498,7 +1496,6 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Entscheidung speichern.
 - [ ] Antragsübersicht erneut öffnen.
 - [ ] Mit dem betroffenen Testkonto anmelden.
-
 **Ergebnisprüfung**
 - [ ] Antrag erhält den richtigen Entscheidungsstatus.
 - [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
@@ -1523,7 +1520,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 ---
 
 
-### 13. Benutzer- und Themenimport/-export
+### 20. Benutzer- und Themenimport/-export
 
 #### 13.1 Benutzer als CSV exportieren – Rolle: Admin
 
@@ -1593,7 +1590,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 14. Änderungsverlauf und Audit
+### 21. Änderungsverlauf und Audit
 
 #### 14.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
@@ -1645,7 +1642,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 ---
 
 
-### 17. Aufbewahrung und automatische Löschung
+### 22. Aufbewahrung und automatische Löschung
 
 #### 17.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
@@ -1696,7 +1693,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 18. Auditor*innenbereich
+### 23. Auditor*innenbereich
 
 #### 18.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
@@ -1731,4 +1728,3 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 ---
-
