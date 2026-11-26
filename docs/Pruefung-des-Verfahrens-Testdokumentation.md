@@ -6175,17 +6175,19 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 #### 10.1.1 Dashboard aufrufen – Prüfrolle: globale Auditor*in
 
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert (Weiterleitung).** Das allgemeine Dashboard wird für Auditor*innen nicht angezeigt; der Aufruf leitet zur Auditor*innenübersicht weiter.
+
+**Prüfschritt**
+- [ ] Mit einem globalen Auditor-Konto anmelden.
+- [ ] Das Dashboard über die Navigation und zusätzlich über seine direkte URL aufrufen.
+- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
-
-- [ ] Dashboard wird ohne Fehler geladen.
-- [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
-- [ ] Verlinkte Bereiche lassen sich öffnen.
-- [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
+- [ ] Das allgemeine Dashboard wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
+- [ ] Es werden keine fachlichen Reihen, Termine oder Themeninhalte des allgemeinen Dashboards offengelegt.
+- [ ] Die Auditor*innenübersicht zeigt nur die für diese globale Rolle vorgesehenen administrativen Prüfdaten.
 
 **Test erfolgreich:** [ ]
-
 #### 10.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -6216,21 +6218,18 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Test erfolgreich:** [ ]
 
 #### 10.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globale Auditor*in
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert (Weiterleitung).** Die Aufgabenübersicht leitet globale Auditor*innen zur Auditor*innenübersicht weiter; eigene fachliche Aufgaben sind nicht zugänglich.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem globalen Auditor-Konto anmelden.
+- [ ] Die Aufgabenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Die Aufgabenübersicht wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
+- [ ] Es werden keine persönlichen Aufgaben aus fachlichen Besprechungsreihen offengelegt.
+- [ ] Die Prüfung dieses Funktionsbereichs endet nach dem nachgewiesenen Redirect.
 
 **Test erfolgreich:** [ ]
 ### 10.3 Besprechungsreihen verwalten
@@ -6802,21 +6801,18 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 #### 10.9.2 Archiv aufrufen – Prüfrolle: globale Auditor*in
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert (Weiterleitung).** Das fachliche Archiv wird für Auditor*innen nicht angezeigt; der Aufruf leitet zur Auditor*innenübersicht weiter.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem globalen Auditor-Konto anmelden.
+- [ ] Das Archiv über die Navigation und zusätzlich über seine direkte URL aufrufen.
+- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Das fachliche Archiv wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
+- [ ] Archivierte Themen und zugehörige fachliche Inhalte werden nicht offengelegt.
+- [ ] Die Prüfung dieses Funktionsbereichs endet nach dem nachgewiesenen Redirect.
 
 **Test erfolgreich:** [ ]
 #### 10.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Auditor*in
