@@ -73,6 +73,10 @@ CHECKLIST_RELATIVE="docs/Pruefung-des-Verfahrens-Testdokumentation.md"
 CHECKLIST_FILE="$APP_DIR/$CHECKLIST_RELATIVE"
 CHECKLIST_LOCK_FILE="$CHECKLIST_FILE.lock"
 CHECKLIST_BACKUP=""
+# Restore the shared directory permissions before opening the lock file.
+# Older installations may still have docs/ without the group-write/sticky bits.
+chown root:www-data "$APP_DIR/docs"
+chmod 1775 "$APP_DIR/docs"
 # Serialize application writes with deployment backup/restore operations.
 touch "$CHECKLIST_LOCK_FILE"
 chown meetingapp:www-data "$CHECKLIST_LOCK_FILE"
