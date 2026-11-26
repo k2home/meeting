@@ -74,6 +74,8 @@ def _github_checklist_api_request(method, payload=None):
     try:
         with urllib.request.urlopen(request, timeout=15) as response:
             return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError:
+        raise
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
         raise TestChecklistGitHubError("GitHub ist derzeit nicht erreichbar.") from exc
 
@@ -131,8 +133,11 @@ def _save_test_documentation_checkbox(checkbox_id, checked):
         try:
             return _github_checklist_api_request("PUT", payload)
         except urllib.error.HTTPError as exc:
-            if exc.code not in {409, 422} or attempt == 2:
+            if exc.code in {409, 422} and attempt < 2:
+                continue
+            if exc.code in {409, 422}:
                 raise TestChecklistGitHubError("Die Markdown-Datei wurde parallel geändert. Bitte erneut versuchen.") from exc
+            raise TestChecklistGitHubError("GitHub hat das Speichern abgelehnt. Bitte Token und Repository-Berechtigungen prüfen.") from exc
     raise TestChecklistGitHubError("Die Änderung konnte nicht gespeichert werden.")
 
 
