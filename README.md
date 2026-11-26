@@ -485,7 +485,7 @@ Für ein ausgewähltes Testthema können bis zu 100 Tagesordnungspunkte auf noch
 
 #### 6. Erzeugte Testdaten zurücksetzen
 
-Die Funktion **TEST-Daten zurücksetzen** entfernt die von der Beispielkonfiguration gekennzeichneten Testserien, deren Termine und die entsprechend markierten Themen. Testkonten mit dem internen Präfix `test_fixture_` werden ebenfalls entfernt, sofern sie nicht mehr anderweitig verwendet werden. Themen oder Konten, die durch reguläre Daten referenziert werden, bleiben erhalten. Reguläre Besprechungsserien und nicht als Testdaten gekennzeichnete Themen werden durch diesen Reset nicht pauschal gelöscht.
+Die Funktion **TEST-Daten zurücksetzen** entfernt die von der Beispielkonfiguration gekennzeichneten Testserien, deren Termine und die entsprechend markierten Themen. Testkonten mit einem Benutzernamen aus `TEST` plus Nachname und einer E-Mail-Adresse unter `@beliebig.de` werden ebenfalls entfernt, sofern sie nicht mehr anderweitig verwendet werden. Themen oder Konten, die durch reguläre Daten referenziert werden, bleiben erhalten. Reguläre Besprechungsserien und nicht als Testdaten gekennzeichnete Themen werden durch diesen Reset nicht pauschal gelöscht.
 
 ### Hinweise zum sicheren Einsatz
 
