@@ -4517,7 +4517,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
 - [ ] Mit einem Teilnehmer-Konto anmelden, das der Testreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
 - [ ] Für dieses Konto und dieselbe Testreihe einen offenen Antrag vorbereiten.
-- [ ] Die persönliche Benutzerübersicht öffnen und versuchen, denselben Antrag erneut abzusenden.
+- [ ] Die persönliche Benutzerübersicht öffnen; da der offene Antrag das Formular ausblendet, den entsprechenden POST-Aufruf mit denselben Daten direkt wiederholen.
 - [ ] Anschließend die Antragsliste und die Serienzuweisung neu laden.
 
 **Ergebnisprüfung**
