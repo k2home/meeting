@@ -116,6 +116,18 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "spätestens nach zwei Sekunden")
         self.assertNotContains(response, "localStorage")
 
+    def test_markdown_checklist_keeps_lists_and_result_sections_separate(self):
+        response = self.client.get(reverse("test_documentation"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<ul>")
+        self.assertContains(response, "<li>")
+        self.assertContains(response, "<p><strong>Test erfolgreich:</strong>")
+        self.assertNotContains(response, "<h2><strong>Test erfolgreich:</strong>")
+        self.assertContains(response, "document-content ul")
+        self.assertContains(response, "document-content hr")
+        self.assertContains(response, "20.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
+
     def test_user_guide_links_to_test_documentation(self):
         response = self.client.get(reverse("user_guide"))
 
