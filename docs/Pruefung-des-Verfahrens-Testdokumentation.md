@@ -45,6 +45,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Zur Verwaltungsübersicht zurückkehren.
 
 **Ergebnisprüfung**
+
 - [ ] Datenverwaltungsbereich wird angezeigt.
 - [ ] Nur berechtigte Admin-Konten können die Funktionen aufrufen.
 - [ ] Andere Rollen erhalten keinen Zugriff.
@@ -60,6 +61,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Datei und Ergebnisanzeige prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Export wird ohne Fehlermeldung abgeschlossen.
 - [ ] Exportdatei ist vorhanden und im vorgesehenen Format lesbar bzw. weiterverarbeitbar.
 - [ ] Export enthält keine Zugangsdaten oder Geheimnisse, die nicht Bestandteil des vorgesehenen Sicherungsformats sein dürfen.
@@ -77,6 +79,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Betroffene Testdatenbereiche öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Import wird entsprechend dem vorgesehenen Format verarbeitet.
 - [ ] Fehlerhafte oder ungeeignete Dateien werden nachvollziehbar abgewiesen.
 - [ ] Datenbestand entspricht nach dem Import dem vorgesehenen Sicherungsstand.
@@ -97,6 +100,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Ohne Ausführung eines Updates zur Übersicht zurückkehren.
 
 **Ergebnisprüfung**
+
 - [ ] Updatebereich ist für Admins erreichbar.
 - [ ] Versions- und Statusinformationen werden angezeigt.
 - [ ] Nicht berechtigte Rollen erhalten keinen Zugriff.
@@ -115,6 +119,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Besprechungsübersicht, Themen, Protokoll und Anlagen öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Updatevorgang wird mit nachvollziehbarem Status beendet.
 - [ ] Angezeigter Branch und Commit entsprechen der Auswahl.
 - [ ] Anwendung ist erreichbar.
@@ -140,6 +145,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Anmelden anklicken.
 
 **Ergebnisprüfung**
+
 - [ ] Angemeldete Startseite wird angezeigt.
 - [ ] Angezeigter Benutzer entspricht dem angemeldeten Konto.
 - [ ] Navigation und verfügbare Bereiche entsprechen der Rolle und den Serienzuweisungen.
@@ -155,6 +161,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Den Versuch mit einem gültigen Benutzernamen und falschem Passwort wiederholen.
 
 **Ergebnisprüfung**
+
 - [ ] Anmeldung wird in beiden Fällen abgewiesen.
 - [ ] Es wird keine geschützte Seite angezeigt.
 - [ ] Die Fehlermeldung gibt nicht preis, ob ein Benutzerkonto existiert.
@@ -171,6 +178,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Abmelden und erneut mit dem neuen Passwort anmelden.
 
 **Ergebnisprüfung**
+
 - [ ] Passwortwechsel wird vor dem Zugriff auf die übrige Anwendung verlangt.
 - [ ] Nach erfolgreicher Änderung ist die Anmeldung mit dem neuen Passwort möglich.
 - [ ] Das Konto wird nicht erneut zum Passwortwechsel aufgefordert, sofern keine neue Frist oder Rücksetzung gesetzt wurde.
@@ -186,6 +194,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Im Browser zurück navigieren und die Seite neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Abmeldung führt zur Anmeldeseite bzw. zum nicht angemeldeten Zustand.
 - [ ] Geschützte Inhalte sind nach der Abmeldung nicht erneut abrufbar.
 - [ ] Eine erneute Anmeldung ist erforderlich.
@@ -202,6 +211,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Mit dem neuen Passwort anmelden.
 
 **Ergebnisprüfung**
+
 - [ ] Das neue Passwort wird akzeptiert.
 - [ ] Ein bereits verwendeter bzw. ungültiger Link kann nicht erneut zum Zurücksetzen verwendet werden.
 - [ ] Die Anmeldung mit dem neuen Passwort ist möglich.
@@ -228,6 +238,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Benutzerübersicht neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Neues Konto erscheint in der Benutzerübersicht.
 - [ ] Stammdaten und Aktivstatus entsprechen den Eingaben.
 - [ ] Konto erhält keine unbeabsichtigten Serienberechtigungen.
@@ -247,6 +258,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Konto erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Geänderte Kontodaten werden korrekt angezeigt.
 - [ ] Nicht geänderte Daten bleiben erhalten.
 - [ ] Bestehende Serienzuweisungen bleiben erhalten, sofern sie nicht ausdrücklich geändert wurden.
@@ -265,6 +277,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Anmeldung erneut versuchen.
 
 **Ergebnisprüfung**
+
 - [ ] Deaktiviertes Konto kann sich nicht anmelden.
 - [ ] Reaktiviertes Konto kann sich gemäß Passwortstatus anmelden.
 - [ ] Serienzuweisungen werden durch die Statusänderung nicht unbeabsichtigt gelöscht.
@@ -280,6 +293,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Benutzerübersicht und betroffene Serienzuweisungen prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Testkonto wird entsprechend der vorgesehenen Regeln entfernt.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 - [ ] Historische Einträge werden entsprechend der vorgesehenen Aufbewahrung behandelt.
@@ -299,6 +313,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Benutzeransicht erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Jede Zuweisung ist der richtigen Reihe zugeordnet.
 - [ ] Unterschiedliche Rollen je Reihe bleiben getrennt.
 - [ ] Bestehende Zuweisungen werden bei Änderungen an einer anderen Reihe nicht überschrieben.
@@ -316,6 +331,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Passwortwechsel durchführen.
 
 **Ergebnisprüfung**
+
 - [ ] Passwort wird gemäß dem vorgesehenen Rücksetzverfahren zurückgesetzt.
 - [ ] Erforderlicher Passwortwechsel wird durchgesetzt.
 - [ ] Andere Konten bleiben unverändert.
@@ -338,6 +354,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Seite neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Organisationsbezeichnung und Kurzbezeichnung werden korrekt angezeigt.
 - [ ] Datums- und Uhrzeitanzeigen verwenden die eingestellte Zeitzone.
 - [ ] Einstellungen bleiben nach dem Neuladen erhalten.
@@ -353,6 +370,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Falls vorgesehen, Logo entfernen bzw. durch ein anderes Testlogo ersetzen.
 
 **Ergebnisprüfung**
+
 - [ ] Logo wird in den vorgesehenen Bereichen angezeigt.
 - [ ] Protokoll-PDF verwendet die vorgesehene Logo-Darstellung.
 - [ ] Nicht unterstützte Dateien werden abgewiesen.
@@ -371,6 +389,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Anwendung in Hell- und Dunkelmodus neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Farben werden in den vorgesehenen Bereichen verwendet.
 - [ ] Ungültige Farbwerte werden abgewiesen.
 - [ ] Nicht gesetzte optionale Farbwerte verwenden den vorgesehenen Basiswert.
@@ -388,6 +407,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 - [ ] Upload mit einer Datei innerhalb und außerhalb des eingestellten Limits testen.
 
 **Ergebnisprüfung**
+
 - [ ] Aufbewahrungsfrist wird korrekt gespeichert und angezeigt.
 - [ ] Uploadlimit wird korrekt gespeichert und durchgesetzt.
 - [ ] Ungültige Werte werden abgewiesen.
@@ -411,6 +431,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Direkte schreibende URLs der Testreihe aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Lesen und Protokoll-Export sind im zugewiesenen Bereich möglich.
 - [ ] Fachliche Änderungen und schreibende Aktionen werden verweigert.
 - [ ] Nicht zugewiesene Reihen bleiben unzugänglich.
@@ -429,6 +450,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Serienverwaltung und Wiederöffnung eines abgeschlossenen Termins versuchen.
 
 **Ergebnisprüfung**
+
 - [ ] Erlaubte fachliche Aktionen sind möglich.
 - [ ] Reihenverwaltung und Wiederöffnung bleiben gesperrt.
 - [ ] Andere Reihen sind nicht zugänglich.
@@ -447,6 +469,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Eigene Moderatorzuweisung zu ändern oder zu entfernen versuchen.
 
 **Ergebnisprüfung**
+
 - [ ] Moderationsfunktionen sind nur in der ausdrücklich zugewiesenen Reihe verfügbar.
 - [ ] Fremde Reihen bleiben unzugänglich.
 - [ ] Eigene Moderatorzuweisung ist gegen unzulässige Selbständerung geschützt.
@@ -463,6 +486,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Einen fachlichen Schreibvorgang versuchen.
 
 **Ergebnisprüfung**
+
 - [ ] Globale Verwaltungsfunktionen sind verfügbar.
 - [ ] Fachliche Reiheninhalte bleiben ohne passende Serienzuweisung unzugänglich.
 - [ ] Eine ausdrückliche Serienzuweisung ermöglicht nur die zugewiesene Rolle und Reihe.
@@ -479,6 +503,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Administrative Schreibaktionen versuchen.
 
 **Ergebnisprüfung**
+
 - [ ] Administrative Prüfdaten sind lesbar.
 - [ ] Fachliche Inhalte bleiben unzugänglich.
 - [ ] Schreibende Aktionen sind gesperrt.
@@ -502,6 +527,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Dieselben Bereiche erneut aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Bei aktivem TESTING-Modus ist die Testkennzeichnung sichtbar.
 - [ ] Zusätzliche Testfunktionen sind nur im aktivierten Modus verfügbar.
 - [ ] Nach Deaktivierung sind die zusätzlichen Testfunktionen nicht mehr erreichbar.
@@ -518,6 +544,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Benutzerübersicht öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Testkonten werden mit der vorgesehenen Kennzeichnung angelegt.
 - [ ] Benutzernamen und E-Mail-Adressen entsprechen dem Testdatenformat.
 - [ ] Passwortwechsel wird entsprechend der Testdatenregel erzwungen.
@@ -534,6 +561,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Serienübersicht öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Testreihen werden mit der vorgesehenen TEST-Kennzeichnung angelegt.
 - [ ] Wiederholungsrhythmus und Wochentag sind gesetzt.
 - [ ] Reguläre Besprechungsreihen bleiben unverändert.
@@ -549,6 +577,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Terminübersicht der Testreihe öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Termine entsprechen dem Rhythmus der ausgewählten Testreihe.
 - [ ] Vergangene und zukünftige Termine werden entsprechend dem Generator berücksichtigt.
 - [ ] Bestehende Serienrollen werden nicht überschrieben.
@@ -566,6 +595,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Themenübersicht der Testreihe öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Themen sind eindeutig als Testdaten gekennzeichnet.
 - [ ] Status und Hauptzuständigkeit sind gesetzt.
 - [ ] Reguläre Themen bleiben unverändert.
@@ -582,6 +612,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Zugehörige Testtermine öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Tagesordnungspunkte werden den vorgesehenen Terminen zugeordnet.
 - [ ] Status und Zuständigkeiten sind gesetzt.
 - [ ] Wiedervorlagekette ist chronologisch verknüpft.
@@ -598,6 +629,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Benutzer-, Reihen-, Termin- und Themenübersichten öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Gekennzeichnete Testdaten werden entsprechend der Reset-Regeln entfernt.
 - [ ] Reguläre Reihen, Themen und Benutzer bleiben erhalten.
 - [ ] Testkonten mit regulären Verwendungen bleiben entsprechend der Schutzregeln bestehen.
@@ -617,6 +649,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Zur Anwendung zurückkehren.
 
 **Ergebnisprüfung**
+
 - [ ] Hilfe wird ohne Fehler angezeigt.
 - [ ] Verlinkte Abschnitte sind erreichbar.
 - [ ] Inhalte sind lesbar und der Navigation zugeordnet.
@@ -631,6 +664,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] PDF-Datei speichern und öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Dokument wird angezeigt.
 - [ ] PDF lässt sich öffnen.
 - [ ] Angezeigtes Dokument und PDF beziehen sich auf die vorgesehene Fassung.
@@ -658,6 +692,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Der Link ist in **Hilfe & Anleitung** sichtbar und führt zur richtigen Testdokumentation.
 - [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
 - [ ] Bearbeitung und Download sind ausschließlich im TESTING-Modus verfügbar.
@@ -721,6 +756,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Über die Navigation zum Dashboard zurückkehren.
 
 **Ergebnisprüfung**
+
 - [ ] Dashboard wird ohne Fehler geladen.
 - [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
 - [ ] Verlinkte Bereiche lassen sich öffnen.
@@ -737,6 +773,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Seite neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
@@ -759,6 +796,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Seite neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
@@ -775,6 +813,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Den Test mit einem Konto ohne eigene Zuständigkeiten wiederholen.
 
 **Ergebnisprüfung**
+
 - [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
 - [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
 - [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
@@ -801,6 +840,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Neu angelegte Reihe öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
 - [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
 - [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
@@ -821,6 +861,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Reihe erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Geänderte Werte werden angezeigt.
 - [ ] Nicht geänderte Werte bleiben erhalten.
 - [ ] Bestehende Serienberechtigungen bleiben erhalten.
@@ -838,6 +879,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Terminübersicht der Reihe öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
 - [ ] Bereits vorhandene Termine bleiben erhalten.
 - [ ] Es entstehen keine doppelten Termine.
@@ -855,6 +897,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Terminübersicht erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
 - [ ] Es entstehen keine doppelten Termine.
 - [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
@@ -872,6 +915,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Historische Termine bzw. Protokolle prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
 - [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
 - [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
@@ -893,6 +937,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Berechtigungsübersicht erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
 - [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
 - [ ] Änderungen betreffen nur die ausgewählte Reihe.
@@ -910,6 +955,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Eine bekannte Themen-URL der Testreihe direkt aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
 - [ ] Direkte URL-Aufrufe gewähren keinen unberechtigten Zugriff.
 - [ ] Eine globale Adminrolle allein gewährt keinen automatischen fachlichen Reihen-Zugriff.
@@ -930,6 +976,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Zur Terminübersicht zurückkehren.
 
 **Ergebnisprüfung**
+
 - [ ] Termine der berechtigten Reihen werden angezeigt.
 - [ ] Datum und Reihenbezeichnung stimmen.
 - [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
@@ -947,6 +994,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Terminübersicht neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Der Termin wird am neuen Datum angezeigt.
 - [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
 - [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
@@ -963,6 +1011,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Terminübersicht und betroffene Themen öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
 - [ ] Nicht ausgewählte Termine bleiben erhalten.
 - [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
@@ -980,6 +1029,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Termin erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
 - [ ] Abgewählte Konten werden nicht mehr angezeigt.
 - [ ] Die Änderung betrifft nur den ausgewählten Termin.
@@ -1015,6 +1065,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Angelegtes Thema öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Das Thema erscheint in der Themenübersicht.
 - [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
 - [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
@@ -1034,6 +1085,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Termin und Themenansicht erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Das neue Thema ist angelegt.
 - [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
 - [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
@@ -1053,6 +1105,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Thema erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
 - [ ] Änderungen bleiben nach dem Neuladen erhalten.
 - [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
@@ -1069,6 +1122,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Thema erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
 - [ ] Der Status wird in der Übersicht korrekt dargestellt.
 - [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
@@ -1085,6 +1139,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Themenübersicht erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
 - [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
 - [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
@@ -1104,6 +1159,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Quell- und Zielreihe erneut prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
 - [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
 - [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
@@ -1122,6 +1178,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Speichern.
 
 **Ergebnisprüfung**
+
 - [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
 - [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
 - [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
@@ -1144,6 +1201,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Termin erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Der terminbezogene Text wird korrekt angezeigt.
 - [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
 - [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
@@ -1160,6 +1218,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Seite neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
 - [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
 - [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
@@ -1175,6 +1234,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Termin und zugehöriges Thema erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
 - [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
 - [ ] Andere Tagesordnungspunkte bleiben unverändert.
@@ -1192,6 +1252,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Zieltermin öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
 - [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
 - [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
@@ -1208,6 +1269,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Die vorherigen und nachfolgenden Tagesordnungspunkte öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
 - [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
 - [ ] Frühere Protokollstände bleiben unverändert.
@@ -1223,6 +1285,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Zugehörigen Termin bzw. Protokollbezug prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
@@ -1242,6 +1305,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Thema neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Der Kommentar wird beim richtigen Thema angezeigt.
 - [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
 - [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
@@ -1259,6 +1323,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Thema neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Die Anlage wird beim richtigen Thema angezeigt.
 - [ ] Bezeichnung und Datei sind korrekt zugeordnet.
 - [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
@@ -1277,6 +1342,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Link bzw. Pfad anklicken, sofern als Link dargestellt.
 
 **Ergebnisprüfung**
+
 - [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
 - [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
 - [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
@@ -1292,6 +1358,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Den Download mit einem Konto ohne Serienberechtigung wiederholen.
 
 **Ergebnisprüfung**
+
 - [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
 - [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
 - [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
@@ -1307,6 +1374,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Download-URL der entfernten Anlage direkt aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
 - [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
 - [ ] Andere Anlagen und Themen bleiben unverändert.
@@ -1321,6 +1389,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Themenansicht nach den Versuchen neu laden.
 
 **Ergebnisprüfung**
+
 - [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
 - [ ] Zu große Dateien werden abgewiesen.
 - [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
@@ -1342,6 +1411,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Termin erneut öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Der Termin ist als abgeschlossen gekennzeichnet.
 - [ ] Ein Protokoll-Snapshot wurde erstellt.
 - [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
@@ -1358,6 +1428,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Statuswerte und Verantwortlichkeiten prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
 - [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
 - [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
@@ -1373,6 +1444,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Exportierte PDF-Datei öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
 - [ ] PDF lässt sich öffnen.
 - [ ] PDF enthält die vorgesehenen Protokolldaten.
@@ -1392,6 +1464,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Besprechung erneut abschließen.
 
 **Ergebnisprüfung**
+
 - [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
 - [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
 - [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
@@ -1407,6 +1480,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Chronologie und Einträge prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
 - [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
@@ -1426,6 +1500,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Zur Themenliste zurückkehren.
 
 **Ergebnisprüfung**
+
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
 - [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
@@ -1440,6 +1515,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Historische Einträge aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Archivierte Themen sind im Archiv auffindbar.
 - [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
@@ -1457,6 +1533,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
 
 **Ergebnisprüfung**
+
 - [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
 - [ ] Das unbeteiligte Konto erhält keinen Zugriff.
 - [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
@@ -1476,6 +1553,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Antragstatus erneut aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
 - [ ] Gewünschte Rolle wird korrekt angezeigt.
 - [ ] Der Antrag erscheint mit offenem Status.
@@ -1493,6 +1571,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Antragsübersicht erneut öffnen.
 - [ ] Mit dem betroffenen Testkonto anmelden.
 **Ergebnisprüfung**
+
 - [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
 - [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
 - [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
@@ -1505,6 +1584,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Status und Serienzuweisung erneut prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
 - [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
 - [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
@@ -1525,6 +1605,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Spalten und Datensätze prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Exportdatei ist lesbar.
 - [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
 - [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
@@ -1542,6 +1623,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Benutzerübersicht öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
 - [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
 - [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
@@ -1558,6 +1640,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Datensätze und Spalten prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Export ist lesbar und enthält die vorgesehenen Themen.
 - [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
 - [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
@@ -1575,6 +1658,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Themenübersicht öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
 - [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
 - [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
@@ -1595,6 +1679,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Mit einem Moderator-Konto einer anderen Reihe denselben Bereich aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
 - [ ] Ereignisse anderer Reihen werden nicht offengelegt.
 - [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
@@ -1610,6 +1695,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Mit einem normalen Nutzerkonto denselben Bereich aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
 - [ ] Auditor*in kann keine Änderungsaktionen ausführen.
 - [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
@@ -1626,6 +1712,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Mit einem Konto außerhalb des jeweiligen Berechtigungsbereichs den Export direkt aufrufen.
 
 **Ergebnisprüfung**
+
 - [ ] CSV-Datei ist lesbar.
 - [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
 - [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
@@ -1648,6 +1735,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Terminübersicht und Protokollzugriffe erneut prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
 - [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
 - [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
@@ -1664,6 +1752,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Themenübersicht, Archiv, Historie und Anlagenzugriffe prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Thema bleibt vor Fristablauf erhalten.
 - [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
 - [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
@@ -1679,6 +1768,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Datenbestand erneut prüfen.
 
 **Ergebnisprüfung**
+
 - [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
 - [ ] Nicht abgelaufene Daten bleiben erhalten.
 - [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
@@ -1698,6 +1788,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Organisationseinstellungen lesend öffnen.
 
 **Ergebnisprüfung**
+
 - [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
 - [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
 - [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
@@ -1714,6 +1805,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Eine schreibende Verwaltungsaktion direkt aufrufen, soweit für den Test bekannt.
 
 **Ergebnisprüfung**
+
 - [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
 - [ ] Fachliche Inhalte sind nicht zugänglich.
 - [ ] Schreibende Aktionen sind nicht möglich.
