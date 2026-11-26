@@ -85,10 +85,15 @@ if [[ -n "$UNTRACKED_FILES" ]]; then
   printf '%s\n' "$UNTRACKED_FILES" >&2
   exit 1
 fi
-if ! git -C "$APP_DIR" diff --quiet -- "$CHECKLIST_RELATIVE" \
-  || ! git -C "$APP_DIR" diff --cached --quiet -- "$CHECKLIST_RELATIVE"; then
+if ! git -C "$APP_DIR" diff --cached --quiet -- "$CHECKLIST_RELATIVE"; then
+  echo "Update abgebrochen: Die lokale Testcheckliste ist vorgemerkt. Bitte zuerst den Git-Index bereinigen." >&2
+  exit 1
+fi
+if ! git -C "$APP_DIR" diff --quiet -- "$CHECKLIST_RELATIVE"; then
   CHECKLIST_BACKUP="$(mktemp /root/meeting-manager-checklist.XXXXXX)"
   cp -a "$CHECKLIST_FILE" "$CHECKLIST_BACKUP"
+  # Clean only the backed-up checklist so Git can switch branches safely.
+  git -C "$APP_DIR" checkout -- "$CHECKLIST_RELATIVE"
   echo "Lokaler Prüfstand wird über das Update hinweg gesichert."
 fi
 
