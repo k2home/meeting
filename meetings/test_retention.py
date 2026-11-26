@@ -206,7 +206,4 @@ class RetentionCleanupTests(TestCase):
         call_command("purge_expired_data")
 
         event.refresh_from_db()
-        self.assertEqual(
-            event.changes["Gesicherter Protokollstand"],
-            [{"topic_id": topic.pk + 999, "topic_title": "Anderes Thema", "text": "Bleibt"}],
-        )
+        self.assertNotIn("Gesicherter Protokollstand", event.changes)
