@@ -164,7 +164,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'data-save-url="' + reverse("test_documentation_toggle") + '"')
         self.assertContains(response, reverse("test_documentation_status"))
         self.assertContains(response, reverse("test_documentation_download"))
-        self.assertContains(response, "spätestens nach zwei Sekunden")
+        self.assertContains(response, "spätestens nach 15 Sekunden")
         self.assertNotContains(response, "localStorage")
 
     def test_markdown_checklist_keeps_lists_and_result_sections_separate(self):
@@ -194,7 +194,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, '.test-document-index .toc>ul>li>ul>li>ul>li.is-current>ul{display:block}')
         self.assertContains(response, 'querySelectorAll(\":scope > ul > li > ul > li > ul > li\")')
         self.assertContains(response, 'window.addEventListener("scroll", updateCurrentSection')
-        self.assertContains(response, '.test-document-index .toc li.is-complete>a{background:#e8f5e9')
+        self.assertContains(response, '.test-document-index .toc li.is-complete>a{background:#f2f8f2')
         self.assertContains(response, 'const completionByCheckbox = new WeakMap()')
         self.assertContains(response, 'window.updateTestDocumentationCompletionForCheckbox = updateCompletionForCheckbox;')
         self.assertContains(response, 'setInterval(refresh, 15000)')
@@ -248,6 +248,7 @@ class TestDocumentationPageTests(TestCase):
         readonly = _render_test_documentation_markers(source, False)
 
         self.assertIn('data-checklist-line="1"', editable)
+        self.assertIn('class="test-checklist-box test-success-checkbox"', editable)
         self.assertIn('data-checklist-occurrence="1"', editable)
         self.assertIn(" checked>", editable)
         self.assertNotIn(" disabled", editable)
