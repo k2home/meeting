@@ -27,6 +27,7 @@ services:
       - "10002"
     volumes:
       - media_data:/app/media
+      - docs_data:/app/docs
       - static_data:/app/staticfiles
       - /run/meeting-manager-updater:/run/meeting-manager-updater
     depends_on:
@@ -74,4 +75,5 @@ services:
 volumes:
   postgres_data:
   media_data:
+  docs_data:
   static_data:
