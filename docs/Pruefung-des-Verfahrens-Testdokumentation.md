@@ -1903,8 +1903,8 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Die Themenvorschläge über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- [ ] Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
+- [ ] Die JSON-Antwort und das Feld `results` prüfen.
 
 **Ergebnisprüfung**
 - [ ] Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
@@ -5565,8 +5565,8 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Die Themenvorschläge über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- [ ] Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
+- [ ] Die JSON-Antwort und das Feld `results` prüfen.
 
 **Ergebnisprüfung**
 - [ ] Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
@@ -6460,8 +6460,8 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Die Themenvorschläge über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- [ ] Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
+- [ ] Die JSON-Antwort und das Feld `results` prüfen.
 
 **Ergebnisprüfung**
 - [ ] Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
