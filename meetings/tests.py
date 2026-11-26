@@ -283,8 +283,12 @@ class AuditHistoryTests(TestCase):
         self.assertContains(response, "Änderungsverlauf")
         self.assertNotContains(response, "enaio-Einstellungen")
 
+        from .models import UserProfile
+        UserProfile.objects.create(user=auditor, short_description="27/04")
         response = self.client.get(reverse("auditor_users"))
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Organisationskennzeichen")
+        self.assertContains(response, "27/04")
         self.assertContains(response, "Globale Rolle")
         self.assertNotContains(response, "Nutzer hinzufügen")
         self.assertNotContains(response, "Bearbeiten")
@@ -315,6 +319,27 @@ class AuditHistoryTests(TestCase):
         self.assertEqual(response.status_code, 403)
         response = self.client.get(reverse("management_data"))
         self.assertEqual(response.status_code, 403)
+
+    def test_management_user_overview_displays_organization_label(self):
+        from .models import UserProfile
+
+        admin = User.objects.create_superuser(
+            username="overview-admin", email="overview-admin@example.com",
+            password="strong-test-password",
+        )
+        target = User.objects.create_user(
+            username="overview-target", email="overview-target@example.test",
+            password="strong-test-password",
+        )
+        UserProfile.objects.create(user=target, short_description="26/03")
+        self.client.force_login(admin)
+
+        response = self.client.get(reverse("management_users"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Organisationskennzeichen")
+        self.assertContains(response, "26/03")
+        self.assertContains(response, "overview-target@example.test")
 
     def test_admin_user_edit_audits_each_changed_field(self):
         admin = User.objects.create_superuser(
