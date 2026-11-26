@@ -1939,12 +1939,14 @@ def series_manage_user_access(request, pk):
         if key.startswith("role_")
     }
     if bulk_role_fields:
+        # Validate the complete submitted batch before writing anything. Returning
+        # a response from inside atomic() would commit earlier loop iterations.
+        if any(role not in allowed_roles for role in bulk_role_fields.values()):
+            return HttpResponseForbidden("Ungültige Serienberechtigung.")
         with transaction.atomic():
             if not is_moderator(request.user, series):
                 return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
             for user_id, role in bulk_role_fields.items():
-                if role not in allowed_roles:
-                    return HttpResponseForbidden("Ungültige Serienberechtigung.")
                 target_user = get_object_or_404(UserModel, pk=user_id)
                 access = SeriesAccess.objects.select_for_update().filter(
                     user=target_user, series=series
