@@ -22,6 +22,10 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
+# Keep subprocesses (especially uv via runuser) inside the application tree.
+# Otherwise they may try to discover configuration below sudo\x27s /root cwd.
+cd "$APP_DIR"
+
 # Persist the selected mode outside the Git checkout so web-triggered updates
 # can keep it enabled across application upgrades.
 TESTING_MODE_FILE="/var/lib/meeting-manager-updater/testing-mode"
