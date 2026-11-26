@@ -48,7 +48,7 @@
 <div class="test-document">
   <section class="card">
     {% if test_documentation_editable %}
-    <p>TESTING-Modus ist aktiv: Änderungen werden unmittelbar in der lokalen Markdown-Datei auf diesem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen den aktuellen Stand automatisch spätestens nach zwei Sekunden. Die vollständige Datei kann jederzeit heruntergeladen und manuell nach GitHub übernommen werden.</p>
+    <p>TESTING-Modus ist aktiv: Änderungen werden unmittelbar in der lokalen Markdown-Datei auf diesem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen den aktuellen Stand automatisch spätestens nach 15 Sekunden. Die vollständige Datei kann jederzeit heruntergeladen und manuell nach GitHub übernommen werden.</p>
     <p>
       <a class="btn primary" href="{% url 'test_documentation_download' %}">Aktuellen Test als .md herunterladen</a>
       <span id="test-documentation-save-status" class="muted" role="status" aria-live="polite">Änderungen werden automatisch gespeichert.</span>
@@ -97,66 +97,50 @@
       }
     });
   };
-  const updateCompletionStyles = () => {
-    const content = document.querySelector(".test-document .document-content");
-    if (!content) return;
+  const completionByCheckbox = new WeakMap();
+  const headingItems = new Map();
+  index.querySelectorAll("li").forEach((item) => {
+    const link = item.querySelector(":scope > a");
+    if (link?.hash) headingItems.set(decodeURIComponent(link.hash.slice(1)), item);
+  });
 
-    const headings = [];
-    const totalByHeading = [];
-    const checkedByHeading = [];
-    const headingIndexById = new Map();
-    const orderedNodes = content.querySelectorAll("h1,h2,h3,h4,h5,h6,input.test-checklist-box");
-    let headingIndex = -1;
-
-    orderedNodes.forEach((node) => {
+  // Build section-to-checkbox relationships once when the document is rendered.
+  const content = document.querySelector(".test-document .document-content");
+  const activeHeadings = [];
+  const completionSections = new Set();
+  if (content) {
+    content.querySelectorAll("h1,h2,h3,h4,h5,h6,input.test-checklist-box").forEach((node) => {
       if (node.matches("h1,h2,h3,h4,h5,h6")) {
-        headingIndex += 1;
-        headings.push(node);
-        totalByHeading.push(0);
-        checkedByHeading.push(0);
-        if (node.id) headingIndexById.set(node.id, headingIndex);
-      } else if (headingIndex >= 0) {
-        totalByHeading[headingIndex] += 1;
-        if (node.checked) checkedByHeading[headingIndex] += 1;
+        const level = Number(node.tagName.slice(1));
+        while (activeHeadings.length && activeHeadings[activeHeadings.length - 1].level >= level) activeHeadings.pop();
+        activeHeadings.push({
+          level,
+          state: headingItems.has(node.id) ? {item: headingItems.get(node.id), total: 0, checked: 0} : null
+        });
+      } else {
+        const states = activeHeadings.map(entry => entry.state).filter(Boolean);
+        states.forEach(state => {
+          state.total += 1;
+          if (node.checked) state.checked += 1;
+          completionSections.add(state);
+        });
+        completionByCheckbox.set(node, states);
       }
     });
+  }
+  completionSections.forEach(state => {
+    state.item.classList.toggle("is-complete", state.total > 0 && state.checked === state.total);
+  });
 
-    const nextBoundary = new Array(headings.length);
-    const headingStack = [];
-    for (let i = headings.length - 1; i >= 0; i -= 1) {
-      const level = Number(headings[i].tagName.slice(1));
-      while (headingStack.length &&
-             Number(headings[headingStack[headingStack.length - 1]].tagName.slice(1)) > level) {
-        headingStack.pop();
-      }
-      nextBoundary[i] = headingStack.length ? headingStack[headingStack.length - 1] : headings.length;
-      headingStack.push(i);
-    }
-
-    const totalPrefix = [0];
-    const checkedPrefix = [0];
-    for (let i = 0; i < headings.length; i += 1) {
-      totalPrefix.push(totalPrefix[i] + totalByHeading[i]);
-      checkedPrefix.push(checkedPrefix[i] + checkedByHeading[i]);
-    }
-
-    index.querySelectorAll("li").forEach((item) => {
-      const link = item.querySelector(":scope > a");
-      const id = link?.hash ? decodeURIComponent(link.hash.slice(1)) : "";
-      const start = headingIndexById.get(id);
-      if (start === undefined) {
-        item.classList.remove("is-complete");
-        return;
-      }
-      const end = nextBoundary[start];
-      const total = totalPrefix[end] - totalPrefix[start];
-      const checked = checkedPrefix[end] - checkedPrefix[start];
-      item.classList.toggle("is-complete", total > 0 && checked === total);
+  const updateCompletionForCheckbox = (checkbox, wasChecked, isChecked) => {
+    if (wasChecked === isChecked) return;
+    (completionByCheckbox.get(checkbox) || []).forEach(state => {
+      state.checked += isChecked ? 1 : -1;
+      state.item.classList.toggle("is-complete", state.total > 0 && state.checked === state.total);
     });
   };
-  window.updateTestDocumentationCompletion = updateCompletionStyles;
+  window.updateTestDocumentationCompletionForCheckbox = updateCompletionForCheckbox;
   updateCurrentSection();
-  updateCompletionStyles();
   window.addEventListener("scroll", updateCurrentSection, {passive:true});
   window.addEventListener("resize", updateCurrentSection);
 })();
@@ -176,17 +160,20 @@
   const checkboxes = () => root.querySelectorAll(
     "input.test-checklist-box[data-checklist-line][data-checklist-occurrence]"
   );
-  const updateCompletionStyles = () => window.updateTestDocumentationCompletion?.();
   const applyStatuses = (data) => {
     revision = data.revision;
     config.dataset.revision = revision;
     checkboxes().forEach((checkbox) => {
       const id = "line-" + checkbox.dataset.checklistLine + "-" + checkbox.dataset.checklistOccurrence;
       if (Object.prototype.hasOwnProperty.call(data.statuses, id)) {
-        checkbox.checked = Boolean(data.statuses[id]);
+        const wasChecked = checkbox.checked;
+        const isChecked = Boolean(data.statuses[id]);
+        if (wasChecked !== isChecked) {
+          checkbox.checked = isChecked;
+          window.updateTestDocumentationCompletionForCheckbox?.(checkbox, wasChecked, isChecked);
+        }
       }
     });
-    updateCompletionStyles();
   };
   const refresh = async () => {
     if (refreshing || pendingSaves > 0) return;
@@ -210,7 +197,7 @@
   checkboxes().forEach((checkbox) => {
     checkbox.addEventListener("change", async () => {
       const desired = checkbox.checked;
-      updateCompletionStyles();
+      window.updateTestDocumentationCompletionForCheckbox?.(checkbox, !desired, desired);
       pendingSaves += 1;
       const payload = {
         line: Number(checkbox.dataset.checklistLine),
@@ -244,6 +231,7 @@
         status.textContent = "Gespeichert – andere Nutzer werden automatisch aktualisiert.";
       } catch (error) {
         checkbox.checked = !desired;
+        window.updateTestDocumentationCompletionForCheckbox?.(checkbox, desired, !desired);
         status.textContent = error.message || "Speichern fehlgeschlagen. Bitte erneut versuchen.";
       } finally {
         pendingSaves = Math.max(0, pendingSaves - 1);
@@ -252,7 +240,7 @@
     });
   });
 
-  window.setInterval(refresh, 2000);
+  window.setInterval(refresh, 15000);
 })();
 </script>
 {% endif %}
