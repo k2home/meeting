@@ -3531,7 +3531,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-- [ ] Mit einem globalen Auditor-Konto anmelden.
+- [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
 - [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
 - [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
@@ -6263,7 +6263,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Mit einem globalen Auditor-Konto anmelden.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
 - [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
 - [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
