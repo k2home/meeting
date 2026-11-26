@@ -1632,13 +1632,13 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Es werden keine Konten- oder Profildaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 4.11.2 Benutzer per CSV importieren – Prüfrolle: globale Nutzerrolle ohne globale Adminrolle
@@ -1648,13 +1648,13 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
-- [ ] Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
 **Test erfolgreich:** [ ]
 #### 4.11.3 Themen als CSV exportieren – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
@@ -1759,13 +1759,13 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
-- [ ] Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 4.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
@@ -1793,13 +1793,13 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
-- [ ] Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
 **Test erfolgreich:** [ ]
 ### 4.14 Auditor*innenbereich
@@ -1811,13 +1811,13 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
-- [ ] Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
 **Test erfolgreich:** [ ]
 #### 4.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globale Nutzerrolle ohne Auditorrolle
@@ -1827,13 +1827,13 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
-- [ ] Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ## 5. Produktiv – Ohne Berechtigungen
@@ -1973,13 +1973,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
-- [ ] Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.4.3 Einzelnen Termin löschen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -1989,13 +1989,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Termin wird nicht gelöscht.
-- [ ] Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2005,13 +2005,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
-- [ ] Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2021,13 +2021,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
-- [ ] Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 ### 5.5 Themen anlegen und bearbeiten
@@ -2039,13 +2039,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
 **Test erfolgreich:** [ ]
 #### 5.5.2 Thema über einen Termin anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2055,13 +2055,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
 **Test erfolgreich:** [ ]
 #### 5.5.3 Thema bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2071,13 +2071,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Themenänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.5.4 Themenstatus ändern – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2087,13 +2087,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Statusänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2103,13 +2103,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
-- [ ] Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2119,13 +2119,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Übertragung wird verweigert oder ist nicht verfügbar.
-- [ ] Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
 **Test erfolgreich:** [ ]
 #### 5.5.7 Themenvorschläge verwenden – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2151,13 +2151,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Bearbeitung wird verweigert oder ist nicht verfügbar.
-- [ ] Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2167,13 +2167,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Sortierung wird verweigert oder ist nicht verfügbar.
-- [ ] Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2183,13 +2183,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Tagesordnungspunkt wird nicht entfernt.
-- [ ] Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
 **Test erfolgreich:** [ ]
 #### 5.6.4 Wiedervorlage anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2199,13 +2199,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiedervorlage wird nicht angelegt.
-- [ ] Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
 **Test erfolgreich:** [ ]
 #### 5.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2215,13 +2215,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Fortführung wird verweigert oder ist nicht verfügbar.
-- [ ] Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
 **Test erfolgreich:** [ ]
 #### 5.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2231,13 +2231,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
-- [ ] Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 5.7 Kommentare, Anlagen und Links
@@ -2249,13 +2249,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Kommentar wird nicht gespeichert.
-- [ ] Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.7.2 Datei als Themenanlage hochladen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2265,13 +2265,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird verweigert oder ist nicht verfügbar.
-- [ ] Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 5.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2281,13 +2281,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
-- [ ] Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 5.7.4 Anlage herunterladen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2297,13 +2297,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Download wird verweigert oder liefert keine geschützte Datei aus.
-- [ ] Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.7.5 Anlage löschen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2313,13 +2313,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
-- [ ] Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
 **Test erfolgreich:** [ ]
 #### 5.7.6 Upload-Grenzen prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2329,13 +2329,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
-- [ ] Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
 **Test erfolgreich:** [ ]
 ### 5.8 Besprechung abschließen und Protokoll
@@ -2347,13 +2347,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
-- [ ] Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.8.2 Protokoll anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2363,13 +2363,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Protokoll wird nicht angezeigt oder ausgegeben.
-- [ ] Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2379,13 +2379,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
-- [ ] Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
 **Test erfolgreich:** [ ]
 #### 5.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2395,13 +2395,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
-- [ ] Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2411,13 +2411,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der PDF-Export wird verweigert oder ist nicht verfügbar.
-- [ ] Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
 **Test erfolgreich:** [ ]
 ### 5.9 Offene Themen und Archiv
@@ -2429,13 +2429,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
-- [ ] Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
 **Test erfolgreich:** [ ]
 #### 5.9.2 Archiv aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2498,13 +2498,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Entscheidung wird verweigert oder ist nicht verfügbar.
-- [ ] Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 5.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2535,13 +2535,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Es werden keine Konten- oder Profildaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.11.2 Benutzer per CSV importieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2551,13 +2551,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
-- [ ] Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
 **Test erfolgreich:** [ ]
 #### 5.11.3 Themen als CSV exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2567,13 +2567,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.11.4 Themen per CSV importieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2583,13 +2583,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird verweigert.
-- [ ] Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
 **Test erfolgreich:** [ ]
 ### 5.12 Änderungsverlauf und Audit
@@ -2631,13 +2631,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 5.13 Aufbewahrung und automatische Löschung
@@ -2649,13 +2649,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
-- [ ] Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2679,13 +2679,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
-- [ ] Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
 **Test erfolgreich:** [ ]
 ### 5.14 Auditor*innenbereich
@@ -2697,13 +2697,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
-- [ ] Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
 **Test erfolgreich:** [ ]
 #### 5.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2713,13 +2713,13 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
-- [ ] Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ## 6. Produktiv – Leser
@@ -2857,13 +2857,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
-- [ ] Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.4.3 Einzelnen Termin löschen – Prüfrolle: Leser*in (Serienrolle)
@@ -2873,13 +2873,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Termin wird nicht gelöscht.
-- [ ] Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Leser*in (Serienrolle)
@@ -2889,13 +2889,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
-- [ ] Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Leser*in (Serienrolle)
@@ -2921,13 +2921,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
 **Test erfolgreich:** [ ]
 #### 6.5.2 Thema über einen Termin anlegen – Prüfrolle: Leser*in (Serienrolle)
@@ -2937,13 +2937,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
 **Test erfolgreich:** [ ]
 #### 6.5.3 Thema bearbeiten – Prüfrolle: Leser*in (Serienrolle)
@@ -2953,13 +2953,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Themenänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.5.4 Themenstatus ändern – Prüfrolle: Leser*in (Serienrolle)
@@ -2969,13 +2969,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Statusänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Leser*in (Serienrolle)
@@ -2985,13 +2985,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
-- [ ] Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Leser*in (Serienrolle)
@@ -3001,13 +3001,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Übertragung wird verweigert oder ist nicht verfügbar.
-- [ ] Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
 **Test erfolgreich:** [ ]
 #### 6.5.7 Themenvorschläge verwenden – Prüfrolle: Leser*in (Serienrolle)
@@ -3017,13 +3017,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themenvorschlags-Endpunkt bzw. die Vorschlagsfunktion in einem Testformular aufrufen und versuchen, einen Vorschlag zu übernehmen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es werden keine Themenvorschläge aus nicht zugänglichen Reihen ausgegeben.
-- [ ] Es wird kein Thema angelegt oder verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themenvorschläge aus nicht zugänglichen Reihen ausgegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein Thema angelegt oder verändert.
 
 **Test erfolgreich:** [ ]
 ### 6.6 Tagesordnungspunkte und Wiedervorlagen
@@ -3035,13 +3035,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Bearbeitung wird verweigert oder ist nicht verfügbar.
-- [ ] Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Leser*in (Serienrolle)
@@ -3051,13 +3051,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Sortierung wird verweigert oder ist nicht verfügbar.
-- [ ] Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Leser*in (Serienrolle)
@@ -3067,13 +3067,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Tagesordnungspunkt wird nicht entfernt.
-- [ ] Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
 **Test erfolgreich:** [ ]
 #### 6.6.4 Wiedervorlage anlegen – Prüfrolle: Leser*in (Serienrolle)
@@ -3083,13 +3083,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiedervorlage wird nicht angelegt.
-- [ ] Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
 **Test erfolgreich:** [ ]
 #### 6.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Leser*in (Serienrolle)
@@ -3099,13 +3099,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Fortführung wird verweigert oder ist nicht verfügbar.
-- [ ] Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
 **Test erfolgreich:** [ ]
 #### 6.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Leser*in (Serienrolle)
@@ -3136,13 +3136,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Kommentar wird nicht gespeichert.
-- [ ] Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.7.2 Datei als Themenanlage hochladen – Prüfrolle: Leser*in (Serienrolle)
@@ -3152,13 +3152,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird verweigert oder ist nicht verfügbar.
-- [ ] Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 6.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Leser*in (Serienrolle)
@@ -3168,13 +3168,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
-- [ ] Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 6.7.4 Anlage herunterladen – Prüfrolle: Leser*in (Serienrolle)
@@ -3201,13 +3201,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
-- [ ] Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
 **Test erfolgreich:** [ ]
 #### 6.7.6 Upload-Grenzen prüfen – Prüfrolle: Leser*in (Serienrolle)
@@ -3217,13 +3217,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
-- [ ] Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
 **Test erfolgreich:** [ ]
 ### 6.8 Besprechung abschließen und Protokoll
@@ -3235,13 +3235,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
-- [ ] Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
 **Test erfolgreich:** [ ]
 #### 6.8.2 Protokoll anzeigen – Prüfrolle: Leser*in (Serienrolle)
@@ -3287,13 +3287,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
-- [ ] Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Leser*in (Serienrolle)
@@ -3358,13 +3358,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Inhalte werden nicht angezeigt oder heruntergeladen.
-- [ ] Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 6.10 Berechtigungsanträge
@@ -3392,13 +3392,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Entscheidung wird verweigert oder ist nicht verfügbar.
-- [ ] Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 6.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Leser*in (Serienrolle)
@@ -3427,13 +3427,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Es werden keine Konten- oder Profildaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 6.11.2 Benutzer per CSV importieren – Prüfrolle: Leser*in (Serienrolle)
@@ -3443,13 +3443,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
-- [ ] Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
 **Test erfolgreich:** [ ]
 #### 6.11.3 Themen als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
@@ -3459,13 +3459,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 6.11.4 Themen per CSV importieren – Prüfrolle: Leser*in (Serienrolle)
@@ -3475,13 +3475,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird verweigert.
-- [ ] Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
 **Test erfolgreich:** [ ]
 ### 6.12 Änderungsverlauf und Audit
@@ -3523,13 +3523,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 6.13 Aufbewahrung und automatische Löschung
@@ -3541,13 +3541,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
-- [ ] Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 6.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Leser*in (Serienrolle)
@@ -3572,13 +3572,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
-- [ ] Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
 **Test erfolgreich:** [ ]
 ### 6.14 Auditor*innenbereich
@@ -3590,13 +3590,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
-- [ ] Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
 **Test erfolgreich:** [ ]
 #### 6.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Leser*in (Serienrolle)
@@ -3606,13 +3606,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
-- [ ] Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ## 7. Produktiv – Teilnehmer
@@ -3756,13 +3756,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
-- [ ] Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 7.4.3 Einzelnen Termin löschen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -3772,13 +3772,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Termin wird nicht gelöscht.
-- [ ] Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 7.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -3894,13 +3894,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
-- [ ] Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 7.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4223,13 +4223,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
-- [ ] Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 7.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4294,13 +4294,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Inhalte werden nicht angezeigt oder heruntergeladen.
-- [ ] Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 7.10 Berechtigungsanträge
@@ -4328,13 +4328,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Entscheidung wird verweigert oder ist nicht verfügbar.
-- [ ] Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 7.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4363,13 +4363,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Es werden keine Konten- oder Profildaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 7.11.2 Benutzer per CSV importieren – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4379,13 +4379,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
-- [ ] Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
 **Test erfolgreich:** [ ]
 #### 7.11.3 Themen als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4395,13 +4395,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 7.11.4 Themen per CSV importieren – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4411,13 +4411,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird verweigert.
-- [ ] Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
 **Test erfolgreich:** [ ]
 ### 7.12 Änderungsverlauf und Audit
@@ -4459,13 +4459,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 7.13 Aufbewahrung und automatische Löschung
@@ -4477,13 +4477,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
-- [ ] Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 7.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4508,13 +4508,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
-- [ ] Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
 **Test erfolgreich:** [ ]
 ### 7.14 Auditor*innenbereich
@@ -4526,13 +4526,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
-- [ ] Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
 **Test erfolgreich:** [ ]
 #### 7.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4542,13 +4542,13 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
-- [ ] Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ## 8. Produktiv – Moderator
@@ -5365,13 +5365,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Inhalte werden nicht angezeigt oder heruntergeladen.
-- [ ] Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 8.10 Berechtigungsanträge
@@ -5438,13 +5438,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Es werden keine Konten- oder Profildaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 8.11.2 Benutzer per CSV importieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -5454,13 +5454,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
-- [ ] Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
 **Test erfolgreich:** [ ]
 #### 8.11.3 Themen als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -5565,13 +5565,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
-- [ ] Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 8.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -5596,13 +5596,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
-- [ ] Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
 **Test erfolgreich:** [ ]
 ### 8.14 Auditor*innenbereich
@@ -5614,13 +5614,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
-- [ ] Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
 **Test erfolgreich:** [ ]
 #### 8.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -5630,13 +5630,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
-- [ ] Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ## 9. Produktiv – Globale Rolle Admin
@@ -5716,13 +5716,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die persönliche Aufgabenübersicht über Navigation und direkte URL öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es werden keine Aufgaben aus nicht zugewiesenen Reihen angezeigt.
-- [ ] Die Seite gibt keine Themen- oder Zuständigkeitsdaten fremder Reihen preis.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Aufgaben aus nicht zugewiesenen Reihen angezeigt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Seite gibt keine Themen- oder Zuständigkeitsdaten fremder Reihen preis.
 
 **Test erfolgreich:** [ ]
 ### 9.3 Besprechungsreihen verwalten
@@ -5768,13 +5768,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, das Enddatum einer Bestandsreihe ohne Moderatorzuweisung zu verlängern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Verlängerung wird verweigert oder ist nicht verfügbar.
-- [ ] Enddatum, Terminfolge und Serienzuweisungen bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verlängerung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Enddatum, Terminfolge und Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5784,13 +5784,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, die Terminfolge einer Bestandsreihe ohne Moderatorzuweisung neu aufzusetzen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Neuaufsetzen wird verweigert oder ist nicht verfügbar.
-- [ ] Bestehende Termine, Themen, Tagesordnungspunkte und Serienzuweisungen bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Neuaufsetzen wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bestehende Termine, Themen, Tagesordnungspunkte und Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.3.5 Besprechungsreihe löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5800,13 +5800,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, eine Bestandsreihe ohne Moderatorzuweisung zu löschen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Löschung wird verweigert oder ist nicht verfügbar.
-- [ ] Die Besprechungsreihe und sämtliche zugehörigen Termine, Themen und Berechtigungen bleiben erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Besprechungsreihe und sämtliche zugehörigen Termine, Themen und Berechtigungen bleiben erhalten.
 
 **Test erfolgreich:** [ ]
 #### 9.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5816,13 +5816,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Berechtigungsverwaltung einer bekannten Bestandsreihe öffnen und versuchen, die Rolle eines separaten Testkontos zu ändern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Berechtigungsänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Bestehende Serienzuweisungen und Rollen bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Berechtigungsänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bestehende Serienzuweisungen und Rollen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.3.7 Zugriff auf fachliche Inhalte ohne Serienzuweisung prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5870,13 +5870,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsübersicht und Bearbeitungsseite einer Reihe ohne Moderatorzuweisung direkt aufrufen und eine schreibende Aktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die fremde Reihe wird nicht zur Verwaltung freigegeben.
-- [ ] Seriendaten und Berechtigungen der fremden Reihe bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die fremde Reihe wird nicht zur Verwaltung freigegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Seriendaten und Berechtigungen der fremden Reihe bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 ### 9.4 Termine und Besprechungsübersicht
@@ -5902,13 +5902,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
-- [ ] Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.4.3 Einzelnen Termin löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5918,13 +5918,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Termin wird nicht gelöscht.
-- [ ] Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5934,13 +5934,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
-- [ ] Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5950,13 +5950,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
-- [ ] Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 ### 9.5 Themen anlegen und bearbeiten
@@ -5968,13 +5968,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
 **Test erfolgreich:** [ ]
 #### 9.5.2 Thema über einen Termin anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5984,13 +5984,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
 **Test erfolgreich:** [ ]
 #### 9.5.3 Thema bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6000,13 +6000,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Themenänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.5.4 Themenstatus ändern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6016,13 +6016,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Statusänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6032,13 +6032,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
-- [ ] Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6048,13 +6048,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Übertragung wird verweigert oder ist nicht verfügbar.
-- [ ] Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
 **Test erfolgreich:** [ ]
 #### 9.5.7 Themenvorschläge verwenden – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6080,13 +6080,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Bearbeitung wird verweigert oder ist nicht verfügbar.
-- [ ] Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6096,13 +6096,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Sortierung wird verweigert oder ist nicht verfügbar.
-- [ ] Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6112,13 +6112,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Tagesordnungspunkt wird nicht entfernt.
-- [ ] Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
 **Test erfolgreich:** [ ]
 #### 9.6.4 Wiedervorlage anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6128,13 +6128,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiedervorlage wird nicht angelegt.
-- [ ] Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
 **Test erfolgreich:** [ ]
 #### 9.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6144,13 +6144,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Fortführung wird verweigert oder ist nicht verfügbar.
-- [ ] Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
 **Test erfolgreich:** [ ]
 #### 9.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6160,13 +6160,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
-- [ ] Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 9.7 Kommentare, Anlagen und Links
@@ -6178,13 +6178,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Kommentar wird nicht gespeichert.
-- [ ] Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 9.7.2 Datei als Themenanlage hochladen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6194,13 +6194,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird verweigert oder ist nicht verfügbar.
-- [ ] Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 9.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6210,13 +6210,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
-- [ ] Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 9.7.4 Anlage herunterladen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6226,13 +6226,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Download wird verweigert oder liefert keine geschützte Datei aus.
-- [ ] Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 9.7.5 Anlage löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6242,13 +6242,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
-- [ ] Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
 **Test erfolgreich:** [ ]
 #### 9.7.6 Upload-Grenzen prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6258,13 +6258,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
-- [ ] Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
 **Test erfolgreich:** [ ]
 ### 9.8 Besprechung abschließen und Protokoll
@@ -6276,13 +6276,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
-- [ ] Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
 **Test erfolgreich:** [ ]
 #### 9.8.2 Protokoll anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6292,13 +6292,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Protokoll wird nicht angezeigt oder ausgegeben.
-- [ ] Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 9.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6308,13 +6308,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
-- [ ] Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
 **Test erfolgreich:** [ ]
 #### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6339,13 +6339,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der PDF-Export wird verweigert oder ist nicht verfügbar.
-- [ ] Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
 **Test erfolgreich:** [ ]
 ### 9.9 Offene Themen und Archiv
@@ -6357,13 +6357,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
-- [ ] Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
 **Test erfolgreich:** [ ]
 #### 9.9.2 Archiv aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6387,13 +6387,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Inhalte werden nicht angezeigt oder heruntergeladen.
-- [ ] Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 9.10 Berechtigungsanträge
@@ -6493,13 +6493,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 9.11.4 Themen per CSV importieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6509,13 +6509,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird verweigert.
-- [ ] Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
 **Test erfolgreich:** [ ]
 ### 9.12 Änderungsverlauf und Audit
@@ -6636,13 +6636,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
-- [ ] Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
 **Test erfolgreich:** [ ]
 #### 9.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6652,13 +6652,13 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
-- [ ] Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ## 10. Produktiv – Globale Rolle Auditor
@@ -6776,11 +6776,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit einem globalen Auditor-Konto anmelden.
 - [ ] Die Terminübersicht über die Navigation öffnen und zusätzlich ihre direkte URL aufrufen.
 - [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
-- [ ] Einen bekannten Termin ausschließlich über dessen direkte URL aufrufen, um die Sperre der Termin-Detailseite zu bestätigen.
 
 **Ergebnisprüfung**
 - [ ] Die Terminübersicht wird nicht als fachliche Terminansicht angezeigt, sondern leitet zur Auditor*innenübersicht weiter.
-- [ ] Die direkte URL eines bekannten Termins liefert keinen fachlichen Termininhalt.
 - [ ] Weder Termine noch Tagesordnungspunkte oder Teilnehmerdaten werden offengelegt.
 - [ ] Nach diesem Nachweis werden keine nachgelagerten Funktionen des Terminbereichs für diese Rolle getestet.
 
@@ -6792,13 +6790,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
-- [ ] Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.4.3 Einzelnen Termin löschen – Prüfrolle: globale Auditor*in
@@ -6808,13 +6806,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Termin wird nicht gelöscht.
-- [ ] Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globale Auditor*in
@@ -6824,13 +6822,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
-- [ ] Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globale Auditor*in
@@ -6840,13 +6838,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
-- [ ] Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 ### 10.5 Themen anlegen und bearbeiten
@@ -6858,13 +6856,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
 **Test erfolgreich:** [ ]
 #### 10.5.2 Thema über einen Termin anlegen – Prüfrolle: globale Auditor*in
@@ -6874,13 +6872,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Testthema wird nicht angelegt.
-- [ ] Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
 **Test erfolgreich:** [ ]
 #### 10.5.3 Thema bearbeiten – Prüfrolle: globale Auditor*in
@@ -6890,13 +6888,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Themenänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.5.4 Themenstatus ändern – Prüfrolle: globale Auditor*in
@@ -6906,13 +6904,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Statusänderung wird verweigert oder ist nicht verfügbar.
-- [ ] Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globale Auditor*in
@@ -6922,13 +6920,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
-- [ ] Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Auditor*in
@@ -6938,13 +6936,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Übertragung wird verweigert oder ist nicht verfügbar.
-- [ ] Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
 **Test erfolgreich:** [ ]
 #### 10.5.7 Themenvorschläge verwenden – Prüfrolle: globale Auditor*in
@@ -6970,13 +6968,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Bearbeitung wird verweigert oder ist nicht verfügbar.
-- [ ] Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globale Auditor*in
@@ -6986,13 +6984,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Sortierung wird verweigert oder ist nicht verfügbar.
-- [ ] Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globale Auditor*in
@@ -7002,13 +7000,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Tagesordnungspunkt wird nicht entfernt.
-- [ ] Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
 **Test erfolgreich:** [ ]
 #### 10.6.4 Wiedervorlage anlegen – Prüfrolle: globale Auditor*in
@@ -7018,13 +7016,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiedervorlage wird nicht angelegt.
-- [ ] Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
 **Test erfolgreich:** [ ]
 #### 10.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globale Auditor*in
@@ -7034,13 +7032,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Fortführung wird verweigert oder ist nicht verfügbar.
-- [ ] Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
 **Test erfolgreich:** [ ]
 #### 10.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globale Auditor*in
@@ -7050,13 +7048,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
-- [ ] Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 10.7 Kommentare, Anlagen und Links
@@ -7068,13 +7066,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Kommentar wird nicht gespeichert.
-- [ ] Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.7.2 Datei als Themenanlage hochladen – Prüfrolle: globale Auditor*in
@@ -7084,13 +7082,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird verweigert oder ist nicht verfügbar.
-- [ ] Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 10.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globale Auditor*in
@@ -7100,13 +7098,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
-- [ ] Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
 **Test erfolgreich:** [ ]
 #### 10.7.4 Anlage herunterladen – Prüfrolle: globale Auditor*in
@@ -7116,13 +7114,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Download wird verweigert oder liefert keine geschützte Datei aus.
-- [ ] Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 10.7.5 Anlage löschen – Prüfrolle: globale Auditor*in
@@ -7132,13 +7130,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
-- [ ] Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
 **Test erfolgreich:** [ ]
 #### 10.7.6 Upload-Grenzen prüfen – Prüfrolle: globale Auditor*in
@@ -7148,13 +7146,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
-- [ ] Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
 **Test erfolgreich:** [ ]
 ### 10.8 Besprechung abschließen und Protokoll
@@ -7166,13 +7164,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
-- [ ] Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
 **Test erfolgreich:** [ ]
 #### 10.8.2 Protokoll anzeigen – Prüfrolle: globale Auditor*in
@@ -7182,13 +7180,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Das Protokoll wird nicht angezeigt oder ausgegeben.
-- [ ] Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 10.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globale Auditor*in
@@ -7198,13 +7196,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
-- [ ] Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
 **Test erfolgreich:** [ ]
 #### 10.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globale Auditor*in
@@ -7214,13 +7212,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
-- [ ] Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globale Auditor*in
@@ -7230,13 +7228,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der PDF-Export wird verweigert oder ist nicht verfügbar.
-- [ ] Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
 **Test erfolgreich:** [ ]
 ### 10.9 Offene Themen und Archiv
@@ -7248,13 +7246,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
-- [ ] Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
 **Test erfolgreich:** [ ]
 #### 10.9.2 Archiv aufrufen – Prüfrolle: globale Auditor*in
@@ -7279,13 +7277,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Historische Inhalte werden nicht angezeigt oder heruntergeladen.
-- [ ] Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
 **Test erfolgreich:** [ ]
 ### 10.10 Berechtigungsanträge
@@ -7314,13 +7312,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die Entscheidung wird verweigert oder ist nicht verfügbar.
-- [ ] Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 #### 10.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Auditor*in
@@ -7350,13 +7348,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Es werden keine Konten- oder Profildaten offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 10.11.2 Benutzer per CSV importieren – Prüfrolle: globale Auditor*in
@@ -7366,13 +7364,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
-- [ ] Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
 **Test erfolgreich:** [ ]
 #### 10.11.3 Themen als CSV exportieren – Prüfrolle: globale Auditor*in
@@ -7382,13 +7380,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
-- [ ] Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 10.11.4 Themen per CSV importieren – Prüfrolle: globale Auditor*in
@@ -7398,13 +7396,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Import wird verweigert.
-- [ ] Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
 **Test erfolgreich:** [ ]
 ### 10.12 Änderungsverlauf und Audit
@@ -7472,13 +7470,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
-- [ ] Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 10.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Auditor*in
@@ -7502,13 +7500,13 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
-- [ ] Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
+- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
+- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
 **Test erfolgreich:** [ ]
 ### 10.14 Auditor*innenbereich
