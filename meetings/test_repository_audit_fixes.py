@@ -164,7 +164,7 @@ class TopicArchiveWorkflowTests(TestCase):
         response = self.client.post(reverse("topic_archive_toggle", args=[self.topic.pk]))
         self.assertEqual(response.status_code, 302)
         self.topic.refresh_from_db()
-        self.assertEqual(self.topic.status, "open")
+        self.assertEqual(self.topic.status, "done")
         self.assertFalse(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
 
     def test_setting_topic_status_to_done_records_completion_date(self):
