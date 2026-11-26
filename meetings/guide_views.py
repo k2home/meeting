@@ -105,7 +105,7 @@ def test_documentation_toggle(request):
         return JsonResponse({"success": False, "error": "Ungültige Prüffeld-ID."}, status=400)
     source_lines = source.read_text(encoding="utf-8").splitlines()
     line_number, occurrence = map(int, line_match.groups())
-    if line_number > len(source_lines) or len(re.findall(r"\\[([ xX])\\]", source_lines[line_number - 1])) < occurrence:
+    if line_number > len(source_lines) or len(re.findall(r"\[([ xX])\]", source_lines[line_number - 1])) < occurrence:
         return JsonResponse({"success": False, "error": "Prüffeld nicht gefunden."}, status=400)
 
     with transaction.atomic():
