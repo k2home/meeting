@@ -192,7 +192,7 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
             if group["series"].pk == self.series.pk
         )
         self.assertEqual(group["open_topic_count"], 2)
-        self.assertContains(dashboard_response, '>2</a>)')
+        self.assertContains(dashboard_response, '<span class="overdue">2 offene Punkte</span>')
         self.assertContains(dashboard_response, f'href="{reverse("open_topics")}?series={self.series.pk}"')
         self.assertContains(dashboard_response, '<span class="overdue">2</span>')
 
@@ -241,6 +241,10 @@ class OpenTopicsWithoutAgendaItemTests(TestCase):
             title="Ein offener Punkt",
             series=self.series,
             status="open",
+        )
+        Meeting.objects.create(
+            series=self.series,
+            date=self.today + timedelta(days=7),
         )
 
         response = self.client.get(reverse("dashboard"))
