@@ -2,7 +2,7 @@
 
 **Grundlage:** Branch `beta`  
 **Zweck:** Vollständige manuelle Funktionsprüfung des Meeting Managers  
-**Art der Dokumentation:** Ablauf- und Ergebnischeckliste mit Git-versioniertem Prüfstatus direkt im Markdown-Quelldokument
+**Art der Dokumentation:** Ablauf- und Ergebnischeckliste mit lokal bearbeitbarem Prüfstatus und Markdown-Export im TESTING-Modus
 
 ## Verwendung
 
