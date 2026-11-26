@@ -30,6 +30,22 @@ class TestingFixtureViewTests(TestCase):
         self.client.force_login(self.admin)
 
     @patch("meetings.management_views._testing_mode_enabled", return_value=True)
+    @patch("meetings.management_views._testing_count", side_effect=RuntimeError("sensitive database detail"))
+    def test_fixture_errors_do_not_expose_internal_exception_details(self, _testing_count, _testing_mode):
+        url = reverse("testing_fixtures")
+        self.client.get(url)
+        response = self.client.post(url, {
+            "action": "create_series",
+            "series_count": "1",
+            "fixture_nonce": self.client.session["testing_fixture_nonce"],
+        })
+        self.assertRedirects(response, url)
+        followed = self.client.get(url)
+        messages = [str(message) for message in followed.context["messages"]]
+        self.assertTrue(any("Technische Details stehen im Serverprotokoll" in message for message in messages))
+        self.assertFalse(any("sensitive database detail" in message for message in messages))
+
+    @patch("meetings.management_views._testing_mode_enabled", return_value=True)
     def test_all_fixture_actions_can_be_started_independently(self, _testing_mode):
         url = reverse("testing_fixtures")
         response = self.client.get(url)
