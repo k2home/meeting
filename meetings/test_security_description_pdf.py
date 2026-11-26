@@ -182,8 +182,11 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)")
         self.assertContains(response, "Themen als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)")
         self.assertContains(response, "Fehlende Serienberechtigung prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)")
-        self.assertContains(response, "Globaler Admin mit zusätzlicher Moderatorzuweisung")
+        self.assertContains(response, "Globaler Admin mit Moderatorzuweisung in Testreihe A")
         self.assertContains(response, "Moderatorzugriff auf eine fremde Reihe verweigern")
+        self.assertContains(response, "Besprechungsreihe bearbeiten – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe")
+        self.assertContains(response, "9.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globaler Admin")
+        self.assertContains(response, "9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin")
         self.assertContains(response, "5.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung")
         self.assertContains(response, "6.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Leser*in (Serienrolle)")
         self.assertContains(response, "7.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)")
@@ -218,6 +221,30 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
         self.assertContains(response, "<h4 id=")
         self.assertContains(response, "1.1 Anmeldung mit gültigem Konto")
+
+    def test_all_productive_role_cases_have_explicit_steps_and_results(self):
+        from meetings.guide_views import _test_documentation_source_path
+
+        lines = Path(_test_documentation_source_path()).read_text(encoding="utf-8").splitlines()
+        for index, heading in enumerate(lines):
+            if not heading.startswith("#### ") or not heading[5:7] in {"4.", "5.", "6.", "7.", "8.", "9.", "10"}:
+                continue
+            end = index + 1
+            while end < len(lines) and not lines[end].startswith(("#### ", "### ", "## ")):
+                end += 1
+            block = lines[index:end]
+            self.assertIn("**Prüfschritt**", block, heading)
+            result_index = next((i for i, line in enumerate(block) if line == "**Ergebnisprüfung**"), -1)
+            self.assertGreaterEqual(result_index, 0, heading)
+            result_checks = [
+                line for line in block[result_index + 1:]
+                if line.startswith("- ")
+            ]
+            self.assertTrue(result_checks, f"{heading} benötigt konkrete Ergebnisprüfungen")
+            self.assertTrue(
+                all(line.startswith("- [ ] ") for line in result_checks),
+                f"{heading} muss anklickbare Ergebnisprüfungen verwenden",
+            )
 
     def test_denied_role_cases_have_matching_steps_and_result_checks(self):
         from meetings.guide_views import _test_documentation_source_path
