@@ -2115,7 +2115,7 @@ class SeriesAccessRequestTests(TestCase):
             status=self.SeriesAccessRequest.STATUS_PENDING,
         ).exists())
 
-    def test_lower_role_request_is_automatically_approved_and_applied(self):
+    def test_moderator_cannot_self_demote_from_personal_settings(self):
         SeriesAccess.objects.create(
             user=self.requester, series=self.series, role=SeriesAccess.ROLE_MODERATOR
         )
