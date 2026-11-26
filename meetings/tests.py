@@ -2064,6 +2064,24 @@ class SeriesAccessRequestTests(TestCase):
             actor=self.moderator,
         ).exists())
 
+    def test_invalid_bulk_series_role_does_not_commit_partial_changes(self):
+        SeriesAccess.objects.create(
+            user=self.requester, series=self.series, role=SeriesAccess.ROLE_READER
+        )
+        self.client.force_login(self.moderator)
+        response = self.client.post(
+            reverse("series_manage_user_access", args=[self.series.pk]),
+            {
+                f"role_{self.requester.pk}": SeriesAccess.ROLE_PARTICIPANT,
+                f"role_{self.moderator.pk}": "invalid-role",
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(
+            SeriesAccess.objects.get(user=self.requester, series=self.series).role,
+            SeriesAccess.ROLE_READER,
+        )
+
     def test_moderator_cannot_change_or_remove_own_moderator_role(self):
         self.client.force_login(self.moderator)
         response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
