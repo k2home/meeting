@@ -219,6 +219,49 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "<h4 id=")
         self.assertContains(response, "1.1 Anmeldung mit gültigem Konto")
 
+    def test_denied_role_cases_have_matching_steps_and_result_checks(self):
+        from meetings.guide_views import _test_documentation_source_path
+
+        lines = Path(_test_documentation_source_path()).read_text(encoding="utf-8").splitlines()
+        for index, heading in enumerate(lines):
+            if not heading.startswith("#### ") or not heading[5:7] in {"4.", "5.", "6.", "7.", "8.", "9.", "10"}:
+                continue
+            end = index + 1
+            while end < len(lines) and not lines[end].startswith(("#### ", "### ", "## ")):
+                end += 1
+            block = lines[index:end]
+            permission = next((line for line in block if line.startswith("**Berechtigungserwartung")), "")
+            if "Zugriff verweigert" not in permission:
+                continue
+
+            result_index = next((i for i, line in enumerate(block) if line == "**Ergebnisprüfung**"), -1)
+            self.assertGreaterEqual(result_index, 0, heading)
+            steps = block[:result_index]
+            self.assertTrue(
+                "**Prüfschritt**" in steps or any(line.startswith("- [ ] ") for line in steps),
+                f"{heading} benötigt einen konkreten Prüfschritt oder eine Zugriffs-Checkliste",
+            )
+            result_checks = [
+                line for line in block[result_index + 1:]
+                if line.startswith("- ")
+            ]
+            self.assertTrue(result_checks, f"{heading} benötigt eine Ergebnisprüfung")
+            self.assertTrue(
+                all(line.startswith("- [ ] ") for line in result_checks),
+                f"{heading} muss anklickbare Ergebnisprüfungen verwenden",
+            )
+
+    def test_role_specific_access_expectations_match_reachable_empty_views(self):
+        from meetings.guide_views import _test_documentation_source_path
+
+        document = Path(_test_documentation_source_path()).read_text(encoding="utf-8")
+        self.assertIn("5.4.1 Terminübersicht aufrufen", document)
+        self.assertIn("5.4.1 Terminübersicht aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung\\n**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.", document)
+        self.assertIn("6.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Leser*in (Serienrolle)\\n**Berechtigungserwartung für Leser: Zugriff erlaubt.", document)
+        self.assertIn("9.9.2 Archiv aufrufen – Prüfrolle: globaler Admin", document)
+        self.assertIn("10.4.1 Terminübersicht aufrufen – Prüfrolle: globale Auditor*in\\n**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.", document)
+        self.assertIn("Die Änderungsverlaufseite ist erreichbar", document)
+
     def test_checklist_source_path_can_be_configured_for_docker_volume(self):
         from meetings.guide_views import _test_documentation_source_path
 
