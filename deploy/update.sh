@@ -69,14 +69,9 @@ fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
 # below because it is intentionally local and may have been tracked by old releases.
-CHECKLIST_FILE="$APP_DIR/docs/Pruefung-des-Verfahrens-Testdokumentation.md"
+CHECKLIST_RELATIVE="docs/Pruefung-des-Verfahrens-Testdokumentation.md"
+CHECKLIST_FILE="$APP_DIR/$CHECKLIST_RELATIVE"
 CHECKLIST_BACKUP=""
-if ! git -C "$APP_DIR" diff --quiet -- "$CHECKLIST_FILE" \
-  || ! git -C "$APP_DIR" diff --cached --quiet -- "$CHECKLIST_FILE"; then
-  CHECKLIST_BACKUP="$(mktemp /root/meeting-manager-checklist.XXXXXX)"
-  cp -a "$CHECKLIST_FILE" "$CHECKLIST_BACKUP"
-  echo "Lokaler Prüfstand wird über das Update hinweg gesichert."
-fi
 
 if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md' \
   || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md'; then
@@ -89,6 +84,12 @@ if [[ -n "$UNTRACKED_FILES" ]]; then
   echo "Update abgebrochen: Es gibt nicht versionierte Dateien im Repository:" >&2
   printf '%s\n' "$UNTRACKED_FILES" >&2
   exit 1
+fi
+if ! git -C "$APP_DIR" diff --quiet -- "$CHECKLIST_RELATIVE" \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- "$CHECKLIST_RELATIVE"; then
+  CHECKLIST_BACKUP="$(mktemp /root/meeting-manager-checklist.XXXXXX)"
+  cp -a "$CHECKLIST_FILE" "$CHECKLIST_BACKUP"
+  echo "Lokaler Prüfstand wird über das Update hinweg gesichert."
 fi
 
 # Keep enough information to restore the previous source revision if the
@@ -113,12 +114,6 @@ restore_env() {
 handle_update_exit() {
   local exit_code=$?
   trap - EXIT
-
-  if [[ -n "$CHECKLIST_BACKUP" && -f "$CHECKLIST_BACKUP" ]]; then
-    install -o meetingapp -g www-data -m 0660 "$CHECKLIST_BACKUP" "$CHECKLIST_FILE"
-    rm -f "$CHECKLIST_BACKUP"
-    CHECKLIST_BACKUP=""
-  fi
 
   if [[ -n "$ENV_BACKUP" && -f "$ENV_BACKUP" ]]; then
     if ! restore_env; then
@@ -156,6 +151,18 @@ handle_update_exit() {
     else
       echo "Der Quellcode bleibt auf dem Zielstand: Abhängigkeiten oder Datenbankmigrationen wurden bereits begonnen. Bitte Protokoll prüfen und bei Bedarf aus einem Backup wiederherstellen." >&2
     fi
+  fi
+
+  if [[ -n "$CHECKLIST_BACKUP" && -f "$CHECKLIST_BACKUP" ]]; then
+    install -o meetingapp -g www-data -m 0660 "$CHECKLIST_BACKUP" "$CHECKLIST_FILE"
+    rm -f "$CHECKLIST_BACKUP"
+    CHECKLIST_BACKUP=""
+  fi
+  if [[ -d "$APP_DIR/docs" && -f "$CHECKLIST_FILE" ]]; then
+    chown root:www-data "$APP_DIR/docs"
+    chmod 1775 "$APP_DIR/docs"
+    chown meetingapp:www-data "$CHECKLIST_FILE"
+    chmod 660 "$CHECKLIST_FILE"
   fi
   exit "$exit_code"
 }
