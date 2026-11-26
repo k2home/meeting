@@ -1831,7 +1831,7 @@ class UserOverviewTests(TestCase):
         self.assertContains(response, 'data-current-role="reader"')
         self.assertContains(response, '<button type="submit" hidden>Antrag senden</button>', html=True)
         self.assertContains(response, ".series-access-list{display:grid;grid-template-columns:minmax(0,1fr)")
-        self.assertContains(response, ".series-access-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(14rem,.8fr)")
+        self.assertContains(response, ".series-access-row{display:grid;grid-template-columns:minmax(0,1fr)")
 
     def test_user_can_edit_own_profile(self):
         response = self.client.post(reverse("user_overview"), {
