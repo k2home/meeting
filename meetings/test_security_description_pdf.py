@@ -173,6 +173,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<ul>")
         self.assertContains(response, "<li>")
+        self.assertContains(response, "<p><strong>Ergebnisprüfung</strong></p>")
         self.assertContains(response, "<p><strong>Test erfolgreich:</strong>")
         self.assertNotContains(response, "<h2><strong>Test erfolgreich:</strong>")
         self.assertContains(response, "document-content ul")
