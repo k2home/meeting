@@ -184,7 +184,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "document-content ul")
         self.assertContains(response, "document-content hr")
         self.assertContains(response, "8.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
-        for phase in ("Installation", "Ersteinrichtung", "Testing", "Produktiv"):
+        for phase in ("Installation", "Ersteinrichtung", "Testing", "Produktiv – Globale Rolle Nutzer", "Produktiv – Ohne Berechtigungen", "Produktiv – Leser", "Produktiv – Teilnehmer", "Produktiv – Moderator", "Produktiv – Globale Rolle Admin", "Produktiv – Globale Rolle Auditor"):
             self.assertContains(response, f'id="{phase.lower()}"')
         self.assertContains(response, 'class="card test-document-index"')
         self.assertContains(response, 'class="test-document-layout"')
@@ -192,7 +192,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, '.test-document-index .toc>ul>li>ul>li>ul>li.is-current>ul{display:block}')
         self.assertContains(response, 'querySelectorAll(\":scope > ul > li > ul > li > ul > li\")')
         self.assertContains(response, 'window.addEventListener("scroll", updateCurrentSection')
-        for anchor in ("installation", "ersteinrichtung", "testing", "produktiv"):
+        for anchor in ("installation", "ersteinrichtung", "testing", "produktiv-globale-rolle-nutzer", "produktiv-ohne-berechtigungen", "produktiv-leser", "produktiv-teilnehmer", "produktiv-moderator", "produktiv-globale-rolle-admin", "produktiv-globale-rolle-auditor"):
             self.assertContains(response, f'href="#{anchor}"')
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
         self.assertContains(response, "<h4 id=")
