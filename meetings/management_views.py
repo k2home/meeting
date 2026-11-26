@@ -1430,7 +1430,7 @@ def testing_fixtures(request):
             messages.error(request, " ".join(exc.messages))
         except Exception as exc:
             logger.exception("Fehler beim Erzeugen von Testdaten")
-            messages.error(request, f"Testdaten konnten nicht vollständig erzeugt werden: {exc}")
+            messages.error(request, "Testdaten konnten nicht vollständig erzeugt werden. Technische Details stehen im Serverprotokoll.")
         return redirect("testing_fixtures")
 
     return render(request, "meetings/testing_fixtures.html", {
