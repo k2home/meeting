@@ -167,6 +167,8 @@ def test_documentation_toggle(request):
         return JsonResponse({"error": "TESTING-Modus ist nicht aktiv."}, status=403)
     try:
         payload = json.loads(request.body.decode("utf-8"))
+        if not isinstance(payload, dict):
+            return JsonResponse({"error": "Ungültige Anfrage."}, status=400)
         line_number = int(payload.get("line", 0))
         occurrence = int(payload.get("occurrence", 0))
         checked = payload.get("checked")
