@@ -1,18 +1,21 @@
+import base64
+import json
 from io import BytesIO
 from pathlib import Path
 import re
+import urllib.error
+import urllib.parse
+import urllib.request
 from xml.sax.saxutils import escape
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
 import markdown
 
-from .models import TestChecklistState
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -48,75 +51,142 @@ def security_description(request):
     })
 
 
-@login_required
-def test_documentation(request):
-    """Render the shared manual test checklist with its persisted checkbox state."""
-    source = Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
-    if not source.is_file():
-        return HttpResponse("Die Testcheckliste ist derzeit nicht verfügbar.", status=404)
+class TestChecklistGitHubError(Exception):
+    """Raised when the GitHub-backed checklist cannot be read or updated."""
 
-    raw = source.read_text(encoding="utf-8")
-    checklist_state = TestChecklistState.objects.filter(pk=1).values_list("state", flat=True).first() or {}
+
+def _test_documentation_github_configured():
+    return bool(settings.TEST_DOCUMENTATION_GITHUB_TOKEN and settings.TEST_DOCUMENTATION_GITHUB_REPOSITORY and settings.TEST_DOCUMENTATION_GITHUB_BRANCH)
+
+
+def _github_checklist_api_request(method, payload=None):
+    repository = settings.TEST_DOCUMENTATION_GITHUB_REPOSITORY
+    path = urllib.parse.quote(settings.TEST_DOCUMENTATION_GITHUB_PATH, safe="/")
+    url = f"https://api.github.com/repos/{repository}/contents/{path}"
+    body = json.dumps(payload).encode("utf-8") if payload is not None else None
+    request = urllib.request.Request(url, data=body, method=method, headers={
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {settings.TEST_DOCUMENTATION_GITHUB_TOKEN}",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "Meeting-Manager-Test-Checklist",
+        **({"Content-Type": "application/json"} if body is not None else {}),
+    })
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        raise TestChecklistGitHubError("GitHub ist derzeit nicht erreichbar.") from exc
+
+
+def _decode_github_checklist(file_data):
+    try:
+        return base64.b64decode(file_data["content"]).decode("utf-8")
+    except (KeyError, ValueError, UnicodeDecodeError) as exc:
+        raise TestChecklistGitHubError("Die Markdown-Testdokumentation konnte nicht gelesen werden.") from exc
+
+
+def _read_test_documentation():
+    if _test_documentation_github_configured():
+        return _decode_github_checklist(_github_checklist_api_request("GET"))
+    source = Path(settings.BASE_DIR) / settings.TEST_DOCUMENTATION_GITHUB_PATH
+    if not source.is_file():
+        raise TestChecklistGitHubError("Die Testcheckliste ist derzeit nicht verfügbar.")
+    return source.read_text(encoding="utf-8")
+
+
+def _apply_test_documentation_checkbox(markdown_source, checkbox_id, checked):
+    match = re.fullmatch(r"line-([1-9][0-9]*)-([1-9][0-9]*)", checkbox_id)
+    if not match:
+        raise ValueError("Ungültige Prüffeld-ID.")
+    line_number, occurrence = map(int, match.groups())
+    lines = markdown_source.splitlines(keepends=True)
+    if line_number > len(lines):
+        raise ValueError("Prüffeld nicht gefunden.")
+    line = lines[line_number - 1]
+    markers = list(re.finditer(r"\[([ xX])\]", line))
+    if occurrence > len(markers):
+        raise ValueError("Prüffeld nicht gefunden.")
+    marker = markers[occurrence - 1]
+    replacement = "[x]" if checked else "[ ]"
+    lines[line_number - 1] = line[:marker.start()] + replacement + line[marker.end():]
+    return "".join(lines)
+
+
+def _save_test_documentation_checkbox(checkbox_id, checked):
+    if not _test_documentation_github_configured():
+        raise TestChecklistGitHubError("GitHub-Speicherung ist nicht konfiguriert.")
+    for attempt in range(3):
+        file_data = _github_checklist_api_request("GET")
+        current_content = _decode_github_checklist(file_data)
+        try:
+            updated_content = _apply_test_documentation_checkbox(current_content, checkbox_id, checked)
+        except ValueError as exc:
+            raise TestChecklistGitHubError(str(exc)) from exc
+        payload = {
+            "message": f"Update manual test checklist checkbox {checkbox_id}",
+            "content": base64.b64encode(updated_content.encode("utf-8")).decode("ascii"),
+            "sha": file_data["sha"],
+            "branch": settings.TEST_DOCUMENTATION_GITHUB_BRANCH,
+        }
+        try:
+            return _github_checklist_api_request("PUT", payload)
+        except urllib.error.HTTPError as exc:
+            if exc.code not in {409, 422} or attempt == 2:
+                raise TestChecklistGitHubError("Die Markdown-Datei wurde parallel geändert. Bitte erneut versuchen.") from exc
+    raise TestChecklistGitHubError("Die Änderung konnte nicht gespeichert werden.")
+
+
+def _render_test_documentation_markers(raw, writable):
     rendered_lines = []
     for line_number, line in enumerate(raw.splitlines(keepends=True), start=1):
         occurrence = 0
-
         def render_checkbox(match):
             nonlocal occurrence
             occurrence += 1
             checkbox_id = f"line-{line_number}-{occurrence}"
-            checked = checklist_state.get(checkbox_id, match.group(1).lower() == "x")
-            checked_attribute = " checked" if checked else ""
-            return (
-                f'<input type="checkbox" class="test-checklist-box" '
-                f'data-checklist-id="{checkbox_id}"{checked_attribute}>'
-            )
-
+            checked_attribute = " checked" if match.group(1).lower() == "x" else ""
+            disabled_attribute = "" if writable else " disabled"
+            return f'<input type="checkbox" class="test-checklist-box" data-checklist-id="{checkbox_id}"{checked_attribute}{disabled_attribute}>'
         rendered_lines.append(re.sub(r"\[([ xX])\]", render_checkbox, line))
-    raw = "".join(rendered_lines)
+    return "".join(rendered_lines)
 
-    parser = markdown.Markdown(
-        extensions=["tables", "fenced_code", "sane_lists", "toc"],
-        output_format="html5",
-    )
+
+@login_required
+def test_documentation(request):
+    """Render the Git-versioned manual test checklist."""
+    try:
+        raw = _read_test_documentation()
+    except TestChecklistGitHubError as exc:
+        return HttpResponse(str(exc), status=503)
+    writable = _test_documentation_github_configured()
+    raw = _render_test_documentation_markers(raw, writable)
+    parser = markdown.Markdown(extensions=["tables", "fenced_code", "sane_lists", "toc"], output_format="html5")
     content = parser.convert(raw)
     return render(request, "meetings/test_documentation.html", {
         "test_documentation_html": mark_safe(content),
         "test_documentation_toc_html": mark_safe(parser.toc),
+        "checklist_write_enabled": writable,
+        "checklist_target": f"{settings.TEST_DOCUMENTATION_GITHUB_REPOSITORY}/{settings.TEST_DOCUMENTATION_GITHUB_BRANCH}" if writable else "",
     })
 
 
 @login_required
 @require_POST
 def test_documentation_toggle(request):
-    """Persist one shared checklist checkbox immediately without replacing the page."""
+    """Commit a checkbox change directly to the configured Markdown file in GitHub."""
     checkbox_id = request.POST.get("checkbox_id", "")
     checked_value = request.POST.get("checked", "").lower()
     if not re.fullmatch(r"line-[1-9][0-9]*-[1-9][0-9]*", checkbox_id):
         return JsonResponse({"success": False, "error": "Ungültige Prüffeld-ID."}, status=400)
     if checked_value not in {"true", "false"}:
         return JsonResponse({"success": False, "error": "Ungültiger Prüfstatus."}, status=400)
-
-    source = Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
-    if not source.is_file():
-        return JsonResponse({"success": False, "error": "Testcheckliste nicht verfügbar."}, status=404)
-    line_match = re.fullmatch(r"line-([1-9][0-9]*)-([1-9][0-9]*)", checkbox_id)
-    if not line_match:
-        return JsonResponse({"success": False, "error": "Ungültige Prüffeld-ID."}, status=400)
-    source_lines = source.read_text(encoding="utf-8").splitlines()
-    line_number, occurrence = map(int, line_match.groups())
-    if line_number > len(source_lines) or len(re.findall(r"\[([ xX])\]", source_lines[line_number - 1])) < occurrence:
-        return JsonResponse({"success": False, "error": "Prüffeld nicht gefunden."}, status=400)
-
-    with transaction.atomic():
-        TestChecklistState.objects.get_or_create(pk=1)
-        checklist = TestChecklistState.objects.select_for_update().get(pk=1)
-        state = dict(checklist.state or {})
-        state[checkbox_id] = checked_value == "true"
-        checklist.state = state
-        checklist.save(update_fields=["state", "updated_at"])
-
-    return JsonResponse({"success": True, "checked": state[checkbox_id]})
+    if not _test_documentation_github_configured():
+        return JsonResponse({"success": False, "error": "GitHub-Speicherung ist für diese Installation nicht konfiguriert."}, status=503)
+    try:
+        _save_test_documentation_checkbox(checkbox_id, checked_value == "true")
+    except TestChecklistGitHubError as exc:
+        return JsonResponse({"success": False, "error": str(exc)}, status=503)
+    return JsonResponse({"success": True, "checked": checked_value == "true"})
 
 
 def _inline_markup(value):
