@@ -179,7 +179,7 @@ Der KI-Agent muss vor Abschluss des PR:
 7. nicht betroffene Testblöcke und deren vorhandene Erfolgs-Haken unverändert lassen;
 8. im PR-Bericht die markierten Testblöcke bzw. Funktionsbereiche nennen.
 
-**Wichtig:** Die Markierung **„PR-Test erforderlich“** bedeutet, dass der Test noch auszuführen ist. Sie darf nicht mit einem gesetzten Erfolgs-Haken verwechselt werden. Der KI-Agent darf Erfolgs-Haken nicht selbst setzen, wenn der manuelle Test nicht tatsächlich von einer prüfenden Person durchgeführt wurde. Die Checkboxen werden direkt im Markdown-Quelldokument des konfigurierten GitHub-Branches gespeichert und dadurch versioniert. Der Prüfstand darf nicht in einer Datenbank abgelegt werden. Ohne GitHub-Schreibkonfiguration muss die Checkliste schreibgeschützt bleiben.
+**Wichtig:** Die Markierung **„PR-Test erforderlich“** bedeutet, dass der Test noch auszuführen ist. Sie darf nicht mit einem gesetzten Erfolgs-Haken verwechselt werden. Der KI-Agent darf Erfolgs-Haken nicht selbst setzen, wenn der manuelle Test nicht tatsächlich von einer prüfenden Person durchgeführt wurde. Die Checkliste ist außerhalb des TESTING-Modus schreibgeschützt. Im TESTING-Modus können Prüfhaken ausschließlich im Browser bearbeitet und als vollständige `.md`-Datei heruntergeladen werden. Es darf keine automatische Speicherung in Datenbank oder GitHub erfolgen; die Übernahme nach GitHub erfolgt manuell durch Upload der exportierten Datei.
 
 Wenn keine vorhandenen Testblöcke betroffen sind, ist dies im PR-Bericht ausdrücklich zu begründen. Ergibt die Prüfung eine Dokumentationslücke, muss die Checkliste im selben PR ergänzt werden.
 
