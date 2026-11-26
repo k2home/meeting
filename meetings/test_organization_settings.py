@@ -21,7 +21,7 @@ class OrganizationSettingsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'class="organization-settings-form"')
-        self.assertContains(response, 'class="settings-card settings-card-wide"')
+        self.assertContains(response, 'class="card settings-card settings-card-wide"')
         self.assertContains(response, "grid-template-columns:repeat(2,minmax(0,1fr))")
         self.assertContains(response, "settings-logo-card")
         self.assertContains(response, 'class="organization-settings-layout"')
