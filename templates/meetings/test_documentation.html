@@ -13,13 +13,19 @@
 .test-document .document-content li{line-height:1.65;margin:.3rem 0;padding-left:.12rem}
 .test-document .document-content li>p{margin:.2rem 0}
 .test-document .document-content h1,.test-document .document-content h2,.test-document .document-content h3,.test-document .document-content h4{line-height:1.3}
-.test-document-toc{margin-bottom:1rem}
-.test-document-toc h2{font-size:1.15rem;margin:0 0 .6rem}
-.test-document-toc .toc ul{margin:.25rem 0;padding-left:1.25rem}
-.test-document-toc .toc ul ul{margin:.15rem 0 .35rem}
-.test-document-toc .toc li{line-height:1.45;margin:.15rem 0}
-.test-document-toc a{text-decoration:none}
-.test-document-toc a:hover{text-decoration:underline}
+.test-document-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:1.25rem;align-items:start}
+.test-document-index{position:sticky;top:1rem;order:2}
+.test-document-index h2{font-size:1.15rem;margin:0 0 .6rem}
+.test-document-index a{display:block;padding:.28rem 0;color:var(--text);text-decoration:none}
+.test-document-index a:hover{text-decoration:underline;color:var(--hagen-blue)}
+.test-document-index .toc ul{list-style:none;margin:.2rem 0;padding-left:.9rem}
+.test-document-index .toc>ul{padding-left:0}
+.test-document-index .toc li{line-height:1.45;margin:.15rem 0}
+.test-document-index .toc>ul>li>ul>li>ul{display:none}
+.test-document-index .toc>ul>li>ul>li.is-current>ul{display:block}
+.test-document-index .toc a[aria-current="location"]{font-weight:700;color:var(--hagen-blue)}
+.test-document-layout .document-content{order:1}
+@media(max-width:850px){.test-document-layout{grid-template-columns:1fr}.test-document-index{position:static;order:-1}}
 .test-document .document-content hr{border:0;border-top:1px solid var(--border);margin:1.8rem 0}
 .test-document .document-content input.test-checklist-box{flex:0 0 auto}
 .test-document .document-content code{overflow-wrap:anywhere}
@@ -50,18 +56,50 @@
     <p class="muted">Mit „PR-Test erforderlich“ gekennzeichnete Bereiche sind für den jeweiligen Pull Request erneut zu prüfen.</p>
     <p><a class="btn secondary" href="{% url 'user_guide' %}">Zurück zu Hilfe &amp; Anleitung</a></p>
   </section>
-  <nav class="card test-documentation-toc" aria-label="Inhaltsverzeichnis der Testdokumentation">
-    <h2>Inhaltsverzeichnis</h2>
-    {{ test_documentation_toc_html|safe }}
-  </nav>
-  <article class="card document-content">
-    {{ test_documentation_html|safe }}
-  </article>
+  <div class="test-document-layout">
+    <article class="card document-content">
+      {{ test_documentation_html|safe }}
+    </article>
+    <aside class="card test-document-index" aria-label="Inhaltsverzeichnis der Testdokumentation">
+      <h2>Inhaltsverzeichnis</h2>
+      {{ test_documentation_toc_html|safe }}
+    </aside>
+  </div>
   {% if test_documentation_editable %}
   <form hidden>{% csrf_token %}</form>
   <span id="test-documentation-config" data-revision="{{ test_documentation_revision }}" data-save-url="{% url 'test_documentation_toggle' %}" data-status-url="{% url 'test_documentation_status' %}"></span>
   {% endif %}
 </div>
+<script>
+(() => {
+  const index = document.querySelector(".test-document-index .toc");
+  if (!index) return;
+  const items = Array.from(index.querySelectorAll(":scope > ul > li > ul > li"));
+  const sections = items.map(item => {
+    const link = item.querySelector(":scope > a");
+    return link ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
+  });
+  const updateCurrentSection = () => {
+    let current = -1;
+    sections.forEach((section, i) => {
+      if (section && section.getBoundingClientRect().top <= 150) current = i;
+    });
+    items.forEach((item, i) => {
+      const active = i === current;
+      item.classList.toggle("is-current", active);
+      const link = item.querySelector(":scope > a");
+      if (link) {
+        if (active) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      }
+    });
+  };
+  updateCurrentSection();
+  window.addEventListener("scroll", updateCurrentSection, {passive:true});
+  window.addEventListener("resize", updateCurrentSection);
+})();
+</script>
+{% endif %}
 {% if test_documentation_editable %}
 <script>
 (() => {
