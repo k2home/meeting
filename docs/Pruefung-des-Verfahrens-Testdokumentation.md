@@ -1519,7 +1519,11 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 - [ ] Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
 - [ ] Prüfen, ob die Testdokumentation vollständig angezeigt wird.
 - [ ] Einen Testblock aufrufen und ein Kontrollkästchen anklicken.
-- [ ] Seite neu laden und prüfen, ob der Haken wie vorgesehen nur temporär bzw. nicht dauerhaft gespeichert wird.
+- [ ] Seite neu laden und prüfen, ob der Haken weiterhin gesetzt ist.
+- [ ] Die Checkliste in einer zweiten angemeldeten Sitzung bzw. Installation mit demselben Repository und Branch öffnen.
+- [ ] Prüfen, ob derselbe Haken dort ebenfalls gesetzt angezeigt wird.
+- [ ] Den erzeugten Commit in der Markdown-Datei des konfigurierten Branches kontrollieren.
+- [ ] Den Stand in einen weiteren Branch übernehmen und nach dessen Deployment prüfen, ob der Haken erhalten bleibt.
 - [ ] Die Testcheckliste ohne Anmeldung direkt aufrufen.
 - [ ] Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
 
@@ -1527,7 +1531,10 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 - [ ] Der Link ist in **Hilfe & Anleitung** sichtbar und führt zur richtigen Testdokumentation.
 - [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
 - [ ] Kontrollkästchen lassen sich im Browser anklicken.
-- [ ] Ein gesetzter Haken wird nicht als dauerhaft gespeicherter Teststatus in der Anwendung behandelt.
+- [ ] Ein gesetzter Haken ist als `[x]` direkt in `docs/Pruefung-des-Verfahrens-Testdokumentation.md` committet.
+- [ ] Der Haken bleibt nach Neuladen und in einer zweiten Installation mit demselben Git-Ziel erhalten.
+- [ ] Der Haken bleibt nach dem Merge des Markdown-Dokuments in einen anderen Branch erhalten.
+- [ ] Der Prüfstand wird nicht in der Anwendungsdatenbank gespeichert.
 - [ ] Nicht angemeldete Konten erhalten keinen Zugriff.
 - [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
 
