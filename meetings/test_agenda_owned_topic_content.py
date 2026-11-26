@@ -46,7 +46,7 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<div class="topic-main">')
         self.assertNotContains(response, '<main class="topic-main">')
-        self.assertContains(response, '.topic-layout>.topic-main{margin:0;padding:0;width:auto}')
+        self.assertContains(response, '.topic-layout>.topic-main{margin:0;padding:0;width:auto;grid-column:1;grid-row:1}')
 
     def test_sidebar_navigation_groups_have_requested_order_and_separation(self):
         from pathlib import Path
