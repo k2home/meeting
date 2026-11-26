@@ -1496,6 +1496,22 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
+### 20.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
+
+- [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
+- [ ] Dokument in der Anwendung anzeigen.
+- [ ] PDF-Version öffnen.
+- [ ] PDF-Datei speichern und öffnen.
+
+**Ergebnisprüfung**
+- [ ] Dokument wird angezeigt.
+- [ ] PDF lässt sich öffnen.
+- [ ] Angezeigtes Dokument und PDF beziehen sich auf die vorgesehene Fassung.
+- [ ] Es werden keine unberechtigten internen Daten offengelegt.
+
+**Test erfolgreich:** [ ]
+
+
 ### 20.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Mit einem angemeldeten Testkonto anmelden.
@@ -1516,22 +1532,6 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 - [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
 
 **Test erfolgreich:** [ ]
-
-### 20.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
-
-- [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
-- [ ] Dokument in der Anwendung anzeigen.
-- [ ] PDF-Version öffnen.
-- [ ] PDF-Datei speichern und öffnen.
-
-**Ergebnisprüfung**
-- [ ] Dokument wird angezeigt.
-- [ ] PDF lässt sich öffnen.
-- [ ] Angezeigtes Dokument und PDF beziehen sich auf die vorgesehene Fassung.
-- [ ] Es werden keine unberechtigten internen Daten offengelegt.
-
-**Test erfolgreich:** [ ]
-
 ---
 
 ## 21. Administration und Software-Updates
