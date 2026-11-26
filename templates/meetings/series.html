@@ -80,18 +80,23 @@
 .series-manage-danger h3{color:var(--danger,#b42318)}
 .series-manage-danger p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.45}
 .series-manage-danger .series-manage-actions{margin-top:.15rem}
-.series-users-dialog{width:min(94vw,34rem);max-width:34rem;max-height:82vh;overflow:auto;padding:1.1rem;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 1rem 3rem #0004}
+.series-users-dialog{width:min(96vw,66rem);max-width:66rem;height:min(84vh,52rem);max-height:84vh;overflow:hidden;padding:0;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);box-shadow:0 1rem 3rem #0004}
 .series-users-dialog::backdrop{background:#0008}
-.series-users-heading{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.85rem}
+.series-users-form{display:flex;height:100%;min-height:0;flex-direction:column}
+.series-users-heading{position:sticky;top:0;z-index:3;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.7rem;padding:.9rem 1.1rem;background:var(--surface);border-bottom:1px solid var(--border)}
 .series-users-heading h2{margin:0;font-size:1.1rem}
-.series-users-list{display:grid;gap:.45rem}
-.series-users-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(9rem,.8fr) auto;gap:.55rem;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--border)}
-.series-users-name{min-width:0;overflow-wrap:anywhere;font-size:.9rem;font-weight:600}
-.series-users-row form{display:contents}
-.series-users-row select{width:100%;min-width:0;margin:0}
-.series-users-row button{min-height:2.2rem;padding:.35rem .65rem}
-.series-users-row select:disabled{opacity:.55;cursor:not-allowed}
-@media(max-width:480px){.series-users-row{grid-template-columns:minmax(0,1fr) minmax(8rem,.9fr)}.series-users-row button{grid-column:2;justify-self:start}}
+.series-users-heading-actions{display:flex;align-items:center;gap:.5rem}
+.series-users-heading-actions button{margin:0}
+.series-users-scroll{min-height:0;flex:1;overflow:auto;padding:0 1.1rem 1rem}
+.series-users-table{width:100%;min-width:39rem;border-collapse:separate;border-spacing:0}
+.series-users-table th{position:sticky;top:0;z-index:2;background:var(--surface);text-align:left;white-space:nowrap}
+.series-users-table th button{padding:.45rem .25rem;margin:0;background:transparent;color:inherit;border:0;font:inherit;font-weight:700;cursor:pointer}
+.series-users-table td{padding:.5rem .35rem;border-bottom:1px solid var(--border);vertical-align:middle}
+.series-users-table td:last-child{min-width:10rem}
+.series-users-table select{width:100%;min-width:0;margin:0}
+.series-users-table select:disabled{opacity:.55;cursor:not-allowed}
+.series-users-save-status{color:var(--muted);font-size:.82rem}
+@media(max-width:480px){.series-users-dialog{width:98vw;height:88vh;max-height:88vh}.series-users-heading{padding:.7rem}.series-users-scroll{padding:0 .7rem .7rem}.series-users-heading-actions{width:100%;justify-content:flex-end}}
 @media(max-width:480px){.series-manage-actions{display:grid;grid-template-columns:1fr}.series-manage-actions>*{width:100%}.series-manage-actions form button,.series-manage-actions>a{width:100%}.series-manage-danger{padding:.75rem}}
 .series-meetings{margin-top:.7rem;border-top:1px solid var(--border);padding-top:.55rem}
 .series-meetings summary{cursor:pointer;font-weight:600;padding:.45rem 0}
@@ -189,30 +194,46 @@
       </details>
 
       <dialog class="series-users-dialog" id="series-users-{{ s.pk }}" aria-labelledby="series-users-title-{{ s.pk }}">
-        <div class="series-users-heading">
-          <h2 id="series-users-title-{{ s.pk }}">Benutzer verwalten</h2>
-          <button class="secondary" type="button" onclick="document.getElementById('series-users-{{ s.pk }}').close()" aria-label="Fenster schließen">Schließen</button>
-        </div>
-        <div class="series-users-list">
-          {% for row in s.user_management_rows %}
-            <div class="series-users-row">
-              <div class="series-users-name">{% if row.organization_label %}<span class="series-users-organization">{{ row.organization_label }}</span> – {% endif %}{{ row.user.get_full_name|default:row.user.username }}</div>
-              <form method="post" action="{% url 'series_manage_user_access' s.pk %}" data-series-role-form>
-                {% csrf_token %}
-                <input type="hidden" name="user_id" value="{{ row.user.pk }}">
-                <select name="role" aria-label="Berechtigung für {{ row.user.get_full_name|default:row.user.username }}"
-                  data-current-role="{{ row.role }}"
-                  {% if row.user.pk == request.user.pk and row.role == 'moderator' %}disabled{% endif %}>
-                  <option value="none" {% if row.role == 'none' %}selected{% endif %}>Keine</option>
-                  <option value="reader" {% if row.role == 'reader' %}selected{% endif %}>Leser</option>
-                  <option value="participant" {% if row.role == 'participant' %}selected{% endif %}>Teilnehmer</option>
-                  <option value="moderator" {% if row.role == 'moderator' %}selected{% endif %}>Moderator</option>
-                </select>
-                <button type="submit" hidden>Speichern</button>
-              </form>
+        <form class="series-users-form" method="post" action="{% url 'series_manage_user_access' s.pk %}" data-series-bulk-form>
+          {% csrf_token %}
+          <div class="series-users-heading">
+            <h2 id="series-users-title-{{ s.pk }}">Benutzer verwalten</h2>
+            <div class="series-users-heading-actions">
+              <span class="series-users-save-status" data-save-status>Keine Änderungen</span>
+              <button type="submit" data-save-all disabled>Alle speichern</button>
+              <button class="secondary" type="button" onclick="document.getElementById('series-users-{{ s.pk }}').close()" aria-label="Fenster schließen">Schließen</button>
             </div>
-          {% endfor %}
-        </div>
+          </div>
+          <div class="series-users-scroll">
+            <table class="series-users-table" data-series-sort-table>
+              <thead><tr>
+                <th><button type="button" data-sort-key="organization">Organisationskennzeichen ↕</button></th>
+                <th><button type="button" data-sort-key="first">Vorname ↕</button></th>
+                <th><button type="button" data-sort-key="last">Nachname ↕</button></th>
+                <th><button type="button" data-sort-key="role">Rolle ↕</button></th>
+              </tr></thead>
+              <tbody>
+              {% for row in s.user_management_rows %}
+                <tr data-user-row data-organization="{{ row.organization_label|lower }}" data-first="{{ row.user.first_name|lower }}" data-last="{{ row.user.last_name|lower }}" data-role="{{ row.role }}">
+                  <td>{{ row.organization_label|default:"–" }}</td>
+                  <td>{{ row.user.first_name|default:"–" }}</td>
+                  <td>{{ row.user.last_name|default:row.user.username }}</td>
+                  <td>
+                    <select name="role_{{ row.user.pk }}" aria-label="Berechtigung für {{ row.user.get_full_name|default:row.user.username }}"
+                      data-current-role="{{ row.role }}"
+                      {% if row.user.pk == request.user.pk and row.role == 'moderator' %}disabled{% endif %}>
+                      <option value="none" {% if row.role == 'none' %}selected{% endif %}>Keine Rechte</option>
+                      <option value="reader" {% if row.role == 'reader' %}selected{% endif %}>Leser</option>
+                      <option value="participant" {% if row.role == 'participant' %}selected{% endif %}>Teilnehmer</option>
+                      <option value="moderator" {% if row.role == 'moderator' %}selected{% endif %}>Moderator</option>
+                    </select>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </form>
       </dialog>
 
       {% if s.other_meetings %}
@@ -273,15 +294,36 @@
   status.addEventListener('change', filterSeries);
   filterSeries();
 
-  document.querySelectorAll('[data-series-role-form]').forEach(function (form) {
-    const select = form.querySelector('select');
-    const button = form.querySelector('button[type="submit"]');
-    if (!select || !button || select.disabled) return;
-    const updateButton = function () {
-      button.hidden = select.value === select.dataset.currentRole;
+  document.querySelectorAll('[data-series-bulk-form]').forEach(function (form) {
+    const saveButton = form.querySelector('[data-save-all]');
+    const status = form.querySelector('[data-save-status]');
+    const selects = Array.from(form.querySelectorAll('select[name^="role_"]'));
+    const updateDirtyState = function () {
+      const dirty = selects.some(function (select) {
+        return !select.disabled && select.value !== select.dataset.currentRole;
+      });
+      saveButton.disabled = !dirty;
+      status.textContent = dirty ? 'Ungespeicherte Änderungen' : 'Keine Änderungen';
     };
-    select.addEventListener('change', updateButton);
-    updateButton();
+    selects.forEach(function (select) { select.addEventListener('change', updateDirtyState); });
+    form.querySelectorAll('[data-sort-key]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        const key = button.dataset.sortKey;
+        const tbody = form.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('[data-user-row]'));
+        const ascending = button.dataset.sortDirection !== 'asc';
+        form.querySelectorAll('[data-sort-key]').forEach(function (other) { delete other.dataset.sortDirection; });
+        button.dataset.sortDirection = ascending ? 'asc' : 'desc';
+        rows.sort(function (a, b) {
+          const left = key === 'role' ? ({moderator:0,participant:1,reader:2,none:3}[a.dataset.role]) : a.dataset[key];
+          const right = key === 'role' ? ({moderator:0,participant:1,reader:2,none:3}[b.dataset.role]) : b.dataset[key];
+          const result = typeof left === 'number' ? left - right : left.localeCompare(right, 'de');
+          return (ascending ? result : -result) || a.dataset.organization.localeCompare(b.dataset.organization, 'de');
+        });
+        rows.forEach(function (row) { tbody.appendChild(row); });
+      });
+    });
+    updateDirtyState();
   });
 })();
 </script>
