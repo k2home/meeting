@@ -2,14 +2,14 @@
 
 **Grundlage:** Branch `beta`  
 **Zweck:** Vollständige manuelle Funktionsprüfung des Meeting Managers  
-**Art der Dokumentation:** Ablauf- und Ergebnischeckliste mit lokal bearbeitbarem Prüfstatus und Markdown-Export im TESTING-Modus
+**Art der Dokumentation:** Ablauf- und Ergebnischeckliste mit serverlokal gespeichertem Prüfstatus, Live-Aktualisierung und Markdown-Export im TESTING-Modus
 
 ## Verwendung
 
 - Die Testfälle in einer geeigneten Testinstallation mit vorbereiteten Testkonten durchführen.
 - Testblöcke mit **PR-Test erforderlich** sind durch die Änderungen des aktuellen Pull Requests betroffen und müssen in diesem PR erneut ausgeführt werden.
 - Ein PR-Test-Marker ist kein Erfolgsnachweis. Die zugehörigen Kästchen bleiben bis zur tatsächlichen erfolgreichen Prüfung leer.
-- Für jeden Testfall die einzelnen Aktionen der Reihe nach ausführen und im aktivierten TESTING-Modus die Kästchen auf der Hilfeseite abhaken. Anschließend den vollständigen Prüfstand über **Bearbeiteten Test als .md herunterladen** exportieren. Die heruntergeladene Markdown-Datei kann manuell in GitHub hochgeladen oder in den gewünschten Branch übernommen werden. Außerhalb des TESTING-Modus ist die Checkliste schreibgeschützt. Es erfolgt keine automatische Speicherung.
+- Für jeden Testfall die einzelnen Aktionen der Reihe nach ausführen und im aktivierten TESTING-Modus die Kästchen auf der Hilfeseite abhaken. Jeder Klick wird unmittelbar in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen Änderungen automatisch spätestens nach zwei Sekunden. Der vollständige Prüfstand kann über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell in GitHub hochgeladen oder in den gewünschten Branch übernommen werden. Außerhalb des TESTING-Modus ist die Checkliste schreibgeschützt. Die Speicherung erfolgt weder in einer Datenbank noch automatisch in GitHub. Mehrere Serverinstallationen führen unabhängige lokale Checklisten ohne Synchronisierung.
 - Am Ende jedes Testfalls den angezeigten Systemstand mit den erwarteten Ergebnissen vergleichen.
 - Den Erfolgs-Haken nur setzen, wenn alle Prüfpunkte erfüllt sind. Bei Abweichungen den Test nicht als erfolgreich markieren und die Abweichung separat dokumentieren.
 - Rollenprüfungen mit getrennten Konten durchführen. Eine globale Administratorrolle ersetzt keine Serienzuweisung und gewährt nicht automatisch Zugriff auf fachliche Reiheninhalte.
@@ -1518,23 +1518,31 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 - [ ] **Hilfe & Anleitung** öffnen.
 - [ ] Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
 - [ ] Prüfen, ob die Testdokumentation vollständig angezeigt wird.
-- [ ] Einen Testblock aufrufen und ein Kontrollkästchen anklicken.
-- [ ] Seite neu laden und prüfen, ob der Haken weiterhin gesetzt ist.
-- [ ] Die Checkliste in einer zweiten angemeldeten Sitzung bzw. Installation mit demselben Repository und Branch öffnen.
-- [ ] Prüfen, ob derselbe Haken dort ebenfalls gesetzt angezeigt wird.
-- [ ] Den erzeugten Commit in der Markdown-Datei des konfigurierten Branches kontrollieren.
-- [ ] Den Stand in einen weiteren Branch übernehmen und nach dessen Deployment prüfen, ob der Haken erhalten bleibt.
+- [ ] TESTING-Modus aktivieren und einen Testblock aufrufen.
+- [ ] Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
+- [ ] Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
+- [ ] Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
+- [ ] Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach zwei Sekunden aktualisiert wird, ohne die Seite neu zu laden.
+- [ ] In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
+- [ ] Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
+- [ ] **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
+- [ ] Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
+- [ ] TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
 - [ ] Die Testcheckliste ohne Anmeldung direkt aufrufen.
 - [ ] Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
 
 **Ergebnisprüfung**
 - [ ] Der Link ist in **Hilfe & Anleitung** sichtbar und führt zur richtigen Testdokumentation.
 - [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
-- [ ] Kontrollkästchen lassen sich im Browser anklicken.
-- [ ] Ein gesetzter Haken ist als `[x]` direkt in `docs/Pruefung-des-Verfahrens-Testdokumentation.md` committet.
-- [ ] Der Haken bleibt nach Neuladen und in einer zweiten Installation mit demselben Git-Ziel erhalten.
-- [ ] Der Haken bleibt nach dem Merge des Markdown-Dokuments in einen anderen Branch erhalten.
+- [ ] Bearbeitung und Download sind ausschließlich im TESTING-Modus verfügbar.
+- [ ] Jeder Klick wird direkt in der lokalen Markdown-Datei auf dem Anwendungsserver gespeichert.
+- [ ] Andere Nutzer derselben Serverinstallation sehen Änderungen spätestens nach zwei Sekunden ohne Neuladen.
+- [ ] Gleichzeitige Änderungen überschreiben einander nicht unbemerkt.
+- [ ] Die Datei wird atomar geschrieben und bleibt auch bei parallelen Zugriffen vollständig lesbar.
+- [ ] Der Download enthält den vollständigen aktuellen Stand als `.md`-Datei.
+- [ ] Die Übernahme nach GitHub erfolgt ausschließlich manuell über den heruntergeladenen Stand.
 - [ ] Der Prüfstand wird nicht in der Anwendungsdatenbank gespeichert.
+- [ ] Andere Serverinstallationen führen unabhängige Checklisten ohne Synchronisierung.
 - [ ] Nicht angemeldete Konten erhalten keinen Zugriff.
 - [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
 
