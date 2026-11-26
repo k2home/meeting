@@ -72,7 +72,8 @@ class AgendaOwnedTopicContentTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, f"Thema #{self.topic.pk}")
         self.assertNotContains(response, '<label for="id_title">Titel</label>')
-        self.assertContains(response, "<h2>Thema</h2>")
+        self.assertContains(response, "<h2>Besprechungen und Tagesordnungstexte</h2>")
+        self.assertNotContains(response, "<h2>Thema</h2>")
         self.assertContains(response, '<label for="id_title">Thementitel</label>')
         self.assertContains(response, self.topic.title)
 
