@@ -745,13 +745,22 @@ ____________________________________________________________________
 ____________________________________________________________________
 
 
-## Produktiv
+## Produktiv – Globale Rolle Nutzer
 
-Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und Betriebsfunktionen.
+Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für reine Funktionsprüfungen zusätzlich die in der jeweiligen Testbeschreibung ausdrücklich genannte Serienrolle zuweisen; globale Nutzerrechte allein verleihen keinen Serienzugriff.
 
-### 10. Dashboard und Navigation
+**Verbindliche Durchführung für diese Rollengruppe**
+
+- Alle folgenden Funktionsbereiche und Testfälle sind aus Sicht dieses Kontos durchzuführen.
+- Bei erlaubten Aktionen muss die Funktion vollständig und mit korrektem Ergebnis funktionieren.
+- Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
+- Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
+
+### Dashboard und Navigation
 
 #### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
 
 - [ ] Nach der Anmeldung das Dashboard öffnen.
 - [ ] Angezeigte Kacheln und Übersichten prüfen.
@@ -768,6 +777,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
 
 - [ ] Seitenmenü öffnen und schließen.
 - [ ] Jede für die Rolle sichtbare Navigation aufrufen.
@@ -786,9 +797,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 11. Persönliches Konto und eigene Aufgaben
+### Persönliches Konto und eigene Aufgaben
 
 #### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
 
 - [ ] Persönliche Kontoseite über die Navigation öffnen.
 - [ ] Vorname ändern.
@@ -808,6 +821,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Menüpunkt **Meine Aufgaben** öffnen.
 - [ ] Bereich der offenen Themen prüfen.
 - [ ] Bereich der Tagesordnungspunkte heutiger und zukünftiger Termine prüfen.
@@ -826,9 +841,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 12. Besprechungsreihen verwalten
+### Besprechungsreihen verwalten
 
 #### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
 - [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
@@ -854,6 +871,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Serienverwaltung öffnen.
 - [ ] Vorhandene Reihe auswählen.
 - [ ] Bearbeiten anklicken.
@@ -874,6 +893,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine Reihe mit begrenztem Enddatum auswählen.
 - [ ] Funktion zum Verlängern öffnen.
@@ -891,6 +912,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine geeignete Testreihe auswählen.
@@ -910,6 +933,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
 - [ ] Löschfunktion öffnen.
 - [ ] Angezeigte Löschvarianten prüfen.
@@ -927,6 +952,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Eine Besprechungsreihe öffnen.
 - [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
@@ -951,6 +978,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
 - [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
 - [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
@@ -972,9 +1001,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 13. Termine und Besprechungsübersicht
+### Termine und Besprechungsübersicht
 
 #### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] **Besprechungen** öffnen.
 - [ ] Eine zugewiesene Besprechungsreihe auswählen.
@@ -994,6 +1025,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Terminübersicht öffnen.
 - [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
 - [ ] Bearbeitungsfunktion des Termins öffnen.
@@ -1012,6 +1045,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
 - [ ] Löschfunktion öffnen.
 - [ ] Angezeigte Folgen prüfen.
@@ -1028,6 +1063,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Teilnehmerauswahl öffnen.
@@ -1047,6 +1084,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Einen abgeschlossenen Testtermin öffnen.
 - [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
 - [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
@@ -1058,9 +1097,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 14. Themen anlegen und bearbeiten
+### Themen anlegen und bearbeiten
 
 #### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Dashboard öffnen.
 - [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
@@ -1084,6 +1125,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
 - [ ] Titel des neuen Themas eingeben.
@@ -1102,6 +1145,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Themenübersicht öffnen.
 - [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
@@ -1123,6 +1168,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Ein Testthema öffnen.
 - [ ] Status auf einen anderen verfügbaren Wert setzen.
 - [ ] Speichern.
@@ -1138,6 +1185,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Ein entbehrliches Testthema öffnen.
 - [ ] Funktion **Archivieren** anklicken.
@@ -1156,6 +1205,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Ein übertragbares Testthema öffnen.
 - [ ] Funktion zum Übertragen öffnen.
@@ -1178,6 +1229,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
 - [ ] Themenvorschläge aufrufen.
 - [ ] Einen Vorschlag auswählen.
@@ -1195,9 +1248,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 15. Tagesordnungspunkte und Wiedervorlagen
+### Tagesordnungspunkte und Wiedervorlagen
 
 #### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
@@ -1219,6 +1274,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
 - [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
 - [ ] Falls vorhanden, einen Punkt über die Pfeiltasten verschieben.
@@ -1235,6 +1292,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Einen nicht abgeschlossenen Testtermin öffnen.
 - [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
 - [ ] Entfernen- bzw. Löschen-Funktion anklicken.
@@ -1250,6 +1309,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
@@ -1270,6 +1331,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Eine vorhandene Wiedervorlagekette öffnen.
 - [ ] Den nächsten Termin der Reihe öffnen.
 - [ ] Wiedervorlage erneut für einen späteren Termin setzen.
@@ -1287,6 +1350,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
 - [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
 - [ ] Einen historischen Eintrag auswählen.
@@ -1302,9 +1367,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 16. Kommentare, Anlagen und Links
+### Kommentare, Anlagen und Links
 
 #### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Ein Testthema öffnen.
 - [ ] Kommentarbereich öffnen.
@@ -1323,6 +1390,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Ein Testthema öffnen.
 - [ ] Anlagenbereich öffnen.
 - [ ] Bezeichnung der Anlage eingeben.
@@ -1340,6 +1409,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Ein Testthema öffnen.
 - [ ] Anlagenbereich öffnen.
@@ -1360,6 +1431,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Ein Thema mit vorhandener Testanlage öffnen.
 - [ ] Download der Anlage anklicken.
 - [ ] Heruntergeladene Datei öffnen bzw. Dateiname und Inhalt prüfen.
@@ -1374,6 +1447,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
 - [ ] Löschfunktion der Anlage anklicken.
@@ -1391,6 +1466,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
 - [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
 - [ ] Upload einer Datei mit nicht erlaubter Dateiendung versuchen.
@@ -1407,9 +1484,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 17. Besprechung abschließen und Protokoll
+### Besprechung abschließen und Protokoll
 
 #### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Einen nicht abgeschlossenen Testtermin öffnen.
 - [ ] Teilnehmerliste prüfen.
@@ -1429,6 +1508,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Einen abgeschlossenen Termin öffnen.
 - [ ] Protokollansicht aufrufen.
 - [ ] Teilnehmerliste prüfen.
@@ -1444,6 +1525,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Protokollansicht öffnen.
 - [ ] Druckfunktion auslösen.
@@ -1462,6 +1545,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Einen abgeschlossenen Testtermin öffnen.
 - [ ] Funktion **Wieder öffnen** anklicken.
@@ -1482,6 +1567,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
 - [ ] Themenprotokoll-PDF aufrufen.
 - [ ] PDF-Datei öffnen.
@@ -1497,9 +1584,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 18. Offene Themen und Archiv
+### Offene Themen und Archiv
 
 #### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] **Offene Themen** öffnen.
 - [ ] Themenliste prüfen.
@@ -1517,6 +1606,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] **Archiv** öffnen.
 - [ ] Archivierte Testthemen suchen.
 - [ ] Ein archiviertes Thema öffnen.
@@ -1531,6 +1622,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
 
 - [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
 - [ ] Das Testkonto als Reihenmitglied zuweisen.
@@ -1550,9 +1643,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 19. Berechtigungsanträge
+### Berechtigungsanträge
 
 #### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
 
 - [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
 - [ ] Funktion zum Beantragen einer Berechtigung öffnen.
@@ -1571,6 +1666,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
 - [ ] Offenen Testantrag auswählen.
 - [ ] Antrag genehmigen oder ablehnen.
@@ -1587,6 +1684,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Einen bereits entschiedenen Testantrag öffnen.
 - [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
 - [ ] Status und Serienzuweisung erneut prüfen.
@@ -1601,10 +1700,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-
-### 20. Benutzer- und Themenimport/-export
+### Benutzer- und Themenimport/-export
 
 #### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] CSV-Export anklicken.
@@ -1621,6 +1721,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 20.2 Benutzer per CSV importieren – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] CSV-Mustervorlage herunterladen.
 - [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
@@ -1641,6 +1743,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Themenverwaltung bzw. Themenexport öffnen.
 - [ ] CSV-Export anklicken.
 - [ ] Exportdatei speichern.
@@ -1656,6 +1760,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] CSV-Mustervorlage für Themen herunterladen.
 - [ ] Vorlage mit Testthemen befüllen.
@@ -1676,9 +1782,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 21. Änderungsverlauf und Audit
+### Änderungsverlauf und Audit
 
 #### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Eine moderierte Besprechungsreihe öffnen.
 - [ ] Änderungsverlauf der Reihe aufrufen.
@@ -1697,6 +1805,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
 - [ ] Ein administratives Testereignis suchen.
 - [ ] Filter bzw. Detailansicht verwenden, sofern vorhanden.
@@ -1712,6 +1822,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
 - [ ] CSV-Export anklicken.
@@ -1730,10 +1842,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-
-### 22. Aufbewahrung und automatische Löschung
+### Aufbewahrung und automatische Löschung
 
 #### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
 - [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
@@ -1753,6 +1866,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Ein entbehrliches Testthema archivieren.
 - [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
 - [ ] Thema vor Ablauf der Frist prüfen.
@@ -1770,6 +1885,8 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 #### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
 - [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
 - [ ] Ergebnis und Datenbestand prüfen.
 - [ ] Retention-Funktion erneut ausführen.
@@ -1785,9 +1902,11 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-### 23. Auditor*innenbereich
+### Auditor*innenbereich
 
 #### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 - [ ] Mit einem Auditor*innenkonto anmelden.
 - [ ] Auditor*innenübersicht öffnen.
@@ -1805,6 +1924,7214 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 **Test erfolgreich:** [ ]
 
 #### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Nutzer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
+- [ ] Eine URL zur Systemhistorie direkt aufrufen.
+- [ ] Eine URL zu einer fachlichen Besprechungsreihe direkt aufrufen.
+- [ ] Eine URL zu einem Thema direkt aufrufen.
+- [ ] Eine schreibende Verwaltungsaktion direkt aufrufen, soweit für den Test bekannt.
+
+**Ergebnisprüfung**
+
+- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
+- [ ] Fachliche Inhalte sind nicht zugänglich.
+- [ ] Schreibende Aktionen sind nicht möglich.
+- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+
+**Test erfolgreich:** [ ]
+
+---
+
+---
+
+## Produktiv – Ohne Berechtigungen
+
+Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf weder Serieninhalte lesen noch fachliche oder administrative Aktionen ausführen. Direkte URLs und POST-Aktionen ausdrücklich mitprüfen.
+
+**Verbindliche Durchführung für diese Rollengruppe**
+
+- Alle folgenden Funktionsbereiche und Testfälle sind aus Sicht dieses Kontos durchzuführen.
+- Bei erlaubten Aktionen muss die Funktion vollständig und mit korrektem Ergebnis funktionieren.
+- Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
+- Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
+
+### Dashboard und Navigation
+
+#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Nach der Anmeldung das Dashboard öffnen.
+- [ ] Angezeigte Kacheln und Übersichten prüfen.
+- [ ] Jede für die Rolle sichtbare Kachel einmal anklicken.
+- [ ] Über die Navigation zum Dashboard zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Dashboard wird ohne Fehler geladen.
+- [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
+- [ ] Verlinkte Bereiche lassen sich öffnen.
+- [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Seitenmenü öffnen und schließen.
+- [ ] Jede für die Rolle sichtbare Navigation aufrufen.
+- [ ] Browserfenster auf eine schmale und eine breite Ansicht stellen.
+- [ ] Hell- und Dunkelmodus wechseln, sofern die Auswahl angeboten wird.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Navigation bleibt bedienbar.
+- [ ] Aktiver Bereich ist erkennbar.
+- [ ] Inhalte und Bedienelemente überlagern sich nicht.
+- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Persönliches Konto und eigene Aufgaben
+
+#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Persönliche Kontoseite über die Navigation öffnen.
+- [ ] Vorname ändern.
+- [ ] Nachname ändern.
+- [ ] E-Mail-Adresse ändern.
+- [ ] Organisationskennzeichen ändern.
+- [ ] Änderungen speichern.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
+- [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
+- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Menüpunkt **Meine Aufgaben** öffnen.
+- [ ] Bereich der offenen Themen prüfen.
+- [ ] Bereich der Tagesordnungspunkte heutiger und zukünftiger Termine prüfen.
+- [ ] Ein aufgeführtes Thema öffnen.
+- [ ] Über die Navigation zu **Meine Aufgaben** zurückkehren.
+- [ ] Den Test mit einem Konto ohne eigene Zuständigkeiten wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
+- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
+- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
+- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechungsreihen verwalten
+
+#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
+- [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
+- [ ] Bezeichnung eintragen.
+- [ ] Beschreibung eintragen.
+- [ ] Wiederholungsrhythmus auswählen.
+- [ ] Intervall eintragen.
+- [ ] Wochentag auswählen.
+- [ ] Startdatum festlegen.
+- [ ] Optional ein Enddatum festlegen.
+- [ ] Speichern anklicken.
+- [ ] Neu angelegte Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
+- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
+- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
+- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Vorhandene Reihe auswählen.
+- [ ] Bearbeiten anklicken.
+- [ ] Bezeichnung ändern.
+- [ ] Beschreibung ändern.
+- [ ] Wiederholungsrhythmus oder Intervall ändern.
+- [ ] Änderungen speichern.
+- [ ] Reihe erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Geänderte Werte werden angezeigt.
+- [ ] Nicht geänderte Werte bleiben erhalten.
+- [ ] Bestehende Serienberechtigungen bleiben erhalten.
+- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine Reihe mit begrenztem Enddatum auswählen.
+- [ ] Funktion zum Verlängern öffnen.
+- [ ] Neues Enddatum festlegen.
+- [ ] Verlängerung bestätigen.
+- [ ] Terminübersicht der Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
+- [ ] Bereits vorhandene Termine bleiben erhalten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine geeignete Testreihe auswählen.
+- [ ] Funktion zum Zurücksetzen bzw. Neuaufsetzen der Termine öffnen.
+- [ ] Angezeigte Auswahl und Bestätigung prüfen.
+- [ ] Vorgang nur mit einer eigens dafür angelegten Testreihe bestätigen.
+- [ ] Terminübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Nicht ausgewählte Reihen sind unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Löschvarianten prüfen.
+- [ ] Löschung der Testreihe bestätigen.
+- [ ] Reihenübersicht und Archiv öffnen.
+- [ ] Historische Termine bzw. Protokolle prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
+- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe öffnen.
+- [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
+- [ ] Ein Testkonto hinzufügen.
+- [ ] Rolle **Leser*in** zuweisen.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Teilnehmer*in** ändern.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Moderator*in** ändern.
+- [ ] Speichern.
+- [ ] Berechtigungsübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
+- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Änderungen betreffen nur die ausgewählte Reihe.
+- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
+- [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
+- [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
+- [ ] Versuchen, die nicht zugewiesene Testreihe über die Navigation aufzurufen.
+- [ ] Die URL eines bekannten Termins der nicht zugewiesenen Testreihe direkt aufrufen.
+- [ ] Eine bekannte Themen-URL dieser Testreihe direkt aufrufen.
+- [ ] Die direkte URL zur Bearbeitung der Testreihe aufrufen.
+- [ ] Den direkten Aufruf der Mitglieder- bzw. Serienberechtigungsverwaltung dieser Testreihe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
+- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
+- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Termine und Besprechungsübersicht
+
+#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungen** öffnen.
+- [ ] Eine zugewiesene Besprechungsreihe auswählen.
+- [ ] Vergangene Termine anzeigen.
+- [ ] Zukünftige Termine anzeigen.
+- [ ] Einen Termin öffnen.
+- [ ] Zur Terminübersicht zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Termine der berechtigten Reihen werden angezeigt.
+- [ ] Datum und Reihenbezeichnung stimmen.
+- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Terminübersicht öffnen.
+- [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
+- [ ] Bearbeitungsfunktion des Termins öffnen.
+- [ ] Neues Datum eingeben.
+- [ ] Speichern anklicken.
+- [ ] Terminübersicht neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin wird am neuen Datum angezeigt.
+- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
+- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
+- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+
+**Test erfolgreich:** [ ]
+
+#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Folgen prüfen.
+- [ ] Löschung bestätigen.
+- [ ] Terminübersicht und betroffene Themen öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Nicht ausgewählte Termine bleiben erhalten.
+- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+
+**Test erfolgreich:** [ ]
+
+#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Teilnehmerauswahl öffnen.
+- [ ] Ein aktives Testkonto auswählen.
+- [ ] Ein weiteres Testkonto abwählen.
+- [ ] Änderungen speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
+- [ ] Abgewählte Konten werden nicht mehr angezeigt.
+- [ ] Die Änderung betrifft nur den ausgewählten Termin.
+- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
+- [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
+- [ ] Den Termin erneut laden.
+
+**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
+- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Test erfolgreich:** [ ]
+
+---
+
+### Themen anlegen und bearbeiten
+
+#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Dashboard öffnen.
+- [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
+- [ ] Titel eintragen.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Besprechungsreihe auswählen, sofern im Formular vorgesehen.
+- [ ] Zieltermin auswählen.
+- [ ] Weitere angezeigte Pflicht- und Auswahlfelder ausfüllen.
+- [ ] Speichern anklicken.
+- [ ] Angelegtes Thema öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema erscheint in der Themenübersicht.
+- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
+- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
+- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
+- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+
+**Test erfolgreich:** [ ]
+
+#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Titel des neuen Themas eingeben.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Abweichende Zuständigkeit für den Tagesordnungspunkt optional auswählen.
+- [ ] Speichern bzw. Hinzufügen anklicken.
+- [ ] Termin und Themenansicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das neue Thema ist angelegt.
+- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
+- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Das Thema ist in der Themenübersicht auffindbar.
+
+**Test erfolgreich:** [ ]
+
+#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenübersicht öffnen.
+- [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
+- [ ] Bearbeiten öffnen.
+- [ ] Titel ändern.
+- [ ] Status ändern.
+- [ ] Hauptzuständigkeit ändern.
+- [ ] Änderungen speichern.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
+- [ ] Änderungen bleiben nach dem Neuladen erhalten.
+- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Status auf einen anderen verfügbaren Wert setzen.
+- [ ] Speichern.
+- [ ] Themenübersicht neu laden.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der neue Status wird in der Detailansicht angezeigt.
+- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema öffnen.
+- [ ] Funktion **Archivieren** anklicken.
+- [ ] Archiv öffnen.
+- [ ] Archiviertes Thema auswählen.
+- [ ] Funktion zum Wiederöffnen anklicken.
+- [ ] Themenübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
+- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
+- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
+- [ ] Der Änderungsverlauf bildet die Aktion ab.
+
+**Test erfolgreich:** [ ]
+
+#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein übertragbares Testthema öffnen.
+- [ ] Funktion zum Übertragen öffnen.
+- [ ] Ziel-Besprechungsreihe auswählen.
+- [ ] Zieltermin auswählen.
+- [ ] Optionale Übertragungsnotiz eintragen.
+- [ ] Übertragung bestätigen.
+- [ ] Thema in der Zielreihe öffnen.
+- [ ] Quell- und Zielreihe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
+- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
+- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Andere Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Themenvorschläge aufrufen.
+- [ ] Einen Vorschlag auswählen.
+- [ ] Vorgeschlagenen Titel übernehmen.
+- [ ] Weitere Felder ausfüllen.
+- [ ] Speichern.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
+- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Tagesordnungspunkte und Wiedervorlagen
+
+#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
+- [ ] Bearbeitungsfunktion öffnen.
+- [ ] Text für diesen Termin ändern.
+- [ ] Status des Tagesordnungspunkts ändern.
+- [ ] Optional abweichende Zuständigkeit setzen.
+- [ ] Speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
+- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+
+**Test erfolgreich:** [ ]
+
+#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
+- [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
+- [ ] Falls vorhanden, einen Punkt über die Pfeiltasten verschieben.
+- [ ] Änderungen speichern bzw. Sortierung abwarten.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
+- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
+- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
+- [ ] Entfernen- bzw. Löschen-Funktion anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Termin und zugehöriges Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
+- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
+- [ ] Wiedervorlage bzw. Folgetermin auswählen.
+- [ ] Zieltermin festlegen.
+- [ ] Abweichende Zuständigkeit bei Bedarf setzen.
+- [ ] Vorgang speichern.
+- [ ] Zieltermin öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
+- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
+- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
+- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine vorhandene Wiedervorlagekette öffnen.
+- [ ] Den nächsten Termin der Reihe öffnen.
+- [ ] Wiedervorlage erneut für einen späteren Termin setzen.
+- [ ] Speichern.
+- [ ] Die vorherigen und nachfolgenden Tagesordnungspunkte öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
+- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
+- [ ] Frühere Protokollstände bleiben unverändert.
+- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
+- [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
+- [ ] Einen historischen Eintrag auswählen.
+- [ ] Zugehörigen Termin bzw. Protokollbezug prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
+- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Kommentare, Anlagen und Links
+
+#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Kommentarbereich öffnen.
+- [ ] Kommentartext eingeben.
+- [ ] Kommentar absenden.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
+- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung der Anlage eingeben.
+- [ ] Eine zulässige Testdatei auswählen.
+- [ ] Upload starten.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird beim richtigen Thema angezeigt.
+- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung eingeben.
+- [ ] Einen zulässigen Netzwerkpfad oder Link eintragen.
+- [ ] Speichern.
+- [ ] Thema neu laden.
+- [ ] Link bzw. Pfad anklicken, sofern als Link dargestellt.
+
+**Ergebnisprüfung**
+
+- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
+- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
+- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+
+**Test erfolgreich:** [ ]
+
+#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit vorhandener Testanlage öffnen.
+- [ ] Download der Anlage anklicken.
+- [ ] Heruntergeladene Datei öffnen bzw. Dateiname und Inhalt prüfen.
+- [ ] Den Download mit einem Konto ohne Serienberechtigung wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
+- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
+- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
+- [ ] Löschfunktion der Anlage anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Thema neu laden.
+- [ ] Download-URL der entfernten Anlage direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
+- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
+- [ ] Andere Anlagen und Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
+- [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
+- [ ] Upload einer Datei mit nicht erlaubter Dateiendung versuchen.
+- [ ] Themenansicht nach den Versuchen neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
+- [ ] Zu große Dateien werden abgewiesen.
+- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
+- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechung abschließen und Protokoll
+
+#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungstexte und Statuswerte prüfen.
+- [ ] Schaltfläche **Besprechung abschließen & Protokollstand sichern** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
+- [ ] Ein Protokoll-Snapshot wurde erstellt.
+- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
+- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+
+**Test erfolgreich:** [ ]
+
+#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Termin öffnen.
+- [ ] Protokollansicht aufrufen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungspunkte und Texte prüfen.
+- [ ] Statuswerte und Verantwortlichkeiten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
+- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
+- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+
+**Test erfolgreich:** [ ]
+
+#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Protokollansicht öffnen.
+- [ ] Druckfunktion auslösen.
+- [ ] Druckvorschau prüfen.
+- [ ] PDF-Export anklicken.
+- [ ] Exportierte PDF-Datei öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
+- [ ] PDF lässt sich öffnen.
+- [ ] PDF enthält die vorgesehenen Protokolldaten.
+- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Unberechtigte Konten können den Export nicht abrufen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Funktion **Wieder öffnen** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+- [ ] Einen Tagesordnungstext testweise ändern.
+- [ ] Änderung speichern.
+- [ ] Besprechung erneut abschließen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
+- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
+- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
+- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
+- [ ] Themenprotokoll-PDF aufrufen.
+- [ ] PDF-Datei öffnen.
+- [ ] Chronologie und Einträge prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
+- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] Der Export ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Offene Themen und Archiv
+
+#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Offene Themen** öffnen.
+- [ ] Themenliste prüfen.
+- [ ] Filter bzw. Suchfunktion verwenden, sofern vorhanden.
+- [ ] Ein Thema öffnen.
+- [ ] Zur Themenliste zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Nur fachlich zugängliche Themen werden angezeigt.
+- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+
+**Test erfolgreich:** [ ]
+
+#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Archiv** öffnen.
+- [ ] Archivierte Testthemen suchen.
+- [ ] Ein archiviertes Thema öffnen.
+- [ ] Historische Einträge aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen sind im Archiv auffindbar.
+- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+
+**Test erfolgreich:** [ ]
+
+#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
+- [ ] Das Testkonto als Reihenmitglied zuweisen.
+- [ ] Historischen Termin abschließen.
+- [ ] Testreihe mit der vorgesehenen Löschvariante entfernen.
+- [ ] Mit dem früheren Reihenmitglied anmelden.
+- [ ] Historischen Termin und Protokoll aufrufen.
+- [ ] Mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
+- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
+- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Berechtigungsanträge
+
+#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
+- [ ] Funktion zum Beantragen einer Berechtigung öffnen.
+- [ ] Gewünschte Serienrolle auswählen.
+- [ ] Antrag absenden.
+- [ ] Antragstatus erneut aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
+- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Der Antrag erscheint mit offenem Status.
+- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+
+**Test erfolgreich:** [ ]
+
+#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
+- [ ] Offenen Testantrag auswählen.
+- [ ] Antrag genehmigen oder ablehnen.
+- [ ] Optional eine Entscheidungsnotiz eintragen.
+- [ ] Entscheidung speichern.
+- [ ] Antragsübersicht erneut öffnen.
+- [ ] Mit dem betroffenen Testkonto anmelden.
+**Ergebnisprüfung**
+
+- [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
+- [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
+- [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
+**Test erfolgreich:** [ ]
+
+#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen bereits entschiedenen Testantrag öffnen.
+- [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
+- [ ] Status und Serienzuweisung erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
+- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
+- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Benutzer- und Themenimport/-export
+
+#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Spalten und Datensätze prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Exportdatei ist lesbar.
+- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
+- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+
+**Test erfolgreich:** [ ]
+
+#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage herunterladen.
+- [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
+- [ ] CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Benutzerübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
+- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
+- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenverwaltung bzw. Themenexport öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Datensätze und Spalten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
+- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage für Themen herunterladen.
+- [ ] Vorlage mit Testthemen befüllen.
+- [ ] Themen-CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Themenübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Änderungsverlauf und Audit
+
+#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine moderierte Besprechungsreihe öffnen.
+- [ ] Änderungsverlauf der Reihe aufrufen.
+- [ ] Ein zuvor bearbeitetes Testthema auswählen.
+- [ ] Ein Ereignis öffnen bzw. dessen Details prüfen.
+- [ ] Mit einem Moderator-Konto einer anderen Reihe denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
+- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
+- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
+- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
+- [ ] Ein administratives Testereignis suchen.
+- [ ] Filter bzw. Detailansicht verwenden, sofern vorhanden.
+- [ ] Mit einem normalen Nutzerkonto denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
+- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
+- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
+- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Mit einem Konto außerhalb des jeweiligen Berechtigungsbereichs den Export direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] CSV-Datei ist lesbar.
+- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
+- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
+- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Aufbewahrung und automatische Löschung
+
+#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
+- [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
+- [ ] Einen Termin innerhalb der Frist prüfen.
+- [ ] Einen Termin mit überschrittenem Löschdatum vorbereiten.
+- [ ] Retention-Funktion in der Testumgebung ausführen.
+- [ ] Terminübersicht und Protokollzugriffe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
+- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
+- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
+- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+
+**Test erfolgreich:** [ ]
+
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema archivieren.
+- [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
+- [ ] Thema vor Ablauf der Frist prüfen.
+- [ ] Thema nach Ablauf der Frist in der isolierten Testumgebung verarbeiten lassen.
+- [ ] Themenübersicht, Archiv, Historie und Anlagenzugriffe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Thema bleibt vor Fristablauf erhalten.
+- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
+- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
+- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
+- [ ] Ergebnis und Datenbestand prüfen.
+- [ ] Retention-Funktion erneut ausführen.
+- [ ] Datenbestand erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
+- [ ] Nicht abgelaufene Daten bleiben erhalten.
+- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Auditor*innenbereich
+
+#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Mit einem Auditor*innenkonto anmelden.
+- [ ] Auditor*innenübersicht öffnen.
+- [ ] Benutzerübersicht öffnen.
+- [ ] Gruppen- bzw. Rollenübersicht öffnen.
+- [ ] Organisationseinstellungen lesend öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
+- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
+- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
+- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Ohne Berechtigungen:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
+- [ ] Eine URL zur Systemhistorie direkt aufrufen.
+- [ ] Eine URL zu einer fachlichen Besprechungsreihe direkt aufrufen.
+- [ ] Eine URL zu einem Thema direkt aufrufen.
+- [ ] Eine schreibende Verwaltungsaktion direkt aufrufen, soweit für den Test bekannt.
+
+**Ergebnisprüfung**
+
+- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
+- [ ] Fachliche Inhalte sind nicht zugänglich.
+- [ ] Schreibende Aktionen sind nicht möglich.
+- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+
+**Test erfolgreich:** [ ]
+
+---
+
+---
+
+## Produktiv – Leser
+
+Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweiligen Testreihe zugewiesen ist. Keine Teilnehmer- oder Moderatorrolle vergeben.
+
+**Verbindliche Durchführung für diese Rollengruppe**
+
+- Alle folgenden Funktionsbereiche und Testfälle sind aus Sicht dieses Kontos durchzuführen.
+- Bei erlaubten Aktionen muss die Funktion vollständig und mit korrektem Ergebnis funktionieren.
+- Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
+- Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
+
+### Dashboard und Navigation
+
+#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+
+**Berechtigungserwartung für Leser:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Nach der Anmeldung das Dashboard öffnen.
+- [ ] Angezeigte Kacheln und Übersichten prüfen.
+- [ ] Jede für die Rolle sichtbare Kachel einmal anklicken.
+- [ ] Über die Navigation zum Dashboard zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Dashboard wird ohne Fehler geladen.
+- [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
+- [ ] Verlinkte Bereiche lassen sich öffnen.
+- [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Leser:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Seitenmenü öffnen und schließen.
+- [ ] Jede für die Rolle sichtbare Navigation aufrufen.
+- [ ] Browserfenster auf eine schmale und eine breite Ansicht stellen.
+- [ ] Hell- und Dunkelmodus wechseln, sofern die Auswahl angeboten wird.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Navigation bleibt bedienbar.
+- [ ] Aktiver Bereich ist erkennbar.
+- [ ] Inhalte und Bedienelemente überlagern sich nicht.
+- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Persönliches Konto und eigene Aufgaben
+
+#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Leser:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Persönliche Kontoseite über die Navigation öffnen.
+- [ ] Vorname ändern.
+- [ ] Nachname ändern.
+- [ ] E-Mail-Adresse ändern.
+- [ ] Organisationskennzeichen ändern.
+- [ ] Änderungen speichern.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
+- [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
+- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Menüpunkt **Meine Aufgaben** öffnen.
+- [ ] Bereich der offenen Themen prüfen.
+- [ ] Bereich der Tagesordnungspunkte heutiger und zukünftiger Termine prüfen.
+- [ ] Ein aufgeführtes Thema öffnen.
+- [ ] Über die Navigation zu **Meine Aufgaben** zurückkehren.
+- [ ] Den Test mit einem Konto ohne eigene Zuständigkeiten wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
+- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
+- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
+- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechungsreihen verwalten
+
+#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
+- [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
+- [ ] Bezeichnung eintragen.
+- [ ] Beschreibung eintragen.
+- [ ] Wiederholungsrhythmus auswählen.
+- [ ] Intervall eintragen.
+- [ ] Wochentag auswählen.
+- [ ] Startdatum festlegen.
+- [ ] Optional ein Enddatum festlegen.
+- [ ] Speichern anklicken.
+- [ ] Neu angelegte Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
+- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
+- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
+- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Vorhandene Reihe auswählen.
+- [ ] Bearbeiten anklicken.
+- [ ] Bezeichnung ändern.
+- [ ] Beschreibung ändern.
+- [ ] Wiederholungsrhythmus oder Intervall ändern.
+- [ ] Änderungen speichern.
+- [ ] Reihe erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Geänderte Werte werden angezeigt.
+- [ ] Nicht geänderte Werte bleiben erhalten.
+- [ ] Bestehende Serienberechtigungen bleiben erhalten.
+- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine Reihe mit begrenztem Enddatum auswählen.
+- [ ] Funktion zum Verlängern öffnen.
+- [ ] Neues Enddatum festlegen.
+- [ ] Verlängerung bestätigen.
+- [ ] Terminübersicht der Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
+- [ ] Bereits vorhandene Termine bleiben erhalten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine geeignete Testreihe auswählen.
+- [ ] Funktion zum Zurücksetzen bzw. Neuaufsetzen der Termine öffnen.
+- [ ] Angezeigte Auswahl und Bestätigung prüfen.
+- [ ] Vorgang nur mit einer eigens dafür angelegten Testreihe bestätigen.
+- [ ] Terminübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Nicht ausgewählte Reihen sind unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Löschvarianten prüfen.
+- [ ] Löschung der Testreihe bestätigen.
+- [ ] Reihenübersicht und Archiv öffnen.
+- [ ] Historische Termine bzw. Protokolle prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
+- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe öffnen.
+- [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
+- [ ] Ein Testkonto hinzufügen.
+- [ ] Rolle **Leser*in** zuweisen.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Teilnehmer*in** ändern.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Moderator*in** ändern.
+- [ ] Speichern.
+- [ ] Berechtigungsübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
+- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Änderungen betreffen nur die ausgewählte Reihe.
+- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
+- [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
+- [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
+- [ ] Versuchen, die nicht zugewiesene Testreihe über die Navigation aufzurufen.
+- [ ] Die URL eines bekannten Termins der nicht zugewiesenen Testreihe direkt aufrufen.
+- [ ] Eine bekannte Themen-URL dieser Testreihe direkt aufrufen.
+- [ ] Die direkte URL zur Bearbeitung der Testreihe aufrufen.
+- [ ] Den direkten Aufruf der Mitglieder- bzw. Serienberechtigungsverwaltung dieser Testreihe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
+- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
+- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Termine und Besprechungsübersicht
+
+#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungen** öffnen.
+- [ ] Eine zugewiesene Besprechungsreihe auswählen.
+- [ ] Vergangene Termine anzeigen.
+- [ ] Zukünftige Termine anzeigen.
+- [ ] Einen Termin öffnen.
+- [ ] Zur Terminübersicht zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Termine der berechtigten Reihen werden angezeigt.
+- [ ] Datum und Reihenbezeichnung stimmen.
+- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Terminübersicht öffnen.
+- [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
+- [ ] Bearbeitungsfunktion des Termins öffnen.
+- [ ] Neues Datum eingeben.
+- [ ] Speichern anklicken.
+- [ ] Terminübersicht neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin wird am neuen Datum angezeigt.
+- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
+- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
+- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+
+**Test erfolgreich:** [ ]
+
+#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Folgen prüfen.
+- [ ] Löschung bestätigen.
+- [ ] Terminübersicht und betroffene Themen öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Nicht ausgewählte Termine bleiben erhalten.
+- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+
+**Test erfolgreich:** [ ]
+
+#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Teilnehmerauswahl öffnen.
+- [ ] Ein aktives Testkonto auswählen.
+- [ ] Ein weiteres Testkonto abwählen.
+- [ ] Änderungen speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
+- [ ] Abgewählte Konten werden nicht mehr angezeigt.
+- [ ] Die Änderung betrifft nur den ausgewählten Termin.
+- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
+- [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
+- [ ] Den Termin erneut laden.
+
+**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
+- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Test erfolgreich:** [ ]
+
+---
+
+### Themen anlegen und bearbeiten
+
+#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Dashboard öffnen.
+- [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
+- [ ] Titel eintragen.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Besprechungsreihe auswählen, sofern im Formular vorgesehen.
+- [ ] Zieltermin auswählen.
+- [ ] Weitere angezeigte Pflicht- und Auswahlfelder ausfüllen.
+- [ ] Speichern anklicken.
+- [ ] Angelegtes Thema öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema erscheint in der Themenübersicht.
+- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
+- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
+- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
+- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+
+**Test erfolgreich:** [ ]
+
+#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Titel des neuen Themas eingeben.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Abweichende Zuständigkeit für den Tagesordnungspunkt optional auswählen.
+- [ ] Speichern bzw. Hinzufügen anklicken.
+- [ ] Termin und Themenansicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das neue Thema ist angelegt.
+- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
+- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Das Thema ist in der Themenübersicht auffindbar.
+
+**Test erfolgreich:** [ ]
+
+#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenübersicht öffnen.
+- [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
+- [ ] Bearbeiten öffnen.
+- [ ] Titel ändern.
+- [ ] Status ändern.
+- [ ] Hauptzuständigkeit ändern.
+- [ ] Änderungen speichern.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
+- [ ] Änderungen bleiben nach dem Neuladen erhalten.
+- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Status auf einen anderen verfügbaren Wert setzen.
+- [ ] Speichern.
+- [ ] Themenübersicht neu laden.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der neue Status wird in der Detailansicht angezeigt.
+- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema öffnen.
+- [ ] Funktion **Archivieren** anklicken.
+- [ ] Archiv öffnen.
+- [ ] Archiviertes Thema auswählen.
+- [ ] Funktion zum Wiederöffnen anklicken.
+- [ ] Themenübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
+- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
+- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
+- [ ] Der Änderungsverlauf bildet die Aktion ab.
+
+**Test erfolgreich:** [ ]
+
+#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein übertragbares Testthema öffnen.
+- [ ] Funktion zum Übertragen öffnen.
+- [ ] Ziel-Besprechungsreihe auswählen.
+- [ ] Zieltermin auswählen.
+- [ ] Optionale Übertragungsnotiz eintragen.
+- [ ] Übertragung bestätigen.
+- [ ] Thema in der Zielreihe öffnen.
+- [ ] Quell- und Zielreihe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
+- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
+- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Andere Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Themenvorschläge aufrufen.
+- [ ] Einen Vorschlag auswählen.
+- [ ] Vorgeschlagenen Titel übernehmen.
+- [ ] Weitere Felder ausfüllen.
+- [ ] Speichern.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
+- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Tagesordnungspunkte und Wiedervorlagen
+
+#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
+- [ ] Bearbeitungsfunktion öffnen.
+- [ ] Text für diesen Termin ändern.
+- [ ] Status des Tagesordnungspunkts ändern.
+- [ ] Optional abweichende Zuständigkeit setzen.
+- [ ] Speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
+- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+
+**Test erfolgreich:** [ ]
+
+#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
+- [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
+- [ ] Falls vorhanden, einen Punkt über die Pfeiltasten verschieben.
+- [ ] Änderungen speichern bzw. Sortierung abwarten.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
+- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
+- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
+- [ ] Entfernen- bzw. Löschen-Funktion anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Termin und zugehöriges Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
+- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
+- [ ] Wiedervorlage bzw. Folgetermin auswählen.
+- [ ] Zieltermin festlegen.
+- [ ] Abweichende Zuständigkeit bei Bedarf setzen.
+- [ ] Vorgang speichern.
+- [ ] Zieltermin öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
+- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
+- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
+- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine vorhandene Wiedervorlagekette öffnen.
+- [ ] Den nächsten Termin der Reihe öffnen.
+- [ ] Wiedervorlage erneut für einen späteren Termin setzen.
+- [ ] Speichern.
+- [ ] Die vorherigen und nachfolgenden Tagesordnungspunkte öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
+- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
+- [ ] Frühere Protokollstände bleiben unverändert.
+- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
+- [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
+- [ ] Einen historischen Eintrag auswählen.
+- [ ] Zugehörigen Termin bzw. Protokollbezug prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
+- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Kommentare, Anlagen und Links
+
+#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Kommentarbereich öffnen.
+- [ ] Kommentartext eingeben.
+- [ ] Kommentar absenden.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
+- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung der Anlage eingeben.
+- [ ] Eine zulässige Testdatei auswählen.
+- [ ] Upload starten.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird beim richtigen Thema angezeigt.
+- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung eingeben.
+- [ ] Einen zulässigen Netzwerkpfad oder Link eintragen.
+- [ ] Speichern.
+- [ ] Thema neu laden.
+- [ ] Link bzw. Pfad anklicken, sofern als Link dargestellt.
+
+**Ergebnisprüfung**
+
+- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
+- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
+- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+
+**Test erfolgreich:** [ ]
+
+#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit vorhandener Testanlage öffnen.
+- [ ] Download der Anlage anklicken.
+- [ ] Heruntergeladene Datei öffnen bzw. Dateiname und Inhalt prüfen.
+- [ ] Den Download mit einem Konto ohne Serienberechtigung wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
+- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
+- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
+- [ ] Löschfunktion der Anlage anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Thema neu laden.
+- [ ] Download-URL der entfernten Anlage direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
+- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
+- [ ] Andere Anlagen und Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
+- [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
+- [ ] Upload einer Datei mit nicht erlaubter Dateiendung versuchen.
+- [ ] Themenansicht nach den Versuchen neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
+- [ ] Zu große Dateien werden abgewiesen.
+- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
+- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechung abschließen und Protokoll
+
+#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungstexte und Statuswerte prüfen.
+- [ ] Schaltfläche **Besprechung abschließen & Protokollstand sichern** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
+- [ ] Ein Protokoll-Snapshot wurde erstellt.
+- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
+- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+
+**Test erfolgreich:** [ ]
+
+#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Termin öffnen.
+- [ ] Protokollansicht aufrufen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungspunkte und Texte prüfen.
+- [ ] Statuswerte und Verantwortlichkeiten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
+- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
+- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+
+**Test erfolgreich:** [ ]
+
+#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Protokollansicht öffnen.
+- [ ] Druckfunktion auslösen.
+- [ ] Druckvorschau prüfen.
+- [ ] PDF-Export anklicken.
+- [ ] Exportierte PDF-Datei öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
+- [ ] PDF lässt sich öffnen.
+- [ ] PDF enthält die vorgesehenen Protokolldaten.
+- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Unberechtigte Konten können den Export nicht abrufen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Funktion **Wieder öffnen** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+- [ ] Einen Tagesordnungstext testweise ändern.
+- [ ] Änderung speichern.
+- [ ] Besprechung erneut abschließen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
+- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
+- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
+- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
+- [ ] Themenprotokoll-PDF aufrufen.
+- [ ] PDF-Datei öffnen.
+- [ ] Chronologie und Einträge prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
+- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] Der Export ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Offene Themen und Archiv
+
+#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Offene Themen** öffnen.
+- [ ] Themenliste prüfen.
+- [ ] Filter bzw. Suchfunktion verwenden, sofern vorhanden.
+- [ ] Ein Thema öffnen.
+- [ ] Zur Themenliste zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Nur fachlich zugängliche Themen werden angezeigt.
+- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+
+**Test erfolgreich:** [ ]
+
+#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Archiv** öffnen.
+- [ ] Archivierte Testthemen suchen.
+- [ ] Ein archiviertes Thema öffnen.
+- [ ] Historische Einträge aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen sind im Archiv auffindbar.
+- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+
+**Test erfolgreich:** [ ]
+
+#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
+- [ ] Das Testkonto als Reihenmitglied zuweisen.
+- [ ] Historischen Termin abschließen.
+- [ ] Testreihe mit der vorgesehenen Löschvariante entfernen.
+- [ ] Mit dem früheren Reihenmitglied anmelden.
+- [ ] Historischen Termin und Protokoll aufrufen.
+- [ ] Mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
+- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
+- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Berechtigungsanträge
+
+#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
+- [ ] Funktion zum Beantragen einer Berechtigung öffnen.
+- [ ] Gewünschte Serienrolle auswählen.
+- [ ] Antrag absenden.
+- [ ] Antragstatus erneut aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
+- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Der Antrag erscheint mit offenem Status.
+- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+
+**Test erfolgreich:** [ ]
+
+#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
+- [ ] Offenen Testantrag auswählen.
+- [ ] Antrag genehmigen oder ablehnen.
+- [ ] Optional eine Entscheidungsnotiz eintragen.
+- [ ] Entscheidung speichern.
+- [ ] Antragsübersicht erneut öffnen.
+- [ ] Mit dem betroffenen Testkonto anmelden.
+**Ergebnisprüfung**
+
+- [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
+- [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
+- [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
+**Test erfolgreich:** [ ]
+
+#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen bereits entschiedenen Testantrag öffnen.
+- [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
+- [ ] Status und Serienzuweisung erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
+- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
+- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Benutzer- und Themenimport/-export
+
+#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Spalten und Datensätze prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Exportdatei ist lesbar.
+- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
+- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+
+**Test erfolgreich:** [ ]
+
+#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage herunterladen.
+- [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
+- [ ] CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Benutzerübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
+- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
+- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenverwaltung bzw. Themenexport öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Datensätze und Spalten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
+- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage für Themen herunterladen.
+- [ ] Vorlage mit Testthemen befüllen.
+- [ ] Themen-CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Themenübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Änderungsverlauf und Audit
+
+#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine moderierte Besprechungsreihe öffnen.
+- [ ] Änderungsverlauf der Reihe aufrufen.
+- [ ] Ein zuvor bearbeitetes Testthema auswählen.
+- [ ] Ein Ereignis öffnen bzw. dessen Details prüfen.
+- [ ] Mit einem Moderator-Konto einer anderen Reihe denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
+- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
+- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
+- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
+- [ ] Ein administratives Testereignis suchen.
+- [ ] Filter bzw. Detailansicht verwenden, sofern vorhanden.
+- [ ] Mit einem normalen Nutzerkonto denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
+- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
+- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
+- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Mit einem Konto außerhalb des jeweiligen Berechtigungsbereichs den Export direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] CSV-Datei ist lesbar.
+- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
+- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
+- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Aufbewahrung und automatische Löschung
+
+#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
+- [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
+- [ ] Einen Termin innerhalb der Frist prüfen.
+- [ ] Einen Termin mit überschrittenem Löschdatum vorbereiten.
+- [ ] Retention-Funktion in der Testumgebung ausführen.
+- [ ] Terminübersicht und Protokollzugriffe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
+- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
+- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
+- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+
+**Test erfolgreich:** [ ]
+
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema archivieren.
+- [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
+- [ ] Thema vor Ablauf der Frist prüfen.
+- [ ] Thema nach Ablauf der Frist in der isolierten Testumgebung verarbeiten lassen.
+- [ ] Themenübersicht, Archiv, Historie und Anlagenzugriffe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Thema bleibt vor Fristablauf erhalten.
+- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
+- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
+- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
+- [ ] Ergebnis und Datenbestand prüfen.
+- [ ] Retention-Funktion erneut ausführen.
+- [ ] Datenbestand erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
+- [ ] Nicht abgelaufene Daten bleiben erhalten.
+- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Auditor*innenbereich
+
+#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Mit einem Auditor*innenkonto anmelden.
+- [ ] Auditor*innenübersicht öffnen.
+- [ ] Benutzerübersicht öffnen.
+- [ ] Gruppen- bzw. Rollenübersicht öffnen.
+- [ ] Organisationseinstellungen lesend öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
+- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
+- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
+- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Leser:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
+- [ ] Eine URL zur Systemhistorie direkt aufrufen.
+- [ ] Eine URL zu einer fachlichen Besprechungsreihe direkt aufrufen.
+- [ ] Eine URL zu einem Thema direkt aufrufen.
+- [ ] Eine schreibende Verwaltungsaktion direkt aufrufen, soweit für den Test bekannt.
+
+**Ergebnisprüfung**
+
+- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
+- [ ] Fachliche Inhalte sind nicht zugänglich.
+- [ ] Schreibende Aktionen sind nicht möglich.
+- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+
+**Test erfolgreich:** [ ]
+
+---
+
+---
+
+## Produktiv – Teilnehmer
+
+Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreihe zugewiesen ist. Keine Moderatorrolle vergeben.
+
+**Verbindliche Durchführung für diese Rollengruppe**
+
+- Alle folgenden Funktionsbereiche und Testfälle sind aus Sicht dieses Kontos durchzuführen.
+- Bei erlaubten Aktionen muss die Funktion vollständig und mit korrektem Ergebnis funktionieren.
+- Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
+- Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
+
+### Dashboard und Navigation
+
+#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Nach der Anmeldung das Dashboard öffnen.
+- [ ] Angezeigte Kacheln und Übersichten prüfen.
+- [ ] Jede für die Rolle sichtbare Kachel einmal anklicken.
+- [ ] Über die Navigation zum Dashboard zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Dashboard wird ohne Fehler geladen.
+- [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
+- [ ] Verlinkte Bereiche lassen sich öffnen.
+- [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Seitenmenü öffnen und schließen.
+- [ ] Jede für die Rolle sichtbare Navigation aufrufen.
+- [ ] Browserfenster auf eine schmale und eine breite Ansicht stellen.
+- [ ] Hell- und Dunkelmodus wechseln, sofern die Auswahl angeboten wird.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Navigation bleibt bedienbar.
+- [ ] Aktiver Bereich ist erkennbar.
+- [ ] Inhalte und Bedienelemente überlagern sich nicht.
+- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Persönliches Konto und eigene Aufgaben
+
+#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Persönliche Kontoseite über die Navigation öffnen.
+- [ ] Vorname ändern.
+- [ ] Nachname ändern.
+- [ ] E-Mail-Adresse ändern.
+- [ ] Organisationskennzeichen ändern.
+- [ ] Änderungen speichern.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
+- [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
+- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Menüpunkt **Meine Aufgaben** öffnen.
+- [ ] Bereich der offenen Themen prüfen.
+- [ ] Bereich der Tagesordnungspunkte heutiger und zukünftiger Termine prüfen.
+- [ ] Ein aufgeführtes Thema öffnen.
+- [ ] Über die Navigation zu **Meine Aufgaben** zurückkehren.
+- [ ] Den Test mit einem Konto ohne eigene Zuständigkeiten wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
+- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
+- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
+- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechungsreihen verwalten
+
+#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
+- [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
+- [ ] Bezeichnung eintragen.
+- [ ] Beschreibung eintragen.
+- [ ] Wiederholungsrhythmus auswählen.
+- [ ] Intervall eintragen.
+- [ ] Wochentag auswählen.
+- [ ] Startdatum festlegen.
+- [ ] Optional ein Enddatum festlegen.
+- [ ] Speichern anklicken.
+- [ ] Neu angelegte Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
+- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
+- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
+- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Vorhandene Reihe auswählen.
+- [ ] Bearbeiten anklicken.
+- [ ] Bezeichnung ändern.
+- [ ] Beschreibung ändern.
+- [ ] Wiederholungsrhythmus oder Intervall ändern.
+- [ ] Änderungen speichern.
+- [ ] Reihe erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Geänderte Werte werden angezeigt.
+- [ ] Nicht geänderte Werte bleiben erhalten.
+- [ ] Bestehende Serienberechtigungen bleiben erhalten.
+- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine Reihe mit begrenztem Enddatum auswählen.
+- [ ] Funktion zum Verlängern öffnen.
+- [ ] Neues Enddatum festlegen.
+- [ ] Verlängerung bestätigen.
+- [ ] Terminübersicht der Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
+- [ ] Bereits vorhandene Termine bleiben erhalten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine geeignete Testreihe auswählen.
+- [ ] Funktion zum Zurücksetzen bzw. Neuaufsetzen der Termine öffnen.
+- [ ] Angezeigte Auswahl und Bestätigung prüfen.
+- [ ] Vorgang nur mit einer eigens dafür angelegten Testreihe bestätigen.
+- [ ] Terminübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Nicht ausgewählte Reihen sind unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Löschvarianten prüfen.
+- [ ] Löschung der Testreihe bestätigen.
+- [ ] Reihenübersicht und Archiv öffnen.
+- [ ] Historische Termine bzw. Protokolle prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
+- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe öffnen.
+- [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
+- [ ] Ein Testkonto hinzufügen.
+- [ ] Rolle **Leser*in** zuweisen.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Teilnehmer*in** ändern.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Moderator*in** ändern.
+- [ ] Speichern.
+- [ ] Berechtigungsübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
+- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Änderungen betreffen nur die ausgewählte Reihe.
+- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
+- [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
+- [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
+- [ ] Versuchen, die nicht zugewiesene Testreihe über die Navigation aufzurufen.
+- [ ] Die URL eines bekannten Termins der nicht zugewiesenen Testreihe direkt aufrufen.
+- [ ] Eine bekannte Themen-URL dieser Testreihe direkt aufrufen.
+- [ ] Die direkte URL zur Bearbeitung der Testreihe aufrufen.
+- [ ] Den direkten Aufruf der Mitglieder- bzw. Serienberechtigungsverwaltung dieser Testreihe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
+- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
+- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Termine und Besprechungsübersicht
+
+#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungen** öffnen.
+- [ ] Eine zugewiesene Besprechungsreihe auswählen.
+- [ ] Vergangene Termine anzeigen.
+- [ ] Zukünftige Termine anzeigen.
+- [ ] Einen Termin öffnen.
+- [ ] Zur Terminübersicht zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Termine der berechtigten Reihen werden angezeigt.
+- [ ] Datum und Reihenbezeichnung stimmen.
+- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Terminübersicht öffnen.
+- [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
+- [ ] Bearbeitungsfunktion des Termins öffnen.
+- [ ] Neues Datum eingeben.
+- [ ] Speichern anklicken.
+- [ ] Terminübersicht neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin wird am neuen Datum angezeigt.
+- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
+- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
+- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+
+**Test erfolgreich:** [ ]
+
+#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Folgen prüfen.
+- [ ] Löschung bestätigen.
+- [ ] Terminübersicht und betroffene Themen öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Nicht ausgewählte Termine bleiben erhalten.
+- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+
+**Test erfolgreich:** [ ]
+
+#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Teilnehmerauswahl öffnen.
+- [ ] Ein aktives Testkonto auswählen.
+- [ ] Ein weiteres Testkonto abwählen.
+- [ ] Änderungen speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
+- [ ] Abgewählte Konten werden nicht mehr angezeigt.
+- [ ] Die Änderung betrifft nur den ausgewählten Termin.
+- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
+- [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
+- [ ] Den Termin erneut laden.
+
+**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
+- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Test erfolgreich:** [ ]
+
+---
+
+### Themen anlegen und bearbeiten
+
+#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Dashboard öffnen.
+- [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
+- [ ] Titel eintragen.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Besprechungsreihe auswählen, sofern im Formular vorgesehen.
+- [ ] Zieltermin auswählen.
+- [ ] Weitere angezeigte Pflicht- und Auswahlfelder ausfüllen.
+- [ ] Speichern anklicken.
+- [ ] Angelegtes Thema öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema erscheint in der Themenübersicht.
+- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
+- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
+- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
+- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+
+**Test erfolgreich:** [ ]
+
+#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Titel des neuen Themas eingeben.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Abweichende Zuständigkeit für den Tagesordnungspunkt optional auswählen.
+- [ ] Speichern bzw. Hinzufügen anklicken.
+- [ ] Termin und Themenansicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das neue Thema ist angelegt.
+- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
+- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Das Thema ist in der Themenübersicht auffindbar.
+
+**Test erfolgreich:** [ ]
+
+#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenübersicht öffnen.
+- [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
+- [ ] Bearbeiten öffnen.
+- [ ] Titel ändern.
+- [ ] Status ändern.
+- [ ] Hauptzuständigkeit ändern.
+- [ ] Änderungen speichern.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
+- [ ] Änderungen bleiben nach dem Neuladen erhalten.
+- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Status auf einen anderen verfügbaren Wert setzen.
+- [ ] Speichern.
+- [ ] Themenübersicht neu laden.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der neue Status wird in der Detailansicht angezeigt.
+- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema öffnen.
+- [ ] Funktion **Archivieren** anklicken.
+- [ ] Archiv öffnen.
+- [ ] Archiviertes Thema auswählen.
+- [ ] Funktion zum Wiederöffnen anklicken.
+- [ ] Themenübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
+- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
+- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
+- [ ] Der Änderungsverlauf bildet die Aktion ab.
+
+**Test erfolgreich:** [ ]
+
+#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein übertragbares Testthema öffnen.
+- [ ] Funktion zum Übertragen öffnen.
+- [ ] Ziel-Besprechungsreihe auswählen.
+- [ ] Zieltermin auswählen.
+- [ ] Optionale Übertragungsnotiz eintragen.
+- [ ] Übertragung bestätigen.
+- [ ] Thema in der Zielreihe öffnen.
+- [ ] Quell- und Zielreihe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
+- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
+- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Andere Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Themenvorschläge aufrufen.
+- [ ] Einen Vorschlag auswählen.
+- [ ] Vorgeschlagenen Titel übernehmen.
+- [ ] Weitere Felder ausfüllen.
+- [ ] Speichern.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
+- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Tagesordnungspunkte und Wiedervorlagen
+
+#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
+- [ ] Bearbeitungsfunktion öffnen.
+- [ ] Text für diesen Termin ändern.
+- [ ] Status des Tagesordnungspunkts ändern.
+- [ ] Optional abweichende Zuständigkeit setzen.
+- [ ] Speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
+- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+
+**Test erfolgreich:** [ ]
+
+#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
+- [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
+- [ ] Falls vorhanden, einen Punkt über die Pfeiltasten verschieben.
+- [ ] Änderungen speichern bzw. Sortierung abwarten.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
+- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
+- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
+- [ ] Entfernen- bzw. Löschen-Funktion anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Termin und zugehöriges Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
+- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
+- [ ] Wiedervorlage bzw. Folgetermin auswählen.
+- [ ] Zieltermin festlegen.
+- [ ] Abweichende Zuständigkeit bei Bedarf setzen.
+- [ ] Vorgang speichern.
+- [ ] Zieltermin öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
+- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
+- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
+- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine vorhandene Wiedervorlagekette öffnen.
+- [ ] Den nächsten Termin der Reihe öffnen.
+- [ ] Wiedervorlage erneut für einen späteren Termin setzen.
+- [ ] Speichern.
+- [ ] Die vorherigen und nachfolgenden Tagesordnungspunkte öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
+- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
+- [ ] Frühere Protokollstände bleiben unverändert.
+- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
+- [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
+- [ ] Einen historischen Eintrag auswählen.
+- [ ] Zugehörigen Termin bzw. Protokollbezug prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
+- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Kommentare, Anlagen und Links
+
+#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Kommentarbereich öffnen.
+- [ ] Kommentartext eingeben.
+- [ ] Kommentar absenden.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
+- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung der Anlage eingeben.
+- [ ] Eine zulässige Testdatei auswählen.
+- [ ] Upload starten.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird beim richtigen Thema angezeigt.
+- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung eingeben.
+- [ ] Einen zulässigen Netzwerkpfad oder Link eintragen.
+- [ ] Speichern.
+- [ ] Thema neu laden.
+- [ ] Link bzw. Pfad anklicken, sofern als Link dargestellt.
+
+**Ergebnisprüfung**
+
+- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
+- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
+- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+
+**Test erfolgreich:** [ ]
+
+#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit vorhandener Testanlage öffnen.
+- [ ] Download der Anlage anklicken.
+- [ ] Heruntergeladene Datei öffnen bzw. Dateiname und Inhalt prüfen.
+- [ ] Den Download mit einem Konto ohne Serienberechtigung wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
+- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
+- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
+- [ ] Löschfunktion der Anlage anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Thema neu laden.
+- [ ] Download-URL der entfernten Anlage direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
+- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
+- [ ] Andere Anlagen und Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
+- [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
+- [ ] Upload einer Datei mit nicht erlaubter Dateiendung versuchen.
+- [ ] Themenansicht nach den Versuchen neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
+- [ ] Zu große Dateien werden abgewiesen.
+- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
+- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechung abschließen und Protokoll
+
+#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungstexte und Statuswerte prüfen.
+- [ ] Schaltfläche **Besprechung abschließen & Protokollstand sichern** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
+- [ ] Ein Protokoll-Snapshot wurde erstellt.
+- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
+- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+
+**Test erfolgreich:** [ ]
+
+#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Termin öffnen.
+- [ ] Protokollansicht aufrufen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungspunkte und Texte prüfen.
+- [ ] Statuswerte und Verantwortlichkeiten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
+- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
+- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+
+**Test erfolgreich:** [ ]
+
+#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Protokollansicht öffnen.
+- [ ] Druckfunktion auslösen.
+- [ ] Druckvorschau prüfen.
+- [ ] PDF-Export anklicken.
+- [ ] Exportierte PDF-Datei öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
+- [ ] PDF lässt sich öffnen.
+- [ ] PDF enthält die vorgesehenen Protokolldaten.
+- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Unberechtigte Konten können den Export nicht abrufen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Funktion **Wieder öffnen** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+- [ ] Einen Tagesordnungstext testweise ändern.
+- [ ] Änderung speichern.
+- [ ] Besprechung erneut abschließen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
+- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
+- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
+- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
+- [ ] Themenprotokoll-PDF aufrufen.
+- [ ] PDF-Datei öffnen.
+- [ ] Chronologie und Einträge prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
+- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] Der Export ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Offene Themen und Archiv
+
+#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Offene Themen** öffnen.
+- [ ] Themenliste prüfen.
+- [ ] Filter bzw. Suchfunktion verwenden, sofern vorhanden.
+- [ ] Ein Thema öffnen.
+- [ ] Zur Themenliste zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Nur fachlich zugängliche Themen werden angezeigt.
+- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+
+**Test erfolgreich:** [ ]
+
+#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Archiv** öffnen.
+- [ ] Archivierte Testthemen suchen.
+- [ ] Ein archiviertes Thema öffnen.
+- [ ] Historische Einträge aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen sind im Archiv auffindbar.
+- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+
+**Test erfolgreich:** [ ]
+
+#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
+- [ ] Das Testkonto als Reihenmitglied zuweisen.
+- [ ] Historischen Termin abschließen.
+- [ ] Testreihe mit der vorgesehenen Löschvariante entfernen.
+- [ ] Mit dem früheren Reihenmitglied anmelden.
+- [ ] Historischen Termin und Protokoll aufrufen.
+- [ ] Mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
+- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
+- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Berechtigungsanträge
+
+#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
+- [ ] Funktion zum Beantragen einer Berechtigung öffnen.
+- [ ] Gewünschte Serienrolle auswählen.
+- [ ] Antrag absenden.
+- [ ] Antragstatus erneut aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
+- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Der Antrag erscheint mit offenem Status.
+- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+
+**Test erfolgreich:** [ ]
+
+#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
+- [ ] Offenen Testantrag auswählen.
+- [ ] Antrag genehmigen oder ablehnen.
+- [ ] Optional eine Entscheidungsnotiz eintragen.
+- [ ] Entscheidung speichern.
+- [ ] Antragsübersicht erneut öffnen.
+- [ ] Mit dem betroffenen Testkonto anmelden.
+**Ergebnisprüfung**
+
+- [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
+- [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
+- [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
+**Test erfolgreich:** [ ]
+
+#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen bereits entschiedenen Testantrag öffnen.
+- [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
+- [ ] Status und Serienzuweisung erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
+- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
+- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Benutzer- und Themenimport/-export
+
+#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Spalten und Datensätze prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Exportdatei ist lesbar.
+- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
+- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+
+**Test erfolgreich:** [ ]
+
+#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage herunterladen.
+- [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
+- [ ] CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Benutzerübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
+- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
+- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenverwaltung bzw. Themenexport öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Datensätze und Spalten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
+- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage für Themen herunterladen.
+- [ ] Vorlage mit Testthemen befüllen.
+- [ ] Themen-CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Themenübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Änderungsverlauf und Audit
+
+#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine moderierte Besprechungsreihe öffnen.
+- [ ] Änderungsverlauf der Reihe aufrufen.
+- [ ] Ein zuvor bearbeitetes Testthema auswählen.
+- [ ] Ein Ereignis öffnen bzw. dessen Details prüfen.
+- [ ] Mit einem Moderator-Konto einer anderen Reihe denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
+- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
+- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
+- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
+- [ ] Ein administratives Testereignis suchen.
+- [ ] Filter bzw. Detailansicht verwenden, sofern vorhanden.
+- [ ] Mit einem normalen Nutzerkonto denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
+- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
+- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
+- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Mit einem Konto außerhalb des jeweiligen Berechtigungsbereichs den Export direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] CSV-Datei ist lesbar.
+- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
+- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
+- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Aufbewahrung und automatische Löschung
+
+#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
+- [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
+- [ ] Einen Termin innerhalb der Frist prüfen.
+- [ ] Einen Termin mit überschrittenem Löschdatum vorbereiten.
+- [ ] Retention-Funktion in der Testumgebung ausführen.
+- [ ] Terminübersicht und Protokollzugriffe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
+- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
+- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
+- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+
+**Test erfolgreich:** [ ]
+
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema archivieren.
+- [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
+- [ ] Thema vor Ablauf der Frist prüfen.
+- [ ] Thema nach Ablauf der Frist in der isolierten Testumgebung verarbeiten lassen.
+- [ ] Themenübersicht, Archiv, Historie und Anlagenzugriffe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Thema bleibt vor Fristablauf erhalten.
+- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
+- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
+- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
+- [ ] Ergebnis und Datenbestand prüfen.
+- [ ] Retention-Funktion erneut ausführen.
+- [ ] Datenbestand erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
+- [ ] Nicht abgelaufene Daten bleiben erhalten.
+- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Auditor*innenbereich
+
+#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Mit einem Auditor*innenkonto anmelden.
+- [ ] Auditor*innenübersicht öffnen.
+- [ ] Benutzerübersicht öffnen.
+- [ ] Gruppen- bzw. Rollenübersicht öffnen.
+- [ ] Organisationseinstellungen lesend öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
+- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
+- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
+- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Teilnehmer:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
+- [ ] Eine URL zur Systemhistorie direkt aufrufen.
+- [ ] Eine URL zu einer fachlichen Besprechungsreihe direkt aufrufen.
+- [ ] Eine URL zu einem Thema direkt aufrufen.
+- [ ] Eine schreibende Verwaltungsaktion direkt aufrufen, soweit für den Test bekannt.
+
+**Ergebnisprüfung**
+
+- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
+- [ ] Fachliche Inhalte sind nicht zugänglich.
+- [ ] Schreibende Aktionen sind nicht möglich.
+- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+
+**Test erfolgreich:** [ ]
+
+---
+
+---
+
+## Produktiv – Moderator
+
+Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jeweiligen Testreihe zugewiesen ist. Für Fremdreihen darf keine Zuweisung bestehen.
+
+**Verbindliche Durchführung für diese Rollengruppe**
+
+- Alle folgenden Funktionsbereiche und Testfälle sind aus Sicht dieses Kontos durchzuführen.
+- Bei erlaubten Aktionen muss die Funktion vollständig und mit korrektem Ergebnis funktionieren.
+- Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
+- Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
+
+### Dashboard und Navigation
+
+#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Nach der Anmeldung das Dashboard öffnen.
+- [ ] Angezeigte Kacheln und Übersichten prüfen.
+- [ ] Jede für die Rolle sichtbare Kachel einmal anklicken.
+- [ ] Über die Navigation zum Dashboard zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Dashboard wird ohne Fehler geladen.
+- [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
+- [ ] Verlinkte Bereiche lassen sich öffnen.
+- [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Seitenmenü öffnen und schließen.
+- [ ] Jede für die Rolle sichtbare Navigation aufrufen.
+- [ ] Browserfenster auf eine schmale und eine breite Ansicht stellen.
+- [ ] Hell- und Dunkelmodus wechseln, sofern die Auswahl angeboten wird.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Navigation bleibt bedienbar.
+- [ ] Aktiver Bereich ist erkennbar.
+- [ ] Inhalte und Bedienelemente überlagern sich nicht.
+- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Persönliches Konto und eigene Aufgaben
+
+#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Persönliche Kontoseite über die Navigation öffnen.
+- [ ] Vorname ändern.
+- [ ] Nachname ändern.
+- [ ] E-Mail-Adresse ändern.
+- [ ] Organisationskennzeichen ändern.
+- [ ] Änderungen speichern.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
+- [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
+- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Menüpunkt **Meine Aufgaben** öffnen.
+- [ ] Bereich der offenen Themen prüfen.
+- [ ] Bereich der Tagesordnungspunkte heutiger und zukünftiger Termine prüfen.
+- [ ] Ein aufgeführtes Thema öffnen.
+- [ ] Über die Navigation zu **Meine Aufgaben** zurückkehren.
+- [ ] Den Test mit einem Konto ohne eigene Zuständigkeiten wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
+- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
+- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
+- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechungsreihen verwalten
+
+#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
+- [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
+- [ ] Bezeichnung eintragen.
+- [ ] Beschreibung eintragen.
+- [ ] Wiederholungsrhythmus auswählen.
+- [ ] Intervall eintragen.
+- [ ] Wochentag auswählen.
+- [ ] Startdatum festlegen.
+- [ ] Optional ein Enddatum festlegen.
+- [ ] Speichern anklicken.
+- [ ] Neu angelegte Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
+- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
+- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
+- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Vorhandene Reihe auswählen.
+- [ ] Bearbeiten anklicken.
+- [ ] Bezeichnung ändern.
+- [ ] Beschreibung ändern.
+- [ ] Wiederholungsrhythmus oder Intervall ändern.
+- [ ] Änderungen speichern.
+- [ ] Reihe erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Geänderte Werte werden angezeigt.
+- [ ] Nicht geänderte Werte bleiben erhalten.
+- [ ] Bestehende Serienberechtigungen bleiben erhalten.
+- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine Reihe mit begrenztem Enddatum auswählen.
+- [ ] Funktion zum Verlängern öffnen.
+- [ ] Neues Enddatum festlegen.
+- [ ] Verlängerung bestätigen.
+- [ ] Terminübersicht der Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
+- [ ] Bereits vorhandene Termine bleiben erhalten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine geeignete Testreihe auswählen.
+- [ ] Funktion zum Zurücksetzen bzw. Neuaufsetzen der Termine öffnen.
+- [ ] Angezeigte Auswahl und Bestätigung prüfen.
+- [ ] Vorgang nur mit einer eigens dafür angelegten Testreihe bestätigen.
+- [ ] Terminübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Nicht ausgewählte Reihen sind unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Löschvarianten prüfen.
+- [ ] Löschung der Testreihe bestätigen.
+- [ ] Reihenübersicht und Archiv öffnen.
+- [ ] Historische Termine bzw. Protokolle prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
+- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Eine Besprechungsreihe öffnen.
+- [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
+- [ ] Ein Testkonto hinzufügen.
+- [ ] Rolle **Leser*in** zuweisen.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Teilnehmer*in** ändern.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Moderator*in** ändern.
+- [ ] Speichern.
+- [ ] Berechtigungsübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
+- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Änderungen betreffen nur die ausgewählte Reihe.
+- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
+- [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
+- [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
+- [ ] Versuchen, die nicht zugewiesene Testreihe über die Navigation aufzurufen.
+- [ ] Die URL eines bekannten Termins der nicht zugewiesenen Testreihe direkt aufrufen.
+- [ ] Eine bekannte Themen-URL dieser Testreihe direkt aufrufen.
+- [ ] Die direkte URL zur Bearbeitung der Testreihe aufrufen.
+- [ ] Den direkten Aufruf der Mitglieder- bzw. Serienberechtigungsverwaltung dieser Testreihe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
+- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
+- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Termine und Besprechungsübersicht
+
+#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] **Besprechungen** öffnen.
+- [ ] Eine zugewiesene Besprechungsreihe auswählen.
+- [ ] Vergangene Termine anzeigen.
+- [ ] Zukünftige Termine anzeigen.
+- [ ] Einen Termin öffnen.
+- [ ] Zur Terminübersicht zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Termine der berechtigten Reihen werden angezeigt.
+- [ ] Datum und Reihenbezeichnung stimmen.
+- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Terminübersicht öffnen.
+- [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
+- [ ] Bearbeitungsfunktion des Termins öffnen.
+- [ ] Neues Datum eingeben.
+- [ ] Speichern anklicken.
+- [ ] Terminübersicht neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin wird am neuen Datum angezeigt.
+- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
+- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
+- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+
+**Test erfolgreich:** [ ]
+
+#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Folgen prüfen.
+- [ ] Löschung bestätigen.
+- [ ] Terminübersicht und betroffene Themen öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Nicht ausgewählte Termine bleiben erhalten.
+- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+
+**Test erfolgreich:** [ ]
+
+#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Teilnehmerauswahl öffnen.
+- [ ] Ein aktives Testkonto auswählen.
+- [ ] Ein weiteres Testkonto abwählen.
+- [ ] Änderungen speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
+- [ ] Abgewählte Konten werden nicht mehr angezeigt.
+- [ ] Die Änderung betrifft nur den ausgewählten Termin.
+- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
+- [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
+- [ ] Den Termin erneut laden.
+
+**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
+- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Test erfolgreich:** [ ]
+
+---
+
+### Themen anlegen und bearbeiten
+
+#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Dashboard öffnen.
+- [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
+- [ ] Titel eintragen.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Besprechungsreihe auswählen, sofern im Formular vorgesehen.
+- [ ] Zieltermin auswählen.
+- [ ] Weitere angezeigte Pflicht- und Auswahlfelder ausfüllen.
+- [ ] Speichern anklicken.
+- [ ] Angelegtes Thema öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema erscheint in der Themenübersicht.
+- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
+- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
+- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
+- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+
+**Test erfolgreich:** [ ]
+
+#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Titel des neuen Themas eingeben.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Abweichende Zuständigkeit für den Tagesordnungspunkt optional auswählen.
+- [ ] Speichern bzw. Hinzufügen anklicken.
+- [ ] Termin und Themenansicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das neue Thema ist angelegt.
+- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
+- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Das Thema ist in der Themenübersicht auffindbar.
+
+**Test erfolgreich:** [ ]
+
+#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Themenübersicht öffnen.
+- [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
+- [ ] Bearbeiten öffnen.
+- [ ] Titel ändern.
+- [ ] Status ändern.
+- [ ] Hauptzuständigkeit ändern.
+- [ ] Änderungen speichern.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
+- [ ] Änderungen bleiben nach dem Neuladen erhalten.
+- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Status auf einen anderen verfügbaren Wert setzen.
+- [ ] Speichern.
+- [ ] Themenübersicht neu laden.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der neue Status wird in der Detailansicht angezeigt.
+- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein entbehrliches Testthema öffnen.
+- [ ] Funktion **Archivieren** anklicken.
+- [ ] Archiv öffnen.
+- [ ] Archiviertes Thema auswählen.
+- [ ] Funktion zum Wiederöffnen anklicken.
+- [ ] Themenübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
+- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
+- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
+- [ ] Der Änderungsverlauf bildet die Aktion ab.
+
+**Test erfolgreich:** [ ]
+
+#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein übertragbares Testthema öffnen.
+- [ ] Funktion zum Übertragen öffnen.
+- [ ] Ziel-Besprechungsreihe auswählen.
+- [ ] Zieltermin auswählen.
+- [ ] Optionale Übertragungsnotiz eintragen.
+- [ ] Übertragung bestätigen.
+- [ ] Thema in der Zielreihe öffnen.
+- [ ] Quell- und Zielreihe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
+- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
+- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Andere Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Themenvorschläge aufrufen.
+- [ ] Einen Vorschlag auswählen.
+- [ ] Vorgeschlagenen Titel übernehmen.
+- [ ] Weitere Felder ausfüllen.
+- [ ] Speichern.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
+- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Tagesordnungspunkte und Wiedervorlagen
+
+#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
+- [ ] Bearbeitungsfunktion öffnen.
+- [ ] Text für diesen Termin ändern.
+- [ ] Status des Tagesordnungspunkts ändern.
+- [ ] Optional abweichende Zuständigkeit setzen.
+- [ ] Speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
+- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+
+**Test erfolgreich:** [ ]
+
+#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
+- [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
+- [ ] Falls vorhanden, einen Punkt über die Pfeiltasten verschieben.
+- [ ] Änderungen speichern bzw. Sortierung abwarten.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
+- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
+- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
+- [ ] Entfernen- bzw. Löschen-Funktion anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Termin und zugehöriges Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
+- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
+- [ ] Wiedervorlage bzw. Folgetermin auswählen.
+- [ ] Zieltermin festlegen.
+- [ ] Abweichende Zuständigkeit bei Bedarf setzen.
+- [ ] Vorgang speichern.
+- [ ] Zieltermin öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
+- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
+- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
+- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Eine vorhandene Wiedervorlagekette öffnen.
+- [ ] Den nächsten Termin der Reihe öffnen.
+- [ ] Wiedervorlage erneut für einen späteren Termin setzen.
+- [ ] Speichern.
+- [ ] Die vorherigen und nachfolgenden Tagesordnungspunkte öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
+- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
+- [ ] Frühere Protokollstände bleiben unverändert.
+- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
+- [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
+- [ ] Einen historischen Eintrag auswählen.
+- [ ] Zugehörigen Termin bzw. Protokollbezug prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
+- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Kommentare, Anlagen und Links
+
+#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Kommentarbereich öffnen.
+- [ ] Kommentartext eingeben.
+- [ ] Kommentar absenden.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
+- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung der Anlage eingeben.
+- [ ] Eine zulässige Testdatei auswählen.
+- [ ] Upload starten.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird beim richtigen Thema angezeigt.
+- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung eingeben.
+- [ ] Einen zulässigen Netzwerkpfad oder Link eintragen.
+- [ ] Speichern.
+- [ ] Thema neu laden.
+- [ ] Link bzw. Pfad anklicken, sofern als Link dargestellt.
+
+**Ergebnisprüfung**
+
+- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
+- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
+- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+
+**Test erfolgreich:** [ ]
+
+#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Thema mit vorhandener Testanlage öffnen.
+- [ ] Download der Anlage anklicken.
+- [ ] Heruntergeladene Datei öffnen bzw. Dateiname und Inhalt prüfen.
+- [ ] Den Download mit einem Konto ohne Serienberechtigung wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
+- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
+- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
+- [ ] Löschfunktion der Anlage anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Thema neu laden.
+- [ ] Download-URL der entfernten Anlage direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
+- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
+- [ ] Andere Anlagen und Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
+- [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
+- [ ] Upload einer Datei mit nicht erlaubter Dateiendung versuchen.
+- [ ] Themenansicht nach den Versuchen neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
+- [ ] Zu große Dateien werden abgewiesen.
+- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
+- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechung abschließen und Protokoll
+
+#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungstexte und Statuswerte prüfen.
+- [ ] Schaltfläche **Besprechung abschließen & Protokollstand sichern** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
+- [ ] Ein Protokoll-Snapshot wurde erstellt.
+- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
+- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+
+**Test erfolgreich:** [ ]
+
+#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen abgeschlossenen Termin öffnen.
+- [ ] Protokollansicht aufrufen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungspunkte und Texte prüfen.
+- [ ] Statuswerte und Verantwortlichkeiten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
+- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
+- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+
+**Test erfolgreich:** [ ]
+
+#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Protokollansicht öffnen.
+- [ ] Druckfunktion auslösen.
+- [ ] Druckvorschau prüfen.
+- [ ] PDF-Export anklicken.
+- [ ] Exportierte PDF-Datei öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
+- [ ] PDF lässt sich öffnen.
+- [ ] PDF enthält die vorgesehenen Protokolldaten.
+- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Unberechtigte Konten können den Export nicht abrufen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Funktion **Wieder öffnen** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+- [ ] Einen Tagesordnungstext testweise ändern.
+- [ ] Änderung speichern.
+- [ ] Besprechung erneut abschließen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
+- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
+- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
+- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
+- [ ] Themenprotokoll-PDF aufrufen.
+- [ ] PDF-Datei öffnen.
+- [ ] Chronologie und Einträge prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
+- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] Der Export ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Offene Themen und Archiv
+
+#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] **Offene Themen** öffnen.
+- [ ] Themenliste prüfen.
+- [ ] Filter bzw. Suchfunktion verwenden, sofern vorhanden.
+- [ ] Ein Thema öffnen.
+- [ ] Zur Themenliste zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Nur fachlich zugängliche Themen werden angezeigt.
+- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+
+**Test erfolgreich:** [ ]
+
+#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] **Archiv** öffnen.
+- [ ] Archivierte Testthemen suchen.
+- [ ] Ein archiviertes Thema öffnen.
+- [ ] Historische Einträge aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen sind im Archiv auffindbar.
+- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+
+**Test erfolgreich:** [ ]
+
+#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
+- [ ] Das Testkonto als Reihenmitglied zuweisen.
+- [ ] Historischen Termin abschließen.
+- [ ] Testreihe mit der vorgesehenen Löschvariante entfernen.
+- [ ] Mit dem früheren Reihenmitglied anmelden.
+- [ ] Historischen Termin und Protokoll aufrufen.
+- [ ] Mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
+- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
+- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Berechtigungsanträge
+
+#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
+- [ ] Funktion zum Beantragen einer Berechtigung öffnen.
+- [ ] Gewünschte Serienrolle auswählen.
+- [ ] Antrag absenden.
+- [ ] Antragstatus erneut aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
+- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Der Antrag erscheint mit offenem Status.
+- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+
+**Test erfolgreich:** [ ]
+
+#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
+- [ ] Offenen Testantrag auswählen.
+- [ ] Antrag genehmigen oder ablehnen.
+- [ ] Optional eine Entscheidungsnotiz eintragen.
+- [ ] Entscheidung speichern.
+- [ ] Antragsübersicht erneut öffnen.
+- [ ] Mit dem betroffenen Testkonto anmelden.
+**Ergebnisprüfung**
+
+- [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
+- [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
+- [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
+**Test erfolgreich:** [ ]
+
+#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen bereits entschiedenen Testantrag öffnen.
+- [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
+- [ ] Status und Serienzuweisung erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
+- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
+- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Benutzer- und Themenimport/-export
+
+#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Spalten und Datensätze prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Exportdatei ist lesbar.
+- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
+- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+
+**Test erfolgreich:** [ ]
+
+#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage herunterladen.
+- [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
+- [ ] CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Benutzerübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
+- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
+- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Themenverwaltung bzw. Themenexport öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Datensätze und Spalten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
+- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] CSV-Mustervorlage für Themen herunterladen.
+- [ ] Vorlage mit Testthemen befüllen.
+- [ ] Themen-CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Themenübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Änderungsverlauf und Audit
+
+#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+
+**Berechtigungserwartung für Moderator:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Eine moderierte Besprechungsreihe öffnen.
+- [ ] Änderungsverlauf der Reihe aufrufen.
+- [ ] Ein zuvor bearbeitetes Testthema auswählen.
+- [ ] Ein Ereignis öffnen bzw. dessen Details prüfen.
+- [ ] Mit einem Moderator-Konto einer anderen Reihe denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
+- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
+- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
+- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
+- [ ] Ein administratives Testereignis suchen.
+- [ ] Filter bzw. Detailansicht verwenden, sofern vorhanden.
+- [ ] Mit einem normalen Nutzerkonto denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
+- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
+- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
+- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Mit einem Konto außerhalb des jeweiligen Berechtigungsbereichs den Export direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] CSV-Datei ist lesbar.
+- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
+- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
+- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Aufbewahrung und automatische Löschung
+
+#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
+- [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
+- [ ] Einen Termin innerhalb der Frist prüfen.
+- [ ] Einen Termin mit überschrittenem Löschdatum vorbereiten.
+- [ ] Retention-Funktion in der Testumgebung ausführen.
+- [ ] Terminübersicht und Protokollzugriffe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
+- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
+- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
+- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+
+**Test erfolgreich:** [ ]
+
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema archivieren.
+- [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
+- [ ] Thema vor Ablauf der Frist prüfen.
+- [ ] Thema nach Ablauf der Frist in der isolierten Testumgebung verarbeiten lassen.
+- [ ] Themenübersicht, Archiv, Historie und Anlagenzugriffe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Thema bleibt vor Fristablauf erhalten.
+- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
+- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
+- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
+- [ ] Ergebnis und Datenbestand prüfen.
+- [ ] Retention-Funktion erneut ausführen.
+- [ ] Datenbestand erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
+- [ ] Nicht abgelaufene Daten bleiben erhalten.
+- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Auditor*innenbereich
+
+#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Mit einem Auditor*innenkonto anmelden.
+- [ ] Auditor*innenübersicht öffnen.
+- [ ] Benutzerübersicht öffnen.
+- [ ] Gruppen- bzw. Rollenübersicht öffnen.
+- [ ] Organisationseinstellungen lesend öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
+- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
+- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
+- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Moderator:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
+- [ ] Eine URL zur Systemhistorie direkt aufrufen.
+- [ ] Eine URL zu einer fachlichen Besprechungsreihe direkt aufrufen.
+- [ ] Eine URL zu einem Thema direkt aufrufen.
+- [ ] Eine schreibende Verwaltungsaktion direkt aufrufen, soweit für den Test bekannt.
+
+**Ergebnisprüfung**
+
+- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
+- [ ] Fachliche Inhalte sind nicht zugänglich.
+- [ ] Schreibende Aktionen sind nicht möglich.
+- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+
+**Test erfolgreich:** [ ]
+
+---
+
+---
+
+## Produktiv – Globale Rolle Admin
+
+Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrücklich keine Serienrolle zugewiesen ist. Wo der Test eine Serienrolle voraussetzt, zusätzlich einen getrennten Kontrolllauf mit Admin plus Moderatorzuweisung durchführen.
+
+**Verbindliche Durchführung für diese Rollengruppe**
+
+- Alle folgenden Funktionsbereiche und Testfälle sind aus Sicht dieses Kontos durchzuführen.
+- Bei erlaubten Aktionen muss die Funktion vollständig und mit korrektem Ergebnis funktionieren.
+- Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
+- Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
+
+### Dashboard und Navigation
+
+#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Nach der Anmeldung das Dashboard öffnen.
+- [ ] Angezeigte Kacheln und Übersichten prüfen.
+- [ ] Jede für die Rolle sichtbare Kachel einmal anklicken.
+- [ ] Über die Navigation zum Dashboard zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Dashboard wird ohne Fehler geladen.
+- [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
+- [ ] Verlinkte Bereiche lassen sich öffnen.
+- [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Seitenmenü öffnen und schließen.
+- [ ] Jede für die Rolle sichtbare Navigation aufrufen.
+- [ ] Browserfenster auf eine schmale und eine breite Ansicht stellen.
+- [ ] Hell- und Dunkelmodus wechseln, sofern die Auswahl angeboten wird.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Navigation bleibt bedienbar.
+- [ ] Aktiver Bereich ist erkennbar.
+- [ ] Inhalte und Bedienelemente überlagern sich nicht.
+- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Persönliches Konto und eigene Aufgaben
+
+#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Persönliche Kontoseite über die Navigation öffnen.
+- [ ] Vorname ändern.
+- [ ] Nachname ändern.
+- [ ] E-Mail-Adresse ändern.
+- [ ] Organisationskennzeichen ändern.
+- [ ] Änderungen speichern.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
+- [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
+- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Menüpunkt **Meine Aufgaben** öffnen.
+- [ ] Bereich der offenen Themen prüfen.
+- [ ] Bereich der Tagesordnungspunkte heutiger und zukünftiger Termine prüfen.
+- [ ] Ein aufgeführtes Thema öffnen.
+- [ ] Über die Navigation zu **Meine Aufgaben** zurückkehren.
+- [ ] Den Test mit einem Konto ohne eigene Zuständigkeiten wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
+- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
+- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
+- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechungsreihen verwalten
+
+#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
+- [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
+- [ ] Bezeichnung eintragen.
+- [ ] Beschreibung eintragen.
+- [ ] Wiederholungsrhythmus auswählen.
+- [ ] Intervall eintragen.
+- [ ] Wochentag auswählen.
+- [ ] Startdatum festlegen.
+- [ ] Optional ein Enddatum festlegen.
+- [ ] Speichern anklicken.
+- [ ] Neu angelegte Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
+- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
+- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
+- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Vorhandene Reihe auswählen.
+- [ ] Bearbeiten anklicken.
+- [ ] Bezeichnung ändern.
+- [ ] Beschreibung ändern.
+- [ ] Wiederholungsrhythmus oder Intervall ändern.
+- [ ] Änderungen speichern.
+- [ ] Reihe erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Geänderte Werte werden angezeigt.
+- [ ] Nicht geänderte Werte bleiben erhalten.
+- [ ] Bestehende Serienberechtigungen bleiben erhalten.
+- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine Reihe mit begrenztem Enddatum auswählen.
+- [ ] Funktion zum Verlängern öffnen.
+- [ ] Neues Enddatum festlegen.
+- [ ] Verlängerung bestätigen.
+- [ ] Terminübersicht der Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
+- [ ] Bereits vorhandene Termine bleiben erhalten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine geeignete Testreihe auswählen.
+- [ ] Funktion zum Zurücksetzen bzw. Neuaufsetzen der Termine öffnen.
+- [ ] Angezeigte Auswahl und Bestätigung prüfen.
+- [ ] Vorgang nur mit einer eigens dafür angelegten Testreihe bestätigen.
+- [ ] Terminübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Nicht ausgewählte Reihen sind unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Löschvarianten prüfen.
+- [ ] Löschung der Testreihe bestätigen.
+- [ ] Reihenübersicht und Archiv öffnen.
+- [ ] Historische Termine bzw. Protokolle prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
+- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe öffnen.
+- [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
+- [ ] Ein Testkonto hinzufügen.
+- [ ] Rolle **Leser*in** zuweisen.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Teilnehmer*in** ändern.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Moderator*in** ändern.
+- [ ] Speichern.
+- [ ] Berechtigungsübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
+- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Änderungen betreffen nur die ausgewählte Reihe.
+- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
+- [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
+- [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
+- [ ] Versuchen, die nicht zugewiesene Testreihe über die Navigation aufzurufen.
+- [ ] Die URL eines bekannten Termins der nicht zugewiesenen Testreihe direkt aufrufen.
+- [ ] Eine bekannte Themen-URL dieser Testreihe direkt aufrufen.
+- [ ] Die direkte URL zur Bearbeitung der Testreihe aufrufen.
+- [ ] Den direkten Aufruf der Mitglieder- bzw. Serienberechtigungsverwaltung dieser Testreihe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
+- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
+- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Termine und Besprechungsübersicht
+
+#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungen** öffnen.
+- [ ] Eine zugewiesene Besprechungsreihe auswählen.
+- [ ] Vergangene Termine anzeigen.
+- [ ] Zukünftige Termine anzeigen.
+- [ ] Einen Termin öffnen.
+- [ ] Zur Terminübersicht zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Termine der berechtigten Reihen werden angezeigt.
+- [ ] Datum und Reihenbezeichnung stimmen.
+- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Terminübersicht öffnen.
+- [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
+- [ ] Bearbeitungsfunktion des Termins öffnen.
+- [ ] Neues Datum eingeben.
+- [ ] Speichern anklicken.
+- [ ] Terminübersicht neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin wird am neuen Datum angezeigt.
+- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
+- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
+- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+
+**Test erfolgreich:** [ ]
+
+#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Folgen prüfen.
+- [ ] Löschung bestätigen.
+- [ ] Terminübersicht und betroffene Themen öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Nicht ausgewählte Termine bleiben erhalten.
+- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+
+**Test erfolgreich:** [ ]
+
+#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Teilnehmerauswahl öffnen.
+- [ ] Ein aktives Testkonto auswählen.
+- [ ] Ein weiteres Testkonto abwählen.
+- [ ] Änderungen speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
+- [ ] Abgewählte Konten werden nicht mehr angezeigt.
+- [ ] Die Änderung betrifft nur den ausgewählten Termin.
+- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
+- [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
+- [ ] Den Termin erneut laden.
+
+**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
+- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Test erfolgreich:** [ ]
+
+---
+
+### Themen anlegen und bearbeiten
+
+#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Dashboard öffnen.
+- [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
+- [ ] Titel eintragen.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Besprechungsreihe auswählen, sofern im Formular vorgesehen.
+- [ ] Zieltermin auswählen.
+- [ ] Weitere angezeigte Pflicht- und Auswahlfelder ausfüllen.
+- [ ] Speichern anklicken.
+- [ ] Angelegtes Thema öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema erscheint in der Themenübersicht.
+- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
+- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
+- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
+- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+
+**Test erfolgreich:** [ ]
+
+#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Titel des neuen Themas eingeben.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Abweichende Zuständigkeit für den Tagesordnungspunkt optional auswählen.
+- [ ] Speichern bzw. Hinzufügen anklicken.
+- [ ] Termin und Themenansicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das neue Thema ist angelegt.
+- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
+- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Das Thema ist in der Themenübersicht auffindbar.
+
+**Test erfolgreich:** [ ]
+
+#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenübersicht öffnen.
+- [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
+- [ ] Bearbeiten öffnen.
+- [ ] Titel ändern.
+- [ ] Status ändern.
+- [ ] Hauptzuständigkeit ändern.
+- [ ] Änderungen speichern.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
+- [ ] Änderungen bleiben nach dem Neuladen erhalten.
+- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Status auf einen anderen verfügbaren Wert setzen.
+- [ ] Speichern.
+- [ ] Themenübersicht neu laden.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der neue Status wird in der Detailansicht angezeigt.
+- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema öffnen.
+- [ ] Funktion **Archivieren** anklicken.
+- [ ] Archiv öffnen.
+- [ ] Archiviertes Thema auswählen.
+- [ ] Funktion zum Wiederöffnen anklicken.
+- [ ] Themenübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
+- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
+- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
+- [ ] Der Änderungsverlauf bildet die Aktion ab.
+
+**Test erfolgreich:** [ ]
+
+#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein übertragbares Testthema öffnen.
+- [ ] Funktion zum Übertragen öffnen.
+- [ ] Ziel-Besprechungsreihe auswählen.
+- [ ] Zieltermin auswählen.
+- [ ] Optionale Übertragungsnotiz eintragen.
+- [ ] Übertragung bestätigen.
+- [ ] Thema in der Zielreihe öffnen.
+- [ ] Quell- und Zielreihe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
+- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
+- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Andere Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Themenvorschläge aufrufen.
+- [ ] Einen Vorschlag auswählen.
+- [ ] Vorgeschlagenen Titel übernehmen.
+- [ ] Weitere Felder ausfüllen.
+- [ ] Speichern.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
+- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Tagesordnungspunkte und Wiedervorlagen
+
+#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
+- [ ] Bearbeitungsfunktion öffnen.
+- [ ] Text für diesen Termin ändern.
+- [ ] Status des Tagesordnungspunkts ändern.
+- [ ] Optional abweichende Zuständigkeit setzen.
+- [ ] Speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
+- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+
+**Test erfolgreich:** [ ]
+
+#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
+- [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
+- [ ] Falls vorhanden, einen Punkt über die Pfeiltasten verschieben.
+- [ ] Änderungen speichern bzw. Sortierung abwarten.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
+- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
+- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
+- [ ] Entfernen- bzw. Löschen-Funktion anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Termin und zugehöriges Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
+- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
+- [ ] Wiedervorlage bzw. Folgetermin auswählen.
+- [ ] Zieltermin festlegen.
+- [ ] Abweichende Zuständigkeit bei Bedarf setzen.
+- [ ] Vorgang speichern.
+- [ ] Zieltermin öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
+- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
+- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
+- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine vorhandene Wiedervorlagekette öffnen.
+- [ ] Den nächsten Termin der Reihe öffnen.
+- [ ] Wiedervorlage erneut für einen späteren Termin setzen.
+- [ ] Speichern.
+- [ ] Die vorherigen und nachfolgenden Tagesordnungspunkte öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
+- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
+- [ ] Frühere Protokollstände bleiben unverändert.
+- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
+- [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
+- [ ] Einen historischen Eintrag auswählen.
+- [ ] Zugehörigen Termin bzw. Protokollbezug prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
+- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Kommentare, Anlagen und Links
+
+#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Kommentarbereich öffnen.
+- [ ] Kommentartext eingeben.
+- [ ] Kommentar absenden.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
+- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung der Anlage eingeben.
+- [ ] Eine zulässige Testdatei auswählen.
+- [ ] Upload starten.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird beim richtigen Thema angezeigt.
+- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung eingeben.
+- [ ] Einen zulässigen Netzwerkpfad oder Link eintragen.
+- [ ] Speichern.
+- [ ] Thema neu laden.
+- [ ] Link bzw. Pfad anklicken, sofern als Link dargestellt.
+
+**Ergebnisprüfung**
+
+- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
+- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
+- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+
+**Test erfolgreich:** [ ]
+
+#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit vorhandener Testanlage öffnen.
+- [ ] Download der Anlage anklicken.
+- [ ] Heruntergeladene Datei öffnen bzw. Dateiname und Inhalt prüfen.
+- [ ] Den Download mit einem Konto ohne Serienberechtigung wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
+- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
+- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
+- [ ] Löschfunktion der Anlage anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Thema neu laden.
+- [ ] Download-URL der entfernten Anlage direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
+- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
+- [ ] Andere Anlagen und Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
+- [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
+- [ ] Upload einer Datei mit nicht erlaubter Dateiendung versuchen.
+- [ ] Themenansicht nach den Versuchen neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
+- [ ] Zu große Dateien werden abgewiesen.
+- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
+- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechung abschließen und Protokoll
+
+#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungstexte und Statuswerte prüfen.
+- [ ] Schaltfläche **Besprechung abschließen & Protokollstand sichern** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
+- [ ] Ein Protokoll-Snapshot wurde erstellt.
+- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
+- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+
+**Test erfolgreich:** [ ]
+
+#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Termin öffnen.
+- [ ] Protokollansicht aufrufen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungspunkte und Texte prüfen.
+- [ ] Statuswerte und Verantwortlichkeiten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
+- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
+- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+
+**Test erfolgreich:** [ ]
+
+#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Protokollansicht öffnen.
+- [ ] Druckfunktion auslösen.
+- [ ] Druckvorschau prüfen.
+- [ ] PDF-Export anklicken.
+- [ ] Exportierte PDF-Datei öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
+- [ ] PDF lässt sich öffnen.
+- [ ] PDF enthält die vorgesehenen Protokolldaten.
+- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Unberechtigte Konten können den Export nicht abrufen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Funktion **Wieder öffnen** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+- [ ] Einen Tagesordnungstext testweise ändern.
+- [ ] Änderung speichern.
+- [ ] Besprechung erneut abschließen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
+- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
+- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
+- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
+- [ ] Themenprotokoll-PDF aufrufen.
+- [ ] PDF-Datei öffnen.
+- [ ] Chronologie und Einträge prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
+- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] Der Export ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Offene Themen und Archiv
+
+#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Offene Themen** öffnen.
+- [ ] Themenliste prüfen.
+- [ ] Filter bzw. Suchfunktion verwenden, sofern vorhanden.
+- [ ] Ein Thema öffnen.
+- [ ] Zur Themenliste zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Nur fachlich zugängliche Themen werden angezeigt.
+- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+
+**Test erfolgreich:** [ ]
+
+#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Archiv** öffnen.
+- [ ] Archivierte Testthemen suchen.
+- [ ] Ein archiviertes Thema öffnen.
+- [ ] Historische Einträge aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen sind im Archiv auffindbar.
+- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+
+**Test erfolgreich:** [ ]
+
+#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
+- [ ] Das Testkonto als Reihenmitglied zuweisen.
+- [ ] Historischen Termin abschließen.
+- [ ] Testreihe mit der vorgesehenen Löschvariante entfernen.
+- [ ] Mit dem früheren Reihenmitglied anmelden.
+- [ ] Historischen Termin und Protokoll aufrufen.
+- [ ] Mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
+- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
+- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Berechtigungsanträge
+
+#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
+- [ ] Funktion zum Beantragen einer Berechtigung öffnen.
+- [ ] Gewünschte Serienrolle auswählen.
+- [ ] Antrag absenden.
+- [ ] Antragstatus erneut aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
+- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Der Antrag erscheint mit offenem Status.
+- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+
+**Test erfolgreich:** [ ]
+
+#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
+- [ ] Offenen Testantrag auswählen.
+- [ ] Antrag genehmigen oder ablehnen.
+- [ ] Optional eine Entscheidungsnotiz eintragen.
+- [ ] Entscheidung speichern.
+- [ ] Antragsübersicht erneut öffnen.
+- [ ] Mit dem betroffenen Testkonto anmelden.
+**Ergebnisprüfung**
+
+- [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
+- [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
+- [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
+**Test erfolgreich:** [ ]
+
+#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Einen bereits entschiedenen Testantrag öffnen.
+- [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
+- [ ] Status und Serienzuweisung erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
+- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
+- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Benutzer- und Themenimport/-export
+
+#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Spalten und Datensätze prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Exportdatei ist lesbar.
+- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
+- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+
+**Test erfolgreich:** [ ]
+
+#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] CSV-Mustervorlage herunterladen.
+- [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
+- [ ] CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Benutzerübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
+- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
+- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenverwaltung bzw. Themenexport öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Datensätze und Spalten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
+- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage für Themen herunterladen.
+- [ ] Vorlage mit Testthemen befüllen.
+- [ ] Themen-CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Themenübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Änderungsverlauf und Audit
+
+#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine moderierte Besprechungsreihe öffnen.
+- [ ] Änderungsverlauf der Reihe aufrufen.
+- [ ] Ein zuvor bearbeitetes Testthema auswählen.
+- [ ] Ein Ereignis öffnen bzw. dessen Details prüfen.
+- [ ] Mit einem Moderator-Konto einer anderen Reihe denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
+- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
+- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
+- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
+- [ ] Ein administratives Testereignis suchen.
+- [ ] Filter bzw. Detailansicht verwenden, sofern vorhanden.
+- [ ] Mit einem normalen Nutzerkonto denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
+- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
+- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
+- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Mit einem Konto außerhalb des jeweiligen Berechtigungsbereichs den Export direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] CSV-Datei ist lesbar.
+- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
+- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
+- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Aufbewahrung und automatische Löschung
+
+#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
+- [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
+- [ ] Einen Termin innerhalb der Frist prüfen.
+- [ ] Einen Termin mit überschrittenem Löschdatum vorbereiten.
+- [ ] Retention-Funktion in der Testumgebung ausführen.
+- [ ] Terminübersicht und Protokollzugriffe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
+- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
+- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
+- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+
+**Test erfolgreich:** [ ]
+
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Ein entbehrliches Testthema archivieren.
+- [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
+- [ ] Thema vor Ablauf der Frist prüfen.
+- [ ] Thema nach Ablauf der Frist in der isolierten Testumgebung verarbeiten lassen.
+- [ ] Themenübersicht, Archiv, Historie und Anlagenzugriffe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Thema bleibt vor Fristablauf erhalten.
+- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
+- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
+- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
+- [ ] Ergebnis und Datenbestand prüfen.
+- [ ] Retention-Funktion erneut ausführen.
+- [ ] Datenbestand erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
+- [ ] Nicht abgelaufene Daten bleiben erhalten.
+- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Auditor*innenbereich
+
+#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Mit einem Auditor*innenkonto anmelden.
+- [ ] Auditor*innenübersicht öffnen.
+- [ ] Benutzerübersicht öffnen.
+- [ ] Gruppen- bzw. Rollenübersicht öffnen.
+- [ ] Organisationseinstellungen lesend öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
+- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
+- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
+- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Admin:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
+- [ ] Eine URL zur Systemhistorie direkt aufrufen.
+- [ ] Eine URL zu einer fachlichen Besprechungsreihe direkt aufrufen.
+- [ ] Eine URL zu einem Thema direkt aufrufen.
+- [ ] Eine schreibende Verwaltungsaktion direkt aufrufen, soweit für den Test bekannt.
+
+**Ergebnisprüfung**
+
+- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
+- [ ] Fachliche Inhalte sind nicht zugänglich.
+- [ ] Schreibende Aktionen sind nicht möglich.
+- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+
+**Test erfolgreich:** [ ]
+
+---
+
+---
+
+## Produktiv – Globale Rolle Auditor
+
+Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienzuweisung darf es keine fachlichen Reiheninhalte sehen oder verändern. Nur ausdrücklich freigegebene administrative Prüfdaten sind lesbar.
+
+**Verbindliche Durchführung für diese Rollengruppe**
+
+- Alle folgenden Funktionsbereiche und Testfälle sind aus Sicht dieses Kontos durchzuführen.
+- Bei erlaubten Aktionen muss die Funktion vollständig und mit korrektem Ergebnis funktionieren.
+- Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
+- Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
+
+### Dashboard und Navigation
+
+#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Nach der Anmeldung das Dashboard öffnen.
+- [ ] Angezeigte Kacheln und Übersichten prüfen.
+- [ ] Jede für die Rolle sichtbare Kachel einmal anklicken.
+- [ ] Über die Navigation zum Dashboard zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Dashboard wird ohne Fehler geladen.
+- [ ] Es werden nur die für das Konto vorgesehenen Inhalte und Einstiege angezeigt.
+- [ ] Verlinkte Bereiche lassen sich öffnen.
+- [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Seitenmenü öffnen und schließen.
+- [ ] Jede für die Rolle sichtbare Navigation aufrufen.
+- [ ] Browserfenster auf eine schmale und eine breite Ansicht stellen.
+- [ ] Hell- und Dunkelmodus wechseln, sofern die Auswahl angeboten wird.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Navigation bleibt bedienbar.
+- [ ] Aktiver Bereich ist erkennbar.
+- [ ] Inhalte und Bedienelemente überlagern sich nicht.
+- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Persönliches Konto und eigene Aufgaben
+
+#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Persönliche Kontoseite über die Navigation öffnen.
+- [ ] Vorname ändern.
+- [ ] Nachname ändern.
+- [ ] E-Mail-Adresse ändern.
+- [ ] Organisationskennzeichen ändern.
+- [ ] Änderungen speichern.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
+- [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
+- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Menüpunkt **Meine Aufgaben** öffnen.
+- [ ] Bereich der offenen Themen prüfen.
+- [ ] Bereich der Tagesordnungspunkte heutiger und zukünftiger Termine prüfen.
+- [ ] Ein aufgeführtes Thema öffnen.
+- [ ] Über die Navigation zu **Meine Aufgaben** zurückkehren.
+- [ ] Den Test mit einem Konto ohne eigene Zuständigkeiten wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
+- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
+- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
+- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechungsreihen verwalten
+
+#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
+- [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
+- [ ] Bezeichnung eintragen.
+- [ ] Beschreibung eintragen.
+- [ ] Wiederholungsrhythmus auswählen.
+- [ ] Intervall eintragen.
+- [ ] Wochentag auswählen.
+- [ ] Startdatum festlegen.
+- [ ] Optional ein Enddatum festlegen.
+- [ ] Speichern anklicken.
+- [ ] Neu angelegte Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
+- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
+- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
+- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Vorhandene Reihe auswählen.
+- [ ] Bearbeiten anklicken.
+- [ ] Bezeichnung ändern.
+- [ ] Beschreibung ändern.
+- [ ] Wiederholungsrhythmus oder Intervall ändern.
+- [ ] Änderungen speichern.
+- [ ] Reihe erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Geänderte Werte werden angezeigt.
+- [ ] Nicht geänderte Werte bleiben erhalten.
+- [ ] Bestehende Serienberechtigungen bleiben erhalten.
+- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine Reihe mit begrenztem Enddatum auswählen.
+- [ ] Funktion zum Verlängern öffnen.
+- [ ] Neues Enddatum festlegen.
+- [ ] Verlängerung bestätigen.
+- [ ] Terminübersicht der Reihe öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
+- [ ] Bereits vorhandene Termine bleiben erhalten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Serienzuweisungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Serienverwaltung öffnen.
+- [ ] Eine geeignete Testreihe auswählen.
+- [ ] Funktion zum Zurücksetzen bzw. Neuaufsetzen der Termine öffnen.
+- [ ] Angezeigte Auswahl und Bestätigung prüfen.
+- [ ] Vorgang nur mit einer eigens dafür angelegten Testreihe bestätigen.
+- [ ] Terminübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
+- [ ] Es entstehen keine doppelten Termine.
+- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Nicht ausgewählte Reihen sind unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Löschvarianten prüfen.
+- [ ] Löschung der Testreihe bestätigen.
+- [ ] Reihenübersicht und Archiv öffnen.
+- [ ] Historische Termine bzw. Protokolle prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
+- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe öffnen.
+- [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
+- [ ] Ein Testkonto hinzufügen.
+- [ ] Rolle **Leser*in** zuweisen.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Teilnehmer*in** ändern.
+- [ ] Speichern.
+- [ ] Dasselbe Konto anschließend auf **Moderator*in** ändern.
+- [ ] Speichern.
+- [ ] Berechtigungsübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
+- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Änderungen betreffen nur die ausgewählte Reihe.
+- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
+- [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
+- [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
+- [ ] Versuchen, die nicht zugewiesene Testreihe über die Navigation aufzurufen.
+- [ ] Die URL eines bekannten Termins der nicht zugewiesenen Testreihe direkt aufrufen.
+- [ ] Eine bekannte Themen-URL dieser Testreihe direkt aufrufen.
+- [ ] Die direkte URL zur Bearbeitung der Testreihe aufrufen.
+- [ ] Den direkten Aufruf der Mitglieder- bzw. Serienberechtigungsverwaltung dieser Testreihe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
+- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
+- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Termine und Besprechungsübersicht
+
+#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Besprechungen** öffnen.
+- [ ] Eine zugewiesene Besprechungsreihe auswählen.
+- [ ] Vergangene Termine anzeigen.
+- [ ] Zukünftige Termine anzeigen.
+- [ ] Einen Termin öffnen.
+- [ ] Zur Terminübersicht zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Termine der berechtigten Reihen werden angezeigt.
+- [ ] Datum und Reihenbezeichnung stimmen.
+- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Terminübersicht öffnen.
+- [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
+- [ ] Bearbeitungsfunktion des Termins öffnen.
+- [ ] Neues Datum eingeben.
+- [ ] Speichern anklicken.
+- [ ] Terminübersicht neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin wird am neuen Datum angezeigt.
+- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
+- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
+- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+
+**Test erfolgreich:** [ ]
+
+#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Folgen prüfen.
+- [ ] Löschung bestätigen.
+- [ ] Terminübersicht und betroffene Themen öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Nicht ausgewählte Termine bleiben erhalten.
+- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+
+**Test erfolgreich:** [ ]
+
+#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Teilnehmerauswahl öffnen.
+- [ ] Ein aktives Testkonto auswählen.
+- [ ] Ein weiteres Testkonto abwählen.
+- [ ] Änderungen speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
+- [ ] Abgewählte Konten werden nicht mehr angezeigt.
+- [ ] Die Änderung betrifft nur den ausgewählten Termin.
+- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
+- [ ] Eine direkte Bearbeitungs-URL bzw. Schreibaktion versuchen.
+- [ ] Den Termin erneut laden.
+
+**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
+- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Test erfolgreich:** [ ]
+
+---
+
+### Themen anlegen und bearbeiten
+
+#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Dashboard öffnen.
+- [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
+- [ ] Titel eintragen.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Besprechungsreihe auswählen, sofern im Formular vorgesehen.
+- [ ] Zieltermin auswählen.
+- [ ] Weitere angezeigte Pflicht- und Auswahlfelder ausfüllen.
+- [ ] Speichern anklicken.
+- [ ] Angelegtes Thema öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema erscheint in der Themenübersicht.
+- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
+- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
+- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
+- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+
+**Test erfolgreich:** [ ]
+
+#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Titel des neuen Themas eingeben.
+- [ ] Hauptzuständigkeit auswählen.
+- [ ] Abweichende Zuständigkeit für den Tagesordnungspunkt optional auswählen.
+- [ ] Speichern bzw. Hinzufügen anklicken.
+- [ ] Termin und Themenansicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Das neue Thema ist angelegt.
+- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
+- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Das Thema ist in der Themenübersicht auffindbar.
+
+**Test erfolgreich:** [ ]
+
+#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenübersicht öffnen.
+- [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
+- [ ] Bearbeiten öffnen.
+- [ ] Titel ändern.
+- [ ] Status ändern.
+- [ ] Hauptzuständigkeit ändern.
+- [ ] Änderungen speichern.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
+- [ ] Änderungen bleiben nach dem Neuladen erhalten.
+- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Status auf einen anderen verfügbaren Wert setzen.
+- [ ] Speichern.
+- [ ] Themenübersicht neu laden.
+- [ ] Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der neue Status wird in der Detailansicht angezeigt.
+- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema öffnen.
+- [ ] Funktion **Archivieren** anklicken.
+- [ ] Archiv öffnen.
+- [ ] Archiviertes Thema auswählen.
+- [ ] Funktion zum Wiederöffnen anklicken.
+- [ ] Themenübersicht erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
+- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
+- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
+- [ ] Der Änderungsverlauf bildet die Aktion ab.
+
+**Test erfolgreich:** [ ]
+
+#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein übertragbares Testthema öffnen.
+- [ ] Funktion zum Übertragen öffnen.
+- [ ] Ziel-Besprechungsreihe auswählen.
+- [ ] Zieltermin auswählen.
+- [ ] Optionale Übertragungsnotiz eintragen.
+- [ ] Übertragung bestätigen.
+- [ ] Thema in der Zielreihe öffnen.
+- [ ] Quell- und Zielreihe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
+- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
+- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Andere Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
+- [ ] Themenvorschläge aufrufen.
+- [ ] Einen Vorschlag auswählen.
+- [ ] Vorgeschlagenen Titel übernehmen.
+- [ ] Weitere Felder ausfüllen.
+- [ ] Speichern.
+
+**Ergebnisprüfung**
+
+- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
+- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Tagesordnungspunkte und Wiedervorlagen
+
+#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
+- [ ] Bearbeitungsfunktion öffnen.
+- [ ] Text für diesen Termin ändern.
+- [ ] Status des Tagesordnungspunkts ändern.
+- [ ] Optional abweichende Zuständigkeit setzen.
+- [ ] Speichern.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
+- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+
+**Test erfolgreich:** [ ]
+
+#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
+- [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
+- [ ] Falls vorhanden, einen Punkt über die Pfeiltasten verschieben.
+- [ ] Änderungen speichern bzw. Sortierung abwarten.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
+- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
+- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
+- [ ] Entfernen- bzw. Löschen-Funktion anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Termin und zugehöriges Thema erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
+- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Termin öffnen.
+- [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
+- [ ] Wiedervorlage bzw. Folgetermin auswählen.
+- [ ] Zieltermin festlegen.
+- [ ] Abweichende Zuständigkeit bei Bedarf setzen.
+- [ ] Vorgang speichern.
+- [ ] Zieltermin öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
+- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
+- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
+- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+
+**Test erfolgreich:** [ ]
+
+#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine vorhandene Wiedervorlagekette öffnen.
+- [ ] Den nächsten Termin der Reihe öffnen.
+- [ ] Wiedervorlage erneut für einen späteren Termin setzen.
+- [ ] Speichern.
+- [ ] Die vorherigen und nachfolgenden Tagesordnungspunkte öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
+- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
+- [ ] Frühere Protokollstände bleiben unverändert.
+- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
+- [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
+- [ ] Einen historischen Eintrag auswählen.
+- [ ] Zugehörigen Termin bzw. Protokollbezug prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
+- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Kommentare, Anlagen und Links
+
+#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Kommentarbereich öffnen.
+- [ ] Kommentartext eingeben.
+- [ ] Kommentar absenden.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
+- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung der Anlage eingeben.
+- [ ] Eine zulässige Testdatei auswählen.
+- [ ] Upload starten.
+- [ ] Thema neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird beim richtigen Thema angezeigt.
+- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
+- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+
+**Test erfolgreich:** [ ]
+
+#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Testthema öffnen.
+- [ ] Anlagenbereich öffnen.
+- [ ] Bezeichnung eingeben.
+- [ ] Einen zulässigen Netzwerkpfad oder Link eintragen.
+- [ ] Speichern.
+- [ ] Thema neu laden.
+- [ ] Link bzw. Pfad anklicken, sofern als Link dargestellt.
+
+**Ergebnisprüfung**
+
+- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
+- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
+- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+
+**Test erfolgreich:** [ ]
+
+#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit vorhandener Testanlage öffnen.
+- [ ] Download der Anlage anklicken.
+- [ ] Heruntergeladene Datei öffnen bzw. Dateiname und Inhalt prüfen.
+- [ ] Den Download mit einem Konto ohne Serienberechtigung wiederholen.
+
+**Ergebnisprüfung**
+
+- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
+- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
+- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
+- [ ] Löschfunktion der Anlage anklicken.
+- [ ] Rückfrage bestätigen, falls vorhanden.
+- [ ] Thema neu laden.
+- [ ] Download-URL der entfernten Anlage direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
+- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
+- [ ] Andere Anlagen und Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
+- [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
+- [ ] Upload einer Datei mit nicht erlaubter Dateiendung versuchen.
+- [ ] Themenansicht nach den Versuchen neu laden.
+
+**Ergebnisprüfung**
+
+- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
+- [ ] Zu große Dateien werden abgewiesen.
+- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
+- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Besprechung abschließen und Protokoll
+
+#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen nicht abgeschlossenen Testtermin öffnen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungstexte und Statuswerte prüfen.
+- [ ] Schaltfläche **Besprechung abschließen & Protokollstand sichern** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
+- [ ] Ein Protokoll-Snapshot wurde erstellt.
+- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
+- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+
+**Test erfolgreich:** [ ]
+
+#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Termin öffnen.
+- [ ] Protokollansicht aufrufen.
+- [ ] Teilnehmerliste prüfen.
+- [ ] Tagesordnungspunkte und Texte prüfen.
+- [ ] Statuswerte und Verantwortlichkeiten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
+- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
+- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+
+**Test erfolgreich:** [ ]
+
+#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Protokollansicht öffnen.
+- [ ] Druckfunktion auslösen.
+- [ ] Druckvorschau prüfen.
+- [ ] PDF-Export anklicken.
+- [ ] Exportierte PDF-Datei öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
+- [ ] PDF lässt sich öffnen.
+- [ ] PDF enthält die vorgesehenen Protokolldaten.
+- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Unberechtigte Konten können den Export nicht abrufen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen abgeschlossenen Testtermin öffnen.
+- [ ] Funktion **Wieder öffnen** anklicken.
+- [ ] Bestätigung durchführen, falls vorhanden.
+- [ ] Termin erneut öffnen.
+- [ ] Einen Tagesordnungstext testweise ändern.
+- [ ] Änderung speichern.
+- [ ] Besprechung erneut abschließen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
+- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
+- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
+- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+
+**Test erfolgreich:** [ ]
+
+#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
+- [ ] Themenprotokoll-PDF aufrufen.
+- [ ] PDF-Datei öffnen.
+- [ ] Chronologie und Einträge prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
+- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] Der Export ist auf berechtigte Konten begrenzt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Offene Themen und Archiv
+
+#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Offene Themen** öffnen.
+- [ ] Themenliste prüfen.
+- [ ] Filter bzw. Suchfunktion verwenden, sofern vorhanden.
+- [ ] Ein Thema öffnen.
+- [ ] Zur Themenliste zurückkehren.
+
+**Ergebnisprüfung**
+
+- [ ] Nur fachlich zugängliche Themen werden angezeigt.
+- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+
+**Test erfolgreich:** [ ]
+
+#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] **Archiv** öffnen.
+- [ ] Archivierte Testthemen suchen.
+- [ ] Ein archiviertes Thema öffnen.
+- [ ] Historische Einträge aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Archivierte Themen sind im Archiv auffindbar.
+- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+
+**Test erfolgreich:** [ ]
+
+#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
+- [ ] Das Testkonto als Reihenmitglied zuweisen.
+- [ ] Historischen Termin abschließen.
+- [ ] Testreihe mit der vorgesehenen Löschvariante entfernen.
+- [ ] Mit dem früheren Reihenmitglied anmelden.
+- [ ] Historischen Termin und Protokoll aufrufen.
+- [ ] Mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+
+**Ergebnisprüfung**
+
+- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
+- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
+- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Berechtigungsanträge
+
+#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
+- [ ] Funktion zum Beantragen einer Berechtigung öffnen.
+- [ ] Gewünschte Serienrolle auswählen.
+- [ ] Antrag absenden.
+- [ ] Antragstatus erneut aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
+- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Der Antrag erscheint mit offenem Status.
+- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+
+**Test erfolgreich:** [ ]
+
+#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
+- [ ] Offenen Testantrag auswählen.
+- [ ] Antrag genehmigen oder ablehnen.
+- [ ] Optional eine Entscheidungsnotiz eintragen.
+- [ ] Entscheidung speichern.
+- [ ] Antragsübersicht erneut öffnen.
+- [ ] Mit dem betroffenen Testkonto anmelden.
+**Ergebnisprüfung**
+
+- [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
+- [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
+- [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
+**Test erfolgreich:** [ ]
+
+#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Einen bereits entschiedenen Testantrag öffnen.
+- [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
+- [ ] Status und Serienzuweisung erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
+- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
+- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Benutzer- und Themenimport/-export
+
+#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Spalten und Datensätze prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Exportdatei ist lesbar.
+- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
+- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+
+**Test erfolgreich:** [ ]
+
+#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage herunterladen.
+- [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
+- [ ] CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Benutzerübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
+- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
+- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+
+**Test erfolgreich:** [ ]
+
+#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Themenverwaltung bzw. Themenexport öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Datensätze und Spalten prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
+- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] CSV-Mustervorlage für Themen herunterladen.
+- [ ] Vorlage mit Testthemen befüllen.
+- [ ] Themen-CSV-Import öffnen.
+- [ ] Testdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Themenübersicht öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
+- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Änderungsverlauf und Audit
+
+#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine moderierte Besprechungsreihe öffnen.
+- [ ] Änderungsverlauf der Reihe aufrufen.
+- [ ] Ein zuvor bearbeitetes Testthema auswählen.
+- [ ] Ein Ereignis öffnen bzw. dessen Details prüfen.
+- [ ] Mit einem Moderator-Konto einer anderen Reihe denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
+- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
+- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
+- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
+- [ ] Ein administratives Testereignis suchen.
+- [ ] Filter bzw. Detailansicht verwenden, sofern vorhanden.
+- [ ] Mit einem normalen Nutzerkonto denselben Bereich aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
+- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
+- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
+- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
+- [ ] CSV-Export anklicken.
+- [ ] Exportdatei speichern.
+- [ ] CSV-Datei öffnen.
+- [ ] Mit einem Konto außerhalb des jeweiligen Berechtigungsbereichs den Export direkt aufrufen.
+
+**Ergebnisprüfung**
+
+- [ ] CSV-Datei ist lesbar.
+- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
+- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
+- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Aufbewahrung und automatische Löschung
+
+#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
+- [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
+- [ ] Einen Termin innerhalb der Frist prüfen.
+- [ ] Einen Termin mit überschrittenem Löschdatum vorbereiten.
+- [ ] Retention-Funktion in der Testumgebung ausführen.
+- [ ] Terminübersicht und Protokollzugriffe erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
+- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
+- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
+- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+
+**Test erfolgreich:** [ ]
+
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Ein entbehrliches Testthema archivieren.
+- [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
+- [ ] Thema vor Ablauf der Frist prüfen.
+- [ ] Thema nach Ablauf der Frist in der isolierten Testumgebung verarbeiten lassen.
+- [ ] Themenübersicht, Archiv, Historie und Anlagenzugriffe prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Thema bleibt vor Fristablauf erhalten.
+- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
+- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
+- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="danger">Zugriff verweigert</badge> Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+- [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
+- [ ] Ergebnis und Datenbestand prüfen.
+- [ ] Retention-Funktion erneut ausführen.
+- [ ] Datenbestand erneut prüfen.
+
+**Ergebnisprüfung**
+
+- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
+- [ ] Nicht abgelaufene Daten bleiben erhalten.
+- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### Auditor*innenbereich
+
+#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
+
+- [ ] Mit einem Auditor*innenkonto anmelden.
+- [ ] Auditor*innenübersicht öffnen.
+- [ ] Benutzerübersicht öffnen.
+- [ ] Gruppen- bzw. Rollenübersicht öffnen.
+- [ ] Organisationseinstellungen lesend öffnen.
+
+**Ergebnisprüfung**
+
+- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
+- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
+- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
+- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+
+**Berechtigungserwartung für Globale Rolle Auditor:** <badge color="success">Zugriff erlaubt</badge> Die in diesem Testfall beschriebene Funktion muss mit der für diesen Testfall vorausgesetzten Serienrolle erreichbar und ausführbar sein.
 
 - [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
 - [ ] Eine URL zur Systemhistorie direkt aufrufen.
