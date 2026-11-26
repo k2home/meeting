@@ -1636,7 +1636,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
