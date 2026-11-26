@@ -36,6 +36,13 @@ class SetupOrganizationSettingsForm(OrganizationSettingsForm):
         }
 
     def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # The initial setup wizard does not configure retention policy.
+        # OrganizationSettingsForm declares this field, so remove it explicitly
+        # rather than rendering an unsupplied, required field in the wizard.
+        self.fields.pop("retention_years", None)
+
+    def __init__(self, *args, **kwargs):
         instance = kwargs.get("instance")
         if instance is None or instance._state.adding:
             kwargs.setdefault("initial", {})
