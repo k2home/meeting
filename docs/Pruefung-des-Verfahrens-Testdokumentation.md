@@ -34,13 +34,13 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## Installation
+## 1. Installation
 
 Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellung der Anwendung.
 
-### 1. Datenverwaltung und Sicherung
+### 1.1 Datenverwaltung und Sicherung
 
-#### 1.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
+#### 1.1.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Daten** öffnen.
@@ -55,7 +55,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 **Test erfolgreich:** [ ]
 
-#### 1.2 Vollständigen Datenexport durchführen – Rolle: Admin
+#### 1.1.2 Vollständigen Datenexport durchführen – Rolle: Admin
 
 - [ ] Datenverwaltungsbereich öffnen.
 - [ ] Funktion zum vollständigen Backup-Export aufrufen.
@@ -71,7 +71,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 **Test erfolgreich:** [ ]
 
-#### 1.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
+#### 1.1.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
 
 - [ ] Ausschließlich eine isolierte Testinstallation verwenden.
 - [ ] Vorhandenen Testdatenbestand sichern.
@@ -93,9 +93,9 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 ---
 
 
-### 2. Administration und Software-Updates
+### 1.2 Administration und Software-Updates
 
-#### 2.1 Updatebereich aufrufen – Rolle: Admin
+#### 1.2.1 Updatebereich aufrufen – Rolle: Admin
 
 - [ ] Administrationsbereich für Software-Updates öffnen.
 - [ ] Angezeigte Versions- und Branchinformationen prüfen.
@@ -110,7 +110,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 **Test erfolgreich:** [ ]
 
-#### 2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
+#### 1.2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
 
 - [ ] Vor dem Update Datenbank und Medienbestand sichern.
 - [ ] Updatebereich öffnen.
@@ -134,13 +134,13 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 ---
 
 
-## Ersteinrichtung
+## 2. Ersteinrichtung
 
 Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
 
-### 3. Anmeldung und Sitzung
+### 2.1 Anmeldung und Sitzung
 
-#### 3.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
+#### 2.1.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
 
 - [ ] Anmeldeseite öffnen.
 - [ ] Gültigen Benutzernamen eingeben.
@@ -155,7 +155,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 3.2 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
+#### 2.1.2 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
 
 - [ ] Anmeldeseite öffnen.
 - [ ] Einen nicht vorhandenen Benutzernamen eingeben.
@@ -171,7 +171,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 3.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
+#### 2.1.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
 
 - [ ] Mit einem Konto anmelden, für das ein Passwortwechsel erforderlich ist.
 - [ ] Angezeigtes Formular zum Passwortwechsel öffnen.
@@ -188,7 +188,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 3.4 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
+#### 2.1.4 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
 
 - [ ] Mit einem Testkonto anmelden.
 - [ ] Eine geschützte Seite öffnen.
@@ -204,7 +204,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 3.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
+#### 2.1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
 
 - [ ] Einen gültigen Passwort-Zurücksetzen-Link für ein Testkonto öffnen.
 - [ ] Neues Passwort eingeben.
@@ -224,9 +224,9 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 ---
 
 
-### 4. Benutzerverwaltung
+### 2.2 Benutzerverwaltung
 
-#### 4.1 Benutzerkonto anlegen – Rolle: Admin
+#### 2.2.1 Benutzerkonto anlegen – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Nutzer** öffnen.
@@ -249,7 +249,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 4.2 Benutzerkonto bearbeiten – Rolle: Admin
+#### 2.2.2 Benutzerkonto bearbeiten – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Ein Testkonto auswählen.
@@ -268,7 +268,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 4.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
+#### 2.2.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
 
 - [ ] Ein entbehrliches Testkonto auswählen.
 - [ ] Aktivstatus deaktivieren.
@@ -287,7 +287,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 4.4 Benutzerkonto löschen – Rolle: Admin
+#### 2.2.4 Benutzerkonto löschen – Rolle: Admin
 
 - [ ] Ausschließlich ein entbehrliches Testkonto auswählen.
 - [ ] Löschfunktion öffnen.
@@ -303,7 +303,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 4.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
+#### 2.2.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Testkonto auswählen.
@@ -324,7 +324,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 4.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
+#### 2.2.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Ein Testkonto auswählen.
@@ -344,9 +344,9 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 ---
 
 
-### 5. Organisationsverwaltung
+### 2.3 Organisationsverwaltung
 
-#### 5.1 Organisationseinstellungen bearbeiten – Rolle: Admin
+#### 2.3.1 Organisationseinstellungen bearbeiten – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Organisation** bzw. Organisationseinstellungen öffnen.
@@ -364,7 +364,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 5.2 Organisationslogo ändern – Rolle: Admin
+#### 2.3.2 Organisationslogo ändern – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Ein zulässiges Testlogo auswählen.
@@ -381,7 +381,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 5.3 Farben und Darstellung konfigurieren – Rolle: Admin
+#### 2.3.3 Farben und Darstellung konfigurieren – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Primärfarbe ändern.
@@ -400,7 +400,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 5.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
+#### 2.3.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Zentrale Aufbewahrungsfrist ändern.
@@ -421,11 +421,11 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 ---
 
 
-### 6. Rollenübergreifende Zugriffsmatrix
+### 2.4 Rollenübergreifende Zugriffsmatrix
 
 Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit getrennten Konten und direkten URL-Aufrufen auszuführen.
 
-#### 6.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
+#### 2.4.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
 
 - [ ] Zugewiesene Reihe öffnen.
 - [ ] Termin und Protokoll öffnen.
@@ -441,7 +441,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 6.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
+#### 2.4.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
 
 - [ ] Zugewiesene Reihe öffnen.
 - [ ] Thema und Tagesordnung bearbeiten.
@@ -460,7 +460,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 6.3 Moderator*in – Verwaltung nur der eigenen Reihe
+#### 2.4.3 Moderator*in – Verwaltung nur der eigenen Reihe
 
 - [ ] Eigene Reihe öffnen.
 - [ ] Reihe bearbeiten.
@@ -479,7 +479,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 6.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
+#### 2.4.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Organisationseinstellungen öffnen.
@@ -496,7 +496,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 6.5 Auditor*in – ausschließlich administrative Leserechte
+#### 2.4.5 Auditor*in – ausschließlich administrative Leserechte
 
 - [ ] Auditor*innenübersicht öffnen.
 - [ ] Benutzer- und Rolleninformationen lesen.
@@ -517,13 +517,13 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 ---
 
 
-## Testing
+## 3. Testing
 
 Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des abschließenden Testlaufs.
 
-### 7. TESTING-Modus und Beispielkonfiguration
+### 3.1 TESTING-Modus und Beispielkonfiguration
 
-#### 7.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
+#### 3.1.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
 
 - [ ] TESTING-Modus in der Testinstallation aktivieren.- [ ] Dashboard öffnen.- [ ] Browser-Tab bzw. Seitentitel prüfen.- [ ] Django-Administrationspfad aufrufen.
 - [ ] TESTING-Modus deaktivieren.
@@ -537,7 +537,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 7.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 3.1.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Beispielkonfiguration** öffnen.
@@ -555,7 +555,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 7.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 3.1.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
@@ -571,7 +571,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 7.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
+#### 3.1.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Eine Testreihe auswählen.
@@ -588,7 +588,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 7.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 3.1.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Eine Testreihe auswählen.
@@ -605,7 +605,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 7.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 3.1.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Ein Testthema auswählen.
@@ -623,7 +623,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 7.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
+#### 3.1.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Vorhandene Testdaten in der Testinstallation prüfen.
 - [ ] Funktion **TEST-Daten zurücksetzen** öffnen.
@@ -642,9 +642,9 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 ---
 
-### 8. Hilfe und Dokumentation
+### 3.2 Hilfe und Dokumentation
 
-#### 8.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
+#### 3.2.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Menüpunkt **Hilfe** öffnen.
 - [ ] Benutzerhilfe aufrufen.
@@ -659,7 +659,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 8.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
+#### 3.2.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
 
 - [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
 - [ ] Dokument in der Anwendung anzeigen.
@@ -675,7 +675,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 8.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
+#### 3.2.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Mit einem angemeldeten Testkonto anmelden.
 - [ ] **Hilfe & Anleitung** öffnen.
@@ -715,9 +715,9 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 ---
 
 
-### 9. Abschluss der Gesamtprüfung
+### 3.3 Abschluss der Gesamtprüfung
 
-#### 9.1 Vollständigkeit und Nachprüfung
+#### 3.3.1 Vollständigkeit und Nachprüfung
 
 - [ ] Alle für die Installation relevanten Testblöcke wurden durchgeführt.
 - [ ] Alle Rollen wurden mit getrennten Testkonten geprüft.
@@ -726,7 +726,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Kritische Fehler wurden nach Korrektur erneut geprüft.
 - [ ] Testdaten wurden nach Abschluss entsprechend den Testumgebungsregeln zurückgesetzt.
 
-#### Ergebnis der Gesamtprüfung
+#### 3.3.2 Ergebnis der Gesamtprüfung
 
 - [ ] Alle durchgeführten und relevanten Testfälle erfolgreich.
 - [ ] Keine offenen kritischen oder hohen Fehler.
@@ -745,7 +745,7 @@ ____________________________________________________________________
 ____________________________________________________________________
 
 
-## Produktiv – Globale Rolle Nutzer
+## 4. Produktiv – Globale Rolle Nutzer
 
 Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für reine Funktionsprüfungen zusätzlich die in der jeweiligen Testbeschreibung ausdrücklich genannte Serienrolle zuweisen; globale Nutzerrechte allein verleihen keinen Serienzugriff.
 
@@ -756,9 +756,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
 - Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
 
-### Dashboard und Navigation
+### 4.1 Dashboard und Navigation
 
-#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+#### 4.1.1 Dashboard aufrufen – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -771,7 +771,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 4.1.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -786,9 +786,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Persönliches Konto und eigene Aufgaben
+### 4.2 Persönliches Konto und eigene Aufgaben
 
-#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 4.2.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -800,7 +800,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 4.2.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -815,9 +815,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Besprechungsreihen verwalten
+### 4.3 Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+#### 4.3.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -831,7 +831,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 4.3.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -844,7 +844,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+#### 4.3.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -857,7 +857,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+#### 4.3.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -870,7 +870,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+#### 4.3.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -883,7 +883,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+#### 4.3.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -897,7 +897,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+#### 4.3.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -913,7 +913,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+#### 4.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -932,7 +932,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+#### 4.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff auf die eigene Reihe erlaubt, auf fremde Reihen verweigert.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
 
@@ -951,9 +951,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-### Termine und Besprechungsübersicht
+### 4.4 Termine und Besprechungsübersicht
 
-#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 4.4.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -966,7 +966,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 4.4.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -979,7 +979,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 4.4.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -992,7 +992,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.4.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1005,7 +1005,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 4.4.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1015,9 +1015,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Themen anlegen und bearbeiten
+### 4.5 Themen anlegen und bearbeiten
 
-#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 4.5.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1031,7 +1031,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.5.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1044,7 +1044,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.5.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1057,7 +1057,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.5.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1069,7 +1069,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 4.5.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1082,7 +1082,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 4.5.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1096,7 +1096,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.5.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1110,9 +1110,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Tagesordnungspunkte und Wiedervorlagen
+### 4.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.6.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1125,7 +1125,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.6.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1137,7 +1137,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.6.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1149,7 +1149,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.6.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1162,7 +1162,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.6.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1175,7 +1175,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 4.6.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1189,9 +1189,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Kommentare, Anlagen und Links
+### 4.7 Kommentare, Anlagen und Links
 
-#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.7.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1204,7 +1204,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.7.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1217,7 +1217,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.7.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1230,7 +1230,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 4.7.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1242,7 +1242,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.7.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1254,7 +1254,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.7.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1269,9 +1269,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Besprechung abschließen und Protokoll
+### 4.8 Besprechung abschließen und Protokoll
 
-#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 4.8.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1284,7 +1284,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 4.8.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1296,7 +1296,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 4.8.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1310,7 +1310,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 4.8.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1323,7 +1323,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 4.8.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1337,9 +1337,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Offene Themen und Archiv
+### 4.9 Offene Themen und Archiv
 
-#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 4.9.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1351,7 +1351,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 4.9.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1363,7 +1363,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 4.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1377,9 +1377,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Berechtigungsanträge
+### 4.10 Berechtigungsanträge
 
-#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 4.10.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1392,11 +1392,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 4.10.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
-#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 4.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1410,9 +1410,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Benutzer- und Themenimport/-export
+### 4.11 Benutzer- und Themenimport/-export
 
-#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+#### 4.11.1 Benutzer als CSV exportieren – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1424,7 +1424,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+#### 4.11.2 Benutzer per CSV importieren – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1437,7 +1437,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 4.11.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1449,7 +1449,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 4.11.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1464,9 +1464,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Änderungsverlauf und Audit
+### 4.12 Änderungsverlauf und Audit
 
-#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 4.12.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1479,7 +1479,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 4.12.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1492,7 +1492,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+#### 4.12.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1507,9 +1507,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Aufbewahrung und automatische Löschung
+### 4.13 Aufbewahrung und automatische Löschung
 
-#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 4.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1522,7 +1522,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+#### 4.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1535,7 +1535,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 4.13.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1549,9 +1549,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-### Auditor*innenbereich
+### 4.14 Auditor*innenbereich
 
-#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 4.14.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1564,7 +1564,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 4.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1581,7 +1581,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ---
 
-## Produktiv – Ohne Berechtigungen
+## 5. Produktiv – Ohne Berechtigungen
 
 Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf weder Serieninhalte lesen noch fachliche oder administrative Aktionen ausführen. Direkte URLs und POST-Aktionen ausdrücklich mitprüfen.
 
@@ -1592,9 +1592,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
 - Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
 
-### Dashboard und Navigation
+### 5.1 Dashboard und Navigation
 
-#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+#### 5.1.1 Dashboard aufrufen – Rolle: alle Rollen
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1607,7 +1607,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 5.1.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1622,9 +1622,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Persönliches Konto und eigene Aufgaben
+### 5.2 Persönliches Konto und eigene Aufgaben
 
-#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 5.2.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1636,7 +1636,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 5.2.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1651,9 +1651,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Besprechungsreihen verwalten
+### 5.3 Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+#### 5.3.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1667,7 +1667,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 5.3.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1680,7 +1680,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+#### 5.3.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1693,7 +1693,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+#### 5.3.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1706,7 +1706,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+#### 5.3.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1719,7 +1719,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+#### 5.3.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1733,7 +1733,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+#### 5.3.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1749,7 +1749,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+#### 5.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1768,7 +1768,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+#### 5.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1787,9 +1787,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-### Termine und Besprechungsübersicht
+### 5.4 Termine und Besprechungsübersicht
 
-#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 5.4.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1802,7 +1802,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 5.4.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1815,7 +1815,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 5.4.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1828,7 +1828,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.4.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1841,7 +1841,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 5.4.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1851,9 +1851,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Themen anlegen und bearbeiten
+### 5.5 Themen anlegen und bearbeiten
 
-#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 5.5.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1867,7 +1867,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.5.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1880,7 +1880,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.5.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1893,7 +1893,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.5.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1905,7 +1905,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 5.5.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1918,7 +1918,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 5.5.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1932,7 +1932,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.5.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1946,9 +1946,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Tagesordnungspunkte und Wiedervorlagen
+### 5.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.6.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1961,7 +1961,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.6.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1973,7 +1973,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.6.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1985,7 +1985,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.6.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1998,7 +1998,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.6.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2011,7 +2011,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 5.6.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2025,9 +2025,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Kommentare, Anlagen und Links
+### 5.7 Kommentare, Anlagen und Links
 
-#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.7.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2040,7 +2040,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.7.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2053,7 +2053,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.7.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2066,7 +2066,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 5.7.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2078,7 +2078,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.7.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2090,7 +2090,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.7.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2105,9 +2105,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Besprechung abschließen und Protokoll
+### 5.8 Besprechung abschließen und Protokoll
 
-#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.8.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2120,7 +2120,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 5.8.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2132,7 +2132,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 5.8.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2146,7 +2146,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 5.8.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2159,7 +2159,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 5.8.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2173,9 +2173,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Offene Themen und Archiv
+### 5.9 Offene Themen und Archiv
 
-#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 5.9.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2187,7 +2187,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 5.9.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2199,7 +2199,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 5.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2213,9 +2213,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Berechtigungsanträge
+### 5.10 Berechtigungsanträge
 
-#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 5.10.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2228,11 +2228,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 5.10.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 5.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2246,9 +2246,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Benutzer- und Themenimport/-export
+### 5.11 Benutzer- und Themenimport/-export
 
-#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+#### 5.11.1 Benutzer als CSV exportieren – Rolle: Admin
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2260,7 +2260,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+#### 5.11.2 Benutzer per CSV importieren – Rolle: Admin
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2273,7 +2273,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 5.11.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2285,7 +2285,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 5.11.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2300,9 +2300,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Änderungsverlauf und Audit
+### 5.12 Änderungsverlauf und Audit
 
-#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 5.12.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2315,7 +2315,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 5.12.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2328,7 +2328,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+#### 5.12.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2343,9 +2343,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Aufbewahrung und automatische Löschung
+### 5.13 Aufbewahrung und automatische Löschung
 
-#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 5.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2358,7 +2358,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+#### 5.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2371,7 +2371,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 5.13.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2385,9 +2385,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-### Auditor*innenbereich
+### 5.14 Auditor*innenbereich
 
-#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 5.14.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2400,7 +2400,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 5.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2417,7 +2417,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ---
 
-## Produktiv – Leser
+## 6. Produktiv – Leser
 
 Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweiligen Testreihe zugewiesen ist. Keine Teilnehmer- oder Moderatorrolle vergeben.
 
@@ -2428,9 +2428,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
 - Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
 
-### Dashboard und Navigation
+### 6.1 Dashboard und Navigation
 
-#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+#### 6.1.1 Dashboard aufrufen – Rolle: alle Rollen
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2443,7 +2443,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 6.1.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2458,9 +2458,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Persönliches Konto und eigene Aufgaben
+### 6.2 Persönliches Konto und eigene Aufgaben
 
-#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 6.2.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2472,7 +2472,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 6.2.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2487,9 +2487,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Besprechungsreihen verwalten
+### 6.3 Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+#### 6.3.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2503,7 +2503,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 6.3.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2516,7 +2516,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+#### 6.3.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2529,7 +2529,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+#### 6.3.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2542,7 +2542,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+#### 6.3.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2555,7 +2555,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+#### 6.3.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2569,7 +2569,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+#### 6.3.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2585,7 +2585,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+#### 6.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2604,7 +2604,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+#### 6.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2623,9 +2623,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-### Termine und Besprechungsübersicht
+### 6.4 Termine und Besprechungsübersicht
 
-#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 6.4.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2638,7 +2638,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 6.4.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2651,7 +2651,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 6.4.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2664,7 +2664,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.4.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2677,7 +2677,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 6.4.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2687,9 +2687,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Themen anlegen und bearbeiten
+### 6.5 Themen anlegen und bearbeiten
 
-#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 6.5.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2703,7 +2703,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.5.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2716,7 +2716,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.5.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2729,7 +2729,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.5.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2741,7 +2741,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 6.5.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2754,7 +2754,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 6.5.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2768,7 +2768,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.5.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2782,9 +2782,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Tagesordnungspunkte und Wiedervorlagen
+### 6.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.6.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2797,7 +2797,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.6.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2809,7 +2809,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.6.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2821,7 +2821,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.6.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2834,7 +2834,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.6.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2847,7 +2847,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 6.6.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2861,9 +2861,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Kommentare, Anlagen und Links
+### 6.7 Kommentare, Anlagen und Links
 
-#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.7.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2876,7 +2876,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.7.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2889,7 +2889,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.7.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2902,7 +2902,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 6.7.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2914,7 +2914,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.7.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2926,7 +2926,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.7.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2941,9 +2941,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Besprechung abschließen und Protokoll
+### 6.8 Besprechung abschließen und Protokoll
 
-#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.8.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2956,7 +2956,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 6.8.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2968,7 +2968,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 6.8.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2982,7 +2982,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 6.8.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2995,7 +2995,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 6.8.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3009,9 +3009,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Offene Themen und Archiv
+### 6.9 Offene Themen und Archiv
 
-#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 6.9.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3023,7 +3023,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 6.9.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3035,7 +3035,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 6.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3049,9 +3049,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Berechtigungsanträge
+### 6.10 Berechtigungsanträge
 
-#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 6.10.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3064,11 +3064,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 6.10.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 6.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3082,9 +3082,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Benutzer- und Themenimport/-export
+### 6.11 Benutzer- und Themenimport/-export
 
-#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+#### 6.11.1 Benutzer als CSV exportieren – Rolle: Admin
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3096,7 +3096,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+#### 6.11.2 Benutzer per CSV importieren – Rolle: Admin
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3109,7 +3109,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 6.11.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3121,7 +3121,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 6.11.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3136,9 +3136,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Änderungsverlauf und Audit
+### 6.12 Änderungsverlauf und Audit
 
-#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 6.12.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3151,7 +3151,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 6.12.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3164,7 +3164,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+#### 6.12.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3179,9 +3179,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Aufbewahrung und automatische Löschung
+### 6.13 Aufbewahrung und automatische Löschung
 
-#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 6.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3194,7 +3194,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+#### 6.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3207,7 +3207,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 6.13.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3221,9 +3221,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-### Auditor*innenbereich
+### 6.14 Auditor*innenbereich
 
-#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 6.14.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3236,7 +3236,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 6.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3253,7 +3253,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ---
 
-## Produktiv – Teilnehmer
+## 7. Produktiv – Teilnehmer
 
 Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreihe zugewiesen ist. Keine Moderatorrolle vergeben.
 
@@ -3264,9 +3264,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
 - Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
 
-### Dashboard und Navigation
+### 7.1 Dashboard und Navigation
 
-#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+#### 7.1.1 Dashboard aufrufen – Rolle: alle Rollen
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3279,7 +3279,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 7.1.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3294,9 +3294,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Persönliches Konto und eigene Aufgaben
+### 7.2 Persönliches Konto und eigene Aufgaben
 
-#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 7.2.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3308,7 +3308,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 7.2.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3323,9 +3323,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Besprechungsreihen verwalten
+### 7.3 Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+#### 7.3.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3339,7 +3339,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 7.3.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3352,7 +3352,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+#### 7.3.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3365,7 +3365,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+#### 7.3.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3378,7 +3378,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+#### 7.3.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3391,7 +3391,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+#### 7.3.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3405,7 +3405,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+#### 7.3.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3421,7 +3421,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+#### 7.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3440,7 +3440,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+#### 7.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3459,9 +3459,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-### Termine und Besprechungsübersicht
+### 7.4 Termine und Besprechungsübersicht
 
-#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 7.4.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3474,7 +3474,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 7.4.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3487,7 +3487,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 7.4.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3500,7 +3500,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.4.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3513,7 +3513,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 7.4.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3523,9 +3523,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Themen anlegen und bearbeiten
+### 7.5 Themen anlegen und bearbeiten
 
-#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 7.5.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3539,7 +3539,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.5.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3552,7 +3552,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.5.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3565,7 +3565,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.5.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3577,7 +3577,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 7.5.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3590,7 +3590,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 7.5.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3604,7 +3604,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.5.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3618,9 +3618,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Tagesordnungspunkte und Wiedervorlagen
+### 7.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.6.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3633,7 +3633,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.6.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3645,7 +3645,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.6.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3657,7 +3657,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.6.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3670,7 +3670,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.6.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3683,7 +3683,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 7.6.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3697,9 +3697,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Kommentare, Anlagen und Links
+### 7.7 Kommentare, Anlagen und Links
 
-#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.7.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3712,7 +3712,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.7.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3725,7 +3725,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.7.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3738,7 +3738,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 7.7.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3750,7 +3750,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.7.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3762,7 +3762,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.7.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3777,9 +3777,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Besprechung abschließen und Protokoll
+### 7.8 Besprechung abschließen und Protokoll
 
-#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.8.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3792,7 +3792,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 7.8.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3804,7 +3804,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 7.8.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3818,7 +3818,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 7.8.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3831,7 +3831,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 7.8.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3845,9 +3845,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Offene Themen und Archiv
+### 7.9 Offene Themen und Archiv
 
-#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 7.9.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3859,7 +3859,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 7.9.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -3871,7 +3871,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 7.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3885,9 +3885,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Berechtigungsanträge
+### 7.10 Berechtigungsanträge
 
-#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 7.10.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3900,11 +3900,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 7.10.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 7.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3918,9 +3918,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Benutzer- und Themenimport/-export
+### 7.11 Benutzer- und Themenimport/-export
 
-#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+#### 7.11.1 Benutzer als CSV exportieren – Rolle: Admin
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3932,7 +3932,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+#### 7.11.2 Benutzer per CSV importieren – Rolle: Admin
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3945,7 +3945,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 7.11.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3957,7 +3957,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 7.11.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3972,9 +3972,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Änderungsverlauf und Audit
+### 7.12 Änderungsverlauf und Audit
 
-#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 7.12.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3987,7 +3987,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 7.12.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4000,7 +4000,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+#### 7.12.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4015,9 +4015,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Aufbewahrung und automatische Löschung
+### 7.13 Aufbewahrung und automatische Löschung
 
-#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 7.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4030,7 +4030,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+#### 7.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4043,7 +4043,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 7.13.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4057,9 +4057,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-### Auditor*innenbereich
+### 7.14 Auditor*innenbereich
 
-#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 7.14.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4072,7 +4072,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 7.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4089,7 +4089,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ---
 
-## Produktiv – Moderator
+## 8. Produktiv – Moderator
 
 Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jeweiligen Testreihe zugewiesen ist. Für Fremdreihen darf keine Zuweisung bestehen.
 
@@ -4100,9 +4100,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
 - Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
 
-### Dashboard und Navigation
+### 8.1 Dashboard und Navigation
 
-#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+#### 8.1.1 Dashboard aufrufen – Rolle: alle Rollen
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4115,7 +4115,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 8.1.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4130,9 +4130,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Persönliches Konto und eigene Aufgaben
+### 8.2 Persönliches Konto und eigene Aufgaben
 
-#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 8.2.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4144,7 +4144,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 8.2.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4159,9 +4159,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Besprechungsreihen verwalten
+### 8.3 Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+#### 8.3.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4175,7 +4175,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 8.3.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4188,7 +4188,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+#### 8.3.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4201,7 +4201,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+#### 8.3.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4214,7 +4214,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+#### 8.3.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4227,7 +4227,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+#### 8.3.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4241,7 +4241,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+#### 8.3.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4257,7 +4257,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+#### 8.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4276,7 +4276,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+#### 8.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
 **Berechtigungserwartung für Moderator: Zugriff auf die eigene Reihe erlaubt, auf fremde Reihen verweigert.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
 
@@ -4295,9 +4295,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-### Termine und Besprechungsübersicht
+### 8.4 Termine und Besprechungsübersicht
 
-#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 8.4.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4310,7 +4310,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 8.4.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4323,7 +4323,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 8.4.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4336,7 +4336,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.4.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4349,7 +4349,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 8.4.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4359,9 +4359,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Themen anlegen und bearbeiten
+### 8.5 Themen anlegen und bearbeiten
 
-#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 8.5.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4375,7 +4375,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.5.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4388,7 +4388,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.5.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4401,7 +4401,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.5.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4413,7 +4413,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 8.5.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4426,7 +4426,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 8.5.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4440,7 +4440,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.5.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4454,9 +4454,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Tagesordnungspunkte und Wiedervorlagen
+### 8.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.6.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4469,7 +4469,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.6.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4481,7 +4481,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.6.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4493,7 +4493,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.6.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4506,7 +4506,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.6.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4519,7 +4519,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 8.6.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4533,9 +4533,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Kommentare, Anlagen und Links
+### 8.7 Kommentare, Anlagen und Links
 
-#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.7.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4548,7 +4548,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.7.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4561,7 +4561,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.7.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4574,7 +4574,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 8.7.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4586,7 +4586,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.7.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4598,7 +4598,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.7.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4613,9 +4613,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Besprechung abschließen und Protokoll
+### 8.8 Besprechung abschließen und Protokoll
 
-#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.8.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4628,7 +4628,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 8.8.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4640,7 +4640,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 8.8.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4654,7 +4654,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 8.8.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4667,7 +4667,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 8.8.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4681,9 +4681,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Offene Themen und Archiv
+### 8.9 Offene Themen und Archiv
 
-#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 8.9.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4695,7 +4695,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 8.9.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4707,7 +4707,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 8.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4721,9 +4721,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Berechtigungsanträge
+### 8.10 Berechtigungsanträge
 
-#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 8.10.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4736,11 +4736,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 8.10.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
-#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 8.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4754,9 +4754,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Benutzer- und Themenimport/-export
+### 8.11 Benutzer- und Themenimport/-export
 
-#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+#### 8.11.1 Benutzer als CSV exportieren – Rolle: Admin
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4768,7 +4768,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+#### 8.11.2 Benutzer per CSV importieren – Rolle: Admin
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4781,7 +4781,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 8.11.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4793,7 +4793,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 8.11.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4808,9 +4808,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Änderungsverlauf und Audit
+### 8.12 Änderungsverlauf und Audit
 
-#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 8.12.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4823,7 +4823,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 8.12.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4836,7 +4836,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+#### 8.12.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4851,9 +4851,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Aufbewahrung und automatische Löschung
+### 8.13 Aufbewahrung und automatische Löschung
 
-#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 8.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4866,7 +4866,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+#### 8.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4879,7 +4879,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 8.13.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4893,9 +4893,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-### Auditor*innenbereich
+### 8.14 Auditor*innenbereich
 
-#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 8.14.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4908,7 +4908,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 8.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4925,7 +4925,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 ---
 
-## Produktiv – Globale Rolle Admin
+## 9. Produktiv – Globale Rolle Admin
 
 Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrücklich keine Serienrolle zugewiesen ist. Wo der Test eine Serienrolle voraussetzt, zusätzlich einen getrennten Kontrolllauf mit Admin plus Moderatorzuweisung durchführen.
 
@@ -4936,9 +4936,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
 - Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
 
-### Dashboard und Navigation
+### 9.1 Dashboard und Navigation
 
-#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+#### 9.1.1 Dashboard aufrufen – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4951,7 +4951,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 9.1.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4966,9 +4966,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Persönliches Konto und eigene Aufgaben
+### 9.2 Persönliches Konto und eigene Aufgaben
 
-#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 9.2.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -4980,7 +4980,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 9.2.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4995,9 +4995,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Besprechungsreihen verwalten
+### 9.3 Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+#### 9.3.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5011,7 +5011,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 9.3.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5024,7 +5024,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+#### 9.3.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5037,7 +5037,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+#### 9.3.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5050,7 +5050,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+#### 9.3.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5063,7 +5063,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+#### 9.3.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5077,7 +5077,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+#### 9.3.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5093,7 +5093,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+#### 9.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5112,7 +5112,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+#### 9.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5131,9 +5131,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-### Termine und Besprechungsübersicht
+### 9.4 Termine und Besprechungsübersicht
 
-#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 9.4.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5146,7 +5146,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 9.4.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5159,7 +5159,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 9.4.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5172,7 +5172,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.4.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5185,7 +5185,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 9.4.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5195,9 +5195,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Themen anlegen und bearbeiten
+### 9.5 Themen anlegen und bearbeiten
 
-#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 9.5.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5211,7 +5211,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.5.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5224,7 +5224,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.5.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5237,7 +5237,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.5.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5249,7 +5249,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 9.5.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5262,7 +5262,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 9.5.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5276,7 +5276,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.5.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5290,9 +5290,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Tagesordnungspunkte und Wiedervorlagen
+### 9.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.6.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5305,7 +5305,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.6.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5317,7 +5317,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.6.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5329,7 +5329,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.6.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5342,7 +5342,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.6.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5355,7 +5355,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 9.6.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5369,9 +5369,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Kommentare, Anlagen und Links
+### 9.7 Kommentare, Anlagen und Links
 
-#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.7.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5384,7 +5384,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.7.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5397,7 +5397,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.7.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5410,7 +5410,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 9.7.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5422,7 +5422,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.7.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5434,7 +5434,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.7.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5449,9 +5449,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Besprechung abschließen und Protokoll
+### 9.8 Besprechung abschließen und Protokoll
 
-#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.8.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5464,7 +5464,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 9.8.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5476,7 +5476,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 9.8.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5490,7 +5490,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5503,7 +5503,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 9.8.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5517,9 +5517,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Offene Themen und Archiv
+### 9.9 Offene Themen und Archiv
 
-#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 9.9.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5531,7 +5531,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 9.9.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5543,7 +5543,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 9.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5557,9 +5557,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Berechtigungsanträge
+### 9.10 Berechtigungsanträge
 
-#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 9.10.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5572,11 +5572,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 9.10.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
-#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 9.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5590,9 +5590,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Benutzer- und Themenimport/-export
+### 9.11 Benutzer- und Themenimport/-export
 
-#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+#### 9.11.1 Benutzer als CSV exportieren – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5604,7 +5604,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+#### 9.11.2 Benutzer per CSV importieren – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5617,7 +5617,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 9.11.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5629,7 +5629,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 9.11.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5644,9 +5644,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Änderungsverlauf und Audit
+### 9.12 Änderungsverlauf und Audit
 
-#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 9.12.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5659,7 +5659,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 9.12.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5672,7 +5672,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+#### 9.12.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5687,9 +5687,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Aufbewahrung und automatische Löschung
+### 9.13 Aufbewahrung und automatische Löschung
 
-#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 9.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5702,7 +5702,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+#### 9.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5715,7 +5715,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 9.13.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5729,9 +5729,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-### Auditor*innenbereich
+### 9.14 Auditor*innenbereich
 
-#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 9.14.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5744,7 +5744,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 9.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5761,7 +5761,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 ---
 
-## Produktiv – Globale Rolle Auditor
+## 10. Produktiv – Globale Rolle Auditor
 
 Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienzuweisung darf es keine fachlichen Reiheninhalte sehen oder verändern. Nur ausdrücklich freigegebene administrative Prüfdaten sind lesbar.
 
@@ -5772,9 +5772,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - Bei nicht erlaubten Aktionen den Aufruf über Navigation, direkte URL und – soweit möglich – direkte POST-Anfrage versuchen. Erwartet wird eine verweigerte Antwort (403/404 oder vorgesehene Umleitung), keine Datenänderung und keine Offenlegung geschützter Inhalte.
 - Die nachfolgende Einzelprüfung nennt jeweils, ob die Rolle laut Berechtigungsmodell zugriffsberechtigt ist. Bei Serienfunktionen gilt die Berechtigung ausschließlich für die konkret zugewiesene Reihe.
 
-### Dashboard und Navigation
+### 10.1 Dashboard und Navigation
 
-#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
+#### 10.1.1 Dashboard aufrufen – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5787,7 +5787,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 10.1.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5802,9 +5802,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Persönliches Konto und eigene Aufgaben
+### 10.2 Persönliches Konto und eigene Aufgaben
 
-#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 10.2.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -5816,7 +5816,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 10.2.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5831,9 +5831,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Besprechungsreihen verwalten
+### 10.3 Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
+#### 10.3.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5847,7 +5847,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 10.3.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5860,7 +5860,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
+#### 10.3.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5873,7 +5873,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
+#### 10.3.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5886,7 +5886,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
+#### 10.3.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5899,7 +5899,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
+#### 10.3.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5913,7 +5913,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
+#### 10.3.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5929,7 +5929,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-#### 12.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
+#### 10.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Rolle: globaler Admin mit Moderatorzuweisung oder Moderator*in der Testreihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5948,7 +5948,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
+#### 10.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5967,9 +5967,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-### Termine und Besprechungsübersicht
+### 10.4 Termine und Besprechungsübersicht
 
-#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 10.4.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5982,7 +5982,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 10.4.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5995,7 +5995,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 10.4.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6008,7 +6008,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.4.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6021,7 +6021,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 10.4.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6031,9 +6031,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Themen anlegen und bearbeiten
+### 10.5 Themen anlegen und bearbeiten
 
-#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 10.5.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6047,7 +6047,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.5.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6060,7 +6060,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.5.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6073,7 +6073,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.5.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6085,7 +6085,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 10.5.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6098,7 +6098,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 10.5.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6112,7 +6112,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.5.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6126,9 +6126,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Tagesordnungspunkte und Wiedervorlagen
+### 10.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.6.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6141,7 +6141,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.6.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6153,7 +6153,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.6.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6165,7 +6165,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.6.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6178,7 +6178,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.6.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6191,7 +6191,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 10.6.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6205,9 +6205,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Kommentare, Anlagen und Links
+### 10.7 Kommentare, Anlagen und Links
 
-#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.7.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6220,7 +6220,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.7.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6233,7 +6233,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.7.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6246,7 +6246,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 10.7.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6258,7 +6258,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.7.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6270,7 +6270,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.7.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6285,9 +6285,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Besprechung abschließen und Protokoll
+### 10.8 Besprechung abschließen und Protokoll
 
-#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 10.8.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6300,7 +6300,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 10.8.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6312,7 +6312,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 10.8.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6326,7 +6326,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
+#### 10.8.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6339,7 +6339,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 10.8.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6353,9 +6353,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Offene Themen und Archiv
+### 10.9 Offene Themen und Archiv
 
-#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 10.9.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6367,7 +6367,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 10.9.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6379,7 +6379,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 10.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6393,9 +6393,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Berechtigungsanträge
+### 10.10 Berechtigungsanträge
 
-#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 10.10.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6408,11 +6408,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 10.10.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 10.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6426,9 +6426,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Benutzer- und Themenimport/-export
+### 10.11 Benutzer- und Themenimport/-export
 
-#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
+#### 10.11.1 Benutzer als CSV exportieren – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6440,7 +6440,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 20.2 Benutzer per CSV importieren – Rolle: Admin
+#### 10.11.2 Benutzer per CSV importieren – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6453,7 +6453,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 10.11.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6465,7 +6465,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
+#### 10.11.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6480,9 +6480,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Änderungsverlauf und Audit
+### 10.12 Änderungsverlauf und Audit
 
-#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 10.12.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6495,7 +6495,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 10.12.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -6508,7 +6508,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
+#### 10.12.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -6523,9 +6523,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Aufbewahrung und automatische Löschung
+### 10.13 Aufbewahrung und automatische Löschung
 
-#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 10.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6538,7 +6538,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
+#### 10.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6551,7 +6551,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 10.13.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6565,9 +6565,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ---
 
-### Auditor*innenbereich
+### 10.14 Auditor*innenbereich
 
-#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 10.14.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -6580,7 +6580,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 10.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
