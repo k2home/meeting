@@ -194,6 +194,10 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, '.test-document-index .toc>ul>li>ul>li>ul>li.is-current>ul{display:block}')
         self.assertContains(response, 'querySelectorAll(\":scope > ul > li > ul > li > ul > li\")')
         self.assertContains(response, 'window.addEventListener("scroll", updateCurrentSection')
+        self.assertContains(response, '.test-document-index .toc li.is-complete>a{background:#e8f5e9')
+        self.assertContains(response, 'sectionChecks.length > 0 && sectionChecks.every(checkbox => checkbox.checked)')
+        self.assertContains(response, 'item.classList.toggle("is-complete"')
+        self.assertContains(response, 'updateCompletionStyles();')
         for anchor in ("installation", "ersteinrichtung", "testing", "produktiv-globale-rolle-nutzer", "produktiv-ohne-berechtigungen", "produktiv-leser", "produktiv-teilnehmer", "produktiv-moderator", "produktiv-globale-rolle-admin", "produktiv-globale-rolle-auditor"):
             self.assertContains(response, f'href="#{anchor}"')
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
