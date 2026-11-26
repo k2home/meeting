@@ -24,72 +24,62 @@
 </header>
 <div class="test-document">
   <section class="card">
-    <p>Die Kontrollkästchen werden direkt im Markdown-Quelldokument im konfigurierten Git-Branch gespeichert und sind damit versioniert und über Branch-Merges übertragbar. Jede Änderung wird sofort übernommen, ohne die Seite neu zu laden. Mit PR-Test erforderlich gekennzeichnete Bereiche sind für den jeweiligen Pull Request erneut zu prüfen.</p>
-    {% if checklist_write_enabled %}
-    <p id="checklist-save-status" class="checklist-save-status muted" role="status" aria-live="polite">Automatische Speicherung in {{ checklist_target }} ist aktiv.</p>
+    {% if test_documentation_editable %}
+    <p>TESTING-Modus ist aktiv: Du kannst die Prüfschritte markieren und anschließend den vollständigen Teststand als Markdown-Datei herunterladen. Die Änderungen bleiben bis zum Download in dieser Browseransicht; es erfolgt keine Speicherung in der Datenbank oder in GitHub.</p>
+    <p><button type="button" class="btn primary" id="download-test-documentation">Bearbeiteten Test als .md herunterladen</button></p>
     {% else %}
-    <p id="checklist-save-status" class="checklist-save-status muted" role="status" aria-live="polite">Git-Speicherung ist nicht konfiguriert. Die Checkliste ist deshalb schreibgeschützt.</p>
+    <p>Die Testcheckliste ist im Lesemodus geöffnet. Bearbeitung und Download der bearbeiteten Markdown-Datei sind ausschließlich im TESTING-Modus verfügbar.</p>
     {% endif %}
+    <p class="muted">Mit „PR-Test erforderlich“ gekennzeichnete Bereiche sind für den jeweiligen Pull Request erneut zu prüfen.</p>
     <p><a class="btn secondary" href="{% url 'user_guide' %}">Zurück zu Hilfe &amp; Anleitung</a></p>
   </section>
-  <article class="card document-content" data-save-url="{% url 'test_documentation_toggle' %}">
+  <article class="card document-content">
     {{ test_documentation_html|safe }}
-    {% csrf_token %}
   </article>
+  {% if test_documentation_editable %}
+  <textarea id="test-documentation-markdown-source" hidden>{{ test_documentation_markdown }}</textarea>
+  {% endif %}
 </div>
+{% if test_documentation_editable %}
 <script>
 (() => {
   const documentRoot = document.querySelector(".test-document .document-content");
-  const status = document.getElementById("checklist-save-status");
-  if (!documentRoot || !status) return;
+  const sourceElement = document.getElementById("test-documentation-markdown-source");
+  const downloadButton = document.getElementById("download-test-documentation");
+  if (!documentRoot || !sourceElement || !downloadButton) return;
 
-  const csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
-  const saveUrl = documentRoot.dataset.saveUrl;
-  const pendingSaves = new Map();
+  downloadButton.addEventListener("click", () => {
+    const lines = sourceElement.value.split(/\r?\n/);
+    const checkboxes = documentRoot.querySelectorAll(
+      "input.test-checklist-box[data-checklist-line][data-checklist-occurrence]"
+    );
 
-  documentRoot.addEventListener("change", (event) => {
-    const checkbox = event.target;
-    if (!checkbox.matches("input.test-checklist-box[data-checklist-id]") || checkbox.disabled) return;
+    checkboxes.forEach((checkbox) => {
+      const lineIndex = Number(checkbox.dataset.checklistLine) - 1;
+      const occurrence = Number(checkbox.dataset.checklistOccurrence);
+      if (!Number.isInteger(lineIndex) || lineIndex < 0 || lineIndex >= lines.length || occurrence < 1) return;
 
-    const checkboxId = checkbox.dataset.checklistId;
-    const checked = checkbox.checked;
-    const previousRequest = pendingSaves.get(checkboxId) || Promise.resolve();
-    status.textContent = "Speichere Änderung …";
-
-    const saveRequest = previousRequest.catch(() => {}).then(async () => {
-      const body = new URLSearchParams({
-        checkbox_id: checkboxId,
-        checked: String(checked),
-        csrfmiddlewaretoken: csrfInput ? csrfInput.value : ""
+      let currentOccurrence = 0;
+      lines[lineIndex] = lines[lineIndex].replace(/\[([ xX])\]/g, (marker) => {
+        currentOccurrence += 1;
+        return currentOccurrence === occurrence ? (checkbox.checked ? "[x]" : "[ ]") : marker;
       });
-      const response = await fetch(saveUrl, {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "X-CSRFToken": csrfInput ? csrfInput.value : ""
-        },
-        body
-      });
-      if (!response.ok) throw new Error("Speichern fehlgeschlagen");
-      const result = await response.json();
-      if (!result.success) throw new Error("Speichern fehlgeschlagen");
     });
 
-    pendingSaves.set(checkboxId, saveRequest);
-    saveRequest.then(() => {
-      if (pendingSaves.get(checkboxId) === saveRequest) {
-        pendingSaves.delete(checkboxId);
-        status.textContent = "Änderung gespeichert.";
-      }
-    }).catch(() => {
-      if (pendingSaves.get(checkboxId) === saveRequest) {
-        pendingSaves.delete(checkboxId);
-        status.textContent = "Speichern fehlgeschlagen. Bitte erneut anklicken.";
-        checkbox.checked = !checked;
-      }
+    const markdownFile = new Blob([lines.join("\n")], {
+      type: "text/markdown;charset=utf-8"
     });
+    const objectUrl = URL.createObjectURL(markdownFile);
+    const link = document.createElement("a");
+    const date = new Date().toISOString().slice(0, 10);
+    link.href = objectUrl;
+    link.download = "Pruefung-des-Verfahrens-Testdokumentation-" + date + ".md";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(objectUrl);
   });
 })();
 </script>
+{% endif %}
 {% endblock %}
