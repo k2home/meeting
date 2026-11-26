@@ -73,7 +73,7 @@ class Command(BaseCommand):
         for meeting_id in meeting_ids:
             with transaction.atomic():
                 try:
-                    locked_meeting = Meeting.objects.select_for_update().select_related("series").get(pk=meeting_id)
+                    locked_meeting = Meeting.objects.select_related("series").select_for_update(of=("self",)).get(pk=meeting_id)
                 except Meeting.DoesNotExist:
                     continue
                 was_reopened = AuditEvent.objects.filter(
