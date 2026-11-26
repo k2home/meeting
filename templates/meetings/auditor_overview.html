@@ -7,6 +7,8 @@
 <a class="management-card" href="{% url 'auditor_groups' %}"><span class="management-icon">🗂️</span><h2>Gruppen</h2><p>Besprechungsreihen sowie zugeordnete Personen und Berechtigungen einsehen.</p><strong>Gruppenübersicht anzeigen</strong></a>
 <a class="management-card" href="{% url 'auditor_organization_settings' %}"><span class="management-icon">⚙️</span><h2>Organisationseinstellungen</h2><p>Logo, Organisation, Zeitzone, Anlagenlimit, Aufbewahrungsfristen und Markenfarben einsehen.</p><strong>{% if organization_settings %}Einstellungen anzeigen{% else %}Noch nicht konfiguriert{% endif %}</strong></a>
 
+<a class="management-card" href="{% url 'test_documentation' %}"><span class="management-icon">🧪</span><h2>Testdokumentation</h2><p>Manuelle Testcheckliste und dokumentierte Prüfergebnisse aller Funktionsbereiche einsehen.</p><strong>Testdokumentation öffnen</strong></a>
+<a class="management-card" href="{% url 'security_description' %}"><span class="management-icon">🛡️</span><h2>IT-/Datenschutzprüfung</h2><p>IT-Sicherheits- und Datenschutzbeschreibung mit Maßnahmen und Prüfbereichen einsehen.</p><strong>IT-/Datenschutzprüfung öffnen</strong></a>
 <a class="management-card" href="{% url 'audit_history' %}"><span class="management-icon">📜</span><h2>Änderungsverlauf</h2><p>Administrative Systemänderungen nachvollziehen. Serienereignisse bleiben ausgeblendet.</p><strong>Änderungsverlauf öffnen</strong></a>
 </div>
 <style>
