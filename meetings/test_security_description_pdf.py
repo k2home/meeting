@@ -128,6 +128,15 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "document-content hr")
         self.assertContains(response, "20.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
 
+    def test_checklist_source_path_can_be_configured_for_docker_volume(self):
+        from meetings.guide_views import _test_documentation_source_path
+
+        with patch.dict("os.environ", {"TEST_DOCUMENTATION_SOURCE_PATH": "/app/local-test-docs/checklist.md"}):
+            self.assertEqual(
+                _test_documentation_source_path(),
+                Path("/app/local-test-docs/checklist.md"),
+            )
+
     def test_user_guide_links_to_test_documentation(self):
         response = self.client.get(reverse("user_guide"))
 
