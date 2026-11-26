@@ -37,7 +37,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 ### 1. Datenverwaltung und Sicherung
 
-#### 23.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
+#### 1.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Daten** öffnen.
@@ -51,7 +51,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 **Test erfolgreich:** [ ]
 
-#### 23.2 Vollständigen Datenexport durchführen – Rolle: Admin
+#### 1.2 Vollständigen Datenexport durchführen – Rolle: Admin
 
 - [ ] Datenverwaltungsbereich öffnen.
 - [ ] Funktion zum vollständigen Backup-Export aufrufen.
@@ -66,7 +66,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 **Test erfolgreich:** [ ]
 
-#### 23.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
+#### 1.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
 
 - [ ] Ausschließlich eine isolierte Testinstallation verwenden.
 - [ ] Vorhandenen Testdatenbestand sichern.
@@ -89,7 +89,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 ### 2. Administration und Software-Updates
 
-#### 23.4 Updatebereich aufrufen – Rolle: Admin
+#### 2.1 Updatebereich aufrufen – Rolle: Admin
 
 - [ ] Administrationsbereich für Software-Updates öffnen.
 - [ ] Angezeigte Versions- und Branchinformationen prüfen.
@@ -103,7 +103,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 **Test erfolgreich:** [ ]
 
-#### 23.5 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
+#### 2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
 
 - [ ] Vor dem Update Datenbank und Medienbestand sichern.
 - [ ] Updatebereich öffnen.
@@ -132,7 +132,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 ### 3. Anmeldung und Sitzung
 
-#### 23.6 Anmeldung mit gültigem Konto – Rolle: alle Rollen
+#### 3.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
 
 - [ ] Anmeldeseite öffnen.
 - [ ] Gültigen Benutzernamen eingeben.
@@ -146,7 +146,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.7 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
+#### 3.2 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
 
 - [ ] Anmeldeseite öffnen.
 - [ ] Einen nicht vorhandenen Benutzernamen eingeben.
@@ -161,7 +161,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.8 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
+#### 3.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
 
 - [ ] Mit einem Konto anmelden, für das ein Passwortwechsel erforderlich ist.
 - [ ] Angezeigtes Formular zum Passwortwechsel öffnen.
@@ -177,7 +177,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.9 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
+#### 3.4 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
 
 - [ ] Mit einem Testkonto anmelden.
 - [ ] Eine geschützte Seite öffnen.
@@ -192,7 +192,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.10 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
+#### 3.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
 
 - [ ] Einen gültigen Passwort-Zurücksetzen-Link für ein Testkonto öffnen.
 - [ ] Neues Passwort eingeben.
@@ -213,7 +213,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 ### 4. Benutzerverwaltung
 
-#### 23.11 Benutzerkonto anlegen – Rolle: Admin
+#### 4.1 Benutzerkonto anlegen – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Nutzer** öffnen.
@@ -235,7 +235,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.12 Benutzerkonto bearbeiten – Rolle: Admin
+#### 4.2 Benutzerkonto bearbeiten – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Ein Testkonto auswählen.
@@ -253,7 +253,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.13 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
+#### 4.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
 
 - [ ] Ein entbehrliches Testkonto auswählen.
 - [ ] Aktivstatus deaktivieren.
@@ -271,7 +271,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.14 Benutzerkonto löschen – Rolle: Admin
+#### 4.4 Benutzerkonto löschen – Rolle: Admin
 
 - [ ] Ausschließlich ein entbehrliches Testkonto auswählen.
 - [ ] Löschfunktion öffnen.
@@ -286,7 +286,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.15 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
+#### 4.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Testkonto auswählen.
@@ -306,7 +306,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.16 Passwort für Benutzer zurücksetzen – Rolle: Admin
+#### 4.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Ein Testkonto auswählen.
@@ -327,7 +327,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 ### 5. Organisationsverwaltung
 
-#### 23.17 Organisationseinstellungen bearbeiten – Rolle: Admin
+#### 5.1 Organisationseinstellungen bearbeiten – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Organisation** bzw. Organisationseinstellungen öffnen.
@@ -344,7 +344,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.18 Organisationslogo ändern – Rolle: Admin
+#### 5.2 Organisationslogo ändern – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Ein zulässiges Testlogo auswählen.
@@ -360,7 +360,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.19 Farben und Darstellung konfigurieren – Rolle: Admin
+#### 5.3 Farben und Darstellung konfigurieren – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Primärfarbe ändern.
@@ -378,7 +378,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 23.20 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
+#### 5.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Zentrale Aufbewahrungsfrist ändern.
@@ -402,7 +402,7 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit getrennten Konten und direkten URL-Aufrufen auszuführen.
 
-#### 23.21 Leser*in – nur lesender Zugriff in zugewiesener Reihe
+#### 6.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
 
 - [ ] Zugewiesene Reihe öffnen.
 - [ ] Termin und Protokoll öffnen.
@@ -417,7 +417,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 23.22 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
+#### 6.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
 
 - [ ] Zugewiesene Reihe öffnen.
 - [ ] Thema und Tagesordnung bearbeiten.
@@ -435,7 +435,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 23.23 Moderator*in – Verwaltung nur der eigenen Reihe
+#### 6.3 Moderator*in – Verwaltung nur der eigenen Reihe
 
 - [ ] Eigene Reihe öffnen.
 - [ ] Reihe bearbeiten.
@@ -453,7 +453,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 23.24 Admin – globale Verwaltung ohne automatische Fachberechtigung
+#### 6.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Organisationseinstellungen öffnen.
@@ -469,7 +469,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-#### 23.25 Auditor*in – ausschließlich administrative Leserechte
+#### 6.5 Auditor*in – ausschließlich administrative Leserechte
 
 - [ ] Auditor*innenübersicht öffnen.
 - [ ] Benutzer- und Rolleninformationen lesen.
@@ -495,10 +495,9 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 ### 7. TESTING-Modus und Beispielkonfiguration
 
-#### 23.26 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
+#### 7.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
 
-- [ ] TESTING-Modus in der Testinstallation aktivieren.- [ ] Dashboard öffnen.- [ ] Browser-Tab bzw. Seitentitel prüfen.
-- [ ] Django-Administrationspfad aufrufen.
+- [ ] TESTING-Modus in der Testinstallation aktivieren.- [ ] Dashboard öffnen.- [ ] Browser-Tab bzw. Seitentitel prüfen.- [ ] Django-Administrationspfad aufrufen.
 - [ ] TESTING-Modus deaktivieren.
 - [ ] Dieselben Bereiche erneut aufrufen.
 
@@ -509,7 +508,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.27 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 7.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Beispielkonfiguration** öffnen.
@@ -526,7 +525,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.28 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 7.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
@@ -541,7 +540,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.29 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
+#### 7.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Eine Testreihe auswählen.
@@ -557,7 +556,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.30 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 7.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Eine Testreihe auswählen.
@@ -573,7 +572,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.31 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 7.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Ein Testthema auswählen.
@@ -590,7 +589,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.32 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
+#### 7.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Vorhandene Testdaten in der Testinstallation prüfen.
 - [ ] Funktion **TEST-Daten zurücksetzen** öffnen.
@@ -610,7 +609,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 ### 8. Hilfe und Dokumentation
 
-#### 23.33 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
+#### 8.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Menüpunkt **Hilfe** öffnen.
 - [ ] Benutzerhilfe aufrufen.
@@ -624,7 +623,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.34 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
+#### 8.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
 
 - [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
 - [ ] Dokument in der Anwendung anzeigen.
@@ -639,7 +638,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 23.35 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
+#### 8.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Mit einem angemeldeten Testkonto anmelden.
 - [ ] **Hilfe & Anleitung** öffnen.
@@ -680,7 +679,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 ### 9. Abschluss der Gesamtprüfung
 
-#### 23.36 Vollständigkeit und Nachprüfung
+#### 9.1 Vollständigkeit und Nachprüfung
 
 - [ ] Alle für die Installation relevanten Testblöcke wurden durchgeführt.
 - [ ] Alle Rollen wurden mit getrennten Testkonten geprüft.
@@ -714,7 +713,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 10. Dashboard und Navigation
 
-#### 23.37 Dashboard aufrufen – Rolle: alle Rollen
+#### 10.1 Dashboard aufrufen – Rolle: alle Rollen
 
 - [ ] Nach der Anmeldung das Dashboard öffnen.
 - [ ] Angezeigte Kacheln und Übersichten prüfen.
@@ -729,7 +728,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.38 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 10.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 - [ ] Seitenmenü öffnen und schließen.
 - [ ] Jede für die Rolle sichtbare Navigation aufrufen.
@@ -749,7 +748,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 11. Persönliches Konto und eigene Aufgaben
 
-#### 23.39 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 11.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 - [ ] Persönliche Kontoseite über die Navigation öffnen.
 - [ ] Vorname ändern.
@@ -766,7 +765,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.40 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 11.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 - [ ] Menüpunkt **Meine Aufgaben** öffnen.
 - [ ] Bereich der offenen Themen prüfen.
@@ -787,7 +786,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 12. Besprechungsreihen verwalten
 
-#### 23.41 Besprechungsreihe anlegen – Rolle: Admin oder Moderator*in
+#### 12.1 Besprechungsreihe anlegen – Rolle: Admin oder Moderator*in
 
 - [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
 - [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
@@ -810,7 +809,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.42 Besprechungsreihe bearbeiten – Rolle: Admin oder Moderator*in der Reihe
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Vorhandene Reihe auswählen.
@@ -829,7 +828,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.43 Besprechungsreihe verlängern – Rolle: Admin oder Moderator*in der Reihe
+#### 12.3 Besprechungsreihe verlängern – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine Reihe mit begrenztem Enddatum auswählen.
@@ -846,7 +845,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.44 Termine einer Reihe neu aufsetzen – Rolle: Admin oder Moderator*in der Reihe
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine geeignete Testreihe auswählen.
@@ -863,7 +862,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.45 Besprechungsreihe löschen – Rolle: Admin oder Moderator*in der Reihe
+#### 12.5 Besprechungsreihe löschen – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
 - [ ] Löschfunktion öffnen.
@@ -880,7 +879,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.46 Berechtigungen einer Reihe verwalten – Rolle: Admin oder Moderator*in der Reihe
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Eine Besprechungsreihe öffnen.
 - [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
@@ -902,7 +901,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.47 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in, Admin ohne Serienzuweisung
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in, Admin ohne Serienzuweisung
 
 - [ ] Ein Konto ohne Zuweisung zu einer Testreihe anmelden.
 - [ ] Reihenübersicht öffnen.
@@ -921,7 +920,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 13. Termine und Besprechungsübersicht
 
-#### 23.48 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 13.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 - [ ] **Besprechungen** öffnen.
 - [ ] Eine zugewiesene Besprechungsreihe auswählen.
@@ -938,7 +937,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.49 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 13.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 - [ ] Terminübersicht öffnen.
 - [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
@@ -955,7 +954,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.50 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 13.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 - [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
 - [ ] Löschfunktion öffnen.
@@ -971,7 +970,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.51 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 13.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Teilnehmerauswahl öffnen.
@@ -988,7 +987,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.52 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 13.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 - [ ] Einen abgeschlossenen Testtermin öffnen.
 - [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
@@ -997,14 +996,13 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
 - [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
-
 **Test erfolgreich:** [ ]
 
 ---
 
 ### 14. Themen anlegen und bearbeiten
 
-#### 23.53 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 14.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 - [ ] Dashboard öffnen.
 - [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
@@ -1025,7 +1023,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.54 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 14.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
@@ -1043,7 +1041,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.55 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 14.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Themenübersicht öffnen.
 - [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
@@ -1062,7 +1060,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.56 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 14.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Status auf einen anderen verfügbaren Wert setzen.
@@ -1077,7 +1075,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.57 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 14.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 - [ ] Ein entbehrliches Testthema öffnen.
 - [ ] Funktion **Archivieren** anklicken.
@@ -1094,7 +1092,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.58 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 14.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 - [ ] Ein übertragbares Testthema öffnen.
 - [ ] Funktion zum Übertragen öffnen.
@@ -1114,7 +1112,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.59 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 14.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
 - [ ] Themenvorschläge aufrufen.
@@ -1134,7 +1132,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 15. Tagesordnungspunkte und Wiedervorlagen
 
-#### 23.60 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 15.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
@@ -1153,7 +1151,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.61 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 15.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
 - [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
@@ -1168,7 +1166,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.62 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 15.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Testtermin öffnen.
 - [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
@@ -1183,7 +1181,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.63 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 15.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
@@ -1201,7 +1199,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.64 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 15.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Eine vorhandene Wiedervorlagekette öffnen.
 - [ ] Den nächsten Termin der Reihe öffnen.
@@ -1217,7 +1215,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.65 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 15.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 - [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
 - [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
@@ -1235,7 +1233,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 16. Kommentare, Anlagen und Links
 
-#### 23.66 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 16.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Kommentarbereich öffnen.
@@ -1251,7 +1249,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.67 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 16.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Anlagenbereich öffnen.
@@ -1268,7 +1266,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.68 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 16.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Anlagenbereich öffnen.
@@ -1286,7 +1284,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.69 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 16.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Thema mit vorhandener Testanlage öffnen.
 - [ ] Download der Anlage anklicken.
@@ -1300,7 +1298,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.70 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 16.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
 - [ ] Löschfunktion der Anlage anklicken.
@@ -1315,7 +1313,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.71 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 16.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
 - [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
@@ -1334,7 +1332,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 17. Besprechung abschließen und Protokoll
 
-#### 23.72 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 17.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Testtermin öffnen.
 - [ ] Teilnehmerliste prüfen.
@@ -1351,7 +1349,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.73 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 17.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen abgeschlossenen Termin öffnen.
 - [ ] Protokollansicht aufrufen.
@@ -1366,7 +1364,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.74 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 17.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Protokollansicht öffnen.
 - [ ] Druckfunktion auslösen.
@@ -1383,7 +1381,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.75 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der Reihe oder Admin mit entsprechender Berechtigung
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der Reihe oder Admin mit entsprechender Berechtigung
 
 - [ ] Einen abgeschlossenen Testtermin öffnen.
 - [ ] Funktion **Wieder öffnen** anklicken.
@@ -1401,7 +1399,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.76 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 17.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 - [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
 - [ ] Themenprotokoll-PDF aufrufen.
@@ -1419,7 +1417,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 18. Offene Themen und Archiv
 
-#### 23.77 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 18.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 - [ ] **Offene Themen** öffnen.
 - [ ] Themenliste prüfen.
@@ -1434,7 +1432,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.78 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 18.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 - [ ] **Archiv** öffnen.
 - [ ] Archivierte Testthemen suchen.
@@ -1448,7 +1446,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.79 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 18.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 - [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
 - [ ] Das Testkonto als Reihenmitglied zuweisen.
@@ -1469,7 +1467,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 19. Berechtigungsanträge
 
-#### 23.80 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 19.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 - [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
 - [ ] Funktion zum Beantragen einer Berechtigung öffnen.
@@ -1485,7 +1483,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.81 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 19.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 - [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
 - [ ] Offenen Testantrag auswählen.
@@ -1498,10 +1496,9 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 - [ ] Antrag erhält den richtigen Entscheidungsstatus.- [ ] Entscheidende Person und Entscheidungszeitpunkt werden korrekt erfasst.
 - [ ] Bei Genehmigung wird die vorgesehene Serienrolle zugewiesen.
 - [ ] Bei Ablehnung wird keine neue Serienberechtigung erteilt.
-
 **Test erfolgreich:** [ ]
 
-#### 23.82 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 19.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 - [ ] Einen bereits entschiedenen Testantrag öffnen.
 - [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
@@ -1519,7 +1516,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 20. Benutzer- und Themenimport/-export
 
-#### 23.83 Benutzer als CSV exportieren – Rolle: Admin
+#### 20.1 Benutzer als CSV exportieren – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] CSV-Export anklicken.
@@ -1534,7 +1531,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.84 Benutzer per CSV importieren – Rolle: Admin
+#### 20.2 Benutzer per CSV importieren – Rolle: Admin
 
 - [ ] CSV-Mustervorlage herunterladen.
 - [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
@@ -1552,7 +1549,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.85 Themen als CSV exportieren – Rolle: Admin
+#### 20.3 Themen als CSV exportieren – Rolle: Admin
 
 - [ ] Themenverwaltung bzw. Themenexport öffnen.
 - [ ] CSV-Export anklicken.
@@ -1567,7 +1564,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.86 Themen per CSV importieren – Rolle: Admin
+#### 20.4 Themen per CSV importieren – Rolle: Admin
 
 - [ ] CSV-Mustervorlage für Themen herunterladen.
 - [ ] Vorlage mit Testthemen befüllen.
@@ -1589,7 +1586,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 21. Änderungsverlauf und Audit
 
-#### 23.87 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 21.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 - [ ] Eine moderierte Besprechungsreihe öffnen.
 - [ ] Änderungsverlauf der Reihe aufrufen.
@@ -1605,7 +1602,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.88 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 - [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
 - [ ] Ein administratives Testereignis suchen.
@@ -1620,7 +1617,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.89 Änderungsverlauf als CSV exportieren – Rolle: Admin, Auditor*in oder Moderator*in im jeweiligen Geltungsbereich
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: Admin, Auditor*in oder Moderator*in im jeweiligen Geltungsbereich
 
 - [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
 - [ ] CSV-Export anklicken.
@@ -1641,7 +1638,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 22. Aufbewahrung und automatische Löschung
 
-#### 23.90 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+#### 22.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 - [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
 - [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
@@ -1658,7 +1655,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.91 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in und Admin
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in und Admin
 
 - [ ] Ein entbehrliches Testthema archivieren.
 - [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
@@ -1674,7 +1671,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.92 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 22.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 - [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
 - [ ] Ergebnis und Datenbestand prüfen.
@@ -1692,7 +1689,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 23. Auditor*innenbereich
 
-#### 23.93 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 23.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 - [ ] Mit einem Auditor*innenkonto anmelden.
 - [ ] Auditor*innenübersicht öffnen.
@@ -1708,7 +1705,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 23.94 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 23.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 - [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
 - [ ] Eine URL zur Systemhistorie direkt aufrufen.
