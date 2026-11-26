@@ -185,7 +185,8 @@ def test_documentation_toggle(request):
     if not source.is_file():
         return JsonResponse({"error": "Testcheckliste nicht verfügbar."}, status=404)
 
-    lock_path = source.with_name(source.name + ".lock")
+    configured_lock_path = os.getenv("TEST_DOCUMENTATION_LOCK_PATH")
+    lock_path = Path(configured_lock_path) if configured_lock_path else source.with_name(source.name + ".lock")
     try:
         with lock_path.open("a", encoding="utf-8") as lock_file:
             fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
