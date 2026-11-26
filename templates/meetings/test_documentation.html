@@ -1,0 +1,33 @@
+{% extends "meetings/base.html" %}
+{% block title %}Prüfung des Verfahrens – Testcheckliste{% endblock %}
+{% block content %}
+<style>
+.test-document{max-width:1200px;margin:0 auto}
+.test-document .document-content{min-width:0}
+.test-document .document-content h1{font-size:1.8rem;margin:0 0 1rem}
+.test-document .document-content h2{font-size:1.35rem;margin:2rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.test-document .document-content h3{font-size:1.1rem;margin:1.4rem 0 .5rem}
+.test-document .document-content p,.test-document .document-content li{line-height:1.6}
+.test-document .document-content li{margin:.25rem 0}
+.test-document .document-content input.test-checklist-box{width:1rem;height:1rem;margin-right:.45rem;vertical-align:middle;accent-color:var(--hagen-blue)}
+.test-document .document-content pre{overflow-x:auto;padding:.8rem;background:var(--soft-bg);border-radius:5px}
+.test-document .document-content table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}
+.test-document .document-content th,.test-document .document-content td{padding:.55rem;border:1px solid var(--border);text-align:left;vertical-align:top}
+.test-document .document-content blockquote{padding:.6rem 1rem;border-left:4px solid var(--hagen-blue);background:var(--soft-bg)}
+</style>
+<header class="page-header">
+  <div>
+    <h1>Prüfung des Verfahrens</h1>
+    <p class="muted">Manuelle Testcheckliste für alle Funktionsbereiche und Rollen</p>
+  </div>
+</header>
+<div class="test-document">
+  <section class="card">
+    <p>Die Kontrollkästchen lassen sich für die aktuelle Browser-Sitzung anklicken. Der Teststatus wird nicht in der Anwendung gespeichert. Mit PR-Test erforderlich gekennzeichnete Bereiche sind für den jeweiligen Pull Request erneut zu prüfen.</p>
+    <p><a class="btn secondary" href="{% url 'user_guide' %}">Zurück zu Hilfe &amp; Anleitung</a></p>
+  </section>
+  <article class="card document-content">
+    {{ test_documentation_html|safe }}
+  </article>
+</div>
+{% endblock %}
