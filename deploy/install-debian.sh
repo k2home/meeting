@@ -35,6 +35,13 @@ install -d -o meetingapp -g www-data "$APP_DIR" "$APP_DIR/media" "$APP_DIR/stati
 cp -a "$SOURCE_DIR/." "$APP_DIR/"
 chown -R root:www-data "$APP_DIR"
 chown -R meetingapp:www-data "$APP_DIR/media" "$APP_DIR/staticfiles"
+# The checklist is the only application source file writable by the service account.
+# A sticky, group-writable docs directory permits atomic replacement of this file
+# while preventing the service account from replacing other root-owned documents.
+chown root:www-data "$APP_DIR/docs"
+chmod 1775 "$APP_DIR/docs"
+chown meetingapp:www-data "$APP_DIR/docs/Pruefung-des-Verfahrens-Testdokumentation.md"
+chmod 660 "$APP_DIR/docs/Pruefung-des-Verfahrens-Testdokumentation.md"
 
 DEFAULT_HOST="$(hostname -f 2>/dev/null || hostname)"
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist [$DEFAULT_HOST]: " SITE_HOST
