@@ -79,7 +79,7 @@ def _render_test_documentation_markers(markdown_source, editable):
                 f'{checked_attribute}{disabled_attribute}>'
             )
 
-        rendered_lines.append(re.sub(r"\\[([ xX])\\]", render_checkbox, line))
+        rendered_lines.append(re.sub(r"\[([ xX])\\]", render_checkbox, line))
     return "".join(rendered_lines)
 
 
@@ -91,7 +91,7 @@ def _checklist_status(content):
     statuses = {}
     for line_number, line in enumerate(content.splitlines(), start=1):
         occurrence = 0
-        for match in re.finditer(r"\\[([ xX])\\]", line):
+        for match in re.finditer(r"\[([ xX])\\]", line):
             occurrence += 1
             statuses[f"line-{line_number}-{occurrence}"] = match.group(1).lower() == "x"
     return statuses
@@ -196,7 +196,7 @@ def test_documentation_toggle(request):
             lines = content.splitlines(keepends=True)
             if line_number > len(lines):
                 return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
-            matches = list(re.finditer(r"\\[([ xX])\\]", lines[line_number - 1]))
+            matches = list(re.finditer(r"\[([ xX])\\]", lines[line_number - 1]))
             if occurrence > len(matches):
                 return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
             match = matches[occurrence - 1]
