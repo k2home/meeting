@@ -243,12 +243,13 @@ class TestDocumentationPageTests(TestCase):
     def test_markdown_checkbox_rendering_respects_existing_status_and_edit_mode(self):
         from meetings.guide_views import _render_test_documentation_markers
 
-        source = "- [ ] Noch offen\n- [x] Bereits erfolgreich\n"
+        source = "- [ ] Noch offen\n**Test erfolgreich:** [ ]\n- [x] Bereits erfolgreich\n"
         editable = _render_test_documentation_markers(source, True)
         readonly = _render_test_documentation_markers(source, False)
 
         self.assertIn('data-checklist-line="1"', editable)
         self.assertIn('class="test-checklist-box test-success-checkbox"', editable)
+        self.assertIn('class="test-checklist-box"', editable)
         self.assertIn('data-checklist-occurrence="1"', editable)
         self.assertIn(" checked>", editable)
         self.assertNotIn(" disabled", editable)
