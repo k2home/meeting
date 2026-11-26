@@ -769,7 +769,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.1 Dashboard und Navigation
 
-#### 4.1.1 Dashboard aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.1.1 Dashboard aufrufen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -787,7 +787,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -809,7 +809,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.2 Persönliches Konto und eigene Aufgaben
 
-#### 4.2.1 Persönliche Kontodaten bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.2.1 Persönliche Kontodaten bearbeiten – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -826,7 +826,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -848,7 +848,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.3 Besprechungsreihen verwalten
 
-#### 4.3.1 Besprechungsreihe anlegen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.1 Besprechungsreihe anlegen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -867,7 +867,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -885,7 +885,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.3.3 Besprechungsreihe verlängern – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.3 Besprechungsreihe verlängern – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -903,7 +903,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -921,7 +921,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.3.5 Besprechungsreihe löschen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.5 Besprechungsreihe löschen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -939,7 +939,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -958,7 +958,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: globale Nutzerrolle + Moderator*in ausschließlich in einer anderen Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -982,7 +982,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.4 Termine und Besprechungsübersicht
 
-#### 4.4.1 Terminübersicht aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.4.1 Terminübersicht aufrufen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1000,7 +1000,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.4.2 Einzelnen Termin verschieben – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.4.2 Einzelnen Termin verschieben – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1018,7 +1018,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.4.3 Einzelnen Termin löschen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.4.3 Einzelnen Termin löschen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1036,7 +1036,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1054,7 +1054,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
@@ -1072,7 +1072,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 ### 4.5 Themen anlegen und bearbeiten
 
-#### 4.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1091,7 +1091,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.5.2 Thema über einen Termin anlegen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.5.2 Thema über einen Termin anlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1109,7 +1109,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.5.3 Thema bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.5.3 Thema bearbeiten – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1127,7 +1127,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.5.4 Themenstatus ändern – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.5.4 Themenstatus ändern – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1144,7 +1144,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1162,7 +1162,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1181,7 +1181,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.5.7 Themenvorschläge verwenden – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.5.7 Themenvorschläge verwenden – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1202,7 +1202,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.6 Tagesordnungspunkte und Wiedervorlagen
 
-#### 4.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1220,7 +1220,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1237,7 +1237,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1254,7 +1254,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.6.4 Wiedervorlage anlegen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.6.4 Wiedervorlage anlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1272,7 +1272,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1290,7 +1290,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1311,7 +1311,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.7 Kommentare, Anlagen und Links
 
-#### 4.7.1 Kommentar hinzufügen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.7.1 Kommentar hinzufügen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1329,7 +1329,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.7.2 Datei als Themenanlage hochladen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.7.2 Datei als Themenanlage hochladen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1347,7 +1347,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1365,7 +1365,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.7.4 Anlage herunterladen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.7.4 Anlage herunterladen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1382,7 +1382,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.7.5 Anlage löschen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.7.5 Anlage löschen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1399,7 +1399,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.7.6 Upload-Grenzen prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.7.6 Upload-Grenzen prüfen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1421,7 +1421,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.8 Besprechung abschließen und Protokoll
 
-#### 4.8.1 Besprechung abschließen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.8.1 Besprechung abschließen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1439,7 +1439,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.8.2 Protokoll anzeigen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.8.2 Protokoll anzeigen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1456,7 +1456,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1475,7 +1475,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1493,7 +1493,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1514,7 +1514,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.9 Offene Themen und Archiv
 
-#### 4.9.1 Offene Themen aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.9.1 Offene Themen aufrufen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1531,7 +1531,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.9.2 Archiv aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.9.2 Archiv aufrufen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1548,7 +1548,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1569,7 +1569,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.10 Berechtigungsanträge
 
-#### 4.10.1 Serienberechtigung beantragen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.10.1 Serienberechtigung beantragen – Prüfrolle: globale Nutzerrolle ohne Serienzuweisung
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1587,7 +1587,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
@@ -1603,7 +1603,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Bei Ablehnung entsteht keine Serienzuweisung; andere Anträge und Reihen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
-#### 4.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Nutzerrolle ohne Serienzuweisung
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1624,7 +1624,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.11 Benutzer- und Themenimport/-export
 
-#### 4.11.1 Benutzer als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.11.1 Benutzer als CSV exportieren – Prüfrolle: globale Nutzerrolle ohne globale Adminrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
@@ -1642,7 +1642,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-#### 4.11.2 Benutzer per CSV importieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.11.2 Benutzer per CSV importieren – Prüfrolle: globale Nutzerrolle ohne globale Adminrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
@@ -1660,7 +1660,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-#### 4.11.3 Themen als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.11.3 Themen als CSV exportieren – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1677,7 +1677,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.11.4 Themen per CSV importieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.11.4 Themen per CSV importieren – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1699,7 +1699,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.12 Änderungsverlauf und Audit
 
-#### 4.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1717,7 +1717,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Das globale Nutzerkonto mit Moderatorzuweisung sieht ausschließlich Ereignisse seiner eigenen moderierten Reihe; systembezogene Ereignisse bleiben ausgeblendet.
 
 **Prüfschritt**
@@ -1733,7 +1733,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Ereignisse anderer Reihen bleiben verborgen.
 
 **Test erfolgreich:** [ ]
-#### 4.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1755,7 +1755,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.13 Aufbewahrung und automatische Löschung
 
-#### 4.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: globale Nutzerrolle ohne globale Adminrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
@@ -1773,7 +1773,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-#### 4.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -1791,7 +1791,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Test erfolgreich:** [ ]
 
-#### 4.13.3 Retention wiederholt ausführen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.13.3 Retention wiederholt ausführen – Prüfrolle: globale Nutzerrolle ohne globale Adminrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
@@ -1811,7 +1811,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 ### 4.14 Auditor*innenbereich
 
-#### 4.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: globale Nutzerrolle ohne Auditorrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
@@ -1829,7 +1829,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-#### 4.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
+#### 4.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globale Nutzerrolle ohne Auditorrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
