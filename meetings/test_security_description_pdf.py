@@ -180,7 +180,10 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "20.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
         for phase in ("Installation", "Ersteinrichtung", "Testing", "Produktiv"):
             self.assertContains(response, f'id="{phase.lower()}"')
-        self.assertContains(response, 'class="test-documentation-toc"')
+        self.assertContains(response, 'class="card test-document-index"')
+        self.assertContains(response, 'class="test-document-layout"')
+        self.assertContains(response, '.test-document-index .toc>ul>li>ul>li.is-current>ul{display:block}')
+        self.assertContains(response, 'window.addEventListener("scroll", updateCurrentSection')
         for anchor in ("installation", "ersteinrichtung", "testing", "produktiv"):
             self.assertContains(response, f'href="#{anchor}"')
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
