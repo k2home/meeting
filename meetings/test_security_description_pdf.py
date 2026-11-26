@@ -1,7 +1,12 @@
+from hashlib import sha256
+import json
+from pathlib import Path
+import tempfile
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from unittest.mock import patch
 
 
 class SecurityDescriptionPdfTests(TestCase):
@@ -86,22 +91,30 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "Test erfolgreich")
         self.assertContains(response, "Lesemodus")
         self.assertContains(response, "disabled")
-        self.assertNotContains(response, 'id="download-test-documentation"')
-        self.assertNotContains(response, 'id="test-documentation-markdown-source"')
-        self.assertNotContains(response, "test_documentation_toggle")
+        self.assertNotContains(response, 'data-save-url')
+        self.assertNotContains(response, 'id="test-documentation-config"')
+
+        self.assertEqual(
+            self.client.post(
+                reverse("test_documentation_toggle"),
+                data=json.dumps({"line": 1, "occurrence": 1, "checked": True, "revision": "0" * 64}),
+                content_type="application/json",
+            ).status_code,
+            403,
+        )
+        self.assertEqual(self.client.get(reverse("test_documentation_download")).status_code, 403)
 
     @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
-    def test_testing_mode_enables_editing_and_markdown_download(self, _testing_mode):
+    def test_testing_mode_enables_shared_editing_and_markdown_download(self, _testing_mode):
         response = self.client.get(reverse("test_documentation"))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TESTING-Modus ist aktiv")
-        self.assertContains(response, 'id="download-test-documentation"')
-        self.assertContains(response, 'id="test-documentation-markdown-source"')
-        self.assertContains(response, "text/markdown;charset=utf-8")
-        self.assertContains(response, "Pruefung-des-Verfahrens-Testdokumentation-")
-        self.assertNotContains(response, "data-save-url")
-        self.assertNotContains(response, "test_documentation_toggle")
+        self.assertContains(response, 'data-save-url="' + reverse("test_documentation_toggle") + '"')
+        self.assertContains(response, reverse("test_documentation_status"))
+        self.assertContains(response, reverse("test_documentation_download"))
+        self.assertContains(response, "alle zwei Sekunden")
+        self.assertNotContains(response, "localStorage")
 
     def test_user_guide_links_to_test_documentation(self):
         response = self.client.get(reverse("user_guide"))
@@ -122,3 +135,60 @@ class TestDocumentationPageTests(TestCase):
         self.assertIn(" checked>", editable)
         self.assertNotIn(" disabled", editable)
         self.assertIn(" disabled>", readonly)
+
+    @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
+    def test_checkbox_is_saved_to_local_markdown_and_visible_in_status_and_download(self, _testing_mode):
+        from meetings.guide_views import _checklist_revision
+
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "checklist.md"
+            original = "- [ ] Testschritt\n- [ ] Weiterer Schritt\n"
+            source.write_text(original, encoding="utf-8")
+            with patch("meetings.guide_views._test_documentation_source_path", return_value=source):
+                page = self.client.get(reverse("test_documentation"))
+                self.assertEqual(page.status_code, 200)
+
+                response = self.client.post(
+                    reverse("test_documentation_toggle"),
+                    data=json.dumps({
+                        "line": 1, "occurrence": 1, "checked": True,
+                        "revision": _checklist_revision(original),
+                    }),
+                    content_type="application/json",
+                )
+
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(response.json()["success"])
+                self.assertEqual(source.read_text(encoding="utf-8"), "- [x] Testschritt\n- [ ] Weiterer Schritt\n")
+
+                status = self.client.get(reverse("test_documentation_status"))
+                self.assertEqual(status.status_code, 200)
+                self.assertTrue(status.json()["statuses"]["line-1-1"])
+
+                download = self.client.get(reverse("test_documentation_download"))
+                self.assertEqual(download.status_code, 200)
+                self.assertIn(b"- [x] Testschritt", download.content)
+                self.assertIn("attachment;", download["Content-Disposition"])
+
+    @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
+    def test_stale_revision_is_rejected_without_overwriting_other_users_change(self, _testing_mode):
+        from meetings.guide_views import _checklist_revision
+
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "checklist.md"
+            current = "- [x] Bereits geaendert\n"
+            source.write_text(current, encoding="utf-8")
+            with patch("meetings.guide_views._test_documentation_source_path", return_value=source):
+                response = self.client.post(
+                    reverse("test_documentation_toggle"),
+                    data=json.dumps({
+                        "line": 1, "occurrence": 1, "checked": False,
+                        "revision": _checklist_revision("- [ ] Alter Stand\n"),
+                    }),
+                    content_type="application/json",
+                )
+
+                self.assertEqual(response.status_code, 409)
+                self.assertEqual(source.read_text(encoding="utf-8"), current)
+                self.assertTrue(response.json()["statuses"]["line-1-1"])
+
