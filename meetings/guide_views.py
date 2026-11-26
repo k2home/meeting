@@ -94,7 +94,8 @@ def _render_test_documentation_markers(markdown_source, editable):
             checked_attribute = " checked" if match.group(1).lower() == "x" else ""
             disabled_attribute = "" if editable else " disabled"
             return (
-                '<input type="checkbox" class="test-checklist-box" '
+                '<input type="checkbox" class="test-checklist-box'
+                + (' test-success-checkbox' if "**Test erfolgreich:**" in line else '') + '" '
                 f'data-checklist-line="{line_number}" '
                 f'data-checklist-occurrence="{occurrence}"'
                 f'{checked_attribute}{disabled_attribute}>'
