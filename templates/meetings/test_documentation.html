@@ -76,7 +76,7 @@
 (() => {
   const index = document.querySelector(".test-document-index .toc");
   if (!index) return;
-  const items = Array.from(index.querySelectorAll(":scope li"));
+  const items = Array.from(index.querySelectorAll(":scope > ul > li > ul > li > ul > li"));
   const sections = items.map(item => {
     const link = item.querySelector(":scope > a");
     return link ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
