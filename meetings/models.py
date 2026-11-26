@@ -480,3 +480,13 @@ class SeriesAccessRequest(models.Model):
 
     def __str__(self):
         return f"{self.user} – {self.series} ({self.get_status_display()})"
+
+
+class TestChecklistState(models.Model):
+    """Gemeinsam genutzter, dauerhaft gespeicherter Status der manuellen Testcheckliste."""
+    state = models.JSONField("Prüfstatus", default=dict, blank=True)
+    updated_at = models.DateTimeField("Zuletzt geändert", auto_now=True)
+
+    class Meta:
+        verbose_name = "Testchecklisten-Status"
+        verbose_name_plural = "Testchecklisten-Status"
