@@ -5,10 +5,14 @@ from xml.sax.saxutils import escape
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.db import transaction
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
 import markdown
+
+from .models import TestChecklistState
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -46,18 +50,31 @@ def security_description(request):
 
 @login_required
 def test_documentation(request):
-    """Render the manual functional test checklist for authenticated users."""
+    """Render the shared manual test checklist with its persisted checkbox state."""
     source = Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
     if not source.is_file():
         return HttpResponse("Die Testcheckliste ist derzeit nicht verfügbar.", status=404)
+
     raw = source.read_text(encoding="utf-8")
-    # Render Markdown task markers as interactive, non-persistent browser checkboxes.
-    raw = re.sub(
-        r"\\[([ xX])\\]",
-        lambda match: '<input type="checkbox" class="test-checklist-box"' +
-        (' checked' if match.group(1).lower() == 'x' else '') + '>',
-        raw,
-    )
+    checklist_state = TestChecklistState.objects.filter(pk=1).values_list("state", flat=True).first() or {}
+    rendered_lines = []
+    for line_number, line in enumerate(raw.splitlines(keepends=True), start=1):
+        occurrence = 0
+
+        def render_checkbox(match):
+            nonlocal occurrence
+            occurrence += 1
+            checkbox_id = f"line-{line_number}-{occurrence}"
+            checked = checklist_state.get(checkbox_id, match.group(1).lower() == "x")
+            checked_attribute = " checked" if checked else ""
+            return (
+                f'<input type="checkbox" class="test-checklist-box" '
+                f'data-checklist-id="{checkbox_id}"{checked_attribute}>'
+            )
+
+        rendered_lines.append(re.sub(r"\[([ xX])\]", render_checkbox, line))
+    raw = "".join(rendered_lines)
+
     parser = markdown.Markdown(
         extensions=["tables", "fenced_code", "sane_lists", "toc"],
         output_format="html5",
@@ -67,6 +84,28 @@ def test_documentation(request):
         "test_documentation_html": mark_safe(content),
         "test_documentation_toc_html": mark_safe(parser.toc),
     })
+
+
+@login_required
+@require_POST
+def test_documentation_toggle(request):
+    """Persist one shared checklist checkbox immediately without replacing the page."""
+    checkbox_id = request.POST.get("checkbox_id", "")
+    checked_value = request.POST.get("checked", "").lower()
+    if not re.fullmatch(r"line-[1-9][0-9]*-[1-9][0-9]*", checkbox_id):
+        return JsonResponse({"success": False, "error": "Ungültige Prüffeld-ID."}, status=400)
+    if checked_value not in {"true", "false"}:
+        return JsonResponse({"success": False, "error": "Ungültiger Prüfstatus."}, status=400)
+
+    with transaction.atomic():
+        TestChecklistState.objects.get_or_create(pk=1)
+        checklist = TestChecklistState.objects.select_for_update().get(pk=1)
+        state = dict(checklist.state or {})
+        state[checkbox_id] = checked_value == "true"
+        checklist.state = state
+        checklist.save(update_fields=["state", "updated_at"])
+
+    return JsonResponse({"success": True, "checked": state[checkbox_id]})
 
 
 def _inline_markup(value):
