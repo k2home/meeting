@@ -20,6 +20,12 @@ if _local_env.is_file():
 SETUP_TOKEN = os.getenv("SETUP_TOKEN", "")
 SETUP_TOKEN_REQUIRED = os.getenv("SETUP_TOKEN_REQUIRED", "1") == "1"
 
+# Git-backed manual test checklist; token requires repository Contents read/write.
+TEST_DOCUMENTATION_GITHUB_TOKEN = os.getenv("TEST_DOCUMENTATION_GITHUB_TOKEN", "")
+TEST_DOCUMENTATION_GITHUB_REPOSITORY = os.getenv("TEST_DOCUMENTATION_GITHUB_REPOSITORY", "")
+TEST_DOCUMENTATION_GITHUB_BRANCH = os.getenv("TEST_DOCUMENTATION_GITHUB_BRANCH", "")
+TEST_DOCUMENTATION_GITHUB_PATH = "docs/Pruefung-des-Verfahrens-Testdokumentation.md"
+
 DEBUG = os.getenv("DEBUG", "0") == "1"
 SECRET_KEY = os.getenv("SECRET_KEY", "")
 if not SECRET_KEY:
