@@ -167,6 +167,13 @@ set_env_value "CSRF_COOKIE_SECURE" "1"
 set_env_value "TRUST_PROXY_SSL" "1"
 set_env_value "USE_X_FORWARDED_HOST" "1"
 set_env_value "TRUSTED_PROXY" "$TRUSTED_PROXY"
+set_env_value "TEST_DOCUMENTATION_LOCK_PATH" "/var/lib/meeting-manager-updater/test-documentation.lock"
+install -d -o root -g www-data -m 0770 /var/lib/meeting-manager-updater
+if [[ ! -e /var/lib/meeting-manager-updater/test-documentation.lock ]]; then
+  touch /var/lib/meeting-manager-updater/test-documentation.lock
+fi
+chown meetingapp:www-data /var/lib/meeting-manager-updater/test-documentation.lock
+chmod 660 /var/lib/meeting-manager-updater/test-documentation.lock
 
 chown root:www-data "$APP_DIR/.env"
 chmod 640 "$APP_DIR/.env"
