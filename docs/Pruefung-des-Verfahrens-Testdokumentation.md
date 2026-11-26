@@ -16,14 +16,17 @@
 - Wo ein Test eine bestimmte Serienrolle voraussetzt, muss das Testkonto der betreffenden Besprechungsreihe ausdrücklich mit dieser Rolle zugewiesen sein.
 - Testdaten und Testdateien verwenden. Keine produktiven Daten verändern oder löschen.
 
-**Rollen**
+**Rollen und Berechtigungsbereiche**
 
-- **Globale Nutzer*in:** Standardkonto ohne globale Verwaltungsrechte; fachlicher Zugriff nur auf ausdrücklich zugewiesene Reihen.
-- **Admin:** Globale Benutzer-, Rollen-, Organisations- und Verwaltungsfunktionen; fachliche Reiheninhalte nur mit passender Serienzuweisung.
-- **Auditor*in:** Lesender Zugriff auf administrative Prüfdaten; kein fachlicher Zugriff auf Besprechungsreihen.
-- **Moderator*in:** Serienverwaltung und fachliche Moderationsfunktionen innerhalb der ausdrücklich zugewiesenen Reihe.
-- **Teilnehmer*in:** Fachliche Bearbeitung innerhalb der ausdrücklich zugewiesenen Reihe, ohne Reihenverwaltung und ohne Wiederöffnung abgeschlossener Besprechungen.
-- **Leser*in:** Lesender Zugriff innerhalb der ausdrücklich zugewiesenen Reihe.
+Die Anwendung unterscheidet zwischen einer **globalen Benutzerrolle** und einer **Serienrolle**. Die globale Rolle gilt anwendungsweit; die Serienrolle gilt ausschließlich für die jeweils ausdrücklich zugewiesene Besprechungsreihe. Eine globale Adminrolle verleiht insbesondere **keine automatische Moderator- oder Leseberechtigung** für bestehende Reihen.
+
+- **Globale Nutzer*in (Nutzer):** Keine globalen Verwaltungsrechte. Zugriff auf fachliche Inhalte nur über eine ausdrückliche Serienzuweisung als Teilnehmer*in, Moderator*in oder Leser*in. Ohne Serienzuweisung besteht kein Zugriff auf die betreffende Reihe.
+- **Globaler Admin:** Darf Benutzerkonten, globale Rollen, Organisationseinstellungen, globale Serienzuweisungen und administrative Funktionen verwalten. Darf neue Besprechungsreihen anlegen und dabei die erste Moderatorin bzw. den ersten Moderator bestimmen sowie Berechtigungsanträge entscheiden. Ein Admin erhält dadurch **keinen automatischen Zugriff auf bestehende Reiheninhalte** und kann eine bestehende Reihe, ihre Termine oder ihre reihenbezogenen Berechtigungen nur verwalten, wenn er für genau diese Reihe zusätzlich als **Moderator*in** zugewiesen ist. Die globale Benutzerverwaltung kann Serienzuweisungen administrativ vergeben; sie ersetzt nicht die eigene Serienberechtigung des Admin-Kontos.
+- **Auditor*in (globale Rolle):** Ausschließlich lesender Zugriff auf administrative Prüfdaten wie Benutzer-, Rollen- und Organisationseinstellungen sowie den systemweiten Änderungsverlauf. Kein Zugriff auf fachliche Besprechungsreihen, Termine oder Themen – auch nicht durch eine zusätzliche Serienzuweisung.
+- **Moderator*in (Serienrolle):** Explizit für eine bestimmte Reihe zugewiesen. Darf diese Reihe und ihre Inhalte verwalten, Reihenparameter und Termine bearbeiten sowie die Serienrollen der Mitglieder dieser Reihe verwalten. Die Berechtigung gilt nicht automatisch für andere Reihen.
+- **Teilnehmer*in (Serienrolle):** Explizit für eine bestimmte Reihe zugewiesen. Darf die fachlichen Inhalte dieser Reihe im vorgesehenen Umfang bearbeiten, hat aber keine Verwaltungsrechte für die Reihe oder deren Mitglieder.
+- **Leser*in (Serienrolle):** Explizit für eine bestimmte Reihe zugewiesen. Hat dort ausschließlich lesenden Zugriff.
+- **Keine automatische Vererbung:** Globale Rollen und Serienrollen sind getrennt. Insbesondere muss ein Admin, der eine Reihe fachlich verwalten, deren Inhalte sehen oder eine Besprechung wieder öffnen soll, zusätzlich als Moderator*in genau dieser Reihe zugewiesen sein.
 
 **Einheitlicher Ergebnisvermerk**
 
@@ -825,7 +828,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ### 12. Besprechungsreihen verwalten
 
-#### 12.1 Besprechungsreihe anlegen – Rolle: Admin oder Moderator*in
+#### 12.1 Besprechungsreihe anlegen – Rolle: globaler Admin (mit Auswahl einer ersten Moderator*in) oder Moderator*in
 
 - [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
 - [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
@@ -849,7 +852,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 12.2 Besprechungsreihe bearbeiten – Rolle: Admin oder Moderator*in der Reihe
+#### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Vorhandene Reihe auswählen.
@@ -869,7 +872,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 12.3 Besprechungsreihe verlängern – Rolle: Admin oder Moderator*in der Reihe
+#### 12.3 Besprechungsreihe verlängern – Rolle: Moderator*in der betreffenden Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine Reihe mit begrenztem Enddatum auswählen.
@@ -887,7 +890,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Admin oder Moderator*in der Reihe
+#### 12.4 Termine einer Reihe neu aufsetzen – Rolle: Moderator*in der betreffenden Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine geeignete Testreihe auswählen.
@@ -905,7 +908,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 12.5 Besprechungsreihe löschen – Rolle: Admin oder Moderator*in der Reihe
+#### 12.5 Besprechungsreihe löschen – Rolle: Moderator*in der betreffenden Reihe
 
 - [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
 - [ ] Löschfunktion öffnen.
@@ -923,7 +926,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Admin oder Moderator*in der Reihe
+#### 12.6 Berechtigungen einer Reihe verwalten – Rolle: Moderator*in der betreffenden Reihe
 
 - [ ] Eine Besprechungsreihe öffnen.
 - [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
@@ -1453,7 +1456,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der Reihe oder Admin mit entsprechender Berechtigung
+#### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
 - [ ] Einen abgeschlossenen Testtermin öffnen.
 - [ ] Funktion **Wieder öffnen** anklicken.
@@ -1631,7 +1634,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 20.3 Themen als CSV exportieren – Rolle: Admin
+#### 20.3 Themen als CSV exportieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 - [ ] Themenverwaltung bzw. Themenexport öffnen.
 - [ ] CSV-Export anklicken.
@@ -1647,7 +1650,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 20.4 Themen per CSV importieren – Rolle: Admin
+#### 20.4 Themen per CSV importieren – Rolle: Moderator*in mit Zugriff auf die betreffenden Reihen
 
 - [ ] CSV-Mustervorlage für Themen herunterladen.
 - [ ] Vorlage mit Testthemen befüllen.
@@ -1703,7 +1706,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: Admin, Auditor*in oder Moderator*in im jeweiligen Geltungsbereich
+#### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
 - [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
 - [ ] CSV-Export anklicken.
@@ -1743,7 +1746,7 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in und Admin
+#### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
 - [ ] Ein entbehrliches Testthema archivieren.
 - [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
