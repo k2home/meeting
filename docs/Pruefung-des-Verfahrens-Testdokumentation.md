@@ -1610,7 +1610,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
 - [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
-- [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
+- [ ] Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
 - [ ] Nach dem Absenden die Antragsübersicht neu laden und den gespeicherten Antrag prüfen.
 
 **Ergebnisprüfung**
@@ -3548,13 +3548,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
 - [ ] Mit einem Leser-Konto anmelden, das der Testreihe ausdrücklich als Leser*in zugewiesen ist.
 - [ ] Für dieses Konto und dieselbe Testreihe einen offenen Antrag vorbereiten.
-- [ ] Die persönliche Benutzerübersicht öffnen und versuchen, denselben Antrag erneut abzusenden.
+- [ ] Die persönliche Benutzerübersicht öffnen; da der offene Antrag das Formular ausblendet, den entsprechenden POST-Aufruf mit denselben Daten direkt wiederholen.
 - [ ] Anschließend die Antragsliste und die Serienzuweisung neu laden.
 
 **Ergebnisprüfung**
 - [ ] Die Benutzerübersicht und die Antragsfunktion sind erreichbar.
 - [ ] Der bereits offene Antrag wird als solcher erkannt; es entsteht kein zweiter offener Antrag.
-- [ ] Die bestehende leserzuweisung bleibt unverändert.
+- [ ] Die bestehende Leserzuweisung bleibt unverändert.
 - [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
@@ -4523,7 +4523,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 - [ ] Die Benutzerübersicht und die Antragsfunktion sind erreichbar.
 - [ ] Der bereits offene Antrag wird als solcher erkannt; es entsteht kein zweiter offener Antrag.
-- [ ] Die bestehende teilnehmerzuweisung bleibt unverändert.
+- [ ] Die bestehende Teilnehmerzuweisung bleibt unverändert.
 - [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
 **Test erfolgreich:** [ ]
@@ -5615,7 +5615,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
 - [ ] Mit einem Moderator-Konto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
 - [ ] Einen vorhandenen offenen Antrag dieses Kontos für dieselbe Reihe vorbereiten, sofern der Testbestand einen solchen Altantrag enthält.
-- [ ] Die persönliche Benutzerübersicht öffnen und versuchen, den Antrag für dieselbe Reihe erneut zu senden bzw. zu bearbeiten.
+- [ ] Die persönliche Benutzerübersicht öffnen und den direkten POST-Aufruf für dieselbe Reihe erneut versuchen.
 - [ ] Die Antragsliste und die Serienzuweisung neu laden.
 
 **Ergebnisprüfung**
