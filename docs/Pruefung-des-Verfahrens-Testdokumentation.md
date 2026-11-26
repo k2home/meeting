@@ -1511,7 +1511,6 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-
 ### 20.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Mit einem angemeldeten Testkonto anmelden.
@@ -1547,6 +1546,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 - [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
 
 **Test erfolgreich:** [ ]
+
 ---
 
 ## 21. Administration und Software-Updates
