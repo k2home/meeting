@@ -1064,10 +1064,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
 
 **Ergebnisprüfung**
-- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
-- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
+- [ ] Der Termin kann mit dem für diesen Testfall verwendeten Leserkonto weiterhin geöffnet werden.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für die geprüfte Leserrolle abgewiesen oder sind nicht verfügbar.
 - [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
-- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
+- [ ] Eine Wiederöffnung ist ausschließlich über die gesonderte Funktion für Moderator*innen der konkreten Reihe möglich.
 
 **Test erfolgreich:** [ ]
 ### 4.5 Themen anlegen und bearbeiten
@@ -1574,9 +1574,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
 - [ ] Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- [ ] Den Antrag absenden und anschließend die Antragsübersicht neu laden; die nachfolgenden Ergebnisprüfungen anhand des gespeicherten Antrags nachvollziehen.
 
 **Ergebnisprüfung**
 
@@ -1608,9 +1608,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
 - [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- [ ] Den Antrag absenden und anschließend die Antragsübersicht neu laden; die nachfolgenden Ergebnisprüfungen anhand des gespeicherten Antrags nachvollziehen.
 
 **Ergebnisprüfung**
 
@@ -1779,8 +1779,8 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Aufbewahrungseinstellungen für archivierte Testthemen öffnen und die konfigurierte Frist sowie den zugehörigen Status ablesen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- [ ] Das Archiv öffnen, bei einem vorbereiteten archivierten Testthema die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; nach einem separat durchgeführten Retention-Lauf den Eintrag erneut prüfen.
+- [ ] Die Anzeige vor und nach dem Retention-Lauf vergleichen und die nachfolgenden Ergebnisprüfungen anhand des tatsächlichen Bestands durchführen.
 
 **Ergebnisprüfung**
 
@@ -5970,7 +5970,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Verwaltungs- bzw. Wiederöffnen-Funktion ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Bearbeitung einer Bestandsreihe ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
 
 **Prüfschritt**
 - [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
@@ -5980,7 +5980,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
-- [ ] Die Bestandsreihe bzw. der abgeschlossene Termin bleibt unverändert.
+- [ ] Die Bestandsreihe bleibt unverändert; ihre Bezeichnung, Beschreibung, Wiederholungseinstellungen und Moderatorzuweisungen werden nicht geändert.
 - [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
 
 **Test erfolgreich:** [ ]
@@ -6601,7 +6601,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 #### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Verwaltungs- bzw. Wiederöffnen-Funktion ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Ein abgeschlossener Termin kann ohne Moderatorrolle für diese Reihe nicht wieder geöffnet werden.
 
 **Prüfschritt**
 - [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
@@ -6611,7 +6611,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
-- [ ] Die Bestandsreihe bzw. der abgeschlossene Termin bleibt unverändert.
+- [ ] Der abgeschlossene Termin bleibt unverändert und behält seinen bisherigen Abschlussstatus sowie seinen gespeicherten Protokollstand.
 - [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
 
 **Test erfolgreich:** [ ]
