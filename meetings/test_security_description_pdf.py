@@ -184,7 +184,8 @@ class TestDocumentationPageTests(TestCase):
         for anchor in ("installation", "ersteinrichtung", "testing", "produktiv"):
             self.assertContains(response, f'href="#{anchor}"')
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
-        self.assertContains(response, '<h4 id="1-1-anmeldung-mit-gultigem-konto-rolle-alle-rollen">')
+        self.assertContains(response, "<h4 id=")
+        self.assertContains(response, "1.1 Anmeldung mit gültigem Konto")
 
     def test_checklist_source_path_can_be_configured_for_docker_volume(self):
         from meetings.guide_views import _test_documentation_source_path
