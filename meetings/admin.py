@@ -143,7 +143,7 @@ class TopicAdmin(admin.ModelAdmin):
         ).values_list("series_id", flat=True))
         return export_topic_agenda_csv(request, allowed_series_ids=series_ids)
 
-    fields = ("title", "series")
+    fields = ("title", "series", "assigned_to")
     list_display = ("title", "series")
     list_filter = ("series",)
     search_fields = ("title",)

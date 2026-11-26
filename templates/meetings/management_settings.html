@@ -1,81 +1,211 @@
 {% extends "meetings/base.html" %}
 {% block title %}Organisationseinstellungen{% endblock %}
 {% block content %}
-<div class="page-header"><div><h1>Organisationseinstellungen</h1><p class="muted">Zentrale Darstellung und Verhalten der Organisation festlegen.</p></div><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a></div>
-<section class="card">
-  <h2>Logo</h2>
-  <p class="muted">Optionales Organisationslogo für die Seitenleiste und Protokoll-PDFs. PNG, JPEG und SVG werden unterstützt.</p>
-  {% if organization_settings.logo %}
-    <p class="muted">Aktuell verwendetes Logo:</p>
-    <p><img src="{% url "organization_logo" %}" alt="Aktuelles Organisationslogo" style="max-width:220px;max-height:90px;object-fit:contain"></p>
-  {% endif %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% with field=logo_form.logo %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
-    {% if logo_form.non_field_errors %}<div class="messages error">{{ logo_form.non_field_errors }}</div>{% endif %}
-    <div class="actions"><button class="primary" type="submit" name="action" value="save_logo">Logo speichern</button></div>
-  </form>
+<div class="page-header">
+  <div>
+    <h1>Organisationseinstellungen</h1>
+    <p class="muted">Zentrale Darstellung und Verhalten der Organisation festlegen.</p>
+  </div>
+  <a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a>
+</div>
+
+<div class="organization-settings-layout">
+<section class="card settings-logo-card">
+  <div class="settings-logo-intro">
+    <h2>Logo</h2>
+  </div>
+  <div class="settings-logo-content">
+    <div class="settings-logo-preview">
+      {% if organization_settings.logo %}
+        <img src="{% url "organization_logo" %}" alt="Aktuelles Organisationslogo">
+      {% else %}
+        <span class="muted">Noch kein Logo hinterlegt.</span>
+      {% endif %}
+    </div>
+    <form method="post" enctype="multipart/form-data" class="settings-logo-form">
+      {% csrf_token %}
+      {% with field=logo_form.logo %}
+        <div class="settings-field">
+          {{ field.label_tag }}{{ field }}
+          {{ field.errors }}
+        </div>
+      {% endwith %}
+      {% if logo_form.non_field_errors %}<div class="messages error">{{ logo_form.non_field_errors }}</div>{% endif %}
+      <div class="actions settings-logo-actions">
+        <button class="primary" type="submit" name="action" value="save_logo">Logo speichern</button>
+        {% if organization_settings.logo %}<button class="secondary" type="submit" name="action" value="reset_logo">Logo zurücksetzen</button>{% endif %}
+      </div>
+    </form>
+  </div>
 </section>
-<form method="post">
+
+<form method="post" class="organization-settings-form">
   {% csrf_token %}
-  {% if form.non_field_errors %}<div class="card">{{ form.non_field_errors }}</div>{% endif %}
-  <section class="card">
-    <h2>Organisation</h2><p class="muted">Bezeichnungen für die Anwendung und ihre Navigation.</p>
-    {% for field in form %}{% if field.name == "name" or field.name == "short_name" %}
-      <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
-    {% endif %}{% endfor %}
+  {% if form.non_field_errors %}<div class="card settings-card settings-form-errors">{{ form.non_field_errors }}</div>{% endif %}
+
+  <section class="card settings-card">
+    <div class="settings-card-heading">
+      <h2>Organisation</h2>
+      <p class="muted">Bezeichnungen für die Anwendung und ihre Navigation.</p>
+    </div>
+    <div class="settings-fields">
+      {% for field in form %}{% if field.name == "name" or field.name == "short_name" %}
+        <div class="settings-field">
+          {{ field.label_tag }}{{ field }}
+          {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+          {{ field.errors }}
+        </div>
+      {% endif %}{% endfor %}
+    </div>
   </section>
-  <section class="card">
-    <h2>Region und Zeitzone</h2>
-    {% with field=form.timezone %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
+
+  <section class="card settings-card">
+    <div class="settings-card-heading">
+      <h2>Region und Zeitzone</h2>
+      <p class="muted">Lokale Zeitangaben für Termine und Protokolle.</p>
+    </div>
+    {% with field=form.timezone %}
+      <div class="settings-field">
+        {{ field.label_tag }}{{ field }}
+        {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+        {{ field.errors }}
+      </div>
+    {% endwith %}
   </section>
-  <section class="card">
-    <h2>Benutzerkonten</h2>
-    <p class="muted">Dieses Startpasswort wird bei neuen Konten ohne eigenes Passwort sowie beim Zurücksetzen und Freischalten eines Kontos verwendet. Auditoren können diese Einstellung nicht einsehen.</p>
-    {% with field=form.start_password %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
+
+  <section class="card settings-card">
+    <div class="settings-card-heading">
+      <h2>Benutzerkonten</h2>
+      <p class="muted">Startpasswort für neue Konten sowie beim Zurücksetzen und Freischalten. Auditoren können diese Einstellung nicht einsehen.</p>
+    </div>
+    {% with field=form.start_password %}
+      <div class="settings-field">
+        {{ field.label_tag }}{{ field }}
+        {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+        {{ field.errors }}
+      </div>
+    {% endwith %}
   </section>
-  <section class="card">
-    <h2>Dateianlagen</h2><p class="muted">Begrenzt die Größe hochgeladener Anlagen an Themen.</p>
-    {% with field=form.attachment_max_size_mb %}<p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>{% endwith %}
+
+  <section class="card settings-card">
+    <div class="settings-card-heading">
+      <h2>Dateianlagen</h2>
+      <p class="muted">Begrenzt die Größe hochgeladener Anlagen an Themen.</p>
+    </div>
+    {% with field=form.attachment_max_size_mb %}
+      <div class="settings-field">
+        {{ field.label_tag }}{{ field }}
+        {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+        {{ field.errors }}
+      </div>
+    {% endwith %}
   </section>
-  <section class="card">
-    <h2>Markenfarben</h2>
-    <p class="muted">Farben für die wichtigsten Elemente der Oberfläche.</p>
-    {% for field in form %}{% if field.name == "primary_color" or field.name == "secondary_color" or field.name == "tertiary_color" %}
-      <div class="brand-color-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
-    {% endif %}{% endfor %}
+
+  <section class="card settings-card settings-card-wide">
+    <div class="settings-card-heading">
+      <h2>Aufbewahrung und Löschung</h2>
+      <p class="muted">Die globale Frist gilt einheitlich für abgeschlossene Besprechungstermine und deren Protokolle – unabhängig von den enthaltenen Themen. Die Tagesordnungstexte bleiben im jeweiligen Thema bis zum Ablauf der eigenen Themenfrist erhalten. Für archivierte Themen gilt die globale Frist als Standard; einzelne Themen können eine abweichende Frist erhalten. Die Frist beginnt mit dem Folgejahr und endet am 31. Dezember des letzten Fristjahres.</p>
+    </div>
+    {% with field=form.retention_years %}
+      <div class="settings-field settings-retention-field">
+        {{ field.label_tag }}{{ field }}
+        {% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}
+        {{ field.errors }}
+      </div>
+    {% endwith %}
+    {% if show_retention_confirmation %}
+      <div class="messages settings-retention-confirmation" role="group" aria-labelledby="retention-confirm-title">
+        <strong id="retention-confirm-title">Gilt die neue Frist auch für bereits archivierte Themen?</strong>
+        <p>Es gibt {{ inherited_archived_count }} archivierte Themen, die derzeit die zentrale Frist verwenden. Für abgeschlossene Besprechungen und Protokolle gilt die neue globale Frist unabhängig von dieser Auswahl.</p>
+        <div class="actions">
+          <button class="primary" type="submit" name="retention_change_decision" value="apply">Ja, neue Frist übernehmen</button>
+          <button class="secondary" type="submit" name="retention_change_decision" value="keep">Nein, bisherige Frist beibehalten</button>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="card settings-card settings-card-wide">
+    <div class="settings-card-heading">
+      <h2>Markenfarben</h2>
+      <p class="muted">Farben für die wichtigsten Elemente der Oberfläche. Die Grundfarben gelten als Standard; optionale Abweichungen können getrennt für Hell- und Dunkelmodus festgelegt werden.</p>
+    </div>
+    <div class="brand-color-grid">
+      {% for field in form %}{% if field.name == "primary_color" or field.name == "secondary_color" or field.name == "tertiary_color" %}
+        <div class="brand-color-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
+      {% endif %}{% endfor %}
+    </div>
 
     <details class="optional-theme-colors"{% if form.primary_color_light.errors or form.secondary_color_light.errors or form.tertiary_color_light.errors %} open{% endif %}>
       <summary><strong>Abweichende Farben für den Hellmodus (optional)</strong></summary>
       <p class="muted">Nicht ausgefüllte Farben übernehmen automatisch die Grundfarbe.</p>
-      {% for field in form %}{% if field.name == "primary_color_light" or field.name == "secondary_color_light" or field.name == "tertiary_color_light" %}
-        <div class="brand-color-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
-      {% endif %}{% endfor %}
+      <div class="brand-color-grid">
+        {% for field in form %}{% if field.name == "primary_color_light" or field.name == "secondary_color_light" or field.name == "tertiary_color_light" %}
+          <div class="brand-color-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
+        {% endif %}{% endfor %}
+      </div>
     </details>
 
     <details class="optional-theme-colors"{% if form.primary_color_dark.errors or form.secondary_color_dark.errors or form.tertiary_color_dark.errors %} open{% endif %}>
       <summary><strong>Abweichende Farben für den Dunkelmodus (optional)</strong></summary>
       <p class="muted">Nicht ausgefüllte Farben übernehmen automatisch die Grundfarbe.</p>
-      {% for field in form %}{% if field.name == "primary_color_dark" or field.name == "secondary_color_dark" or field.name == "tertiary_color_dark" %}
-        <div class="brand-color-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
-      {% endif %}{% endfor %}
+      <div class="brand-color-grid">
+        {% for field in form %}{% if field.name == "primary_color_dark" or field.name == "secondary_color_dark" or field.name == "tertiary_color_dark" %}
+          <div class="brand-color-field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>
+        {% endif %}{% endfor %}
+      </div>
     </details>
   </section>
-  <div class="actions"><button class="primary" type="submit">Einstellungen speichern</button></div>
+
+  <div class="actions settings-form-actions"><button class="primary" type="submit">Einstellungen speichern</button></div>
 </form>
+</div>
+
 <style>
-.brand-color-field{display:grid;grid-template-columns:minmax(130px,1fr) auto;align-items:center;gap:.35rem .8rem;margin:.65rem 0;max-width:440px}
+.organization-settings-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:stretch}
+.settings-logo-card{display:grid;grid-column:2;grid-row:1;grid-template-columns:minmax(0,1fr);width:100%;box-sizing:border-box;gap:.55rem;align-items:start;margin:0}
+.settings-logo-card h2,.settings-card h2{margin:0 0 .35rem;font-size:1.08rem;line-height:1.35}
+.settings-logo-card p,.settings-card-heading p{margin:.2rem 0 0;line-height:1.5}
+.settings-logo-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;align-items:center;min-width:0}
+.settings-logo-preview{display:flex;flex-direction:column;justify-content:center;gap:.45rem;min-width:0;min-height:5rem}
+.settings-logo-preview img{display:block;width:100%;max-width:100%;max-height:140px;object-fit:contain;object-position:left center}
+.settings-logo-form{min-width:0}
+.settings-logo-form .settings-field{margin:0}
+.settings-logo-form input[type="file"]{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;margin-top:.25rem;font-size:.9rem}
+.settings-logo-form .actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.65rem}
+.organization-settings-form{display:contents}
+.organization-settings-form>section.settings-card:first-of-type{grid-column:1;grid-row:1}
+.organization-settings-form>.settings-card{min-width:0;margin:0;padding:1.15rem}
+.settings-card-heading{margin-bottom:.85rem}
+.settings-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.settings-field{display:flex;flex-direction:column;align-items:stretch;gap:.35rem;min-width:0}
+.settings-field label{font-weight:600}
+.settings-field input,.settings-field select,.settings-field textarea{width:100%;max-width:100%;min-width:0}
+.settings-field small{line-height:1.4}
+.settings-field .errorlist,.brand-color-field .errorlist{margin:.1rem 0}
+.settings-card-wide,.settings-form-errors,.settings-form-actions{grid-column:1/-1}
+.settings-retention-field{max-width:360px}
+.settings-retention-field input[type="number"]{width:100%;min-height:2.6rem;padding:.45rem .6rem;font-variant-numeric:tabular-nums}
+.settings-retention-confirmation{margin-top:1rem}
+.settings-retention-confirmation p{margin:.5rem 0}
+.settings-retention-confirmation .actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.brand-color-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem 1.25rem}
+.brand-color-field{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.35rem .8rem;margin:.25rem 0;min-width:0}
 .brand-color-field label{font-weight:550}
-.brand-color-field input[type="text"]{width:7.5rem;margin:0;padding:.45rem .55rem;font-variant-numeric:tabular-nums}
-.brand-color-field .errorlist{grid-column:1/-1;margin:.1rem 0}
-.brand-color-field .color-control{display:flex;align-items:center;gap:.45rem}
-.brand-color-field input[type="color"]{width:2.5rem;height:2.35rem;padding:.15rem;margin:0;border:1px solid var(--border);border-radius:6px;background:var(--input-bg);cursor:pointer}
+.brand-color-field input[type="text"]{width:7.5rem;max-width:100%;margin:0;padding:.45rem .55rem;font-variant-numeric:tabular-nums}
+.brand-color-field .errorlist{grid-column:1/-1}
+.brand-color-field .color-control{display:flex;align-items:center;gap:.45rem;min-width:0}
+.brand-color-field input[type="color"]{width:2.5rem;height:2.35rem;padding:.15rem;margin:0;border:1px solid var(--border);border-radius:6px;background:var(--input-bg);cursor:pointer;flex:0 0 auto}
 .optional-theme-colors{margin-top:.8rem;padding:.7rem .9rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
 .optional-theme-colors summary{cursor:pointer;color:var(--text)}
 .optional-theme-colors[open] summary{margin-bottom:.55rem}
 .optional-theme-colors summary:focus-visible{outline:3px solid #d9e9f7;outline-offset:4px;border-radius:2px}
-.optional-theme-colors .brand-color-field{margin-left:.25rem}
+.optional-theme-colors .brand-color-grid{margin-left:.25rem}
+@media(max-width:900px){.brand-color-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.organization-settings-layout{grid-template-columns:minmax(0,1fr)}.organization-settings-form>section.settings-card:first-of-type{grid-column:1;grid-row:auto}.settings-card-wide,.settings-form-errors,.settings-form-actions{grid-column:1}.settings-logo-card{grid-column:1;grid-row:auto;width:100%;grid-template-columns:minmax(0,1fr)}.settings-logo-content{grid-template-columns:minmax(0,1fr)}.settings-fields{grid-template-columns:minmax(0,1fr)}.brand-color-grid{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.optional-theme-colors{scroll-behavior:auto}}
 </style>
+
 <script>
 document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],input[name$="_color_dark"]').forEach(function(input){
   input.setAttribute('pattern','^$|^#[0-9A-Fa-f]{6}$');
@@ -87,7 +217,8 @@ document.querySelectorAll('input[name$="_color"],input[name$="_color_light"],inp
   picker.addEventListener('input',function(){input.value=picker.value.toUpperCase();});
   var control=document.createElement('div');
   control.className='color-control';
-  input.parentNode.insertBefore(control,input);
+  var parent=input.parentNode;
+  parent.insertBefore(control,input);
   control.appendChild(input);
   control.appendChild(picker);
   input.addEventListener('input',function(){

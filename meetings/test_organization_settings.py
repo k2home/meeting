@@ -1,12 +1,105 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from datetime import date
 from django.test import TestCase
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import OrganizationSettings
+from .models import AuditEvent, OrganizationSettings, Topic
 
 
 class OrganizationSettingsTests(TestCase):
+    def test_organization_settings_page_keeps_all_controls_in_compact_card_layout(self):
+        OrganizationSettings.objects.create(
+            logo=SimpleUploadedFile(
+                "settings-layout-logo.png", b"logo-bytes", content_type="image/png"
+            )
+        )
+        admin_user = get_user_model().objects.create_user(
+            username="settings-layout-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        admin_user.groups.add(admin_group)
+        self.client.force_login(admin_user)
+
+        response = self.client.get(reverse("management_settings"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="organization-settings-form"')
+        self.assertContains(response, 'class="card settings-card settings-card-wide"')
+        self.assertContains(response, "grid-template-columns:repeat(2,minmax(0,1fr))")
+        self.assertContains(response, "settings-logo-card")
+        self.assertContains(response, 'class="organization-settings-layout"')
+        self.assertContains(response, ".organization-settings-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))")
+        self.assertContains(response, ".organization-settings-form{display:contents}")
+        self.assertContains(response, ".organization-settings-form>section.settings-card:first-of-type{grid-column:1;grid-row:1}")
+        self.assertContains(response, ".settings-logo-card{display:grid;grid-column:2;grid-row:1")
+        self.assertContains(response, "@media(max-width:700px){.organization-settings-layout{grid-template-columns:minmax(0,1fr)}")
+        self.assertContains(response, ".settings-logo-card{display:grid;grid-column:2;grid-row:1;grid-template-columns:minmax(0,1fr);width:100%")
+        self.assertContains(response, "Logo zurücksetzen")
+        self.assertContains(response, 'value="reset_logo"')
+        self.assertContains(response, "Neues Logo auswählen")
+        self.assertContains(response, "grid-template-columns:minmax(0,1fr)")
+        self.assertContains(response, "settings-logo-actions")
+        self.assertContains(response, ".settings-logo-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))")
+        self.assertContains(response, ".settings-logo-preview img{display:block;width:100%;max-width:100%;max-height:140px")
+        self.assertContains(response, '.settings-logo-form input[type="file"]{display:block;width:100%;max-width:100%;min-width:0')
+        self.assertContains(response, 'alt="Aktuelles Organisationslogo"')
+        self.assertNotContains(response, 'type="checkbox"')
+        self.assertNotContains(response, "Optionales Organisationslogo für die Seitenleiste")
+        self.assertRegex(response.content.decode(), r'<input[^>]*type="number"[^>]*name="retention_years"|<input[^>]*name="retention_years"[^>]*type="number"')
+        self.assertContains(response, 'min="1"')
+        for field_name in (
+            "logo",
+            "name",
+            "short_name",
+            "timezone",
+            "start_password",
+            "attachment_max_size_mb",
+            "retention_years",
+            "primary_color",
+            "primary_color_light",
+            "primary_color_dark",
+            "secondary_color",
+            "secondary_color_light",
+            "secondary_color_dark",
+            "tertiary_color",
+            "tertiary_color_light",
+            "tertiary_color_dark",
+        ):
+            self.assertContains(response, f'name="{field_name}"')
+        self.assertContains(response, 'value="save_logo"')
+        self.assertContains(response, "Einstellungen speichern")
+        self.assertContains(response, "timezone-live-preview")
+
+
+    def test_admin_can_reset_organization_logo_with_dedicated_button(self):
+        setting = OrganizationSettings.objects.create(
+            name="Fachbereich Logo",
+            logo=SimpleUploadedFile("organization-logo.png", b"logo-bytes", content_type="image/png"),
+            logo_png=SimpleUploadedFile("organization-logo-converted.png", b"png-bytes", content_type="image/png"),
+        )
+        logo_name = setting.logo.name
+        logo_png_name = setting.logo_png.name
+        admin_user = get_user_model().objects.create_user(
+            username="settings-logo-reset-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        admin_user.groups.add(admin_group)
+        self.client.force_login(admin_user)
+
+        response = self.client.post(reverse("management_settings"), {"action": "reset_logo"})
+
+        self.assertRedirects(response, reverse("management_settings"))
+        setting.refresh_from_db()
+        self.assertFalse(setting.logo)
+        self.assertFalse(setting.logo_png)
+        self.assertFalse(setting.logo.storage.exists(logo_name))
+        self.assertFalse(setting.logo_png.storage.exists(logo_png_name))
+        event = AuditEvent.objects.filter(summary="Organisationslogo zurückgesetzt").latest("pk")
+        self.assertEqual(event.actor, admin_user)
+        self.assertEqual(event.changes["Organisationslogo"]["nachher"], "Kein Logo")
+
     def test_settings_are_a_single_global_record(self):
         first = OrganizationSettings.objects.create(name="Fachbereich 20")
         second = OrganizationSettings(name="Fachbereich 30")
@@ -39,6 +132,7 @@ class OrganizationSettingsTests(TestCase):
             "short_name": setting.short_name,
             "timezone": setting.timezone,
             "start_password": "einfach",
+            "retention_years": setting.retention_years,
             "attachment_max_size_mb": setting.attachment_max_size_mb,
             "primary_color": setting.primary_color,
             "primary_color_light": setting.primary_color_light,
@@ -58,6 +152,58 @@ class OrganizationSettingsTests(TestCase):
         self.assertNotIn("einfach", str(event.changes))
         self.assertEqual(event.changes["Startpasswort"]["nachher"], "Geändert")
 
+    def test_retention_setting_asks_before_changing_existing_archived_topics(self):
+        setting = OrganizationSettings.objects.create(
+            name="Fachbereich 10", retention_years=10
+        )
+        topic = Topic.objects.create(
+            title="Bereits archiviert", status="archived",
+            archived_at=date(2026, 8, 23),
+        )
+        admin_user = get_user_model().objects.create_user(
+            username="retention-admin", password="strong-test-password"
+        )
+        admin_group, _ = Group.objects.get_or_create(name="Admin")
+        admin_user.groups.add(admin_group)
+        self.client.force_login(admin_user)
+        payload = {
+            "name": setting.name,
+            "short_name": setting.short_name,
+            "timezone": setting.timezone,
+            "start_password": setting.start_password,
+            "retention_years": "5",
+            "attachment_max_size_mb": str(setting.attachment_max_size_mb),
+            "primary_color": setting.primary_color,
+            "primary_color_light": setting.primary_color_light,
+            "primary_color_dark": setting.primary_color_dark,
+            "secondary_color": setting.secondary_color,
+            "secondary_color_light": setting.secondary_color_light,
+            "secondary_color_dark": setting.secondary_color_dark,
+            "tertiary_color": setting.tertiary_color,
+            "tertiary_color_light": setting.tertiary_color_light,
+            "tertiary_color_dark": setting.tertiary_color_dark,
+        }
+
+        response = self.client.post(reverse("management_settings"), payload)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["show_retention_confirmation"])
+        setting.refresh_from_db()
+        topic.refresh_from_db()
+        self.assertEqual(setting.retention_years, 10)
+        self.assertIsNone(topic.retention_years)
+
+        response = self.client.post(
+            reverse("management_settings"),
+            {**payload, "retention_change_decision": "keep"},
+        )
+
+        self.assertRedirects(response, reverse("management_settings"))
+        setting.refresh_from_db()
+        topic.refresh_from_db()
+        self.assertEqual(setting.retention_years, 5)
+        self.assertEqual(topic.retention_years, 10)
+
     def test_auditor_cannot_read_start_password(self):
         setting = OrganizationSettings.objects.create(name="Fachbereich 10", start_password="streng-geheim")
         auditor = get_user_model().objects.create_user(
@@ -71,6 +217,11 @@ class OrganizationSettingsTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "streng-geheim")
+        self.assertNotContains(response, "Startpasswort")
+        self.assertContains(response, "Aufbewahrung und Löschung")
+        self.assertContains(response, "Abweichende Farben für den Hellmodus")
+        self.assertContains(response, "Abweichende Farben für den Dunkelmodus")
+        self.assertContains(response, "Maximale Anlagengröße")
         self.assertIn("start_password", response.context["settings"].get_deferred_fields())
 
         overview = self.client.get(reverse("auditor_overview"))

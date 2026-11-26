@@ -89,6 +89,8 @@ class Topic(models.Model):
     completed_at = models.DateField("Abschlussdatum", null=True, blank=True)
     completion_note = models.TextField("Abschlussvermerk", blank=True)
     archive_previous_status = models.CharField("Status vor Archivierung", max_length=12, blank=True)
+    archived_at = models.DateField("Archiviert am", null=True, blank=True)
+    retention_years = models.PositiveSmallIntegerField("Löschfrist (Jahre)", null=True, blank=True, validators=[MinValueValidator(1)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -157,6 +159,31 @@ class TopicSnapshot(models.Model):
     def get_status_display(self):
         """Use the same human-readable labels as live agenda items."""
         return dict(AgendaItem.STATUS).get(self.status, self.status)
+
+
+class RetainedAgendaEntry(models.Model):
+    """Agenda content retained with its topic after the original meeting expires."""
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="retained_agenda_entries")
+    original_meeting_id = models.PositiveBigIntegerField(db_index=True)
+    original_series_id = models.PositiveBigIntegerField(null=True, blank=True, db_index=True)
+    access_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, related_name="retained_agenda_entries",
+    )
+    meeting_date = models.DateField("Ursprünglicher Besprechungstermin")
+    series_name = models.CharField("Ursprüngliche Besprechungsreihe", max_length=160, blank=True)
+    working_text = models.TextField(blank=True)
+    status = models.CharField(max_length=12, choices=AgendaItem.STATUS, default="open")
+    responsible_name = models.CharField(max_length=255, blank=True)
+    position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["-meeting_date", "position", "pk"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["topic", "original_meeting_id"],
+                name="unique_retained_agenda_topic_meeting",
+            )
+        ]
 
 
 class TopicAttachment(models.Model):
@@ -326,6 +353,11 @@ class OrganizationSettings(models.Model):
     start_password = models.TextField(
         "Startpasswort", default="Neu",
         help_text="Wird bei passwortloser Benutzeranlage, Passwort-Reset und Freischaltung verwendet.",
+    )
+    retention_years = models.PositiveSmallIntegerField(
+        "Zentrale Aufbewahrungsfrist (Jahre)", default=10,
+        validators=[MinValueValidator(1)],
+        help_text="Gilt einheitlich für abgeschlossene Besprechungstermine und deren Protokolle. Zugleich Standard für archivierte Themen; einzelne Themen können eine abweichende Frist erhalten.",
     )
     attachment_max_size_mb = models.PositiveSmallIntegerField(
         "Maximale Dateigröße für Anlagen (MB)", default=20,

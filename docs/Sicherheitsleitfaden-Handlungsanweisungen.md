@@ -13,7 +13,7 @@ Dieses Kapitel richtet sich an Personen, die Server, Reverse Proxy, Container, D
 
 ### 1.1 Installation und HTTPS-Zugang absichern
 
-- Den vorgesehenen Installer für Debian/Ubuntu oder Docker verwenden und die Installation vollständig abschließen. Die Installer setzen die Django-Sicherheitsoptionen für HTTPS, Session-Cookies und CSRF-Cookies sowie die Proxy-Vertrauenskonfiguration.
+- Den vorgesehenen Installer für Debian/Ubuntu oder Docker verwenden und die Installation vollständig abschließen. Standardmäßig erzeugt der Installer einen kryptografisch zufälligen Aktivierungstoken für den Ersteinrichtungsassistenten, speichert ihn geschützt in `.env` und gibt ihn einmalig in der Konsole aus. Den Token vertraulich behandeln und bei der Ersteinrichtung eingeben. Nur wenn ausdrücklich auf den Token verzichtet werden soll, die dokumentierte Option `-nocode` verwenden; diese Entscheidung erhöht das Risiko einer ungeschützten Erstanlage und erfordert eine entsprechend abgeschottete Erreichbarkeit. Die Installer setzen außerdem die Django-Sicherheitsoptionen für HTTPS, Session-Cookies und CSRF-Cookies sowie die Proxy-Vertrauenskonfiguration.
 - Vor der Freigabe einen HTTPS-Reverse-Proxy mit gültigem Zertifikat auf demselben Host einrichten. Die Installer richten nicht automatisch den TLS-Proxy und das Zertifikat ein.
 - Den öffentlichen Zugriff ausschließlich über HTTPS zulassen. HTTP muss auf HTTPS umleiten; die Anwendung darf nicht direkt über einen unverschlüsselten, aus nicht vertrauenswürdigen Netzen erreichbaren Port angeboten werden.
 - Bei Docker den veröffentlichten Web-Port standardmäßig nur an `127.0.0.1:8080` binden. Den Reverse Proxy auf demselben Host betreiben und auf `http://127.0.0.1:8080` weiterleiten. Den App-Port 8000 und PostgreSQL niemals öffentlich veröffentlichen.
@@ -102,7 +102,7 @@ Die aktuelle Repository-Version stellt **keinen vollständigen automatisierten O
 3. **Vor dem Erfassen von Inhalten:** Prüfen Sie den fachlichen Zweck und beschränken Sie Einträge auf erforderliche Informationen. Zugangsdaten und nicht freigegebene sensible Angaben gehören niemals in Besprechungsinhalte oder Anlagen.
 4. **Vor dem Upload:** Prüfen Sie Empfänger\*innenkreis, Dateiendung und Herkunft. Laden Sie nur die freigegebenen Formate hoch. Öffnen Sie verdächtige Dateien nicht; melden Sie sie dem IT-Support. Eine erlaubte Endung ist kein Sicherheitsnachweis für den Dateiinhalt.
 5. **Vor dem Teilen oder Exportieren:** Prüfen Sie jede empfangende Person und jeden Zielort. Geben Sie Inhalte nur an Personen weiter, die sie für ihre Aufgabe benötigen und berechtigt sind.
-6. **Vor dem Abschluss einer Besprechung:** Prüfen Sie Tagesordnung, Zuständigkeiten und Protokoll auf Richtigkeit und Datenminimierung. Bedenken Sie, dass ein historischer Protokoll-Snapshot erhalten bleibt.
+6. **Vor dem Abschluss einer Besprechung:** Prüfen Sie Tagesordnung, Zuständigkeiten und Protokoll auf Richtigkeit und Datenminimierung. Bedenken Sie, dass ein historischer Protokoll-Snapshot bis zum Ablauf der konfigurierten Aufbewahrungsfrist erhalten bleibt.
 7. **Nach der Nutzung:** Melden Sie sich an gemeinsam genutzten Geräten ab und sperren Sie den Bildschirm. Melden Sie verdächtige Aktivitäten unverzüglich über den festgelegten Meldeweg.
 
 **Abbruchregel:** Wenn Berechtigung, Empfänger\*innenkreis, Dateisicherheit oder Zulässigkeit eines Inhalts unklar ist, führen Sie die Handlung nicht aus. Fragen Sie die zuständige Moderation oder Administration.
@@ -196,7 +196,7 @@ Dieses Kapitel richtet sich an Personen mit globalen Adminrechten. Adminrechte s
 ### 3.2 Serienberechtigungen verantwortungsvoll verwalten
 
 - Für jede Reihe eine fachlich verantwortliche Person benennen und die Mitgliederliste regelmäßig durch diese bestätigen lassen.
-- Nur die erforderliche Serienrolle vergeben: Leser\*in für Lesezugriff, Teilnehmer\*in für laufende Mitarbeit, Moderator\*in nur für tatsächliche Reihenverwaltung.
+- Nur die erforderliche Serienrolle vergeben: Leser\*in für Lesezugriff, Teilnehmer\*in für laufende Mitarbeit, Moderator\*in nur für tatsächliche Reihenverwaltung. Moderator\*innen verwalten die Rollen anderer Mitglieder über „Besprechungsreihen“ → „Reihe verwalten“ → „Benutzer verwalten“; die eigene Moderatorberechtigung kann nicht geändert oder entzogen werden.
 - Bei Änderungen der Organisation oder Aufgabenverteilung Serienzuweisungen sofort aktualisieren.
 - Beachten, dass globale Adminrechte allein keinen fachlichen Zugriff auf eine Reihe gewähren. Für die eigene Einsichtnahme ist eine explizite Serienzuweisung erforderlich.
 - Bei Supportfällen keine Serienzuweisung nur aus Bequemlichkeit vergeben. Stattdessen die betroffene Person bzw. die zuständige Moderator\*in um Prüfung bitten.
@@ -252,7 +252,7 @@ Dieses Kapitel richtet sich an Personen mit der globalen Rolle Auditor\*in. Audi
 
 - Den Audit-Zugriff ausschließlich für festgelegte Prüfaufträge und nachvollziehbare Kontrollzwecke verwenden.
 - Beachten, dass Auditor\*innen ausschließlich Systemereignisse einsehen und exportieren können. Besprechungsreihen, Tagesordnungspunkte, Kommentare und Anlagen gehören nicht zum Auditor\*innen-Zugriff.
-- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen lesend prüfen. Änderungen müssen durch die zuständigen Administrator\*innen erfolgen.
+- Auditor\*innen können Benutzerkonten, globale Rollen, Serienzuordnungen und Organisationseinstellungen einschließlich Aufbewahrungsfrist und Markenfarben lesend prüfen. Das konfigurierte Startpasswort ist von der Auditor-Ansicht ausgeschlossen. Änderungen müssen durch die zuständigen Administrator\*innen erfolgen.
 - Keine fachlichen Serienberechtigungen anfordern, um den eingeschränkten Prüfzugriff zu umgehen. Wenn eine fachliche Prüfung erforderlich ist, muss sie gesondert legitimiert und über einen geeigneten Prozess organisiert werden.
 - Die Auditor\*innen-Rolle nicht mit globalen Adminrechten kombinieren. Administrator\*in- und Superuser-Rechte sind keine Auditor\*innen-Rechte und erweitern den Zugriff erheblich.
 

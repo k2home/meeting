@@ -7,8 +7,8 @@
 </style>
 
 <div class="page-header"><div><h1>Nutzerverwaltung</h1><p class="muted">Benutzerkonten, globale Rollen und Serienzuordnungen</p></div><div class="page-header-actions"><a class="btn secondary" href="{% url 'management_home' %}">Zur Verwaltung</a><a class="btn secondary" href="{% url 'management_data' %}">CSV-Import / Export</a><a class="btn primary" href="{% url 'management_user_new' %}">Nutzer hinzufügen</a></div></div>
-<div class="card"><div style="overflow-x:auto"><table id="management-users-table"><thead><tr><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="0" aria-label="Nach Name sortieren">Name <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="1" aria-label="Nach Anmeldename sortieren">Anmeldename <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="2" aria-label="Nach E-Mail sortieren">E-Mail <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="3" aria-label="Nach Status sortieren">Status <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="4" aria-label="Nach Rolle sortieren">Rolle <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="5" aria-label="Nach letzter Anmeldung sortieren">Letzte Anmeldung <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="6" aria-label="Nach Erstellungsdatum sortieren">Erstellt am <span aria-hidden="true">↕</span></button></th><th></th></tr></thead><tbody>
-{% for item in users %}<tr><td>{{ item.account|user_display }}</td><td>{{ item.account.username }}</td><td>{{ item.account.email|default:"–" }}</td><td>{% if item.account.is_active %}<span class="pill">Aktiv</span>{% else %}<span class="pill">Deaktiviert</span>{% endif %}</td><td>{{ item.role_label }}</td><td data-sort-value="{{ item.account.last_login|date:'U' }}">{{ item.account.last_login|date:"d.m.Y, H:i"|default:"Noch nie" }}</td><td data-sort-value="{{ item.account.date_joined|date:'U' }}">{{ item.account.date_joined|date:"d.m.Y, H:i" }}</td><td><a class="btn secondary" href="{% url 'management_user_edit' item.account.pk %}">Bearbeiten</a></td></tr>{% empty %}<tr><td colspan="8">Noch keine Nutzer vorhanden.</td></tr>{% endfor %}
+<div class="card"><div style="overflow-x:auto"><table id="management-users-table"><thead><tr><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="0" aria-label="Nach Name sortieren">Name <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="1" aria-label="Nach Anmeldename sortieren">Anmeldename <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="2" aria-label="Nach Organisationskennzeichen sortieren">Organisationskennzeichen <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="3" aria-label="Nach E-Mail sortieren">E-Mail <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="4" aria-label="Nach Status sortieren">Status <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="5" aria-label="Nach Rolle sortieren">Rolle <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="6" aria-label="Nach letzter Anmeldung sortieren">Letzte Anmeldung <span aria-hidden="true">↕</span></button></th><th aria-sort="none"><button type="button" class="table-sort-button" data-sort-column="7" aria-label="Nach Erstellungsdatum sortieren">Erstellt am <span aria-hidden="true">↕</span></button></th><th></th></tr></thead><tbody>
+{% for item in users %}<tr><td>{{ item.account|user_display }}</td><td>{{ item.account.username }}</td><td>{{ item.organization_label|default:"–" }}</td><td>{{ item.account.email|default:"–" }}</td><td>{% if item.account.is_active %}<span class="pill">Aktiv</span>{% else %}<span class="pill">Deaktiviert</span>{% endif %}</td><td>{{ item.role_label }}</td><td data-sort-value="{{ item.account.last_login|date:'U' }}">{{ item.account.last_login|date:"d.m.Y, H:i"|default:"Noch nie" }}</td><td data-sort-value="{{ item.account.date_joined|date:'U' }}">{{ item.account.date_joined|date:"d.m.Y, H:i" }}</td><td><a class="btn secondary" href="{% url 'management_user_edit' item.account.pk %}">Bearbeiten</a></td></tr>{% empty %}<tr><td colspan="9">Noch keine Nutzer vorhanden.</td></tr>{% endfor %}
 </tbody></table></div></div>
 
 <!-- management-users-live-search -->
@@ -21,7 +21,7 @@
   const input = document.createElement("input");
   input.type = "search";
   input.id = "management-user-search";
-  input.placeholder = "Name, Anmeldename oder E-Mail suchen …";
+  input.placeholder = "Name, Anmeldename, Organisationskennzeichen oder E-Mail suchen …";
   input.setAttribute("aria-label", "Nutzer suchen");
   input.setAttribute("aria-controls", table.id);
 
@@ -68,8 +68,8 @@
     let visibleCount = 0;
 
     rows.forEach(row => {
-      // Only the first three cells are searchable: name, username and email.
-      const searchableText = [0, 1, 2]
+      // Search name, username, organization label and email.
+      const searchableText = [0, 1, 2, 3]
         .map(index => row.cells[index]?.textContent || "")
         .join(" ")
         .toLocaleLowerCase("de");

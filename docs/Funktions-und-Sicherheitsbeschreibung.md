@@ -51,7 +51,7 @@ Das Modell kombiniert eine globale Rolle und unabhängige Berechtigungen je Besp
 |---|---|
 | **Nutzer\*innen** | Standardrolle. Fachlicher Zugriff ausschließlich auf ausdrücklich zugewiesene Besprechungsreihen und gemäß der dortigen Serienrolle. |
 | **Admin** | Globale Verwaltungsrechte für Benutzerkonten, globale Rollen, Serienzuweisungen und Organisationseinstellungen sowie administrative Funktionen. Kein automatischer Zugriff auf fachliche Reiheninhalte. Fachliche Aktionen und Reiheninhalte setzen eine passende Serienzuweisung voraus. |
-| **Auditor\*in** | Lesender Zugriff auf administrative Prüfdaten: System-Änderungsverlauf, Benutzerkonten und Rollen-/Serienzuordnungen sowie Organisationseinstellungen. Kein Zugriff auf Besprechungsreihen oder fachliche Besprechungsinhalte und keine Änderungsrechte. |
+| **Auditor\*in** | Lesender Zugriff auf administrative Prüfdaten: System-Änderungsverlauf, Benutzerkonten und Rollen-/Serienzuordnungen sowie Organisationseinstellungen einschließlich Aufbewahrungsfrist und Markenfarben. Das Startpasswort ist ausgeschlossen. Kein Zugriff auf Besprechungsreihen oder fachliche Besprechungsinhalte und keine Änderungsrechte. |
 
 Django-Superuser werden als globale Administrator\*innen behandelt. Die Admin-Gruppe wird mit dem Django-Staff-Status synchronisiert. Die Auditor\*innen-Rolle ist gegenüber Administrator\*in nachrangig: Ein Konto mit Administrator\*in- oder Superuser-Rechten wird nicht als Auditor\*in behandelt.
 
@@ -63,11 +63,11 @@ Django-Superuser werden als globale Administrator\*innen behandelt. Die Admin-Gr
 | **Teilnehmer\*in** | Zusätzlich Themen und Tagesordnungspunkte bearbeiten, Zuständigkeiten setzen, kommentieren, Anlagen ergänzen, Wiedervorlagen verwalten, Teilnehmer\*innenlisten bearbeiten und Besprechungen abschließen. Keine Reihenverwaltung und kein Wiederöffnen abgeschlossener Besprechungen. |
 | **Moderator\*in** | Zusätzlich Besprechungsreihe und Termine verwalten, Themen archivieren/wieder öffnen, abgeschlossene Besprechungen wieder öffnen und den Änderungsverlauf der eigenen moderierten Reihe einsehen. |
 
-Nutzer\*innen können in verschiedenen Reihen unterschiedliche Rollen besitzen. Eine Moderator\*innenrolle in einer Reihe verleiht keine Rechte in einer anderen Reihe.
+Nutzer\*innen können in verschiedenen Reihen unterschiedliche Rollen besitzen. Eine Moderator\*innenrolle in einer Reihe verleiht keine Rechte in einer anderen Reihe. Moderator\*innen können die Serienrollen anderer Benutzer\*innen in der eigenen Reihe verwalten; die eigene Moderatorzuweisung ist in der Serienverwaltung und den persönlichen Einstellungen gegen Änderung und Entzug gesperrt.
 
 ### 3.3 Historische Zugriffe und Änderungsverlauf
 
-Wird eine Besprechungsreihe gelöscht, bleiben historische Termine und Protokolle standardmäßig erhalten. Die früheren Reihenmitglieder erhalten für diese erhaltenen Inhalte einen gesonderten Lesezugriff. Eine ausdrücklich gewählte endgültige Löschung kann abgeschlossene Besprechungen und Protokolle zusätzlich entfernen.
+Wird eine Besprechungsreihe gelöscht, bleiben historische Termine und Protokolle zunächst erhalten. Die früheren Reihenmitglieder erhalten für noch vorhandene Inhalte einen gesonderten Lesezugriff. Abgeschlossene Besprechungstermine und Protokoll-Snapshots werden nach Ablauf der globalen Organisationsfrist automatisch gelöscht. Tagesordnungstexte bleiben bis zum Ablauf der unabhängigen Themenfrist erhalten; archivierte Themen werden zum berechneten Löschdatum vollständig entfernt. Eine ausdrücklich gewählte endgültige Löschung kann abgeschlossene Besprechungen und Protokolle zusätzlich entfernen.
 
 Der Änderungsverlauf ist in zwei Bereiche getrennt:
 
@@ -121,7 +121,7 @@ Die konkrete technische Umsetzung eines signierten Offline-Updatepakets bzw. ein
 
 ## 5. Bereits vorhandene Sicherheitskontrollen
 
-Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsdateien erkennbar. Sie ersetzen nicht die Prüfung der tatsächlich betriebenen Instanz.
+Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsdateien erkennbar. Sie ersetzen nicht die Prüfung der tatsächlich betriebenen Instanz. Die Ersteinrichtung wird standardmäßig durch einen kryptografisch zufälligen Aktivierungstoken geschützt, den die Installer erzeugen und nur einmalig in der Installationskonsole ausgeben; die tokenfreie Variante ist eine bewusste Ausnahme über `-nocode` und muss durch eine entsprechend abgeschottete Erreichbarkeit kompensiert werden.
 
 | Bereich | Vorhandene Kontrolle | Einordnung |
 |---|---|---|

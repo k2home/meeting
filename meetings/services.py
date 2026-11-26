@@ -49,8 +49,8 @@ def _monthly_weekday(year, month, weekday, occurrence):
 
 
 @transaction.atomic
-def generate_meetings(series):
-    """Reconcile future draft meetings and move agenda items to the nearest new date."""
+def generate_meetings(series, include_past=False):
+    """Reconcile draft meetings; optionally generate the full series including past dates."""
     from datetime import date
 
     today = timezone.localdate()
@@ -66,7 +66,7 @@ def generate_meetings(series):
     occurrence = (cursor.day - 1) // 7 + 1
     desired_dates = []
     while cursor <= end_date:
-        if cursor >= today:
+        if include_past or cursor >= today:
             desired_dates.append(cursor)
         if series.recurrence in ("weekly", "biweekly"):
             cursor += timedelta(days=7 * interval * (2 if series.recurrence == "biweekly" else 1))

@@ -45,7 +45,7 @@ class StyledConfirmationDialogTests(SimpleTestCase):
             "templates/meetings/meeting.html": "Besprechung wirklich abschließen?",
             "templates/meetings/series_edit.html": "Alle nicht abgeschlossenen Termine dieser Reihe löschen",
             "templates/meetings/series.html": "Die Terminreihe „{{ s.name }}“ bis zum 31.12. des Folgejahres verlängern?",
-            "templates/meetings/topic_form.html": "Thema „{{ topic.title }}“ in die ausgewählte Besprechungsreihe übertragen?",
+            "templates/meetings/topic_form.html": "Thema „{{ topic.title }}“ wirklich archivieren?",
             "templates/admin/auth/group/change_list.html": "data-confirm-message=",
         }
         expected["templates/meetings/meeting.html"] = "Der aktuelle Protokoll-Snapshot wird aus der aktiven Ansicht entfernt"

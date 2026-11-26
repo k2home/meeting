@@ -17,6 +17,7 @@ Django-Anwendung zur Verwaltung wiederkehrender Besprechungen, offener Themen, T
 - [Benutzer und Serienzuweisungen verwalten](#benutzer-und-serienzuweisungen-verwalten)
 - [Verwaltungsoberfläche](#verwaltungsoberfläche)
 - [Updates und Betrieb](#updates-und-betrieb)
+- [TESTING-Modus](#testing-modus)
 - [Arbeitsabläufe in der Anwendung](#arbeitsabläufe-in-der-anwendung)
 - [Netzwerkfreigaben und Anlagen](#netzwerkfreigaben-und-anlagen)
 - [Backup und Wiederherstellung](#backup-und-wiederherstellung)
@@ -62,7 +63,7 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
    sudo bash deploy/install-docker.sh
    ```
 
-   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Ein Aktivierungs- oder Einrichtungscode ist nicht erforderlich. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
+   Das Skript fragt nur nach dem Hostnamen bzw. der IP-Adresse. `SECRET_KEY` und Datenbankpasswort werden automatisch kryptografisch zufällig erzeugt und mit restriktiven Dateirechten in `.env` gespeichert. Der Installer erzeugt standardmäßig einen kryptografisch zufälligen Aktivierungstoken, speichert ihn geschützt in `.env` und gibt ihn nach Abschluss einmal in der Konsole aus. Diesen Token im Ersteinrichtungsassistenten eingeben. Nur wenn die Installation ausdrücklich ohne Token erfolgen soll, `sudo bash deploy/install-docker.sh -nocode` verwenden. Der Installer richtet den eingeschränkten Host-Updater ein, lädt die Images und startet die Container.
 
 4. Der Web-Port wird standardmäßig ausschließlich an `127.0.0.1:8080` gebunden und ist nicht direkt aus dem Netzwerk erreichbar. Einen HTTPS-Reverse-Proxy auf demselben Host einrichten und auf `http://127.0.0.1:8080` weiterleiten. Danach die Anwendung über `https://<HOSTNAME>/` öffnen.
 
@@ -86,7 +87,7 @@ docker compose -f docker/compose.yaml restart app
 sudo systemctl status meeting-manager-docker-updater.service
 ```
 
-Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
+Vor Updates Datenbank und Upload-Volume sichern. Ein neues Image wird automatisch gebaut und veröffentlicht, wenn Änderungen in `beta` oder `main` übernommen werden. Das laufende System aktualisiert sich nicht selbstständig. Für die automatische Aufbewahrungsprüfung läuft zusätzlich der Compose-Dienst `retention`; er löscht täglich abgelaufene archivierte Themen sowie abgeschlossene Besprechungstermine und deren Protokolle nach der globalen Organisationsfrist. Für eine Installation aus GHCR kann `MEETING_IMAGE=ghcr.io/k2home/meeting:latest` in der `.env` gesetzt werden. Das Standardimage bleibt `docker.io/k2hadocker/meeting-manager:latest`. Netzwerkfreigaben (z. B. SMB/NFS) müssen auf dem Docker-Host eingebunden und bei Bedarf gezielt als zusätzliche Bind-Mounts in den Anwendungscontainer eingebunden werden.
 
 ### Debian / Ubuntu mit systemd und Nginx
 
@@ -125,9 +126,9 @@ Anschließend fragt der Installer nach dem Hostnamen bzw. der IP-Adresse und der
    sudo bash deploy/install-debian.sh
    ```
 
-3. Hostnamen bzw. IP-Adresse und die IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY` und Datenbankpasswort, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus. Für Django 6.1 wird CPython 3.12 verwaltet unter `/opt/meeting-manager-updater/python` installiert (über `uv` und python-build-standalone); das System-Python von Debian 12 bleibt unverändert. Der lokale Nginx-Zugriff wird auf die angegebene Proxy-Adresse begrenzt; HTTPS-Redirect und sichere Cookies werden erzwungen.
+3. Hostnamen bzw. IP-Adresse und die IP-Adresse/CIDR des vorgeschalteten HTTPS-Reverse-Proxys eingeben. Das Skript installiert PostgreSQL, Nginx und Python-Abhängigkeiten, erzeugt automatisch `SECRET_KEY`, Datenbankpasswort und einen Aktivierungstoken, richtet die virtuelle Umgebung und den systemd-Dienst ein und führt Migrationen sowie `collectstatic` aus. Den Aktivierungstoken gibt es am Ende in der Konsole aus; er wird im Ersteinrichtungsassistenten abgefragt. Für eine ausdrücklich tokenfreie Installation `sudo bash deploy/install-debian.sh -nocode` verwenden. Für Django 6.1 wird CPython 3.12 verwaltet unter `/opt/meeting-manager-updater/python` installiert (über `uv` und python-build-standalone); das System-Python von Debian 12 bleibt unverändert. Der lokale Nginx-Zugriff wird auf die angegebene Proxy-Adresse begrenzt; HTTPS-Redirect und sichere Cookies werden erzwungen.
 
-4. Zuerst den HTTPS-Reverse-Proxy mit gültigem Zertifikat konfigurieren. Er muss auf Port 8080 dieses Servers weiterleiten (bei lokalem Proxy z. B. `http://127.0.0.1:8080`) und `X-Forwarded-Proto: https` setzen sowie eingehende Forwarded-Header überschreiben. Danach `https://<HOSTNAME>/` im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird das erste Administratorkonto ohne zusätzlichen Aktivierungscode angelegt; anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
+4. Zuerst den HTTPS-Reverse-Proxy mit gültigem Zertifikat konfigurieren. Er muss auf Port 8080 dieses Servers weiterleiten (bei lokalem Proxy z. B. `http://127.0.0.1:8080`) und `X-Forwarded-Proto: https` setzen sowie eingehende Forwarded-Header überschreiben. Danach `https://<HOSTNAME>/` im Browser öffnen. Der Browser-Ersteinrichtungsassistent startet automatisch, solange noch kein Benutzerkonto existiert. Dort wird der vom Installer ausgegebene Aktivierungstoken eingegeben und damit das erste Administratorkonto angelegt; bei einer ausdrücklich tokenfreien Installation mit `-nocode` entfällt diese Abfrage. Anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller `createsuperuser`-Befehl ist nicht erforderlich. Während der Ersteinrichtung darf die Anwendung nur im vertrauenswürdigen internen Netz bzw. für den einrichtenden Administrator erreichbar sein, da das erste Konto globale Administratorrechte erhält. Sobald es angelegt ist, wird die öffentliche Erstanlage automatisch gesperrt.
 
 
 Die Datei `/opt/meeting-manager/.env` enthält die automatisch generierten Infrastruktur-Secrets und ist nur für `root` und die Gruppe `www-data` lesbar. Sie darf nicht öffentlich geteilt oder in Git eingecheckt werden. Gunicorn lauscht nur auf `127.0.0.1:8000`; Nginx nimmt HTTP-Verbindungen auf Port 8080 entgegen.
@@ -167,7 +168,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
 - Moderator*innen verwalten ausschließlich die ihnen zugewiesenen Besprechungsreihen. Admins können neue Reihen anlegen und dabei einen ersten Moderator festlegen; die laufende fachliche Verwaltung einer bestehenden Reihe setzt eine eigene Moderatorzuweisung voraus.
-- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder lesbar; Admins behalten den globalen Zugriff.
+- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder bis zum Ablauf ihrer Aufbewahrungsfrist lesbar; danach werden Protokoll-Snapshots automatisch gelöscht. Admins behalten den globalen Zugriff auf noch vorhandene Inhalte.
 
 ### Themen und Aufgaben
 
@@ -199,9 +200,10 @@ Anlage und Umbenennung von Themen, Themenarchivierung und -wiederöffnung, Theme
 - Integrierte Verwaltungsoberfläche unter `/verwaltung/` für Benutzerkonten, Serienberechtigungen, Organisationseinstellungen und Datenimport/-export.
 - Benutzerkonten können angelegt, bearbeitet und aktiviert bzw. deaktiviert werden. Letzte Anmeldung und Erstellungszeitpunkt werden angezeigt.
 - Passwörter bestehender Benutzerkonten werden ausschließlich über einen E-Mail-Reset-Link zurückgesetzt; ein direktes Setzen oder Auslesen fremder Passwörter ist nicht vorgesehen.
+- Moderator*innen können im Bereich „Reihe verwalten“ über „Benutzer verwalten“ die Leser-, Teilnehmer- und Moderatorrechte für ihre jeweilige Reihe gesammelt ändern und mit „Alle speichern“ übernehmen. Die Kopfzeile bleibt beim Scrollen sichtbar. Organisationskennzeichen, Vorname, Nachname und Rolle stehen in eigenen sortierbaren Spalten. Die Rollenreihenfolge lautet Moderator*innen, Teilnehmer*innen, Leser*innen und Personen ohne Berechtigung; innerhalb jeder Rolle wird zunächst nach Organisationskennzeichen sortiert. Die eigene Moderatorberechtigung ist dort und in den persönlichen Benutzereinstellungen gesperrt.
 - Besprechungsreihen-Zuordnungen und die Rollen Leser*in, Teilnehmer*in und Moderator*in können direkt im Nutzerprofil verwaltet werden. Serienzuweisungen lassen sich außerdem suchen und filtern.
 - CSV-Import und -Export für Benutzerkonten sowie für Themen und Tagesordnungspunkte sind in die Verwaltungsoberfläche integriert. Benutzer-CSV sowie Vollbackup-/Restore-Funktionen sind globalen Admin-Konten vorbehalten. Themen-CSV-Import und -Export stehen ausschließlich Moderator*innen für ihre ausdrücklich moderierten Reihen zur Verfügung; globale Adminrechte allein reichen dafür nicht. Der Themenimport bietet eine Vorschau; eine Muster-CSV steht bereit.
-- Organisationseinstellungen umfassen Name, Kurzname, Zeitzone, Anlagenlimit und das Farbschema mit validierten HEX-Farbwerten.
+- Organisationseinstellungen umfassen Name, Kurzname, Zeitzone, Anlagenlimit, zentrale Aufbewahrungsfrist und das Farbschema mit Grundfarben sowie optionalen Hell-/Dunkelmodus-Abweichungen. Auditoren können diese Angaben lesend prüfen; das Startpasswort bleibt ausschließlich Administratoren vorbehalten.
 
 ## Rollen und Berechtigungen
 
@@ -240,7 +242,7 @@ Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“
 | Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
 | Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
 
-**Themenarchiv:** Archivieren und Wiederöffnen ist ausschließlich Moderator*innen der jeweiligen Reihe vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus, löscht aber weder Thema noch Protokollhistorie. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
+**Themenarchiv und Aufbewahrung:** Archivieren und Wiederöffnen ist ausschließlich Moderator*innen der jeweiligen Reihe vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus; das Thema und seine Protokollhistorie bleiben bis zum berechneten Löschdatum erhalten. Die globale Aufbewahrungsfrist aus den Organisationseinstellungen gilt einheitlich für abgeschlossene Besprechungstermine und Protokolle, unabhängig von den enthaltenen Themen. Der Standard für archivierte Themen kann je Thema überschrieben werden. Abgelaufene Besprechungstermine und Protokolle werden unabhängig von den Themenfristen gelöscht. Die Tagesordnungstexte bleiben im jeweiligen Thema erhalten; der historische Eintrag kennzeichnet den gelöschten Termin. Abgelaufene archivierte Themen werden einschließlich ihrer Inhalte vollständig gelöscht. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
 
 #### 3. Besprechungsreihen verwalten
 
@@ -319,7 +321,7 @@ Neue Benutzerkonten erhalten zunächst die globale Rolle Nutzer. Ihre Serienzuwe
 
 ## Benutzer und Serienzuweisungen verwalten
 
-Die integrierte Verwaltungsoberfläche ist über **Verwaltung** in der Seitenleiste bzw. unter `/verwaltung/` erreichbar. Sie steht ausschließlich globalen Administrator*innen und Django-Superusern zur Verfügung. Die Django-Administration unter `/django-admin/` bleibt als technische Rückfalloption vorhanden.
+Die integrierte Verwaltungsoberfläche ist über **Verwaltung** in der Seitenleiste bzw. unter `/verwaltung/` erreichbar. Sie steht ausschließlich globalen Administrator*innen und Django-Superusern zur Verfügung. Die Django-Administration unter `/django-admin/` ist ausschließlich im aktivierten TESTING-Modus erreichbar; außerhalb dieses Modus wird keine Route dafür registriert. Im TESTING-Modus steht in der Verwaltung zusätzlich die Beispielkonfiguration zum getrennten Erzeugen zufälliger Testdaten bereit.
 
 ### Nutzerverwaltung
 
@@ -408,6 +410,9 @@ sudo journalctl -u meeting-manager -f
 # Nginx prüfen
 sudo systemctl status nginx
 
+# Automatische Aufbewahrungsprüfung (täglicher systemd-Timer)
+sudo systemctl status meeting-manager-retention.timer
+
 # Nginx-Konfiguration testen
 sudo nginx -t
 ```
@@ -421,6 +426,73 @@ sudo -u meetingapp bash -c 'set -a; source /opt/meeting-manager/.env; set +a; ex
 ```
 
 Dasselbe Muster gilt für weitere `manage.py`-Befehle, zum Beispiel `check` oder `test`. So werden dieselben Umgebungsvariablen und Dateiberechtigungen wie beim Anwendungsdienst verwendet. Keine Zugangsdaten direkt in Befehlszeilen oder Tickets schreiben.
+
+## TESTING-Modus
+
+Der TESTING-Modus stellt zusätzliche Werkzeuge für Entwicklung, Abnahme und manuelle Funktionstests bereit. Er ist ausschließlich für **isolierte Testinstallationen** vorgesehen und darf nicht auf einem produktiv genutzten System aktiviert werden. Insbesondere werden zusätzliche Git-Branches freigegeben, die Django-Administration eingeblendet und bei der manuellen Nutzeranlage die üblichen Passwort-Komplexitätsprüfungen umgangen.
+
+Der Modus wird auf Debian-/Ubuntu-Installationen mit systemd beim Update aktiviert:
+
+```bash
+sudo bash /opt/meeting-manager/deploy/update.sh -testing
+```
+
+Die Aktivierung bleibt über Anwendungsupdates und Updates aus der Weboberfläche hinweg erhalten. Wird das Skript ohne `-testing` ausgeführt, wird der Modus deaktiviert. In der Weboberfläche kann er außerdem unter **Software aktualisieren → Testing-Modus beenden** ausgeschaltet werden. Docker-Installationen verwenden diesen Debian-spezifischen Modus nicht; dort bleibt die bisherige Branch-Auswahl erhalten.
+
+### 1. Zusätzliche Git-Branches für Updates
+
+Im normalen Debian-Betrieb stehen bei Updates nur die Branches `main` und `beta` zur Auswahl. Im TESTING-Modus werden zusätzlich alle gültigen Remote-Branches des Git-Repositories angeboten. Dadurch können Entwicklungs- und Feature-Branches gezielt auf einer separaten Testinstallation geprüft werden. Die Auswahl gilt nur für den jeweiligen Server.
+
+### 2. TEST-Kennzeichnung der Oberfläche
+
+Bei aktivem Modus wird der Seitentitel mit `TEST ·` gekennzeichnet. Die Kennzeichnung erscheint auch in der Django-Administration. So lässt sich in Browser-Tabs leichter erkennen, dass gerade eine Testinstallation geöffnet ist; sie ersetzt jedoch keine getrennte Testumgebung.
+
+### 3. Django-Administrationsoberfläche
+
+Der Pfad `/django-admin/` wird nur bei aktiviertem TESTING-Modus registriert und ist außerhalb dieses Modus nicht erreichbar. Dort steht die Django-Administration mit den im Projekt eingerichteten Verwaltungsfunktionen zur Verfügung. Der Zugriff bleibt an die Django-Administrationsberechtigungen gebunden.
+
+### 4. Vereinfachte Passwortprüfung bei manueller Nutzeranlage
+
+Wenn der TESTING-Modus aktiv ist, überspringt das Formular zur manuellen Neuanlage eines Benutzerkontos die regulären Passwort-Komplexitätsprüfungen. Die beiden Passwortfelder müssen weiterhin übereinstimmen, sofern ein Passwort eingegeben wird. Diese Erleichterung ist ausschließlich für Testinstallationen gedacht und reduziert bewusst die Passwortsicherheit. Außerhalb des TESTING-Modus gelten die normalen Django-Passwortprüfungen.
+
+### 5. Beispielkonfiguration in der Verwaltung
+
+In der globalen Verwaltungsoberfläche erscheint die zusätzliche Kachel **Beispielkonfiguration**. Sie führt zur Seite **Verwaltung → Beispielkonfiguration** unter `/verwaltung/testdaten/`. Die Seite ist ausschließlich für globale Administrator*innen und nur im aktivierten TESTING-Modus erreichbar. Dort lassen sich Testdaten in getrennten Schritten erzeugen und zurücksetzen; die Mengenangaben sind jeweils auf 1 bis 100 begrenzt.
+
+Die folgenden Funktionen sind in der Beispielkonfiguration zusammengefasst. Die Erzeugung baut aufeinander auf: Zuerst werden Testnutzer und Besprechungsserien angelegt, danach Termine, Themen und Tagesordnungspunkte.
+
+#### 1. Zufällige Testnutzer anlegen
+
+Die Beispielkonfiguration kann bis zu 100 Testkonten pro Vorgang erzeugen. Die Konten erhalten zufällig ausgewählte Vor- und Nachnamen. Der Benutzername besteht aus `TEST` direkt gefolgt vom Nachnamen (z. B. `TESTWeber`); jeder Benutzername wird nur einmal vergeben. Dazu kommen eine daraus gebildete E-Mail-Adresse unter `@beliebig.de` sowie eine Kurzbezeichnung im Format `NN/NN`. Die Konten werden zunächst mit der globalen Rolle **Nutzer** angelegt. Bei der anschließenden Termin-Generierung können sie zufällige Rollen in den jeweiligen Besprechungsserien erhalten.
+
+Für alle automatisch erzeugten Testkonten gilt das in den Organisationseinstellungen hinterlegte Startpasswort. Bei der Anlage wird eine Passwortänderung innerhalb von 24 Stunden erzwungen. Testkonten, die bereits anderweitig in regulären Daten verwendet werden, werden beim Zurücksetzen geschützt.
+
+#### 2. Zufällige Besprechungsserien anlegen
+
+Die Beispielkonfiguration kann bis zu 100 Test-Besprechungsserien auf einmal anlegen. Jede Serie erhält einen festen Wochentag von Montag bis Freitag und einen regelmäßigen Rhythmus: wöchentlich, zweiwöchentlich oder monatlich, jeweils mit einem Intervall von ein bis drei. Der gemeinsame Testzeitraum reicht vom 1. Januar 2026 bis zum 31. März 2027. Für die Seriennamen wird zufällig aus 30 kurzen, sprechenden Bezeichnungen gewählt, beispielsweise `TEST Digitalisierung` oder `TEST IT-Sicherheit`. Jeder Name beginnt mit `TEST`; technische Datums- oder Zufallssuffixe entfallen. Falls ein Name bereits vorhanden ist, wird zur Sicherung der Eindeutigkeit eine fortlaufende Nummer ergänzt.
+
+#### 3. Termine für Testserien generieren
+
+Für ausgewählte Testserien lassen sich die zugehörigen Termine anhand des festgelegten Rhythmus erzeugen. Dabei werden ausdrücklich auch vergangene Termine berücksichtigt. Der Generator erzeugt keine unabhängig zufällig verteilten Einzeltermine, sondern hält Wochentag und Wiederholungsrhythmus der jeweiligen Serie ein. Bei der Generierung werden Testnutzer den Serien mit zufälligen Serienrollen zugeordnet; bereits bestehende Rollen werden bei erneuter Generierung nicht überschrieben.
+
+#### 4. Zufällige Themen anlegen
+
+Für eine ausgewählte Testserie können bis zu 100 Themen angelegt werden. Die Titel erhalten das Präfix `TEST ` und werden zufällig aus 50 kurzen Beispielthemen mit höchstens zwei Wörtern ausgewählt, beispielsweise `TEST Umsetzung Projekt`. Status und Hauptzuständigkeit werden zufällig ausgewählt; als Zuständige kommen vorhandene aktive Testkonten infrage. Pro Serie wird jedes Beispielthema höchstens einmal verwendet.
+
+#### 5. Tagesordnungspunkte und Wiedervorlagen erzeugen
+
+Für ein ausgewähltes Testthema können bis zu 100 Tagesordnungspunkte auf noch nicht abgeschlossenen Terminen derselben Serie angelegt werden. Die Punkte erhalten zufällig ausgewählte Statuswerte, bei Bedarf eine Testzuständigkeit und einen zufällig ausgewählten themenbezogenen Beispieltext aus einem Pool von 100 Texten. Jeder Beispieltext umfasst zwei bis 20 Sätze. Die Punkte werden chronologisch auf aufeinanderfolgenden verfügbaren Terminen angelegt und über eine Wiedervorlage-Kette miteinander verknüpft. Weitere Erzeugungsläufe setzen eine vorhandene Kette am letzten Punkt fort. Reichen die verfügbaren Termine nicht aus, müssen zunächst weitere Termine generiert oder eine kleinere Anzahl gewählt werden.
+
+#### 6. Erzeugte Testdaten zurücksetzen
+
+Die Funktion **TEST-Daten zurücksetzen** entfernt die von der Beispielkonfiguration gekennzeichneten Testserien, deren Termine und die entsprechend markierten Themen. Testkonten mit einem Benutzernamen aus `TEST` plus Nachname und einer E-Mail-Adresse unter `@beliebig.de` werden ebenfalls entfernt, sofern sie nicht mehr anderweitig verwendet werden. Themen oder Konten, die durch reguläre Daten referenziert werden, bleiben erhalten. Reguläre Besprechungsserien und nicht als Testdaten gekennzeichnete Themen werden durch diesen Reset nicht pauschal gelöscht.
+
+### Hinweise zum sicheren Einsatz
+
+- Den TESTING-Modus nur auf einer getrennten Testinstallation aktivieren, niemals auf einem Produktivsystem.
+- Die zusätzlichen Branches können unfertigen oder fehlerhaften Code enthalten. Vor dem Testen eines Branches sollte ein aktuelles Backup vorhanden sein.
+- Die Django-Administration und die vereinfachte Passwortprüfung vergrößern die Angriffsfläche. Den Zugriff auf die Testinstallation deshalb auf ein vertrauenswürdiges Netz und berechtigte Personen beschränken.
+- Testdaten möglichst vor der Übernahme oder Wiederverwendung der Installation zurücksetzen und den TESTING-Modus anschließend beenden.
 
 ## Arbeitsabläufe in der Anwendung
 
@@ -523,4 +595,3 @@ Die Migration `0006_series_access_and_roles` ergänzt die Serienzuweisungen. Die
 
 Migrationen nicht manuell aus der Datenbank löschen und nicht mit `migrate --fake` überspringen, außer wenn ein bewusst geplanter und geprüfter Reparaturvorgang dies erfordert.
 
-<!-- Harmloser PR-Test: keine funktionalen Änderungen. -->

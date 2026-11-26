@@ -12,7 +12,15 @@
         <span class="muted">{% if step == "account" %}Schritt 1 von 4{% elif step == "organization" %}Schritt 2 von 4{% elif step == "system" %}Schritt 3 von 4{% else %}Schritt 4 von 4{% endif %}</span>
       {% endfor %}
     </nav>
-    {% if step == "account" %}
+    {% if step == "activation" %}
+      <h2>Ersteinrichtung freischalten</h2>
+      <p>Gib den Aktivierungstoken ein, den das Installationsskript nach der Installation ausgegeben hat.</p>
+      <form method="post">
+        {% csrf_token %}
+        <p><label for="id_setup_token">Aktivierungstoken</label><input id="id_setup_token" name="setup_token" type="password" autocomplete="off" required></p>
+        <button class="primary" type="submit">Einrichtung freischalten</button>
+      </form>
+    {% elif step == "account" %}
       <h2>1. Administratorkonto anlegen</h2>
       <p>Erstelle das erste Benutzerkonto. Es erhält automatisch globale Administratorrechte.</p>
       <form method="post">
@@ -23,11 +31,12 @@
       </form>
     {% elif step == "organization" %}
       <h2>2. Organisation einrichten</h2>
-      <p>Name, Kurzbezeichnung, Zeitzone und Farben werden für die Oberfläche und Protokolle verwendet. Logo und individuelle Farben sind optional.</p>
+      <p>Name, Kurzbezeichnung, Zeitzone und Farben werden für die Oberfläche und Protokolle verwendet. Die vorgeschlagene Farbpalette kann bei Bedarf angepasst werden.</p>
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% if form.non_field_errors %}<div class="messages error">{{ form.non_field_errors }}</div>{% endif %}
         {% for field in form %}
+          {% if field.name == "primary_color" %}<h3>Farben</h3>{% endif %}
           <p>{{ field.label_tag }}{{ field }}{% if field.help_text %}<small class="muted">{{ field.help_text }}</small>{% endif %}{{ field.errors }}</p>
         {% endfor %}
         <h3>Organisationslogo (optional)</h3>
