@@ -208,38 +208,44 @@ def test_documentation_toggle(request):
     try:
         lock_fd = os.open(str(lock_directory), os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
         fcntl.flock(lock_fd, fcntl.LOCK_EX)
-        try:
-            content = source.read_text(encoding="utf-8")
-            current_revision = _checklist_revision(content)
-            if revision != current_revision:
-                return JsonResponse({
-                    "error": "Die Checkliste wurde zwischenzeitlich geändert.",
-                    "revision": current_revision,
-                    "statuses": _checklist_status(content),
-                }, status=409)
-
-            lines = content.splitlines(keepends=True)
-            if line_number > len(lines):
-                return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
-            matches = list(re.finditer(r"\[([ xX])\]", lines[line_number - 1]))
-            if occurrence > len(matches):
-                return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
-            match = matches[occurrence - 1]
-            marker = "[x]" if checked else "[ ]"
-            lines[line_number - 1] = (
-                lines[line_number - 1][:match.start()] + marker
-                + lines[line_number - 1][match.end():]
-            )
-            updated_content = "".join(lines)
-            _write_checklist_atomically(source, updated_content)
-            updated_revision = _checklist_revision(updated_content)
+        content = source.read_text(encoding="utf-8")
+        current_revision = _checklist_revision(content)
+        if revision != current_revision:
             return JsonResponse({
-                "success": True,
-                "revision": updated_revision,
-                "statuses": _checklist_status(updated_content),
-            })
+                "error": "Die Checkliste wurde zwischenzeitlich geändert.",
+                "revision": current_revision,
+                "statuses": _checklist_status(content),
+            }, status=409)
+
+        lines = content.splitlines(keepends=True)
+        if line_number > len(lines):
+            return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
+        matches = list(re.finditer(r"\[([ xX])\]", lines[line_number - 1]))
+        if occurrence > len(matches):
+            return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
+        match = matches[occurrence - 1]
+        marker = "[x]" if checked else "[ ]"
+        lines[line_number - 1] = (
+            lines[line_number - 1][:match.start()] + marker
+            + lines[line_number - 1][match.end():]
+        )
+        updated_content = "".join(lines)
+        _write_checklist_atomically(source, updated_content)
+        updated_revision = _checklist_revision(updated_content)
+        return JsonResponse({
+            "success": True,
+            "revision": updated_revision,
+            "statuses": _checklist_status(updated_content),
+        })
     except OSError:
         return JsonResponse({"error": "Die Testcheckliste konnte nicht gespeichert werden."}, status=500)
+    finally:
+        if lock_fd is not None:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            finally:
+                os.close(lock_fd)
+
 
 
 @login_required
