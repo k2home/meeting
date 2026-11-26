@@ -177,7 +177,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertNotContains(response, "<h2><strong>Test erfolgreich:</strong>")
         self.assertContains(response, "document-content ul")
         self.assertContains(response, "document-content hr")
-        self.assertContains(response, "20.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
+        self.assertContains(response, "8.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
         for phase in ("Installation", "Ersteinrichtung", "Testing", "Produktiv"):
             self.assertContains(response, f'id="{phase.lower()}"')
         self.assertContains(response, 'class="card test-document-index"')
