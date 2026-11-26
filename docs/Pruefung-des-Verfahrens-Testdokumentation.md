@@ -2741,21 +2741,17 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Test erfolgreich:** [ ]
 #### 5.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Archivansicht ist erreichbar. Ohne Serienzuweisung werden jedoch keine archivierten Themen oder deren Aufbewahrungsdaten angezeigt.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
+- [ ] Das Archiv über die Navigation oder die vorgesehene direkte URL öffnen.
+- [ ] Die Archivliste laden und prüfen, ob archivierte Themen bzw. Aufbewahrungsdaten angezeigt werden.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
+- [ ] Ohne Serienzuweisung enthält die Liste keine archivierten Themen.
+- [ ] Es werden keine Themen, Dateien oder Aufbewahrungsdaten aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.13.3 Retention wiederholt ausführen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -3703,21 +3699,18 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 #### 6.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Leser*in (Serienrolle)
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Leser: Zugriff erlaubt.** Leser*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; administrative Aufbewahrungseinstellungen bleiben ihnen verborgen.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Leser*in zugewiesen ist.
+- [ ] Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
+- [ ] Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; anschließend prüfen, dass keine administrative Änderungsfunktion angeboten wird.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
+- [ ] Archivierte Themen der zugewiesenen Reihe und deren Aufbewahrungsdaten werden angezeigt.
+- [ ] Themen und Aufbewahrungsdaten fremder Reihen werden nicht offengelegt.
+- [ ] Administrative Aufbewahrungsfristen können mit der Leserrolle nicht geändert werden.
 
 **Test erfolgreich:** [ ]
 #### 6.13.3 Retention wiederholt ausführen – Prüfrolle: Leser*in (Serienrolle)
@@ -4672,21 +4665,18 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Test erfolgreich:** [ ]
 #### 7.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Teilnehmer*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; administrative Aufbewahrungseinstellungen bleiben ihnen verborgen.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Teilnehmer*in zugewiesen ist.
+- [ ] Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
+- [ ] Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; anschließend prüfen, dass keine administrative Änderungsfunktion angeboten wird.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
+- [ ] Archivierte Themen der zugewiesenen Reihe und deren Aufbewahrungsdaten werden angezeigt.
+- [ ] Themen und Aufbewahrungsdaten fremder Reihen werden nicht offengelegt.
+- [ ] Administrative Aufbewahrungsfristen können mit der Teilnehmerrolle nicht geändert werden.
 
 **Test erfolgreich:** [ ]
 #### 7.13.3 Retention wiederholt ausführen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -5777,23 +5767,20 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 #### 8.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
-**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Moderator*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; die globalen Aufbewahrungseinstellungen werden in diesem Test nicht verändert.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Aufbewahrungseinstellungen für archivierte Testthemen öffnen und die konfigurierte Frist sowie den zugehörigen Status ablesen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- [ ] Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
+- [ ] Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
+- [ ] Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen.
 
 **Ergebnisprüfung**
-
-- [ ] Thema bleibt vor Fristablauf erhalten.
-- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
-- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
-- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+- [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
+- [ ] Archivierte Themen der zugewiesenen Reihe und deren Aufbewahrungsdaten werden angezeigt.
+- [ ] Themen und Aufbewahrungsdaten fremder Reihen werden nicht offengelegt.
+- [ ] Die in den globalen Verwaltungseinstellungen hinterlegten Aufbewahrungsfristen werden durch diesen Test nicht verändert.
 
 **Test erfolgreich:** [ ]
-
 #### 8.13.3 Retention wiederholt ausführen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6878,23 +6865,19 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Archivansicht ist für den globalen Admin erreichbar. Ohne Moderatorzuweisung für eine Reihe werden jedoch keine archivierten Themen oder deren Aufbewahrungsdaten angezeigt.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Aufbewahrungseinstellungen für archivierte Testthemen öffnen und die konfigurierte Frist sowie den zugehörigen Status ablesen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Bestandsreihe anmelden.
+- [ ] Das Archiv über die Navigation oder die vorgesehene direkte URL öffnen.
+- [ ] Die Archivliste laden und prüfen, ob archivierte Themen bzw. Aufbewahrungsdaten angezeigt werden.
 
 **Ergebnisprüfung**
-
-- [ ] Thema bleibt vor Fristablauf erhalten.
-- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
-- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
-- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+- [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
+- [ ] Ohne Moderatorzuweisung enthält die Liste keine archivierten Themen der Bestandsreihe.
+- [ ] Es werden keine Themen, Dateien oder Aufbewahrungsdaten aus Reihen ohne eigene Moderatorzuweisung offengelegt.
 
 **Test erfolgreich:** [ ]
-
 #### 9.13.3 Retention wiederholt ausführen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
