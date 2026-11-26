@@ -4,7 +4,7 @@
 **Zweck:** Vollständige manuelle Funktionsprüfung des Meeting Managers  
 **Art der Dokumentation:** Ablauf- und Ergebnischeckliste mit serverlokal gespeichertem Prüfstatus, Live-Aktualisierung und Markdown-Export im TESTING-Modus
 
-## Verwendung
+**Verwendung**
 
 - Die Testfälle in einer geeigneten Testinstallation mit vorbereiteten Testkonten durchführen.
 - Testblöcke mit **PR-Test erforderlich** sind durch die Änderungen des aktuellen Pull Requests betroffen und müssen in diesem PR erneut ausgeführt werden.
@@ -16,7 +16,7 @@
 - Wo ein Test eine bestimmte Serienrolle voraussetzt, muss das Testkonto der betreffenden Besprechungsreihe ausdrücklich mit dieser Rolle zugewiesen sein.
 - Testdaten und Testdateien verwenden. Keine produktiven Daten verändern oder löschen.
 
-### Rollen
+**Rollen**
 
 - **Globale Nutzer*in:** Standardkonto ohne globale Verwaltungsrechte; fachlicher Zugriff nur auf ausdrücklich zugewiesene Reihen.
 - **Admin:** Globale Benutzer-, Rollen-, Organisations- und Verwaltungsfunktionen; fachliche Reiheninhalte nur mit passender Serienzuweisung.
@@ -25,7 +25,7 @@
 - **Teilnehmer*in:** Fachliche Bearbeitung innerhalb der ausdrücklich zugewiesenen Reihe, ohne Reihenverwaltung und ohne Wiederöffnung abgeschlossener Besprechungen.
 - **Leser*in:** Lesender Zugriff innerhalb der ausdrücklich zugewiesenen Reihe.
 
-### Einheitlicher Ergebnisvermerk
+**Einheitlicher Ergebnisvermerk**
 
 Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zuordnungen, Ansichten und Aktionen nach dem Speichern bzw. Neuladen dem erwarteten Stand entsprechen. Bei Berechtigungstests zusätzlich den direkten Aufruf der betreffenden Seite oder Aktion prüfen, nicht nur das Vorhandensein oder Fehlen einer Schaltfläche.
 
