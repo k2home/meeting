@@ -31,9 +31,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 1. Anmeldung und Sitzung
 
-### 1.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
+## Ersteinrichtung
+
+Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
+
+### 1. Anmeldung und Sitzung
+
+#### 1.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
 
 - [ ] Anmeldeseite öffnen.
 - [ ] Gültigen Benutzernamen eingeben.
@@ -47,7 +52,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 1.2 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
+#### 1.2 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
 
 - [ ] Anmeldeseite öffnen.
 - [ ] Einen nicht vorhandenen Benutzernamen eingeben.
@@ -62,7 +67,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 1.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
+#### 1.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
 
 - [ ] Mit einem Konto anmelden, für das ein Passwortwechsel erforderlich ist.
 - [ ] Angezeigtes Formular zum Passwortwechsel öffnen.
@@ -78,7 +83,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 1.4 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
+#### 1.4 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
 
 - [ ] Mit einem Testkonto anmelden.
 - [ ] Eine geschützte Seite öffnen.
@@ -93,7 +98,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
+#### 1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
 
 - [ ] Einen gültigen Passwort-Zurücksetzen-Link für ein Testkonto öffnen.
 - [ ] Neues Passwort eingeben.
@@ -111,9 +116,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 2. Dashboard und Navigation
 
-### 2.1 Dashboard aufrufen – Rolle: alle Rollen
+## Produktiv
+
+Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und Betriebsfunktionen.
+
+### 2. Dashboard und Navigation
+
+#### 2.1 Dashboard aufrufen – Rolle: alle Rollen
 
 - [ ] Nach der Anmeldung das Dashboard öffnen.
 - [ ] Angezeigte Kacheln und Übersichten prüfen.
@@ -128,7 +138,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 2.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
+#### 2.2 Navigation und Darstellungsvarianten – Rolle: alle Rollen
 
 - [ ] Seitenmenü öffnen und schließen.
 - [ ] Jede für die Rolle sichtbare Navigation aufrufen.
@@ -146,9 +156,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 3. Persönliches Konto und eigene Aufgaben
+### 3. Persönliches Konto und eigene Aufgaben
 
-### 3.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
+#### 3.1 Persönliche Kontodaten bearbeiten – Rolle: alle Rollen
 
 - [ ] Persönliche Kontoseite über die Navigation öffnen.
 - [ ] Vorname ändern.
@@ -165,7 +175,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 3.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
+#### 3.2 Eigene Aufgaben aufrufen – Rolle: Nutzer*in, Teilnehmer*in, Moderator*in
 
 - [ ] Menüpunkt **Meine Aufgaben** öffnen.
 - [ ] Bereich der offenen Themen prüfen.
@@ -184,9 +194,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 4. Besprechungsreihen verwalten
+### 4. Besprechungsreihen verwalten
 
-### 4.1 Besprechungsreihe anlegen – Rolle: Admin oder Moderator*in
+#### 4.1 Besprechungsreihe anlegen – Rolle: Admin oder Moderator*in
 
 - [ ] **Besprechungsreihen** bzw. die Serienverwaltung öffnen.
 - [ ] **+ Neu** bzw. die Schaltfläche zum Anlegen anklicken.
@@ -209,7 +219,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 4.2 Besprechungsreihe bearbeiten – Rolle: Admin oder Moderator*in der Reihe
+#### 4.2 Besprechungsreihe bearbeiten – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Vorhandene Reihe auswählen.
@@ -228,7 +238,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 4.3 Besprechungsreihe verlängern – Rolle: Admin oder Moderator*in der Reihe
+#### 4.3 Besprechungsreihe verlängern – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine Reihe mit begrenztem Enddatum auswählen.
@@ -245,7 +255,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 4.4 Termine einer Reihe neu aufsetzen – Rolle: Admin oder Moderator*in der Reihe
+#### 4.4 Termine einer Reihe neu aufsetzen – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Serienverwaltung öffnen.
 - [ ] Eine geeignete Testreihe auswählen.
@@ -262,7 +272,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 4.5 Besprechungsreihe löschen – Rolle: Admin oder Moderator*in der Reihe
+#### 4.5 Besprechungsreihe löschen – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Ausschließlich eine entbehrliche Testreihe auswählen.
 - [ ] Löschfunktion öffnen.
@@ -279,7 +289,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 4.6 Berechtigungen einer Reihe verwalten – Rolle: Admin oder Moderator*in der Reihe
+#### 4.6 Berechtigungen einer Reihe verwalten – Rolle: Admin oder Moderator*in der Reihe
 
 - [ ] Eine Besprechungsreihe öffnen.
 - [ ] Serienmitglieder bzw. Berechtigungsverwaltung öffnen.
@@ -301,7 +311,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 4.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in, Admin ohne Serienzuweisung
+#### 4.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in, Admin ohne Serienzuweisung
 
 - [ ] Ein Konto ohne Zuweisung zu einer Testreihe anmelden.
 - [ ] Reihenübersicht öffnen.
@@ -318,9 +328,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 5. Termine und Besprechungsübersicht
+### 5. Termine und Besprechungsübersicht
 
-### 5.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
+#### 5.1 Terminübersicht aufrufen – Rolle: Leser*in, Teilnehmer*in, Moderator*in
 
 - [ ] **Besprechungen** öffnen.
 - [ ] Eine zugewiesene Besprechungsreihe auswählen.
@@ -337,7 +347,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 5.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
+#### 5.2 Einzelnen Termin verschieben – Rolle: Moderator*in der Reihe
 
 - [ ] Terminübersicht öffnen.
 - [ ] Einen noch nicht abgeschlossenen Testtermin auswählen.
@@ -354,7 +364,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 5.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
+#### 5.3 Einzelnen Termin löschen – Rolle: Moderator*in der Reihe
 
 - [ ] Einen entbehrlichen, nicht abgeschlossenen Testtermin auswählen.
 - [ ] Löschfunktion öffnen.
@@ -370,7 +380,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 5.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 5.4 Teilnehmerliste bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Teilnehmerauswahl öffnen.
@@ -387,7 +397,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 5.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
+#### 5.5 Schreibschutz abgeschlossener Termine – Rolle: Leser*in, Teilnehmer*in
 
 - [ ] Einen abgeschlossenen Testtermin öffnen.
 - [ ] Teilnehmerliste bzw. Bearbeitungsfunktionen aufrufen.
@@ -403,9 +413,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 6. Themen anlegen und bearbeiten
+### 6. Themen anlegen und bearbeiten
 
-### 6.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
+#### 6.1 Thema aus dem Dashboard anlegen – Rolle: Teilnehmer*in oder Moderator*in der Zielreihe
 
 - [ ] Dashboard öffnen.
 - [ ] **Thema +Neu** bzw. den Einstieg zum Anlegen eines Themas anklicken.
@@ -426,7 +436,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 6.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.2 Thema über einen Termin anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Funktion zum Hinzufügen eines Themas bzw. Tagesordnungspunkts öffnen.
@@ -444,7 +454,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 6.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.3 Thema bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Themenübersicht öffnen.
 - [ ] Ein vorhandenes, nicht archiviertes Testthema auswählen.
@@ -463,7 +473,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 6.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.4 Themenstatus ändern – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Status auf einen anderen verfügbaren Wert setzen.
@@ -478,7 +488,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 6.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
+#### 6.5 Thema archivieren und wieder öffnen – Rolle: Moderator*in der Reihe
 
 - [ ] Ein entbehrliches Testthema öffnen.
 - [ ] Funktion **Archivieren** anklicken.
@@ -495,7 +505,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 6.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
+#### 6.6 Thema in eine andere Besprechungsreihe übertragen – Rolle: Teilnehmer*in oder Moderator*in mit den erforderlichen Rechten in Quell- und Zielreihe
 
 - [ ] Ein übertragbares Testthema öffnen.
 - [ ] Funktion zum Übertragen öffnen.
@@ -515,7 +525,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 6.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 6.7 Themenvorschläge verwenden – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Formular zum Anlegen eines Themas bzw. Tagesordnungspunkts öffnen.
 - [ ] Themenvorschläge aufrufen.
@@ -533,9 +543,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 7. Tagesordnungspunkte und Wiedervorlagen
+### 7. Tagesordnungspunkte und Wiedervorlagen
 
-### 7.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.1 Tagesordnungspunkt bearbeiten – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Einen vorhandenen Tagesordnungspunkt auswählen.
@@ -554,7 +564,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 7.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.2 Tagesordnungspunkte sortieren – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen Termin mit mindestens drei Tagesordnungspunkten öffnen.
 - [ ] Einen Punkt per Ziehen an eine andere Position verschieben.
@@ -569,7 +579,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 7.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.3 Tagesordnungspunkt entfernen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Testtermin öffnen.
 - [ ] Einen entbehrlichen Tagesordnungspunkt auswählen.
@@ -584,7 +594,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 7.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.4 Wiedervorlage anlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Termin öffnen.
 - [ ] Einen Tagesordnungspunkt mit weiterem Bearbeitungsbedarf auswählen.
@@ -602,7 +612,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 7.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 7.5 Wiedervorlage über mehrere Termine fortführen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Eine vorhandene Wiedervorlagekette öffnen.
 - [ ] Den nächsten Termin der Reihe öffnen.
@@ -618,7 +628,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 7.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
+#### 7.6 Historische Tagesordnungseinträge aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Lesezugriff
 
 - [ ] Ein Thema mit historischen Tagesordnungseinträgen öffnen.
 - [ ] Historie bzw. frühere Tagesordnungseinträge öffnen.
@@ -634,9 +644,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 8. Kommentare, Anlagen und Links
+### 8. Kommentare, Anlagen und Links
 
-### 8.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.1 Kommentar hinzufügen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Kommentarbereich öffnen.
@@ -652,7 +662,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 8.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.2 Datei als Themenanlage hochladen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Anlagenbereich öffnen.
@@ -669,7 +679,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 8.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.3 Netzwerkpfad oder Weblink hinterlegen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Testthema öffnen.
 - [ ] Anlagenbereich öffnen.
@@ -687,7 +697,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 8.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 8.4 Anlage herunterladen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Thema mit vorhandener Testanlage öffnen.
 - [ ] Download der Anlage anklicken.
@@ -701,7 +711,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 8.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.5 Anlage löschen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Ein Thema mit einer entbehrlichen Testanlage öffnen.
 - [ ] Löschfunktion der Anlage anklicken.
@@ -716,7 +726,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 8.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 8.6 Upload-Grenzen prüfen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Upload einer zulässigen Datei innerhalb des konfigurierten Größenlimits durchführen.
 - [ ] Upload einer Datei oberhalb des konfigurierten Größenlimits versuchen.
@@ -733,9 +743,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 9. Besprechung abschließen und Protokoll
+### 9. Besprechung abschließen und Protokoll
 
-### 9.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
+#### 9.1 Besprechung abschließen – Rolle: Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen nicht abgeschlossenen Testtermin öffnen.
 - [ ] Teilnehmerliste prüfen.
@@ -752,7 +762,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 9.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 9.2 Protokoll anzeigen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Einen abgeschlossenen Termin öffnen.
 - [ ] Protokollansicht aufrufen.
@@ -767,7 +777,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 9.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
+#### 9.3 Protokoll drucken und als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in der Reihe
 
 - [ ] Protokollansicht öffnen.
 - [ ] Druckfunktion auslösen.
@@ -784,7 +794,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 9.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der Reihe oder Admin mit entsprechender Berechtigung
+#### 9.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der Reihe oder Admin mit entsprechender Berechtigung
 
 - [ ] Einen abgeschlossenen Testtermin öffnen.
 - [ ] Funktion **Wieder öffnen** anklicken.
@@ -802,7 +812,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 9.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
+#### 9.5 Themenprotokoll als PDF exportieren – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit Themenzugriff
 
 - [ ] Ein Thema mit mehreren historischen Tagesordnungseinträgen öffnen.
 - [ ] Themenprotokoll-PDF aufrufen.
@@ -818,9 +828,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 10. Offene Themen und Archiv
+### 10. Offene Themen und Archiv
 
-### 10.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
+#### 10.1 Offene Themen aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in
 
 - [ ] **Offene Themen** öffnen.
 - [ ] Themenliste prüfen.
@@ -835,7 +845,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 10.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
+#### 10.2 Archiv aufrufen – Rolle: Leser*in, Teilnehmer*in oder Moderator*in mit historischem Zugriff
 
 - [ ] **Archiv** öffnen.
 - [ ] Archivierte Testthemen suchen.
@@ -849,7 +859,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 10.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
+#### 10.3 Zugriff auf historische Inhalte nach Reihenlöschung – Rolle: früheres Reihenmitglied
 
 - [ ] Eine eigens dafür vorbereitete Testreihe mit mindestens einem weiteren Testkonto verwenden.
 - [ ] Das Testkonto als Reihenmitglied zuweisen.
@@ -868,9 +878,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 11. Berechtigungsanträge
+### 11. Berechtigungsanträge
 
-### 11.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
+#### 11.1 Serienberechtigung beantragen – Rolle: Nutzer*in ohne passende Serienzuweisung
 
 - [ ] Eine Besprechungsreihe ohne eigene Zuweisung aufrufen, soweit der Antragseinstieg angeboten wird.
 - [ ] Funktion zum Beantragen einer Berechtigung öffnen.
@@ -886,7 +896,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 11.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
+#### 11.2 Berechtigungsantrag entscheiden – Rolle: Admin oder entscheidungsberechtigte Moderator*in
 
 - [ ] Verwaltungs- bzw. Antragsübersicht öffnen.
 - [ ] Offenen Testantrag auswählen.
@@ -904,7 +914,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 11.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
+#### 11.3 Bereits vorhandenen Antrag erneut bearbeiten – Rolle: Nutzer*in, Admin oder entscheidungsberechtigte Moderator*in
 
 - [ ] Einen bereits entschiedenen Testantrag öffnen.
 - [ ] Erneute Antragstellung bzw. erneute Entscheidung versuchen, sofern die Oberfläche dies anbietet.
@@ -919,9 +929,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 12. Benutzerverwaltung
 
-### 12.1 Benutzerkonto anlegen – Rolle: Admin
+## Ersteinrichtung
+
+Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
+
+### 12. Benutzerverwaltung
+
+#### 12.1 Benutzerkonto anlegen – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Nutzer** öffnen.
@@ -943,7 +958,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 12.2 Benutzerkonto bearbeiten – Rolle: Admin
+#### 12.2 Benutzerkonto bearbeiten – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Ein Testkonto auswählen.
@@ -961,7 +976,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 12.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
+#### 12.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
 
 - [ ] Ein entbehrliches Testkonto auswählen.
 - [ ] Aktivstatus deaktivieren.
@@ -979,7 +994,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 12.4 Benutzerkonto löschen – Rolle: Admin
+#### 12.4 Benutzerkonto löschen – Rolle: Admin
 
 - [ ] Ausschließlich ein entbehrliches Testkonto auswählen.
 - [ ] Löschfunktion öffnen.
@@ -994,7 +1009,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 12.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
+#### 12.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Testkonto auswählen.
@@ -1014,7 +1029,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 12.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
+#### 12.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Ein Testkonto auswählen.
@@ -1032,9 +1047,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 13. Benutzer- und Themenimport/-export
 
-### 13.1 Benutzer als CSV exportieren – Rolle: Admin
+## Produktiv
+
+Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und Betriebsfunktionen.
+
+### 13. Benutzer- und Themenimport/-export
+
+#### 13.1 Benutzer als CSV exportieren – Rolle: Admin
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] CSV-Export anklicken.
@@ -1049,7 +1069,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 13.2 Benutzer per CSV importieren – Rolle: Admin
+#### 13.2 Benutzer per CSV importieren – Rolle: Admin
 
 - [ ] CSV-Mustervorlage herunterladen.
 - [ ] Vorlage mit eindeutig gekennzeichneten Testkonten befüllen.
@@ -1067,7 +1087,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 13.3 Themen als CSV exportieren – Rolle: Admin
+#### 13.3 Themen als CSV exportieren – Rolle: Admin
 
 - [ ] Themenverwaltung bzw. Themenexport öffnen.
 - [ ] CSV-Export anklicken.
@@ -1082,7 +1102,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 13.4 Themen per CSV importieren – Rolle: Admin
+#### 13.4 Themen per CSV importieren – Rolle: Admin
 
 - [ ] CSV-Mustervorlage für Themen herunterladen.
 - [ ] Vorlage mit Testthemen befüllen.
@@ -1102,9 +1122,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 14. Änderungsverlauf und Audit
+### 14. Änderungsverlauf und Audit
 
-### 14.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
+#### 14.1 Serienbezogenen Änderungsverlauf anzeigen – Rolle: Moderator*in der jeweiligen Reihe
 
 - [ ] Eine moderierte Besprechungsreihe öffnen.
 - [ ] Änderungsverlauf der Reihe aufrufen.
@@ -1120,7 +1140,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 14.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
+#### 14.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
 - [ ] **Änderungsverlauf** bzw. Systemhistorie öffnen.
 - [ ] Ein administratives Testereignis suchen.
@@ -1135,7 +1155,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 14.3 Änderungsverlauf als CSV exportieren – Rolle: Admin, Auditor*in oder Moderator*in im jeweiligen Geltungsbereich
+#### 14.3 Änderungsverlauf als CSV exportieren – Rolle: Admin, Auditor*in oder Moderator*in im jeweiligen Geltungsbereich
 
 - [ ] Den für die Rolle vorgesehenen Änderungsverlauf öffnen.
 - [ ] CSV-Export anklicken.
@@ -1153,9 +1173,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 15. Organisationsverwaltung
 
-### 15.1 Organisationseinstellungen bearbeiten – Rolle: Admin
+## Ersteinrichtung
+
+Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
+
+### 15. Organisationsverwaltung
+
+#### 15.1 Organisationseinstellungen bearbeiten – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Organisation** bzw. Organisationseinstellungen öffnen.
@@ -1172,7 +1197,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 15.2 Organisationslogo ändern – Rolle: Admin
+#### 15.2 Organisationslogo ändern – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Ein zulässiges Testlogo auswählen.
@@ -1188,7 +1213,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 15.3 Farben und Darstellung konfigurieren – Rolle: Admin
+#### 15.3 Farben und Darstellung konfigurieren – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Primärfarbe ändern.
@@ -1206,7 +1231,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 15.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
+#### 15.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
 
 - [ ] Organisationseinstellungen öffnen.
 - [ ] Zentrale Aufbewahrungsfrist ändern.
@@ -1225,9 +1250,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 16. Datenverwaltung und Sicherung
 
-### 16.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
+## Installation
+
+Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellung der Anwendung.
+
+### 16. Datenverwaltung und Sicherung
+
+#### 16.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Daten** öffnen.
@@ -1241,7 +1271,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 16.2 Vollständigen Datenexport durchführen – Rolle: Admin
+#### 16.2 Vollständigen Datenexport durchführen – Rolle: Admin
 
 - [ ] Datenverwaltungsbereich öffnen.
 - [ ] Funktion zum vollständigen Backup-Export aufrufen.
@@ -1256,7 +1286,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 16.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
+#### 16.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
 
 - [ ] Ausschließlich eine isolierte Testinstallation verwenden.
 - [ ] Vorhandenen Testdatenbestand sichern.
@@ -1276,9 +1306,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 17. Aufbewahrung und automatische Löschung
 
-### 17.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
+## Produktiv
+
+Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und Betriebsfunktionen.
+
+### 17. Aufbewahrung und automatische Löschung
+
+#### 17.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
 
 - [ ] Eine isolierte Testreihe mit abgeschlossenen Testterminen vorbereiten.
 - [ ] Zentrale Aufbewahrungsfrist für die Testinstallation festlegen.
@@ -1295,7 +1330,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 17.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in und Admin
+#### 17.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in und Admin
 
 - [ ] Ein entbehrliches Testthema archivieren.
 - [ ] Für das Thema eine geeignete Test-Aufbewahrungsfrist festlegen.
@@ -1311,7 +1346,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 17.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
+#### 17.3 Retention wiederholt ausführen – Rolle: Admin bzw. Betrieb
 
 - [ ] Retention-Funktion in der isolierten Testumgebung ausführen.
 - [ ] Ergebnis und Datenbestand prüfen.
@@ -1327,9 +1362,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 18. Auditor*innenbereich
+### 18. Auditor*innenbereich
 
-### 18.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
+#### 18.1 Auditor*innenübersicht aufrufen – Rolle: Auditor*in
 
 - [ ] Mit einem Auditor*innenkonto anmelden.
 - [ ] Auditor*innenübersicht öffnen.
@@ -1345,7 +1380,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 18.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
+#### 18.2 Auditor*innenzugriff gegen direkte URLs prüfen – Rolle: Auditor*in
 
 - [ ] Eine URL zur Benutzerverwaltung direkt aufrufen.
 - [ ] Eine URL zur Systemhistorie direkt aufrufen.
@@ -1363,9 +1398,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 19. TESTING-Modus und Beispielkonfiguration
 
-### 19.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
+## Testing
+
+Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des abschließenden Testlaufs.
+
+### 19. TESTING-Modus und Beispielkonfiguration
+
+#### 19.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
 
 - [ ] TESTING-Modus in der Testinstallation aktivieren.
 - [ ] Dashboard öffnen.
@@ -1381,7 +1421,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 19.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 19.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] **Verwaltung** öffnen.
 - [ ] **Beispielkonfiguration** öffnen.
@@ -1398,7 +1438,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 19.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 19.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
@@ -1413,7 +1453,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 19.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
+#### 19.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Eine Testreihe auswählen.
@@ -1429,7 +1469,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 19.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 19.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Eine Testreihe auswählen.
@@ -1445,7 +1485,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 19.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+#### 19.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Beispielkonfiguration öffnen.
 - [ ] Ein Testthema auswählen.
@@ -1462,7 +1502,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 19.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
+#### 19.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
 
 - [ ] Vorhandene Testdaten in der Testinstallation prüfen.
 - [ ] Funktion **TEST-Daten zurücksetzen** öffnen.
@@ -1480,9 +1520,9 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 20. Hilfe und Dokumentation
+### 20. Hilfe und Dokumentation
 
-### 20.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
+#### 20.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Menüpunkt **Hilfe** öffnen.
 - [ ] Benutzerhilfe aufrufen.
@@ -1496,7 +1536,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 20.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
+#### 20.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
 
 - [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
 - [ ] Dokument in der Anwendung anzeigen.
@@ -1511,7 +1551,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 20.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
+#### 20.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Mit einem angemeldeten Testkonto anmelden.
 - [ ] **Hilfe & Anleitung** öffnen.
@@ -1549,9 +1589,14 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 21. Administration und Software-Updates
 
-### 21.1 Updatebereich aufrufen – Rolle: Admin
+## Installation
+
+Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellung der Anwendung.
+
+### 21. Administration und Software-Updates
+
+#### 21.1 Updatebereich aufrufen – Rolle: Admin
 
 - [ ] Administrationsbereich für Software-Updates öffnen.
 - [ ] Angezeigte Versions- und Branchinformationen prüfen.
@@ -1565,7 +1610,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 **Test erfolgreich:** [ ]
 
-### 21.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
+#### 21.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
 
 - [ ] Vor dem Update Datenbank und Medienbestand sichern.
 - [ ] Updatebereich öffnen.
@@ -1587,11 +1632,16 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
-## 22. Rollenübergreifende Zugriffsmatrix
+
+## Ersteinrichtung
+
+Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
+
+### 22. Rollenübergreifende Zugriffsmatrix
 
 Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit getrennten Konten und direkten URL-Aufrufen auszuführen.
 
-### 22.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
+#### 22.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
 
 - [ ] Zugewiesene Reihe öffnen.
 - [ ] Termin und Protokoll öffnen.
@@ -1606,7 +1656,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-### 22.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
+#### 22.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
 
 - [ ] Zugewiesene Reihe öffnen.
 - [ ] Thema und Tagesordnung bearbeiten.
@@ -1624,7 +1674,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-### 22.3 Moderator*in – Verwaltung nur der eigenen Reihe
+#### 22.3 Moderator*in – Verwaltung nur der eigenen Reihe
 
 - [ ] Eigene Reihe öffnen.
 - [ ] Reihe bearbeiten.
@@ -1642,7 +1692,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-### 22.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
+#### 22.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
 
 - [ ] Benutzerverwaltung öffnen.
 - [ ] Organisationseinstellungen öffnen.
@@ -1658,7 +1708,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Test erfolgreich:** [ ]
 
-### 22.5 Auditor*in – ausschließlich administrative Leserechte
+#### 22.5 Auditor*in – ausschließlich administrative Leserechte
 
 - [ ] Auditor*innenübersicht öffnen.
 - [ ] Benutzer- und Rolleninformationen lesen.
@@ -1677,9 +1727,14 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 ---
 
-## 23. Abschluss der Gesamtprüfung
 
-### 23.1 Vollständigkeit und Nachprüfung
+## Testing
+
+Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des abschließenden Testlaufs.
+
+### 23. Abschluss der Gesamtprüfung
+
+#### 23.1 Vollständigkeit und Nachprüfung
 
 - [ ] Alle für die Installation relevanten Testblöcke wurden durchgeführt.
 - [ ] Alle Rollen wurden mit getrennten Testkonten geprüft.
@@ -1688,7 +1743,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Kritische Fehler wurden nach Korrektur erneut geprüft.
 - [ ] Testdaten wurden nach Abschluss entsprechend den Testumgebungsregeln zurückgesetzt.
 
-### Ergebnis der Gesamtprüfung
+#### Ergebnis der Gesamtprüfung
 
 - [ ] Alle durchgeführten und relevanten Testfälle erfolgreich.
 - [ ] Keine offenen kritischen oder hohen Fehler.
