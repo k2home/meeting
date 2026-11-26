@@ -100,31 +100,61 @@
   const updateCompletionStyles = () => {
     const content = document.querySelector(".test-document .document-content");
     if (!content) return;
-    const headings = Array.from(content.querySelectorAll("h1,h2,h3,h4,h5,h6"));
-    const checkboxes = Array.from(content.querySelectorAll("input.test-checklist-box"));
+
+    const headings = [];
+    const totalByHeading = [];
+    const checkedByHeading = [];
+    const headingIndexById = new Map();
+    const orderedNodes = content.querySelectorAll("h1,h2,h3,h4,h5,h6,input.test-checklist-box");
+    let headingIndex = -1;
+
+    orderedNodes.forEach((node) => {
+      if (node.matches("h1,h2,h3,h4,h5,h6")) {
+        headingIndex += 1;
+        headings.push(node);
+        totalByHeading.push(0);
+        checkedByHeading.push(0);
+        if (node.id) headingIndexById.set(node.id, headingIndex);
+      } else if (headingIndex >= 0) {
+        totalByHeading[headingIndex] += 1;
+        if (node.checked) checkedByHeading[headingIndex] += 1;
+      }
+    });
+
+    const nextBoundary = new Array(headings.length);
+    const headingStack = [];
+    for (let i = headings.length - 1; i >= 0; i -= 1) {
+      const level = Number(headings[i].tagName.slice(1));
+      while (headingStack.length &&
+             Number(headings[headingStack[headingStack.length - 1]].tagName.slice(1)) > level) {
+        headingStack.pop();
+      }
+      nextBoundary[i] = headingStack.length ? headingStack[headingStack.length - 1] : headings.length;
+      headingStack.push(i);
+    }
+
+    const totalPrefix = [0];
+    const checkedPrefix = [0];
+    for (let i = 0; i < headings.length; i += 1) {
+      totalPrefix.push(totalPrefix[i] + totalByHeading[i]);
+      checkedPrefix.push(checkedPrefix[i] + checkedByHeading[i]);
+    }
+
     index.querySelectorAll("li").forEach((item) => {
       const link = item.querySelector(":scope > a");
-      const heading = link?.hash ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
-      const headingIndex = heading ? headings.indexOf(heading) : -1;
-      if (headingIndex < 0) {
+      const id = link?.hash ? decodeURIComponent(link.hash.slice(1)) : "";
+      const start = headingIndexById.get(id);
+      if (start === undefined) {
         item.classList.remove("is-complete");
         return;
       }
-      const level = Number(heading.tagName.slice(1));
-      const nextHeading = headings.slice(headingIndex + 1).find(
-        candidate => Number(candidate.tagName.slice(1)) <= level
-      );
-      const sectionChecks = checkboxes.filter((checkbox) => {
-        const afterStart = Boolean(heading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
-        const beforeEnd = !nextHeading || Boolean(nextHeading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
-        return afterStart && beforeEnd;
-      });
-      item.classList.toggle(
-        "is-complete",
-        sectionChecks.length > 0 && sectionChecks.every(checkbox => checkbox.checked)
-      );
+      const end = nextBoundary[start];
+      const total = totalPrefix[end] - totalPrefix[start];
+      const checked = checkedPrefix[end] - checkedPrefix[start];
+      item.classList.toggle("is-complete", total > 0 && checked === total);
     });
   };
+  window.updateTestDocumentationCompletion = updateCompletionStyles;
   updateCurrentSection();
   updateCompletionStyles();
   window.addEventListener("scroll", updateCurrentSection, {passive:true});
@@ -146,26 +176,7 @@
   const checkboxes = () => root.querySelectorAll(
     "input.test-checklist-box[data-checklist-line][data-checklist-occurrence]"
   );
-  const updateCompletionStyles = () => {
-    const index = document.querySelector(".test-document-index .toc");
-    if (!index) return;
-    const headings = Array.from(root.querySelectorAll("h1,h2,h3,h4,h5,h6"));
-    const allCheckboxes = Array.from(checkboxes());
-    index.querySelectorAll("li").forEach((item) => {
-      const link = item.querySelector(":scope > a");
-      const heading = link?.hash ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
-      const headingIndex = heading ? headings.indexOf(heading) : -1;
-      if (headingIndex < 0) { item.classList.remove("is-complete"); return; }
-      const level = Number(heading.tagName.slice(1));
-      const nextHeading = headings.slice(headingIndex + 1).find(candidate => Number(candidate.tagName.slice(1)) <= level);
-      const sectionChecks = allCheckboxes.filter((checkbox) => {
-        const afterStart = Boolean(heading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
-        const beforeEnd = !nextHeading || Boolean(nextHeading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
-        return afterStart && beforeEnd;
-      });
-      item.classList.toggle("is-complete", sectionChecks.length > 0 && sectionChecks.every(checkbox => checkbox.checked));
-    });
-  };
+  const updateCompletionStyles = () => window.updateTestDocumentationCompletion?.();
   const applyStatuses = (data) => {
     revision = data.revision;
     config.dataset.revision = revision;
