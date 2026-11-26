@@ -912,6 +912,12 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
+**Prüfschritt**
+- Mit einem globalen Nutzerkonto anmelden, das in einer anderen Besprechungsreihe Moderator ist, für die geprüfte Zielreihe aber keine Serienzuweisung besitzt.
+- Die Zielreihe, einen zugehörigen Termin und ein zugehöriges Thema über die vorgesehenen direkten URLs aufrufen.
+- Zusätzlich versuchen, die Zielreihe zu bearbeiten und ihre Serienmitglieder zu verwalten.
+- Anschließend dieselben fachlichen Ansichten der tatsächlich zugewiesenen Reihe aufrufen.
+
 **Ergebnisprüfung**
 
 - [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
@@ -1424,30 +1430,41 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 ### 4.11 Benutzer- und Themenimport/-export
 
 #### 4.11.1 Benutzer als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Exportdatei ist lesbar.
-- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
-- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 4.11.2 Benutzer per CSV importieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
-- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
-- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 4.11.3 Themen als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -1491,18 +1508,23 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 
 #### 4.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
-- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
-- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
-- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 4.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -1521,18 +1543,23 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 ### 4.13 Aufbewahrung und automatische Löschung
 
 #### 4.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
-- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
-- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 4.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -1547,51 +1574,61 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 
 #### 4.13.3 Retention wiederholt ausführen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
-- [ ] Nicht abgelaufene Daten bleiben erhalten.
-- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 4.14 Auditor*innenbereich
 
 #### 4.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
-- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
-- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
-- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 4.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
-- [ ] Fachliche Inhalte sind nicht zugänglich.
-- [ ] Schreibende Aktionen sind nicht möglich.
-- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
----
-
 ## 5. Produktiv – Ohne Berechtigungen
 
 Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf weder Serieninhalte lesen noch fachliche oder administrative Aktionen ausführen. Direkte URLs und POST-Aktionen ausdrücklich mitprüfen.
@@ -1687,415 +1724,561 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 ### 5.4 Termine und Besprechungsübersicht
 
 #### 5.4.1 Terminübersicht aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Terminübersicht ist auch ohne Serienzuweisung erreichbar. Sie enthält in diesem Testkonto keine Termine.
 
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Die Terminübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Termine der berechtigten Reihen werden angezeigt.
-- [ ] Datum und Reihenbezeichnung stimmen.
-- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
-- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+- Die Terminübersicht wird ohne Zugriffsfehler geöffnet.
+- Die Terminübersicht ist auch ohne Serienzuweisung erreichbar. Sie enthält in diesem Testkonto keine Termine.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
 #### 5.4.2 Einzelnen Termin verschieben – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin wird am neuen Datum angezeigt.
-- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
-- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
-- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.4.3 Einzelnen Termin löschen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
-- [ ] Nicht ausgewählte Termine bleiben erhalten.
-- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
-- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
-- [ ] Abgewählte Konten werden nicht mehr angezeigt.
-- [ ] Die Änderung betrifft nur den ausgewählten Termin.
-- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
-- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.5 Themen anlegen und bearbeiten
 
 #### 5.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema erscheint in der Themenübersicht.
-- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
-- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
-- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
-- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.5.2 Thema über einen Termin anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das neue Thema ist angelegt.
-- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
-- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
-- [ ] Das Thema ist in der Themenübersicht auffindbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.5.3 Thema bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
-- [ ] Änderungen bleiben nach dem Neuladen erhalten.
-- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.5.4 Themenstatus ändern – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der neue Status wird in der Detailansicht angezeigt.
-- [ ] Der Status wird in der Übersicht korrekt dargestellt.
-- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
-- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
-- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
-- [ ] Der Änderungsverlauf bildet die Aktion ab.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
-- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
-- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
-- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
-- [ ] Andere Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.5.7 Themenvorschläge verwenden – Prüfrolle: Nutzer*in ohne Serienzuweisung
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Die Themenvorschläge über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
-- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
-- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+- Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
+- Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 5.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der terminbezogene Text wird korrekt angezeigt.
-- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
-- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
-- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
-- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
-- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
-- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
-- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.6.4 Wiedervorlage anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
-- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
-- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
-- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
-- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
-- [ ] Frühere Protokollstände bleiben unverändert.
-- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
-- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
-- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.7 Kommentare, Anlagen und Links
 
 #### 5.7.1 Kommentar hinzufügen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
-- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
-- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.7.2 Datei als Themenanlage hochladen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird beim richtigen Thema angezeigt.
-- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
-- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
-- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
-- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
-- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.7.4 Anlage herunterladen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
-- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
-- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.7.5 Anlage löschen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
-- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
-- [ ] Andere Anlagen und Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.7.6 Upload-Grenzen prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
-- [ ] Zu große Dateien werden abgewiesen.
-- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
-- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.8 Besprechung abschließen und Protokoll
 
 #### 5.8.1 Besprechung abschließen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
-- [ ] Ein Protokoll-Snapshot wurde erstellt.
-- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
-- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.8.2 Protokoll anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
-- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
-- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
-- [ ] PDF lässt sich öffnen.
-- [ ] PDF enthält die vorgesehenen Protokolldaten.
-- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
-- [ ] Unberechtigte Konten können den Export nicht abrufen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
-- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
-- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
-- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
-- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
-- [ ] Der Export ist auf berechtigte Konten begrenzt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.9 Offene Themen und Archiv
 
 #### 5.9.1 Offene Themen aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nur fachlich zugängliche Themen werden angezeigt.
-- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
-- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.9.2 Archiv aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Das Archiv ist erreichbar. Ohne Serienzuweisung werden keine archivierten Themen angezeigt.
 
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Das Archiv über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Archivierte Themen sind im Archiv auffindbar.
-- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
-- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+- Das Archiv wird ohne Zugriffsfehler geöffnet.
+- Das Archiv ist erreichbar. Ohne Serienzuweisung werden keine archivierten Themen angezeigt.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
 #### 5.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2126,9 +2309,23 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Test erfolgreich:** [ ]
 
 #### 5.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+
+**Test erfolgreich:** [ ]
 #### 5.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2146,174 +2343,227 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 ### 5.11 Benutzer- und Themenimport/-export
 
 #### 5.11.1 Benutzer als CSV exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Exportdatei ist lesbar.
-- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
-- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.11.2 Benutzer per CSV importieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
-- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
-- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.11.3 Themen als CSV exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
-- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
-- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.11.4 Themen per CSV importieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
-- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
-- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.12 Änderungsverlauf und Audit
 
 #### 5.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
-- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
-- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
-- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
-- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
-- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
-- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] CSV-Datei ist lesbar.
-- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
-- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
-- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.13 Aufbewahrung und automatische Löschung
 
 #### 5.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
-- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
-- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Thema bleibt vor Fristablauf erhalten.
-- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
-- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
-- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.13.3 Retention wiederholt ausführen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
-- [ ] Nicht abgelaufene Daten bleiben erhalten.
-- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 5.14 Auditor*innenbereich
 
 #### 5.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
-- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
-- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
-- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 5.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
-- [ ] Fachliche Inhalte sind nicht zugänglich.
-- [ ] Schreibende Aktionen sind nicht möglich.
-- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
----
-
 ## 6. Produktiv – Leser
 
 Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweiligen Testreihe zugewiesen ist. Keine Teilnehmer- oder Moderatorrolle vergeben.
@@ -2370,20 +2620,19 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Test erfolgreich:** [ ]
 
 #### 6.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Leser*in (Serienrolle)
+**Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Aufgabenübersicht ist für Leser*innen erreichbar. Angezeigt werden ausschließlich eigene Aufgaben aus ausdrücklich zugänglichen Reihen; bei fehlenden Aufgaben erscheint ein Leerzustand.
 
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Die eigene Aufgabenübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
-- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
-- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
-- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+- Die Aufgabenübersicht wird ohne Zugriffsfehler geöffnet.
+- Die Aufgabenübersicht ist für Leser*innen erreichbar. Angezeigt werden ausschließlich eigene Aufgaben aus ausdrücklich zugänglichen Reihen; bei fehlenden Aufgaben erscheint ein Leerzustand.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.3 Besprechungsreihen verwalten
 
 #### 6.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Leser*in (Serienrolle)
@@ -2422,44 +2671,59 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Test erfolgreich:** [ ]
 
 #### 6.4.2 Einzelnen Termin verschieben – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin wird am neuen Datum angezeigt.
-- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
-- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
-- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.4.3 Einzelnen Termin löschen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
-- [ ] Nicht ausgewählte Termine bleiben erhalten.
-- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
-- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
-- [ ] Abgewählte Konten werden nicht mehr angezeigt.
-- [ ] Die Änderung betrifft nur den ausgewählten Termin.
-- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2473,163 +2737,223 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 ### 6.5 Themen anlegen und bearbeiten
 
 #### 6.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema erscheint in der Themenübersicht.
-- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
-- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
-- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
-- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.5.2 Thema über einen Termin anlegen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das neue Thema ist angelegt.
-- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
-- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
-- [ ] Das Thema ist in der Themenübersicht auffindbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.5.3 Thema bearbeiten – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
-- [ ] Änderungen bleiben nach dem Neuladen erhalten.
-- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.5.4 Themenstatus ändern – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der neue Status wird in der Detailansicht angezeigt.
-- [ ] Der Status wird in der Übersicht korrekt dargestellt.
-- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
-- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
-- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
-- [ ] Der Änderungsverlauf bildet die Aktion ab.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
-- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
-- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
-- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
-- [ ] Andere Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.5.7 Themenvorschläge verwenden – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
-- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
-- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 6.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der terminbezogene Text wird korrekt angezeigt.
-- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
-- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
-- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
-- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
-- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
-- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
-- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.6.4 Wiedervorlage anlegen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
-- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
-- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
-- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
-- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
-- [ ] Frühere Protokollstände bleiben unverändert.
-- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2647,44 +2971,59 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 ### 6.7 Kommentare, Anlagen und Links
 
 #### 6.7.1 Kommentar hinzufügen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
-- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
-- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.7.2 Datei als Themenanlage hochladen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird beim richtigen Thema angezeigt.
-- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
-- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
-- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
-- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
-- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.7.4 Anlage herunterladen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2698,47 +3037,61 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Test erfolgreich:** [ ]
 
 #### 6.7.5 Anlage löschen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
-- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
-- [ ] Andere Anlagen und Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.7.6 Upload-Grenzen prüfen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
-- [ ] Zu große Dateien werden abgewiesen.
-- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
-- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.8 Besprechung abschließen und Protokoll
 
 #### 6.8.1 Besprechung abschließen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
-- [ ] Ein Protokoll-Snapshot wurde erstellt.
-- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
-- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.8.2 Protokoll anzeigen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2766,18 +3119,23 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Test erfolgreich:** [ ]
 
 #### 6.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
-- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
-- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
-- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2819,223 +3177,303 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Test erfolgreich:** [ ]
 
 #### 6.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
-- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
-- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.10 Berechtigungsanträge
 
 #### 6.10.1 Serienberechtigung beantragen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
-- [ ] Gewünschte Rolle wird korrekt angezeigt.
-- [ ] Der Antrag erscheint mit offenem Status.
-- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-#### 6.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
-- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
-- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
+#### 6.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Leser*in (Serienrolle)
+**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
----
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+
+**Test erfolgreich:** [ ]
 ### 6.11 Benutzer- und Themenimport/-export
 
 #### 6.11.1 Benutzer als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Exportdatei ist lesbar.
-- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
-- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.11.2 Benutzer per CSV importieren – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
-- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
-- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.11.3 Themen als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
-- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
-- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.11.4 Themen per CSV importieren – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
-- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
-- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.12 Änderungsverlauf und Audit
 
 #### 6.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
-- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
-- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
-- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
-- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
-- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
-- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] CSV-Datei ist lesbar.
-- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
-- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
-- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.13 Aufbewahrung und automatische Löschung
 
 #### 6.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
-- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
-- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Thema bleibt vor Fristablauf erhalten.
-- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
-- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
-- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.13.3 Retention wiederholt ausführen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
-- [ ] Nicht abgelaufene Daten bleiben erhalten.
-- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.14 Auditor*innenbereich
 
 #### 6.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
-- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
-- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
-- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 6.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
-- [ ] Fachliche Inhalte sind nicht zugänglich.
-- [ ] Schreibende Aktionen sind nicht möglich.
-- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
----
-
 ## 7. Produktiv – Teilnehmer
 
 Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreihe zugewiesen ist. Keine Moderatorrolle vergeben.
@@ -3144,31 +3582,41 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Test erfolgreich:** [ ]
 
 #### 7.4.2 Einzelnen Termin verschieben – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin wird am neuen Datum angezeigt.
-- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
-- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
-- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.4.3 Einzelnen Termin löschen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
-- [ ] Nicht ausgewählte Termine bleiben erhalten.
-- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
-- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3247,18 +3695,23 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Test erfolgreich:** [ ]
 
 #### 7.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
-- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
-- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
-- [ ] Der Änderungsverlauf bildet die Aktion ab.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3488,18 +3941,23 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Test erfolgreich:** [ ]
 
 #### 7.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
-- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
-- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
-- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3541,223 +3999,303 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Test erfolgreich:** [ ]
 
 #### 7.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
-- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
-- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 7.10 Berechtigungsanträge
 
 #### 7.10.1 Serienberechtigung beantragen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
-- [ ] Gewünschte Rolle wird korrekt angezeigt.
-- [ ] Der Antrag erscheint mit offenem Status.
-- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-#### 7.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
-- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
-- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
+#### 7.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
+**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
----
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+
+**Test erfolgreich:** [ ]
 ### 7.11 Benutzer- und Themenimport/-export
 
 #### 7.11.1 Benutzer als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Exportdatei ist lesbar.
-- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
-- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.11.2 Benutzer per CSV importieren – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
-- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
-- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.11.3 Themen als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
-- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
-- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.11.4 Themen per CSV importieren – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
-- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
-- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 7.12 Änderungsverlauf und Audit
 
 #### 7.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
-- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
-- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
-- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
-- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
-- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
-- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] CSV-Datei ist lesbar.
-- [ ] Export enthält nur die für die Rolle zulässigen Ereignisse.
-- [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
-- [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 7.13 Aufbewahrung und automatische Löschung
 
 #### 7.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
-- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
-- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Thema bleibt vor Fristablauf erhalten.
-- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
-- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
-- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.13.3 Retention wiederholt ausführen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
-- [ ] Nicht abgelaufene Daten bleiben erhalten.
-- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 7.14 Auditor*innenbereich
 
 #### 7.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
-- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
-- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
-- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 7.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
-- [ ] Fachliche Inhalte sind nicht zugänglich.
-- [ ] Schreibende Aktionen sind nicht möglich.
-- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
----
-
 ## 8. Produktiv – Moderator
 
 Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jeweiligen Testreihe zugewiesen ist. Für Fremdreihen darf keine Zuweisung bestehen.
@@ -3911,21 +4449,23 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 
 #### 8.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
-- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 #### 8.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4377,34 +4917,43 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 
 #### 8.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
-- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
-- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 8.10 Berechtigungsanträge
 
 #### 8.10.1 Serienberechtigung beantragen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
-- [ ] Gewünschte Rolle wird korrekt angezeigt.
-- [ ] Der Antrag erscheint mit offenem Status.
-- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 8.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4426,30 +4975,41 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 ### 8.11 Benutzer- und Themenimport/-export
 
 #### 8.11.1 Benutzer als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Exportdatei ist lesbar.
-- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
-- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 8.11.2 Benutzer per CSV importieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
-- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
-- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 8.11.3 Themen als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4493,18 +5053,23 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 
 #### 8.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
-- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
-- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
-- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 8.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4523,18 +5088,23 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 ### 8.13 Aufbewahrung und automatische Löschung
 
 #### 8.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
-- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
-- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 8.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4549,51 +5119,61 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 
 #### 8.13.3 Retention wiederholt ausführen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
-- [ ] Nicht abgelaufene Daten bleiben erhalten.
-- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 8.14 Auditor*innenbereich
 
 #### 8.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
-- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
-- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
-- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 8.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
-- [ ] Fachliche Inhalte sind nicht zugänglich.
-- [ ] Schreibende Aktionen sind nicht möglich.
-- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
----
-
 ## 9. Produktiv – Globale Rolle Admin
 
 Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrücklich keine Serienrolle zugewiesen ist. Wo der Test eine Serienrolle voraussetzt, zusätzlich einen getrennten Kontrolllauf mit Admin plus Moderatorzuweisung durchführen.
@@ -4650,20 +5230,23 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
-- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
-- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
-- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.3 Besprechungsreihen verwalten
 
 #### 9.3.1 Besprechungsreihe anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -4694,74 +5277,95 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.3.3 Besprechungsreihe verlängern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
-- [ ] Bereits vorhandene Termine bleiben erhalten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Serienzuweisungen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
-- [ ] Nicht ausgewählte Reihen sind unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.3.5 Besprechungsreihe löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
-- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
-- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
-- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
-- [ ] Änderungen betreffen nur die ausgewählte Reihe.
-- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
-- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
-- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 #### 9.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4782,383 +5386,511 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-- [ ] Ein Moderator-Konto für Testreihe A verwenden.
-- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
-- [ ] Testreihe A über die Serienverwaltung öffnen.
-- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
-- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Testreihe A kann verwaltet werden.
-- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
-- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
-- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 ### 9.4 Termine und Besprechungsübersicht
 
 #### 9.4.1 Terminübersicht aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Terminübersicht ist für den globalen Admin ohne Serienzuweisung erreichbar. Es werden keine fachlichen Termine angezeigt.
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Die Terminübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Termine der berechtigten Reihen werden angezeigt.
-- [ ] Datum und Reihenbezeichnung stimmen.
-- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
-- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+- Die Terminübersicht wird ohne Zugriffsfehler geöffnet.
+- Die Terminübersicht ist für den globalen Admin ohne Serienzuweisung erreichbar. Es werden keine fachlichen Termine angezeigt.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
 #### 9.4.2 Einzelnen Termin verschieben – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin wird am neuen Datum angezeigt.
-- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
-- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
-- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.4.3 Einzelnen Termin löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
-- [ ] Nicht ausgewählte Termine bleiben erhalten.
-- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
-- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
-- [ ] Abgewählte Konten werden nicht mehr angezeigt.
-- [ ] Die Änderung betrifft nur den ausgewählten Termin.
-- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
-- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.5 Themen anlegen und bearbeiten
 
 #### 9.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema erscheint in der Themenübersicht.
-- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
-- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
-- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
-- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.5.2 Thema über einen Termin anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das neue Thema ist angelegt.
-- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
-- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
-- [ ] Das Thema ist in der Themenübersicht auffindbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.5.3 Thema bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
-- [ ] Änderungen bleiben nach dem Neuladen erhalten.
-- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.5.4 Themenstatus ändern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der neue Status wird in der Detailansicht angezeigt.
-- [ ] Der Status wird in der Übersicht korrekt dargestellt.
-- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
-- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
-- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
-- [ ] Der Änderungsverlauf bildet die Aktion ab.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
-- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
-- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
-- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
-- [ ] Andere Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.5.7 Themenvorschläge verwenden – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Die Themenvorschläge über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
-- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
-- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+- Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
+- Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 9.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der terminbezogene Text wird korrekt angezeigt.
-- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
-- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
-- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
-- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
-- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
-- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
-- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.6.4 Wiedervorlage anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
-- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
-- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
-- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
-- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
-- [ ] Frühere Protokollstände bleiben unverändert.
-- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
-- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
-- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.7 Kommentare, Anlagen und Links
 
 #### 9.7.1 Kommentar hinzufügen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
-- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
-- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.7.2 Datei als Themenanlage hochladen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird beim richtigen Thema angezeigt.
-- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
-- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
-- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
-- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
-- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.7.4 Anlage herunterladen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
-- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
-- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.7.5 Anlage löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
-- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
-- [ ] Andere Anlagen und Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.7.6 Upload-Grenzen prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
-- [ ] Zu große Dateien werden abgewiesen.
-- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
-- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.8 Besprechung abschließen und Protokoll
 
 #### 9.8.1 Besprechung abschließen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
-- [ ] Ein Protokoll-Snapshot wurde erstellt.
-- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
-- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.8.2 Protokoll anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
-- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
-- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
-- [ ] PDF lässt sich öffnen.
-- [ ] PDF enthält die vorgesehenen Protokolldaten.
-- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
-- [ ] Unberechtigte Konten können den Export nicht abrufen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -5173,74 +5905,95 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
-- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
-- [ ] Der Export ist auf berechtigte Konten begrenzt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.9 Offene Themen und Archiv
 
 #### 9.9.1 Offene Themen aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nur fachlich zugängliche Themen werden angezeigt.
-- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
-- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.9.2 Archiv aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Das Archiv ist für den globalen Admin erreichbar. Ohne eigene Serienzuweisung werden keine fachlichen archivierten Themen angezeigt.
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Das Archiv über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Archivierte Themen sind im Archiv auffindbar.
-- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
-- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+- Das Archiv wird ohne Zugriffsfehler geöffnet.
+- Das Archiv ist für den globalen Admin erreichbar. Ohne eigene Serienzuweisung werden keine fachlichen archivierten Themen angezeigt.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
 #### 9.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
-- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
-- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.10 Berechtigungsanträge
 
 #### 9.10.1 Serienberechtigung beantragen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
-- [ ] Gewünschte Rolle wird korrekt angezeigt.
-- [ ] Der Antrag erscheint mit offenem Status.
-- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -5287,47 +6040,61 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.11.3 Themen als CSV exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
-- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
-- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.11.4 Themen per CSV importieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
-- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
-- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 9.12 Änderungsverlauf und Audit
 
 #### 9.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
-- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
-- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
-- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -5401,35 +6168,41 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 ### 9.14 Auditor*innenbereich
 
 #### 9.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
-- [ ] Startpasswort und andere Geheimnisse werden nicht angezeigt.
-- [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
-- [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 9.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Lesender Zugriff auf ausdrücklich freigegebene administrative Prüfdaten ist möglich.
-- [ ] Fachliche Inhalte sind nicht zugänglich.
-- [ ] Schreibende Aktionen sind nicht möglich.
-- [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
----
-
 ## 10. Produktiv – Globale Rolle Auditor
 
 Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienzuweisung darf es keine fachlichen Reiheninhalte sehen oder verändern. Nur ausdrücklich freigegebene administrative Prüfdaten sind lesbar.
@@ -5486,20 +6259,23 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Test erfolgreich:** [ ]
 
 #### 10.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Eigene offene Themen werden im vorgesehenen Abschnitt angezeigt.
-- [ ] Eigene Tagesordnungspunkte werden getrennt davon angezeigt.
-- [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
-- [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.3 Besprechungsreihen verwalten
 
 #### 10.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: globale Auditor*in
@@ -5525,531 +6301,735 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 ### 10.4 Termine und Besprechungsübersicht
 
 #### 10.4.1 Terminübersicht aufrufen – Prüfrolle: globale Auditor*in
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Terminübersicht leitet globale Auditor*innen zur Auditor*innenübersicht weiter; fachliche Termine sind nicht zugänglich.
 
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit einem globalen Auditor-Konto anmelden.
+- Die Terminübersicht über die Navigation öffnen und zusätzlich ihre direkte URL aufrufen.
+- Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
+- Einen bekannten Termin ausschließlich über dessen direkte URL aufrufen, um die Sperre der Termin-Detailseite zu bestätigen.
 
 **Ergebnisprüfung**
-
-- [ ] Termine der berechtigten Reihen werden angezeigt.
-- [ ] Datum und Reihenbezeichnung stimmen.
-- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
-- [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
+- Die Terminübersicht wird nicht als fachliche Terminansicht angezeigt, sondern leitet zur Auditor*innenübersicht weiter.
+- Die direkte URL eines bekannten Termins liefert keinen fachlichen Termininhalt.
+- Weder Termine noch Tagesordnungspunkte oder Teilnehmerdaten werden offengelegt.
+- Nach diesem Nachweis werden keine nachgelagerten Funktionen des Terminbereichs für diese Rolle getestet.
 
 **Test erfolgreich:** [ ]
-
 #### 10.4.2 Einzelnen Termin verschieben – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin wird am neuen Datum angezeigt.
-- [ ] Der bisherige Termin wird nicht zusätzlich als Duplikat angezeigt.
-- [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
-- [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.4.3 Einzelnen Termin löschen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
-- [ ] Nicht ausgewählte Termine bleiben erhalten.
-- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
-- [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
-- [ ] Abgewählte Konten werden nicht mehr angezeigt.
-- [ ] Die Änderung betrifft nur den ausgewählten Termin.
-- [ ] Die Serienberechtigungen der Konten bleiben unverändert.
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
-- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.5 Themen anlegen und bearbeiten
 
 #### 10.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema erscheint in der Themenübersicht.
-- [ ] Titel und Hauptzuständigkeit entsprechen den Eingaben.
-- [ ] Das Thema ist der ausgewählten Besprechungsreihe zugeordnet.
-- [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
-- [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.5.2 Thema über einen Termin anlegen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das neue Thema ist angelegt.
-- [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
-- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
-- [ ] Das Thema ist in der Themenübersicht auffindbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.5.3 Thema bearbeiten – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
-- [ ] Änderungen bleiben nach dem Neuladen erhalten.
-- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.5.4 Themenstatus ändern – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der neue Status wird in der Detailansicht angezeigt.
-- [ ] Der Status wird in der Übersicht korrekt dargestellt.
-- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Archivierte Themen erscheinen im Archiv und nicht mehr in der regulären offenen Themenliste.
-- [ ] Wieder geöffnete Themen erscheinen wieder im vorgesehenen aktiven Bereich.
-- [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
-- [ ] Der Änderungsverlauf bildet die Aktion ab.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
-- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
-- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
-- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
-- [ ] Andere Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.5.7 Themenvorschläge verwenden – Prüfrolle: globale Auditor*in
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert für die globale Auditorrolle wegen fehlenden fachlichen Zugriffs keine Themen.
 
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto anmelden.
+- Die Themenvorschläge über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
-- [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
-- [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
+- Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
+- Der Vorschlags-Endpunkt ist erreichbar, liefert für die globale Auditorrolle wegen fehlenden fachlichen Zugriffs keine Themen.
+- Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 10.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der terminbezogene Text wird korrekt angezeigt.
-- [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
-- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
-- [ ] Der allgemeine Themenstatus bleibt davon getrennt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
-- [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
-- [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
-- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
-- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.6.4 Wiedervorlage anlegen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Tagesordnungspunkt erscheint im vorgesehenen Zieltermin.
-- [ ] Die Verbindung zum vorherigen Tagesordnungspunkt ist nachvollziehbar.
-- [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
-- [ ] Es ist keine doppelte Wiedervorlage entstanden.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
-- [ ] Jeder Punkt ist dem richtigen Termin zugeordnet.
-- [ ] Frühere Protokollstände bleiben unverändert.
-- [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
-- [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
-- [ ] Zugriff ist auf berechtigte Konten begrenzt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.7 Kommentare, Anlagen und Links
 
 #### 10.7.1 Kommentar hinzufügen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Kommentar wird beim richtigen Thema angezeigt.
-- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
-- [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.7.2 Datei als Themenanlage hochladen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird beim richtigen Thema angezeigt.
-- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
-- [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
-- [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
-- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
-- [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
-- [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.7.4 Anlage herunterladen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
-- [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
-- [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.7.5 Anlage löschen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
-- [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
-- [ ] Andere Anlagen und Themen bleiben unverändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.7.6 Upload-Grenzen prüfen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Zulässige Dateien innerhalb des Limits werden angenommen.
-- [ ] Zu große Dateien werden abgewiesen.
-- [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
-- [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.8 Besprechung abschließen und Protokoll
 
 #### 10.8.1 Besprechung abschließen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist als abgeschlossen gekennzeichnet.
-- [ ] Ein Protokoll-Snapshot wurde erstellt.
-- [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
-- [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.8.2 Protokoll anzeigen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
-- [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
-- [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
-- [ ] PDF lässt sich öffnen.
-- [ ] PDF enthält die vorgesehenen Protokolldaten.
-- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
-- [ ] Unberechtigte Konten können den Export nicht abrufen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
-- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
-- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
-- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
-- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
-- [ ] Der Export ist auf berechtigte Konten begrenzt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.9 Offene Themen und Archiv
 
 #### 10.9.1 Offene Themen aufrufen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nur fachlich zugängliche Themen werden angezeigt.
-- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
-- [ ] Auswahl und Filter führen zu passenden Ergebnissen.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.9.2 Archiv aufrufen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Archivierte Themen sind im Archiv auffindbar.
-- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
-- [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
-- [ ] Das unbeteiligte Konto erhält keinen Zugriff.
-- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.10 Berechtigungsanträge
 
 #### 10.10.1 Serienberechtigung beantragen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
-- [ ] Gewünschte Rolle wird korrekt angezeigt.
-- [ ] Der Antrag erscheint mit offenem Status.
-- [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-#### 10.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
 **Ergebnisprüfung**
-
-- [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
-- [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
-- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
+#### 10.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Auditor*in
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
----
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+
+**Test erfolgreich:** [ ]
 ### 10.11 Benutzer- und Themenimport/-export
 
 #### 10.11.1 Benutzer als CSV exportieren – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Exportdatei ist lesbar.
-- [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
-- [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.11.2 Benutzer per CSV importieren – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
-- [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
-- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.11.3 Themen als CSV exportieren – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Export ist lesbar und enthält die vorgesehenen Themen.
-- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
-- [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.11.4 Themen per CSV importieren – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
-- [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
-- [ ] Es entstehen keine unbeabsichtigten Duplikate.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.12 Änderungsverlauf und Audit
 
 #### 10.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
-- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
-- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
-- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -6081,45 +7061,59 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 ### 10.13 Aufbewahrung und automatische Löschung
 
 #### 10.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
-- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
-- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Thema bleibt vor Fristablauf erhalten.
-- [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
-- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
-- [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
 #### 10.13.3 Retention wiederholt ausführen – Prüfrolle: globale Auditor*in
-
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
-**Ergebnisprüfung**
+**Prüfschritt**
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
+- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
+- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
+- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
+- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
 
-- [ ] Wiederholte Ausführung erzeugt keine doppelten Löschvorgänge oder inkonsistenten Datensätze.
-- [ ] Nicht abgelaufene Daten bleiben erhalten.
-- [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
+**Ergebnisprüfung**
+- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
+- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
+- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
+- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
 
 **Test erfolgreich:** [ ]
-
----
-
 ### 10.14 Auditor*innenbereich
 
 #### 10.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: globale Auditor*in
