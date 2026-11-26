@@ -32,6 +32,17 @@ Die Anwendung unterscheidet zwischen einer **globalen Benutzerrolle** und einer 
 
 Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zuordnungen, Ansichten und Aktionen nach dem Speichern bzw. Neuladen dem erwarteten Stand entsprechen. Bei Berechtigungstests zusätzlich den direkten Aufruf der betreffenden Seite oder Aktion prüfen, nicht nur das Vorhandensein oder Fehlen einer Schaltfläche.
 
+**Verbindliche Zugriffsprüfung je Funktionsbereich und Rolle**
+
+Diese Regel gilt für **alle sieben Produktiv-Rollengruppen** – globale Nutzer*innen, Nutzer*innen ohne Berechtigung, Leser*innen, Teilnehmer*innen, Moderator*innen, globale Admins und globale Auditor*innen – und für jeden einzelnen Funktionsbereich (z. B. Serienverwaltung, Termine, Themen, Import/Export oder Auditor*innenbereich):
+
+1. Zuerst ausschließlich den Zugang zur übergeordneten Seite des jeweiligen Funktionsbereichs prüfen. Dazu die Seite über die Navigation und – soweit sinnvoll – durch direkten URL-Aufruf aufrufen. Die Prüfung muss eindeutig feststellen, ob die Seite für diese Rolle erreichbar ist.
+2. **Ist die Seite nicht erreichbar und ist die Zugriffsverweigerung nachgewiesen, ist die Prüfung dieses Funktionsbereichs für diese Rolle beendet.** Alle nachfolgenden Testfälle und Einzelfunktionen innerhalb dieses Funktionsbereichs werden für diese Rolle übersprungen. Die erfolgreiche Zugriffsverweigerung am Seitenzugang ist der dokumentierte Prüfnachweis; es werden keine zusätzlichen Versuche zum Anlegen, Bearbeiten, Löschen, Importieren oder Exportieren ausgeführt.
+3. Ist die Seite erreichbar, werden die darunter aufgeführten Einzelfunktionen entsprechend den jeweiligen Berechtigungserwartungen geprüft. Auch dann können einzelne Aktionen gesperrt sein; diese konkreten Aktionsberechtigungen bleiben zu testen.
+4. Die Regel gilt unabhängig davon, ob die Einschränkung aus einer globalen Rolle oder einer fehlenden bzw. abweichenden Serienrolle folgt. Bei rollenabhängigen Mischfällen (z. B. globaler Admin mit zusätzlicher Moderatorzuweisung) ist der Zugang mit genau der im Testfall beschriebenen Rollenkombination zu prüfen.
+
+**Wichtig für die Durchführung:** Die nachfolgenden Einzelfälle eines Funktionsbereichs sind keine Aufforderung, trotz bereits nachgewiesener Seitensperre weitere Direktaufrufe oder Aktionen zu versuchen. Bei gesperrter übergeordneter Seite wird zum nächsten Funktionsbereich gewechselt.
+
 ---
 
 ## 1. Installation
