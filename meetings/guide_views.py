@@ -92,7 +92,10 @@ def _decode_github_checklist(file_data):
 
 def _read_test_documentation():
     if _test_documentation_github_configured():
-        return _decode_github_checklist(_github_checklist_api_request("GET"))
+        try:
+            return _decode_github_checklist(_github_checklist_api_request("GET"))
+        except urllib.error.HTTPError as exc:
+            raise TestChecklistGitHubError("GitHub konnte die Markdown-Datei nicht lesen. Bitte Token, Branch und Repository-Berechtigungen prüfen.") from exc
     source = Path(settings.BASE_DIR) / settings.TEST_DOCUMENTATION_GITHUB_PATH
     if not source.is_file():
         raise TestChecklistGitHubError("Die Testcheckliste ist derzeit nicht verfügbar.")
@@ -131,7 +134,10 @@ def _save_test_documentation_checkbox(checkbox_id, checked):
     if not _test_documentation_github_configured():
         raise TestChecklistGitHubError("GitHub-Speicherung ist nicht konfiguriert.")
     for attempt in range(3):
-        file_data = _github_checklist_api_request("GET")
+        try:
+            file_data = _github_checklist_api_request("GET")
+        except urllib.error.HTTPError as exc:
+            raise TestChecklistGitHubError("GitHub konnte die Markdown-Datei nicht lesen. Bitte Token, Branch und Repository-Berechtigungen prüfen.") from exc
         current_content = _decode_github_checklist(file_data)
         try:
             updated_content = _apply_test_documentation_checkbox(current_content, checkbox_id, checked)
