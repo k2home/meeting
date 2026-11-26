@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from .models import Meeting, MeetingSeries, SeriesAccess, Topic, TopicTransferHistory, AgendaItem
+from .models import AuditEvent, Meeting, MeetingSeries, SeriesAccess, Topic, TopicTransferHistory, AgendaItem
 
 User = get_user_model()
 
