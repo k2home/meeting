@@ -108,7 +108,7 @@ class SharedTestChecklistPersistenceTests(TestCase):
     def test_checkbox_change_is_saved_and_shared_between_users(self):
         self.client.force_login(self.user_one)
         response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-12-1",
+            "checkbox_id": "line-38-1",
             "checked": "true",
         })
         self.assertEqual(response.status_code, 200)
@@ -117,23 +117,23 @@ class SharedTestChecklistPersistenceTests(TestCase):
         self.client.force_login(self.user_two)
         page = self.client.get(reverse("test_documentation"))
         self.assertEqual(page.status_code, 200)
-        self.assertContains(page, 'data-checklist-id="line-12-1" checked')
+        self.assertContains(page, 'data-checklist-id="line-38-1" checked')
 
     def test_checkbox_can_be_unchecked_again(self):
         from meetings.models import TestChecklistState
 
-        TestChecklistState.objects.create(state={"line-12-1": True})
+        TestChecklistState.objects.create(state={"line-38-1": True})
         self.client.force_login(self.user_one)
         response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-12-1",
+            "checkbox_id": "line-38-1",
             "checked": "false",
         })
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(TestChecklistState.objects.get(pk=1).state["line-12-1"])
+        self.assertFalse(TestChecklistState.objects.get(pk=1).state["line-38-1"])
 
     def test_checkbox_update_requires_authentication_and_post(self):
         response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-12-1", "checked": "true",
+            "checkbox_id": "line-38-1", "checked": "true",
         })
         self.assertEqual(response.status_code, 302)
         self.client.force_login(self.user_one)
@@ -147,6 +147,6 @@ class SharedTestChecklistPersistenceTests(TestCase):
         })
         self.assertEqual(response.status_code, 400)
         response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-12-1", "checked": "maybe",
+            "checkbox_id": "line-38-1", "checked": "maybe",
         })
         self.assertEqual(response.status_code, 400)
