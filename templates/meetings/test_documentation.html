@@ -10,7 +10,6 @@
 .test-document .document-content p,.test-document .document-content li{line-height:1.6}
 .test-document .document-content li{margin:.25rem 0}
 .test-document .document-content input.test-checklist-box{width:1rem;height:1rem;margin-right:.45rem;vertical-align:middle;accent-color:var(--hagen-blue);cursor:pointer}
-.test-document .checklist-save-status{min-height:1.4em;font-size:.9rem}
 .test-document .document-content pre{overflow-x:auto;padding:.8rem;background:var(--soft-bg);border-radius:5px}
 .test-document .document-content table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}
 .test-document .document-content th,.test-document .document-content td{padding:.55rem;border:1px solid var(--border);text-align:left;vertical-align:top}
@@ -77,7 +76,7 @@
     document.body.appendChild(link);
     link.click();
     link.remove();
-    URL.revokeObjectURL(objectUrl);
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
   });
 })();
 </script>
