@@ -195,7 +195,9 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'querySelectorAll(\":scope > ul > li > ul > li > ul > li\")')
         self.assertContains(response, 'window.addEventListener("scroll", updateCurrentSection')
         self.assertContains(response, '.test-document-index .toc li.is-complete>a{background:#e8f5e9')
-        self.assertContains(response, 'sectionChecks.length > 0 && sectionChecks.every(checkbox => checkbox.checked)')
+        self.assertContains(response, 'checked === total')
+        self.assertContains(response, 'orderedNodes = content.querySelectorAll')
+        self.assertContains(response, 'window.updateTestDocumentationCompletion = updateCompletionStyles;')
         self.assertContains(response, 'item.classList.toggle("is-complete"')
         self.assertContains(response, 'updateCompletionStyles();')
         for anchor in ("installation", "ersteinrichtung", "testing", "produktiv-globale-rolle-nutzer", "produktiv-ohne-berechtigungen", "produktiv-leser", "produktiv-teilnehmer", "produktiv-moderator", "produktiv-globale-rolle-admin", "produktiv-globale-rolle-auditor"):
