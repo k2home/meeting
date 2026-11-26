@@ -2612,7 +2612,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-- [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
+- [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Leser*in zugewiesen ist.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
 - [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
 - [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
