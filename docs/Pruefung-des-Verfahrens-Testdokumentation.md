@@ -7,6 +7,8 @@
 ## Verwendung
 
 - Die Testfälle in einer geeigneten Testinstallation mit vorbereiteten Testkonten durchführen.
+- Testblöcke mit **PR-Test erforderlich** sind durch die Änderungen des aktuellen Pull Requests betroffen und müssen in diesem PR erneut ausgeführt werden.
+- Ein PR-Test-Marker ist kein Erfolgsnachweis. Die zugehörigen Kästchen bleiben bis zur tatsächlichen erfolgreichen Prüfung leer.
 - Für jeden Testfall die einzelnen Aktionen der Reihe nach ausführen und die Kästchen abhaken.
 - Am Ende jedes Testfalls den angezeigten Systemstand mit den erwarteten Ergebnissen vergleichen.
 - Den Erfolgs-Haken nur setzen, wenn alle Prüfpunkte erfüllt sind. Bei Abweichungen den Test nicht als erfolgreich markieren und die Abweichung separat dokumentieren.
@@ -1480,7 +1482,7 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ## 20. Hilfe und Dokumentation
 
-### 20.1 Benutzerhilfe aufrufen – Rolle: alle Rollen
+### 20.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
 
 - [ ] Menüpunkt **Hilfe** öffnen.
 - [ ] Benutzerhilfe aufrufen.
@@ -1491,6 +1493,27 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 - [ ] Hilfe wird ohne Fehler angezeigt.
 - [ ] Verlinkte Abschnitte sind erreichbar.
 - [ ] Inhalte sind lesbar und der Navigation zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+### 20.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
+
+- [ ] Mit einem angemeldeten Testkonto anmelden.
+- [ ] **Hilfe & Anleitung** öffnen.
+- [ ] Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
+- [ ] Prüfen, ob die Testdokumentation vollständig angezeigt wird.
+- [ ] Einen Testblock aufrufen und ein Kontrollkästchen anklicken.
+- [ ] Seite neu laden und prüfen, ob der Haken wie vorgesehen nur temporär bzw. nicht dauerhaft gespeichert wird.
+- [ ] Die Testcheckliste ohne Anmeldung direkt aufrufen.
+- [ ] Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
+
+**Ergebnisprüfung**
+- [ ] Der Link ist in **Hilfe & Anleitung** sichtbar und führt zur richtigen Testdokumentation.
+- [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
+- [ ] Kontrollkästchen lassen sich im Browser anklicken.
+- [ ] Ein gesetzter Haken wird nicht als dauerhaft gespeicherter Teststatus in der Anwendung behandelt.
+- [ ] Nicht angemeldete Konten erhalten keinen Zugriff.
+- [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
 
 **Test erfolgreich:** [ ]
 
