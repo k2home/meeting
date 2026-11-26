@@ -4958,7 +4958,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 #### 8.3.7 Zugriff auf fachliche Inhalte einer nicht zugewiesenen Reihe prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
-**Berechtigungserwartung für Moderator: Zugriff auf eigene Reihe erlaubt, auf nicht zugewiesene Reihen verweigert.** Die Moderatorrolle gilt ausschließlich für die ausdrücklich zugewiesene Reihe.
+**Berechtigungserwartung für Moderator: Zugriff erlaubt auf die eigene Reihe, Zugriff verweigert auf nicht zugewiesene Reihen.** Die Moderatorrolle gilt ausschließlich für die ausdrücklich zugewiesene Reihe.
 
 **Prüfschritt**
 - [ ] Mit einem Moderator-Konto anmelden, das für Testreihe A als Moderator zugewiesen ist.
@@ -4975,7 +4975,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 #### 8.3.8 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
-**Berechtigungserwartung für Moderator: Zugriff auf die eigene Reihe erlaubt, auf fremde Reihen verweigert.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
+**Berechtigungserwartung für Moderator: Zugriff erlaubt auf die eigene Reihe, Zugriff verweigert auf fremde Reihen.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
 
 **Prüfschritt**
 
@@ -6058,7 +6058,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 #### 9.3.7 Zugriff auf fachliche Inhalte ohne Serienzuweisung prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff auf administrative Serienverwaltung erlaubt, fachliche Reiheninhalte ohne Moderatorzuweisung verweigert.** Die globale Adminrolle verleiht keinen automatischen Zugriff auf bestehende Termine oder Themen.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt auf die administrative Serienverwaltung, Zugriff verweigert auf fachliche Reiheninhalte ohne Moderatorzuweisung.** Die globale Adminrolle verleiht keinen automatischen Zugriff auf bestehende Termine oder Themen.
 
 **Prüfschritt**
 - [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für Testreihe A anmelden.
