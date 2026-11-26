@@ -97,6 +97,17 @@ def test_documentation_toggle(request):
     if checked_value not in {"true", "false"}:
         return JsonResponse({"success": False, "error": "Ungültiger Prüfstatus."}, status=400)
 
+    source = Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
+    if not source.is_file():
+        return JsonResponse({"success": False, "error": "Testcheckliste nicht verfügbar."}, status=404)
+    line_match = re.fullmatch(r"line-([1-9][0-9]*)-([1-9][0-9]*)", checkbox_id)
+    if not line_match:
+        return JsonResponse({"success": False, "error": "Ungültige Prüffeld-ID."}, status=400)
+    source_lines = source.read_text(encoding="utf-8").splitlines()
+    line_number, occurrence = map(int, line_match.groups())
+    if line_number > len(source_lines) or len(re.findall(r"\\[([ xX])\\]", source_lines[line_number - 1])) < occurrence:
+        return JsonResponse({"success": False, "error": "Prüffeld nicht gefunden."}, status=400)
+
     with transaction.atomic():
         TestChecklistState.objects.get_or_create(pk=1)
         checklist = TestChecklistState.objects.select_for_update().get(pk=1)
