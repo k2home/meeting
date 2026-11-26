@@ -44,6 +44,31 @@ def security_description(request):
     })
 
 
+@login_required
+def test_documentation(request):
+    """Render the manual functional test checklist for authenticated users."""
+    source = Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
+    if not source.is_file():
+        return HttpResponse("Die Testcheckliste ist derzeit nicht verfügbar.", status=404)
+    raw = source.read_text(encoding="utf-8")
+    # Render Markdown task markers as interactive, non-persistent browser checkboxes.
+    raw = re.sub(
+        r"(?m)^- \\[([ xX])\\] ",
+        lambda match: '- <input type="checkbox" class="test-checklist-box"' +
+        (' checked' if match.group(1).lower() == 'x' else '') + '> ',
+        raw,
+    )
+    parser = markdown.Markdown(
+        extensions=["tables", "fenced_code", "sane_lists", "toc"],
+        output_format="html5",
+    )
+    content = parser.convert(raw)
+    return render(request, "meetings/test_documentation.html", {
+        "test_documentation_html": mark_safe(content),
+        "test_documentation_toc_html": mark_safe(parser.toc),
+    })
+
+
 def _inline_markup(value):
     """Escape Markdown text before translating the small inline subset used in the PDF."""
     value = value.strip()
