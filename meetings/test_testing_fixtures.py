@@ -39,7 +39,7 @@ class TestingFixtureViewTests(TestCase):
             "series_count": "1",
             "fixture_nonce": self.client.session["testing_fixture_nonce"],
         })
-        self.assertRedirects(response, url)
+        self.assertRedirects(response, url, fetch_redirect_response=False)
         followed = self.client.get(url)
         messages = [str(message) for message in followed.context["messages"]]
         self.assertTrue(any("Technische Details stehen im Serverprotokoll" in message for message in messages))
@@ -144,7 +144,7 @@ class TestingFixtureViewTests(TestCase):
         from django.utils import timezone
         self.assertTrue(Meeting.objects.filter(series=series, date__lt=timezone.localdate()).exists())
         self.assertTrue(SeriesAccess.objects.filter(
-            series=series, user__username__startswith="test_fixture_"
+            series=series, user__username__startswith="TEST"
         ).exists())
 
 
@@ -180,7 +180,7 @@ class TestingFixtureViewTests(TestCase):
             name="TEST-Besprechungsreihe reset",
             start_date="2026-01-01", end_date="2026-12-31",
         )
-        user = User.objects.create_user(username="test_fixture_reset")
+        user = User.objects.create_user(username="TESTReset", email="reset@example.beliebig.de")
         SeriesAccess.objects.create(user=user, series=series)
         topic = Topic.objects.create(title="TEST-Reset-Thema", series=series)
         meeting = Meeting.objects.create(series=series, date="2026-11-20")
