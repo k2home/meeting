@@ -1060,12 +1060,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
 - [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
-- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+- [ ] Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Termin kann mit dem für diesen Testfall verwendeten Leserkonto weiterhin geöffnet werden.
-- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für die geprüfte Leserrolle abgewiesen oder sind nicht verfügbar.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen abgewiesen oder sind nicht verfügbar.
 - [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
 - [ ] Eine Wiederöffnung ist ausschließlich über die gesonderte Funktion für Moderator*innen der konkreten Reihe möglich.
 
@@ -1571,7 +1570,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 #### 4.10.1 Serienberechtigung beantragen – Prüfrolle: globale Nutzerrolle ohne Serienzuweisung
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Auch ohne Serienzuweisung darf das Konto einen Antrag für eine Besprechungsreihe stellen; der Antrag selbst gewährt noch keinen Zugriff auf Reiheninhalte.
 
 **Prüfschritt**
 - [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
@@ -1588,7 +1587,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 
 #### 4.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Nutzer + Moderator*in der geprüften Reihe: Zugriff erlaubt.** Ein normaler Nutzer darf offene Anträge nur für Reihen entscheiden, in denen er ausdrücklich Moderator ist.
 
 **Prüfschritt**
 - [ ] Mit einem Moderator-Konto mit Zuweisung zur betroffenen Reihe anmelden.
@@ -1605,7 +1604,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 #### 4.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Nutzerrolle ohne Serienzuweisung
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Auch ohne Serienzuweisung darf das Konto einen Antrag für eine Besprechungsreihe stellen; der Antrag selbst gewährt noch keinen Zugriff auf Reiheninhalte.
 
 **Prüfschritt**
 - [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
@@ -1616,7 +1615,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
 - [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
-- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+- [ ] Durch die erneute Antragstellung entsteht keine Serienzuweisung und kein Zugriff auf Reiheninhalte, solange der Antrag nicht genehmigt wurde.
 
 **Test erfolgreich:** [ ]
 
@@ -3001,14 +3000,12 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
 - [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
-- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+- [ ] Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
 
 **Ergebnisprüfung**
-- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
-- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
+- [ ] Der Termin kann mit dem für diesen Testfall verwendeten Konto weiterhin geöffnet werden.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen abgewiesen oder sind nicht verfügbar.
 - [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
-- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
 
 **Test erfolgreich:** [ ]
 ### 6.5 Themen anlegen und bearbeiten
@@ -3971,14 +3968,12 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
 - [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
-- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+- [ ] Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
 
 **Ergebnisprüfung**
-- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
-- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
+- [ ] Der Termin kann mit dem für diesen Testfall verwendeten Konto weiterhin geöffnet werden.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
 - [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
-- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
 
 **Test erfolgreich:** [ ]
 ### 7.5 Themen anlegen und bearbeiten
@@ -5068,14 +5063,13 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
 - [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
-- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+- [ ] Vor dem Wiederöffnen eine schreibende Aktion am abgeschlossenen Termin versuchen und anschließend prüfen, dass der Abschlussstatus bestehen bleibt.
 
 **Ergebnisprüfung**
-- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
-- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
-- [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
-- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
+- [ ] Der Moderator kann den abgeschlossenen Termin seiner zugewiesenen Reihe öffnen und den gespeicherten Protokollstand einsehen.
+- [ ] Der abgeschlossene Termin bleibt bis zur ausdrücklichen Wiederöffnung schreibgeschützt.
+- [ ] Nach dem Wiederöffnen bleibt der vorherige Protokollstand im Änderungsverlauf nachvollziehbar; eine erneute Bearbeitung und ein erneuter Abschluss sind möglich.
+- [ ] Die Wiederöffnung ist für Moderator*innen der konkreten Reihe möglich; globale Adminrechte allein reichen ohne diese Serienzuweisung nicht aus.
 
 **Test erfolgreich:** [ ]
 ### 8.5 Themen anlegen und bearbeiten
