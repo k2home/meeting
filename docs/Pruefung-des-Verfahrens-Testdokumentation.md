@@ -2610,7 +2610,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 #### 6.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Leser*in (Serienrolle)
 
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
+**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Seite der Serienverwaltung darf für Leser*innen nicht erreichbar sein, weil eine Leserzuweisung keine Moderatorrechte für die Reihenverwaltung umfasst.
 
 - [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Leser*in zugewiesen ist.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
@@ -3515,7 +3515,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 #### 7.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
+**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Seite der Serienverwaltung darf für Teilnehmer*innen nicht erreichbar sein, weil eine Teilnehmerzuweisung keine Moderatorrechte für die Reihenverwaltung umfasst.
 
 - [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
@@ -6237,7 +6237,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 #### 10.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: globale Auditor*in
 
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die globale Auditorrolle gewährt keine Moderatorrechte; die Seite der Serienverwaltung darf daher nicht erreichbar sein.
 
 - [ ] Mit einem globalen Auditor-Konto anmelden.
 - [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
