@@ -76,7 +76,7 @@
 (() => {
   const index = document.querySelector(".test-document-index .toc");
   if (!index) return;
-  const items = Array.from(index.querySelectorAll(":scope > ul > li > ul > li > ul > li"));
+  const items = Array.from(index.querySelectorAll(":scope li"));
   const sections = items.map(item => {
     const link = item.querySelector(":scope > a");
     return link ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
@@ -96,7 +96,36 @@
       }
     });
   };
+  const updateCompletionStyles = () => {
+    const content = document.querySelector(".test-document .document-content");
+    if (!content) return;
+    const headings = Array.from(content.querySelectorAll("h1,h2,h3,h4,h5,h6"));
+    const checkboxes = Array.from(content.querySelectorAll("input.test-checklist-box"));
+    index.querySelectorAll("li").forEach((item) => {
+      const link = item.querySelector(":scope > a");
+      const heading = link?.hash ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
+      const headingIndex = heading ? headings.indexOf(heading) : -1;
+      if (headingIndex < 0) {
+        item.classList.remove("is-complete");
+        return;
+      }
+      const level = Number(heading.tagName.slice(1));
+      const nextHeading = headings.slice(headingIndex + 1).find(
+        candidate => Number(candidate.tagName.slice(1)) <= level
+      );
+      const sectionChecks = checkboxes.filter((checkbox) => {
+        const afterStart = Boolean(heading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
+        const beforeEnd = !nextHeading || Boolean(nextHeading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
+        return afterStart && beforeEnd;
+      });
+      item.classList.toggle(
+        "is-complete",
+        sectionChecks.length > 0 && sectionChecks.every(checkbox => checkbox.checked)
+      );
+    });
+  };
   updateCurrentSection();
+  updateCompletionStyles();
   window.addEventListener("scroll", updateCurrentSection, {passive:true});
   window.addEventListener("resize", updateCurrentSection);
 })();
