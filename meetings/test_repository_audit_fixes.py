@@ -186,7 +186,8 @@ class TopicArchiveWorkflowTests(TestCase):
         self.assertEqual(self.topic.status, "open")
         self.assertFalse(AuditEvent.objects.filter(topic=self.topic, action="archived").exists())
 
-    def test_topic_cannot_be_archived_before_six_calendar_months(self):
+    @patch("meetings.agenda_topic_views._topic_testing_mode_enabled", return_value=False)
+    def test_topic_cannot_be_archived_before_six_calendar_months(self, _testing_mode):
         self.topic.status = "done"
         self.topic.completed_at = timezone.localdate() - timedelta(days=30)
         self.topic.save(update_fields=["status", "completed_at"])
