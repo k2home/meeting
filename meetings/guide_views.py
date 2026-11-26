@@ -58,6 +58,9 @@ def _test_documentation_testing_mode_enabled():
 
 
 def _test_documentation_source_path():
+    configured_path = os.getenv("TEST_DOCUMENTATION_SOURCE_PATH")
+    if configured_path:
+        return Path(configured_path)
     return Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
 
 
