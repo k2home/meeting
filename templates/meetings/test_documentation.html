@@ -146,6 +146,26 @@
   const checkboxes = () => root.querySelectorAll(
     "input.test-checklist-box[data-checklist-line][data-checklist-occurrence]"
   );
+  const updateCompletionStyles = () => {
+    const index = document.querySelector(".test-document-index .toc");
+    if (!index) return;
+    const headings = Array.from(root.querySelectorAll("h1,h2,h3,h4,h5,h6"));
+    const allCheckboxes = Array.from(checkboxes());
+    index.querySelectorAll("li").forEach((item) => {
+      const link = item.querySelector(":scope > a");
+      const heading = link?.hash ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
+      const headingIndex = heading ? headings.indexOf(heading) : -1;
+      if (headingIndex < 0) { item.classList.remove("is-complete"); return; }
+      const level = Number(heading.tagName.slice(1));
+      const nextHeading = headings.slice(headingIndex + 1).find(candidate => Number(candidate.tagName.slice(1)) <= level);
+      const sectionChecks = allCheckboxes.filter((checkbox) => {
+        const afterStart = Boolean(heading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
+        const beforeEnd = !nextHeading || Boolean(nextHeading.compareDocumentPosition(checkbox) & Node.DOCUMENT_POSITION_FOLLOWING);
+        return afterStart && beforeEnd;
+      });
+      item.classList.toggle("is-complete", sectionChecks.length > 0 && sectionChecks.every(checkbox => checkbox.checked));
+    });
+  };
   const applyStatuses = (data) => {
     revision = data.revision;
     config.dataset.revision = revision;
@@ -155,6 +175,7 @@
         checkbox.checked = Boolean(data.statuses[id]);
       }
     });
+    updateCompletionStyles();
   };
   const refresh = async () => {
     if (refreshing || pendingSaves > 0) return;
@@ -178,6 +199,7 @@
   checkboxes().forEach((checkbox) => {
     checkbox.addEventListener("change", async () => {
       const desired = checkbox.checked;
+      updateCompletionStyles();
       pendingSaves += 1;
       const payload = {
         line: Number(checkbox.dataset.checklistLine),
