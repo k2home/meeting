@@ -65,105 +65,60 @@ class SecurityDescriptionPageTests(TestCase):
 
 
 class TestDocumentationPageTests(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username="test-documentation-reader", password="Strong-test-password-123!"
+        )
+        self.client.force_login(self.user)
+
     def test_test_documentation_requires_authentication(self):
+        self.client.logout()
         response = self.client.get(reverse("test_documentation"))
         self.assertEqual(response.status_code, 302)
 
-    def test_authenticated_user_can_open_interactive_test_checklist(self):
-        user = get_user_model().objects.create_user(
-            username="test-documentation-reader", password="Strong-test-password-123!"
-        )
-        self.client.force_login(user)
-
+    @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=False)
+    def test_checklist_is_read_only_outside_testing_mode(self, _testing_mode):
         response = self.client.get(reverse("test_documentation"))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Prüfung des Verfahrens")
         self.assertContains(response, 'type="checkbox"')
         self.assertContains(response, "Test erfolgreich")
-        self.assertContains(response, reverse("user_guide"))
+        self.assertContains(response, "Lesemodus")
+        self.assertContains(response, "disabled")
+        self.assertNotContains(response, 'id="download-test-documentation"')
+        self.assertNotContains(response, 'id="test-documentation-markdown-source"')
+        self.assertNotContains(response, "test_documentation_toggle")
+
+    @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
+    def test_testing_mode_enables_editing_and_markdown_download(self, _testing_mode):
+        response = self.client.get(reverse("test_documentation"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "TESTING-Modus ist aktiv")
+        self.assertContains(response, 'id="download-test-documentation"')
+        self.assertContains(response, 'id="test-documentation-markdown-source"')
+        self.assertContains(response, "text/markdown;charset=utf-8")
+        self.assertContains(response, "Pruefung-des-Verfahrens-Testdokumentation-")
+        self.assertNotContains(response, "data-save-url")
+        self.assertNotContains(response, "test_documentation_toggle")
 
     def test_user_guide_links_to_test_documentation(self):
-        user = get_user_model().objects.create_user(
-            username="test-documentation-guide-reader", password="Strong-test-password-123!"
-        )
-        self.client.force_login(user)
-
         response = self.client.get(reverse("user_guide"))
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, reverse("test_documentation"))
         self.assertContains(response, "Prüfung des Verfahrens – Testcheckliste")
 
+    def test_markdown_checkbox_rendering_respects_existing_status_and_edit_mode(self):
+        from meetings.guide_views import _render_test_documentation_markers
 
+        source = "- [ ] Noch offen\n- [x] Bereits erfolgreich\n"
+        editable = _render_test_documentation_markers(source, True)
+        readonly = _render_test_documentation_markers(source, False)
 
-class GitBackedTestChecklistTests(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(username="git-checklist-reader", password="Strong-test-password-123!")
-        self.client.force_login(self.user)
-
-    def test_checkbox_marker_is_updated_in_markdown_source(self):
-        from meetings.guide_views import _apply_test_documentation_checkbox, _test_documentation_checkbox_id
-        source = "# Bereich\n- [ ] Erster Test\n- [x] Zweiter Test\n"
-        first_id = _test_documentation_checkbox_id(2, 1, "- [ ] Erster Test\n")
-        second_id = _test_documentation_checkbox_id(3, 1, "- [x] Zweiter Test\n")
-        updated = _apply_test_documentation_checkbox(source, first_id, True)
-        self.assertEqual(updated, "# Bereich\n- [x] Erster Test\n- [x] Zweiter Test\n")
-        unchecked = _apply_test_documentation_checkbox(updated, second_id, False)
-        self.assertEqual(unchecked, "# Bereich\n- [x] Erster Test\n- [ ] Zweiter Test\n")
-
-    @override_settings(
-        TEST_DOCUMENTATION_GITHUB_TOKEN="test-token",
-        TEST_DOCUMENTATION_GITHUB_REPOSITORY="k2home/meeting",
-        TEST_DOCUMENTATION_GITHUB_BRANCH="beta",
-    )
-    @patch("meetings.guide_views._github_checklist_api_request")
-    def test_save_commits_updated_markdown_to_configured_branch(self, github_request):
-        import base64
-        from meetings.guide_views import _save_test_documentation_checkbox, _test_documentation_checkbox_id
-
-        markdown_source = "# Bereich\n- [ ] Erster Test\n"
-        github_request.side_effect = [
-            {
-                "content": base64.b64encode(markdown_source.encode("utf-8")).decode("ascii"),
-                "sha": "original-blob-sha",
-            },
-            {"commit": {"sha": "new-commit-sha"}},
-        ]
-        checkbox_id = _test_documentation_checkbox_id(2, 1, "- [ ] Erster Test\n")
-
-        result = _save_test_documentation_checkbox(checkbox_id, True)
-
-        self.assertEqual(result["commit"]["sha"], "new-commit-sha")
-        method, payload = github_request.call_args_list[1].args
-        self.assertEqual(method, "PUT")
-        self.assertEqual(payload["branch"], "beta")
-        saved_markdown = base64.b64decode(payload["content"]).decode("utf-8")
-        self.assertEqual(saved_markdown, "# Bereich\n- [x] Erster Test\n")
-
-    @patch("meetings.guide_views._test_documentation_github_configured", return_value=True)
-    @patch("meetings.guide_views._save_test_documentation_checkbox")
-    def test_checkbox_click_is_committed_to_markdown_without_database_state(self, save_checkbox, _configured):
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "true"})
-        self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, {"success": True, "checked": True})
-        save_checkbox.assert_called_once_with("line-38-1-000000000000", True)
-
-    @patch("meetings.guide_views._test_documentation_github_configured", return_value=False)
-    def test_checkbox_save_is_rejected_if_github_is_not_configured(self, _configured):
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "true"})
-        self.assertEqual(response.status_code, 503)
-
-    def test_checkbox_update_requires_authentication_and_post(self):
-        self.client.logout()
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "true"})
-        self.assertEqual(response.status_code, 302)
-        self.client.force_login(self.user)
-        response = self.client.get(reverse("test_documentation_toggle"))
-        self.assertEqual(response.status_code, 405)
-
-    def test_checkbox_update_rejects_invalid_values(self):
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "../settings", "checked": "true"})
-        self.assertEqual(response.status_code, 400)
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "maybe"})
-        self.assertEqual(response.status_code, 400)
+        self.assertIn('data-checklist-line="1"', editable)
+        self.assertIn('data-checklist-occurrence="1"', editable)
+        self.assertIn(" checked>", editable)
+        self.assertNotIn(" disabled", editable)
+        self.assertIn(" disabled>", readonly)
