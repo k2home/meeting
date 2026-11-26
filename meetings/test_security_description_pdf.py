@@ -178,6 +178,13 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "document-content ul")
         self.assertContains(response, "document-content hr")
         self.assertContains(response, "20.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
+        for phase in ("Installation", "Ersteinrichtung", "Testing", "Produktiv"):
+            self.assertContains(response, f"<h2>{phase}</h2>")
+        self.assertContains(response, 'class="test-documentation-toc"')
+        for anchor in ("installation", "ersteinrichtung", "testing", "produktiv"):
+            self.assertContains(response, f'href="#{anchor}"')
+        self.assertContains(response, "<h3>1. Anmeldung und Sitzung</h3>")
+        self.assertContains(response, "<h4>1.1 Anmeldung mit gültigem Konto")
 
     def test_checklist_source_path_can_be_configured_for_docker_volume(self):
         from meetings.guide_views import _test_documentation_source_path
