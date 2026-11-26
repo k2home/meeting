@@ -949,19 +949,24 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 **Test erfolgreich:** [ ]
 
-#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in, Admin ohne Serienzuweisung
+#### 12.7 Fehlende Serienberechtigung prüfen – Rolle: Nutzer*in ohne Serienzuweisung und globaler Admin ohne Moderatorzuweisung für die Testreihe
 
-- [ ] Ein Konto ohne Zuweisung zu einer Testreihe anmelden.
-- [ ] Reihenübersicht öffnen.
-- [ ] Versuchen, die Testreihe über die Navigation aufzurufen.
-- [ ] Die URL eines bekannten Termins der Testreihe direkt aufrufen.
-- [ ] Eine bekannte Themen-URL der Testreihe direkt aufrufen.
+- [ ] Eine Testreihe vorbereiten, der das Prüfkonto nicht zugewiesen ist.
+- [ ] Ein globales Admin-Konto verwenden, das ausschließlich in einer anderen Testreihe als Moderator*in zugewiesen ist.
+- [ ] Mit diesem Konto anmelden und die Reihenübersicht öffnen.
+- [ ] Versuchen, die nicht zugewiesene Testreihe über die Navigation aufzurufen.
+- [ ] Die URL eines bekannten Termins der nicht zugewiesenen Testreihe direkt aufrufen.
+- [ ] Eine bekannte Themen-URL dieser Testreihe direkt aufrufen.
+- [ ] Die direkte URL zur Bearbeitung der Testreihe aufrufen.
+- [ ] Den direkten Aufruf der Mitglieder- bzw. Serienberechtigungsverwaltung dieser Testreihe prüfen.
 
 **Ergebnisprüfung**
 
 - [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe gewähren keinen unberechtigten Zugriff.
-- [ ] Eine globale Adminrolle allein gewährt keinen automatischen fachlichen Reihen-Zugriff.
+- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
+- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
+- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
+- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
 
 **Test erfolgreich:** [ ]
 
