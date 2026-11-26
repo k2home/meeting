@@ -2,14 +2,14 @@
 
 **Grundlage:** Branch `beta`  
 **Zweck:** Vollständige manuelle Funktionsprüfung des Meeting Managers  
-**Art der Dokumentation:** Ablauf- und Ergebnischeckliste; keine automatische Speicherung des Teststatus in der Anwendung
+**Art der Dokumentation:** Ablauf- und Ergebnischeckliste mit gemeinsam gespeicherten Prüfstatus in der Anwendung
 
 ## Verwendung
 
 - Die Testfälle in einer geeigneten Testinstallation mit vorbereiteten Testkonten durchführen.
 - Testblöcke mit **PR-Test erforderlich** sind durch die Änderungen des aktuellen Pull Requests betroffen und müssen in diesem PR erneut ausgeführt werden.
 - Ein PR-Test-Marker ist kein Erfolgsnachweis. Die zugehörigen Kästchen bleiben bis zur tatsächlichen erfolgreichen Prüfung leer.
-- Für jeden Testfall die einzelnen Aktionen der Reihe nach ausführen und die Kästchen abhaken.
+- Für jeden Testfall die einzelnen Aktionen der Reihe nach ausführen und die Kästchen auf der Hilfeseite abhaken; jede Änderung wird automatisch und gemeinsam für alle angemeldeten Nutzer gespeichert.
 - Am Ende jedes Testfalls den angezeigten Systemstand mit den erwarteten Ergebnissen vergleichen.
 - Den Erfolgs-Haken nur setzen, wenn alle Prüfpunkte erfüllt sind. Bei Abweichungen den Test nicht als erfolgreich markieren und die Abweichung separat dokumentieren.
 - Rollenprüfungen mit getrennten Konten durchführen. Eine globale Administratorrolle ersetzt keine Serienzuweisung und gewährt nicht automatisch Zugriff auf fachliche Reiheninhalte.
