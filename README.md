@@ -432,9 +432,6 @@ Dasselbe Muster gilt für weitere `manage.py`-Befehle, zum Beispiel `check` oder
 
 Der TESTING-Modus stellt zusätzliche Werkzeuge für Entwicklung, Abnahme und manuelle Funktionstests bereit. Er ist ausschließlich für **isolierte Testinstallationen** vorgesehen und darf nicht auf einem produktiv genutzten System aktiviert werden. Insbesondere werden zusätzliche Git-Branches freigegeben, die Django-Administration eingeblendet und bei der manuellen Nutzeranlage die üblichen Passwort-Komplexitätsprüfungen umgangen.
 
-### 6. Manuelle Testcheckliste bearbeiten und exportieren
-
-Die interaktive Bearbeitung der Testcheckliste unter **Hilfe & Anleitung → Prüfung des Verfahrens** ist ausschließlich im aktivierten TESTING-Modus verfügbar. Außerhalb des Modus wird die Checkliste schreibgeschützt angezeigt. Im TESTING-Modus können Prüfhaken im Browser gesetzt oder entfernt und anschließend über **Bearbeiteten Test als .md herunterladen** als vollständige Markdown-Datei exportiert werden. Die Änderungen werden nicht serverseitig, nicht in der Datenbank und nicht automatisch in GitHub gespeichert. Die heruntergeladene Datei kann nach Prüfung manuell in GitHub hochgeladen oder in einen Branch übernommen werden.
 
 Der Modus wird auf Debian-/Ubuntu-Installationen mit systemd beim Update aktiviert:
 
@@ -498,6 +495,11 @@ Die Funktion **TEST-Daten zurücksetzen** entfernt die von der Beispielkonfigura
 - Die zusätzlichen Branches können unfertigen oder fehlerhaften Code enthalten. Vor dem Testen eines Branches sollte ein aktuelles Backup vorhanden sein.
 - Die Django-Administration und die vereinfachte Passwortprüfung vergrößern die Angriffsfläche. Den Zugriff auf die Testinstallation deshalb auf ein vertrauenswürdiges Netz und berechtigte Personen beschränken.
 - Testdaten möglichst vor der Übernahme oder Wiederverwendung der Installation zurücksetzen und den TESTING-Modus anschließend beenden.
+
+
+### 6. Manuelle Testcheckliste bearbeiten und exportieren
+
+Die interaktive Bearbeitung der Testcheckliste unter **Hilfe & Anleitung → Prüfung des Verfahrens** ist ausschließlich im aktivierten TESTING-Modus verfügbar. Außerhalb des Modus wird die Checkliste schreibgeschützt angezeigt. Im TESTING-Modus können Prüfhaken im Browser gesetzt oder entfernt und anschließend über **Bearbeiteten Test als .md herunterladen** als vollständige Markdown-Datei exportiert werden. Die Änderungen werden nicht serverseitig, nicht in der Datenbank und nicht automatisch in GitHub gespeichert. Die heruntergeladene Datei kann nach Prüfung manuell in GitHub hochgeladen oder in einen Branch übernommen werden.
 
 ## Arbeitsabläufe in der Anwendung
 
