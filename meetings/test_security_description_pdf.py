@@ -78,7 +78,18 @@ class TestDocumentationPageTests(TestCase):
 
     def test_test_documentation_requires_authentication(self):
         self.client.logout()
-        response = self.client.get(reverse("test_documentation"))
+        for method, route in (
+            (self.client.get, "test_documentation"),
+            (self.client.get, "test_documentation_status"),
+            (self.client.get, "test_documentation_download"),
+        ):
+            response = method(reverse(route))
+            self.assertEqual(response.status_code, 302)
+        response = self.client.post(
+            reverse("test_documentation_toggle"),
+            data="{}",
+            content_type="application/json",
+        )
         self.assertEqual(response.status_code, 302)
 
     @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=False)
@@ -103,6 +114,7 @@ class TestDocumentationPageTests(TestCase):
             403,
         )
         self.assertEqual(self.client.get(reverse("test_documentation_download")).status_code, 403)
+        self.assertEqual(self.client.get(reverse("test_documentation_status")).status_code, 403)
 
     @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
     def test_toggle_rejects_non_object_and_invalid_checkbox_payloads(self, _testing_mode):
