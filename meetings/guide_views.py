@@ -53,7 +53,7 @@ def test_documentation(request):
     raw = source.read_text(encoding="utf-8")
     # Render Markdown task markers as interactive, non-persistent browser checkboxes.
     raw = re.sub(
-        r"(?m)^- \\[([ xX])\\] ",
+        r"(?m)^- \[([ xX])\] ",
         lambda match: '- <input type="checkbox" class="test-checklist-box"' +
         (' checked' if match.group(1).lower() == 'x' else '') + '> ',
         raw,
