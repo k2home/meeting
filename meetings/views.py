@@ -1922,18 +1922,71 @@ def series_admin(request):
 @login_required
 @require_http_methods(["POST"])
 def series_manage_user_access(request, pk):
-    """Set or remove a user's explicit permission for one moderated series."""
+    """Save all explicitly selected user roles for one moderated series."""
     series = get_object_or_404(MeetingSeries, pk=pk)
     if not is_moderator(request.user, series):
         return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
-    target_user = get_object_or_404(UserModel, pk=request.POST.get("user_id"))
-    role = request.POST.get("role", "")
+
     allowed_roles = {
         SeriesAccess.ROLE_NONE,
         SeriesAccess.ROLE_READER,
         SeriesAccess.ROLE_PARTICIPANT,
         SeriesAccess.ROLE_MODERATOR,
     }
+    bulk_role_fields = {
+        key[len("role_"):]: value
+        for key, value in request.POST.items()
+        if key.startswith("role_")
+    }
+    if bulk_role_fields:
+        with transaction.atomic():
+            if not is_moderator(request.user, series):
+                return HttpResponseForbidden("Für diese Besprechungsreihe fehlen Moderatorrechte.")
+            for user_id, role in bulk_role_fields.items():
+                if role not in allowed_roles:
+                    return HttpResponseForbidden("Ungültige Serienberechtigung.")
+                target_user = get_object_or_404(UserModel, pk=user_id)
+                access = SeriesAccess.objects.select_for_update().filter(
+                    user=target_user, series=series
+                ).first()
+                old_role = access.role if access else SeriesAccess.ROLE_NONE
+                # A moderator cannot remove or change their own moderator access.
+                if (target_user.pk == request.user.pk
+                        and old_role == SeriesAccess.ROLE_MODERATOR):
+                    continue
+                if old_role == role:
+                    continue
+                if role == SeriesAccess.ROLE_NONE:
+                    if access:
+                        access.delete()
+                elif access:
+                    access.role = role
+                    access.save(update_fields=["role"])
+                else:
+                    SeriesAccess.objects.create(
+                        user=target_user, series=series, role=role
+                    )
+                role_labels = dict(SeriesAccess.REQUEST_ROLE_CHOICES)
+                record_event(
+                    actor=request.user,
+                    action="deleted" if role == SeriesAccess.ROLE_NONE else (
+                        "created" if old_role == SeriesAccess.ROLE_NONE else "updated"
+                    ),
+                    summary=f"Serienberechtigung für {user_display_name(target_user)} in „{series.name}“ geändert",
+                    series=series,
+                    changes={
+                        "Benutzer": user_display_name(target_user),
+                        "Berechtigung": {
+                            "vorher": role_labels.get(old_role, old_role),
+                            "nachher": role_labels.get(role, role),
+                        },
+                    },
+                )
+        messages.success(request, "Alle Berechtigungen wurden gespeichert.")
+        return redirect("series_admin")
+
+    target_user = get_object_or_404(UserModel, pk=request.POST.get("user_id"))
+    role = request.POST.get("role", "")
     if role not in allowed_roles:
         return HttpResponseForbidden("Ungültige Serienberechtigung.")
     with transaction.atomic():
