@@ -71,12 +71,11 @@ fi
 # below because it is intentionally local and may have been tracked by old releases.
 CHECKLIST_RELATIVE="docs/Pruefung-des-Verfahrens-Testdokumentation.md"
 CHECKLIST_FILE="$APP_DIR/$CHECKLIST_RELATIVE"
-CHECKLIST_LOCK_FILE="$CHECKLIST_FILE.lock"
+CHECKLIST_LOCK_FILE="${TEST_DOCUMENTATION_LOCK_PATH:-/var/lib/meeting-manager-updater/test-documentation.lock}"
 CHECKLIST_BACKUP=""
-# Restore the shared directory permissions before opening the lock file.
-# Older installations may still have docs/ without the group-write/sticky bits.
-chown root:www-data "$APP_DIR/docs"
-chmod 1775 "$APP_DIR/docs"
+# Keep the deployment lock outside docs/: local directory permissions must
+# never prevent the updater from opening the same lock used by the web app.
+install -d -o root -g www-data -m 0770 "$(dirname "$CHECKLIST_LOCK_FILE")"
 # Serialize application writes with deployment backup/restore operations.
 touch "$CHECKLIST_LOCK_FILE"
 chown meetingapp:www-data "$CHECKLIST_LOCK_FILE"
@@ -174,9 +173,7 @@ handle_update_exit() {
     rm -f "$CHECKLIST_BACKUP"
     CHECKLIST_BACKUP=""
   fi
-  if [[ -d "$APP_DIR/docs" && -f "$CHECKLIST_FILE" ]]; then
-    chown root:www-data "$APP_DIR/docs"
-    chmod 1775 "$APP_DIR/docs"
+  if [[ -f "$CHECKLIST_FILE" ]]; then
     chown meetingapp:www-data "$CHECKLIST_FILE"
     chmod 660 "$CHECKLIST_FILE"
   fi
@@ -213,9 +210,7 @@ if [[ -n "$CHECKLIST_BACKUP" && -f "$CHECKLIST_BACKUP" ]]; then
   rm -f "$CHECKLIST_BACKUP"
   CHECKLIST_BACKUP=""
 fi
-# Re-apply local write permissions after Git replaces files during checkout.
-chown root:www-data "$APP_DIR/docs"
-chmod 1775 "$APP_DIR/docs"
+# Re-apply local write permissions after Git replaces the checklist during checkout.
 chown meetingapp:www-data "$CHECKLIST_FILE"
 chmod 660 "$CHECKLIST_FILE"
 restore_env
