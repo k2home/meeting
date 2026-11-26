@@ -24,6 +24,7 @@ services:
       POSTGRES_PORT: 5432
       DEBUG: "0"
       TEST_DOCUMENTATION_SOURCE_PATH: /app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md
+      TEST_DOCUMENTATION_LOCK_PATH: /app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md.lock
     group_add:
       - "10002"
     volumes:
