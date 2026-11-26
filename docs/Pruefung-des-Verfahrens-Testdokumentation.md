@@ -7482,19 +7482,17 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 #### 10.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Auditor*in
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff auf die Auditor*innenübersicht erlaubt; Zugriff auf das Serienarchiv nicht erlaubt.** Der Archivaufruf leitet globale Auditor*innen zur Auditor*innenübersicht weiter und gibt keine archivierten Reiheninhalte aus.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Archiv über Navigation bzw. direkte URL öffnen und nach archivierten Testthemen sowie deren Aufbewahrungsfrist und Löschdatum suchen.
-- [ ] Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- [ ] Mit einem globalen Auditor-Konto anmelden.
+- [ ] Das Archiv über die Navigation öffnen und zusätzlich die direkte URL aufrufen.
+- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird die Zugriffsverweigerung dokumentiert und der Funktionsbereich gemäß der verbindlichen Regel beendet.
-- [ ] Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
-- [ ] Es werden keine archivierten Themen oder Aufbewahrungsdaten aus nicht zugänglichen Reihen angezeigt.
-- [ ] Administrative Aufbewahrungswerte werden nicht offengelegt oder verändert.
+- [ ] Das Serienarchiv wird nicht angezeigt; stattdessen erfolgt die vorgesehene Weiterleitung zur Auditor*innenübersicht.
+- [ ] Es werden keine archivierten Themen, Aufbewahrungsfristen oder Löschdaten aus Serien angezeigt.
+- [ ] Nach diesem Nachweis werden keine nachgelagerten Funktionen des Archivbereichs für diese Rolle getestet.
 
 **Test erfolgreich:** [ ]
 #### 10.13.3 Retention wiederholt ausführen – Prüfrolle: globale Auditor*in
