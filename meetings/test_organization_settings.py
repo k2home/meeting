@@ -44,7 +44,7 @@ class OrganizationSettingsTests(TestCase):
         self.assertContains(response, ".settings-logo-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))")
         self.assertContains(response, ".settings-logo-preview img{display:block;width:100%;max-width:100%;max-height:140px")
         self.assertContains(response, '.settings-logo-form input[type="file"]{display:block;width:100%;max-width:100%;min-width:0')
-        self.assertContains(response, "Noch kein Logo hinterlegt.")
+        self.assertContains(response, 'alt="Aktuelles Organisationslogo"')
         self.assertNotContains(response, 'type="checkbox"')
         self.assertNotContains(response, "Optionales Organisationslogo für die Seitenleiste")
         self.assertRegex(response.content.decode(), r'<input[^>]*type="number"[^>]*name="retention_years"|<input[^>]*name="retention_years"[^>]*type="number"')
