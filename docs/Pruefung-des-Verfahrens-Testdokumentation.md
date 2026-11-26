@@ -1494,7 +1494,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -2401,7 +2401,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -2416,7 +2416,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -3305,7 +3305,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -3320,7 +3320,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -4121,7 +4121,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -4136,7 +4136,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -5019,7 +5019,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -6042,7 +6042,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
@@ -6975,7 +6975,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
 - [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
 - [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
