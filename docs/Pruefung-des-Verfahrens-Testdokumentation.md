@@ -2583,7 +2583,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
+- [ ] Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
 - [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
@@ -6715,7 +6715,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Prüfschritt**
 - [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
+- [ ] Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
 - [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
