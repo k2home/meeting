@@ -848,12 +848,12 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 ### 4.3 Besprechungsreihen verwalten
 
-#### 4.3.1 Besprechungsreihe anlegen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
+#### 4.3.1 Besprechungsreihe anlegen – Prüfrolle: globale Nutzerrolle + Moderator*in einer bestehenden Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Mit einem globalen Nutzerkonto anmelden, das in mindestens einer bestehenden Besprechungsreihe ausdrücklich als Moderator*in zugewiesen ist.
 - [ ] Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
 - [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
