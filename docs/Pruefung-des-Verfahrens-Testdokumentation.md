@@ -773,6 +773,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Dashboard wird ohne Fehler geladen.
@@ -785,6 +790,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -803,6 +813,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
@@ -814,6 +829,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -832,6 +852,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
@@ -846,6 +871,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Geänderte Werte werden angezeigt.
@@ -858,6 +888,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.3.3 Besprechungsreihe verlängern – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -872,6 +907,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
@@ -885,6 +925,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
@@ -897,6 +942,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -955,6 +1005,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Termine der berechtigten Reihen werden angezeigt.
@@ -967,6 +1022,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.4.2 Einzelnen Termin verschieben – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -981,6 +1041,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
@@ -994,6 +1059,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
@@ -1004,20 +1074,31 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 
 #### 4.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
-**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
-- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
+- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+
+**Ergebnisprüfung**
+- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
+- [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
+- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
+
 **Test erfolgreich:** [ ]
-
----
-
 ### 4.5 Themen anlegen und bearbeiten
 
 #### 4.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1033,6 +1114,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Das neue Thema ist angelegt.
@@ -1045,6 +1131,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.5.3 Thema bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1059,6 +1150,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
@@ -1070,6 +1166,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1084,6 +1185,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
@@ -1097,6 +1203,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.5.7 Themenvorschläge verwenden – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1114,6 +1225,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der terminbezogene Text wird korrekt angezeigt.
@@ -1127,6 +1243,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
@@ -1139,6 +1260,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
@@ -1150,6 +1276,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.6.4 Wiedervorlage anlegen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1164,6 +1295,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
@@ -1176,6 +1312,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1193,6 +1334,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Kommentar wird beim richtigen Thema angezeigt.
@@ -1205,6 +1351,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.7.2 Datei als Themenanlage hochladen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1219,6 +1370,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
@@ -1232,6 +1388,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
@@ -1244,6 +1405,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
@@ -1255,6 +1421,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.7.6 Upload-Grenzen prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1273,6 +1444,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Termin ist als abgeschlossen gekennzeichnet.
@@ -1286,6 +1462,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
@@ -1297,6 +1478,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1312,6 +1498,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
@@ -1324,6 +1515,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1341,6 +1537,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
@@ -1353,6 +1554,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Archivierte Themen sind im Archiv auffindbar.
@@ -1364,6 +1570,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1381,6 +1592,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
@@ -1391,12 +1607,29 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 
 #### 4.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit einem Moderator-Konto mit Zuweisung zur betroffenen Reihe anmelden.
+- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für eine Testreihe vorbereiten.
+- [ ] Die Liste offener Anträge öffnen, den vorbereiteten Antrag auswählen und einmal genehmigen oder ablehnen.
+- [ ] Die Liste und den Berechtigungsstatus des antragstellenden Testkontos erneut laden.
+
+**Ergebnisprüfung**
+- [ ] Der Antrag wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
+- [ ] Die gespeicherte Entscheidung entspricht exakt der gewählten Genehmigung oder Ablehnung.
+- [ ] Bei Genehmigung erhält das Testkonto ausschließlich die genehmigte Serienrolle für die ausgewählte Reihe.
+- [ ] Bei Ablehnung entsteht keine Serienzuweisung; andere Anträge und Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 #### 4.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1450,6 +1683,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Export ist lesbar und enthält die vorgesehenen Themen.
@@ -1461,6 +1699,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.11.4 Themen per CSV importieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1478,6 +1721,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1507,6 +1755,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1542,6 +1795,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 #### 4.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- [ ] Die Aufbewahrungseinstellungen für archivierte Testthemen öffnen und die konfigurierte Frist sowie den zugehörigen Status ablesen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1625,6 +1883,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Dashboard wird ohne Fehler geladen.
@@ -1637,6 +1900,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 #### 5.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1655,6 +1923,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
@@ -1666,6 +1939,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 #### 5.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2262,6 +2540,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
@@ -2277,6 +2560,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 #### 5.10.1 Serienberechtigung beantragen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2308,6 +2596,11 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 #### 5.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2554,6 +2847,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Dashboard wird ohne Fehler geladen.
@@ -2566,6 +2864,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 #### 6.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2583,6 +2886,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 #### 6.2.1 Persönliche Kontodaten bearbeiten – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2633,6 +2941,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 #### 6.4.1 Terminübersicht aufrufen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2698,15 +3011,21 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Test erfolgreich:** [ ]
 #### 6.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Leser*in (Serienrolle)
-
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
-**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
-- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
+- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+
+**Ergebnisprüfung**
+- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
+- [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
+- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
+
 **Test erfolgreich:** [ ]
-
----
-
 ### 6.5 Themen anlegen und bearbeiten
 
 #### 6.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Leser*in (Serienrolle)
@@ -2931,6 +3250,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
@@ -3001,6 +3325,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
@@ -3069,6 +3398,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
@@ -3080,6 +3414,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 #### 6.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3113,6 +3452,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
@@ -3129,6 +3473,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
@@ -3140,6 +3489,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 #### 6.9.2 Archiv aufrufen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3458,6 +3812,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Dashboard wird ohne Fehler geladen.
@@ -3470,6 +3829,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3488,6 +3852,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
@@ -3499,6 +3868,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3538,6 +3912,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.4.1 Terminübersicht aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3588,6 +3967,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
@@ -3598,20 +3982,31 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Test erfolgreich:** [ ]
 
 #### 7.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Teilnehmer*in (Serienrolle)
-
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
-**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
-- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
+- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+
+**Ergebnisprüfung**
+- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
+- [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
+- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
+
 **Test erfolgreich:** [ ]
-
----
-
 ### 7.5 Themen anlegen und bearbeiten
 
 #### 7.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3627,6 +4022,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Das neue Thema ist angelegt.
@@ -3640,6 +4040,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
@@ -3652,6 +4057,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.5.4 Themenstatus ändern – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3683,6 +4093,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
@@ -3696,6 +4111,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.5.7 Themenvorschläge verwenden – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3713,6 +4133,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der terminbezogene Text wird korrekt angezeigt.
@@ -3726,6 +4151,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
@@ -3738,6 +4168,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
@@ -3749,6 +4184,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.6.4 Wiedervorlage anlegen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3763,6 +4203,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
@@ -3775,6 +4220,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3792,6 +4242,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Kommentar wird beim richtigen Thema angezeigt.
@@ -3804,6 +4259,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.7.2 Datei als Themenanlage hochladen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3818,6 +4278,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
@@ -3831,6 +4296,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
@@ -3843,6 +4313,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
@@ -3854,6 +4329,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.7.6 Upload-Grenzen prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3872,6 +4352,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Termin ist als abgeschlossen gekennzeichnet.
@@ -3885,6 +4370,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
@@ -3896,6 +4386,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3929,6 +4424,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
@@ -3945,6 +4445,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
@@ -3956,6 +4461,11 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 #### 7.9.2 Archiv aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4274,6 +4784,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Dashboard wird ohne Fehler geladen.
@@ -4286,6 +4801,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4304,6 +4824,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Alle gespeicherten Werte werden nach dem Neuladen angezeigt.
@@ -4315,6 +4840,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4333,6 +4863,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
@@ -4347,6 +4882,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Geänderte Werte werden angezeigt.
@@ -4359,6 +4899,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.3.3 Besprechungsreihe verlängern – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4373,6 +4918,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
@@ -4386,6 +4936,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
@@ -4398,6 +4953,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4471,6 +5031,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Termine der berechtigten Reihen werden angezeigt.
@@ -4483,6 +5048,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.4.2 Einzelnen Termin verschieben – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4497,6 +5067,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
@@ -4510,6 +5085,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die ausgewählten Konten werden in der Teilnehmerliste angezeigt.
@@ -4520,20 +5100,31 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 
 #### 8.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
-**Ergebnisprüfung**- [ ] Abgeschlossene Inhalte sind nicht durch Teilnehmer*innen oder Leser*innen veränderbar.
-- [ ] Der gespeicherte Protokollstand bleibt unverändert.- [ ] Die Anzeige des abgeschlossenen Termins bleibt möglich, sofern die Serienberechtigung dies erlaubt.
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- [ ] Eine für die Rolle sichtbare schreibende Aktion am abgeschlossenen Termin versuchen (z. B. Tagesordnungspunkt ändern) und anschließend den Termin neu laden.
+- [ ] Falls der Testfall eine Moderatorrolle verwendet, die gesonderte Wiederöffnen-Funktion getrennt prüfen.
+
+**Ergebnisprüfung**
+- [ ] Der Termin kann mit dem Leser-/Teilnehmerkonto weiterhin geöffnet werden, soweit die Serienrolle dies erlaubt.
+- [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen und Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
+- [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
+- [ ] Moderator*innen können den Termin nur über die gesonderte Funktion zum Wiederöffnen erneut bearbeitbar machen.
+
 **Test erfolgreich:** [ ]
-
----
-
 ### 8.5 Themen anlegen und bearbeiten
 
 #### 8.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4549,6 +5140,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Das neue Thema ist angelegt.
@@ -4561,6 +5157,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.5.3 Thema bearbeiten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4575,6 +5176,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
@@ -4586,6 +5192,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4600,6 +5211,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
@@ -4613,6 +5229,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.5.7 Themenvorschläge verwenden – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4630,6 +5251,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der terminbezogene Text wird korrekt angezeigt.
@@ -4643,6 +5269,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Reihenfolge entspricht der zuletzt vorgenommenen Sortierung.
@@ -4655,6 +5286,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
@@ -4666,6 +5302,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.6.4 Wiedervorlage anlegen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4680,6 +5321,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Wiedervorlagekette ist chronologisch nachvollziehbar.
@@ -4692,6 +5338,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4709,6 +5360,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Kommentar wird beim richtigen Thema angezeigt.
@@ -4721,6 +5377,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.7.2 Datei als Themenanlage hochladen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4735,6 +5396,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
@@ -4748,6 +5414,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Berechtigte Konten können die zugehörige Datei herunterladen.
@@ -4760,6 +5431,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die Anlage wird nicht mehr in der Themenansicht angezeigt.
@@ -4771,6 +5447,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.7.6 Upload-Grenzen prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4789,6 +5470,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Termin ist als abgeschlossen gekennzeichnet.
@@ -4802,6 +5488,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Protokoll zeigt den beim Abschluss gesicherten Stand.
@@ -4813,6 +5504,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4828,6 +5524,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
@@ -4840,6 +5541,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4857,6 +5563,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
@@ -4868,6 +5579,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.9.2 Archiv aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4916,12 +5632,29 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Test erfolgreich:** [ ]
 #### 8.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit einem Moderator-Konto mit Zuweisung zur betroffenen Reihe anmelden.
+- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für eine Testreihe vorbereiten.
+- [ ] Die Liste offener Anträge öffnen, den vorbereiteten Antrag auswählen und einmal genehmigen oder ablehnen.
+- [ ] Die Liste und den Berechtigungsstatus des antragstellenden Testkontos erneut laden.
+
+**Ergebnisprüfung**
+- [ ] Der Antrag wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
+- [ ] Die gespeicherte Entscheidung entspricht exakt der gewählten Genehmigung oder Ablehnung.
+- [ ] Bei Genehmigung erhält das Testkonto ausschließlich die genehmigte Serienrolle für die ausgewählte Reihe.
+- [ ] Bei Ablehnung entsteht keine Serienzuweisung; andere Anträge und Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 #### 8.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4975,6 +5708,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Export ist lesbar und enthält die vorgesehenen Themen.
@@ -4986,6 +5724,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.11.4 Themen per CSV importieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5003,6 +5746,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5032,6 +5780,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5067,6 +5820,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 #### 8.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Aufbewahrungseinstellungen für archivierte Testthemen öffnen und die konfigurierte Frist sowie den zugehörigen Status ablesen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5150,6 +5908,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Dashboard wird ohne Fehler geladen.
@@ -5162,6 +5925,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 #### 9.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5179,6 +5947,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 #### 9.2.1 Persönliche Kontodaten bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5212,6 +5985,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
@@ -5223,19 +6001,18 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Serienverwaltungsübersicht ist für den globalen Admin erreichbar, aber die Bearbeitung einer bestehenden Reihe erfordert eine ausdrückliche Moderatorzuweisung für genau diese Reihe.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Verwaltungs- bzw. Wiederöffnen-Funktion ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte bestehende Reihe anmelden.
-- [ ] Die Serienverwaltungsübersicht öffnen und prüfen, dass die Reihe dort nicht als eigene moderierte Reihe zur Bearbeitung angeboten wird.
-- [ ] Die Bearbeitungsseite der bestehenden Reihe über ihre direkte URL aufrufen.
-- [ ] Falls ein Bearbeitungsformular wider Erwarten erscheint, keine Änderungen speichern und den Zugriff als Abweichung dokumentieren.
+- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
+- [ ] Die Serienverwaltung öffnen und die Bearbeitungsseite einer Bestandsreihe ohne Moderatorzuweisung über die Oberfläche und direkt aufrufen.
+- [ ] Eine Änderung an einem unkritischen Feld der Bestandsreihe versuchen, ohne sie bei unerwarteter Freigabe endgültig zu speichern.
+- [ ] Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Die Bearbeitungsseite wird mit einer Zugriffsverweigerung abgewiesen.
-- [ ] Die Reihenparameter bleiben unverändert.
-- [ ] Termine, Themen und Serienzuweisungen der Reihe bleiben unverändert.
-- [ ] Die globale Adminrolle allein gewährt keine Moderatorrechte für die bestehende Reihe.
+- [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
+- [ ] Die Bestandsreihe bzw. der abgeschlossene Termin bleibt unverändert.
+- [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
 
 **Test erfolgreich:** [ ]
 #### 9.3.3 Besprechungsreihe verlängern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5854,18 +6631,20 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 #### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Verwaltungs- bzw. Wiederöffnen-Funktion ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Prüfschritt**
+- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
+- [ ] Einen abgeschlossenen Termin einer Reihe ohne Moderatorzuweisung über die direkte URL aufrufen und die Funktion zum Wiederöffnen suchen.
+- [ ] Die Wiederöffnen-Aktion über die Oberfläche und – soweit möglich – über den vorgesehenen Direktaufruf auslösen.
+- [ ] Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-
-- [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
-- [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
-- [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
-- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
+- [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
+- [ ] Die Bestandsreihe bzw. der abgeschlossene Termin bleibt unverändert.
+- [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
 
 **Test erfolgreich:** [ ]
-
 #### 9.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5957,12 +6736,29 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Test erfolgreich:** [ ]
 #### 9.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit einem globalen Admin-Konto anmelden.
+- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für eine Testreihe vorbereiten.
+- [ ] Die Liste offener Anträge öffnen, den vorbereiteten Antrag auswählen und einmal genehmigen oder ablehnen.
+- [ ] Die Liste und den Berechtigungsstatus des antragstellenden Testkontos erneut laden.
+
+**Ergebnisprüfung**
+- [ ] Der Antrag wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
+- [ ] Die gespeicherte Entscheidung entspricht exakt der gewählten Genehmigung oder Ablehnung.
+- [ ] Bei Genehmigung erhält das Testkonto ausschließlich die genehmigte Serienrolle für die ausgewählte Reihe.
+- [ ] Bei Ablehnung entsteht keine Serienzuweisung; andere Anträge und Reihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
 #### 9.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Für dasselbe Testkonto erneut einen Antrag für dieselbe Testreihe absenden bzw. einen bestehenden offenen Antrag erneut öffnen und die angebotene Bearbeitung ausführen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5980,6 +6776,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Benutzerverwaltung öffnen, den Benutzer-CSV-Export auslösen und die heruntergeladene Datei auf Umfang und Inhalt prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Exportdatei ist lesbar.
@@ -5991,6 +6792,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 #### 9.11.2 Benutzer per CSV importieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Eine vorbereitete CSV-Datei mit separaten Testkonten verwenden, den Benutzerimport starten und die Import-Rückmeldung prüfen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6059,6 +6865,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
@@ -6071,6 +6882,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 #### 9.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6089,6 +6905,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Aufbewahrungseinstellungen für Termine und Protokolle öffnen und die konfigurierten Fristen dokumentieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
@@ -6102,6 +6923,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Aufbewahrungseinstellungen für archivierte Testthemen öffnen und die konfigurierte Frist sowie den zugehörigen Status ablesen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Thema bleibt vor Fristablauf erhalten.
@@ -6114,6 +6940,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 #### 9.13.3 Retention wiederholt ausführen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Den Retention-Lauf ausschließlich mit vorbereiteten Testdaten bzw. in einer dafür vorgesehenen Testumgebung wiederholt ausführen und die resultierenden Statuswerte kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6195,6 +7026,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Navigation bleibt bedienbar.
@@ -6211,6 +7047,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 #### 10.2.1 Persönliche Kontodaten bearbeiten – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6988,6 +7829,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
@@ -7000,6 +7846,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 #### 10.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -7074,6 +7925,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+
 **Ergebnisprüfung**
 
 - [ ] Die vorgesehenen administrativen Prüfdaten sind lesbar.
@@ -7086,6 +7942,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 #### 10.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+
+**Prüfschritt**
+- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- [ ] Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
+- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
