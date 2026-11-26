@@ -1652,7 +1652,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
@@ -1763,7 +1763,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
@@ -1797,7 +1797,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
@@ -1815,7 +1815,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
@@ -1831,7 +1831,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
@@ -1977,7 +1977,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
@@ -1993,7 +1993,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
@@ -2009,7 +2009,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
@@ -2025,7 +2025,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
@@ -2043,7 +2043,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
@@ -2059,7 +2059,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
@@ -2075,7 +2075,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
@@ -2091,7 +2091,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
@@ -2107,7 +2107,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
@@ -2123,7 +2123,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
@@ -2155,7 +2155,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
@@ -2171,7 +2171,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
@@ -2187,7 +2187,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
@@ -2203,7 +2203,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
@@ -2219,7 +2219,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
@@ -2235,7 +2235,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
@@ -2253,7 +2253,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
@@ -2269,7 +2269,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
@@ -2285,7 +2285,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
@@ -2301,7 +2301,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
@@ -2317,7 +2317,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
@@ -2333,7 +2333,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
@@ -2351,7 +2351,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
@@ -2367,7 +2367,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
@@ -2383,7 +2383,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
@@ -2399,7 +2399,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
@@ -2415,7 +2415,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
@@ -2433,7 +2433,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
@@ -2502,7 +2502,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
@@ -2539,7 +2539,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
@@ -2555,7 +2555,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
@@ -2571,7 +2571,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
@@ -2587,7 +2587,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
@@ -2635,7 +2635,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
@@ -2653,7 +2653,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
@@ -2683,7 +2683,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
@@ -2701,7 +2701,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
@@ -2717,7 +2717,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
@@ -2861,7 +2861,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
@@ -2877,7 +2877,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
@@ -2893,7 +2893,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
@@ -2925,7 +2925,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
@@ -2941,7 +2941,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
@@ -2957,7 +2957,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
@@ -2973,7 +2973,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
@@ -2989,7 +2989,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
@@ -3005,7 +3005,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
@@ -3021,7 +3021,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themenvorschläge aus nicht zugänglichen Reihen ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein Thema angelegt oder verändert.
 
@@ -3039,7 +3039,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
@@ -3055,7 +3055,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
@@ -3071,7 +3071,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
@@ -3087,7 +3087,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
@@ -3103,7 +3103,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
@@ -3140,7 +3140,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
@@ -3156,7 +3156,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
@@ -3172,7 +3172,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
@@ -3205,7 +3205,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
@@ -3221,7 +3221,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
@@ -3239,7 +3239,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
@@ -3291,7 +3291,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
@@ -3362,7 +3362,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
@@ -3396,7 +3396,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
@@ -3431,7 +3431,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
@@ -3447,7 +3447,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
@@ -3463,7 +3463,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
@@ -3479,7 +3479,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
@@ -3527,7 +3527,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
@@ -3545,7 +3545,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
@@ -3576,7 +3576,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
@@ -3594,7 +3594,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
@@ -3610,7 +3610,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
@@ -3760,7 +3760,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
@@ -3776,7 +3776,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
@@ -3898,7 +3898,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
@@ -4227,7 +4227,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
@@ -4298,7 +4298,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
@@ -4332,7 +4332,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
@@ -4367,7 +4367,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
@@ -4383,7 +4383,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
@@ -4399,7 +4399,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
@@ -4415,7 +4415,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
@@ -4463,7 +4463,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
@@ -4481,7 +4481,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
@@ -4512,7 +4512,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
@@ -4530,7 +4530,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
@@ -4546,7 +4546,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
@@ -5369,7 +5369,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
@@ -5442,7 +5442,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
@@ -5458,7 +5458,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
@@ -5569,7 +5569,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
@@ -5600,7 +5600,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
@@ -5618,7 +5618,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
@@ -5634,7 +5634,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
@@ -5720,7 +5720,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Aufgaben aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Seite gibt keine Themen- oder Zuständigkeitsdaten fremder Reihen preis.
 
@@ -5772,7 +5772,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verlängerung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Enddatum, Terminfolge und Serienzuweisungen bleiben unverändert.
 
@@ -5788,7 +5788,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Neuaufsetzen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bestehende Termine, Themen, Tagesordnungspunkte und Serienzuweisungen bleiben unverändert.
 
@@ -5804,7 +5804,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Besprechungsreihe und sämtliche zugehörigen Termine, Themen und Berechtigungen bleiben erhalten.
 
@@ -5820,7 +5820,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Berechtigungsänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bestehende Serienzuweisungen und Rollen bleiben unverändert.
 
@@ -5874,7 +5874,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die fremde Reihe wird nicht zur Verwaltung freigegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Seriendaten und Berechtigungen der fremden Reihe bleiben unverändert.
 
@@ -5906,7 +5906,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
@@ -5922,7 +5922,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
@@ -5938,7 +5938,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
@@ -5954,7 +5954,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
@@ -5972,7 +5972,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
@@ -5988,7 +5988,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
@@ -6004,7 +6004,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
@@ -6020,7 +6020,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
@@ -6036,7 +6036,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
@@ -6052,7 +6052,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
@@ -6084,7 +6084,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
@@ -6100,7 +6100,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
@@ -6116,7 +6116,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
@@ -6132,7 +6132,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
@@ -6148,7 +6148,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
@@ -6164,7 +6164,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
@@ -6182,7 +6182,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
@@ -6198,7 +6198,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
@@ -6214,7 +6214,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
@@ -6230,7 +6230,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
@@ -6246,7 +6246,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
@@ -6262,7 +6262,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
@@ -6280,7 +6280,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
@@ -6296,7 +6296,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
@@ -6312,7 +6312,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
@@ -6343,7 +6343,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
@@ -6361,7 +6361,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
@@ -6391,7 +6391,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
@@ -6497,7 +6497,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
@@ -6513,7 +6513,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
@@ -6640,7 +6640,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
@@ -6656,7 +6656,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
@@ -6794,7 +6794,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
@@ -6810,7 +6810,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
@@ -6826,7 +6826,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
@@ -6842,7 +6842,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
@@ -6860,7 +6860,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
@@ -6876,7 +6876,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
@@ -6892,7 +6892,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
@@ -6908,7 +6908,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
@@ -6924,7 +6924,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
@@ -6940,7 +6940,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
@@ -6972,7 +6972,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
@@ -6988,7 +6988,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
@@ -7004,7 +7004,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
@@ -7020,7 +7020,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
@@ -7036,7 +7036,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
@@ -7052,7 +7052,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
@@ -7070,7 +7070,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
@@ -7086,7 +7086,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
@@ -7102,7 +7102,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
@@ -7118,7 +7118,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
@@ -7134,7 +7134,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
@@ -7150,7 +7150,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
@@ -7168,7 +7168,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
@@ -7184,7 +7184,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
@@ -7200,7 +7200,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
@@ -7216,7 +7216,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
@@ -7232,7 +7232,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
@@ -7250,7 +7250,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
@@ -7281,7 +7281,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
@@ -7316,7 +7316,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
@@ -7352,7 +7352,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
@@ -7368,7 +7368,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
@@ -7384,7 +7384,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
@@ -7400,7 +7400,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
@@ -7474,7 +7474,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
@@ -7504,7 +7504,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ist die Seite erreichbar, wird die konkrete Aktion für diese Rolle verweigert oder nicht angeboten.
+- [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
