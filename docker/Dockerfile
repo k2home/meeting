@@ -68,6 +68,12 @@ RUN groupadd --system --gid 10001 meeting \
 
 COPY --chown=meeting:meeting . .
 
+# Keep only the editable checklist in its persistent Docker volume. Other docs
+# remain part of the image and therefore continue to update with each release.
+RUN mkdir -p /app/local-test-docs \
+    && cp /app/docs/Pruefung-des-Verfahrens-Testdokumentation.md /app/local-test-docs/ \
+    && chown -R meeting:meeting /app/local-test-docs
+
 COPY --chmod=755 docker/entrypoint.sh /usr/local/bin/meeting-entrypoint
 
 USER meeting
