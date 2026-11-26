@@ -21,7 +21,7 @@
 .test-document-index .toc ul{list-style:none;margin:.2rem 0;padding-left:.9rem}
 .test-document-index .toc>ul{padding-left:0}
 .test-document-index .toc li{line-height:1.45;margin:.15rem 0}
-.test-document-index .toc li.is-complete>a{background:#e8f5e9;border-radius:4px;padding:.28rem .45rem;margin-left:-.45rem}
+.test-document-index .toc li.is-complete>a{background:#f2f8f2;border-radius:4px;padding:.28rem .45rem;margin-left:-.45rem}
 .test-document-index .toc>ul>li:first-child> a{display:none}
 .test-document-index .toc>ul>li:first-child>ul{padding-left:0}
 .test-document-index .toc>ul>li>ul>li>ul>li>ul{display:none}
@@ -109,7 +109,7 @@
   const activeHeadings = [];
   const completionSections = new Set();
   if (content) {
-    content.querySelectorAll("h1,h2,h3,h4,h5,h6,input.test-checklist-box").forEach((node) => {
+    content.querySelectorAll("h1,h2,h3,h4,h5,h6,input.test-success-checkbox").forEach((node) => {
       if (node.matches("h1,h2,h3,h4,h5,h6")) {
         const level = Number(node.tagName.slice(1));
         while (activeHeadings.length && activeHeadings[activeHeadings.length - 1].level >= level) activeHeadings.pop();
