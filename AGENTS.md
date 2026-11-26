@@ -5,7 +5,6 @@ Diese Datei enthält verbindliche Arbeitsregeln für KI-Agenten (insbesondere Ch
 ## Repository- und Branch-Regeln
 
 - Arbeite grundsätzlich auf dem vom Nutzer ausdrücklich genannten Feature-Branch bzw. dem Branch des zugehörigen Pull Requests.
-- Für die laufende Arbeit an PR #528 ist dies `feat/testing-mode-fixtures`.
 - Ändere oder merge `beta` oder andere Ziel-/Produktionsbranches niemals direkt, sofern der Nutzer dies nicht ausdrücklich beauftragt.
 - Bewahre bestehende Funktionen, Daten, Berechtigungen und insbesondere die bestehenden Serienberechtigungen. Ändere Berechtigungsregeln nicht beiläufig.
 - Kläre Rückfragen und Unklarheiten vor der Umsetzung. Triff bei fachlich mehrdeutigen Anforderungen keine stillschweigenden Annahmen.
