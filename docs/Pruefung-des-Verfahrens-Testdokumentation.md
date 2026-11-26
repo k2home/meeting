@@ -1456,7 +1456,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 #### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Ergebnisprüfung**
 
@@ -4648,7 +4648,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 #### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
-**Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Ergebnisprüfung**
 
@@ -4823,7 +4823,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 #### 12.2 Besprechungsreihe bearbeiten – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Ergebnisprüfung**
 
@@ -5264,7 +5264,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 #### 17.4 Abgeschlossene Besprechung wieder öffnen – Rolle: Moderator*in der betreffenden Reihe (auch globale Admins nur mit dieser Serienrolle)
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Ergebnisprüfung**
 
@@ -5433,7 +5433,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 #### 21.2 Systembezogenen Änderungsverlauf anzeigen – Rolle: Admin oder Auditor*in
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Ergebnisprüfung**
 
@@ -5446,7 +5446,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 #### 21.3 Änderungsverlauf als CSV exportieren – Rolle: globaler Admin oder Auditor*in für den Systembereich; Moderator*in für die jeweils zugewiesenen Reihen
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Ergebnisprüfung**
 
@@ -5476,7 +5476,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 #### 22.2 Aufbewahrungsfrist archivierter Themen prüfen – Rolle: Moderator*in der betreffenden Reihe (globale Admins nur mit dieser Serienrolle)
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Ergebnisprüfung**
 
