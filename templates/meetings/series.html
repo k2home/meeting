@@ -196,7 +196,7 @@
         <div class="series-users-list">
           {% for row in s.user_management_rows %}
             <div class="series-users-row">
-              <div class="series-users-name">{{ row.user.get_full_name|default:row.user.username }}</div>
+              <div class="series-users-name">{% if row.organization_label %}<span class="series-users-organization">{{ row.organization_label }}</span> – {% endif %}{{ row.user.get_full_name|default:row.user.username }}</div>
               <form method="post" action="{% url 'series_manage_user_access' s.pk %}" data-series-role-form>
                 {% csrf_token %}
                 <input type="hidden" name="user_id" value="{{ row.user.pk }}">
