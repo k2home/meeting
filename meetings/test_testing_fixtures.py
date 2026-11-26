@@ -46,6 +46,33 @@ class TestingFixtureViewTests(TestCase):
         self.assertFalse(any("sensitive database detail" in message for message in messages))
 
     @patch("meetings.management_views._testing_mode_enabled", return_value=True)
+    def test_series_generation_avoids_duplicate_names(self, _testing_mode):
+        names = [
+            "TEST Digitalisierung", "TEST IT-Sicherheit", "TEST Datenschutz",
+            "TEST Prozessoptimierung", "TEST Personalentwicklung", "TEST Projektmanagement",
+            "TEST Infrastruktur", "TEST Cloud-Strategie", "TEST Kommunikation",
+            "TEST Qualitätsmanagement", "TEST Risikomanagement", "TEST Nachhaltigkeit",
+            "TEST Kundenservice", "TEST Datenmanagement", "TEST Automatisierung",
+            "TEST Zusammenarbeit", "TEST Weiterbildung", "TEST Ressourcenplanung",
+            "TEST Informationsmanagement", "TEST Compliance", "TEST Innovation",
+            "TEST Change Management", "TEST Beschaffung", "TEST Gebäudemanagement",
+            "TEST Notfallplanung", "TEST Softwareentwicklung", "TEST Netzwerk",
+            "TEST Controlling", "TEST Dokumentation", "TEST Strategie",
+        ]
+        for name in names:
+            MeetingSeries.objects.create(name=name)
+        url = reverse("testing_fixtures")
+        self.client.get(url)
+        response = self.client.post(url, {
+            "action": "create_series",
+            "series_count": "1",
+            "fixture_nonce": self.client.session["testing_fixture_nonce"],
+        })
+        self.assertRedirects(response, url)
+        created = MeetingSeries.objects.exclude(name__in=names).get()
+        self.assertRegex(created.name, r"^TEST .+ \(2\)$")
+
+    @patch("meetings.management_views._testing_mode_enabled", return_value=True)
     def test_all_fixture_actions_can_be_started_independently(self, _testing_mode):
         url = reverse("testing_fixtures")
         response = self.client.get(url)
