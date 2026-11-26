@@ -121,7 +121,7 @@ Die konkrete technische Umsetzung eines signierten Offline-Updatepakets bzw. ein
 
 ## 5. Bereits vorhandene Sicherheitskontrollen
 
-Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsdateien erkennbar. Sie ersetzen nicht die Prüfung der tatsächlich betriebenen Instanz.
+Die folgenden Kontrollen sind im geprüften Quellcode bzw. in den Installationsdateien erkennbar. Sie ersetzen nicht die Prüfung der tatsächlich betriebenen Instanz. Die Ersteinrichtung wird standardmäßig durch einen kryptografisch zufälligen Aktivierungstoken geschützt, den die Installer erzeugen und nur einmalig in der Installationskonsole ausgeben; die tokenfreie Variante ist eine bewusste Ausnahme über `-nocode` und muss durch eine entsprechend abgeschottete Erreichbarkeit kompensiert werden.
 
 | Bereich | Vorhandene Kontrolle | Einordnung |
 |---|---|---|
