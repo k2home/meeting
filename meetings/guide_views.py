@@ -1,12 +1,18 @@
 from io import BytesIO
 from pathlib import Path
+import fcntl
+import hashlib
+import json
+import os
 import re
+import tempfile
 from xml.sax.saxutils import escape
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.http import require_GET, require_POST
 from django.utils.safestring import mark_safe
 import markdown
 
@@ -51,6 +57,10 @@ def _test_documentation_testing_mode_enabled():
     return _debian_testing_mode_enabled()
 
 
+def _test_documentation_source_path():
+    return Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
+
+
 def _render_test_documentation_markers(markdown_source, editable):
     """Render Markdown checkbox markers as controls, editable only in TESTING mode."""
     rendered_lines = []
@@ -69,14 +79,48 @@ def _render_test_documentation_markers(markdown_source, editable):
                 f'{checked_attribute}{disabled_attribute}>'
             )
 
-        rendered_lines.append(re.sub(r"\[([ xX])\]", render_checkbox, line))
+        rendered_lines.append(re.sub(r"\\[([ xX])\\]", render_checkbox, line))
     return "".join(rendered_lines)
+
+
+def _checklist_revision(content):
+    return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+
+def _checklist_status(content):
+    statuses = {}
+    for line_number, line in enumerate(content.splitlines(), start=1):
+        occurrence = 0
+        for match in re.finditer(r"\\[([ xX])\\]", line):
+            occurrence += 1
+            statuses[f"line-{line_number}-{occurrence}"] = match.group(1).lower() == "x"
+    return statuses
+
+
+def _write_checklist_atomically(source, content):
+    """Replace the Markdown file atomically while preserving its file mode."""
+    original_mode = source.stat().st_mode
+    temporary_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", newline="", dir=source.parent,
+            prefix=f".{source.name}.", suffix=".tmp", delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+            temporary.write(content)
+            temporary.flush()
+            os.fsync(temporary.fileno())
+        os.chmod(temporary_path, original_mode)
+        os.replace(temporary_path, source)
+    finally:
+        if temporary_path and temporary_path.exists():
+            temporary_path.unlink()
 
 
 @login_required
 def test_documentation(request):
-    """Render the manual test checklist; editing and Markdown export are TESTING-only."""
-    source = Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
+    """Render the shared server-local Markdown checklist."""
+    source = _test_documentation_source_path()
     if not source.is_file():
         return HttpResponse("Die Testcheckliste ist derzeit nicht verfügbar.", status=404)
 
@@ -91,9 +135,102 @@ def test_documentation(request):
     return render(request, "meetings/test_documentation.html", {
         "test_documentation_html": mark_safe(content),
         "test_documentation_toc_html": mark_safe(parser.toc),
-        "test_documentation_markdown": markdown_source,
+        "test_documentation_revision": _checklist_revision(markdown_source),
         "test_documentation_editable": testing_mode,
     })
+
+
+@login_required
+@require_GET
+def test_documentation_status(request):
+    """Return the current shared checklist state for live refresh in open sessions."""
+    if not _test_documentation_testing_mode_enabled():
+        return JsonResponse({"error": "TESTING-Modus ist nicht aktiv."}, status=403)
+    source = _test_documentation_source_path()
+    if not source.is_file():
+        return JsonResponse({"error": "Testcheckliste nicht verfügbar."}, status=404)
+    content = source.read_text(encoding="utf-8")
+    return JsonResponse({
+        "revision": _checklist_revision(content),
+        "statuses": _checklist_status(content),
+    })
+
+
+@login_required
+@require_POST
+def test_documentation_toggle(request):
+    """Persist one checkbox directly in the local Markdown file."""
+    if not _test_documentation_testing_mode_enabled():
+        return JsonResponse({"error": "TESTING-Modus ist nicht aktiv."}, status=403)
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+        line_number = int(payload.get("line", 0))
+        occurrence = int(payload.get("occurrence", 0))
+        checked = payload.get("checked")
+        revision = payload.get("revision")
+    except (ValueError, TypeError, UnicodeDecodeError, json.JSONDecodeError):
+        return JsonResponse({"error": "Ungültige Anfrage."}, status=400)
+
+    if line_number < 1 or occurrence < 1 or not isinstance(checked, bool):
+        return JsonResponse({"error": "Ungültige Checkbox-Angaben."}, status=400)
+    if not isinstance(revision, str) or not re.fullmatch(r"[0-9a-f]{64}", revision):
+        return JsonResponse({"error": "Ungültige Dokumentversion."}, status=400)
+
+    source = _test_documentation_source_path()
+    if not source.is_file():
+        return JsonResponse({"error": "Testcheckliste nicht verfügbar."}, status=404)
+
+    lock_path = source.with_name(source.name + ".lock")
+    try:
+        with lock_path.open("a", encoding="utf-8") as lock_file:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+            content = source.read_text(encoding="utf-8")
+            current_revision = _checklist_revision(content)
+            if revision != current_revision:
+                return JsonResponse({
+                    "error": "Die Checkliste wurde zwischenzeitlich geändert.",
+                    "revision": current_revision,
+                    "statuses": _checklist_status(content),
+                }, status=409)
+
+            lines = content.splitlines(keepends=True)
+            if line_number > len(lines):
+                return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
+            matches = list(re.finditer(r"\\[([ xX])\\]", lines[line_number - 1]))
+            if occurrence > len(matches):
+                return JsonResponse({"error": "Checkbox nicht gefunden."}, status=400)
+            match = matches[occurrence - 1]
+            marker = "[x]" if checked else "[ ]"
+            lines[line_number - 1] = (
+                lines[line_number - 1][:match.start()] + marker
+                + lines[line_number - 1][match.end():]
+            )
+            updated_content = "".join(lines)
+            _write_checklist_atomically(source, updated_content)
+            updated_revision = _checklist_revision(updated_content)
+            return JsonResponse({
+                "success": True,
+                "revision": updated_revision,
+                "statuses": _checklist_status(updated_content),
+            })
+    except OSError:
+        return JsonResponse({"error": "Die Testcheckliste konnte nicht gespeichert werden."}, status=500)
+
+
+@login_required
+@require_GET
+def test_documentation_download(request):
+    """Download the complete, current Markdown source in TESTING mode only."""
+    if not _test_documentation_testing_mode_enabled():
+        return HttpResponse("Der Markdown-Export ist nur im TESTING-Modus verfügbar.", status=403)
+    source = _test_documentation_source_path()
+    if not source.is_file():
+        return HttpResponse("Die Testcheckliste ist derzeit nicht verfügbar.", status=404)
+    response = HttpResponse(source.read_bytes(), content_type="text/markdown; charset=utf-8")
+    response["Content-Disposition"] = 'attachment; filename="Pruefung-des-Verfahrens-Testdokumentation.md"'
+    response["Cache-Control"] = "private, no-store"
+    response["X-Content-Type-Options"] = "nosniff"
+    return response
 
 
 def _inline_markup(value):
