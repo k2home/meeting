@@ -69,9 +69,18 @@ fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
 # below because it is intentionally local and may have been tracked by old releases.
-if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' \
-  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env'; then
-  echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env." >&2
+CHECKLIST_FILE="$APP_DIR/docs/Pruefung-des-Verfahrens-Testdokumentation.md"
+CHECKLIST_BACKUP=""
+if ! git -C "$APP_DIR" diff --quiet -- "$CHECKLIST_FILE" \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- "$CHECKLIST_FILE"; then
+  CHECKLIST_BACKUP="$(mktemp /root/meeting-manager-checklist.XXXXXX)"
+  cp -a "$CHECKLIST_FILE" "$CHECKLIST_BACKUP"
+  echo "Lokaler Prüfstand wird über das Update hinweg gesichert."
+fi
+
+if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md' \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md'; then
+  echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env und der Testcheckliste." >&2
   git -C "$APP_DIR" status --short
   exit 1
 fi
@@ -104,6 +113,12 @@ restore_env() {
 handle_update_exit() {
   local exit_code=$?
   trap - EXIT
+
+  if [[ -n "$CHECKLIST_BACKUP" && -f "$CHECKLIST_BACKUP" ]]; then
+    install -o meetingapp -g www-data -m 0660 "$CHECKLIST_BACKUP" "$CHECKLIST_FILE"
+    rm -f "$CHECKLIST_BACKUP"
+    CHECKLIST_BACKUP=""
+  fi
 
   if [[ -n "$ENV_BACKUP" && -f "$ENV_BACKUP" ]]; then
     if ! restore_env; then
@@ -170,6 +185,16 @@ else
   CODE_SWITCHED=1
   git -C "$APP_DIR" pull --ff-only
 fi
+if [[ -n "$CHECKLIST_BACKUP" && -f "$CHECKLIST_BACKUP" ]]; then
+  install -o meetingapp -g www-data -m 0660 "$CHECKLIST_BACKUP" "$CHECKLIST_FILE"
+  rm -f "$CHECKLIST_BACKUP"
+  CHECKLIST_BACKUP=""
+fi
+# Re-apply local write permissions after Git replaces files during checkout.
+chown root:www-data "$APP_DIR/docs"
+chmod 1775 "$APP_DIR/docs"
+chown meetingapp:www-data "$CHECKLIST_FILE"
+chmod 660 "$CHECKLIST_FILE"
 restore_env
 
 # Apply the cache policy to the active Nginx site without replacing local
