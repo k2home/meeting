@@ -101,20 +101,9 @@
       checkbox.disabled = true;
       status.textContent = "Speichere Änderung …";
       try {
-        let response = await fetch(config.dataset.saveUrl, {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrf,
-            "Accept": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-        let data = await response.json();
-        if (response.status === 409) {
-          applyStatuses(data);
-          payload.revision = revision;
+        let response;
+        let data;
+        for (let attempt = 0; attempt < 5; attempt += 1) {
           response = await fetch(config.dataset.saveUrl, {
             method: "POST",
             credentials: "same-origin",
@@ -126,6 +115,9 @@
             body: JSON.stringify(payload)
           });
           data = await response.json();
+          if (response.status !== 409 || attempt === 4) break;
+          applyStatuses(data);
+          payload.revision = revision;
         }
         if (!response.ok) throw new Error(data.error || "Speichern fehlgeschlagen.");
         applyStatuses(data);
