@@ -105,6 +105,45 @@ class TestDocumentationPageTests(TestCase):
         self.assertEqual(self.client.get(reverse("test_documentation_download")).status_code, 403)
 
     @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
+    def test_toggle_rejects_non_object_and_invalid_checkbox_payloads(self, _testing_mode):
+        for payload in ("[]", '"text"', "null", "{}"):
+            with self.subTest(payload=payload):
+                response = self.client.post(
+                    reverse("test_documentation_toggle"),
+                    data=payload,
+                    content_type="application/json",
+                )
+                self.assertEqual(response.status_code, 400)
+
+        for payload in (
+            {"line": 0, "occurrence": 1, "checked": True, "revision": "0" * 64},
+            {"line": 1, "occurrence": 0, "checked": True, "revision": "0" * 64},
+            {"line": 1, "occurrence": 1, "checked": "true", "revision": "0" * 64},
+            {"line": 1, "occurrence": 1, "checked": True, "revision": "invalid"},
+        ):
+            response = self.client.post(
+                reverse("test_documentation_toggle"),
+                data=json.dumps(payload),
+                content_type="application/json",
+            )
+            self.assertEqual(response.status_code, 400)
+
+    @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
+    def test_toggle_requires_csrf_token(self, _testing_mode):
+        from django.test import Client
+
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        page = client.get(reverse("test_documentation"))
+        self.assertEqual(page.status_code, 200)
+        response = client.post(
+            reverse("test_documentation_toggle"),
+            data=json.dumps({"line": 1, "occurrence": 1, "checked": True, "revision": "0" * 64}),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
+    @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
     def test_testing_mode_enables_shared_editing_and_markdown_download(self, _testing_mode):
         response = self.client.get(reverse("test_documentation"))
 
