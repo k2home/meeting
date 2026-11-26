@@ -31,6 +31,100 @@ Für jeden Testfall gilt: Prüfen, ob die genannten Datensätze, Statuswerte, Zu
 
 ---
 
+## Installation
+
+Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellung der Anwendung.
+
+### 16. Datenverwaltung und Sicherung
+
+#### 16.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
+
+- [ ] **Verwaltung** öffnen.
+- [ ] **Daten** öffnen.
+- [ ] Verfügbare Datenverwaltungsfunktionen prüfen.
+- [ ] Zur Verwaltungsübersicht zurückkehren.
+
+**Ergebnisprüfung**
+- [ ] Datenverwaltungsbereich wird angezeigt.
+- [ ] Nur berechtigte Admin-Konten können die Funktionen aufrufen.
+- [ ] Andere Rollen erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 16.2 Vollständigen Datenexport durchführen – Rolle: Admin
+
+- [ ] Datenverwaltungsbereich öffnen.
+- [ ] Funktion zum vollständigen Backup-Export aufrufen.
+- [ ] Export starten.
+- [ ] Exportdatei speichern.
+- [ ] Datei und Ergebnisanzeige prüfen.
+
+**Ergebnisprüfung**
+- [ ] Export wird ohne Fehlermeldung abgeschlossen.
+- [ ] Exportdatei ist vorhanden und im vorgesehenen Format lesbar bzw. weiterverarbeitbar.
+- [ ] Export enthält keine Zugangsdaten oder Geheimnisse, die nicht Bestandteil des vorgesehenen Sicherungsformats sein dürfen.
+
+**Test erfolgreich:** [ ]
+
+#### 16.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
+
+- [ ] Ausschließlich eine isolierte Testinstallation verwenden.
+- [ ] Vorhandenen Testdatenbestand sichern.
+- [ ] Datenimport öffnen.
+- [ ] Geeignete Test-Sicherungsdatei auswählen.
+- [ ] Import starten.
+- [ ] Ergebnisanzeige prüfen.
+- [ ] Betroffene Testdatenbereiche öffnen.
+
+**Ergebnisprüfung**
+- [ ] Import wird entsprechend dem vorgesehenen Format verarbeitet.
+- [ ] Fehlerhafte oder ungeeignete Dateien werden nachvollziehbar abgewiesen.
+- [ ] Datenbestand entspricht nach dem Import dem vorgesehenen Sicherungsstand.
+- [ ] Keine produktiven Daten werden berührt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+
+### 21. Administration und Software-Updates
+
+#### 21.1 Updatebereich aufrufen – Rolle: Admin
+
+- [ ] Administrationsbereich für Software-Updates öffnen.
+- [ ] Angezeigte Versions- und Branchinformationen prüfen.
+- [ ] Verfügbare Updateinformationen aufrufen.
+- [ ] Ohne Ausführung eines Updates zur Übersicht zurückkehren.
+
+**Ergebnisprüfung**
+- [ ] Updatebereich ist für Admins erreichbar.
+- [ ] Versions- und Statusinformationen werden angezeigt.
+- [ ] Nicht berechtigte Rollen erhalten keinen Zugriff.
+
+**Test erfolgreich:** [ ]
+
+#### 21.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
+
+- [ ] Vor dem Update Datenbank und Medienbestand sichern.
+- [ ] Updatebereich öffnen.
+- [ ] Gewünschten freigegebenen Branch auswählen.
+- [ ] Update starten.
+- [ ] Status und Protokoll des Updatevorgangs abwarten.
+- [ ] Nach Abschluss die Anwendung neu laden.
+- [ ] Anmeldung durchführen.
+- [ ] Besprechungsübersicht, Themen, Protokoll und Anlagen öffnen.
+
+**Ergebnisprüfung**
+- [ ] Updatevorgang wird mit nachvollziehbarem Status beendet.
+- [ ] Angezeigter Branch und Commit entsprechen der Auswahl.
+- [ ] Anwendung ist erreichbar.
+- [ ] Vorhandene Testdaten und Serienberechtigungen bleiben erhalten.
+- [ ] Login, fachliche Ansichten und Dateizugriffe funktionieren.
+
+**Test erfolgreich:** [ ]
+
+---
+
 
 ## Ersteinrichtung
 
@@ -115,6 +209,505 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 **Test erfolgreich:** [ ]
 
 ---
+
+
+### 12. Benutzerverwaltung
+
+#### 12.1 Benutzerkonto anlegen – Rolle: Admin
+
+- [ ] **Verwaltung** öffnen.
+- [ ] **Nutzer** öffnen.
+- [ ] **Neu** anklicken.
+- [ ] Benutzernamen eintragen.
+- [ ] Vorname und Nachname eintragen.
+- [ ] E-Mail-Adresse eintragen.
+- [ ] Organisationskennzeichen eintragen.
+- [ ] Aktivstatus festlegen.
+- [ ] Angezeigte Rollen- bzw. Kontoeinstellungen prüfen.
+- [ ] Speichern anklicken.
+- [ ] Benutzerübersicht neu laden.
+
+**Ergebnisprüfung**
+- [ ] Neues Konto erscheint in der Benutzerübersicht.
+- [ ] Stammdaten und Aktivstatus entsprechen den Eingaben.
+- [ ] Konto erhält keine unbeabsichtigten Serienberechtigungen.
+- [ ] Passwortbereitstellung bzw. erforderlicher Passwortwechsel entspricht der vorgesehenen Einrichtung.
+
+**Test erfolgreich:** [ ]
+
+#### 12.2 Benutzerkonto bearbeiten – Rolle: Admin
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] Ein Testkonto auswählen.
+- [ ] Bearbeiten öffnen.
+- [ ] Name oder E-Mail-Adresse ändern.
+- [ ] Organisationskennzeichen ändern.
+- [ ] Aktivstatus ändern, soweit für den Test vorgesehen.
+- [ ] Speichern.
+- [ ] Konto erneut öffnen.
+
+**Ergebnisprüfung**
+- [ ] Geänderte Kontodaten werden korrekt angezeigt.
+- [ ] Nicht geänderte Daten bleiben erhalten.
+- [ ] Bestehende Serienzuweisungen bleiben erhalten, sofern sie nicht ausdrücklich geändert wurden.
+
+**Test erfolgreich:** [ ]
+
+#### 12.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
+
+- [ ] Ein entbehrliches Testkonto auswählen.
+- [ ] Aktivstatus deaktivieren.
+- [ ] Speichern.
+- [ ] Anmeldeversuch mit dem Testkonto durchführen.
+- [ ] Konto erneut in der Benutzerverwaltung öffnen.
+- [ ] Aktivstatus wieder aktivieren.
+- [ ] Speichern.
+- [ ] Anmeldung erneut versuchen.
+
+**Ergebnisprüfung**
+- [ ] Deaktiviertes Konto kann sich nicht anmelden.
+- [ ] Reaktiviertes Konto kann sich gemäß Passwortstatus anmelden.
+- [ ] Serienzuweisungen werden durch die Statusänderung nicht unbeabsichtigt gelöscht.
+
+**Test erfolgreich:** [ ]
+
+#### 12.4 Benutzerkonto löschen – Rolle: Admin
+
+- [ ] Ausschließlich ein entbehrliches Testkonto auswählen.
+- [ ] Löschfunktion öffnen.
+- [ ] Angezeigte Folgen prüfen.
+- [ ] Löschung bestätigen.
+- [ ] Benutzerübersicht und betroffene Serienzuweisungen prüfen.
+
+**Ergebnisprüfung**
+- [ ] Testkonto wird entsprechend der vorgesehenen Regeln entfernt.
+- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
+- [ ] Historische Einträge werden entsprechend der vorgesehenen Aufbewahrung behandelt.
+
+**Test erfolgreich:** [ ]
+
+#### 12.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] Testkonto auswählen.
+- [ ] Serienzuweisungen öffnen.
+- [ ] Eine Reihe zuweisen.
+- [ ] Serienrolle auswählen.
+- [ ] Speichern.
+- [ ] Weitere Reihe mit abweichender Rolle zuweisen.
+- [ ] Speichern.
+- [ ] Benutzeransicht erneut öffnen.
+
+**Ergebnisprüfung**
+- [ ] Jede Zuweisung ist der richtigen Reihe zugeordnet.
+- [ ] Unterschiedliche Rollen je Reihe bleiben getrennt.
+- [ ] Bestehende Zuweisungen werden bei Änderungen an einer anderen Reihe nicht überschrieben.
+- [ ] Ein globaler Admin erhält durch die Zuweisungsbearbeitung keine unbeabsichtigte fachliche Rolle.
+
+**Test erfolgreich:** [ ]
+
+#### 12.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] Ein Testkonto auswählen.
+- [ ] Passwort-Zurücksetzen-Funktion anklicken.
+- [ ] Vorgang bestätigen.
+- [ ] Mit dem Testkonto anmelden.
+- [ ] Passwortwechsel durchführen.
+
+**Ergebnisprüfung**
+- [ ] Passwort wird gemäß dem vorgesehenen Rücksetzverfahren zurückgesetzt.
+- [ ] Erforderlicher Passwortwechsel wird durchgesetzt.
+- [ ] Andere Konten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+
+### 15. Organisationsverwaltung
+
+#### 15.1 Organisationseinstellungen bearbeiten – Rolle: Admin
+
+- [ ] **Verwaltung** öffnen.
+- [ ] **Organisation** bzw. Organisationseinstellungen öffnen.
+- [ ] Organisationsbezeichnung ändern.
+- [ ] Kurzbezeichnung ändern.
+- [ ] Zeitzone auswählen.
+- [ ] Änderungen speichern.
+- [ ] Seite neu laden.
+
+**Ergebnisprüfung**
+- [ ] Organisationsbezeichnung und Kurzbezeichnung werden korrekt angezeigt.
+- [ ] Datums- und Uhrzeitanzeigen verwenden die eingestellte Zeitzone.
+- [ ] Einstellungen bleiben nach dem Neuladen erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.2 Organisationslogo ändern – Rolle: Admin
+
+- [ ] Organisationseinstellungen öffnen.
+- [ ] Ein zulässiges Testlogo auswählen.
+- [ ] Logo hochladen bzw. speichern.
+- [ ] Dashboard und Protokoll-PDF öffnen.
+- [ ] Falls vorgesehen, Logo entfernen bzw. durch ein anderes Testlogo ersetzen.
+
+**Ergebnisprüfung**
+- [ ] Logo wird in den vorgesehenen Bereichen angezeigt.
+- [ ] Protokoll-PDF verwendet die vorgesehene Logo-Darstellung.
+- [ ] Nicht unterstützte Dateien werden abgewiesen.
+- [ ] Andere Organisationseinstellungen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 15.3 Farben und Darstellung konfigurieren – Rolle: Admin
+
+- [ ] Organisationseinstellungen öffnen.
+- [ ] Primärfarbe ändern.
+- [ ] Sekundärfarbe ändern.
+- [ ] Tertiärfarbe ändern.
+- [ ] Optionale Hell- und Dunkelmodus-Farbwerte ändern, sofern angeboten.
+- [ ] Speichern.
+- [ ] Anwendung in Hell- und Dunkelmodus neu laden.
+
+**Ergebnisprüfung**
+- [ ] Farben werden in den vorgesehenen Bereichen verwendet.
+- [ ] Ungültige Farbwerte werden abgewiesen.
+- [ ] Nicht gesetzte optionale Farbwerte verwenden den vorgesehenen Basiswert.
+- [ ] Lesbarkeit und Bedienbarkeit bleiben erhalten.
+
+**Test erfolgreich:** [ ]
+
+#### 15.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
+
+- [ ] Organisationseinstellungen öffnen.
+- [ ] Zentrale Aufbewahrungsfrist ändern.
+- [ ] Maximale Dateigröße für Anlagen ändern.
+- [ ] Speichern.
+- [ ] Einstellungen erneut öffnen.
+- [ ] Upload mit einer Datei innerhalb und außerhalb des eingestellten Limits testen.
+
+**Ergebnisprüfung**
+- [ ] Aufbewahrungsfrist wird korrekt gespeichert und angezeigt.
+- [ ] Uploadlimit wird korrekt gespeichert und durchgesetzt.
+- [ ] Ungültige Werte werden abgewiesen.
+- [ ] Bestehende Themen- bzw. Terminfristen werden nicht unbeabsichtigt überschrieben.
+
+**Test erfolgreich:** [ ]
+
+---
+
+
+### 22. Rollenübergreifende Zugriffsmatrix
+
+Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit getrennten Konten und direkten URL-Aufrufen auszuführen.
+
+#### 22.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
+
+- [ ] Zugewiesene Reihe öffnen.
+- [ ] Termin und Protokoll öffnen.
+- [ ] Thema und Tagesordnung öffnen.
+- [ ] Kommentar-, Bearbeitungs-, Lösch- und Abschlussaktionen versuchen.
+- [ ] Direkte schreibende URLs der Testreihe aufrufen.
+
+**Ergebnisprüfung**
+- [ ] Lesen und Protokoll-Export sind im zugewiesenen Bereich möglich.
+- [ ] Fachliche Änderungen und schreibende Aktionen werden verweigert.
+- [ ] Nicht zugewiesene Reihen bleiben unzugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 22.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
+
+- [ ] Zugewiesene Reihe öffnen.
+- [ ] Thema und Tagesordnung bearbeiten.
+- [ ] Zuständigkeit setzen.
+- [ ] Kommentar und Anlage hinzufügen.
+- [ ] Wiedervorlage anlegen.
+- [ ] Teilnehmerliste bearbeiten.
+- [ ] Besprechung abschließen.
+- [ ] Serienverwaltung und Wiederöffnung eines abgeschlossenen Termins versuchen.
+
+**Ergebnisprüfung**
+- [ ] Erlaubte fachliche Aktionen sind möglich.
+- [ ] Reihenverwaltung und Wiederöffnung bleiben gesperrt.
+- [ ] Andere Reihen sind nicht zugänglich.
+
+**Test erfolgreich:** [ ]
+
+#### 22.3 Moderator*in – Verwaltung nur der eigenen Reihe
+
+- [ ] Eigene Reihe öffnen.
+- [ ] Reihe bearbeiten.
+- [ ] Termine verwalten.
+- [ ] Themen archivieren und wieder öffnen.
+- [ ] Abgeschlossenen Termin wieder öffnen.
+- [ ] Serienmitglieder verwalten.
+- [ ] Fremde Reihe direkt aufrufen.
+- [ ] Eigene Moderatorzuweisung zu ändern oder zu entfernen versuchen.
+
+**Ergebnisprüfung**
+- [ ] Moderationsfunktionen sind nur in der ausdrücklich zugewiesenen Reihe verfügbar.
+- [ ] Fremde Reihen bleiben unzugänglich.
+- [ ] Eigene Moderatorzuweisung ist gegen unzulässige Selbständerung geschützt.
+
+**Test erfolgreich:** [ ]
+
+#### 22.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
+
+- [ ] Benutzerverwaltung öffnen.
+- [ ] Organisationseinstellungen öffnen.
+- [ ] Serienzuweisungen verwalten.
+- [ ] Eine fachliche Reihe ohne eigene Serienzuweisung direkt aufrufen.
+- [ ] Ein Thema dieser Reihe direkt aufrufen.
+- [ ] Einen fachlichen Schreibvorgang versuchen.
+
+**Ergebnisprüfung**
+- [ ] Globale Verwaltungsfunktionen sind verfügbar.
+- [ ] Fachliche Reiheninhalte bleiben ohne passende Serienzuweisung unzugänglich.
+- [ ] Eine ausdrückliche Serienzuweisung ermöglicht nur die zugewiesene Rolle und Reihe.
+
+**Test erfolgreich:** [ ]
+
+#### 22.5 Auditor*in – ausschließlich administrative Leserechte
+
+- [ ] Auditor*innenübersicht öffnen.
+- [ ] Benutzer- und Rolleninformationen lesen.
+- [ ] Organisationseinstellungen lesen.
+- [ ] Systemänderungsverlauf lesen.
+- [ ] Fachliche Reihe und Thema direkt aufrufen.
+- [ ] Administrative Schreibaktionen versuchen.
+
+**Ergebnisprüfung**
+- [ ] Administrative Prüfdaten sind lesbar.
+- [ ] Fachliche Inhalte bleiben unzugänglich.
+- [ ] Schreibende Aktionen sind gesperrt.
+- [ ] Geheimnisse wie Startpasswörter werden nicht angezeigt.
+
+**Test erfolgreich:** [ ]
+
+---
+
+
+## Testing
+
+Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des abschließenden Testlaufs.
+
+### 19. TESTING-Modus und Beispielkonfiguration
+
+#### 19.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
+
+- [ ] TESTING-Modus in der Testinstallation aktivieren.
+- [ ] Dashboard öffnen.
+- [ ] Browser-Tab bzw. Seitentitel prüfen.
+- [ ] Django-Administrationspfad aufrufen.
+- [ ] TESTING-Modus deaktivieren.
+- [ ] Dieselben Bereiche erneut aufrufen.
+
+**Ergebnisprüfung**
+- [ ] Bei aktivem TESTING-Modus ist die Testkennzeichnung sichtbar.
+- [ ] Zusätzliche Testfunktionen sind nur im aktivierten Modus verfügbar.
+- [ ] Nach Deaktivierung sind die zusätzlichen Testfunktionen nicht mehr erreichbar.
+
+**Test erfolgreich:** [ ]
+
+#### 19.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+
+- [ ] **Verwaltung** öffnen.
+- [ ] **Beispielkonfiguration** öffnen.
+- [ ] Bereich zum Erzeugen zufälliger Testnutzer aufrufen.
+- [ ] Eine kleine Anzahl Testnutzer auswählen.
+- [ ] Erzeugung starten.
+- [ ] Benutzerübersicht öffnen.
+
+**Ergebnisprüfung**
+- [ ] Testkonten werden mit der vorgesehenen Kennzeichnung angelegt.
+- [ ] Benutzernamen und E-Mail-Adressen entsprechen dem Testdatenformat.
+- [ ] Passwortwechsel wird entsprechend der Testdatenregel erzwungen.
+- [ ] Reguläre Benutzerkonten bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 19.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+
+- [ ] Beispielkonfiguration öffnen.
+- [ ] Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
+- [ ] Eine kleine Anzahl Reihen auswählen.
+- [ ] Erzeugung starten.
+- [ ] Serienübersicht öffnen.
+
+**Ergebnisprüfung**
+- [ ] Testreihen werden mit der vorgesehenen TEST-Kennzeichnung angelegt.
+- [ ] Wiederholungsrhythmus und Wochentag sind gesetzt.
+- [ ] Reguläre Besprechungsreihen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 19.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
+
+- [ ] Beispielkonfiguration öffnen.
+- [ ] Eine Testreihe auswählen.
+- [ ] Funktion zum Generieren der Termine öffnen.
+- [ ] Generierung starten.
+- [ ] Terminübersicht der Testreihe öffnen.
+
+**Ergebnisprüfung**
+- [ ] Termine entsprechen dem Rhythmus der ausgewählten Testreihe.
+- [ ] Vergangene und zukünftige Termine werden entsprechend dem Generator berücksichtigt.
+- [ ] Bestehende Serienrollen werden nicht überschrieben.
+- [ ] Es entstehen keine doppelten Termine.
+
+**Test erfolgreich:** [ ]
+
+#### 19.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+
+- [ ] Beispielkonfiguration öffnen.
+- [ ] Eine Testreihe auswählen.
+- [ ] Bereich zum Erzeugen von Testthemen öffnen.
+- [ ] Eine kleine Anzahl Themen festlegen.
+- [ ] Erzeugung starten.
+- [ ] Themenübersicht der Testreihe öffnen.
+
+**Ergebnisprüfung**
+- [ ] Themen sind eindeutig als Testdaten gekennzeichnet.
+- [ ] Status und Hauptzuständigkeit sind gesetzt.
+- [ ] Reguläre Themen bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 19.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+
+- [ ] Beispielkonfiguration öffnen.
+- [ ] Ein Testthema auswählen.
+- [ ] Bereich zum Erzeugen von Tagesordnungspunkten öffnen.
+- [ ] Eine kleine Anzahl Punkte festlegen.
+- [ ] Erzeugung starten.
+- [ ] Zugehörige Testtermine öffnen.
+
+**Ergebnisprüfung**
+- [ ] Tagesordnungspunkte werden den vorgesehenen Terminen zugeordnet.
+- [ ] Status und Zuständigkeiten sind gesetzt.
+- [ ] Wiedervorlagekette ist chronologisch verknüpft.
+- [ ] Reguläre Themen und Termine bleiben unverändert.
+
+**Test erfolgreich:** [ ]
+
+#### 19.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
+
+- [ ] Vorhandene Testdaten in der Testinstallation prüfen.
+- [ ] Funktion **TEST-Daten zurücksetzen** öffnen.
+- [ ] Angezeigte Auswahl und Folgen prüfen.
+- [ ] Zurücksetzen bestätigen.
+- [ ] Benutzer-, Reihen-, Termin- und Themenübersichten öffnen.
+
+**Ergebnisprüfung**
+- [ ] Gekennzeichnete Testdaten werden entsprechend der Reset-Regeln entfernt.
+- [ ] Reguläre Reihen, Themen und Benutzer bleiben erhalten.
+- [ ] Testkonten mit regulären Verwendungen bleiben entsprechend der Schutzregeln bestehen.
+- [ ] Es verbleiben keine unbeabsichtigten Testdatenreste.
+
+**Test erfolgreich:** [ ]
+
+---
+
+### 20. Hilfe und Dokumentation
+
+#### 20.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
+
+- [ ] Menüpunkt **Hilfe** öffnen.
+- [ ] Benutzerhilfe aufrufen.
+- [ ] Inhaltsübersicht und Verweise prüfen.
+- [ ] Zur Anwendung zurückkehren.
+
+**Ergebnisprüfung**
+- [ ] Hilfe wird ohne Fehler angezeigt.
+- [ ] Verlinkte Abschnitte sind erreichbar.
+- [ ] Inhalte sind lesbar und der Navigation zugeordnet.
+
+**Test erfolgreich:** [ ]
+
+#### 20.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
+
+- [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
+- [ ] Dokument in der Anwendung anzeigen.
+- [ ] PDF-Version öffnen.
+- [ ] PDF-Datei speichern und öffnen.
+
+**Ergebnisprüfung**
+- [ ] Dokument wird angezeigt.
+- [ ] PDF lässt sich öffnen.
+- [ ] Angezeigtes Dokument und PDF beziehen sich auf die vorgesehene Fassung.
+- [ ] Es werden keine unberechtigten internen Daten offengelegt.
+
+**Test erfolgreich:** [ ]
+
+#### 20.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
+
+- [ ] Mit einem angemeldeten Testkonto anmelden.
+- [ ] **Hilfe & Anleitung** öffnen.
+- [ ] Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
+- [ ] Prüfen, ob die Testdokumentation vollständig angezeigt wird.
+- [ ] TESTING-Modus aktivieren und einen Testblock aufrufen.
+- [ ] Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
+- [ ] Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
+- [ ] Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
+- [ ] Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach zwei Sekunden aktualisiert wird, ohne die Seite neu zu laden.
+- [ ] In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
+- [ ] Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
+- [ ] **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
+- [ ] Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
+- [ ] TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
+- [ ] Die Testcheckliste ohne Anmeldung direkt aufrufen.
+- [ ] Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
+
+**Ergebnisprüfung**
+- [ ] Der Link ist in **Hilfe & Anleitung** sichtbar und führt zur richtigen Testdokumentation.
+- [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
+- [ ] Bearbeitung und Download sind ausschließlich im TESTING-Modus verfügbar.
+- [ ] Jeder Klick wird direkt in der lokalen Markdown-Datei auf dem Anwendungsserver gespeichert.
+- [ ] Andere Nutzer derselben Serverinstallation sehen Änderungen spätestens nach zwei Sekunden ohne Neuladen.
+- [ ] Gleichzeitige Änderungen überschreiben einander nicht unbemerkt.
+- [ ] Die Datei wird atomar geschrieben und bleibt auch bei parallelen Zugriffen vollständig lesbar.
+- [ ] Der Download enthält den vollständigen aktuellen Stand als `.md`-Datei.
+- [ ] Die Übernahme nach GitHub erfolgt ausschließlich manuell über den heruntergeladenen Stand.
+- [ ] Der Prüfstand wird nicht in der Anwendungsdatenbank gespeichert.
+- [ ] Andere Serverinstallationen führen unabhängige Checklisten ohne Synchronisierung.
+- [ ] Nicht angemeldete Konten erhalten keinen Zugriff.
+- [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
+
+**Test erfolgreich:** [ ]
+
+---
+
+
+### 23. Abschluss der Gesamtprüfung
+
+#### 23.1 Vollständigkeit und Nachprüfung
+
+- [ ] Alle für die Installation relevanten Testblöcke wurden durchgeführt.
+- [ ] Alle Rollen wurden mit getrennten Testkonten geprüft.
+- [ ] Direkte URL-Aufrufe wurden bei den Berechtigungstests berücksichtigt.
+- [ ] Abweichungen wurden dokumentiert und nicht als erfolgreich abgehakt.
+- [ ] Kritische Fehler wurden nach Korrektur erneut geprüft.
+- [ ] Testdaten wurden nach Abschluss entsprechend den Testumgebungsregeln zurückgesetzt.
+
+#### Ergebnis der Gesamtprüfung
+
+- [ ] Alle durchgeführten und relevanten Testfälle erfolgreich.
+- [ ] Keine offenen kritischen oder hohen Fehler.
+- [ ] Abweichungen und nicht durchgeführte Tests sind separat dokumentiert.
+
+**Prüfdatum:** ____________________  
+**Geprüfte Version / Commit:** ____________________  
+**Testumgebung:** ____________________  
+**Prüfende Person:** ____________________  
+**Offene Abweichungen / Bemerkungen:**  
+
+____________________________________________________________________
+
+____________________________________________________________________
+
+____________________________________________________________________
 
 
 ## Produktiv
@@ -930,128 +1523,6 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 ---
 
 
-## Ersteinrichtung
-
-Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
-
-### 12. Benutzerverwaltung
-
-#### 12.1 Benutzerkonto anlegen – Rolle: Admin
-
-- [ ] **Verwaltung** öffnen.
-- [ ] **Nutzer** öffnen.
-- [ ] **Neu** anklicken.
-- [ ] Benutzernamen eintragen.
-- [ ] Vorname und Nachname eintragen.
-- [ ] E-Mail-Adresse eintragen.
-- [ ] Organisationskennzeichen eintragen.
-- [ ] Aktivstatus festlegen.
-- [ ] Angezeigte Rollen- bzw. Kontoeinstellungen prüfen.
-- [ ] Speichern anklicken.
-- [ ] Benutzerübersicht neu laden.
-
-**Ergebnisprüfung**
-- [ ] Neues Konto erscheint in der Benutzerübersicht.
-- [ ] Stammdaten und Aktivstatus entsprechen den Eingaben.
-- [ ] Konto erhält keine unbeabsichtigten Serienberechtigungen.
-- [ ] Passwortbereitstellung bzw. erforderlicher Passwortwechsel entspricht der vorgesehenen Einrichtung.
-
-**Test erfolgreich:** [ ]
-
-#### 12.2 Benutzerkonto bearbeiten – Rolle: Admin
-
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Ein Testkonto auswählen.
-- [ ] Bearbeiten öffnen.
-- [ ] Name oder E-Mail-Adresse ändern.
-- [ ] Organisationskennzeichen ändern.
-- [ ] Aktivstatus ändern, soweit für den Test vorgesehen.
-- [ ] Speichern.
-- [ ] Konto erneut öffnen.
-
-**Ergebnisprüfung**
-- [ ] Geänderte Kontodaten werden korrekt angezeigt.
-- [ ] Nicht geänderte Daten bleiben erhalten.
-- [ ] Bestehende Serienzuweisungen bleiben erhalten, sofern sie nicht ausdrücklich geändert wurden.
-
-**Test erfolgreich:** [ ]
-
-#### 12.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
-
-- [ ] Ein entbehrliches Testkonto auswählen.
-- [ ] Aktivstatus deaktivieren.
-- [ ] Speichern.
-- [ ] Anmeldeversuch mit dem Testkonto durchführen.
-- [ ] Konto erneut in der Benutzerverwaltung öffnen.
-- [ ] Aktivstatus wieder aktivieren.
-- [ ] Speichern.
-- [ ] Anmeldung erneut versuchen.
-
-**Ergebnisprüfung**
-- [ ] Deaktiviertes Konto kann sich nicht anmelden.
-- [ ] Reaktiviertes Konto kann sich gemäß Passwortstatus anmelden.
-- [ ] Serienzuweisungen werden durch die Statusänderung nicht unbeabsichtigt gelöscht.
-
-**Test erfolgreich:** [ ]
-
-#### 12.4 Benutzerkonto löschen – Rolle: Admin
-
-- [ ] Ausschließlich ein entbehrliches Testkonto auswählen.
-- [ ] Löschfunktion öffnen.
-- [ ] Angezeigte Folgen prüfen.
-- [ ] Löschung bestätigen.
-- [ ] Benutzerübersicht und betroffene Serienzuweisungen prüfen.
-
-**Ergebnisprüfung**
-- [ ] Testkonto wird entsprechend der vorgesehenen Regeln entfernt.
-- [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
-- [ ] Historische Einträge werden entsprechend der vorgesehenen Aufbewahrung behandelt.
-
-**Test erfolgreich:** [ ]
-
-#### 12.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
-
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Testkonto auswählen.
-- [ ] Serienzuweisungen öffnen.
-- [ ] Eine Reihe zuweisen.
-- [ ] Serienrolle auswählen.
-- [ ] Speichern.
-- [ ] Weitere Reihe mit abweichender Rolle zuweisen.
-- [ ] Speichern.
-- [ ] Benutzeransicht erneut öffnen.
-
-**Ergebnisprüfung**
-- [ ] Jede Zuweisung ist der richtigen Reihe zugeordnet.
-- [ ] Unterschiedliche Rollen je Reihe bleiben getrennt.
-- [ ] Bestehende Zuweisungen werden bei Änderungen an einer anderen Reihe nicht überschrieben.
-- [ ] Ein globaler Admin erhält durch die Zuweisungsbearbeitung keine unbeabsichtigte fachliche Rolle.
-
-**Test erfolgreich:** [ ]
-
-#### 12.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
-
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Ein Testkonto auswählen.
-- [ ] Passwort-Zurücksetzen-Funktion anklicken.
-- [ ] Vorgang bestätigen.
-- [ ] Mit dem Testkonto anmelden.
-- [ ] Passwortwechsel durchführen.
-
-**Ergebnisprüfung**
-- [ ] Passwort wird gemäß dem vorgesehenen Rücksetzverfahren zurückgesetzt.
-- [ ] Erforderlicher Passwortwechsel wird durchgesetzt.
-- [ ] Andere Konten bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
----
-
-
-## Produktiv
-
-Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und Betriebsfunktionen.
-
 ### 13. Benutzer- und Themenimport/-export
 
 #### 13.1 Benutzer als CSV exportieren – Rolle: Admin
@@ -1174,143 +1645,6 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 ---
 
 
-## Ersteinrichtung
-
-Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
-
-### 15. Organisationsverwaltung
-
-#### 15.1 Organisationseinstellungen bearbeiten – Rolle: Admin
-
-- [ ] **Verwaltung** öffnen.
-- [ ] **Organisation** bzw. Organisationseinstellungen öffnen.
-- [ ] Organisationsbezeichnung ändern.
-- [ ] Kurzbezeichnung ändern.
-- [ ] Zeitzone auswählen.
-- [ ] Änderungen speichern.
-- [ ] Seite neu laden.
-
-**Ergebnisprüfung**
-- [ ] Organisationsbezeichnung und Kurzbezeichnung werden korrekt angezeigt.
-- [ ] Datums- und Uhrzeitanzeigen verwenden die eingestellte Zeitzone.
-- [ ] Einstellungen bleiben nach dem Neuladen erhalten.
-
-**Test erfolgreich:** [ ]
-
-#### 15.2 Organisationslogo ändern – Rolle: Admin
-
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Ein zulässiges Testlogo auswählen.
-- [ ] Logo hochladen bzw. speichern.
-- [ ] Dashboard und Protokoll-PDF öffnen.
-- [ ] Falls vorgesehen, Logo entfernen bzw. durch ein anderes Testlogo ersetzen.
-
-**Ergebnisprüfung**
-- [ ] Logo wird in den vorgesehenen Bereichen angezeigt.
-- [ ] Protokoll-PDF verwendet die vorgesehene Logo-Darstellung.
-- [ ] Nicht unterstützte Dateien werden abgewiesen.
-- [ ] Andere Organisationseinstellungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 15.3 Farben und Darstellung konfigurieren – Rolle: Admin
-
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Primärfarbe ändern.
-- [ ] Sekundärfarbe ändern.
-- [ ] Tertiärfarbe ändern.
-- [ ] Optionale Hell- und Dunkelmodus-Farbwerte ändern, sofern angeboten.
-- [ ] Speichern.
-- [ ] Anwendung in Hell- und Dunkelmodus neu laden.
-
-**Ergebnisprüfung**
-- [ ] Farben werden in den vorgesehenen Bereichen verwendet.
-- [ ] Ungültige Farbwerte werden abgewiesen.
-- [ ] Nicht gesetzte optionale Farbwerte verwenden den vorgesehenen Basiswert.
-- [ ] Lesbarkeit und Bedienbarkeit bleiben erhalten.
-
-**Test erfolgreich:** [ ]
-
-#### 15.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
-
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Zentrale Aufbewahrungsfrist ändern.
-- [ ] Maximale Dateigröße für Anlagen ändern.
-- [ ] Speichern.
-- [ ] Einstellungen erneut öffnen.
-- [ ] Upload mit einer Datei innerhalb und außerhalb des eingestellten Limits testen.
-
-**Ergebnisprüfung**
-- [ ] Aufbewahrungsfrist wird korrekt gespeichert und angezeigt.
-- [ ] Uploadlimit wird korrekt gespeichert und durchgesetzt.
-- [ ] Ungültige Werte werden abgewiesen.
-- [ ] Bestehende Themen- bzw. Terminfristen werden nicht unbeabsichtigt überschrieben.
-
-**Test erfolgreich:** [ ]
-
----
-
-
-## Installation
-
-Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellung der Anwendung.
-
-### 16. Datenverwaltung und Sicherung
-
-#### 16.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
-
-- [ ] **Verwaltung** öffnen.
-- [ ] **Daten** öffnen.
-- [ ] Verfügbare Datenverwaltungsfunktionen prüfen.
-- [ ] Zur Verwaltungsübersicht zurückkehren.
-
-**Ergebnisprüfung**
-- [ ] Datenverwaltungsbereich wird angezeigt.
-- [ ] Nur berechtigte Admin-Konten können die Funktionen aufrufen.
-- [ ] Andere Rollen erhalten keinen Zugriff.
-
-**Test erfolgreich:** [ ]
-
-#### 16.2 Vollständigen Datenexport durchführen – Rolle: Admin
-
-- [ ] Datenverwaltungsbereich öffnen.
-- [ ] Funktion zum vollständigen Backup-Export aufrufen.
-- [ ] Export starten.
-- [ ] Exportdatei speichern.
-- [ ] Datei und Ergebnisanzeige prüfen.
-
-**Ergebnisprüfung**
-- [ ] Export wird ohne Fehlermeldung abgeschlossen.
-- [ ] Exportdatei ist vorhanden und im vorgesehenen Format lesbar bzw. weiterverarbeitbar.
-- [ ] Export enthält keine Zugangsdaten oder Geheimnisse, die nicht Bestandteil des vorgesehenen Sicherungsformats sein dürfen.
-
-**Test erfolgreich:** [ ]
-
-#### 16.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
-
-- [ ] Ausschließlich eine isolierte Testinstallation verwenden.
-- [ ] Vorhandenen Testdatenbestand sichern.
-- [ ] Datenimport öffnen.
-- [ ] Geeignete Test-Sicherungsdatei auswählen.
-- [ ] Import starten.
-- [ ] Ergebnisanzeige prüfen.
-- [ ] Betroffene Testdatenbereiche öffnen.
-
-**Ergebnisprüfung**
-- [ ] Import wird entsprechend dem vorgesehenen Format verarbeitet.
-- [ ] Fehlerhafte oder ungeeignete Dateien werden nachvollziehbar abgewiesen.
-- [ ] Datenbestand entspricht nach dem Import dem vorgesehenen Sicherungsstand.
-- [ ] Keine produktiven Daten werden berührt.
-
-**Test erfolgreich:** [ ]
-
----
-
-
-## Produktiv
-
-Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und Betriebsfunktionen.
-
 ### 17. Aufbewahrung und automatische Löschung
 
 #### 17.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Rolle: Admin
@@ -1398,365 +1732,3 @@ Prüfungen der regulären fachlichen Nutzung und der laufenden Verwaltungs- und 
 
 ---
 
-
-## Testing
-
-Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des abschließenden Testlaufs.
-
-### 19. TESTING-Modus und Beispielkonfiguration
-
-#### 19.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
-
-- [ ] TESTING-Modus in der Testinstallation aktivieren.
-- [ ] Dashboard öffnen.
-- [ ] Browser-Tab bzw. Seitentitel prüfen.
-- [ ] Django-Administrationspfad aufrufen.
-- [ ] TESTING-Modus deaktivieren.
-- [ ] Dieselben Bereiche erneut aufrufen.
-
-**Ergebnisprüfung**
-- [ ] Bei aktivem TESTING-Modus ist die Testkennzeichnung sichtbar.
-- [ ] Zusätzliche Testfunktionen sind nur im aktivierten Modus verfügbar.
-- [ ] Nach Deaktivierung sind die zusätzlichen Testfunktionen nicht mehr erreichbar.
-
-**Test erfolgreich:** [ ]
-
-#### 19.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
-
-- [ ] **Verwaltung** öffnen.
-- [ ] **Beispielkonfiguration** öffnen.
-- [ ] Bereich zum Erzeugen zufälliger Testnutzer aufrufen.
-- [ ] Eine kleine Anzahl Testnutzer auswählen.
-- [ ] Erzeugung starten.
-- [ ] Benutzerübersicht öffnen.
-
-**Ergebnisprüfung**
-- [ ] Testkonten werden mit der vorgesehenen Kennzeichnung angelegt.
-- [ ] Benutzernamen und E-Mail-Adressen entsprechen dem Testdatenformat.
-- [ ] Passwortwechsel wird entsprechend der Testdatenregel erzwungen.
-- [ ] Reguläre Benutzerkonten bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 19.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
-
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
-- [ ] Eine kleine Anzahl Reihen auswählen.
-- [ ] Erzeugung starten.
-- [ ] Serienübersicht öffnen.
-
-**Ergebnisprüfung**
-- [ ] Testreihen werden mit der vorgesehenen TEST-Kennzeichnung angelegt.
-- [ ] Wiederholungsrhythmus und Wochentag sind gesetzt.
-- [ ] Reguläre Besprechungsreihen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 19.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
-
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Eine Testreihe auswählen.
-- [ ] Funktion zum Generieren der Termine öffnen.
-- [ ] Generierung starten.
-- [ ] Terminübersicht der Testreihe öffnen.
-
-**Ergebnisprüfung**
-- [ ] Termine entsprechen dem Rhythmus der ausgewählten Testreihe.
-- [ ] Vergangene und zukünftige Termine werden entsprechend dem Generator berücksichtigt.
-- [ ] Bestehende Serienrollen werden nicht überschrieben.
-- [ ] Es entstehen keine doppelten Termine.
-
-**Test erfolgreich:** [ ]
-
-#### 19.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
-
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Eine Testreihe auswählen.
-- [ ] Bereich zum Erzeugen von Testthemen öffnen.
-- [ ] Eine kleine Anzahl Themen festlegen.
-- [ ] Erzeugung starten.
-- [ ] Themenübersicht der Testreihe öffnen.
-
-**Ergebnisprüfung**
-- [ ] Themen sind eindeutig als Testdaten gekennzeichnet.
-- [ ] Status und Hauptzuständigkeit sind gesetzt.
-- [ ] Reguläre Themen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 19.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
-
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Ein Testthema auswählen.
-- [ ] Bereich zum Erzeugen von Tagesordnungspunkten öffnen.
-- [ ] Eine kleine Anzahl Punkte festlegen.
-- [ ] Erzeugung starten.
-- [ ] Zugehörige Testtermine öffnen.
-
-**Ergebnisprüfung**
-- [ ] Tagesordnungspunkte werden den vorgesehenen Terminen zugeordnet.
-- [ ] Status und Zuständigkeiten sind gesetzt.
-- [ ] Wiedervorlagekette ist chronologisch verknüpft.
-- [ ] Reguläre Themen und Termine bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 19.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
-
-- [ ] Vorhandene Testdaten in der Testinstallation prüfen.
-- [ ] Funktion **TEST-Daten zurücksetzen** öffnen.
-- [ ] Angezeigte Auswahl und Folgen prüfen.
-- [ ] Zurücksetzen bestätigen.
-- [ ] Benutzer-, Reihen-, Termin- und Themenübersichten öffnen.
-
-**Ergebnisprüfung**
-- [ ] Gekennzeichnete Testdaten werden entsprechend der Reset-Regeln entfernt.
-- [ ] Reguläre Reihen, Themen und Benutzer bleiben erhalten.
-- [ ] Testkonten mit regulären Verwendungen bleiben entsprechend der Schutzregeln bestehen.
-- [ ] Es verbleiben keine unbeabsichtigten Testdatenreste.
-
-**Test erfolgreich:** [ ]
-
----
-
-### 20. Hilfe und Dokumentation
-
-#### 20.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
-
-- [ ] Menüpunkt **Hilfe** öffnen.
-- [ ] Benutzerhilfe aufrufen.
-- [ ] Inhaltsübersicht und Verweise prüfen.
-- [ ] Zur Anwendung zurückkehren.
-
-**Ergebnisprüfung**
-- [ ] Hilfe wird ohne Fehler angezeigt.
-- [ ] Verlinkte Abschnitte sind erreichbar.
-- [ ] Inhalte sind lesbar und der Navigation zugeordnet.
-
-**Test erfolgreich:** [ ]
-
-#### 20.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
-
-- [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
-- [ ] Dokument in der Anwendung anzeigen.
-- [ ] PDF-Version öffnen.
-- [ ] PDF-Datei speichern und öffnen.
-
-**Ergebnisprüfung**
-- [ ] Dokument wird angezeigt.
-- [ ] PDF lässt sich öffnen.
-- [ ] Angezeigtes Dokument und PDF beziehen sich auf die vorgesehene Fassung.
-- [ ] Es werden keine unberechtigten internen Daten offengelegt.
-
-**Test erfolgreich:** [ ]
-
-#### 20.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
-
-- [ ] Mit einem angemeldeten Testkonto anmelden.
-- [ ] **Hilfe & Anleitung** öffnen.
-- [ ] Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
-- [ ] Prüfen, ob die Testdokumentation vollständig angezeigt wird.
-- [ ] TESTING-Modus aktivieren und einen Testblock aufrufen.
-- [ ] Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
-- [ ] Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
-- [ ] Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
-- [ ] Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach zwei Sekunden aktualisiert wird, ohne die Seite neu zu laden.
-- [ ] In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
-- [ ] Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
-- [ ] **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
-- [ ] Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
-- [ ] TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
-- [ ] Die Testcheckliste ohne Anmeldung direkt aufrufen.
-- [ ] Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
-
-**Ergebnisprüfung**
-- [ ] Der Link ist in **Hilfe & Anleitung** sichtbar und führt zur richtigen Testdokumentation.
-- [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
-- [ ] Bearbeitung und Download sind ausschließlich im TESTING-Modus verfügbar.
-- [ ] Jeder Klick wird direkt in der lokalen Markdown-Datei auf dem Anwendungsserver gespeichert.
-- [ ] Andere Nutzer derselben Serverinstallation sehen Änderungen spätestens nach zwei Sekunden ohne Neuladen.
-- [ ] Gleichzeitige Änderungen überschreiben einander nicht unbemerkt.
-- [ ] Die Datei wird atomar geschrieben und bleibt auch bei parallelen Zugriffen vollständig lesbar.
-- [ ] Der Download enthält den vollständigen aktuellen Stand als `.md`-Datei.
-- [ ] Die Übernahme nach GitHub erfolgt ausschließlich manuell über den heruntergeladenen Stand.
-- [ ] Der Prüfstand wird nicht in der Anwendungsdatenbank gespeichert.
-- [ ] Andere Serverinstallationen führen unabhängige Checklisten ohne Synchronisierung.
-- [ ] Nicht angemeldete Konten erhalten keinen Zugriff.
-- [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
-
-**Test erfolgreich:** [ ]
-
----
-
-
-## Installation
-
-Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellung der Anwendung.
-
-### 21. Administration und Software-Updates
-
-#### 21.1 Updatebereich aufrufen – Rolle: Admin
-
-- [ ] Administrationsbereich für Software-Updates öffnen.
-- [ ] Angezeigte Versions- und Branchinformationen prüfen.
-- [ ] Verfügbare Updateinformationen aufrufen.
-- [ ] Ohne Ausführung eines Updates zur Übersicht zurückkehren.
-
-**Ergebnisprüfung**
-- [ ] Updatebereich ist für Admins erreichbar.
-- [ ] Versions- und Statusinformationen werden angezeigt.
-- [ ] Nicht berechtigte Rollen erhalten keinen Zugriff.
-
-**Test erfolgreich:** [ ]
-
-#### 21.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
-
-- [ ] Vor dem Update Datenbank und Medienbestand sichern.
-- [ ] Updatebereich öffnen.
-- [ ] Gewünschten freigegebenen Branch auswählen.
-- [ ] Update starten.
-- [ ] Status und Protokoll des Updatevorgangs abwarten.
-- [ ] Nach Abschluss die Anwendung neu laden.
-- [ ] Anmeldung durchführen.
-- [ ] Besprechungsübersicht, Themen, Protokoll und Anlagen öffnen.
-
-**Ergebnisprüfung**
-- [ ] Updatevorgang wird mit nachvollziehbarem Status beendet.
-- [ ] Angezeigter Branch und Commit entsprechen der Auswahl.
-- [ ] Anwendung ist erreichbar.
-- [ ] Vorhandene Testdaten und Serienberechtigungen bleiben erhalten.
-- [ ] Login, fachliche Ansichten und Dateizugriffe funktionieren.
-
-**Test erfolgreich:** [ ]
-
----
-
-
-## Ersteinrichtung
-
-Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berechtigungen.
-
-### 22. Rollenübergreifende Zugriffsmatrix
-
-Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit getrennten Konten und direkten URL-Aufrufen auszuführen.
-
-#### 22.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
-
-- [ ] Zugewiesene Reihe öffnen.
-- [ ] Termin und Protokoll öffnen.
-- [ ] Thema und Tagesordnung öffnen.
-- [ ] Kommentar-, Bearbeitungs-, Lösch- und Abschlussaktionen versuchen.
-- [ ] Direkte schreibende URLs der Testreihe aufrufen.
-
-**Ergebnisprüfung**
-- [ ] Lesen und Protokoll-Export sind im zugewiesenen Bereich möglich.
-- [ ] Fachliche Änderungen und schreibende Aktionen werden verweigert.
-- [ ] Nicht zugewiesene Reihen bleiben unzugänglich.
-
-**Test erfolgreich:** [ ]
-
-#### 22.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
-
-- [ ] Zugewiesene Reihe öffnen.
-- [ ] Thema und Tagesordnung bearbeiten.
-- [ ] Zuständigkeit setzen.
-- [ ] Kommentar und Anlage hinzufügen.
-- [ ] Wiedervorlage anlegen.
-- [ ] Teilnehmerliste bearbeiten.
-- [ ] Besprechung abschließen.
-- [ ] Serienverwaltung und Wiederöffnung eines abgeschlossenen Termins versuchen.
-
-**Ergebnisprüfung**
-- [ ] Erlaubte fachliche Aktionen sind möglich.
-- [ ] Reihenverwaltung und Wiederöffnung bleiben gesperrt.
-- [ ] Andere Reihen sind nicht zugänglich.
-
-**Test erfolgreich:** [ ]
-
-#### 22.3 Moderator*in – Verwaltung nur der eigenen Reihe
-
-- [ ] Eigene Reihe öffnen.
-- [ ] Reihe bearbeiten.
-- [ ] Termine verwalten.
-- [ ] Themen archivieren und wieder öffnen.
-- [ ] Abgeschlossenen Termin wieder öffnen.
-- [ ] Serienmitglieder verwalten.
-- [ ] Fremde Reihe direkt aufrufen.
-- [ ] Eigene Moderatorzuweisung zu ändern oder zu entfernen versuchen.
-
-**Ergebnisprüfung**
-- [ ] Moderationsfunktionen sind nur in der ausdrücklich zugewiesenen Reihe verfügbar.
-- [ ] Fremde Reihen bleiben unzugänglich.
-- [ ] Eigene Moderatorzuweisung ist gegen unzulässige Selbständerung geschützt.
-
-**Test erfolgreich:** [ ]
-
-#### 22.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
-
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Serienzuweisungen verwalten.
-- [ ] Eine fachliche Reihe ohne eigene Serienzuweisung direkt aufrufen.
-- [ ] Ein Thema dieser Reihe direkt aufrufen.
-- [ ] Einen fachlichen Schreibvorgang versuchen.
-
-**Ergebnisprüfung**
-- [ ] Globale Verwaltungsfunktionen sind verfügbar.
-- [ ] Fachliche Reiheninhalte bleiben ohne passende Serienzuweisung unzugänglich.
-- [ ] Eine ausdrückliche Serienzuweisung ermöglicht nur die zugewiesene Rolle und Reihe.
-
-**Test erfolgreich:** [ ]
-
-#### 22.5 Auditor*in – ausschließlich administrative Leserechte
-
-- [ ] Auditor*innenübersicht öffnen.
-- [ ] Benutzer- und Rolleninformationen lesen.
-- [ ] Organisationseinstellungen lesen.
-- [ ] Systemänderungsverlauf lesen.
-- [ ] Fachliche Reihe und Thema direkt aufrufen.
-- [ ] Administrative Schreibaktionen versuchen.
-
-**Ergebnisprüfung**
-- [ ] Administrative Prüfdaten sind lesbar.
-- [ ] Fachliche Inhalte bleiben unzugänglich.
-- [ ] Schreibende Aktionen sind gesperrt.
-- [ ] Geheimnisse wie Startpasswörter werden nicht angezeigt.
-
-**Test erfolgreich:** [ ]
-
----
-
-
-## Testing
-
-Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des abschließenden Testlaufs.
-
-### 23. Abschluss der Gesamtprüfung
-
-#### 23.1 Vollständigkeit und Nachprüfung
-
-- [ ] Alle für die Installation relevanten Testblöcke wurden durchgeführt.
-- [ ] Alle Rollen wurden mit getrennten Testkonten geprüft.
-- [ ] Direkte URL-Aufrufe wurden bei den Berechtigungstests berücksichtigt.
-- [ ] Abweichungen wurden dokumentiert und nicht als erfolgreich abgehakt.
-- [ ] Kritische Fehler wurden nach Korrektur erneut geprüft.
-- [ ] Testdaten wurden nach Abschluss entsprechend den Testumgebungsregeln zurückgesetzt.
-
-#### Ergebnis der Gesamtprüfung
-
-- [ ] Alle durchgeführten und relevanten Testfälle erfolgreich.
-- [ ] Keine offenen kritischen oder hohen Fehler.
-- [ ] Abweichungen und nicht durchgeführte Tests sind separat dokumentiert.
-
-**Prüfdatum:** ____________________  
-**Geprüfte Version / Commit:** ____________________  
-**Testumgebung:** ____________________  
-**Prüfende Person:** ____________________  
-**Offene Abweichungen / Bemerkungen:**  
-
-____________________________________________________________________
-
-____________________________________________________________________
-
-____________________________________________________________________
