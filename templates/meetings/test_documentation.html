@@ -10,6 +10,7 @@
 .test-document .document-content p,.test-document .document-content li{line-height:1.6}
 .test-document .document-content li{margin:.25rem 0}
 .test-document .document-content input.test-checklist-box{width:1rem;height:1rem;margin-right:.45rem;vertical-align:middle;accent-color:var(--hagen-blue);cursor:pointer}
+.test-document .document-content input.test-checklist-box:disabled{cursor:default}
 .test-document .document-content pre{overflow-x:auto;padding:.8rem;background:var(--soft-bg);border-radius:5px}
 .test-document .document-content table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}
 .test-document .document-content th,.test-document .document-content td{padding:.55rem;border:1px solid var(--border);text-align:left;vertical-align:top}
@@ -24,10 +25,13 @@
 <div class="test-document">
   <section class="card">
     {% if test_documentation_editable %}
-    <p>TESTING-Modus ist aktiv: Du kannst die Prüfschritte markieren und anschließend den vollständigen Teststand als Markdown-Datei herunterladen. Die Änderungen bleiben bis zum Download in dieser Browseransicht; es erfolgt keine Speicherung in der Datenbank oder in GitHub.</p>
-    <p><button type="button" class="btn primary" id="download-test-documentation">Bearbeiteten Test als .md herunterladen</button></p>
+    <p>TESTING-Modus ist aktiv: Änderungen werden unmittelbar in der lokalen Markdown-Datei auf diesem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen den aktuellen Stand automatisch. Die vollständige Datei kann jederzeit heruntergeladen und manuell nach GitHub übernommen werden.</p>
+    <p>
+      <a class="btn primary" href="{% url 'test_documentation_download' %}">Aktuellen Test als .md herunterladen</a>
+      <span id="test-documentation-save-status" class="muted" role="status" aria-live="polite">Änderungen werden automatisch gespeichert.</span>
+    </p>
     {% else %}
-    <p>Die Testcheckliste ist im Lesemodus geöffnet. Bearbeitung und Download der bearbeiteten Markdown-Datei sind ausschließlich im TESTING-Modus verfügbar.</p>
+    <p>Die Testcheckliste ist im Lesemodus geöffnet. Bearbeitung und Download der Markdown-Datei sind ausschließlich im TESTING-Modus verfügbar.</p>
     {% endif %}
     <p class="muted">Mit „PR-Test erforderlich“ gekennzeichnete Bereiche sind für den jeweiligen Pull Request erneut zu prüfen.</p>
     <p><a class="btn secondary" href="{% url 'user_guide' %}">Zurück zu Hilfe &amp; Anleitung</a></p>
@@ -36,48 +40,104 @@
     {{ test_documentation_html|safe }}
   </article>
   {% if test_documentation_editable %}
-  <textarea id="test-documentation-markdown-source" hidden>{{ test_documentation_markdown }}</textarea>
+  <form hidden>{% csrf_token %}</form>
+  <span id="test-documentation-config" data-revision="{{ test_documentation_revision }}" data-save-url="{% url 'test_documentation_toggle' %}" data-status-url="{% url 'test_documentation_status' %}"></span>
   {% endif %}
 </div>
 {% if test_documentation_editable %}
 <script>
 (() => {
-  const documentRoot = document.querySelector(".test-document .document-content");
-  const sourceElement = document.getElementById("test-documentation-markdown-source");
-  const downloadButton = document.getElementById("download-test-documentation");
-  if (!documentRoot || !sourceElement || !downloadButton) return;
+  const root = document.querySelector(".test-document .document-content");
+  const config = document.getElementById("test-documentation-config");
+  const status = document.getElementById("test-documentation-save-status");
+  const csrf = document.querySelector("[name=csrfmiddlewaretoken]")?.value;
+  if (!root || !config || !status || !csrf) return;
 
-  downloadButton.addEventListener("click", () => {
-    const lines = sourceElement.value.split(/\r?\n/);
-    const checkboxes = documentRoot.querySelectorAll(
-      "input.test-checklist-box[data-checklist-line][data-checklist-occurrence]"
-    );
-
-    checkboxes.forEach((checkbox) => {
-      const lineIndex = Number(checkbox.dataset.checklistLine) - 1;
-      const occurrence = Number(checkbox.dataset.checklistOccurrence);
-      if (!Number.isInteger(lineIndex) || lineIndex < 0 || lineIndex >= lines.length || occurrence < 1) return;
-
-      let currentOccurrence = 0;
-      lines[lineIndex] = lines[lineIndex].replace(/\[([ xX])\]/g, (marker) => {
-        currentOccurrence += 1;
-        return currentOccurrence === occurrence ? (checkbox.checked ? "[x]" : "[ ]") : marker;
+  let revision = config.dataset.revision;
+  let refreshing = false;
+  const checkboxes = () => root.querySelectorAll(
+    "input.test-checklist-box[data-checklist-line][data-checklist-occurrence]"
+  );
+  const applyStatuses = (data) => {
+    revision = data.revision;
+    config.dataset.revision = revision;
+    checkboxes().forEach((checkbox) => {
+      const id = "line-" + checkbox.dataset.checklistLine + "-" + checkbox.dataset.checklistOccurrence;
+      if (Object.prototype.hasOwnProperty.call(data.statuses, id)) {
+        checkbox.checked = Boolean(data.statuses[id]);
+      }
+    });
+  };
+  const refresh = async () => {
+    if (refreshing) return;
+    refreshing = true;
+    try {
+      const response = await fetch(config.dataset.statusUrl, {
+        credentials: "same-origin",
+        headers: {"Accept": "application/json"}
       });
-    });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.revision !== revision) applyStatuses(data);
+      }
+    } catch (_) {
+      status.textContent = "Live-Aktualisierung derzeit nicht erreichbar.";
+    } finally {
+      refreshing = false;
+    }
+  };
 
-    const markdownFile = new Blob([lines.join("\n")], {
-      type: "text/markdown;charset=utf-8"
+  checkboxes().forEach((checkbox) => {
+    checkbox.addEventListener("change", async () => {
+      const desired = checkbox.checked;
+      const payload = {
+        line: Number(checkbox.dataset.checklistLine),
+        occurrence: Number(checkbox.dataset.checklistOccurrence),
+        checked: desired,
+        revision
+      };
+      checkbox.disabled = true;
+      status.textContent = "Speichere Änderung …";
+      try {
+        let response = await fetch(config.dataset.saveUrl, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrf,
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+        let data = await response.json();
+        if (response.status === 409) {
+          applyStatuses(data);
+          payload.revision = revision;
+          response = await fetch(config.dataset.saveUrl, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": csrf,
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+          data = await response.json();
+        }
+        if (!response.ok) throw new Error(data.error || "Speichern fehlgeschlagen.");
+        applyStatuses(data);
+        status.textContent = "Gespeichert – andere Nutzer werden automatisch aktualisiert.";
+      } catch (error) {
+        checkbox.checked = !desired;
+        status.textContent = error.message || "Speichern fehlgeschlagen. Bitte erneut versuchen.";
+      } finally {
+        checkbox.disabled = false;
+      }
     });
-    const objectUrl = URL.createObjectURL(markdownFile);
-    const link = document.createElement("a");
-    const date = new Date().toISOString().slice(0, 10);
-    link.href = objectUrl;
-    link.download = "Pruefung-des-Verfahrens-Testdokumentation-" + date + ".md";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
   });
+
+  window.setInterval(refresh, 2000);
 })();
 </script>
 {% endif %}
