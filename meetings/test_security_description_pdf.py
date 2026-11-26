@@ -103,29 +103,31 @@ class GitBackedTestChecklistTests(TestCase):
         self.client.force_login(self.user)
 
     def test_checkbox_marker_is_updated_in_markdown_source(self):
-        from meetings.guide_views import _apply_test_documentation_checkbox
+        from meetings.guide_views import _apply_test_documentation_checkbox, _test_documentation_checkbox_id
         source = "# Bereich\n- [ ] Erster Test\n- [x] Zweiter Test\n"
-        updated = _apply_test_documentation_checkbox(source, "line-2-1", True)
+        first_id = _test_documentation_checkbox_id(2, 1, "- [ ] Erster Test\n")
+        second_id = _test_documentation_checkbox_id(3, 1, "- [x] Zweiter Test\n")
+        updated = _apply_test_documentation_checkbox(source, first_id, True)
         self.assertEqual(updated, "# Bereich\n- [x] Erster Test\n- [x] Zweiter Test\n")
-        unchecked = _apply_test_documentation_checkbox(updated, "line-3-1", False)
+        unchecked = _apply_test_documentation_checkbox(updated, second_id, False)
         self.assertEqual(unchecked, "# Bereich\n- [x] Erster Test\n- [ ] Zweiter Test\n")
 
     @patch("meetings.guide_views._test_documentation_github_configured", return_value=True)
     @patch("meetings.guide_views._save_test_documentation_checkbox")
     def test_checkbox_click_is_committed_to_markdown_without_database_state(self, save_checkbox, _configured):
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "true"})
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "true"})
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content, {"success": True, "checked": True})
-        save_checkbox.assert_called_once_with("line-38-1", True)
+        save_checkbox.assert_called_once_with("line-38-1-000000000000", True)
 
     @patch("meetings.guide_views._test_documentation_github_configured", return_value=False)
     def test_checkbox_save_is_rejected_if_github_is_not_configured(self, _configured):
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "true"})
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "true"})
         self.assertEqual(response.status_code, 503)
 
     def test_checkbox_update_requires_authentication_and_post(self):
         self.client.logout()
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "true"})
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "true"})
         self.assertEqual(response.status_code, 302)
         self.client.force_login(self.user)
         response = self.client.get(reverse("test_documentation_toggle"))
@@ -134,5 +136,5 @@ class GitBackedTestChecklistTests(TestCase):
     def test_checkbox_update_rejects_invalid_values(self):
         response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "../settings", "checked": "true"})
         self.assertEqual(response.status_code, 400)
-        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "maybe"})
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1-000000000000", "checked": "maybe"})
         self.assertEqual(response.status_code, 400)
