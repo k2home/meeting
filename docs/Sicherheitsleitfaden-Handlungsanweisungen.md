@@ -54,6 +54,7 @@ Für Themenanlagen gilt serverseitig eine Dateiendungs-Allowlist. Zugelassen sin
 - Das organisationsweite Uploadlimit auf den tatsächlichen Bedarf begrenzen. Standardmäßig sind 20 MB eingestellt; konfigurierbar sind 1 bis 24 MB. Nginx begrenzt allgemeine Request-Bodies zusätzlich auf 32 MiB; nur der Vollbackup-Importpfad ist für große Sicherungen auf 1 GiB freigegeben. Proxy-, Nginx- und Anwendungslimits aufeinander abstimmen.
 - Das Medienverzeichnis nicht als öffentliches Webverzeichnis freigeben. Uploads ausschließlich über die authentifizierte Anwendungsroute bereitstellen; keine zusätzliche statische Direkt-Auslieferung konfigurieren.
 - Dateispeicher und Medien-Volume mit restriktiven Dateirechten betreiben und in Backups einbeziehen. Zugriff auf Host- und Backup-Ebene nur den zuständigen Betriebsadmins gewähren.
+- Den lokalen Prüfstand der manuellen Testcheckliste bei Bedarf separat sichern: bei Debian die Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` im Anwendungsverzeichnis, bei Docker das persistente Volume `docs_data`. Das Volume enthält nur die bearbeitbare Checkliste; übrige Dokumente werden mit dem Anwendungsimage aktualisiert. Der Prüfstand ist installationslokal und wird nicht automatisch zwischen Servern synchronisiert.
 
 ### 1.5 Backups, Wiederherstellung und Verfügbarkeit
 
