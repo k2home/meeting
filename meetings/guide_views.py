@@ -65,12 +65,21 @@ def _test_documentation_source_path():
 
 
 def _test_documentation_lock_path(source=None):
-    """Return the shared lock path used by the app and deployment updater."""
+    """Return the configured lock identifier shared with the deployment updater."""
     configured_path = os.getenv("TEST_DOCUMENTATION_LOCK_PATH")
     if configured_path:
         return Path(configured_path)
     source = source or _test_documentation_source_path()
     return source.with_name(source.name + ".lock")
+
+
+def _test_documentation_lock_directory(source=None):
+    """Use the lock file's parent directory as the shared OS-level lock.
+
+    Locking the directory avoids opening or modifying a stale lock file whose
+    owner, mode, ACL, or filesystem attributes may prevent access during deploy.
+    """
+    return _test_documentation_lock_path(source).parent
 
 
 def _render_test_documentation_markers(markdown_source, editable):
@@ -194,10 +203,12 @@ def test_documentation_toggle(request):
     if not source.is_file():
         return JsonResponse({"error": "Testcheckliste nicht verfügbar."}, status=404)
 
-    lock_path = _test_documentation_lock_path(source)
+    lock_directory = _test_documentation_lock_directory(source)
+    lock_fd = None
     try:
-        with lock_path.open("a", encoding="utf-8") as lock_file:
-            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        lock_fd = os.open(str(lock_directory), os.O_RDONLY | getattr(os, "O_DIRECTORY", 0))
+        fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        try:
             content = source.read_text(encoding="utf-8")
             current_revision = _checklist_revision(content)
             if revision != current_revision:

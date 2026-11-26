@@ -200,13 +200,20 @@ class TestDocumentationPageTests(TestCase):
             )
 
     def test_checklist_lock_path_can_be_configured_for_deployment(self):
-        from meetings.guide_views import _test_documentation_lock_path
+        from meetings.guide_views import (
+            _test_documentation_lock_directory,
+            _test_documentation_lock_path,
+        )
 
         source = Path("/opt/meeting-manager/docs/checklist.md")
         with patch.dict("os.environ", {"TEST_DOCUMENTATION_LOCK_PATH": "/var/lib/meeting-manager-updater/test-documentation.lock"}):
             self.assertEqual(
                 _test_documentation_lock_path(source),
                 Path("/var/lib/meeting-manager-updater/test-documentation.lock"),
+            )
+            self.assertEqual(
+                _test_documentation_lock_directory(source),
+                Path("/var/lib/meeting-manager-updater"),
             )
 
     def test_user_guide_links_to_test_documentation(self):

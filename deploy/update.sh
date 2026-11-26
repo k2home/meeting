@@ -73,14 +73,14 @@ CHECKLIST_RELATIVE="docs/Pruefung-des-Verfahrens-Testdokumentation.md"
 CHECKLIST_FILE="$APP_DIR/$CHECKLIST_RELATIVE"
 CHECKLIST_LOCK_FILE="${TEST_DOCUMENTATION_LOCK_PATH:-/var/lib/meeting-manager-updater/test-documentation.lock}"
 CHECKLIST_BACKUP=""
-# Keep the deployment lock outside docs/: local directory permissions must
-# never prevent the updater from opening the same lock used by the web app.
-install -d -o root -g www-data -m 0770 "$(dirname "$CHECKLIST_LOCK_FILE")"
-# Serialize application writes with deployment backup/restore operations.
-touch "$CHECKLIST_LOCK_FILE"
-chown meetingapp:www-data "$CHECKLIST_LOCK_FILE"
-chmod 660 "$CHECKLIST_LOCK_FILE"
-exec 9>"$CHECKLIST_LOCK_FILE"
+# Lock the shared parent directory instead of a lock file. This deliberately
+# avoids stale lock-file ownership, ACLs, immutable attributes, or bad modes
+# from older deployments. Both the app and updater flock this directory FD.
+CHECKLIST_LOCK_DIR="$(dirname "$CHECKLIST_LOCK_FILE")"
+install -d "$CHECKLIST_LOCK_DIR"
+chown root:www-data "$CHECKLIST_LOCK_DIR"
+chmod 0750 "$CHECKLIST_LOCK_DIR"
+exec 9<"$CHECKLIST_LOCK_DIR"
 flock -x 9
 
 if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md' \
