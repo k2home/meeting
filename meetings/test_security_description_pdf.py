@@ -200,7 +200,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'setInterval(refresh, 15000)')
         self.assertContains(response, 'spätestens nach 15 Sekunden')
         self.assertContains(response, 'item.classList.toggle("is-complete"')
-        self.assertContains(response, 'updateCompletionStyles();')
+        self.assertContains(response, 'updateCompletionForCheckbox(checkbox, !desired, desired);')
         for anchor in ("installation", "ersteinrichtung", "testing", "produktiv-globale-rolle-nutzer", "produktiv-ohne-berechtigungen", "produktiv-leser", "produktiv-teilnehmer", "produktiv-moderator", "produktiv-globale-rolle-admin", "produktiv-globale-rolle-auditor"):
             self.assertContains(response, f'href="#{anchor}"')
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
