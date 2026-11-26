@@ -1489,21 +1489,19 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Test erfolgreich:** [ ]
 
 #### 4.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Das globale Nutzerkonto mit Moderatorzuweisung sieht ausschließlich Ereignisse seiner eigenen moderierten Reihe; systembezogene Ereignisse bleiben ausgeblendet.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Ereignisse der eigenen moderierten Reihe können weiterhin angezeigt werden.
+- Systembezogene Ereignisse werden nicht angezeigt oder exportiert.
+- Ereignisse anderer Reihen bleiben verborgen.
 
 **Test erfolgreich:** [ ]
 #### 4.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Nutzerrolle (Serienrolle gemäß Testfall)
@@ -2398,39 +2396,33 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 ### 5.12 Änderungsverlauf und Audit
 
 #### 5.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar, zeigt ohne Serienzuweisung aber keine serienbezogenen Ereignisse.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Ohne Serienzuweisung werden keine serienbezogenen Ereignisse angezeigt.
+- Ereignisse anderer Reihen oder globale Systemereignisse werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 5.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Nutzer*innen ohne globale Admin- oder Auditorrolle nicht sichtbar.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Es werden keine systembezogenen Ereignisse angezeigt.
+- Die Seite gibt keine globalen Systemereignisse über Filter oder direkte URL-Parameter preis.
 
 **Test erfolgreich:** [ ]
 #### 5.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -3308,39 +3300,33 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 ### 6.12 Änderungsverlauf und Audit
 
 #### 6.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Leser*in (Serienrolle)
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Leser: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Leser*innen erhalten jedoch keinen Zugriff auf serienbezogene Änderungsereignisse, da hierfür eine Moderatorzuweisung erforderlich ist.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Es werden keine serienbezogenen Änderungsereignisse angezeigt.
+- Ereignisse anderer Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 6.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Leser*in (Serienrolle)
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Leser: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Leser*innen nicht sichtbar.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Es werden keine systembezogenen Ereignisse angezeigt.
+- Die Seite gibt keine globalen Systemereignisse über Filter oder direkte URL-Parameter preis.
 
 **Test erfolgreich:** [ ]
 #### 6.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
@@ -4130,39 +4116,33 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 ### 7.12 Änderungsverlauf und Audit
 
 #### 7.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Teilnehmer*in (Serienrolle)
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Teilnehmer: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Teilnehmer*innen erhalten jedoch keinen Zugriff auf serienbezogene Änderungsereignisse, da hierfür eine Moderatorzuweisung erforderlich ist.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Es werden keine serienbezogenen Änderungsereignisse angezeigt.
+- Ereignisse anderer Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 7.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Teilnehmer*in (Serienrolle)
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Teilnehmer: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Teilnehmer*innen nicht sichtbar.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Es werden keine systembezogenen Ereignisse angezeigt.
+- Die Seite gibt keine globalen Systemereignisse über Filter oder direkte URL-Parameter preis.
 
 **Test erfolgreich:** [ ]
 #### 7.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -5034,21 +5014,19 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Test erfolgreich:** [ ]
 
 #### 8.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
-**Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Moderator: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Moderator*innen sehen die Ereignisse ihrer eigenen moderierten Reihen, aber keine systembezogenen Ereignisse.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Ereignisse der eigenen moderierten Reihe können weiterhin angezeigt werden.
+- Systembezogene Ereignisse werden nicht angezeigt oder exportiert.
+- Ereignisse anderer Reihen bleiben verborgen.
 
 **Test erfolgreich:** [ ]
 #### 8.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -6059,21 +6037,19 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 ### 9.12 Änderungsverlauf und Audit
 
 #### 9.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist für den globalen Admin erreichbar und kann systembezogene Ereignisse anzeigen. Ohne Moderatorzuweisung für eine Reihe werden jedoch keine serienbezogenen Ereignisse dieser Reihe angezeigt.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Systembezogene Ereignisse bleiben entsprechend der globalen Adminrolle sichtbar.
+- Ohne Moderatorzuweisung werden keine serienbezogenen Ereignisse angezeigt.
+- Ereignisse aus Reihen mit fremder Moderatorzuweisung werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 9.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6994,21 +6970,19 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 ### 10.12 Änderungsverlauf und Audit
 
 #### 10.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist für globale Auditor*innen erreichbar und zeigt systembezogene Ereignisse. Serienbezogene Ereignisse sind nicht zugänglich.
 
 **Prüfschritt**
-- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
-- Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- Die Änderungsverlaufseite wird geöffnet.
+- Systembezogene Ereignisse werden entsprechend der Auditorrolle angezeigt.
+- Serienbezogene Ereignisse werden nicht angezeigt.
+- Fachliche Inhalte anderer Reihen werden nicht offengelegt.
 
 **Test erfolgreich:** [ ]
 #### 10.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
