@@ -1,5 +1,6 @@
 import base64
 import json
+import hashlib
 from io import BytesIO
 from pathlib import Path
 import re
@@ -63,6 +64,8 @@ def _github_checklist_api_request(method, payload=None):
     repository = settings.TEST_DOCUMENTATION_GITHUB_REPOSITORY
     path = urllib.parse.quote(settings.TEST_DOCUMENTATION_GITHUB_PATH, safe="/")
     url = f"https://api.github.com/repos/{repository}/contents/{path}"
+    if method == "GET":
+        url += "?ref=" + urllib.parse.quote(settings.TEST_DOCUMENTATION_GITHUB_BRANCH, safe="")
     body = json.dumps(payload).encode("utf-8") if payload is not None else None
     request = urllib.request.Request(url, data=body, method=method, headers={
         "Accept": "application/vnd.github+json",
@@ -96,15 +99,25 @@ def _read_test_documentation():
     return source.read_text(encoding="utf-8")
 
 
+def _test_documentation_checkbox_id(line_number, occurrence, line):
+    stable_line = re.sub(r"\[([ xX])\]", "[ ]", line.strip())
+    digest = hashlib.sha256(stable_line.encode("utf-8")).hexdigest()[:12]
+    return f"line-{line_number}-{occurrence}-{digest}"
+
+
 def _apply_test_documentation_checkbox(markdown_source, checkbox_id, checked):
-    match = re.fullmatch(r"line-([1-9][0-9]*)-([1-9][0-9]*)", checkbox_id)
+    match = re.fullmatch(r"line-([1-9][0-9]*)-([1-9][0-9]*)-([0-9a-f]{12})", checkbox_id)
     if not match:
         raise ValueError("Ungültige Prüffeld-ID.")
-    line_number, occurrence = map(int, match.groups())
+    line_number, occurrence = int(match.group(1)), int(match.group(2))
+    expected_digest = match.group(3)
     lines = markdown_source.splitlines(keepends=True)
     if line_number > len(lines):
         raise ValueError("Prüffeld nicht gefunden.")
     line = lines[line_number - 1]
+    actual_digest = _test_documentation_checkbox_id(line_number, occurrence, line).rsplit("-", 1)[-1]
+    if actual_digest != expected_digest:
+        raise ValueError("Die Testdokumentation wurde inzwischen geändert. Bitte Seite neu laden.")
     markers = list(re.finditer(r"\[([ xX])\]", line))
     if occurrence > len(markers):
         raise ValueError("Prüffeld nicht gefunden.")
@@ -148,7 +161,7 @@ def _render_test_documentation_markers(raw, writable):
         def render_checkbox(match):
             nonlocal occurrence
             occurrence += 1
-            checkbox_id = f"line-{line_number}-{occurrence}"
+            checkbox_id = _test_documentation_checkbox_id(line_number, occurrence, line)
             checked_attribute = " checked" if match.group(1).lower() == "x" else ""
             disabled_attribute = "" if writable else " disabled"
             return f'<input type="checkbox" class="test-checklist-box" data-checklist-id="{checkbox_id}"{checked_attribute}{disabled_attribute}>'
@@ -181,7 +194,7 @@ def test_documentation_toggle(request):
     """Commit a checkbox change directly to the configured Markdown file in GitHub."""
     checkbox_id = request.POST.get("checkbox_id", "")
     checked_value = request.POST.get("checked", "").lower()
-    if not re.fullmatch(r"line-[1-9][0-9]*-[1-9][0-9]*", checkbox_id):
+    if not re.fullmatch(r"line-[1-9][0-9]*-[1-9][0-9]*-[0-9a-f]{12}", checkbox_id):
         return JsonResponse({"success": False, "error": "Ungültige Prüffeld-ID."}, status=400)
     if checked_value not in {"true", "false"}:
         return JsonResponse({"success": False, "error": "Ungültiger Prüfstatus."}, status=400)
