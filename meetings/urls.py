@@ -19,6 +19,7 @@ urlpatterns = [
     path("auditor/einstellungen/organisation/", management_views.auditor_organization_settings, name="auditor_organization_settings"),
     path("hilfe/", guide_views.user_guide, name="user_guide"),
     path("hilfe/testcheckliste/", guide_views.test_documentation, name="test_documentation"),
+    path("hilfe/testcheckliste/haken/", guide_views.test_documentation_toggle, name="test_documentation_toggle"),
     path("hilfe/it-sicherheit/", guide_views.security_description, name="security_description"),
     path("hilfe/sicherheitsbeschreibung.pdf", guide_views.security_description_pdf, name="security_description_pdf"),
     path("konto/", views.user_overview, name="user_overview"),
