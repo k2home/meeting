@@ -5223,18 +5223,21 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Test erfolgreich:** [ ]
 
 #### 9.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Serienverwaltungsübersicht ist für den globalen Admin erreichbar, aber die Bearbeitung einer bestehenden Reihe erfordert eine ausdrückliche Moderatorzuweisung für genau diese Reihe.
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Prüfschritt**
+- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte bestehende Reihe anmelden.
+- [ ] Die Serienverwaltungsübersicht öffnen und prüfen, dass die Reihe dort nicht als eigene moderierte Reihe zur Bearbeitung angeboten wird.
+- [ ] Die Bearbeitungsseite der bestehenden Reihe über ihre direkte URL aufrufen.
+- [ ] Falls ein Bearbeitungsformular wider Erwarten erscheint, keine Änderungen speichern und den Zugriff als Abweichung dokumentieren.
 
 **Ergebnisprüfung**
-
-- [ ] Geänderte Werte werden angezeigt.
-- [ ] Nicht geänderte Werte bleiben erhalten.
-- [ ] Bestehende Serienberechtigungen bleiben erhalten.
-- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
+- [ ] Die Bearbeitungsseite wird mit einer Zugriffsverweigerung abgewiesen.
+- [ ] Die Reihenparameter bleiben unverändert.
+- [ ] Termine, Themen und Serienzuweisungen der Reihe bleiben unverändert.
+- [ ] Die globale Adminrolle allein gewährt keine Moderatorrechte für die bestehende Reihe.
 
 **Test erfolgreich:** [ ]
-
 #### 9.3.3 Besprechungsreihe verlängern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
