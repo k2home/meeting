@@ -25,7 +25,7 @@
 <div class="test-document">
   <section class="card">
     {% if test_documentation_editable %}
-    <p>TESTING-Modus ist aktiv: Änderungen werden unmittelbar in der lokalen Markdown-Datei auf diesem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen den aktuellen Stand automatisch. Die vollständige Datei kann jederzeit heruntergeladen und manuell nach GitHub übernommen werden.</p>
+    <p>TESTING-Modus ist aktiv: Änderungen werden unmittelbar in der lokalen Markdown-Datei auf diesem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen den aktuellen Stand automatisch spätestens nach zwei Sekunden. Die vollständige Datei kann jederzeit heruntergeladen und manuell nach GitHub übernommen werden.</p>
     <p>
       <a class="btn primary" href="{% url 'test_documentation_download' %}">Aktuellen Test als .md herunterladen</a>
       <span id="test-documentation-save-status" class="muted" role="status" aria-live="polite">Änderungen werden automatisch gespeichert.</span>
