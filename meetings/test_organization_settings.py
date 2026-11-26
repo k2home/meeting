@@ -30,7 +30,7 @@ class OrganizationSettingsTests(TestCase):
         self.assertContains(response, ".organization-settings-form>section.settings-card:first-of-type{grid-column:1;grid-row:1}")
         self.assertContains(response, ".settings-logo-card{display:grid;grid-column:2;grid-row:1")
         self.assertContains(response, "@media(max-width:700px){.organization-settings-layout{grid-template-columns:minmax(0,1fr)}")
-        self.assertContains(response, ".settings-logo-card{width:100%")
+        self.assertContains(response, ".settings-logo-card{display:grid;grid-column:2;grid-row:1;grid-template-columns:minmax(0,1fr);width:100%")
         self.assertContains(response, "Logo zurücksetzen")
         self.assertContains(response, 'value="reset_logo"')
         self.assertContains(response, "Neues Logo auswählen")
