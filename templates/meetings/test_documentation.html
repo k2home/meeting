@@ -24,8 +24,12 @@
 </header>
 <div class="test-document">
   <section class="card">
-    <p>Die Kontrollkästchen werden gemeinsam für alle angemeldeten Nutzer gespeichert. Jede Änderung wird sofort übernommen, ohne die Seite neu zu laden. Mit PR-Test erforderlich gekennzeichnete Bereiche sind für den jeweiligen Pull Request erneut zu prüfen.</p>
-    <p id="checklist-save-status" class="checklist-save-status muted" role="status" aria-live="polite">Alle Änderungen werden automatisch gespeichert.</p>
+    <p>Die Kontrollkästchen werden direkt im Markdown-Quelldokument im konfigurierten Git-Branch gespeichert und sind damit versioniert und über Branch-Merges übertragbar. Jede Änderung wird sofort übernommen, ohne die Seite neu zu laden. Mit PR-Test erforderlich gekennzeichnete Bereiche sind für den jeweiligen Pull Request erneut zu prüfen.</p>
+    {% if checklist_write_enabled %}
+    <p id="checklist-save-status" class="checklist-save-status muted" role="status" aria-live="polite">Automatische Speicherung in {{ checklist_target }} ist aktiv.</p>
+    {% else %}
+    <p id="checklist-save-status" class="checklist-save-status muted" role="status" aria-live="polite">Git-Speicherung ist nicht konfiguriert. Die Checkliste ist deshalb schreibgeschützt.</p>
+    {% endif %}
     <p><a class="btn secondary" href="{% url 'user_guide' %}">Zurück zu Hilfe &amp; Anleitung</a></p>
   </section>
   <article class="card document-content" data-save-url="{% url 'test_documentation_toggle' %}">
@@ -45,7 +49,7 @@
 
   documentRoot.addEventListener("change", (event) => {
     const checkbox = event.target;
-    if (!checkbox.matches("input.test-checklist-box[data-checklist-id]")) return;
+    if (!checkbox.matches("input.test-checklist-box[data-checklist-id]") || checkbox.disabled) return;
 
     const checkboxId = checkbox.dataset.checklistId;
     const checked = checkbox.checked;
