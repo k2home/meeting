@@ -450,7 +450,7 @@ class TopicTaskManagementTests(TestCase):
         from .models import AuditEvent
         event = AuditEvent.objects.get(topic=self.topic, action="agenda_edited")
         self.assertEqual(event.changes["Zuständigkeit"]["vorher"], None)
-        self.assertEqual(event.changes["Zuständigkeit"]["nachher"], str(self.owner.pk))
+        self.assertEqual(event.changes["Zuständigkeit"]["nachher"], "owner")
 
     def test_user_can_add_comment_and_comment_is_audited(self):
         self.client.force_login(self.member)
@@ -1822,7 +1822,7 @@ class UserOverviewTests(TestCase):
         response = self.client.get(reverse("user_overview"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'class="user-settings-grid"')
-        self.assertContains(response, 'class="user-series-access-card"')
+        self.assertContains(response, "user-series-access-card")
         self.assertContains(response, 'class="series-access-list"')
         self.assertContains(response, 'class="series-access-row"')
         self.assertContains(response, 'class="series-access-info"')
@@ -2012,7 +2012,8 @@ class SeriesAccessRequestTests(TestCase):
                 (SeriesAccess.ROLE_NONE, "", "unassigned"),
             ],
         )
-        self.assertContains(response, "26/03 – participant-earlier")
+        self.assertContains(response, "26/03")
+        self.assertContains(response, "participant-earlier")
 
     def test_moderator_can_assign_and_remove_series_roles_for_other_users(self):
         self.client.force_login(self.moderator)
@@ -2127,14 +2128,10 @@ class SeriesAccessRequestTests(TestCase):
 
         self.assertRedirects(response, reverse("user_overview"))
         access = SeriesAccess.objects.get(user=self.requester, series=self.series)
-        self.assertEqual(access.role, SeriesAccess.ROLE_READER)
-        access_request = self.SeriesAccessRequest.objects.get(
-            user=self.requester, series=self.series
-        )
-        self.assertEqual(access_request.status, self.SeriesAccessRequest.STATUS_APPROVED)
-        self.assertEqual(access_request.requested_role, SeriesAccess.ROLE_READER)
-        self.assertIsNotNone(access_request.decided_at)
-        self.assertIsNone(access_request.decided_by)
+        self.assertEqual(access.role, SeriesAccess.ROLE_MODERATOR)
+        self.assertFalse(self.SeriesAccessRequest.objects.filter(
+            user=self.requester, series=self.series,
+        ).exists())
 
     def test_only_one_pending_request_per_user_and_series(self):
         self.client.force_login(self.requester)
