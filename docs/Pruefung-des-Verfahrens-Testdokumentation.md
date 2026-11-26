@@ -934,7 +934,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 #### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff auf die eigene Reihe erlaubt, auf fremde Reihen verweigert.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
 
 - [ ] Ein Moderator-Konto für Testreihe A verwenden.
 - [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
@@ -4278,7 +4278,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 #### 12.9 Moderatorzugriff auf eine fremde Reihe verweigern – Rolle: Moderator*in der Testreihe
 
-**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Moderator: Zugriff auf die eigene Reihe erlaubt, auf fremde Reihen verweigert.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
 
 - [ ] Ein Moderator-Konto für Testreihe A verwenden.
 - [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
