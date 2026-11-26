@@ -1823,11 +1823,32 @@ def series_admin(request):
         }
         users_for_series = UserModel.objects.filter(
             Q(is_active=True) | Q(meeting_series_access__series=item)
-        ).distinct().order_by("last_name", "first_name", "username")
-        item.user_management_rows = [
-            {"user": person, "role": assignments_by_user.get(person.pk, SeriesAccess.ROLE_NONE)}
-            for person in users_for_series
-        ]
+        ).select_related("meeting_profile").distinct().order_by(
+            "last_name", "first_name", "username"
+        )
+        role_order = {
+            SeriesAccess.ROLE_MODERATOR: 0,
+            SeriesAccess.ROLE_PARTICIPANT: 1,
+            SeriesAccess.ROLE_READER: 2,
+            SeriesAccess.ROLE_NONE: 3,
+        }
+        item.user_management_rows = []
+        for person in users_for_series:
+            profile = getattr(person, "meeting_profile", None)
+            organization_label = profile.short_description.strip() if profile else ""
+            item.user_management_rows.append({
+                "user": person,
+                "role": assignments_by_user.get(person.pk, SeriesAccess.ROLE_NONE),
+                "organization_label": organization_label,
+            })
+        item.user_management_rows.sort(key=lambda row: (
+            role_order[row["role"]],
+            not bool(row["organization_label"]),
+            row["organization_label"].casefold(),
+            row["user"].last_name.casefold(),
+            row["user"].first_name.casefold(),
+            row["user"].username.casefold(),
+        ))
     expanded_series_id = request.GET.get("expanded", "")
     form = SeriesForm(request.POST or None)
     form.fields.pop("end_date", None)
