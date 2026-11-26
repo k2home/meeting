@@ -71,7 +71,14 @@ fi
 # below because it is intentionally local and may have been tracked by old releases.
 CHECKLIST_RELATIVE="docs/Pruefung-des-Verfahrens-Testdokumentation.md"
 CHECKLIST_FILE="$APP_DIR/$CHECKLIST_RELATIVE"
+CHECKLIST_LOCK_FILE="$CHECKLIST_FILE.lock"
 CHECKLIST_BACKUP=""
+# Serialize application writes with deployment backup/restore operations.
+touch "$CHECKLIST_LOCK_FILE"
+chown meetingapp:www-data "$CHECKLIST_LOCK_FILE"
+chmod 660 "$CHECKLIST_LOCK_FILE"
+exec 9>"$CHECKLIST_LOCK_FILE"
+flock -x 9
 
 if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md' \
   || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md'; then
