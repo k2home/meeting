@@ -288,6 +288,20 @@ class TestDocumentationPageTests(TestCase):
         self.assertIn("9.9.2 Archiv aufrufen – Prüfrolle: globaler Admin", document)
         self.assertIn("Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.", document)
 
+    def test_archived_topic_retention_view_is_role_scoped(self):
+        from meetings.guide_views import _test_documentation_source_path
+
+        document = Path(_test_documentation_source_path()).read_text(encoding="utf-8")
+        self.assertIn("5.13.2 Aufbewahrungsfrist archivierter Themen prüfen", document)
+        self.assertIn("6.13.2 Aufbewahrungsfrist archivierter Themen prüfen", document)
+        self.assertIn("7.13.2 Aufbewahrungsfrist archivierter Themen prüfen", document)
+        self.assertIn("8.13.2 Aufbewahrungsfrist archivierter Themen prüfen", document)
+        self.assertIn("9.13.2 Aufbewahrungsfrist archivierter Themen prüfen", document)
+        self.assertIn("Archivierte Themen der zugewiesenen Reihe und deren Aufbewahrungsdaten werden angezeigt.", document)
+        self.assertIn("Ohne Serienzuweisung enthält die Liste keine archivierten Themen.", document)
+        self.assertIn("Zugriff auf das Serienarchiv nicht erlaubt.", document)
+        self.assertIn("Weiterleitung zur Auditor*innenübersicht", document)
+
     def test_checklist_source_path_can_be_configured_for_docker_volume(self):
         from meetings.guide_views import _test_documentation_source_path
 
