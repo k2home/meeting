@@ -10,6 +10,11 @@ from .models import AuditEvent, OrganizationSettings, Topic
 
 class OrganizationSettingsTests(TestCase):
     def test_organization_settings_page_keeps_all_controls_in_compact_card_layout(self):
+        OrganizationSettings.objects.create(
+            logo=SimpleUploadedFile(
+                "settings-layout-logo.png", b"logo-bytes", content_type="image/png"
+            )
+        )
         admin_user = get_user_model().objects.create_user(
             username="settings-layout-admin", password="strong-test-password"
         )
