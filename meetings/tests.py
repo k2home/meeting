@@ -2028,6 +2028,34 @@ class SeriesAccessRequestTests(TestCase):
         self.assertRedirects(response, reverse("series_admin"))
         self.assertFalse(SeriesAccess.objects.filter(user=self.requester, series=self.series).exists())
 
+    def test_moderator_can_save_multiple_series_roles_in_one_submission(self):
+        self.client.force_login(self.moderator)
+        response = self.client.post(
+            reverse("series_manage_user_access", args=[self.series.pk]),
+            {
+                f"role_{self.requester.pk}": SeriesAccess.ROLE_READER,
+                f"role_{self.user.pk}": SeriesAccess.ROLE_PARTICIPANT,
+                f"role_{self.moderator.pk}": SeriesAccess.ROLE_NONE,
+            },
+        )
+        self.assertRedirects(response, reverse("series_admin"))
+        self.assertEqual(
+            SeriesAccess.objects.get(user=self.requester, series=self.series).role,
+            SeriesAccess.ROLE_READER,
+        )
+        self.assertEqual(
+            SeriesAccess.objects.get(user=self.user, series=self.series).role,
+            SeriesAccess.ROLE_PARTICIPANT,
+        )
+        self.assertTrue(SeriesAccess.objects.filter(
+            user=self.moderator, series=self.series, role=SeriesAccess.ROLE_MODERATOR,
+        ).exists())
+        self.assertTrue(AuditEvent.objects.filter(
+            summary__contains="Serienberechtigung für",
+            series=self.series,
+            actor=self.moderator,
+        ).exists())
+
     def test_moderator_cannot_change_or_remove_own_moderator_role(self):
         self.client.force_login(self.moderator)
         response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
