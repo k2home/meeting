@@ -1942,6 +1942,49 @@ class SeriesAccessRequestTests(TestCase):
         self.assertContains(response, 'value="participant"')
         self.assertContains(response, 'value="moderator"')
 
+    def test_series_user_management_displays_organization_label_and_sorts_by_role(self):
+        from .models import UserProfile
+
+        participant_later = User.objects.create_user(
+            username="participant-later", password="strong-test-password"
+        )
+        participant_earlier = User.objects.create_user(
+            username="participant-earlier", password="strong-test-password"
+        )
+        unassigned = User.objects.create_user(
+            username="unassigned", password="strong-test-password"
+        )
+        SeriesAccess.objects.create(
+            user=self.requester, series=self.series, role=SeriesAccess.ROLE_READER
+        )
+        SeriesAccess.objects.create(
+            user=participant_later, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT
+        )
+        SeriesAccess.objects.create(
+            user=participant_earlier, series=self.series, role=SeriesAccess.ROLE_PARTICIPANT
+        )
+        UserProfile.objects.create(user=self.moderator, short_description="28/01")
+        UserProfile.objects.create(user=participant_later, short_description="27/01")
+        UserProfile.objects.create(user=participant_earlier, short_description="26/03")
+        UserProfile.objects.create(user=self.requester, short_description="25/12")
+
+        self.client.force_login(self.moderator)
+        response = self.client.get(reverse("series_admin"))
+
+        self.assertEqual(response.status_code, 200)
+        rows = response.context["series"][0].user_management_rows
+        self.assertEqual(
+            [(row["role"], row["organization_label"], row["user"].username) for row in rows],
+            [
+                (SeriesAccess.ROLE_MODERATOR, "28/01", "series-moderator"),
+                (SeriesAccess.ROLE_PARTICIPANT, "26/03", "participant-earlier"),
+                (SeriesAccess.ROLE_PARTICIPANT, "27/01", "participant-later"),
+                (SeriesAccess.ROLE_READER, "25/12", "requester"),
+                (SeriesAccess.ROLE_NONE, "", "unassigned"),
+            ],
+        )
+        self.assertContains(response, "26/03 – participant-earlier")
+
     def test_moderator_can_assign_and_remove_series_roles_for_other_users(self):
         self.client.force_login(self.moderator)
         response = self.client.post(reverse("series_manage_user_access", args=[self.series.pk]), {
