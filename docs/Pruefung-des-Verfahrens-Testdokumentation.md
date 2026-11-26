@@ -7641,21 +7641,20 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 ### 10.10 Berechtigungsanträge
 
 #### 10.10.1 Serienberechtigung beantragen – Prüfrolle: globale Auditor*in
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Auditor*innen haben ausschließlich lesenden Zugriff und dürfen keine Serienberechtigungsanträge stellen.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem globalen Auditor-Konto anmelden.
+- [ ] Die persönliche Benutzerübersicht öffnen und prüfen, dass keine Funktion zum Beantragen einer Serienberechtigung angeboten wird.
+- [ ] Einen direkten POST-Aufruf zum Beantragen einer Leser- oder Teilnehmerrolle für eine Testreihe versuchen.
+- [ ] Die Antragsliste und Serienzuweisungen des Kontos neu laden.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Die Benutzerübersicht bietet keine Antragsfunktion für Auditor*innen an.
+- [ ] Der direkte POST-Aufruf wird mit einer Zugriffsverweigerung abgewiesen.
+- [ ] Es wird kein Serienberechtigungsantrag angelegt und keine Serienzuweisung verändert.
+- [ ] Fachliche Reiheninhalte bleiben für das Auditor-Konto unzugänglich.
 
 **Test erfolgreich:** [ ]
 #### 10.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Auditor*in
@@ -7677,21 +7676,21 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Test erfolgreich:** [ ]
 #### 10.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Auditor*in
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Auditor*innen dürfen bestehende Serienberechtigungsanträge nicht ändern oder erneut absenden.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des betreffenden Funktionsbereichs über die Navigation und – soweit sinnvoll – über ihre direkte URL aufrufen.
-- [ ] Ist die übergeordnete Seite nicht erreichbar, diesen nachgelagerten Testfall gemäß der verbindlichen Zugriffsregel überspringen. Keine weiteren Funktionen oder Direktaktionen dieses Bereichs aufrufen.
-- [ ] Ist die übergeordnete Seite erreichbar, die im Testfall bezeichnete Funktion über die Oberfläche aufrufen bzw. auslösen.
-- [ ] Falls die Oberfläche die Funktion nicht anbietet, den zugehörigen Direktaufruf mit geeigneten Testdaten prüfen. Bei schreibenden Aktionen vorher den Daten- und Berechtigungsstand festhalten.
-- [ ] Nach dem Versuch den Daten-, Status- und Berechtigungsstand erneut prüfen.
+- [ ] Mit einem globalen Auditor-Konto anmelden.
+- [ ] Für das Testkonto einen bestehenden offenen Antrag in der Testdatenbank vorbereiten.
+- [ ] Die persönliche Benutzerübersicht öffnen und versuchen, den vorhandenen Antrag erneut abzusenden bzw. zu bearbeiten.
+- [ ] Zusätzlich den direkten POST-Aufruf mit der Antrags-ID versuchen.
+- [ ] Den Status und die Anzahl der Anträge sowie die Serienzuweisungen erneut prüfen.
 
 **Ergebnisprüfung**
-- [ ] Die bezeichnete Funktion wird für diese Rolle nicht erfolgreich ausgeführt; die Anwendung weist den Zugriff ab oder bietet die gesperrte Aktion nicht an.
-- [ ] Bei lesenden Funktionen werden keine Inhalte oder Dateien außerhalb des Berechtigungsumfangs angezeigt oder ausgegeben.
-- [ ] Bei schreibenden Funktionen bleiben Datensätze, Statuswerte, Zuordnungen und Berechtigungen unverändert.
-- [ ] Es entsteht kein erfolgreicher Export, Import, Download oder sonstiger geschützter Vorgang.
+- [ ] Die Antragsfunktion wird für Auditor*innen nicht angeboten.
+- [ ] Der direkte POST-Aufruf wird mit einer Zugriffsverweigerung abgewiesen.
+- [ ] Der vorhandene Antrag bleibt unverändert offen; es entsteht kein Duplikat.
+- [ ] Serienzuweisungen und fachliche Zugriffsrechte bleiben unverändert.
 
 **Test erfolgreich:** [ ]
 ### 10.11 Benutzer- und Themenimport/-export
