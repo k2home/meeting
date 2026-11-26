@@ -256,10 +256,10 @@ class TestDocumentationPageTests(TestCase):
 
         document = Path(_test_documentation_source_path()).read_text(encoding="utf-8")
         self.assertIn("5.4.1 Terminübersicht aufrufen", document)
-        self.assertIn("5.4.1 Terminübersicht aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung\\n**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.", document)
-        self.assertIn("6.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Leser*in (Serienrolle)\\n**Berechtigungserwartung für Leser: Zugriff erlaubt.", document)
+        self.assertIn("5.4.1 Terminübersicht aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung\n**Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.", document)
+        self.assertIn("6.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Leser*in (Serienrolle)\n**Berechtigungserwartung für Leser: Zugriff erlaubt.", document)
         self.assertIn("9.9.2 Archiv aufrufen – Prüfrolle: globaler Admin", document)
-        self.assertIn("10.4.1 Terminübersicht aufrufen – Prüfrolle: globale Auditor*in\\n**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.", document)
+        self.assertIn("10.4.1 Terminübersicht aufrufen – Prüfrolle: globale Auditor*in\n**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.", document)
         self.assertIn("Die Änderungsverlaufseite ist erreichbar", document)
 
     def test_checklist_source_path_can_be_configured_for_docker_volume(self):
