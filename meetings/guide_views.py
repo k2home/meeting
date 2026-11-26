@@ -64,6 +64,15 @@ def _test_documentation_source_path():
     return Path(settings.BASE_DIR) / "docs" / "Pruefung-des-Verfahrens-Testdokumentation.md"
 
 
+def _test_documentation_lock_path(source=None):
+    """Return the shared lock path used by the app and deployment updater."""
+    configured_path = os.getenv("TEST_DOCUMENTATION_LOCK_PATH")
+    if configured_path:
+        return Path(configured_path)
+    source = source or _test_documentation_source_path()
+    return source.with_name(source.name + ".lock")
+
+
 def _render_test_documentation_markers(markdown_source, editable):
     """Render Markdown checkbox markers as controls, editable only in TESTING mode."""
     rendered_lines = []
@@ -185,8 +194,7 @@ def test_documentation_toggle(request):
     if not source.is_file():
         return JsonResponse({"error": "Testcheckliste nicht verfügbar."}, status=404)
 
-    configured_lock_path = os.getenv("TEST_DOCUMENTATION_LOCK_PATH")
-    lock_path = Path(configured_lock_path) if configured_lock_path else source.with_name(source.name + ".lock")
+    lock_path = _test_documentation_lock_path(source)
     try:
         with lock_path.open("a", encoding="utf-8") as lock_file:
             fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
