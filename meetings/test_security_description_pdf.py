@@ -96,57 +96,43 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "Prüfung des Verfahrens – Testcheckliste")
 
 
-class SharedTestChecklistPersistenceTests(TestCase):
-    def setUp(self):
-        self.user_one = get_user_model().objects.create_user(
-            username="checklist-user-one", password="Strong-test-password-123!"
-        )
-        self.user_two = get_user_model().objects.create_user(
-            username="checklist-user-two", password="Strong-test-password-123!"
-        )
 
-    def test_checkbox_change_is_saved_and_shared_between_users(self):
-        self.client.force_login(self.user_one)
-        response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-38-1",
-            "checked": "true",
-        })
+class GitBackedTestChecklistTests(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(username="git-checklist-reader", password="Strong-test-password-123!")
+        self.client.force_login(self.user)
+
+    def test_checkbox_marker_is_updated_in_markdown_source(self):
+        from meetings.guide_views import _apply_test_documentation_checkbox
+        source = "# Bereich\n- [ ] Erster Test\n- [x] Zweiter Test\n"
+        updated = _apply_test_documentation_checkbox(source, "line-2-1", True)
+        self.assertEqual(updated, "# Bereich\n- [x] Erster Test\n- [x] Zweiter Test\n")
+        unchecked = _apply_test_documentation_checkbox(updated, "line-3-1", False)
+        self.assertEqual(unchecked, "# Bereich\n- [x] Erster Test\n- [ ] Zweiter Test\n")
+
+    @patch("meetings.guide_views._test_documentation_github_configured", return_value=True)
+    @patch("meetings.guide_views._save_test_documentation_checkbox")
+    def test_checkbox_click_is_committed_to_markdown_without_database_state(self, save_checkbox, _configured):
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "true"})
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content, {"success": True, "checked": True})
+        save_checkbox.assert_called_once_with("line-38-1", True)
 
-        self.client.force_login(self.user_two)
-        page = self.client.get(reverse("test_documentation"))
-        self.assertEqual(page.status_code, 200)
-        self.assertContains(page, 'data-checklist-id="line-38-1" checked')
-
-    def test_checkbox_can_be_unchecked_again(self):
-        from meetings.models import TestChecklistState
-
-        TestChecklistState.objects.create(state={"line-38-1": True})
-        self.client.force_login(self.user_one)
-        response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-38-1",
-            "checked": "false",
-        })
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(TestChecklistState.objects.get(pk=1).state["line-38-1"])
+    @patch("meetings.guide_views._test_documentation_github_configured", return_value=False)
+    def test_checkbox_save_is_rejected_if_github_is_not_configured(self, _configured):
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "true"})
+        self.assertEqual(response.status_code, 503)
 
     def test_checkbox_update_requires_authentication_and_post(self):
-        response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-38-1", "checked": "true",
-        })
+        self.client.logout()
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "true"})
         self.assertEqual(response.status_code, 302)
-        self.client.force_login(self.user_one)
+        self.client.force_login(self.user)
         response = self.client.get(reverse("test_documentation_toggle"))
         self.assertEqual(response.status_code, 405)
 
     def test_checkbox_update_rejects_invalid_values(self):
-        self.client.force_login(self.user_one)
-        response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "../settings", "checked": "true",
-        })
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "../settings", "checked": "true"})
         self.assertEqual(response.status_code, 400)
-        response = self.client.post(reverse("test_documentation_toggle"), {
-            "checkbox_id": "line-38-1", "checked": "maybe",
-        })
+        response = self.client.post(reverse("test_documentation_toggle"), {"checkbox_id": "line-38-1", "checked": "maybe"})
         self.assertEqual(response.status_code, 400)
