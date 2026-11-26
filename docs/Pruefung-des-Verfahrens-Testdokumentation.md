@@ -1664,139 +1664,25 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 ### 5.3 Besprechungsreihen verwalten
 
-#### 5.3.1 Besprechungsreihe anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
+#### 5.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-**Ergebnisprüfung**
-
-- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
-- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
-- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
-- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
-- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
-
-**Test erfolgreich:** [ ]
-
-#### 5.3.2 Besprechungsreihe bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
-- [ ] Geänderte Werte werden angezeigt.
-- [ ] Nicht geänderte Werte bleiben erhalten.
-- [ ] Bestehende Serienberechtigungen bleiben erhalten.
-- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
-
-**Test erfolgreich:** [ ]
-
-#### 5.3.3 Besprechungsreihe verlängern – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
-- [ ] Bereits vorhandene Termine bleiben erhalten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Serienzuweisungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 5.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
-- [ ] Nicht ausgewählte Reihen sind unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 5.3.5 Besprechungsreihe löschen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
-- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
-- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 5.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
-- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
-- [ ] Änderungen betreffen nur die ausgewählte Reihe.
-- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
-- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 5.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
-- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+- [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
+- [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
+- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
+- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
 **Test erfolgreich:** [ ]
 
 ---
-
-#### 5.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
-- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
-- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
-- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
-- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
-
-**Ergebnisprüfung**
-
-- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
-- [ ] In Testreihe B wird der Zugriff verweigert.
-- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
-- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
-
-**Test erfolgreich:** [ ]
-
-#### 5.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: Nutzer*in ohne Serienzuweisung
-
-**Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein Moderator-Konto für Testreihe A verwenden.
-- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
-- [ ] Testreihe A über die Serienverwaltung öffnen.
-- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
-- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
-
-**Ergebnisprüfung**
-
-- [ ] Testreihe A kann verwaltet werden.
-- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
-- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
-- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
-
-**Test erfolgreich:** [ ]
 
 ### 5.4 Termine und Besprechungsübersicht
 
@@ -2500,139 +2386,25 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 ### 6.3 Besprechungsreihen verwalten
 
-#### 6.3.1 Besprechungsreihe anlegen – Prüfrolle: Leser*in (Serienrolle)
+#### 6.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Leser*in (Serienrolle)
 
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-**Ergebnisprüfung**
-
-- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
-- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
-- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
-- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
-- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
-
-**Test erfolgreich:** [ ]
-
-#### 6.3.2 Besprechungsreihe bearbeiten – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
-- [ ] Geänderte Werte werden angezeigt.
-- [ ] Nicht geänderte Werte bleiben erhalten.
-- [ ] Bestehende Serienberechtigungen bleiben erhalten.
-- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
-
-**Test erfolgreich:** [ ]
-
-#### 6.3.3 Besprechungsreihe verlängern – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
-- [ ] Bereits vorhandene Termine bleiben erhalten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Serienzuweisungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 6.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
-- [ ] Nicht ausgewählte Reihen sind unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 6.3.5 Besprechungsreihe löschen – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
-- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
-- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 6.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
-- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
-- [ ] Änderungen betreffen nur die ausgewählte Reihe.
-- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
-- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 6.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
-- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+- [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
+- [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
+- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
+- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
 **Test erfolgreich:** [ ]
 
 ---
-
-#### 6.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
-- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
-- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
-- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
-- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
-
-**Ergebnisprüfung**
-
-- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
-- [ ] In Testreihe B wird der Zugriff verweigert.
-- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
-- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
-
-**Test erfolgreich:** [ ]
-
-#### 6.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: Leser*in (Serienrolle)
-
-**Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein Moderator-Konto für Testreihe A verwenden.
-- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
-- [ ] Testreihe A über die Serienverwaltung öffnen.
-- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
-- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
-
-**Ergebnisprüfung**
-
-- [ ] Testreihe A kann verwaltet werden.
-- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
-- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
-- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
-
-**Test erfolgreich:** [ ]
 
 ### 6.4 Termine und Besprechungsübersicht
 
@@ -3336,139 +3108,25 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 ### 7.3 Besprechungsreihen verwalten
 
-#### 7.3.1 Besprechungsreihe anlegen – Prüfrolle: Teilnehmer*in (Serienrolle)
+#### 7.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-**Ergebnisprüfung**
-
-- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
-- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
-- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
-- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
-- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
-
-**Test erfolgreich:** [ ]
-
-#### 7.3.2 Besprechungsreihe bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
-- [ ] Geänderte Werte werden angezeigt.
-- [ ] Nicht geänderte Werte bleiben erhalten.
-- [ ] Bestehende Serienberechtigungen bleiben erhalten.
-- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
-
-**Test erfolgreich:** [ ]
-
-#### 7.3.3 Besprechungsreihe verlängern – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
-- [ ] Bereits vorhandene Termine bleiben erhalten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Serienzuweisungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 7.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
-- [ ] Nicht ausgewählte Reihen sind unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 7.3.5 Besprechungsreihe löschen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
-- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
-- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 7.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
-- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
-- [ ] Änderungen betreffen nur die ausgewählte Reihe.
-- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
-- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 7.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
-- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+- [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
+- [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
+- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
+- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
 **Test erfolgreich:** [ ]
 
 ---
-
-#### 7.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
-- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
-- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
-- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
-- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
-
-**Ergebnisprüfung**
-
-- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
-- [ ] In Testreihe B wird der Zugriff verweigert.
-- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
-- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
-
-**Test erfolgreich:** [ ]
-
-#### 7.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: Teilnehmer*in (Serienrolle)
-
-**Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein Moderator-Konto für Testreihe A verwenden.
-- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
-- [ ] Testreihe A über die Serienverwaltung öffnen.
-- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
-- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
-
-**Ergebnisprüfung**
-
-- [ ] Testreihe A kann verwaltet werden.
-- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
-- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
-- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
-
-**Test erfolgreich:** [ ]
 
 ### 7.4 Termine und Besprechungsübersicht
 
@@ -5844,139 +5502,25 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 ### 10.3 Besprechungsreihen verwalten
 
-#### 10.3.1 Besprechungsreihe anlegen – Prüfrolle: globale Auditor*in
+#### 10.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: globale Auditor*in
 
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Seite der Serienverwaltung darf für diese Rolle ohne entsprechende Berechtigung nicht erreichbar sein.
 
-**Ergebnisprüfung**
-
-- [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
-- [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
-- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
-- [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
-- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
-
-**Test erfolgreich:** [ ]
-
-#### 10.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+- [ ] Mit dem vorgesehenen Testkonto ohne Serienzuweisung anmelden.
+- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
-- [ ] Geänderte Werte werden angezeigt.
-- [ ] Nicht geänderte Werte bleiben erhalten.
-- [ ] Bestehende Serienberechtigungen bleiben erhalten.
-- [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
-
-**Test erfolgreich:** [ ]
-
-#### 10.3.3 Besprechungsreihe verlängern – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Zusätzliche Termine werden bis zum neuen Enddatum erzeugt.
-- [ ] Bereits vorhandene Termine bleiben erhalten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Serienzuweisungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 10.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
-- [ ] Es entstehen keine doppelten Termine.
-- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
-- [ ] Nicht ausgewählte Reihen sind unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 10.3.5 Besprechungsreihe löschen – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
-- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
-- [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 10.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
-- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
-- [ ] Änderungen betreffen nur die ausgewählte Reihe.
-- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
-- [ ] Zuweisungen in anderen Reihen bleiben unverändert.
-
-**Test erfolgreich:** [ ]
-
-#### 10.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-**Ergebnisprüfung**
-
-- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe gewähren keine Rechte für die geprüfte Testreihe.
-- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Admin-Konto gemäß seiner dortigen Moderatorrolle erreichbar.
+- [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
+- [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
+- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
+- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
 **Test erfolgreich:** [ ]
 
 ---
-
-#### 10.3.8 Globaler Admin mit zusätzlicher Moderatorzuweisung – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
-- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
-- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
-- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
-- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
-
-**Ergebnisprüfung**
-
-- [ ] In Testreihe A ist die Moderatorverwaltung aufgrund der ausdrücklichen Serienzuweisung möglich.
-- [ ] In Testreihe B wird der Zugriff verweigert.
-- [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
-- [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
-
-**Test erfolgreich:** [ ]
-
-#### 10.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: globale Auditor*in
-
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
-
-- [ ] Ein Moderator-Konto für Testreihe A verwenden.
-- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
-- [ ] Testreihe A über die Serienverwaltung öffnen.
-- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
-- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
-
-**Ergebnisprüfung**
-
-- [ ] Testreihe A kann verwaltet werden.
-- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
-- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
-- [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
-
-**Test erfolgreich:** [ ]
 
 ### 10.4 Termine und Besprechungsübersicht
 
