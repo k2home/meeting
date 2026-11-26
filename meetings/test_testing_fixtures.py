@@ -180,7 +180,7 @@ class TestingFixtureViewTests(TestCase):
             name="TEST-Besprechungsreihe reset",
             start_date="2026-01-01", end_date="2026-12-31",
         )
-        user = User.objects.create_user(username="TESTReset", email="reset@example.beliebig.de")
+        user = User.objects.create_user(username="TESTReset", email="reset@beliebig.de")
         SeriesAccess.objects.create(user=user, series=series)
         topic = Topic.objects.create(title="TEST-Reset-Thema", series=series)
         meeting = Meeting.objects.create(series=series, date="2026-11-20")
