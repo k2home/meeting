@@ -1192,14 +1192,22 @@ def testing_fixtures(request):
                     start_window = date(2026, 1, 1)
                     end_window = date(2027, 3, 31)
                     fixture_users = list(User.objects.filter(is_active=True, username__startswith="TEST", email__endswith="@beliebig.de"))
+                    used_series_names = set(MeetingSeries.objects.values_list("name", flat=True))
                     for _ in range(count):
                         recurrence = secrets.choice(["weekly", "biweekly", "monthly"])
                         interval = secrets.choice([1, 2, 3])
                         weekday = secrets.randbelow(5)
                         start_date = start_window
                         end_date = end_window
+                        base_name = secrets.choice(series_names)
+                        series_name = base_name
+                        suffix = 2
+                        while series_name in used_series_names:
+                            series_name = f"{base_name} ({suffix})"
+                            suffix += 1
+                        used_series_names.add(series_name)
                         series = MeetingSeries.objects.create(
-                            name=secrets.choice(series_names),
+                            name=series_name,
                             description=fixture_series_description,
                             active=True,
                             recurrence=recurrence,
