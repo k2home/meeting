@@ -415,6 +415,10 @@ class TestDocumentationPageTests(TestCase):
                 )
 
                 self.assertEqual(response.status_code, 409)
+                self.assertEqual(
+                    response.json()["structure_revision"],
+                    _checklist_structure_revision(current),
+                )
                 self.assertEqual(source.read_text(encoding="utf-8"), current)
                 self.assertTrue(response.json()["statuses"]["line-1-1"])
 
