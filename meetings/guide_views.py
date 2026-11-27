@@ -69,6 +69,8 @@ def _test_documentation_lock_path(source=None):
     configured_path = os.getenv("TEST_DOCUMENTATION_LOCK_PATH")
     if configured_path:
         return Path(configured_path)
+    if Path(settings.BASE_DIR).resolve() == Path("/opt/meeting-manager"):
+        return Path("/var/lib/meeting-manager-updater/test-documentation.lock")
     source = source or _test_documentation_source_path()
     return source.with_name(source.name + ".lock")
 
