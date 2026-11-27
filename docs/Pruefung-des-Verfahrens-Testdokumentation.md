@@ -821,9 +821,13 @@ Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer 
     1. Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
     1. Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach 15 Sekunden aktualisiert wird, ohne die Seite neu zu laden.
     1. In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
+    1. Während der parallelen Änderungen die lokale Markdown-Datei wiederholt herunterladen und öffnen; jede Datei auf vollständige Struktur und beide gespeicherten Änderungen prüfen.
     1. Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
     1. **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
     1. Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
+    1. Den Stand des zugehörigen GitHub-Branches bzw. PRs prüfen und sicherstellen, dass durch das Speichern in der Anwendung kein automatischer Commit angelegt wurde.
+    1. In der Anwendungsdatenbank prüfen, dass keine Checklisten-Markierungen oder Checklisten-Version gespeichert wurden; der aktuelle Prüfstand liegt ausschließlich in der lokalen Markdown-Datei.
+    1. Die Checkliste auf einer zweiten, unabhängigen Serverinstallation öffnen und prüfen, dass dort die Änderungen der ersten Installation nicht erscheinen.
     1. TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
     1. Die Testcheckliste ohne Anmeldung direkt aufrufen.
     1. Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
