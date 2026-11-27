@@ -648,8 +648,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Ergebnisprüfung**
 
-- [ ] Testkonten werden mit der vorgesehenen Kennzeichnung angelegt.
-- [ ] Benutzernamen und E-Mail-Adressen entsprechen dem Testdatenformat.
+- [ ] Jeder erzeugte Benutzername beginnt mit `TEST`; jede E-Mail-Adresse endet mit `@beliebig.de`.
+- [ ] Die Kurzbezeichnung jedes Testkontos entspricht dem Format `NN/NN`.
 - [ ] Bei der ersten Anmeldung mit einem neu erzeugten Testkonto wird der Passwortwechsel verlangt.
 - [ ] Reguläre Benutzerkonten bleiben unverändert.
 
@@ -668,8 +668,9 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Ergebnisprüfung**
 
-- [ ] Testreihen werden mit der vorgesehenen TEST-Kennzeichnung angelegt.
-- [ ] Wiederholungsrhythmus und Wochentag sind gesetzt.
+- [ ] Jeder Reihenname beginnt mit `TEST`; die Beschreibung beginnt mit `TEST-Fixture:`.
+- [ ] Jede Reihe ist aktiv und hat einen Rhythmus `weekly`, `biweekly` oder `monthly`, ein Intervall von 1 bis 3 sowie einen Wochentag von Montag bis Freitag.
+- [ ] Startdatum und Enddatum entsprechen dem Generatorzeitraum 01.01.2026 bis 31.03.2027.
 - [ ] Reguläre Besprechungsreihen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -707,8 +708,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Ergebnisprüfung**
 
-- [ ] Themen sind eindeutig als Testdaten gekennzeichnet.
-- [ ] Status und Hauptzuständigkeit sind gesetzt.
+- [ ] Jeder erzeugte Thementitel beginnt mit `TEST ` und ist der ausgewählten Testreihe zugeordnet.
+- [ ] Jeder Themenstatus ist `open`, `in_progress` oder `done`; eine vorhandene Zuständigkeit verweist auf ein aktives Testkonto.
 - [ ] Reguläre Themen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -729,8 +730,9 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 **Ergebnisprüfung**
 
 - [ ] Jeder generierte Tagesordnungspunkt ist genau einem Termin der ausgewählten Testreihe zugeordnet.
-- [ ] Status und Zuständigkeiten sind gesetzt.
-- [ ] Wiedervorlagekette ist chronologisch verknüpft.
+- [ ] Jeder Tagesordnungspunkt hat den Status `open`, `in_progress` oder `done`; eine vorhandene Zuständigkeit verweist auf ein aktives Testkonto.
+- [ ] Der Arbeits- bzw. Beschreibungstext bezieht sich auf den Titel des Testthemas.
+- [ ] Die Wiedervorlagekette verknüpft die Punkte chronologisch mit dem jeweils vorherigen Punkt.
 - [ ] Reguläre Themen und Termine bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -750,7 +752,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Als Testdaten gekennzeichnete Testkonten, Testreihen, Termine, Themen und Tagesordnungspunkte werden durch den Reset entfernt.
 - [ ] Reguläre Reihen, Themen und Benutzer bleiben erhalten.
 - [ ] Testkonten, die mit regulären fachlichen Datensätzen verknüpft sind, bleiben beim Zurücksetzen erhalten.
-- [ ] Es verbleiben keine unbeabsichtigten Testdatenreste.
+- [ ] Nicht löschbare Testthemen und Testkonten bleiben nur dann erhalten, wenn sie noch von regulären fachlichen Datensätzen verwendet werden; diese geschützten Datensätze werden in der Rückmeldung ausgewiesen.
 
 - **Test erfolgreich:** [ ]
 
