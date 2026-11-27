@@ -164,21 +164,20 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.1.1 Anmeldung mit gültigem Konto – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, Serienleser*in, Serienteilnehmer*in, Serienmoderator*in, globaler Admin und globale Auditor*in
 
-Für die Prüfung getrennte Konten bzw. Rollenkonstellationen verwenden:
 **Prüfschritt**
 
- 1. Globale Nutzer*in ohne Serienzuweisung.
- 1. Globale Nutzer*in mit Serienrolle Leser*in.
- 1. Globale Nutzer*in mit Serienrolle Teilnehmer*in.
- 1. Globale Nutzer*in mit Serienrolle Moderator*in.
- 1. Globaler Admin ohne Serienzuweisung.
- 1. Globaler Admin mit zusätzlicher Serienrolle Moderator*in.
- 1. Globale Auditor*in.
-
-Für jedes Konto:
- 1. Anmeldeseite öffnen.
- 1. Gültigen Benutzernamen und das zugehörige gültige Passwort eingeben.
- 1. Anmelden anklicken.
+ 1. Nacheinander die folgenden Kontokonstellationen mit getrennten Konten verwenden:
+    1. Globale Nutzer*in ohne Serienzuweisung.
+    1. Globale Nutzer*in mit Serienrolle Leser*in.
+    1. Globale Nutzer*in mit Serienrolle Teilnehmer*in.
+    1. Globale Nutzer*in mit Serienrolle Moderator*in.
+    1. Globaler Admin ohne Serienzuweisung.
+    1. Globaler Admin mit zusätzlicher Serienrolle Moderator*in.
+    1. Globale Auditor*in.
+ 1. Für jedes dieser Konten die folgenden Schritte ausführen:
+    1. Anmeldeseite öffnen.
+    1. Gültigen Benutzernamen und das zugehörige gültige Passwort eingeben.
+    1. Anmelden anklicken.
 
 **Ergebnisprüfung**
 
@@ -229,23 +228,21 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 #### 2.1.4 Abmeldung und Sitzungsschutz – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, Serienleser*in, Serienmoderator*in, globaler Admin und globale Auditor*in
 
-Die Sitzungssperre wird mit getrennten Konten für die unterschiedlichen Berechtigungsbereiche geprüft:
 **Prüfschritt**
 
- 1. Globale Nutzer*in ohne Serienzuweisung.
- 1. Globale Nutzer*in mit Serienrolle Leser*in.
- 1. Globale Nutzer*in mit Serienrolle Moderator*in.
- 1. Globaler Admin ohne Serienzuweisung.
- 1. Globaler Admin mit zusätzlicher Serienrolle Moderator*in.
- 1. Globale Auditor*in.
-
-Die Serienrolle Teilnehmer*in wird hier nicht zusätzlich benötigt: Die Sitzungssperre ist rollenunabhängig; Leser*in und Moderator*in decken den lesenden bzw. verwaltenden Serienzugriff ab.
-
-Für jedes aufgeführte Konto:
- 1. Anmelden und eine für dieses Konto tatsächlich erreichbare geschützte Seite öffnen.
- 1. Abmelden anklicken.
- 1. Die zuvor geöffnete geschützte URL erneut aufrufen.
- 1. Im Browser zurück navigieren und die Seite neu laden.
+ 1. Nacheinander getrennte Konten für die folgenden Berechtigungsbereiche verwenden:
+    1. Globale Nutzer*in ohne Serienzuweisung.
+    1. Globale Nutzer*in mit Serienrolle Leser*in.
+    1. Globale Nutzer*in mit Serienrolle Moderator*in.
+    1. Globaler Admin ohne Serienzuweisung.
+    1. Globaler Admin mit zusätzlicher Serienrolle Moderator*in.
+    1. Globale Auditor*in.
+ 1. Die Serienrolle Teilnehmer*in nicht zusätzlich wiederholen, da die Sitzungssperre rollenunabhängig ist und Leser*in sowie Moderator*in den lesenden bzw. verwaltenden Serienzugriff abdecken.
+ 1. Für jedes aufgeführte Konto die folgenden Schritte ausführen:
+    1. Anmelden und eine für dieses Konto tatsächlich erreichbare geschützte Seite öffnen.
+    1. Abmelden anklicken.
+    1. Die zuvor geöffnete geschützte URL erneut aufrufen.
+    1. Im Browser zurück navigieren und die Seite neu laden.
 
 **Ergebnisprüfung**
 
@@ -789,17 +786,16 @@ Für jedes der drei Konten:
 
 Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer Serienzuweisung abhängig. Die Serienrollen Leser*in, Teilnehmer*in und Moderator*in müssen nicht zusätzlich einzeln geprüft werden. Die Funktionsprüfung erfolgt mit einem Konto je globaler Rolle.
 
-Für jedes der drei Konten (globale Nutzer*in ohne Serienzuweisung, globaler Admin, globale Auditor*in):
 **Prüfschritt**
 
- 1. Anmelden.
- 1. **Hilfe & Anleitung** öffnen.
- 1. Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
- 1. Prüfen, ob die Testdokumentation vollständig angezeigt wird.
- 1. Abmelden.
-
-Die folgenden Funktionsprüfungen einmal mit einer globalen Nutzer*in ohne Serienzuweisung durchführen. Für die parallelen Bearbeitungsschritte zusätzlich ein zweites Konto anderer globaler Rolle (vorzugsweise globaler Admin) verwenden:
- 1. Erneut anmelden und TESTING-Modus aktivieren.
+ 1. Für jedes der drei Konten (globale Nutzer*in ohne Serienzuweisung, globaler Admin, globale Auditor*in) die folgenden Schritte ausführen:
+    1. Anmelden.
+    1. **Hilfe & Anleitung** öffnen.
+    1. Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
+    1. Prüfen, ob die Testdokumentation vollständig angezeigt wird.
+    1. Abmelden.
+ 1. Die folgenden Funktionsprüfungen einmal mit einer globalen Nutzer*in ohne Serienzuweisung durchführen; für parallele Bearbeitungsschritte zusätzlich ein zweites Konto anderer globaler Rolle (vorzugsweise globaler Admin) verwenden:
+    1. Erneut anmelden und TESTING-Modus aktivieren.
  1. Einen Testblock aufrufen.
  1. Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
  1. Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
@@ -854,6 +850,8 @@ Die folgenden Funktionsprüfungen einmal mit einer globalen Nutzer*in ohne Serie
 - [ ] Alle durchgeführten und relevanten Testfälle sind erfolgreich abgeschlossen.
 - [ ] Es bestehen keine offenen kritischen oder hohen Fehler.
 - [ ] Abweichungen und nicht durchgeführte Tests sind separat dokumentiert.
+
+**Prüfprotokoll**
 
 **Prüfdatum:** ____________________  
 **Geprüfte Version / Commit:** ____________________  
