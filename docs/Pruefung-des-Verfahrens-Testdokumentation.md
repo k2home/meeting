@@ -64,7 +64,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Nur berechtigte Admin-Konten können die Funktionen aufrufen.
 - [ ] Andere Rollen erhalten keinen Zugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 1.1.2 Vollständigen Datenexport durchführen – Rolle: Admin
 
@@ -80,7 +80,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Exportdatei ist vorhanden und im vorgesehenen Format lesbar bzw. weiterverarbeitbar.
 - [ ] Export enthält keine Zugangsdaten oder Geheimnisse, die nicht Bestandteil des vorgesehenen Sicherungsformats sein dürfen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 1.1.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
 
@@ -99,7 +99,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Datenbestand entspricht nach dem Import dem vorgesehenen Sicherungsstand.
 - [ ] Keine produktiven Daten werden berührt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -119,7 +119,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Versions- und Statusinformationen werden angezeigt.
 - [ ] Nicht berechtigte Rollen erhalten keinen Zugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 1.2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
 
@@ -140,7 +140,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Vorhandene Testdaten und Serienberechtigungen bleiben erhalten.
 - [ ] Login, fachliche Ansichten und Dateizugriffe funktionieren.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -173,7 +173,7 @@ Für jedes Konto:
 - [ ] Angezeigter Benutzer entspricht dem angemeldeten Konto.
 - [ ] Navigation und verfügbare Bereiche entsprechen der Rolle und den Serienzuweisungen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.1.2 Anmeldung mit ungültigen Zugangsdaten – rollenunabhängig; Referenzkonto: globale Nutzer*in ohne Serienzuweisung
 
@@ -191,7 +191,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 - [ ] Es wird keine geschützte Seite angezeigt.
 - [ ] Die Fehlermeldung gibt nicht preis, ob ein Benutzerkonto existiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.1.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
 
@@ -208,7 +208,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 - [ ] Nach erfolgreicher Änderung ist die Anmeldung mit dem neuen Passwort möglich.
 - [ ] Das Konto wird nicht erneut zum Passwortwechsel aufgefordert, sofern keine neue Frist oder Rücksetzung gesetzt wurde.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.1.4 Abmeldung und Sitzungsschutz – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, Serienleser*in, Serienmoderator*in, globaler Admin und globale Auditor*in
 
@@ -234,7 +234,7 @@ Für jedes aufgeführte Konto:
 - [ ] Geschützte Inhalte sind nach der Abmeldung nicht erneut abrufbar.
 - [ ] Eine erneute Anmeldung ist erforderlich.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
 
@@ -251,7 +251,7 @@ Für jedes aufgeführte Konto:
 - [ ] Ein bereits verwendeter bzw. ungültiger Link kann nicht erneut zum Zurücksetzen verwendet werden.
 - [ ] Die Anmeldung mit dem neuen Passwort ist möglich.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -279,7 +279,7 @@ Für jedes aufgeführte Konto:
 - [ ] Konto erhält keine unbeabsichtigten Serienberechtigungen.
 - [ ] Passwortbereitstellung bzw. erforderlicher Passwortwechsel entspricht der vorgesehenen Einrichtung.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.2.2 Benutzerkonto bearbeiten – Rolle: Admin
 
@@ -298,7 +298,7 @@ Für jedes aufgeführte Konto:
 - [ ] Nicht geänderte Daten bleiben erhalten.
 - [ ] Bestehende Serienzuweisungen bleiben erhalten, sofern sie nicht ausdrücklich geändert wurden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.2.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
 
@@ -317,7 +317,7 @@ Für jedes aufgeführte Konto:
 - [ ] Reaktiviertes Konto kann sich gemäß Passwortstatus anmelden.
 - [ ] Serienzuweisungen werden durch die Statusänderung nicht unbeabsichtigt gelöscht.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.2.4 Benutzerkonto löschen – Rolle: Admin
 
@@ -333,7 +333,7 @@ Für jedes aufgeführte Konto:
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 - [ ] Historische Einträge werden entsprechend der vorgesehenen Aufbewahrung behandelt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.2.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
 
@@ -354,7 +354,7 @@ Für jedes aufgeführte Konto:
 - [ ] Bestehende Zuweisungen werden bei Änderungen an einer anderen Reihe nicht überschrieben.
 - [ ] Ein globaler Admin erhält durch die Zuweisungsbearbeitung keine unbeabsichtigte fachliche Rolle.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.2.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
 
@@ -371,7 +371,7 @@ Für jedes aufgeführte Konto:
 - [ ] Erforderlicher Passwortwechsel wird durchgesetzt.
 - [ ] Andere Konten bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -394,7 +394,7 @@ Für jedes aufgeführte Konto:
 - [ ] Datums- und Uhrzeitanzeigen verwenden die eingestellte Zeitzone.
 - [ ] Einstellungen bleiben nach dem Neuladen erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.3.2 Organisationslogo ändern – Rolle: Admin
 
@@ -411,7 +411,7 @@ Für jedes aufgeführte Konto:
 - [ ] Nicht unterstützte Dateien werden abgewiesen.
 - [ ] Andere Organisationseinstellungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.3.3 Farben und Darstellung konfigurieren – Rolle: Admin
 
@@ -430,7 +430,7 @@ Für jedes aufgeführte Konto:
 - [ ] Nicht gesetzte optionale Farbwerte verwenden den vorgesehenen Basiswert.
 - [ ] Lesbarkeit und Bedienbarkeit bleiben erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.3.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
 
@@ -448,7 +448,7 @@ Für jedes aufgeführte Konto:
 - [ ] Ungültige Werte werden abgewiesen.
 - [ ] Bestehende Themen- bzw. Terminfristen werden nicht unbeabsichtigt überschrieben.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -471,7 +471,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Fachliche Änderungen und schreibende Aktionen werden verweigert.
 - [ ] Nicht zugewiesene Reihen bleiben unzugänglich.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.4.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
 
@@ -490,7 +490,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Reihenverwaltung und Wiederöffnung bleiben gesperrt.
 - [ ] Andere Reihen sind nicht zugänglich.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.4.3 Moderator*in – Verwaltung nur der eigenen Reihe
 
@@ -509,7 +509,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Fremde Reihen bleiben unzugänglich.
 - [ ] Eigene Moderatorzuweisung ist gegen unzulässige Selbständerung geschützt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.4.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
 
@@ -526,7 +526,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Fachliche Reiheninhalte bleiben ohne passende Serienzuweisung unzugänglich.
 - [ ] Eine ausdrückliche Serienzuweisung ermöglicht nur die zugewiesene Rolle und Reihe.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 2.4.5 Auditor*in – ausschließlich administrative Leserechte
 
@@ -544,7 +544,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - [ ] Schreibende Aktionen sind gesperrt.
 - [ ] Geheimnisse wie Startpasswörter werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -557,7 +557,10 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
 
- 1. TESTING-Modus in der Testinstallation aktivieren.- [ ] Dashboard öffnen.- [ ] Browser-Tab bzw. Seitentitel prüfen.- [ ] Django-Administrationspfad aufrufen.
+ 1. TESTING-Modus in der Testinstallation aktivieren.
+ 1. Dashboard öffnen.
+ 1. Browser-Tab bzw. Seitentitel prüfen.
+ 1. Django-Administrationspfad aufrufen.
  1. TESTING-Modus deaktivieren.
  1. Dieselben Bereiche erneut aufrufen.
 
@@ -567,7 +570,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Zusätzliche Testfunktionen sind nur im aktivierten Modus verfügbar.
 - [ ] Nach Deaktivierung sind die zusätzlichen Testfunktionen nicht mehr erreichbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.1.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
@@ -585,7 +588,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Passwortwechsel wird entsprechend der Testdatenregel erzwungen.
 - [ ] Reguläre Benutzerkonten bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.1.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
@@ -601,7 +604,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Wiederholungsrhythmus und Wochentag sind gesetzt.
 - [ ] Reguläre Besprechungsreihen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.1.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
 
@@ -618,7 +621,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Bestehende Serienrollen werden nicht überschrieben.
 - [ ] Es entstehen keine doppelten Termine.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.1.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
@@ -635,7 +638,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Status und Hauptzuständigkeit sind gesetzt.
 - [ ] Reguläre Themen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.1.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
@@ -653,7 +656,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Wiedervorlagekette ist chronologisch verknüpft.
 - [ ] Reguläre Themen und Termine bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.1.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
 
@@ -670,7 +673,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Testkonten mit regulären Verwendungen bleiben entsprechend der Schutzregeln bestehen.
 - [ ] Es verbleiben keine unbeabsichtigten Testdatenreste.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -692,7 +695,7 @@ Für jedes der drei Konten:
 - [ ] Verlinkte Abschnitte sind erreichbar.
 - [ ] Inhalte sind lesbar und der Navigation zugeordnet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.2.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, globaler Admin und globale Auditor*in
 
@@ -711,7 +714,7 @@ Für jedes der drei Konten:
 - [ ] Angezeigtes Dokument und PDF beziehen sich auf die vorgesehene Fassung.
 - [ ] Es werden keine unberechtigten internen Daten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 3.2.3 Testcheckliste aus Hilfe & Anleitung öffnen – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, globaler Admin und globale Auditor*in – **PR-Test erforderlich (#531)**
 
@@ -755,7 +758,7 @@ Die folgenden Funktionsprüfungen einmal mit einer globalen Nutzer*in ohne Serie
 - [ ] Nicht angemeldete Konten erhalten keinen Zugriff.
 - [ ] Rücknavigation zu **Hilfe & Anleitung** funktioniert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -819,7 +822,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Verlinkte Bereiche lassen sich öffnen.
 - [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -837,7 +840,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
 - [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -858,7 +861,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -876,7 +879,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
 - [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -899,7 +902,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
 - [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -917,7 +920,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Bestehende Serienberechtigungen bleiben erhalten.
 - [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.3.3 Besprechungsreihe verlängern – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -935,7 +938,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Es entstehen keine doppelten Termine.
 - [ ] Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -953,7 +956,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
 - [ ] Nicht ausgewählte Reihen sind unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.3.5 Besprechungsreihe löschen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -971,7 +974,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
 - [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -990,7 +993,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
 - [ ] Zuweisungen in anderen Reihen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: globale Nutzerrolle + Moderator*in ausschließlich in einer anderen Reihe
 
@@ -1010,7 +1013,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
 - [ ] Die zugewiesene andere Testreihe bleibt für das Testkonto gemäß seiner dortigen Moderatorrolle erreichbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1032,7 +1035,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.4.2 Einzelnen Termin verschieben – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -1050,7 +1053,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
 - [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.4.3 Einzelnen Termin löschen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -1068,7 +1071,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
 - [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -1086,7 +1089,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Die Änderung betrifft nur den ausgewählten Termin.
 - [ ] Die Serienberechtigungen der Konten bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -1101,7 +1104,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen abgewiesen oder sind nicht verfügbar.
 - [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 4.5 Themen anlegen und bearbeiten
 
 #### 4.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
@@ -1121,7 +1124,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
 - [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.5.2 Thema über einen Termin anlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1139,7 +1142,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
 - [ ] Das Thema ist in der Themenübersicht auffindbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.5.3 Thema bearbeiten – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1157,7 +1160,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.5.4 Themenstatus ändern – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1174,7 +1177,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Der Status wird in der Übersicht korrekt dargestellt.
 - [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -1192,7 +1195,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
 - [ ] Der Änderungsverlauf bildet die Aktion ab.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1211,7 +1214,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
 - [ ] Andere Themen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.5.7 Themenvorschläge verwenden – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1228,7 +1231,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
 - [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1250,7 +1253,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
 - [ ] Der allgemeine Themenstatus bleibt davon getrennt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1267,7 +1270,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
 - [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1284,7 +1287,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
 - [ ] Andere Tagesordnungspunkte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.6.4 Wiedervorlage anlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1302,7 +1305,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
 - [ ] Es ist keine doppelte Wiedervorlage entstanden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1320,7 +1323,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Frühere Protokollstände bleiben unverändert.
 - [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
@@ -1337,7 +1340,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1359,7 +1362,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.7.2 Datei als Themenanlage hochladen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1377,7 +1380,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1395,7 +1398,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
 - [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.7.4 Anlage herunterladen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
@@ -1412,7 +1415,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
 - [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.7.5 Anlage löschen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1429,7 +1432,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
 - [ ] Andere Anlagen und Themen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.7.6 Upload-Grenzen prüfen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
 
@@ -1447,7 +1450,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
 - [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1469,7 +1472,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
 - [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.8.2 Protokoll anzeigen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
@@ -1486,7 +1489,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
 - [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
@@ -1505,7 +1508,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -1523,7 +1526,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
 - [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
@@ -1540,7 +1543,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1561,7 +1564,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.9.2 Archiv aufrufen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
@@ -1578,7 +1581,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
@@ -1595,7 +1598,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Das unbeteiligte Konto erhält keinen Zugriff.
 - [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1617,7 +1620,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Der Antrag erscheint mit offenem Status.
 - [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Nutzerrolle (Moderator*in der geprüften Reihe)
 
@@ -1637,7 +1640,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Bei Genehmigung für Testreihe A erhält das Testkonto ausschließlich die genehmigte Serienrolle für diese Reihe.
 - [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 4.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Nutzerrolle ohne Serienzuweisung
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Auch ohne Serienzuweisung darf das Konto einen Antrag für eine Besprechungsreihe stellen; der Antrag selbst gewährt noch keinen Zugriff auf Reiheninhalte.
@@ -1653,7 +1656,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
 - [ ] Durch die erneute Antragstellung entsteht keine Serienzuweisung und kein Zugriff auf Reiheninhalte, solange der Antrag nicht genehmigt wurde.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1669,12 +1672,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 4.11.2 Benutzer per CSV importieren – Prüfrolle: globale Nutzerrolle ohne globale Adminrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1690,7 +1692,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 4.11.3 Themen als CSV exportieren – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -1706,7 +1708,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
 - [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.11.4 Themen per CSV importieren – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
@@ -1724,7 +1726,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
 - [ ] Es entstehen keine unbeabsichtigten Duplikate.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1746,7 +1748,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
 - [ ] Unberechtigte Konten erhalten keinen Zugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Das globale Nutzerkonto mit Moderatorzuweisung sieht ausschließlich Ereignisse seiner eigenen moderierten Reihe; systembezogene Ereignisse bleiben ausgeblendet.
@@ -1763,7 +1765,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Systembezogene Ereignisse werden nicht angezeigt oder exportiert.
 - [ ] Ereignisse anderer Reihen bleiben verborgen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 4.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -1780,7 +1782,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
 - [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1801,7 +1803,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 4.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Nutzerrolle + Leser*in der geprüften Reihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -1818,7 +1820,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
 - [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 4.13.3 Retention wiederholt ausführen – Prüfrolle: globale Nutzerrolle ohne globale Adminrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -1835,7 +1837,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 4.14 Auditor*innenbereich
 
 #### 4.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: globale Nutzerrolle ohne Auditorrolle
@@ -1853,7 +1855,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 4.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globale Nutzerrolle ohne Auditorrolle
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -1869,7 +1871,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ## 5. Produktiv – Ohne Berechtigungen
 
 Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf weder Serieninhalte lesen noch fachliche oder administrative Aktionen ausführen. Direkte URLs und POST-Aktionen ausdrücklich mitprüfen.
@@ -1899,7 +1901,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Verlinkte Bereiche lassen sich öffnen.
 - [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 5.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
@@ -1917,7 +1919,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
 - [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1938,7 +1940,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 5.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
@@ -1956,7 +1958,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
 - [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1980,7 +1982,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
 - [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -1999,7 +2001,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Die Terminübersicht ist auch ohne Serienzuweisung erreichbar. Sie enthält in diesem Testkonto keine Termine.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.4.2 Einzelnen Termin verschieben – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2015,7 +2017,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.4.3 Einzelnen Termin löschen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2031,7 +2033,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2047,7 +2049,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2063,7 +2065,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.5 Themen anlegen und bearbeiten
 
 #### 5.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2081,7 +2083,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.5.2 Thema über einen Termin anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2097,7 +2099,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.5.3 Thema bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2113,7 +2115,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.5.4 Themenstatus ändern – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2129,7 +2131,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2145,7 +2147,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2161,7 +2163,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.5.7 Themenvorschläge verwenden – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 
@@ -2175,7 +2177,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 5.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2193,7 +2195,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2209,7 +2211,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2225,7 +2227,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.6.4 Wiedervorlage anlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2241,7 +2243,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2257,7 +2259,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2273,7 +2275,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.7 Kommentare, Anlagen und Links
 
 #### 5.7.1 Kommentar hinzufügen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2291,7 +2293,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.7.2 Datei als Themenanlage hochladen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2307,7 +2309,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2323,7 +2325,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.7.4 Anlage herunterladen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2339,7 +2341,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.7.5 Anlage löschen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2355,7 +2357,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.7.6 Upload-Grenzen prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2371,7 +2373,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.8 Besprechung abschließen und Protokoll
 
 #### 5.8.1 Besprechung abschließen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2389,7 +2391,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.8.2 Protokoll anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2405,7 +2407,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2421,7 +2423,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2437,7 +2439,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2453,7 +2455,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.9 Offene Themen und Archiv
 
 #### 5.9.1 Offene Themen aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2471,7 +2473,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.9.2 Archiv aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Das Archiv ist erreichbar. Ohne Serienzuweisung werden keine archivierten Themen angezeigt.
 
@@ -2485,7 +2487,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Das Archiv ist erreichbar. Ohne Serienzuweisung werden keine archivierten Themen angezeigt.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2501,7 +2503,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Das unbeteiligte Konto erhält keinen Zugriff.
 - [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -2523,7 +2525,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Der Antrag erscheint mit offenem Status.
 - [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 5.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -2540,7 +2542,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Nutzer*in ohne Serienzuweisung
 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -2556,7 +2558,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
 - [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -2577,7 +2579,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.11.2 Benutzer per CSV importieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2593,7 +2595,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.11.3 Themen als CSV exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2609,7 +2611,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.11.4 Themen per CSV importieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2625,7 +2627,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.12 Änderungsverlauf und Audit
 
 #### 5.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2642,7 +2644,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Ohne Serienzuweisung werden keine serienbezogenen Ereignisse angezeigt.
 - [ ] Ereignisse anderer Reihen oder globale Systemereignisse werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Nutzer*innen ohne globale Admin- oder Auditorrolle nicht sichtbar.
 
@@ -2657,7 +2659,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Es werden keine systembezogenen Ereignisse angezeigt.
 - [ ] Die Seite gibt keine globalen Systemereignisse über Filter oder direkte URL-Parameter preis.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2673,7 +2675,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.13 Aufbewahrung und automatische Löschung
 
 #### 5.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2691,7 +2693,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Archivansicht ist erreichbar. Ohne Serienzuweisung werden jedoch keine archivierten Themen oder deren Aufbewahrungsdaten angezeigt.
 
@@ -2705,7 +2707,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Ohne Serienzuweisung enthält die Liste keine archivierten Themen.
 - [ ] Es werden keine Themen, Dateien oder Aufbewahrungsdaten aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.13.3 Retention wiederholt ausführen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2721,7 +2723,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 5.14 Auditor*innenbereich
 
 #### 5.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Nutzer*in ohne Serienzuweisung
@@ -2739,7 +2741,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 5.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Nutzer*in ohne Serienzuweisung
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2755,7 +2757,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ## 6. Produktiv – Leser
 
 Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweiligen Testreihe zugewiesen ist. Keine Teilnehmer- oder Moderatorrolle vergeben.
@@ -2785,7 +2787,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Verlinkte Bereiche lassen sich öffnen.
 - [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Leser*in (Serienrolle)
 
@@ -2803,7 +2805,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
 - [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -2824,7 +2826,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Aufgabenübersicht ist für Leser*innen erreichbar. Angezeigt werden ausschließlich eigene Aufgaben aus ausdrücklich zugänglichen Reihen; bei fehlenden Aufgaben erscheint ein Leerzustand.
@@ -2839,7 +2841,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Die Aufgabenübersicht ist für Leser*innen erreichbar. Angezeigt werden ausschließlich eigene Aufgaben aus ausdrücklich zugänglichen Reihen; bei fehlenden Aufgaben erscheint ein Leerzustand.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.3 Besprechungsreihen verwalten
 
 #### 6.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: Leser*in (Serienrolle)
@@ -2860,7 +2862,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
 - [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -2882,7 +2884,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.4.2 Einzelnen Termin verschieben – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -2899,7 +2901,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.4.3 Einzelnen Termin löschen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2915,7 +2917,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2931,7 +2933,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -2945,7 +2947,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Leser*innen abgewiesen oder sind nicht verfügbar.
 - [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.5 Themen anlegen und bearbeiten
 
 #### 6.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Leser*in (Serienrolle)
@@ -2963,7 +2965,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.5.2 Thema über einen Termin anlegen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2979,7 +2981,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.5.3 Thema bearbeiten – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -2995,7 +2997,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.5.4 Themenstatus ändern – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3011,7 +3013,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3027,7 +3029,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3043,7 +3045,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.5.7 Themenvorschläge verwenden – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3059,7 +3061,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themenvorschläge aus nicht zugänglichen Reihen ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein Thema angelegt oder verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 6.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: Leser*in (Serienrolle)
@@ -3077,7 +3079,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3093,7 +3095,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3109,7 +3111,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.6.4 Wiedervorlage anlegen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3125,7 +3127,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3141,7 +3143,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3157,7 +3159,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -3178,7 +3180,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.7.2 Datei als Themenanlage hochladen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3194,7 +3196,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3210,7 +3212,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.7.4 Anlage herunterladen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3226,7 +3228,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
 - [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.7.5 Anlage löschen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -3243,7 +3245,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.7.6 Upload-Grenzen prüfen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3259,7 +3261,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.8 Besprechung abschließen und Protokoll
 
 #### 6.8.1 Besprechung abschließen – Prüfrolle: Leser*in (Serienrolle)
@@ -3277,7 +3279,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.8.2 Protokoll anzeigen – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3293,7 +3295,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
 - [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Leser*in (Serienrolle)
 
@@ -3312,7 +3314,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -3329,7 +3331,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3345,7 +3347,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -3366,7 +3368,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.9.2 Archiv aufrufen – Prüfrolle: Leser*in (Serienrolle)
 
@@ -3383,7 +3385,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 6.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -3400,7 +3402,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.10 Berechtigungsanträge
 
 #### 6.10.1 Höhere Serienberechtigung beantragen – Prüfrolle: Leser*in (Serienrolle)
@@ -3418,7 +3420,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Durch den Antrag allein entstehen keine Schreib- oder Moderatorrechte.
 - [ ] Andere Reihen und Berechtigungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3434,7 +3436,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Leser*in (Serienrolle)
 
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die persönliche Benutzerübersicht ist erreichbar. Ein bereits offener Antrag darf jedoch nicht doppelt angelegt werden.
@@ -3451,7 +3453,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Die bestehende Leserzuweisung bleibt unverändert.
 - [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.11 Benutzer- und Themenimport/-export
 
 #### 6.11.1 Benutzer als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
@@ -3469,7 +3471,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.11.2 Benutzer per CSV importieren – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3485,7 +3487,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.11.3 Themen als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3501,7 +3503,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.11.4 Themen per CSV importieren – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3517,7 +3519,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.12 Änderungsverlauf und Audit
 
 #### 6.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Leser*in (Serienrolle)
@@ -3534,7 +3536,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Es werden keine serienbezogenen Änderungsereignisse angezeigt.
 - [ ] Ereignisse anderer Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Leser*innen nicht sichtbar.
 
@@ -3549,7 +3551,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Es werden keine systembezogenen Ereignisse angezeigt.
 - [ ] Die Seite gibt keine globalen Systemereignisse über Filter oder direkte URL-Parameter preis.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3565,7 +3567,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.13 Aufbewahrung und automatische Löschung
 
 #### 6.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: Leser*in (Serienrolle)
@@ -3583,7 +3585,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Leser*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; administrative Aufbewahrungseinstellungen bleiben ihnen verborgen.
 
@@ -3598,7 +3600,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Themen und Aufbewahrungsdaten fremder Reihen werden nicht offengelegt.
 - [ ] Administrative Aufbewahrungsfristen können mit der Leserrolle nicht geändert werden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.13.3 Retention wiederholt ausführen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3614,7 +3616,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 6.14 Auditor*innenbereich
 
 #### 6.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Leser*in (Serienrolle)
@@ -3632,7 +3634,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 6.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Leser*in (Serienrolle)
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3648,7 +3650,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ## 7. Produktiv – Teilnehmer
 
 Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreihe zugewiesen ist. Keine Moderatorrolle vergeben.
@@ -3678,7 +3680,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Verlinkte Bereiche lassen sich öffnen.
 - [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -3696,7 +3698,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
 - [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -3717,7 +3719,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -3735,7 +3737,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
 - [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -3759,7 +3761,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
 - [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -3781,7 +3783,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.4.2 Einzelnen Termin verschieben – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -3798,7 +3800,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.4.3 Einzelnen Termin löschen – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -3814,7 +3816,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3831,7 +3833,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Die Änderung betrifft nur den ausgewählten Termin.
 - [ ] Die Serienberechtigungen der Konten bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3846,7 +3848,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Schreibende Aktionen auf dem abgeschlossenen Termin werden für Teilnehmer*innen abgewiesen oder sind nicht verfügbar.
 - [ ] Der gespeicherte Protokollstand und die Tagesordnung bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 7.5 Themen anlegen und bearbeiten
 
 #### 7.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -3866,7 +3868,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
 - [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.5.2 Thema über einen Termin anlegen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -3884,7 +3886,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
 - [ ] Das Thema ist in der Themenübersicht auffindbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.5.3 Thema bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -3902,7 +3904,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.5.4 Themenstatus ändern – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -3919,7 +3921,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Der Status wird in der Übersicht korrekt dargestellt.
 - [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -3936,7 +3938,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -3954,7 +3956,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
 - [ ] Andere Themen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.5.7 Themenvorschläge verwenden – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -3971,7 +3973,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
 - [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -3993,7 +3995,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
 - [ ] Der allgemeine Themenstatus bleibt davon getrennt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4010,7 +4012,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
 - [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4027,7 +4029,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
 - [ ] Andere Tagesordnungspunkte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.6.4 Wiedervorlage anlegen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4045,7 +4047,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
 - [ ] Es ist keine doppelte Wiedervorlage entstanden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4063,7 +4065,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Frühere Protokollstände bleiben unverändert.
 - [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4080,7 +4082,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -4102,7 +4104,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.7.2 Datei als Themenanlage hochladen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4120,7 +4122,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4138,7 +4140,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
 - [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.7.4 Anlage herunterladen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4155,7 +4157,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
 - [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.7.5 Anlage löschen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4172,7 +4174,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
 - [ ] Andere Anlagen und Themen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.7.6 Upload-Grenzen prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4190,7 +4192,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
 - [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -4212,7 +4214,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
 - [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.8.2 Protokoll anzeigen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4229,7 +4231,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
 - [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4248,7 +4250,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -4265,7 +4267,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4281,7 +4283,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -4302,7 +4304,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.9.2 Archiv aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
 
@@ -4319,7 +4321,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 7.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -4336,7 +4338,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 7.10 Berechtigungsanträge
 
 #### 7.10.1 Höhere Serienberechtigung beantragen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4354,7 +4356,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Durch den Antrag allein entstehen keine Moderatorrechte.
 - [ ] Andere Reihen und Berechtigungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4370,7 +4372,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: Teilnehmer*in (Serienrolle)
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die persönliche Benutzerübersicht ist erreichbar. Ein bereits offener Antrag darf jedoch nicht doppelt angelegt werden.
@@ -4387,7 +4389,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Die bestehende Teilnehmerzuweisung bleibt unverändert.
 - [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 7.11 Benutzer- und Themenimport/-export
 
 #### 7.11.1 Benutzer als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4405,7 +4407,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.11.2 Benutzer per CSV importieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4421,7 +4423,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.11.3 Themen als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4437,7 +4439,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.11.4 Themen per CSV importieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4453,7 +4455,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 7.12 Änderungsverlauf und Audit
 
 #### 7.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4470,7 +4472,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Es werden keine serienbezogenen Änderungsereignisse angezeigt.
 - [ ] Ereignisse anderer Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Teilnehmer*innen nicht sichtbar.
 
@@ -4485,7 +4487,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Es werden keine systembezogenen Ereignisse angezeigt.
 - [ ] Die Seite gibt keine globalen Systemereignisse über Filter oder direkte URL-Parameter preis.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4501,7 +4503,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Serien- oder Systemereignisse außerhalb des Berechtigungsumfangs werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 7.13 Aufbewahrung und automatische Löschung
 
 #### 7.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4519,7 +4521,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Teilnehmer*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; administrative Aufbewahrungseinstellungen bleiben ihnen verborgen.
 
@@ -4534,7 +4536,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Themen und Aufbewahrungsdaten fremder Reihen werden nicht offengelegt.
 - [ ] Administrative Aufbewahrungsfristen können mit der Teilnehmerrolle nicht geändert werden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.13.3 Retention wiederholt ausführen – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4550,7 +4552,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 7.14 Auditor*innenbereich
 
 #### 7.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Teilnehmer*in (Serienrolle)
@@ -4568,7 +4570,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 7.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Teilnehmer*in (Serienrolle)
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -4584,7 +4586,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ## 8. Produktiv – Moderator
 
 Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jeweiligen Testreihe zugewiesen ist. Für Fremdreihen darf keine Zuweisung bestehen.
@@ -4614,7 +4616,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Verlinkte Bereiche lassen sich öffnen.
 - [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.1.2 Navigation und Darstellungsvarianten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4632,7 +4634,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
 - [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -4653,7 +4655,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.2.2 Eigene Aufgaben aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4671,7 +4673,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nicht zugewiesene oder nicht berechtigte Inhalte werden nicht zusätzlich eingeblendet.
 - [ ] Bei fehlenden Aufgaben wird ein geeigneter Leerzustand angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -4694,7 +4696,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
 - [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.3.2 Besprechungsreihe bearbeiten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4712,7 +4714,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Bestehende Serienberechtigungen bleiben erhalten.
 - [ ] Bereits vorhandene Termine und Themen sind weiterhin dem richtigen fachlichen Kontext zugeordnet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.3.3 Besprechungsreihe verlängern – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4730,7 +4732,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Es entstehen keine doppelten Termine.
 - [ ] Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4748,7 +4750,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
 - [ ] Nicht ausgewählte Reihen sind unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.3.5 Besprechungsreihe löschen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4766,7 +4768,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
 - [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4785,7 +4787,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
 - [ ] Zuweisungen in anderen Reihen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.3.7 Zugriff auf fachliche Inhalte einer nicht zugewiesenen Reihe prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4803,7 +4805,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Es werden keine Daten oder Anlagen aus Testreihe B offengelegt.
 - [ ] Die Serienzuweisung und Inhalte beider Testreihen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.3.8 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt auf die eigene Reihe, Zugriff verweigert auf fremde Reihen.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
@@ -4823,7 +4825,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Schreibende Aktionen für Testreihe B werden verweigert.
 - [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ### 8.4 Termine und Besprechungsübersicht
 
@@ -4843,7 +4845,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.4.2 Einzelnen Termin verschieben – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4861,7 +4863,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Zugehörige Tagesordnungspunkte und Zuständigkeiten bleiben dem Termin zugeordnet.
 - [ ] Die übrigen Termine der Reihe entsprechen weiterhin dem vorgesehenen Rhythmus.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.4.3 Einzelnen Termin löschen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4879,7 +4881,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
 - [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.4.4 Teilnehmerliste bearbeiten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4897,7 +4899,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Die Änderung betrifft nur den ausgewählten Termin.
 - [ ] Die Serienberechtigungen der Konten bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -4913,7 +4915,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Der abgeschlossene Termin bleibt bis zur ausdrücklichen Wiederöffnung schreibgeschützt.
 - [ ] Nach dem Wiederöffnen bleibt der vorherige Protokollstand im Änderungsverlauf nachvollziehbar; eine erneute Bearbeitung und ein erneuter Abschluss sind möglich.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 8.5 Themen anlegen und bearbeiten
 
 #### 8.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -4933,7 +4935,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Für den ausgewählten Termin ist der zugehörige Tagesordnungspunkt vorhanden.
 - [ ] Das Thema ist nicht versehentlich in einer anderen Reihe angelegt worden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.5.2 Thema über einen Termin anlegen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4951,7 +4953,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
 - [ ] Das Thema ist in der Themenübersicht auffindbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.5.3 Thema bearbeiten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4969,7 +4971,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.5.4 Themenstatus ändern – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -4986,7 +4988,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Der Status wird in der Übersicht korrekt dargestellt.
 - [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.5.5 Thema archivieren und wieder öffnen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5004,7 +5006,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Titel, Zuständigkeit, Kommentare und zugehörige historische Inhalte bleiben erhalten.
 - [ ] Der Änderungsverlauf bildet die Aktion ab.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5023,7 +5025,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
 - [ ] Andere Themen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.5.7 Themenvorschläge verwenden – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5040,7 +5042,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
 - [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -5062,7 +5064,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
 - [ ] Der allgemeine Themenstatus bleibt davon getrennt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.6.2 Tagesordnungspunkte sortieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5079,7 +5081,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Jeder Tagesordnungspunkt ist weiterhin dem richtigen Thema zugeordnet.
 - [ ] Es fehlen keine Punkte und es sind keine Duplikate entstanden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.6.3 Tagesordnungspunkt entfernen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5096,7 +5098,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
 - [ ] Andere Tagesordnungspunkte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.6.4 Wiedervorlage anlegen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5114,7 +5116,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Status und Zuständigkeit entsprechen den vorgesehenen Übernahmeregeln.
 - [ ] Es ist keine doppelte Wiedervorlage entstanden.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5132,7 +5134,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Frühere Protokollstände bleiben unverändert.
 - [ ] Es entstehen keine doppelten oder voneinander getrennten Ketten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5149,7 +5151,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -5171,7 +5173,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.7.2 Datei als Themenanlage hochladen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5189,7 +5191,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5207,7 +5209,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
 - [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.7.4 Anlage herunterladen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5224,7 +5226,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Dateiinhalt und Dateiname entsprechen der hochgeladenen Datei.
 - [ ] Nicht berechtigte Konten erhalten keinen Dateizugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.7.5 Anlage löschen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5241,7 +5243,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Der direkte Download der entfernten Anlage ist nicht mehr möglich.
 - [ ] Andere Anlagen und Themen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.7.6 Upload-Grenzen prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5259,7 +5261,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nicht erlaubte Dateiendungen werden abgewiesen.
 - [ ] Abgewiesene Uploads erzeugen keine ungewollten Anlagen-Datensätze.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -5281,7 +5283,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Teilnehmerliste und Tagesordnungstexte sind gegen weitere Bearbeitung gesperrt.
 - [ ] Der Abschluss wird im Änderungsverlauf dokumentiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.8.2 Protokoll anzeigen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5298,7 +5300,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Historische Werte werden nicht durch spätere Änderungen am Thema überschrieben.
 - [ ] Protokoll ist für berechtigte Leser*innen sichtbar.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5317,7 +5319,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5335,7 +5337,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
 - [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5352,7 +5354,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -5373,7 +5375,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.9.2 Archiv aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5390,7 +5392,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -5407,7 +5409,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 8.10 Berechtigungsanträge
 
 #### 8.10.1 Serienberechtigung für die eigene moderierte Reihe beantragen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -5426,7 +5428,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Es entsteht kein offener oder doppelter Antrag.
 - [ ] Andere Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.10.2 Berechtigungsantrag entscheiden – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt für Anträge der eigenen moderierten Reihe; Zugriff verweigert für fremde Reihen.**
@@ -5445,7 +5447,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Bei Genehmigung für Testreihe A erhält das Testkonto ausschließlich die genehmigte Serienrolle für diese Reihe.
 - [ ] Andere Anträge und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.10.3 Bereits vorhandenen Antrag für die eigene moderierte Reihe erneut bearbeiten – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Für eine Reihe, in der das Konto bereits Moderator*in ist, ist die erneute Beantragung oder Bearbeitung eines eigenen Berechtigungsantrags gesperrt.
@@ -5462,7 +5464,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Vorhandene Antragsdaten und die Moderatorzuweisung bleiben unverändert.
 - [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 8.11 Benutzer- und Themenimport/-export
 
 #### 8.11.1 Benutzer als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -5480,7 +5482,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.11.2 Benutzer per CSV importieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5496,7 +5498,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.11.3 Themen als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -5512,7 +5514,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
 - [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.11.4 Themen per CSV importieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
@@ -5530,7 +5532,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
 - [ ] Es entstehen keine unbeabsichtigten Duplikate.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -5552,7 +5554,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
 - [ ] Unberechtigte Konten erhalten keinen Zugriff.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 8.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Moderator*innen sehen die Ereignisse ihrer eigenen moderierten Reihen, aber keine systembezogenen Ereignisse.
@@ -5569,7 +5571,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Systembezogene Ereignisse werden nicht angezeigt oder exportiert.
 - [ ] Ereignisse anderer Reihen bleiben verborgen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -5586,7 +5588,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
 - [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -5607,7 +5609,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Moderator*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; die globalen Aufbewahrungseinstellungen werden in diesem Test nicht verändert.
 
@@ -5622,7 +5624,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Themen und Aufbewahrungsdaten fremder Reihen werden nicht offengelegt.
 - [ ] Die in den globalen Verwaltungseinstellungen hinterlegten Aufbewahrungsfristen werden durch diesen Test nicht verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.13.3 Retention wiederholt ausführen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5638,7 +5640,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 8.14 Auditor*innenbereich
 
 #### 8.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
@@ -5656,7 +5658,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 8.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5672,7 +5674,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ## 9. Produktiv – Globale Rolle Admin
 
 Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrücklich keine Serienrolle zugewiesen ist. Wo der Test eine Serienrolle voraussetzt, zusätzlich einen getrennten Kontrolllauf mit Admin plus Moderatorzuweisung durchführen.
@@ -5702,7 +5704,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Verlinkte Bereiche lassen sich öffnen.
 - [ ] Nicht berechtigte fachliche Inhalte werden nicht angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
@@ -5720,7 +5722,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
 - [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -5741,7 +5743,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -5758,7 +5760,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Aufgaben aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Seite gibt keine Themen- oder Zuständigkeitsdaten fremder Reihen preis.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.3 Besprechungsreihen verwalten
 
 #### 9.3.1 Besprechungsreihe anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5778,7 +5780,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
 - [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Bearbeitung einer Bestandsreihe ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
@@ -5794,7 +5796,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Die Bestandsreihe bleibt unverändert; ihre Bezeichnung, Beschreibung, Wiederholungseinstellungen und Moderatorzuweisungen werden nicht geändert.
 - [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.3.3 Besprechungsreihe verlängern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5810,7 +5812,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verlängerung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Enddatum, Terminfolge und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.3.4 Termine einer Reihe neu aufsetzen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5826,7 +5828,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Neuaufsetzen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bestehende Termine, Themen, Tagesordnungspunkte und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.3.5 Besprechungsreihe löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5842,7 +5844,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Besprechungsreihe und sämtliche zugehörigen Termine, Themen und Berechtigungen bleiben erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.3.6 Berechtigungen einer Reihe verwalten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5858,7 +5860,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Berechtigungsänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bestehende Serienzuweisungen und Rollen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.3.7 Zugriff auf fachliche Inhalte ohne Serienzuweisung prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt auf die administrative Serienverwaltung, Zugriff verweigert auf fachliche Reiheninhalte ohne Moderatorzuweisung.** Die globale Adminrolle verleiht keinen automatischen Zugriff auf bestehende Termine oder Themen.
@@ -5875,7 +5877,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Es werden keine Tagesordnungspunkte, Teilnehmerdaten oder Anlagen aus Testreihe A offengelegt.
 - [ ] Die globale Adminrolle allein gewährt keine fachliche Serienberechtigung.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.3.8 Globaler Admin mit Moderatorzuweisung in Testreihe A – Prüfrolle: globale Adminrolle + Moderator*in in Testreihe A
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -5895,7 +5897,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Die globale Adminrolle erweitert die Moderatorberechtigung nicht auf andere Reihen.
 - [ ] Änderungen an Testreihe A verändern die Berechtigungen von Testreihe B nicht.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.3.9 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -5912,7 +5914,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die fremde Reihe wird nicht zur Verwaltung freigegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Seriendaten und Berechtigungen der fremden Reihe bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.4 Termine und Besprechungsübersicht
 
 #### 9.4.1 Terminübersicht aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -5928,7 +5930,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Die Terminübersicht ist für den globalen Admin ohne Serienzuweisung erreichbar. Es werden keine fachlichen Termine angezeigt.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.4.2 Einzelnen Termin verschieben – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5944,7 +5946,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.4.3 Einzelnen Termin löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5960,7 +5962,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5976,7 +5978,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -5992,7 +5994,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.5 Themen anlegen und bearbeiten
 
 #### 9.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6010,7 +6012,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.5.2 Thema über einen Termin anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6026,7 +6028,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.5.3 Thema bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6042,7 +6044,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.5.4 Themenstatus ändern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6058,7 +6060,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6074,7 +6076,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6090,7 +6092,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.5.7 Themenvorschläge verwenden – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 
@@ -6104,7 +6106,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 9.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6122,7 +6124,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6138,7 +6140,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6154,7 +6156,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.6.4 Wiedervorlage anlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6170,7 +6172,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6186,7 +6188,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6202,7 +6204,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.7 Kommentare, Anlagen und Links
 
 #### 9.7.1 Kommentar hinzufügen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6220,7 +6222,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.7.2 Datei als Themenanlage hochladen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6236,7 +6238,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6252,7 +6254,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.7.4 Anlage herunterladen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6268,7 +6270,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.7.5 Anlage löschen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6284,7 +6286,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.7.6 Upload-Grenzen prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6300,7 +6302,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.8 Besprechung abschließen und Protokoll
 
 #### 9.8.1 Besprechung abschließen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6318,7 +6320,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.8.2 Protokoll anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6334,7 +6336,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6350,7 +6352,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Ein abgeschlossener Termin kann ohne Moderatorrolle für diese Reihe nicht wieder geöffnet werden.
 
@@ -6365,7 +6367,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Der abgeschlossene Termin bleibt unverändert und behält seinen bisherigen Abschlussstatus sowie seinen gespeicherten Protokollstand.
 - [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6381,7 +6383,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.9 Offene Themen und Archiv
 
 #### 9.9.1 Offene Themen aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6399,7 +6401,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.9.2 Archiv aufrufen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Das Archiv ist für den globalen Admin erreichbar. Ohne eigene Serienzuweisung werden keine fachlichen archivierten Themen angezeigt.
 
@@ -6413,7 +6415,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Das Archiv ist für den globalen Admin erreichbar. Ohne eigene Serienzuweisung werden keine fachlichen archivierten Themen angezeigt.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6429,7 +6431,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.10 Berechtigungsanträge
 
 #### 9.10.1 Serienberechtigung beantragen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6447,7 +6449,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Fachliche Inhalte bleiben bis zur Genehmigung der Serienzuweisung unzugänglich.
 - [ ] Andere Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
@@ -6463,7 +6465,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Bei Genehmigung erhält das Testkonto ausschließlich die genehmigte Serienrolle für die ausgewählte Reihe.
 - [ ] Bei Ablehnung entsteht keine Serienzuweisung; andere Anträge und Reihen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -6479,7 +6481,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
 - [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -6500,7 +6502,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Enthaltene Konten und Felder entsprechen dem vorgesehenen Exportumfang.
 - [ ] Passwörter oder andere nicht exportierbare Geheimnisse sind nicht enthalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.11.2 Benutzer per CSV importieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
@@ -6518,7 +6520,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
 - [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.11.3 Themen als CSV exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
@@ -6535,7 +6537,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.11.4 Themen per CSV importieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6551,7 +6553,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 9.12 Änderungsverlauf und Audit
 
 #### 9.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6569,7 +6571,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Ohne Moderatorzuweisung werden keine serienbezogenen Ereignisse angezeigt.
 - [ ] Ereignisse aus Reihen mit fremder Moderatorzuweisung werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -6586,7 +6588,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
 - [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
@@ -6604,7 +6606,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
 - [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -6626,7 +6628,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
 - [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 9.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Archivansicht ist für den globalen Admin erreichbar. Ohne Moderatorzuweisung für eine Reihe werden jedoch keine archivierten Themen oder deren Aufbewahrungsdaten angezeigt.
@@ -6641,7 +6643,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Ohne Moderatorzuweisung enthält die Liste keine archivierten Themen der Bestandsreihe.
 - [ ] Es werden keine Themen, Dateien oder Aufbewahrungsdaten aus Reihen ohne eigene Moderatorzuweisung offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.13.3 Retention wiederholt ausführen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -6657,7 +6659,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nicht abgelaufene Daten bleiben erhalten.
 - [ ] Fehler einzelner Datensätze führen nicht zu unbemerkter Fehlbehandlung des gesamten Bestands.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -6678,7 +6680,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit- oder Organisationsprüfdaten angezeigt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 9.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6694,7 +6696,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Audit-, Benutzer- oder Organisationsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ## 10. Produktiv – Globale Rolle Auditor
 
 Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienzuweisung darf es keine fachlichen Reiheninhalte sehen oder verändern. Nur ausdrücklich freigegebene administrative Prüfdaten sind lesbar.
@@ -6722,7 +6724,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Es werden keine fachlichen Reihen, Termine oder Themeninhalte des allgemeinen Dashboards offengelegt.
 - [ ] Die Auditor*innenübersicht zeigt nur die für diese globale Rolle vorgesehenen administrativen Prüfdaten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.1.2 Navigation und Darstellungsvarianten – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -6739,7 +6741,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
 - [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -6760,7 +6762,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Die Benutzeranzeige verwendet die aktualisierten Kontodaten.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 10.2.2 Eigene Aufgaben aufrufen – Prüfrolle: globale Auditor*in
 
@@ -6776,7 +6778,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Es werden keine persönlichen Aufgaben aus fachlichen Besprechungsreihen offengelegt.
 - [ ] Die Prüfung dieses Funktionsbereichs endet nach dem nachgewiesenen Redirect.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.3 Besprechungsreihen verwalten
 
 #### 10.3.1 Zugriff auf die Serienverwaltung prüfen – Prüfrolle: globale Auditor*in
@@ -6797,7 +6799,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
 - [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -6816,7 +6818,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Weder Termine noch Tagesordnungspunkte oder Teilnehmerdaten werden offengelegt.
 - [ ] Nach diesem Nachweis werden keine nachgelagerten Funktionen des Terminbereichs für diese Rolle getestet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.4.2 Einzelnen Termin verschieben – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6832,7 +6834,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Datum, Uhrzeit und Serienzuordnung des Termins bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.4.3 Einzelnen Termin löschen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6848,7 +6850,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Termin, Tagesordnungspunkte, Teilnehmerzuordnungen und Folgetermine bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.4.4 Teilnehmerliste bearbeiten – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6864,7 +6866,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste und alle bestehenden Serienzuweisungen bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.4.5 Schreibschutz abgeschlossener Termine – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6880,7 +6882,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus, Protokoll-Snapshot und Tagesordnung bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.5 Themen anlegen und bearbeiten
 
 #### 10.5.1 Thema aus dem Dashboard anlegen – Prüfrolle: globale Auditor*in
@@ -6898,7 +6900,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch eine neue Zuordnung zu einem Termin.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.5.2 Thema über einen Termin anlegen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6914,7 +6916,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht weder ein neuer Themendatensatz noch ein zusätzlicher Tagesordnungseintrag.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.5.3 Thema bearbeiten – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6930,7 +6932,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Titel, Beschreibung, Status, Zuständigkeit und Reihenbezug bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.5.4 Themenstatus ändern – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6946,7 +6948,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der ursprüngliche Themenstatus und die zugehörigen Zeitstempel bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.5.5 Thema archivieren und wieder öffnen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6962,7 +6964,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -6978,7 +6980,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Thema bleibt der ursprünglichen Reihe zugeordnet; in der Zielreihe entsteht keine Kopie.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.5.7 Themenvorschläge verwenden – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert für die globale Auditorrolle wegen fehlenden fachlichen Zugriffs keine Themen.
 
@@ -6992,7 +6994,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Der Vorschlags-Endpunkt ist erreichbar, liefert für die globale Auditorrolle wegen fehlenden fachlichen Zugriffs keine Themen.
 - [ ] Es werden keine Termine, Themen oder Aufgaben aus nicht zugewiesenen Reihen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.6 Tagesordnungspunkte und Wiedervorlagen
 
 #### 10.6.1 Tagesordnungspunkt bearbeiten – Prüfrolle: globale Auditor*in
@@ -7010,7 +7012,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Text, Zuständigkeit, Status und Zuordnung des Tagesordnungspunkts bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.6.2 Tagesordnungspunkte sortieren – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7026,7 +7028,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die ursprüngliche Reihenfolge und Positionswerte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.6.3 Tagesordnungspunkt entfernen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7042,7 +7044,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Tagesordnungseintrag, Themenbezug und historische Inhalte bleiben erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.6.4 Wiedervorlage anlegen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7058,7 +7060,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht keine neue Termin- oder Tagesordnungspunktzuordnung.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.6.5 Wiedervorlage über mehrere Termine fortführen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7074,7 +7076,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine neuen Wiedervorlagen, Verknüpfungen oder doppelten Tagesordnungseinträge.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.6.6 Historische Tagesordnungseinträge aufrufen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7090,7 +7092,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine historischen Themen-, Protokoll- oder Zuständigkeitsdaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.7 Kommentare, Anlagen und Links
 
 #### 10.7.1 Kommentar hinzufügen – Prüfrolle: globale Auditor*in
@@ -7108,7 +7110,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Kommentar und bestehende Kommentare bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.7.2 Datei als Themenanlage hochladen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7124,7 +7126,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entsteht kein neuer Anlagendatensatz und keine Datei wird dauerhaft gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.7.3 Netzwerkpfad oder Weblink hinterlegen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7140,7 +7142,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird kein neuer Anlagen-, Pfad- oder Linkeintrag gespeichert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.7.4 Anlage herunterladen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7156,7 +7158,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Dateiinhalt und Metadaten der Anlage werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.7.5 Anlage löschen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7172,7 +7174,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Anlagendatensatz und gespeicherte Datei bleiben unverändert erhalten.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.7.6 Upload-Grenzen prüfen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7188,7 +7190,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Datei gespeichert und es entsteht kein Anlagendatensatz.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.8 Besprechung abschließen und Protokoll
 
 #### 10.8.1 Besprechung abschließen – Prüfrolle: globale Auditor*in
@@ -7206,7 +7208,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin bleibt offen; Abschlusszeitpunkt und Protokoll-Snapshot werden nicht angelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.8.2 Protokoll anzeigen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7222,7 +7224,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Tagesordnung, Kommentare, Zuständigkeiten oder Protokoll-Snapshots offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.8.3 Protokoll drucken und als PDF exportieren – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7238,7 +7240,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7254,7 +7256,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Abschlussstatus und gespeicherter Protokoll-Snapshot bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7270,7 +7272,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themenprotokoll-PDF-Datei erzeugt oder heruntergeladen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.9 Offene Themen und Archiv
 
 #### 10.9.1 Offene Themen aufrufen – Prüfrolle: globale Auditor*in
@@ -7288,7 +7290,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Anwendung legt keine neuen Termin- oder Tagesordnungspunktzuordnungen an.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.9.2 Archiv aufrufen – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert (Weiterleitung).** Das fachliche Archiv wird für Auditor*innen nicht angezeigt; der Aufruf leitet zur Auditor*innenübersicht weiter.
@@ -7303,7 +7305,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Archivierte Themen und zugehörige fachliche Inhalte werden nicht offengelegt.
 - [ ] Die Prüfung dieses Funktionsbereichs endet nach dem nachgewiesenen Redirect.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7319,7 +7321,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen-, Protokoll- oder Anlagendaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.10 Berechtigungsanträge
 
 #### 10.10.1 Serienberechtigung beantragen – Prüfrolle: globale Auditor*in
@@ -7338,7 +7340,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Es wird kein Serienberechtigungsantrag angelegt und keine Serienzuweisung verändert.
 - [ ] Fachliche Reiheninhalte bleiben für das Auditor-Konto unzugänglich.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.10.2 Berechtigungsantrag entscheiden – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7354,7 +7356,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Antrag bleibt offen; Serienrollen und Zugriffsrechte des antragstellenden Kontos bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.10.3 Bereits vorhandenen Antrag erneut bearbeiten – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Auditor*innen dürfen bestehende Serienberechtigungsanträge nicht ändern oder erneut absenden.
@@ -7372,7 +7374,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Der vorhandene Antrag bleibt unverändert offen; es entsteht kein Duplikat.
 - [ ] Serienzuweisungen und fachliche Zugriffsrechte bleiben unverändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.11 Benutzer- und Themenimport/-export
 
 #### 10.11.1 Benutzer als CSV exportieren – Prüfrolle: globale Auditor*in
@@ -7390,7 +7392,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Konten- oder Profildaten offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.11.2 Benutzer per CSV importieren – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7406,7 +7408,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es entstehen keine Teilimporte oder unvollständigen Benutzerzuordnungen.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.11.3 Themen als CSV exportieren – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7422,7 +7424,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Themeninhalte und Zuständigkeiten nicht zugänglicher Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.11.4 Themen per CSV importieren – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7438,7 +7440,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themen angelegt und keine bestehenden Themen, Tagesordnungspunkte oder Reihenbezüge verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.12 Änderungsverlauf und Audit
 
 #### 10.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
@@ -7456,7 +7458,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Serienbezogene Ereignisse werden nicht angezeigt.
 - [ ] Fachliche Inhalte anderer Reihen werden nicht offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
@@ -7473,7 +7475,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
 - [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 10.12.3 Änderungsverlauf als CSV exportieren – Prüfrolle: globale Auditor*in
 
@@ -7491,7 +7493,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Direkter Exportaufruf ohne passende Berechtigung wird abgewiesen.
 - [ ] Nicht erforderliche vertrauliche Daten werden nicht exportiert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
 
@@ -7512,7 +7514,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Fristwerte oder administrativen Löschoptionen offengelegt.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.13.2 Aufbewahrungsfrist archivierter Themen prüfen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff auf die Auditor*innenübersicht erlaubt; Zugriff auf das Serienarchiv nicht erlaubt.** Der Archivaufruf leitet globale Auditor*innen zur Auditor*innenübersicht weiter und gibt keine archivierten Reiheninhalte aus.
 
@@ -7526,7 +7528,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Es werden keine archivierten Themen, Aufbewahrungsfristen oder Löschdaten aus Serien angezeigt.
 - [ ] Nach diesem Nachweis werden keine nachgelagerten Funktionen des Archivbereichs für diese Rolle getestet.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 #### 10.13.3 Retention wiederholt ausführen – Prüfrolle: globale Auditor*in
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
@@ -7542,7 +7544,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Termine, Protokolle, Themen oder Dateien gelöscht oder verändert.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 ### 10.14 Auditor*innenbereich
 
 #### 10.14.1 Auditor*innenübersicht aufrufen – Prüfrolle: globale Auditor*in
@@ -7561,7 +7563,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Es bestehen keine Änderungsfunktionen für Auditor*innen.
 - [ ] Fachliche Besprechungsreihen und Themeninhalte sind nicht zugänglich.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 #### 10.14.2 Auditor*innenzugriff gegen direkte URLs prüfen – Prüfrolle: globale Auditor*in
 
@@ -7579,6 +7581,6 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Schreibende Aktionen sind nicht möglich.
 - [ ] Direkte URLs umgehen die Rollenbegrenzung nicht.
 
-**Test erfolgreich:** [ ]
+- **Test erfolgreich:** [ ]
 
 ---
