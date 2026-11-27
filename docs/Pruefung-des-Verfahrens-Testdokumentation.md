@@ -352,7 +352,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 **Prüfschritt**
 
- 1. Ausschließlich ein entbehrliches Testkonto auswählen.
+ 1. Ausschließlich ein entbehrliches Testkonto auswählen und ein zweites Testkonto mit dessen Stammdaten und Serienzuweisungen als Vergleichskonto dokumentieren.
  1. Löschfunktion öffnen.
  1. Angezeigte Folgen prüfen.
  1. Löschung bestätigen.
@@ -371,6 +371,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 **Prüfschritt**
 
+ 1. Mit einem globalen Admin-Konto ohne Serienzuweisung anmelden und dessen fehlende Serienzuweisung als Ausgangszustand festhalten.
  1. Benutzerverwaltung öffnen.
  1. Testkonto auswählen.
  1. Serienzuweisungen öffnen.
