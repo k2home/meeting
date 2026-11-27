@@ -752,7 +752,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - [ ] Als Testdaten gekennzeichnete Testkonten, Testreihen, Termine, Themen und Tagesordnungspunkte werden durch den Reset entfernt.
 - [ ] Reguläre Reihen, Themen und Benutzer bleiben erhalten.
 - [ ] Testkonten, die mit regulären fachlichen Datensätzen verknüpft sind, bleiben beim Zurücksetzen erhalten.
-- [ ] Nicht löschbare Testthemen und Testkonten bleiben nur dann erhalten, wenn sie noch von regulären fachlichen Datensätzen verwendet werden; diese geschützten Datensätze werden in der Rückmeldung ausgewiesen.
+- [ ] Nicht löschbare Testthemen und Testkonten bleiben nur erhalten, wenn noch geschützte Verknüpfungen zu ihnen bestehen; die Anzahl der geschützten Datensätze wird in der Rückmeldung ausgewiesen.
 
 - **Test erfolgreich:** [ ]
 
