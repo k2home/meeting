@@ -8,7 +8,6 @@ on:
       - feature/native-linux-deployment
       - feature/usability-and-core-workflows
       - chat
-      - docs/testdokumentation-funktionsbereiche
       - fix/agenda-followup-linkage
       - ui-sidebar-horizontal-brand-mobile-short-name
       - fix-safari-icons-all-references
