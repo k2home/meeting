@@ -295,6 +295,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
  1. Angezeigte Rollen- bzw. Kontoeinstellungen prüfen.
  1. Speichern anklicken.
  1. Benutzerübersicht neu laden.
+ 1. Mit dem neu angelegten Konto und dem konfigurierten Startpasswort anmelden und den geforderten Wechsel auf ein persönliches Passwort durchführen.
 
 **Ergebnisprüfung**
 
@@ -337,7 +338,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
  1. Konto erneut in der Benutzerverwaltung öffnen.
  1. Aktivstatus wieder aktivieren.
  1. Speichern.
- 1. Anmeldung erneut versuchen.
+ 1. Mit dem reaktivierten Konto und dem konfigurierten Startpasswort anmelden und den geforderten Wechsel auf ein persönliches Passwort durchführen.
 
 **Ergebnisprüfung**
 
@@ -440,7 +441,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 **Prüfschritt**
 
  1. Organisationseinstellungen öffnen und die übrigen Organisationseinstellungen als Ausgangszustand festhalten.
- 1. Eine nicht unterstützte Testdatei als Logo auszuwählen und den Upload versuchen.
+ 1. Eine nicht unterstützte Testdatei als Logo auswählen und den Upload versuchen.
  1. Ein zulässiges Testlogo auswählen und hochladen bzw. speichern.
  1. Dashboard und Protokoll-PDF öffnen und die Logoanzeige prüfen.
  1. Organisationseinstellungen erneut öffnen und die übrigen Werte mit dem Ausgangszustand vergleichen.
@@ -642,6 +643,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
  1. Eine kleine Anzahl Testnutzer auswählen.
  1. Erzeugung starten.
  1. Benutzerübersicht öffnen und die regulären Konten mit dem dokumentierten Ausgangszustand vergleichen.
+ 1. Mit einem neu erzeugten Testkonto und dessen Startpasswort anmelden und den geforderten Wechsel auf ein persönliches Passwort durchführen.
 
 **Ergebnisprüfung**
 
