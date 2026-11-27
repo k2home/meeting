@@ -7754,7 +7754,6 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Ergebnisprüfung**
 
 - [ ] Die systembezogene Historie wird für das globale Auditor-Konto geöffnet und zeigt Systemereignisse.
-- [ ] Serienbezogene Ereignisse und fachliche Inhalte nicht zugewiesener Reihen bleiben verborgen.
 - [ ] Für Systemereignisse werden keine Bearbeitungs- oder Löschfunktionen angeboten.
 - [ ] Ein direkter Änderungs- oder Löschaufruf wird abgewiesen; die protokollierten Ereignisse bleiben unverändert.
 
