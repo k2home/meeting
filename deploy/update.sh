@@ -22,6 +22,16 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
+# The shared directory lock is provided by util-linux on Debian.
+if ! command -v flock >/dev/null 2>&1; then
+  apt-get update
+  DEBIAN_FRONTEND=noninteractive apt-get install -y util-linux
+fi
+
+# Keep subprocesses (especially uv via runuser) inside the application tree.
+# Otherwise they may try to discover configuration below sudo\x27s /root cwd.
+cd "$APP_DIR"
+
 # Persist the selected mode outside the Git checkout so web-triggered updates
 # can keep it enabled across application upgrades.
 TESTING_MODE_FILE="/var/lib/meeting-manager-updater/testing-mode"
@@ -69,9 +79,22 @@ fi
 
 # Refuse to update a mixed working tree. The live .env is handled separately
 # below because it is intentionally local and may have been tracked by old releases.
-if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' \
-  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env'; then
-  echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env." >&2
+CHECKLIST_RELATIVE="docs/Pruefung-des-Verfahrens-Testdokumentation.md"
+CHECKLIST_FILE="$APP_DIR/$CHECKLIST_RELATIVE"
+CHECKLIST_LOCK_FILE="${TEST_DOCUMENTATION_LOCK_PATH:-/var/lib/meeting-manager-updater/test-documentation.lock}"
+# Lock the shared parent directory instead of a lock file. This deliberately
+# avoids stale lock-file ownership, ACLs, immutable attributes, or bad modes
+# from older deployments. Both the app and updater flock this directory FD.
+CHECKLIST_LOCK_DIR="$(dirname "$CHECKLIST_LOCK_FILE")"
+install -d "$CHECKLIST_LOCK_DIR"
+chown root:www-data "$CHECKLIST_LOCK_DIR"
+chmod 0750 "$CHECKLIST_LOCK_DIR"
+exec 9<"$CHECKLIST_LOCK_DIR"
+flock -x 9
+
+if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ":(exclude)$CHECKLIST_RELATIVE" \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env' ":(exclude)$CHECKLIST_RELATIVE"; then
+  echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env und der Testcheckliste." >&2
   git -C "$APP_DIR" status --short
   exit 1
 fi
@@ -81,7 +104,6 @@ if [[ -n "$UNTRACKED_FILES" ]]; then
   printf '%s\n' "$UNTRACKED_FILES" >&2
   exit 1
 fi
-
 # Keep enough information to restore the previous source revision if the
 # checkout itself succeeded but a later pre-installation step fails. Once
 # dependency installation or migrations begin, automatic code rollback is
@@ -142,6 +164,11 @@ handle_update_exit() {
       echo "Der Quellcode bleibt auf dem Zielstand: Abhängigkeiten oder Datenbankmigrationen wurden bereits begonnen. Bitte Protokoll prüfen und bei Bedarf aus einem Backup wiederherstellen." >&2
     fi
   fi
+
+  if [[ -f "$CHECKLIST_FILE" ]]; then
+    chown meetingapp:www-data "$CHECKLIST_FILE"
+    chmod 660 "$CHECKLIST_FILE"
+  fi
   exit "$exit_code"
 }
 trap handle_update_exit EXIT
@@ -164,12 +191,29 @@ fi
 if [[ -n "$TARGET_BRANCH" ]]; then
   echo "==> Aktualisiere Quellcode aus Branch $TARGET_BRANCH"
   git -C "$APP_DIR" fetch --prune origin "$TARGET_BRANCH"
-  CODE_SWITCHED=1
+  git -C "$APP_DIR" rev-parse --verify "origin/$TARGET_BRANCH^{commit}" >/dev/null
+else
+  git -C "$APP_DIR" fetch --prune
+  if ! git -C "$APP_DIR" merge-base --is-ancestor HEAD '@{u}'; then
+    echo "Update abgebrochen: Der aktuelle Branch kann nicht per Fast-Forward aktualisiert werden." >&2
+    exit 1
+  fi
+fi
+
+# Only discard the local checklist after all preflight checks and the remote
+# fetch have succeeded. The repository version becomes authoritative on update.
+git -C "$APP_DIR" reset -q HEAD -- "$CHECKLIST_RELATIVE"
+git -C "$APP_DIR" checkout -- "$CHECKLIST_RELATIVE"
+
+if [[ -n "$TARGET_BRANCH" ]]; then
   git -C "$APP_DIR" switch --force-create "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
 else
-  CODE_SWITCHED=1
-  git -C "$APP_DIR" pull --ff-only
+  git -C "$APP_DIR" merge --ff-only '@{u}'
 fi
+CODE_SWITCHED=1
+# Re-apply local write permissions after Git replaces the checklist during checkout.
+chown meetingapp:www-data "$CHECKLIST_FILE"
+chmod 660 "$CHECKLIST_FILE"
 restore_env
 
 # Apply the cache policy to the active Nginx site without replacing local

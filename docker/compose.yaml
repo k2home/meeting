@@ -23,10 +23,13 @@ services:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
       DEBUG: "0"
+      TEST_DOCUMENTATION_SOURCE_PATH: /app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md
+      TEST_DOCUMENTATION_LOCK_PATH: /app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md.lock
     group_add:
       - "10002"
     volumes:
       - media_data:/app/media
+      - docs_data:/app/local-test-docs
       - static_data:/app/staticfiles
       - /run/meeting-manager-updater:/run/meeting-manager-updater
     depends_on:
@@ -74,4 +77,5 @@ services:
 volumes:
   postgres_data:
   media_data:
+  docs_data:
   static_data:

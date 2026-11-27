@@ -184,6 +184,20 @@ class PermissionMatrixDocumentationTests(SimpleTestCase):
 
         readme = Path(__file__).resolve().parents[1] / "README.md"
         content = readme.read_text(encoding="utf-8")
-        self.assertIn("Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Systemereignisse und eigene moderierte Reihen", content)
-        self.assertIn("Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Nein", content)
-        self.assertIn("Berechtigungsmatrix nach Funktionsbereichen", content)
+        normalized = " ".join(content.split())
+        self.assertIn("Änderungsverlauf der Reihe ansehen | Nein | Nein | Ja, eigene moderierte Reihen", normalized)
+        self.assertIn("System-Änderungsprotokoll ansehen und exportieren | Nein | Ja | Ja, lesend", normalized)
+        self.assertIn("Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein", normalized)
+        self.assertIn("Serienberechtigungsmatrix", content)
+        self.assertIn("Globale Berechtigungsmatrix", content)
+        series_start = content.index("### Serienberechtigungsmatrix")
+        global_start = content.index("### Globale Berechtigungsmatrix")
+        roles_start = content.index("### Was die Rollen im Alltag bedeuten", global_start)
+        series_matrix = content[series_start:global_start]
+        global_matrix = content[global_start:roles_start]
+        self.assertIn("| Funktion | Leser*in | Teilnehmer*in | Moderator*in |", series_matrix)
+        self.assertNotIn("| Admin |", series_matrix)
+        self.assertIn("| Globale Funktion | Nutzer | Admin | Auditor |", global_matrix)
+        self.assertIn("Neue Besprechungsreihe anlegen und ersten Moderator zuweisen | Nein | Ja | Nein", normalized)
+        self.assertIn("Eine globale Adminrolle ersetzt keine Serienzuweisung", normalized)
+        self.assertIn("Globale Auditoren sehen ausschließlich den System-Änderungsverlauf", normalized)

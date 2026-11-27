@@ -168,7 +168,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
 - Moderator*innen verwalten ausschließlich die ihnen zugewiesenen Besprechungsreihen. Admins können neue Reihen anlegen und dabei einen ersten Moderator festlegen; die laufende fachliche Verwaltung einer bestehenden Reihe setzt eine eigene Moderatorzuweisung voraus.
-- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder bis zum Ablauf ihrer Aufbewahrungsfrist lesbar; danach werden Protokoll-Snapshots automatisch gelöscht. Admins behalten den globalen Zugriff auf noch vorhandene Inhalte.
+- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben den bisherigen Serienmitgliedern über einen gesonderten historischen Lesezugriff bis zum Ablauf ihrer Aufbewahrungsfrist zugänglich; danach werden Protokoll-Snapshots automatisch gelöscht. Globale Adminrechte allein gewähren keinen Zugriff auf diese Reiheninhalte.
 
 ### Themen und Aufgaben
 
@@ -177,7 +177,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 - Abweichende Zuständigkeiten können einzelnen Tagesordnungspunkten zugewiesen werden.
 - Suche über Thementitel, Tagesordnungstexte, Besprechungsreihe und Zuständigkeit; Filter nach Status, Reihe und Zuständigkeit.
 - Themen können zwischen zugänglichen Besprechungsreihen übertragen werden. Übertragungen erscheinen im Änderungsverlauf der Ursprungs- und Zielreihe.
-- Moderator*innen und Admins können Themen archivieren und wieder öffnen. Archivierte Themen bleiben erhalten, werden aus den aktiven Übersichten ausgeblendet und sind im Archiv erreichbar; beim Wiederöffnen wird der vorherige Themenstatus wiederhergestellt.
+- Moderator*innen der jeweiligen Reihe sowie globale Admins mit zusätzlicher Moderatorzuweisung können Themen archivieren und wieder öffnen. Archivierte Themen bleiben erhalten, werden aus den aktiven Übersichten ausgeblendet und sind im Archiv erreichbar; beim Wiederöffnen wird der vorherige Themenstatus wiederhergestellt.
 - Kommentare und nächste Schritte werden chronologisch am Thema gesammelt.
 - „Meine Aufgaben“ trennt die Hauptzuständigkeit für Themen von ausdrücklich zugewiesenen Tagesordnungspunkten zukünftiger Termine.
 - Anlagen können als Datei oder als Netzwerkpfad bzw. Link hinterlegt werden.
@@ -276,6 +276,7 @@ Die globale Rolle **Nutzer**, **Admin** oder **Auditor** wird unabhängig von de
 | Benutzerkonten anlegen, bearbeiten und aktivieren/deaktivieren | Nein | Ja | Nein |
 | Globale Adminrechte vergeben oder entziehen | Nein | Ja | Nein |
 | Serienzuweisungen und Serienrollen anderer Benutzer verwalten | Nein | Ja | Ja, lesend |
+| Neue Besprechungsreihe anlegen und ersten Moderator zuweisen | Nein | Ja | Nein |
 | Benutzer-CSV importieren und exportieren | Nein | Ja | Nein |
 | Globale Organisationseinstellungen ansehen | Nein | Ja | Ja, lesend |
 | Globale Organisationseinstellungen ändern | Nein | Ja | Nein |
@@ -341,7 +342,7 @@ Unter **Verwaltung → Nutzerverwaltung** können Benutzerkonten angelegt und be
 
 Im Bereich **Gruppenverwaltung** können Benutzer und Besprechungsreihen gesucht und gefiltert sowie Rollen zugewiesen werden. Alternativ können die Zuordnungen direkt aus dem jeweiligen Nutzerprofil bearbeitet werden. Beide Ansichten verwalten dieselben Serienberechtigungen.
 
-Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** gelten jeweils nur innerhalb der zugewiesenen Besprechungsreihe. Die globale Gruppe **Admin** gewährt Zugriff auf alle Reihen und Verwaltungsfunktionen.
+Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** gelten jeweils nur innerhalb der zugewiesenen Besprechungsreihe. Die globale Gruppe **Admin** gewährt globale Verwaltungsrechte; der Zugriff auf Reiheninhalte setzt weiterhin eine ausdrückliche Serienzuweisung voraus.
 
 ### CSV-Import und -Export
 
@@ -371,7 +372,7 @@ sudo bash /opt/meeting-manager/deploy/update.sh
 
 Das Skript:
 
-1. Sichert die lokale `.env`, holt Änderungen des aktuell ausgecheckten Git-Branches mit `git pull --ff-only` und stellt die `.env` anschließend wieder her. So funktioniert das Update auch beim Übergang von älteren Versionen, in denen `.env` noch versioniert war.
+1. Sichert die lokale `.env`, ruft den Remote-Stand mit `git fetch` ab und aktualisiert den ausgecheckten Branch per Fast-Forward-Merge (`git merge --ff-only '@{u}'`). Anschließend wird die `.env` wiederhergestellt. So funktioniert das Update auch beim Übergang von älteren Versionen, in denen `.env` noch versioniert war.
 2. Installiert bzw. aktualisiert Python-Abhängigkeiten.
 3. Führt ausstehende Datenbankmigrationen aus.
 4. Sammelt statische Dateien für Nginx.
@@ -499,6 +500,10 @@ Die Funktion **TEST-Daten zurücksetzen** entfernt die von der Beispielkonfigura
 - Die Django-Administration und die vereinfachte Passwortprüfung vergrößern die Angriffsfläche. Den Zugriff auf die Testinstallation deshalb auf ein vertrauenswürdiges Netz und berechtigte Personen beschränken.
 - Testdaten möglichst vor der Übernahme oder Wiederverwendung der Installation zurücksetzen und den TESTING-Modus anschließend beenden.
 
+### 6. Manuelle Testcheckliste bearbeiten und exportieren
+
+Die interaktive Bearbeitung der Testcheckliste unter **Hilfe & Anleitung → Prüfung des Verfahrens** ist ausschließlich im aktivierten TESTING-Modus verfügbar. Außerhalb des Modus wird die Checkliste schreibgeschützt angezeigt. Im TESTING-Modus werden gesetzte oder entfernte Prüfhaken unmittelbar in `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem lokalen Anwendungsserver geschrieben. Andere Nutzer derselben Serverinstallation sehen Änderungen automatisch spätestens nach zwei Sekunden. Dateisperre, Versionsprüfung und atomisches Schreiben schützen vor konkurrierenden Änderungen und unvollständigen Dateien. Bereits geöffnete Checklistenansichten werden bei strukturellen Änderungen automatisch neu geladen. Der vollständige aktuelle Stand kann jederzeit über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell nach GitHub übernommen werden. Es gibt keine Datenbank- oder GitHub-API-Speicherung. Jede weitere Serverinstallation führt ihre eigene lokale Checkliste; eine Synchronisierung zwischen Servern findet nicht statt. Bei Docker-Installationen hält dafür das eigene persistente Volume `docs_data` ausschließlich die bearbeitbare Checkliste unter `/app/local-test-docs/` über Container-Neuerstellungen hinweg fest. Die übrigen Dokumente unter `docs/` bleiben Bestandteil des Images und werden mit Updates aktualisiert. Die Debian-Installation gibt dem Dienstkonto gezielt Schreibzugriff auf die Checklisten-Datei; der Updateprozess verwirft den lokalen Prüfstand unter gemeinsamer Schreibsperre und übernimmt die Version aus dem aktualisierten Git-Branch. Der lokale Testfortschritt wird bei erfolgreichen Updates nicht erhalten.
+
 ## Arbeitsabläufe in der Anwendung
 
 ### 1. Besprechungsreihe anlegen
@@ -517,7 +522,7 @@ In der Übersicht einen Termin öffnen. Dort können Teilnehmende ausgewählt un
 
 Mit **Besprechung abschließen & Protokollstand sichern** wird ein Snapshot des aktuellen Protokollstands erstellt. Danach sind Teilnehmerliste und Tagesordnungstexte gesperrt. Das Protokoll kann angezeigt, gedruckt oder als PDF exportiert werden.
 
-Nur Moderator*innen und Admins können eine abgeschlossene Besprechung wieder öffnen. Nach dem Wiederöffnen kann sie erneut bearbeitet und abgeschlossen werden.
+Nur Moderator*innen der jeweiligen Reihe sowie globale Admins mit zusätzlicher Moderatorzuweisung können eine abgeschlossene Besprechung wieder öffnen. Nach dem Wiederöffnen kann sie erneut bearbeitet und abgeschlossen werden.
 
 ### 5. Aufgaben nachverfolgen
 

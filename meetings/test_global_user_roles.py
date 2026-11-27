@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .access import accessible_meetings, accessible_series, accessible_topics, has_writable_series, is_admin, is_auditor, is_moderator, is_reader
-from .models import AuditEvent, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, Topic
+from .models import AuditEvent, Meeting, MeetingSeries, OrganizationSettings, SeriesAccess, SeriesAccessRequest, Topic
 from .user_roles import get_user_role, sync_user_role
 
 User = get_user_model()
@@ -136,6 +136,41 @@ class GlobalUserRoleTests(TestCase):
         self.assertEqual(get_user_role(user), "auditor")
         assignment.refresh_from_db()
         self.assertEqual(assignment.role, SeriesAccess.ROLE_MODERATOR)
+
+    def test_auditor_cannot_request_series_access(self):
+        auditor = User.objects.create_user(username="auditor-request", password="test-password")
+        sync_user_role(auditor, "auditor")
+        self.client.force_login(auditor)
+
+        page = self.client.get(reverse("user_overview"))
+        self.assertEqual(page.status_code, 200)
+        self.assertNotContains(page, 'name="form_type" value="access_request"')
+
+        response = self.client.post(reverse("user_overview"), {
+            "form_type": "access_request",
+            "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_READER,
+        })
+
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(SeriesAccessRequest.objects.filter(user=auditor, series=self.series).exists())
+        self.assertFalse(SeriesAccess.objects.filter(user=auditor, series=self.series).exists())
+
+        existing_request = SeriesAccessRequest.objects.create(
+            user=auditor, series=self.series, requested_role=SeriesAccess.ROLE_READER
+        )
+        repeated = self.client.post(reverse("user_overview"), {
+            "form_type": "access_request",
+            "series_id": self.series.pk,
+            "role": SeriesAccess.ROLE_READER,
+        })
+        self.assertEqual(repeated.status_code, 403)
+        existing_request.refresh_from_db()
+        self.assertEqual(existing_request.status, SeriesAccessRequest.STATUS_PENDING)
+        self.assertEqual(
+            SeriesAccessRequest.objects.filter(user=auditor, series=self.series).count(), 1
+        )
+        self.assertFalse(SeriesAccess.objects.filter(user=auditor, series=self.series).exists())
 
     def test_auditor_cannot_read_or_change_meetings_or_topics(self):
         auditor = User.objects.create_user(username="auditor", password="test-password")

@@ -25,7 +25,7 @@ echo "==> Installiere Systempakete"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3 python3-venv python3-dev build-essential libpq-dev \
-  postgresql postgresql-contrib nginx git openssl sudo libcairo2
+  postgresql postgresql-contrib nginx git openssl sudo libcairo2 util-linux
 
 echo "==> Richte Dienstkonto und Verzeichnisse ein"
 if ! id meetingapp >/dev/null 2>&1; then
@@ -35,6 +35,13 @@ install -d -o meetingapp -g www-data "$APP_DIR" "$APP_DIR/media" "$APP_DIR/stati
 cp -a "$SOURCE_DIR/." "$APP_DIR/"
 chown -R root:www-data "$APP_DIR"
 chown -R meetingapp:www-data "$APP_DIR/media" "$APP_DIR/staticfiles"
+# The checklist is the only application source file writable by the service account.
+# A sticky, group-writable docs directory permits atomic replacement of this file
+# while preventing the service account from replacing other root-owned documents.
+chown root:www-data "$APP_DIR/docs"
+chmod 1775 "$APP_DIR/docs"
+chown meetingapp:www-data "$APP_DIR/docs/Pruefung-des-Verfahrens-Testdokumentation.md"
+chmod 660 "$APP_DIR/docs/Pruefung-des-Verfahrens-Testdokumentation.md"
 
 DEFAULT_HOST="$(hostname -f 2>/dev/null || hostname)"
 read -r -p "Hostname oder IP, unter der die Website erreichbar ist [$DEFAULT_HOST]: " SITE_HOST
@@ -160,6 +167,8 @@ set_env_value "CSRF_COOKIE_SECURE" "1"
 set_env_value "TRUST_PROXY_SSL" "1"
 set_env_value "USE_X_FORWARDED_HOST" "1"
 set_env_value "TRUSTED_PROXY" "$TRUSTED_PROXY"
+set_env_value "TEST_DOCUMENTATION_LOCK_PATH" "/var/lib/meeting-manager-updater/test-documentation.lock"
+install -d -o root -g www-data -m 0770 /var/lib/meeting-manager-updater
 
 chown root:www-data "$APP_DIR/.env"
 chmod 640 "$APP_DIR/.env"

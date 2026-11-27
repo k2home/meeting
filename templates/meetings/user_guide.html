@@ -13,6 +13,12 @@
 <p>Die Serienrolle gilt jeweils für eine Besprechungsreihe. Zusätzlich hat jedes Konto genau eine globale Rolle (Nutzer, Admin oder Auditor). Globale Rollen steuern ausschließlich Verwaltungszugriffe; die fachlichen Rechte in einer Reihe ergeben sich weiterhin aus der ausdrücklich vergebenen Serienrolle. Ein Admin erhält daher nicht automatisch Zugriff auf Reiheninhalte.</p>
 <div class="guide-note"><strong>Wichtige Begriffe:</strong> Ein <em>Thema</em> ist ein fortlaufender Vorgang. Ein <em>Tagesordnungspunkt</em> ist die Behandlung dieses Themas in einem konkreten Besprechungstermin. Der Text und Status gehören zum jeweiligen Termin. Beim Abschluss wird der Protokollstand als Snapshot gesichert.</div>
 </section>
+<section class="card" id="testdokumentation">
+<h2 style="margin-top:0">Prüfung des Verfahrens – Testcheckliste</h2>
+<p>Die manuelle Testdokumentation führt die erforderlichen Prüfschritte für alle Funktionsbereiche und Rollen auf. Für einen konkreten Pull Request sind die darin gekennzeichneten Testblöcke erneut durchzuführen.</p>
+<p><a class="btn primary" href="{% url 'test_documentation' %}">Zur Testcheckliste – Prüfung des Verfahrens</a></p>
+</section>
+
 <h2 id="rollen">1. Rollen im Überblick</h2>
 <table class="guide-table"><thead><tr><th>Rollenebene</th><th>Rolle</th><th>Rechte</th></tr></thead><tbody>
 <tr><td rowspan="3"><strong>Besprechungsreihe</strong></td><td><strong>Leser</strong></td><td>Inhalte, Tagesordnungen, Themen, Anlagen und Protokolle ansehen sowie Protokolle exportieren.</td></tr>
@@ -153,6 +159,8 @@
 </section>
 </article>
 <aside class="card guide-index"><h2 style="margin-top:0">Inhaltsverzeichnis</h2>
+<a href="{% url 'test_documentation' %}">Prüfung des Verfahrens – Testcheckliste</a>
+
 <a href="#rollen">1. Rollen im Überblick</a>
 <div class="guide-index-group"><a href="#leser">2. Leser</a><a class="guide-index-sub" href="#leser-1">2.1 Navigation und Orientierung</a><a class="guide-index-sub" href="#leser-2">2.2 Themen und Übersicht</a><a class="guide-index-sub" href="#leser-3">2.3 Besprechungen und Termine</a><a class="guide-index-sub" href="#leser-4">2.4 Teilnehmerlisten</a><a class="guide-index-sub" href="#leser-5">2.5 Tagesordnungen und Protokolle</a><a class="guide-index-sub" href="#leser-6">2.6 Themenverwaltung</a><a class="guide-index-sub" href="#leser-7">2.7 Archiv</a><a class="guide-index-sub" href="#leser-8">2.8 Aufgaben und Wiedervorlagen</a><a class="guide-index-sub" href="#leser-9">2.9 Benutzerkonto und Berechtigungen</a></div>
 <div class="guide-index-group"><a href="#teilnehmer">3. Teilnehmer</a><a class="guide-index-sub" href="#teilnehmer-1">3.1 Themenverwaltung</a><a class="guide-index-sub" href="#teilnehmer-2">3.2 Tagesordnungspunkte bearbeiten</a><a class="guide-index-sub" href="#teilnehmer-3">3.3 Aufgaben und offene Punkte</a><a class="guide-index-sub" href="#teilnehmer-4">3.4 Wiedervorlagen und Verschieben</a><a class="guide-index-sub" href="#teilnehmer-5">3.5 Protokolle</a></div>

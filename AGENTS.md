@@ -164,6 +164,25 @@ Die Prüfung darf nicht allein deshalb entfallen, weil eine Änderung zunächst 
 
 Wenn ein Dokumentationsbestand sehr umfangreich ist, darf die Prüfung schrittweise erfolgen; am Ende müssen dennoch alle Dateien in `docs/` berücksichtigt worden sein. Nicht zugängliche oder nicht lesbare Dateien sind im Abschlussbericht ausdrücklich zu nennen und dürfen nicht als geprüft ausgegeben werden.
 
+## Verbindliche PR-Prüfung der manuellen Testcheckliste
+
+**Bei jedem Pull Request ist die Vollständigkeit der manuellen Testdokumentation `docs/Pruefung-des-Verfahrens-Testdokumentation.md` zu prüfen.** Diese Prüfung ist unabhängig davon verpflichtend, ob der PR mit „Agent-Tests“ beauftragt wurde.
+
+Der KI-Agent muss vor Abschluss des PR:
+
+1. den vollständigen PR-Diff mit allen Funktionsbereichen und Rollen in der Testcheckliste abgleichen;
+2. prüfen, ob bestehende Testblöcke die geänderten oder indirekt betroffenen Funktionen, Rollen, Bedienabläufe und Berechtigungsfälle vollständig abdecken;
+3. für jeden betroffenen Testblock alle bereits gesetzten Erfolgs-Haken (`[x]` oder `[X]`) zurücksetzen (`[ ]`), damit keine frühere Prüfung als Nachweis für den neuen Code erscheint;
+4. betroffene Testblöcke im Titel eindeutig mit **„PR-Test erforderlich“** und der PR-Nummer kennzeichnen; die Kennzeichnung muss für Tester ohne weitere Erläuterung erkennbar sein;
+5. neue Testblöcke für neue Funktionen oder bisher nicht abgedeckte Abläufe ergänzen und ebenfalls als **„PR-Test erforderlich“** kennzeichnen;
+6. die einzelnen Prüfschritte und die Ergebnisprüfung so formulieren, dass Tester die erforderlichen Bedienaktionen und den erwarteten Systemstand abgleichen können;
+7. nicht betroffene Testblöcke und deren vorhandene Erfolgs-Haken unverändert lassen;
+8. im PR-Bericht die markierten Testblöcke bzw. Funktionsbereiche nennen.
+
+**Wichtig:** Die Markierung **„PR-Test erforderlich“** bedeutet, dass der Test noch auszuführen ist. Sie darf nicht mit einem gesetzten Erfolgs-Haken verwechselt werden. Der KI-Agent darf Erfolgs-Haken nicht selbst setzen, wenn der manuelle Test nicht tatsächlich von einer prüfenden Person durchgeführt wurde. Die Checkliste ist außerhalb des TESTING-Modus schreibgeschützt. Im TESTING-Modus werden Prüfhaken unmittelbar in `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem lokalen Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen Änderungen per Live-Aktualisierung spätestens nach zwei Sekunden. Die Speicherung muss Dateisperre, Versionsprüfung und atomisches Schreiben verwenden. Der vollständige Stand wird als `.md`-Datei heruntergeladen und manuell nach GitHub übernommen; es gibt keine Datenbank- oder GitHub-API-Speicherung. Weitere Serverinstallationen verwalten jeweils eine unabhängige lokale Datei ohne Synchronisierung. Bei Docker darf das persistente Volume ausschließlich die bearbeitbare Checkliste enthalten; das übrige Verzeichnis `docs/` muss aus dem aktuellen Image stammen, damit Sicherheits- und Betriebsdokumente bei Updates aktualisiert werden.
+
+Wenn keine vorhandenen Testblöcke betroffen sind, ist dies im PR-Bericht ausdrücklich zu begründen. Ergibt die Prüfung eine Dokumentationslücke, muss die Checkliste im selben PR ergänzt werden.
+
 ## Abschlussbericht
 
 Der Abschlussbericht muss die tatsächlich vorgenommenen Änderungen knapp zusammenfassen und den Status der Tests/CI-Prüfungen korrekt wiedergeben. Die oben beschriebene Dokumentationsprüfung ist darin gesondert auszuweisen. Bei einem ausgelösten Agent-Test-Lauf sind außerdem alle zwölf Prüfbereiche einzeln mit Ergebnis und Begründung auszuweisen.

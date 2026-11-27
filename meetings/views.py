@@ -2686,6 +2686,8 @@ def topic_comment_add(request, pk):
 def user_overview(request):
     """Show and edit the current user's profile, series roles and password."""
     if request.method == "POST" and request.POST.get("form_type") == "access_request":
+        if is_auditor(request.user):
+            return HttpResponseForbidden("Auditor*innen haben ausschließlich Lesezugriff.")
         series = get_object_or_404(MeetingSeries, pk=request.POST.get("series_id"))
         request_form = SeriesAccessRequestForm(request.POST)
         if request_form.is_valid():
@@ -2802,7 +2804,7 @@ def user_overview(request):
             "role_value": assignment.role if assignment else "",
             "pending_request": pending if pending and pending.status == SeriesAccessRequest.STATUS_PENDING else None,
             "latest_request": pending,
-            "can_request": not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
+            "can_request": not is_auditor(request.user) and not (pending and pending.status == SeriesAccessRequest.STATUS_PENDING),
             "role_locked": bool(assignment and assignment.role == SeriesAccess.ROLE_MODERATOR),
         })
 

@@ -281,6 +281,10 @@ class AuditHistoryTests(TestCase):
         self.assertContains(response, "Nutzer")
         self.assertContains(response, "Gruppen")
         self.assertContains(response, "Änderungsverlauf")
+        self.assertContains(response, reverse("test_documentation"))
+        self.assertContains(response, reverse("security_description"))
+        self.assertContains(response, "Testdokumentation öffnen")
+        self.assertContains(response, "IT-/Datenschutzprüfung öffnen")
         self.assertNotContains(response, "enaio-Einstellungen")
 
         from .models import UserProfile
