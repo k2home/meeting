@@ -145,7 +145,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
  1. Besprechungsübersicht, Themen, Protokoll und Anlagen öffnen.
  1. Vor dem Update in der lokalen Testcheckliste mindestens einen bislang offenen Erfolgs-Haken setzen und den dadurch gespeicherten Stand dokumentieren.
  1. Auf der Debian-Testinstallation eine temporäre nicht versionierte Datei im Repository anlegen und das Update starten. Prüfen, dass die Vorprüfung das Update abbricht. Die temporäre Datei entfernen und prüfen, dass der zuvor gesetzte Prüfhaken weiterhin gespeichert ist.
- 1. Das Update anschließend sowohl auf einer Debian-Testinstallation als auch auf einer Docker-Testinstallation erfolgreich durchführen.
+ 1. Das Update anschließend sowohl auf einer Debian-Testinstallation als auch auf einer Docker-Testinstallation erfolgreich durchführen; die Checklistenansicht dabei in einem zweiten Browserfenster geöffnet lassen.
  1. Nach erfolgreichem Update die lokale Testcheckliste erneut öffnen und mit der Checklisten-Datei des aktualisierten Branches bzw. der Datei aus dem neuen Docker-Image vergleichen.
 
 **Ergebnisprüfung**
@@ -158,6 +158,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Die lokale Testcheckliste entspricht nach dem Update exakt der Version aus dem aktualisierten Branch bzw. Docker-Image.
 - [ ] Vorher lokal gesetzte Prüfhaken bzw. der lokale Testfortschritt wurden überschrieben und nicht wiederhergestellt.
 - [ ] Die Checklisten-Dateisperre blockiert den Updatevorgang nicht und parallele Schreibvorgänge führen nicht zu einer beschädigten Datei.
+- [ ] Bereits geöffnete Checklistenansichten laden bei einer Strukturänderung automatisch neu; veraltete Zeilen- und Vorkommenspositionen werden nicht auf neue Kriterien angewendet.
 
 - **Test erfolgreich:** [ ]
 
