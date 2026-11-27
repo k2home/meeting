@@ -53,6 +53,8 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 #### 1.1.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
 
+**Prüfschritt**
+
  1. **Verwaltung** öffnen.
  1. **Daten** öffnen.
  1. Verfügbare Datenverwaltungsfunktionen prüfen.
@@ -67,6 +69,8 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - **Test erfolgreich:** [ ]
 
 #### 1.1.2 Vollständigen Datenexport durchführen – Rolle: Admin
+
+**Prüfschritt**
 
  1. Datenverwaltungsbereich öffnen.
  1. Funktion zum vollständigen Backup-Export aufrufen.
@@ -83,6 +87,8 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - **Test erfolgreich:** [ ]
 
 #### 1.1.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
+
+**Prüfschritt**
 
  1. Ausschließlich eine isolierte Testinstallation verwenden.
  1. Vorhandenen Testdatenbestand sichern.
@@ -108,6 +114,8 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 #### 1.2.1 Updatebereich aufrufen – Rolle: Admin
 
+**Prüfschritt**
+
  1. Administrationsbereich für Software-Updates öffnen.
  1. Angezeigte Versions- und Branchinformationen prüfen.
  1. Verfügbare Updateinformationen aufrufen.
@@ -122,6 +130,8 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - **Test erfolgreich:** [ ]
 
 #### 1.2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
+
+**Prüfschritt**
 
  1. Vor dem Update Datenbank und Medienbestand sichern.
  1. Updatebereich öffnen.
@@ -154,6 +164,8 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 #### 2.1.1 Anmeldung mit gültigem Konto – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, Serienleser*in, Serienteilnehmer*in, Serienmoderator*in, globaler Admin und globale Auditor*in
 
 Für die Prüfung getrennte Konten bzw. Rollenkonstellationen verwenden:
+**Prüfschritt**
+
  1. Globale Nutzer*in ohne Serienzuweisung.
  1. Globale Nutzer*in mit Serienrolle Leser*in.
  1. Globale Nutzer*in mit Serienrolle Teilnehmer*in.
@@ -179,6 +191,8 @@ Für jedes Konto:
 
 Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine Wiederholung für jede Serienrolle sowie für Admin und Auditor ist nicht erforderlich.
 
+**Prüfschritt**
+
  1. Anmeldeseite öffnen.
  1. Einen nicht vorhandenen Benutzernamen eingeben.
  1. Ein beliebiges Passwort eingeben.
@@ -194,6 +208,8 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 - **Test erfolgreich:** [ ]
 
 #### 2.1.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
+
+**Prüfschritt**
 
  1. Mit einem Konto anmelden, für das ein Passwortwechsel erforderlich ist.
  1. Angezeigtes Formular zum Passwortwechsel öffnen.
@@ -213,6 +229,8 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 #### 2.1.4 Abmeldung und Sitzungsschutz – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, Serienleser*in, Serienmoderator*in, globaler Admin und globale Auditor*in
 
 Die Sitzungssperre wird mit getrennten Konten für die unterschiedlichen Berechtigungsbereiche geprüft:
+**Prüfschritt**
+
  1. Globale Nutzer*in ohne Serienzuweisung.
  1. Globale Nutzer*in mit Serienrolle Leser*in.
  1. Globale Nutzer*in mit Serienrolle Moderator*in.
@@ -238,6 +256,8 @@ Für jedes aufgeführte Konto:
 
 #### 2.1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
 
+**Prüfschritt**
+
  1. Einen gültigen Passwort-Zurücksetzen-Link für ein Testkonto öffnen.
  1. Neues Passwort eingeben.
  1. Passwort wiederholen.
@@ -259,6 +279,8 @@ Für jedes aufgeführte Konto:
 ### 2.2 Benutzerverwaltung
 
 #### 2.2.1 Benutzerkonto anlegen – Rolle: Admin
+
+**Prüfschritt**
 
  1. **Verwaltung** öffnen.
  1. **Nutzer** öffnen.
@@ -283,6 +305,8 @@ Für jedes aufgeführte Konto:
 
 #### 2.2.2 Benutzerkonto bearbeiten – Rolle: Admin
 
+**Prüfschritt**
+
  1. Benutzerverwaltung öffnen.
  1. Ein Testkonto auswählen.
  1. Bearbeiten öffnen.
@@ -301,6 +325,8 @@ Für jedes aufgeführte Konto:
 - **Test erfolgreich:** [ ]
 
 #### 2.2.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
+
+**Prüfschritt**
 
  1. Ein entbehrliches Testkonto auswählen.
  1. Aktivstatus deaktivieren.
@@ -321,6 +347,8 @@ Für jedes aufgeführte Konto:
 
 #### 2.2.4 Benutzerkonto löschen – Rolle: Admin
 
+**Prüfschritt**
+
  1. Ausschließlich ein entbehrliches Testkonto auswählen.
  1. Löschfunktion öffnen.
  1. Angezeigte Folgen prüfen.
@@ -336,6 +364,8 @@ Für jedes aufgeführte Konto:
 - **Test erfolgreich:** [ ]
 
 #### 2.2.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
+
+**Prüfschritt**
 
  1. Benutzerverwaltung öffnen.
  1. Testkonto auswählen.
@@ -357,6 +387,8 @@ Für jedes aufgeführte Konto:
 - **Test erfolgreich:** [ ]
 
 #### 2.2.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
+
+**Prüfschritt**
 
  1. Benutzerverwaltung öffnen.
  1. Ein Testkonto auswählen.
@@ -380,6 +412,8 @@ Für jedes aufgeführte Konto:
 
 #### 2.3.1 Organisationseinstellungen bearbeiten – Rolle: Admin
 
+**Prüfschritt**
+
  1. **Verwaltung** öffnen.
  1. **Organisation** bzw. Organisationseinstellungen öffnen.
  1. Organisationsbezeichnung ändern.
@@ -398,6 +432,8 @@ Für jedes aufgeführte Konto:
 
 #### 2.3.2 Organisationslogo ändern – Rolle: Admin
 
+**Prüfschritt**
+
  1. Organisationseinstellungen öffnen.
  1. Ein zulässiges Testlogo auswählen.
  1. Logo hochladen bzw. speichern.
@@ -414,6 +450,8 @@ Für jedes aufgeführte Konto:
 - **Test erfolgreich:** [ ]
 
 #### 2.3.3 Farben und Darstellung konfigurieren – Rolle: Admin
+
+**Prüfschritt**
 
  1. Organisationseinstellungen öffnen.
  1. Primärfarbe ändern.
@@ -433,6 +471,8 @@ Für jedes aufgeführte Konto:
 - **Test erfolgreich:** [ ]
 
 #### 2.3.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
+
+**Prüfschritt**
 
  1. Organisationseinstellungen öffnen.
  1. Zentrale Aufbewahrungsfrist ändern.
@@ -459,6 +499,8 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
 
+**Prüfschritt**
+
  1. Zugewiesene Reihe öffnen.
  1. Termin und Protokoll öffnen.
  1. Thema und Tagesordnung öffnen.
@@ -474,6 +516,8 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - **Test erfolgreich:** [ ]
 
 #### 2.4.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
+
+**Prüfschritt**
 
  1. Zugewiesene Reihe öffnen.
  1. Thema und Tagesordnung bearbeiten.
@@ -494,6 +538,8 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.3 Moderator*in – Verwaltung nur der eigenen Reihe
 
+**Prüfschritt**
+
  1. Eigene Reihe öffnen.
  1. Reihe bearbeiten.
  1. Termine verwalten.
@@ -513,6 +559,8 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
 
+**Prüfschritt**
+
  1. Benutzerverwaltung öffnen.
  1. Organisationseinstellungen öffnen.
  1. Serienzuweisungen verwalten.
@@ -529,6 +577,8 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 - **Test erfolgreich:** [ ]
 
 #### 2.4.5 Auditor*in – ausschließlich administrative Leserechte
+
+**Prüfschritt**
 
  1. Auditor*innenübersicht öffnen.
  1. Benutzer- und Rolleninformationen lesen.
@@ -557,6 +607,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
 
+**Prüfschritt**
+
  1. TESTING-Modus in der Testinstallation aktivieren.
  1. Dashboard öffnen.
  1. Browser-Tab bzw. Seitentitel prüfen.
@@ -573,6 +625,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - **Test erfolgreich:** [ ]
 
 #### 3.1.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+
+**Prüfschritt**
 
  1. **Verwaltung** öffnen.
  1. **Beispielkonfiguration** öffnen.
@@ -592,6 +646,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
+**Prüfschritt**
+
  1. Beispielkonfiguration öffnen.
  1. Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
  1. Eine kleine Anzahl Reihen auswählen.
@@ -607,6 +663,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - **Test erfolgreich:** [ ]
 
 #### 3.1.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
+
+**Prüfschritt**
 
  1. Beispielkonfiguration öffnen.
  1. Eine Testreihe auswählen.
@@ -625,6 +683,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
+**Prüfschritt**
+
  1. Beispielkonfiguration öffnen.
  1. Eine Testreihe auswählen.
  1. Bereich zum Erzeugen von Testthemen öffnen.
@@ -641,6 +701,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - **Test erfolgreich:** [ ]
 
 #### 3.1.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
+
+**Prüfschritt**
 
  1. Beispielkonfiguration öffnen.
  1. Ein Testthema auswählen.
@@ -659,6 +721,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 - **Test erfolgreich:** [ ]
 
 #### 3.1.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
+
+**Prüfschritt**
 
  1. Vorhandene Testdaten in der Testinstallation prüfen.
  1. Funktion **TEST-Daten zurücksetzen** öffnen.
@@ -684,6 +748,8 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 Die allgemeine Benutzerhilfe ist nicht von einer Serienzuweisung abhängig. Die Serienrollen Leser*in, Teilnehmer*in und Moderator*in müssen daher nicht zusätzlich einzeln geprüft werden; sie verwenden dieselbe globale Hilfefunktion.
 
 Für jedes der drei Konten:
+**Prüfschritt**
+
  1. Menüpunkt **Hilfe** öffnen.
  1. Benutzerhilfe aufrufen.
  1. Inhaltsübersicht und Verweise prüfen.
@@ -702,6 +768,8 @@ Für jedes der drei Konten:
 Das Dokument wird im allgemeinen Hilfebereich bereitgestellt. Die Sichtbarkeit hängt nicht von einer Serienrolle ab; Leser*in, Teilnehmer*in und Moderator*in müssen deshalb nicht zusätzlich einzeln geprüft werden.
 
 Für jedes der drei Konten:
+**Prüfschritt**
+
  1. Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
  1. Dokument in der Anwendung anzeigen.
  1. PDF-Version öffnen.
@@ -721,6 +789,8 @@ Für jedes der drei Konten:
 Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer Serienzuweisung abhängig. Die Serienrollen Leser*in, Teilnehmer*in und Moderator*in müssen nicht zusätzlich einzeln geprüft werden. Die Funktionsprüfung erfolgt mit einem Konto je globaler Rolle.
 
 Für jedes der drei Konten (globale Nutzer*in ohne Serienzuweisung, globaler Admin, globale Auditor*in):
+**Prüfschritt**
+
  1. Anmelden.
  1. **Hilfe & Anleitung** öffnen.
  1. Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
@@ -767,18 +837,22 @@ Die folgenden Funktionsprüfungen einmal mit einer globalen Nutzer*in ohne Serie
 
 #### 3.3.1 Vollständigkeit und Nachprüfung
 
- 1. Alle für die Installation relevanten Testblöcke wurden durchgeführt.
- 1. Alle in den jeweiligen Testfällen ausdrücklich genannten globalen Rollen und Serienrollen wurden mit getrennten Testkonten geprüft; nicht erforderliche Rollenwiederholungen wurden entsprechend der Testfallbeschreibung ausgelassen.
- 1. Direkte URL-Aufrufe wurden bei den Berechtigungstests berücksichtigt.
- 1. Abweichungen wurden dokumentiert und nicht als erfolgreich abgehakt.
- 1. Kritische Fehler wurden nach Korrektur erneut geprüft.
- 1. Testdaten wurden nach Abschluss entsprechend den Testumgebungsregeln zurückgesetzt.
+**Ergebnisprüfung**
+
+- [ ] Alle für die Installation relevanten Testblöcke sind durchgeführt oder als nicht relevant begründet dokumentiert.
+- [ ] Alle in den Testfällen ausdrücklich genannten globalen Rollen und Serienrollen wurden mit getrennten Testkonten geprüft; nicht erforderliche Rollenwiederholungen sind ausgelassen.
+- [ ] Direkte URL-Aufrufe sind bei den Berechtigungstests berücksichtigt.
+- [ ] Alle Abweichungen sind dokumentiert und nicht als erfolgreich markiert.
+- [ ] Kritische Fehler wurden nach der Korrektur erneut geprüft.
+- [ ] Testdaten wurden nach Abschluss gemäß den Regeln der Testumgebung zurückgesetzt.
 
 #### 3.3.2 Ergebnis der Gesamtprüfung
 
- 1. Alle durchgeführten und relevanten Testfälle erfolgreich.
- 1. Keine offenen kritischen oder hohen Fehler.
- 1. Abweichungen und nicht durchgeführte Tests sind separat dokumentiert.
+**Ergebnisprüfung**
+
+- [ ] Alle durchgeführten und relevanten Testfälle sind erfolgreich abgeschlossen.
+- [ ] Es bestehen keine offenen kritischen oder hohen Fehler.
+- [ ] Abweichungen und nicht durchgeführte Tests sind separat dokumentiert.
 
 **Prüfdatum:** ____________________  
 **Geprüfte Version / Commit:** ____________________  
