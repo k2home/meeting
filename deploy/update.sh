@@ -22,6 +22,12 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
+# The shared directory lock is provided by util-linux on Debian.
+if ! command -v flock >/dev/null 2>&1; then
+  apt-get update
+  DEBIAN_FRONTEND=noninteractive apt-get install -y util-linux
+fi
+
 # Keep subprocesses (especially uv via runuser) inside the application tree.
 # Otherwise they may try to discover configuration below sudo\x27s /root cwd.
 cd "$APP_DIR"
