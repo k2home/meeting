@@ -224,7 +224,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'setInterval(refresh, 2000)')
         self.assertContains(response, 'spätestens nach zwei Sekunden')
         self.assertContains(response, 'item.classList.toggle("is-complete"')
-        self.assertContains(response, 'updateCompletionForCheckbox(checkbox, !desired, desired);')
+        self.assertContains(response, 'window.updateTestDocumentationCompletionForCheckbox?.(checkbox, !desired, desired);')
         for anchor in phase_anchors:
             self.assertContains(response, f'href="#{anchor}"')
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
