@@ -796,18 +796,18 @@ Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer 
     1. Abmelden.
  1. Die folgenden Funktionsprüfungen einmal mit einer globalen Nutzer*in ohne Serienzuweisung durchführen; für parallele Bearbeitungsschritte zusätzlich ein zweites Konto anderer globaler Rolle (vorzugsweise globaler Admin) verwenden:
     1. Erneut anmelden und TESTING-Modus aktivieren.
- 1. Einen Testblock aufrufen.
- 1. Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
- 1. Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
- 1. Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
- 1. Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach 15 Sekunden aktualisiert wird, ohne die Seite neu zu laden.
- 1. In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
- 1. Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
- 1. **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
- 1. Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
- 1. TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
- 1. Die Testcheckliste ohne Anmeldung direkt aufrufen.
- 1. Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
+    1. Einen Testblock aufrufen.
+    1. Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
+    1. Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
+    1. Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
+    1. Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach 15 Sekunden aktualisiert wird, ohne die Seite neu zu laden.
+    1. In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
+    1. Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
+    1. **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
+    1. Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
+    1. TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
+    1. Die Testcheckliste ohne Anmeldung direkt aufrufen.
+    1. Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
 
 **Ergebnisprüfung**
 
@@ -6829,7 +6829,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit einem globalen Admin-Konto ohne Serienzuweisung anmelden.
  1. Die Aufbewahrungseinstellungen öffnen und die globale Frist für Termine und Protokolle dokumentieren.
- 1. In einer isolierten Testinstallation Testdaten vorbereiten: einen abgeschlossenen Termin vor Ablauf der globalen Frist, einen abgeschlossenen Termin nach Ablauf der Frist sowie einen nicht abgeschlossenen Termin ohne Wiederöffnungsereignis. Die zugehörigen Tagesordnungspunkte und Protokoll-Snapshots dokumentieren.
+ 1. In einer isolierten Testinstallation Testdaten vorbereiten: einen abgeschlossenen Termin vor Ablauf der globalen globalen Frist mit einem Thema, dessen individuelle Themenfrist davon abweicht, einen abgeschlossenen Termin innerhalb der Frist sowie einen nicht abgeschlossenen Termin ohne Wiederöffnungsereignis. Die zugehörigen Tagesordnungspunkte und Protokoll-Snapshots dokumentieren.
  1. Den Retention-Lauf mit dem vorgesehenen Management-Befehl `python manage.py purge_expired_data` ausführen.
  1. Terminübersicht, Protokollansicht und historische Tagesordnung der Testdaten erneut öffnen und die vorhandenen Datensätze vergleichen.
 
