@@ -318,7 +318,7 @@ Für jedes aufgeführte Konto:
 
 **Ergebnisprüfung**
 
-- [ ] Geänderte Kontodaten werden korrekt angezeigt.
+- [ ] Die geänderten Kontodaten entsprechen nach dem Neuladen den gespeicherten Eingaben.
 - [ ] Nicht geänderte Daten bleiben erhalten.
 - [ ] Bestehende Serienzuweisungen bleiben erhalten, sofern sie nicht ausdrücklich geändert wurden.
 
@@ -357,9 +357,9 @@ Für jedes aufgeführte Konto:
 
 **Ergebnisprüfung**
 
-- [ ] Testkonto wird entsprechend der vorgesehenen Regeln entfernt.
+- [ ] Das gelöschte Testkonto erscheint nicht mehr in der Benutzerübersicht und kann sich nicht mehr anmelden.
 - [ ] Andere Konten und Serienzuweisungen bleiben unverändert.
-- [ ] Historische Einträge werden entsprechend der vorgesehenen Aufbewahrung behandelt.
+- [ ] Historische Protokoll- und Audit-Einträge bleiben gemäß der konfigurierten Aufbewahrungsfrist erhalten; das gelöschte Konto kann sich nicht mehr anmelden.
 
 - **Test erfolgreich:** [ ]
 
@@ -424,7 +424,7 @@ Für jedes aufgeführte Konto:
 
 **Ergebnisprüfung**
 
-- [ ] Organisationsbezeichnung und Kurzbezeichnung werden korrekt angezeigt.
+- [ ] Organisationsbezeichnung und Kurzbezeichnung entsprechen nach dem Neuladen exakt den gespeicherten Eingaben.
 - [ ] Datums- und Uhrzeitanzeigen verwenden die eingestellte Zeitzone.
 - [ ] Einstellungen bleiben nach dem Neuladen erhalten.
 
@@ -483,8 +483,8 @@ Für jedes aufgeführte Konto:
 
 **Ergebnisprüfung**
 
-- [ ] Aufbewahrungsfrist wird korrekt gespeichert und angezeigt.
-- [ ] Uploadlimit wird korrekt gespeichert und durchgesetzt.
+- [ ] Die angezeigte Aufbewahrungsfrist entspricht dem gespeicherten Wert.
+- [ ] Das angezeigte Uploadlimit entspricht dem gespeicherten Wert; Dateien oberhalb dieses Limits werden abgewiesen.
 - [ ] Ungültige Werte werden abgewiesen.
 - [ ] Bestehende Themen- bzw. Terminfristen werden nicht unbeabsichtigt überschrieben.
 
@@ -639,7 +639,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 - [ ] Testkonten werden mit der vorgesehenen Kennzeichnung angelegt.
 - [ ] Benutzernamen und E-Mail-Adressen entsprechen dem Testdatenformat.
-- [ ] Passwortwechsel wird entsprechend der Testdatenregel erzwungen.
+- [ ] Bei der ersten Anmeldung mit einem neu erzeugten Testkonto wird der Passwortwechsel verlangt.
 - [ ] Reguläre Benutzerkonten bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -732,9 +732,9 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Ergebnisprüfung**
 
-- [ ] Gekennzeichnete Testdaten werden entsprechend der Reset-Regeln entfernt.
+- [ ] Als Testdaten gekennzeichnete Testkonten, Testreihen, Termine, Themen und Tagesordnungspunkte werden durch den Reset entfernt.
 - [ ] Reguläre Reihen, Themen und Benutzer bleiben erhalten.
-- [ ] Testkonten mit regulären Verwendungen bleiben entsprechend der Schutzregeln bestehen.
+- [ ] Testkonten, die mit regulären fachlichen Datensätzen verknüpft sind, bleiben beim Zurücksetzen erhalten.
 - [ ] Es verbleiben keine unbeabsichtigten Testdatenreste.
 
 - **Test erfolgreich:** [ ]
@@ -912,7 +912,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
-- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+- [ ] Nach dem Neuladen ist weiterhin die zuvor ausgewählte Darstellungsvariante aktiv.
 
 - **Test erfolgreich:** [ ]
 
@@ -1044,7 +1044,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Historische Inhalte entsprechen nach dem Löschen genau der im Prüfschritt gewählten Löschvariante; Inhalte außerhalb ihres Löschumfangs bleiben erhalten.
 - [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
 - [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
 
@@ -1062,7 +1062,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
-- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Die gespeicherte Serienrolle entspricht der im Prüfschritt ausgewählten Rolle.
 - [ ] Änderungen betreffen nur die ausgewählte Reihe.
 - [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
 - [ ] Zuweisungen in anderen Reihen bleiben unverändert.
@@ -1142,7 +1142,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 
-- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Der ausgewählte Termin ist nach dem Löschen weder in der Terminübersicht noch in der Terminliste der Reihe vorhanden.
 - [ ] Nicht ausgewählte Termine bleiben erhalten.
 - [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
 - [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
@@ -1215,7 +1215,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Das neue Thema ist angelegt.
 - [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
-- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Die Hauptzuständigkeit entspricht dem ausgewählten Konto; die abweichende Zuständigkeit wird separat mit dem im Prüfschritt ausgewählten Konto angezeigt.
 - [ ] Das Thema ist in der Themenübersicht auffindbar.
 
 - **Test erfolgreich:** [ ]
@@ -1233,7 +1233,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
 - [ ] Änderungen bleiben nach dem Neuladen erhalten.
-- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Jeder Tagesordnungspunkt bleibt dem bearbeiteten Thema zugeordnet; vorhandene historische Protokoll-Snapshots behalten ihren zuvor gespeicherten Inhalt.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
 - **Test erfolgreich:** [ ]
@@ -1250,7 +1250,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
-- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Die Übersicht zeigt denselben Statuswert wie die Themendetailansicht.
 - [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
 
 - **Test erfolgreich:** [ ]
@@ -1303,7 +1303,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 
-- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Titel und übernommene Vorschlagsdaten entsprechen dem ausgewählten Vorschlag.
 - [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
 - [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
 
@@ -1324,9 +1324,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 
-- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der gespeicherte Text wird beim erneuten Öffnen des Tagesordnungspunkts wortgleich angezeigt.
 - [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
-- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Die abweichende Zuständigkeit entspricht dem im Prüfschritt ausgewählten Konto und bleibt von der Hauptzuständigkeit getrennt.
 - [ ] Der allgemeine Themenstatus bleibt davon getrennt.
 
 - **Test erfolgreich:** [ ]
@@ -1360,7 +1360,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
-- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Das zugrunde liegende Thema bleibt in der Themenübersicht erhalten; entfernt wird ausschließlich der ausgewählte Tagesordnungspunkt.
 - [ ] Andere Tagesordnungspunkte bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -1434,7 +1434,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Der Kommentar wird beim richtigen Thema angezeigt.
-- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Als Autor wird das angemeldete Testkonto angezeigt; der Erstellungszeitpunkt liegt im Zeitraum der gerade ausgeführten Aktion.
 - [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
@@ -1452,7 +1452,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Die Anlage wird beim richtigen Thema angezeigt.
-- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die angezeigte Bezeichnung entspricht der eingegebenen Bezeichnung; die Datei ist dem ausgewählten Thema zugeordnet und lässt sich öffnen.
 - [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
@@ -1469,8 +1469,8 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 
-- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
-- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Der gespeicherte Pfad bzw. die URL entspricht exakt der eingegebenen Zeichenfolge.
+- [ ] Unterstützte Pfade werden als anklickbarer Link dargestellt und öffnen das hinterlegte Ziel.
 - [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
 - [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
 
@@ -1581,7 +1581,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
 - [ ] PDF lässt sich öffnen.
 - [ ] PDF enthält die vorgesehenen Protokolldaten.
-- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Im PDF erscheinen die aktuell gespeicherte Organisationsbezeichnung und das aktuell gespeicherte Organisationslogo.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
 - **Test erfolgreich:** [ ]
@@ -1616,7 +1616,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
-- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] PDF-Datum und Reihenbezeichnung stimmen mit dem ausgewählten Termin überein; Texte und Statuswerte entsprechen dem gespeicherten Themen- und Protokollstand.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
 - **Test erfolgreich:** [ ]
@@ -1637,7 +1637,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
-- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Angezeigter Status und Zuständigkeit entsprechen den gespeicherten Themenwerten; die angezeigte Reihe entspricht der tatsächlichen Zuordnung des Themas.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
 - **Test erfolgreich:** [ ]
@@ -1654,7 +1654,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Archivierte Themen sind im Archiv auffindbar.
-- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Es werden ausschließlich historische Inhalte der ausdrücklich zugewiesenen Reihe angezeigt; Inhalte nicht zugewiesener Reihen bleiben verborgen.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
 - **Test erfolgreich:** [ ]
@@ -1692,7 +1692,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
-- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Im Antrag wird genau die im Prüfschritt ausgewählte gewünschte Serienrolle angezeigt.
 - [ ] Der Antrag erscheint mit offenem Status.
 - [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
 
@@ -1783,7 +1783,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Ergebnisprüfung**
 
 - [ ] Export ist lesbar und enthält die vorgesehenen Themen.
-- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] CSV-Zuständigkeiten, Statuswerte und Reihenbezüge stimmen mit den gespeicherten Datensätzen der exportierten Reihe überein.
 - [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
 
 - **Test erfolgreich:** [ ]
@@ -1799,7 +1799,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 
-- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Jede gültige CSV-Zeile legt genau das zugehörige Testthema an oder aktualisiert es; ungültige Zeilen werden nicht teilweise gespeichert.
 - [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
 - [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
 - [ ] Es entstehen keine unbeabsichtigten Duplikate.
@@ -1896,7 +1896,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Thema bleibt vor Fristablauf erhalten.
 - [ ] Abgelaufenes archiviertes Thema wird gemäß der Fachregel endgültig entfernt.
-- [ ] Zugehörige Inhalte und Dateien werden entsprechend der Löschregel behandelt.
+- [ ] Mit dem abgelaufenen archivierten Thema verknüpfte Inhalte und Dateien werden gemäß derselben konfigurierten Aufbewahrungs- und Löschregel behandelt.
 - [ ] Nicht abgelaufene oder nicht archivierte Themen bleiben erhalten.
 
 - **Test erfolgreich:** [ ]
@@ -1999,7 +1999,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
-- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+- [ ] Nach dem Neuladen ist weiterhin die zuvor ausgewählte Darstellungsvariante aktiv.
 
 - **Test erfolgreich:** [ ]
 
@@ -2631,7 +2631,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Ergebnisprüfung**
 
 - [ ] Der Antrag wird der richtigen Person und Besprechungsreihe zugeordnet.
-- [ ] Gewünschte Rolle wird korrekt angezeigt.
+- [ ] Im Antrag wird genau die im Prüfschritt ausgewählte gewünschte Serienrolle angezeigt.
 - [ ] Der Antrag erscheint mit offenem Status.
 - [ ] Durch den Antrag allein entstehen noch keine fachlichen Schreibrechte.
 
@@ -2923,7 +2923,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
-- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+- [ ] Nach dem Neuladen ist weiterhin die zuvor ausgewählte Darstellungsvariante aktiv.
 
 - **Test erfolgreich:** [ ]
 
@@ -3452,7 +3452,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 - [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
 - [ ] PDF lässt sich öffnen.
 - [ ] PDF enthält die vorgesehenen Protokolldaten.
-- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Im PDF erscheinen die aktuell gespeicherte Organisationsbezeichnung und das aktuell gespeicherte Organisationslogo.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
 - **Test erfolgreich:** [ ]
@@ -3486,7 +3486,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Ergebnisprüfung**
 
 - [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
-- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] PDF-Datum und Reihenbezeichnung stimmen mit dem ausgewählten Termin überein; Texte und Statuswerte entsprechen dem gespeicherten Themen- und Protokollstand.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
 - **Test erfolgreich:** [ ]
@@ -3507,7 +3507,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
-- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Angezeigter Status und Zuständigkeit entsprechen den gespeicherten Themenwerten; die angezeigte Reihe entspricht der tatsächlichen Zuordnung des Themas.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
 - **Test erfolgreich:** [ ]
@@ -3524,7 +3524,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Ergebnisprüfung**
 
 - [ ] Archivierte Themen sind im Archiv auffindbar.
-- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Es werden ausschließlich historische Inhalte der ausdrücklich zugewiesenen Reihe angezeigt; Inhalte nicht zugewiesener Reihen bleiben verborgen.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
 - **Test erfolgreich:** [ ]
@@ -3849,7 +3849,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
-- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+- [ ] Nach dem Neuladen ist weiterhin die zuvor ausgewählte Darstellungsvariante aktiv.
 
 - **Test erfolgreich:** [ ]
 
@@ -4038,7 +4038,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 - [ ] Das neue Thema ist angelegt.
 - [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
-- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Die Hauptzuständigkeit entspricht dem ausgewählten Konto; die abweichende Zuständigkeit wird separat mit dem im Prüfschritt ausgewählten Konto angezeigt.
 - [ ] Das Thema ist in der Themenübersicht auffindbar.
 
 - **Test erfolgreich:** [ ]
@@ -4056,7 +4056,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 - [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
 - [ ] Änderungen bleiben nach dem Neuladen erhalten.
-- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Jeder Tagesordnungspunkt bleibt dem bearbeiteten Thema zugeordnet; vorhandene historische Protokoll-Snapshots behalten ihren zuvor gespeicherten Inhalt.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
 - **Test erfolgreich:** [ ]
@@ -4073,7 +4073,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
-- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Die Übersicht zeigt denselben Statuswert wie die Themendetailansicht.
 - [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
 
 - **Test erfolgreich:** [ ]
@@ -4125,7 +4125,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 
-- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Titel und übernommene Vorschlagsdaten entsprechen dem ausgewählten Vorschlag.
 - [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
 - [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
 
@@ -4146,9 +4146,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 
-- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der gespeicherte Text wird beim erneuten Öffnen des Tagesordnungspunkts wortgleich angezeigt.
 - [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
-- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Die abweichende Zuständigkeit entspricht dem im Prüfschritt ausgewählten Konto und bleibt von der Hauptzuständigkeit getrennt.
 - [ ] Der allgemeine Themenstatus bleibt davon getrennt.
 
 - **Test erfolgreich:** [ ]
@@ -4182,7 +4182,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
-- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Das zugrunde liegende Thema bleibt in der Themenübersicht erhalten; entfernt wird ausschließlich der ausgewählte Tagesordnungspunkt.
 - [ ] Andere Tagesordnungspunkte bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -4256,7 +4256,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 
 - [ ] Der Kommentar wird beim richtigen Thema angezeigt.
-- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Als Autor wird das angemeldete Testkonto angezeigt; der Erstellungszeitpunkt liegt im Zeitraum der gerade ausgeführten Aktion.
 - [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
@@ -4274,7 +4274,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 
 - [ ] Die Anlage wird beim richtigen Thema angezeigt.
-- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die angezeigte Bezeichnung entspricht der eingegebenen Bezeichnung; die Datei ist dem ausgewählten Thema zugeordnet und lässt sich öffnen.
 - [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
@@ -4291,8 +4291,8 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 
-- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
-- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Der gespeicherte Pfad bzw. die URL entspricht exakt der eingegebenen Zeichenfolge.
+- [ ] Unterstützte Pfade werden als anklickbarer Link dargestellt und öffnen das hinterlegte Ziel.
 - [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
 - [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
 
@@ -4403,7 +4403,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
 - [ ] PDF lässt sich öffnen.
 - [ ] PDF enthält die vorgesehenen Protokolldaten.
-- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Im PDF erscheinen die aktuell gespeicherte Organisationsbezeichnung und das aktuell gespeicherte Organisationslogo.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
 - **Test erfolgreich:** [ ]
@@ -4437,7 +4437,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 
 - [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
-- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] PDF-Datum und Reihenbezeichnung stimmen mit dem ausgewählten Termin überein; Texte und Statuswerte entsprechen dem gespeicherten Themen- und Protokollstand.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
 - **Test erfolgreich:** [ ]
@@ -4458,7 +4458,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
-- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Angezeigter Status und Zuständigkeit entsprechen den gespeicherten Themenwerten; die angezeigte Reihe entspricht der tatsächlichen Zuordnung des Themas.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
 - **Test erfolgreich:** [ ]
@@ -4475,7 +4475,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Ergebnisprüfung**
 
 - [ ] Archivierte Themen sind im Archiv auffindbar.
-- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Es werden ausschließlich historische Inhalte der ausdrücklich zugewiesenen Reihe angezeigt; Inhalte nicht zugewiesener Reihen bleiben verborgen.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
 - **Test erfolgreich:** [ ]
@@ -4800,7 +4800,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
-- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+- [ ] Nach dem Neuladen ist weiterhin die zuvor ausgewählte Darstellungsvariante aktiv.
 
 - **Test erfolgreich:** [ ]
 
@@ -4932,7 +4932,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte werden entsprechend der gewählten Löschvariante behandelt.
+- [ ] Historische Inhalte entsprechen nach dem Löschen genau der im Prüfschritt gewählten Löschvariante; Inhalte außerhalb ihres Löschumfangs bleiben erhalten.
 - [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
 - [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
 
@@ -4950,7 +4950,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
-- [ ] Die jeweils ausgewählte Serienrolle wird korrekt angezeigt.
+- [ ] Die gespeicherte Serienrolle entspricht der im Prüfschritt ausgewählten Rolle.
 - [ ] Änderungen betreffen nur die ausgewählte Reihe.
 - [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
 - [ ] Zuweisungen in anderen Reihen bleiben unverändert.
@@ -5044,7 +5044,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 
-- [ ] Der ausgewählte Termin wird entsprechend der Löschfunktion entfernt.
+- [ ] Der ausgewählte Termin ist nach dem Löschen weder in der Terminübersicht noch in der Terminliste der Reihe vorhanden.
 - [ ] Nicht ausgewählte Termine bleiben erhalten.
 - [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
 - [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
@@ -5118,7 +5118,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - [ ] Das neue Thema ist angelegt.
 - [ ] Der Tagesordnungspunkt ist dem geöffneten Termin zugeordnet.
-- [ ] Hauptzuständigkeit und abweichende Zuständigkeit werden getrennt und korrekt angezeigt.
+- [ ] Die Hauptzuständigkeit entspricht dem ausgewählten Konto; die abweichende Zuständigkeit wird separat mit dem im Prüfschritt ausgewählten Konto angezeigt.
 - [ ] Das Thema ist in der Themenübersicht auffindbar.
 
 - **Test erfolgreich:** [ ]
@@ -5136,7 +5136,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - [ ] Titel, Status und Hauptzuständigkeit entsprechen den gespeicherten Werten.
 - [ ] Änderungen bleiben nach dem Neuladen erhalten.
-- [ ] Zugehörige Tagesordnungspunkte und historische Protokollstände bleiben korrekt zugeordnet.
+- [ ] Jeder Tagesordnungspunkt bleibt dem bearbeiteten Thema zugeordnet; vorhandene historische Protokoll-Snapshots behalten ihren zuvor gespeicherten Inhalt.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
 - **Test erfolgreich:** [ ]
@@ -5153,7 +5153,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
-- [ ] Der Status wird in der Übersicht korrekt dargestellt.
+- [ ] Die Übersicht zeigt denselben Statuswert wie die Themendetailansicht.
 - [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
 
 - **Test erfolgreich:** [ ]
@@ -5206,7 +5206,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 
-- [ ] Der ausgewählte Vorschlag wird korrekt übernommen.
+- [ ] Titel und übernommene Vorschlagsdaten entsprechen dem ausgewählten Vorschlag.
 - [ ] Das Thema bzw. der Tagesordnungspunkt wird mit den eingegebenen Daten angelegt.
 - [ ] Es wird kein zusätzlicher oder doppelter Datensatz angelegt.
 
@@ -5227,9 +5227,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 
-- [ ] Der terminbezogene Text wird korrekt angezeigt.
+- [ ] Der gespeicherte Text wird beim erneuten Öffnen des Tagesordnungspunkts wortgleich angezeigt.
 - [ ] Der Status des Tagesordnungspunkts entspricht der Auswahl.
-- [ ] Eine abweichende Zuständigkeit wird korrekt angezeigt.
+- [ ] Die abweichende Zuständigkeit entspricht dem im Prüfschritt ausgewählten Konto und bleibt von der Hauptzuständigkeit getrennt.
 - [ ] Der allgemeine Themenstatus bleibt davon getrennt.
 
 - **Test erfolgreich:** [ ]
@@ -5263,7 +5263,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
-- [ ] Das Thema selbst bleibt entsprechend der vorgesehenen Datenregel erhalten.
+- [ ] Das zugrunde liegende Thema bleibt in der Themenübersicht erhalten; entfernt wird ausschließlich der ausgewählte Tagesordnungspunkt.
 - [ ] Andere Tagesordnungspunkte bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -5337,7 +5337,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Der Kommentar wird beim richtigen Thema angezeigt.
-- [ ] Autor und Erstellungszeitpunkt werden korrekt angezeigt.
+- [ ] Als Autor wird das angemeldete Testkonto angezeigt; der Erstellungszeitpunkt liegt im Zeitraum der gerade ausgeführten Aktion.
 - [ ] Der Kommentar bleibt nach dem Neuladen erhalten.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
@@ -5355,7 +5355,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Die Anlage wird beim richtigen Thema angezeigt.
-- [ ] Bezeichnung und Datei sind korrekt zugeordnet.
+- [ ] Die angezeigte Bezeichnung entspricht der eingegebenen Bezeichnung; die Datei ist dem ausgewählten Thema zugeordnet und lässt sich öffnen.
 - [ ] Die Datei lässt sich mit einem berechtigten Konto herunterladen.
 - [ ] Der Änderungsverlauf enthält den vorgesehenen Eintrag.
 
@@ -5372,8 +5372,8 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 
-- [ ] Der eingetragene Pfad bzw. Link wird korrekt angezeigt.
-- [ ] Unterstützte Pfade werden entsprechend der Anwendung als Link dargestellt.
+- [ ] Der gespeicherte Pfad bzw. die URL entspricht exakt der eingegebenen Zeichenfolge.
+- [ ] Unterstützte Pfade werden als anklickbarer Link dargestellt und öffnen das hinterlegte Ziel.
 - [ ] Nicht unterstützte oder ungültige Werte werden nicht als unsichere Links ausgegeben.
 - [ ] Die Anwendung behauptet nicht, die Erreichbarkeit einer externen Freigabe zu garantieren.
 
@@ -5484,7 +5484,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Druckansicht enthält den richtigen Termin und Protokollstand.
 - [ ] PDF lässt sich öffnen.
 - [ ] PDF enthält die vorgesehenen Protokolldaten.
-- [ ] Organisationsbezeichnung und Logo erscheinen entsprechend der Konfiguration.
+- [ ] Im PDF erscheinen die aktuell gespeicherte Organisationsbezeichnung und das aktuell gespeicherte Organisationslogo.
 - [ ] Unberechtigte Konten können den Export nicht abrufen.
 
 - **Test erfolgreich:** [ ]
@@ -5519,7 +5519,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] PDF enthält die dem Thema zugeordneten historischen Einträge.
-- [ ] Datum, Reihe, Texte und Statuswerte sind korrekt.
+- [ ] PDF-Datum und Reihenbezeichnung stimmen mit dem ausgewählten Termin überein; Texte und Statuswerte entsprechen dem gespeicherten Themen- und Protokollstand.
 - [ ] Der Export ist auf berechtigte Konten begrenzt.
 
 - **Test erfolgreich:** [ ]
@@ -5540,7 +5540,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Nur fachlich zugängliche Themen werden angezeigt.
-- [ ] Status, Zuständigkeit und Besprechungsreihe werden korrekt angezeigt.
+- [ ] Angezeigter Status und Zuständigkeit entsprechen den gespeicherten Themenwerten; die angezeigte Reihe entspricht der tatsächlichen Zuordnung des Themas.
 - [ ] Auswahl und Filter führen zu passenden Ergebnissen.
 
 - **Test erfolgreich:** [ ]
@@ -5557,7 +5557,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Archivierte Themen sind im Archiv auffindbar.
-- [ ] Historische Inhalte werden entsprechend der Berechtigung angezeigt.
+- [ ] Es werden ausschließlich historische Inhalte der ausdrücklich zugewiesenen Reihe angezeigt; Inhalte nicht zugewiesener Reihen bleiben verborgen.
 - [ ] Nicht archivierte Themen werden nicht fälschlich als archiviert dargestellt.
 
 - **Test erfolgreich:** [ ]
@@ -5682,7 +5682,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Ergebnisprüfung**
 
 - [ ] Export ist lesbar und enthält die vorgesehenen Themen.
-- [ ] Zuständigkeiten, Status und Reihenbezüge sind korrekt.
+- [ ] CSV-Zuständigkeiten, Statuswerte und Reihenbezüge stimmen mit den gespeicherten Datensätzen der exportierten Reihe überein.
 - [ ] Inhalte außerhalb des zulässigen Berechtigungs- bzw. Exportumfangs werden nicht offengelegt.
 
 - **Test erfolgreich:** [ ]
@@ -5698,7 +5698,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 
-- [ ] Gültige Testthemen werden entsprechend der Importregeln angelegt bzw. verarbeitet.
+- [ ] Jede gültige CSV-Zeile legt genau das zugehörige Testthema an oder aktualisiert es; ungültige Zeilen werden nicht teilweise gespeichert.
 - [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
 - [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
 - [ ] Es entstehen keine unbeabsichtigten Duplikate.
@@ -5895,7 +5895,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
-- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+- [ ] Nach dem Neuladen ist weiterhin die zuvor ausgewählte Darstellungsvariante aktiv.
 
 - **Test erfolgreich:** [ ]
 
@@ -6724,7 +6724,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 
-- [ ] Gültige Testkonten werden angelegt bzw. entsprechend der Importregel verarbeitet.
+- [ ] Jede gültige CSV-Zeile legt das zugehörige Testkonto mit den enthaltenen Stammdaten an oder aktualisiert es; ungültige Zeilen legen kein Konto an.
 - [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
 - [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
 - [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
@@ -6778,7 +6778,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
-- [ ] Systembezogene Ereignisse bleiben entsprechend der globalen Adminrolle sichtbar.
+- [ ] Systembezogene Ereignisse sind für das globale Admin-Konto lesbar; serienbezogene Ereignisse ohne Moderatorzuweisung bleiben verborgen.
 - [ ] Ohne Moderatorzuweisung werden keine serienbezogenen Ereignisse angezeigt.
 - [ ] Ereignisse aus Reihen mit fremder Moderatorzuweisung werden nicht offengelegt.
 
@@ -6836,7 +6836,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 - [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
 - [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Tagesordnungshistorie, die laut Fachregel am Thema erhalten bleiben muss, bleibt korrekt erhalten.
+- [ ] Die historische Tagesordnung bleibt nach der Retention-Löschung von Termin- und Protokolldaten weiterhin am zugehörigen Thema verfügbar.
 - [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
 
 - **Test erfolgreich:** [ ]
@@ -6952,7 +6952,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - [ ] Navigation bleibt bedienbar.
 - [ ] Aktiver Bereich ist erkennbar.
 - [ ] Inhalte und Bedienelemente überlagern sich nicht.
-- [ ] Die gewählte Darstellungsvariante bleibt entsprechend der Anwendungseinstellung erhalten.
+- [ ] Nach dem Neuladen ist weiterhin die zuvor ausgewählte Darstellungsvariante aktiv.
 
 - **Test erfolgreich:** [ ]
 
