@@ -888,7 +888,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -906,7 +906,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -928,7 +928,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -945,7 +945,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -967,7 +967,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit einem globalen Nutzerkonto anmelden, das in mindestens einer bestehenden Besprechungsreihe ausdrücklich als Moderator*in zugewiesen ist.
  1. Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -986,7 +986,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1004,7 +1004,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1022,7 +1022,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1040,7 +1040,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1058,7 +1058,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1103,7 +1103,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1121,7 +1121,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1139,7 +1139,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1157,7 +1157,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1191,7 +1191,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1210,7 +1210,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1228,7 +1228,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1246,7 +1246,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1263,7 +1263,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1281,7 +1281,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1300,7 +1300,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1321,7 +1321,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1339,7 +1339,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1356,7 +1356,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1373,7 +1373,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1391,7 +1391,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1409,7 +1409,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1430,7 +1430,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1448,7 +1448,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1466,7 +1466,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1484,7 +1484,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1501,7 +1501,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1518,7 +1518,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1540,7 +1540,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1558,7 +1558,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1575,7 +1575,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1594,7 +1594,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1612,7 +1612,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1633,7 +1633,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1650,7 +1650,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1667,7 +1667,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1779,7 +1779,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1796,7 +1796,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1818,7 +1818,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1852,7 +1852,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
  1. Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1975,7 +1975,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -1993,7 +1993,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2015,7 +2015,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2032,7 +2032,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2606,7 +2606,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2627,7 +2627,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2662,7 +2662,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2899,7 +2899,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2917,7 +2917,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2939,7 +2939,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -2996,7 +2996,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3287,7 +3287,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3359,7 +3359,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3429,7 +3429,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3446,7 +3446,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3482,7 +3482,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3503,7 +3503,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3520,7 +3520,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3825,7 +3825,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3843,7 +3843,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3865,7 +3865,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3882,7 +3882,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3928,7 +3928,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -3980,7 +3980,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4014,7 +4014,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4033,7 +4033,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4051,7 +4051,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4069,7 +4069,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4103,7 +4103,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4122,7 +4122,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4143,7 +4143,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4161,7 +4161,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4178,7 +4178,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4195,7 +4195,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4213,7 +4213,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4231,7 +4231,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4252,7 +4252,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4270,7 +4270,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4288,7 +4288,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4306,7 +4306,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4323,7 +4323,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4340,7 +4340,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4362,7 +4362,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4380,7 +4380,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4397,7 +4397,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4433,7 +4433,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4454,7 +4454,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4471,7 +4471,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4776,7 +4776,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4794,7 +4794,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4816,7 +4816,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4833,7 +4833,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4855,7 +4855,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4874,7 +4874,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4892,7 +4892,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4910,7 +4910,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4928,7 +4928,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -4946,7 +4946,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5005,7 +5005,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5023,7 +5023,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5041,7 +5041,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5059,7 +5059,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5094,7 +5094,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5113,7 +5113,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5131,7 +5131,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5149,7 +5149,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5166,7 +5166,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5184,7 +5184,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5203,7 +5203,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5224,7 +5224,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5242,7 +5242,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5259,7 +5259,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5276,7 +5276,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5294,7 +5294,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5312,7 +5312,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5333,7 +5333,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5351,7 +5351,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5369,7 +5369,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5387,7 +5387,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5404,7 +5404,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5421,7 +5421,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5443,7 +5443,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5461,7 +5461,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5478,7 +5478,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5497,7 +5497,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5515,7 +5515,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5536,7 +5536,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5553,7 +5553,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5678,7 +5678,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5695,7 +5695,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5717,7 +5717,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5751,7 +5751,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5871,7 +5871,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5889,7 +5889,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5911,7 +5911,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -5947,7 +5947,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6683,7 +6683,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6704,7 +6704,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Benutzerverwaltung öffnen, den Benutzer-CSV-Export auslösen und die heruntergeladene Datei auf Umfang und Inhalt prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6721,7 +6721,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Eine vorbereitete CSV-Datei mit separaten Testkonten verwenden, den Benutzerimport starten und die Import-Rückmeldung prüfen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6791,7 +6791,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6809,7 +6809,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6831,7 +6831,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Aufbewahrungseinstellungen für Termine und Protokolle öffnen und die konfigurierten Fristen dokumentieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6863,7 +6863,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Den Retention-Lauf ausschließlich mit vorbereiteten Testdaten bzw. in einer dafür vorgesehenen Testumgebung wiederholt ausführen und die resultierenden Statuswerte kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6946,7 +6946,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -6968,7 +6968,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -7715,7 +7715,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -7733,7 +7733,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -7805,7 +7805,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
@@ -7823,7 +7823,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
  1. Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
- 1. Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+ 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
