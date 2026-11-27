@@ -185,6 +185,10 @@ class PermissionMatrixDocumentationTests(SimpleTestCase):
         readme = Path(__file__).resolve().parents[1] / "README.md"
         content = readme.read_text(encoding="utf-8")
         normalized = " ".join(content.split())
-        self.assertIn("Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Systemereignisse und eigene moderierte Reihen", normalized)
-        self.assertIn("Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Nein", normalized)
-        self.assertIn("Berechtigungsmatrix nach Funktionsbereichen", content)
+        self.assertIn("Änderungsverlauf der Reihe ansehen | Nein | Nein | Ja, eigene moderierte Reihen", normalized)
+        self.assertIn("System-Änderungsprotokoll ansehen und exportieren | Nein | Ja | Ja, lesend", normalized)
+        self.assertIn("Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein", normalized)
+        self.assertIn("Serienberechtigungsmatrix", content)
+        self.assertIn("Globale Berechtigungsmatrix", content)
+        self.assertIn("Eine globale Adminrolle ersetzt keine Serienzuweisung", normalized)
+        self.assertIn("Globale Auditoren sehen ausschließlich den System-Änderungsverlauf", normalized)
