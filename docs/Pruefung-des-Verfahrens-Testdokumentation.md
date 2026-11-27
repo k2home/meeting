@@ -53,10 +53,10 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 #### 1.1.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
 
-- [ ] **Verwaltung** öffnen.
-- [ ] **Daten** öffnen.
-- [ ] Verfügbare Datenverwaltungsfunktionen prüfen.
-- [ ] Zur Verwaltungsübersicht zurückkehren.
+- **Verwaltung** öffnen.
+- **Daten** öffnen.
+- Verfügbare Datenverwaltungsfunktionen prüfen.
+- Zur Verwaltungsübersicht zurückkehren.
 
 **Ergebnisprüfung**
 
@@ -68,11 +68,11 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 #### 1.1.2 Vollständigen Datenexport durchführen – Rolle: Admin
 
-- [ ] Datenverwaltungsbereich öffnen.
-- [ ] Funktion zum vollständigen Backup-Export aufrufen.
-- [ ] Export starten.
-- [ ] Exportdatei speichern.
-- [ ] Datei und Ergebnisanzeige prüfen.
+- Datenverwaltungsbereich öffnen.
+- Funktion zum vollständigen Backup-Export aufrufen.
+- Export starten.
+- Exportdatei speichern.
+- Datei und Ergebnisanzeige prüfen.
 
 **Ergebnisprüfung**
 
@@ -84,13 +84,13 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 #### 1.1.3 Datenimport in isolierter Testinstallation prüfen – Rolle: Admin
 
-- [ ] Ausschließlich eine isolierte Testinstallation verwenden.
-- [ ] Vorhandenen Testdatenbestand sichern.
-- [ ] Datenimport öffnen.
-- [ ] Geeignete Test-Sicherungsdatei auswählen.
-- [ ] Import starten.
-- [ ] Ergebnisanzeige prüfen.
-- [ ] Betroffene Testdatenbereiche öffnen.
+- Ausschließlich eine isolierte Testinstallation verwenden.
+- Vorhandenen Testdatenbestand sichern.
+- Datenimport öffnen.
+- Geeignete Test-Sicherungsdatei auswählen.
+- Import starten.
+- Ergebnisanzeige prüfen.
+- Betroffene Testdatenbereiche öffnen.
 
 **Ergebnisprüfung**
 
@@ -108,10 +108,10 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 #### 1.2.1 Updatebereich aufrufen – Rolle: Admin
 
-- [ ] Administrationsbereich für Software-Updates öffnen.
-- [ ] Angezeigte Versions- und Branchinformationen prüfen.
-- [ ] Verfügbare Updateinformationen aufrufen.
-- [ ] Ohne Ausführung eines Updates zur Übersicht zurückkehren.
+- Administrationsbereich für Software-Updates öffnen.
+- Angezeigte Versions- und Branchinformationen prüfen.
+- Verfügbare Updateinformationen aufrufen.
+- Ohne Ausführung eines Updates zur Übersicht zurückkehren.
 
 **Ergebnisprüfung**
 
@@ -123,14 +123,14 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 #### 1.2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
 
-- [ ] Vor dem Update Datenbank und Medienbestand sichern.
-- [ ] Updatebereich öffnen.
-- [ ] Gewünschten freigegebenen Branch auswählen.
-- [ ] Update starten.
-- [ ] Status und Protokoll des Updatevorgangs abwarten.
-- [ ] Nach Abschluss die Anwendung neu laden.
-- [ ] Anmeldung durchführen.
-- [ ] Besprechungsübersicht, Themen, Protokoll und Anlagen öffnen.
+- Vor dem Update Datenbank und Medienbestand sichern.
+- Updatebereich öffnen.
+- Gewünschten freigegebenen Branch auswählen.
+- Update starten.
+- Status und Protokoll des Updatevorgangs abwarten.
+- Nach Abschluss die Anwendung neu laden.
+- Anmeldung durchführen.
+- Besprechungsübersicht, Themen, Protokoll und Anlagen öffnen.
 
 **Ergebnisprüfung**
 
@@ -153,10 +153,10 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.1.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
 
-- [ ] Anmeldeseite öffnen.
-- [ ] Gültigen Benutzernamen eingeben.
-- [ ] Gültiges Passwort eingeben.
-- [ ] Anmelden anklicken.
+- Anmeldeseite öffnen.
+- Gültigen Benutzernamen eingeben.
+- Gültiges Passwort eingeben.
+- Anmelden anklicken.
 
 **Ergebnisprüfung**
 
@@ -168,11 +168,11 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.1.2 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
 
-- [ ] Anmeldeseite öffnen.
-- [ ] Einen nicht vorhandenen Benutzernamen eingeben.
-- [ ] Ein beliebiges Passwort eingeben.
-- [ ] Anmelden anklicken.
-- [ ] Den Versuch mit einem gültigen Benutzernamen und falschem Passwort wiederholen.
+- Anmeldeseite öffnen.
+- Einen nicht vorhandenen Benutzernamen eingeben.
+- Ein beliebiges Passwort eingeben.
+- Anmelden anklicken.
+- Den Versuch mit einem gültigen Benutzernamen und falschem Passwort wiederholen.
 
 **Ergebnisprüfung**
 
@@ -184,12 +184,12 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.1.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
 
-- [ ] Mit einem Konto anmelden, für das ein Passwortwechsel erforderlich ist.
-- [ ] Angezeigtes Formular zum Passwortwechsel öffnen.
-- [ ] Neues Passwort eingeben.
-- [ ] Neues Passwort wiederholen.
-- [ ] Speichern bzw. Passwort ändern anklicken.
-- [ ] Abmelden und erneut mit dem neuen Passwort anmelden.
+- Mit einem Konto anmelden, für das ein Passwortwechsel erforderlich ist.
+- Angezeigtes Formular zum Passwortwechsel öffnen.
+- Neues Passwort eingeben.
+- Neues Passwort wiederholen.
+- Speichern bzw. Passwort ändern anklicken.
+- Abmelden und erneut mit dem neuen Passwort anmelden.
 
 **Ergebnisprüfung**
 
@@ -201,11 +201,11 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.1.4 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
 
-- [ ] Mit einem Testkonto anmelden.
-- [ ] Eine geschützte Seite öffnen.
-- [ ] Abmelden anklicken.
-- [ ] Die zuvor geöffnete geschützte URL erneut aufrufen.
-- [ ] Im Browser zurück navigieren und die Seite neu laden.
+- Mit einem Testkonto anmelden.
+- Eine geschützte Seite öffnen.
+- Abmelden anklicken.
+- Die zuvor geöffnete geschützte URL erneut aufrufen.
+- Im Browser zurück navigieren und die Seite neu laden.
 
 **Ergebnisprüfung**
 
@@ -217,12 +217,12 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
 
-- [ ] Einen gültigen Passwort-Zurücksetzen-Link für ein Testkonto öffnen.
-- [ ] Neues Passwort eingeben.
-- [ ] Passwort wiederholen.
-- [ ] Änderung bestätigen.
-- [ ] Den Link erneut öffnen.
-- [ ] Mit dem neuen Passwort anmelden.
+- Einen gültigen Passwort-Zurücksetzen-Link für ein Testkonto öffnen.
+- Neues Passwort eingeben.
+- Passwort wiederholen.
+- Änderung bestätigen.
+- Den Link erneut öffnen.
+- Mit dem neuen Passwort anmelden.
 
 **Ergebnisprüfung**
 
@@ -239,17 +239,17 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.2.1 Benutzerkonto anlegen – Rolle: Admin
 
-- [ ] **Verwaltung** öffnen.
-- [ ] **Nutzer** öffnen.
-- [ ] **Neu** anklicken.
-- [ ] Benutzernamen eintragen.
-- [ ] Vorname und Nachname eintragen.
-- [ ] E-Mail-Adresse eintragen.
-- [ ] Organisationskennzeichen eintragen.
-- [ ] Aktivstatus festlegen.
-- [ ] Angezeigte Rollen- bzw. Kontoeinstellungen prüfen.
-- [ ] Speichern anklicken.
-- [ ] Benutzerübersicht neu laden.
+- **Verwaltung** öffnen.
+- **Nutzer** öffnen.
+- **Neu** anklicken.
+- Benutzernamen eintragen.
+- Vorname und Nachname eintragen.
+- E-Mail-Adresse eintragen.
+- Organisationskennzeichen eintragen.
+- Aktivstatus festlegen.
+- Angezeigte Rollen- bzw. Kontoeinstellungen prüfen.
+- Speichern anklicken.
+- Benutzerübersicht neu laden.
 
 **Ergebnisprüfung**
 
@@ -262,14 +262,14 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.2.2 Benutzerkonto bearbeiten – Rolle: Admin
 
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Ein Testkonto auswählen.
-- [ ] Bearbeiten öffnen.
-- [ ] Name oder E-Mail-Adresse ändern.
-- [ ] Organisationskennzeichen ändern.
-- [ ] Aktivstatus ändern, soweit für den Test vorgesehen.
-- [ ] Speichern.
-- [ ] Konto erneut öffnen.
+- Benutzerverwaltung öffnen.
+- Ein Testkonto auswählen.
+- Bearbeiten öffnen.
+- Name oder E-Mail-Adresse ändern.
+- Organisationskennzeichen ändern.
+- Aktivstatus ändern, soweit für den Test vorgesehen.
+- Speichern.
+- Konto erneut öffnen.
 
 **Ergebnisprüfung**
 
@@ -281,14 +281,14 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.2.3 Benutzerkonto deaktivieren und aktivieren – Rolle: Admin
 
-- [ ] Ein entbehrliches Testkonto auswählen.
-- [ ] Aktivstatus deaktivieren.
-- [ ] Speichern.
-- [ ] Anmeldeversuch mit dem Testkonto durchführen.
-- [ ] Konto erneut in der Benutzerverwaltung öffnen.
-- [ ] Aktivstatus wieder aktivieren.
-- [ ] Speichern.
-- [ ] Anmeldung erneut versuchen.
+- Ein entbehrliches Testkonto auswählen.
+- Aktivstatus deaktivieren.
+- Speichern.
+- Anmeldeversuch mit dem Testkonto durchführen.
+- Konto erneut in der Benutzerverwaltung öffnen.
+- Aktivstatus wieder aktivieren.
+- Speichern.
+- Anmeldung erneut versuchen.
 
 **Ergebnisprüfung**
 
@@ -300,11 +300,11 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.2.4 Benutzerkonto löschen – Rolle: Admin
 
-- [ ] Ausschließlich ein entbehrliches Testkonto auswählen.
-- [ ] Löschfunktion öffnen.
-- [ ] Angezeigte Folgen prüfen.
-- [ ] Löschung bestätigen.
-- [ ] Benutzerübersicht und betroffene Serienzuweisungen prüfen.
+- Ausschließlich ein entbehrliches Testkonto auswählen.
+- Löschfunktion öffnen.
+- Angezeigte Folgen prüfen.
+- Löschung bestätigen.
+- Benutzerübersicht und betroffene Serienzuweisungen prüfen.
 
 **Ergebnisprüfung**
 
@@ -316,15 +316,15 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.2.5 Serienzuweisungen eines Benutzers verwalten – Rolle: Admin
 
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Testkonto auswählen.
-- [ ] Serienzuweisungen öffnen.
-- [ ] Eine Reihe zuweisen.
-- [ ] Serienrolle auswählen.
-- [ ] Speichern.
-- [ ] Weitere Reihe mit abweichender Rolle zuweisen.
-- [ ] Speichern.
-- [ ] Benutzeransicht erneut öffnen.
+- Benutzerverwaltung öffnen.
+- Testkonto auswählen.
+- Serienzuweisungen öffnen.
+- Eine Reihe zuweisen.
+- Serienrolle auswählen.
+- Speichern.
+- Weitere Reihe mit abweichender Rolle zuweisen.
+- Speichern.
+- Benutzeransicht erneut öffnen.
 
 **Ergebnisprüfung**
 
@@ -337,12 +337,12 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.2.6 Passwort für Benutzer zurücksetzen – Rolle: Admin
 
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Ein Testkonto auswählen.
-- [ ] Passwort-Zurücksetzen-Funktion anklicken.
-- [ ] Vorgang bestätigen.
-- [ ] Mit dem Testkonto anmelden.
-- [ ] Passwortwechsel durchführen.
+- Benutzerverwaltung öffnen.
+- Ein Testkonto auswählen.
+- Passwort-Zurücksetzen-Funktion anklicken.
+- Vorgang bestätigen.
+- Mit dem Testkonto anmelden.
+- Passwortwechsel durchführen.
 
 **Ergebnisprüfung**
 
@@ -359,13 +359,13 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.3.1 Organisationseinstellungen bearbeiten – Rolle: Admin
 
-- [ ] **Verwaltung** öffnen.
-- [ ] **Organisation** bzw. Organisationseinstellungen öffnen.
-- [ ] Organisationsbezeichnung ändern.
-- [ ] Kurzbezeichnung ändern.
-- [ ] Zeitzone auswählen.
-- [ ] Änderungen speichern.
-- [ ] Seite neu laden.
+- **Verwaltung** öffnen.
+- **Organisation** bzw. Organisationseinstellungen öffnen.
+- Organisationsbezeichnung ändern.
+- Kurzbezeichnung ändern.
+- Zeitzone auswählen.
+- Änderungen speichern.
+- Seite neu laden.
 
 **Ergebnisprüfung**
 
@@ -377,11 +377,11 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.3.2 Organisationslogo ändern – Rolle: Admin
 
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Ein zulässiges Testlogo auswählen.
-- [ ] Logo hochladen bzw. speichern.
-- [ ] Dashboard und Protokoll-PDF öffnen.
-- [ ] Falls vorgesehen, Logo entfernen bzw. durch ein anderes Testlogo ersetzen.
+- Organisationseinstellungen öffnen.
+- Ein zulässiges Testlogo auswählen.
+- Logo hochladen bzw. speichern.
+- Dashboard und Protokoll-PDF öffnen.
+- Falls vorgesehen, Logo entfernen bzw. durch ein anderes Testlogo ersetzen.
 
 **Ergebnisprüfung**
 
@@ -394,13 +394,13 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.3.3 Farben und Darstellung konfigurieren – Rolle: Admin
 
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Primärfarbe ändern.
-- [ ] Sekundärfarbe ändern.
-- [ ] Tertiärfarbe ändern.
-- [ ] Optionale Hell- und Dunkelmodus-Farbwerte ändern, sofern angeboten.
-- [ ] Speichern.
-- [ ] Anwendung in Hell- und Dunkelmodus neu laden.
+- Organisationseinstellungen öffnen.
+- Primärfarbe ändern.
+- Sekundärfarbe ändern.
+- Tertiärfarbe ändern.
+- Optionale Hell- und Dunkelmodus-Farbwerte ändern, sofern angeboten.
+- Speichern.
+- Anwendung in Hell- und Dunkelmodus neu laden.
 
 **Ergebnisprüfung**
 
@@ -413,12 +413,12 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 #### 2.3.4 Aufbewahrungsfrist und Uploadlimit einstellen – Rolle: Admin
 
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Zentrale Aufbewahrungsfrist ändern.
-- [ ] Maximale Dateigröße für Anlagen ändern.
-- [ ] Speichern.
-- [ ] Einstellungen erneut öffnen.
-- [ ] Upload mit einer Datei innerhalb und außerhalb des eingestellten Limits testen.
+- Organisationseinstellungen öffnen.
+- Zentrale Aufbewahrungsfrist ändern.
+- Maximale Dateigröße für Anlagen ändern.
+- Speichern.
+- Einstellungen erneut öffnen.
+- Upload mit einer Datei innerhalb und außerhalb des eingestellten Limits testen.
 
 **Ergebnisprüfung**
 
@@ -438,11 +438,11 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.1 Leser*in – nur lesender Zugriff in zugewiesener Reihe
 
-- [ ] Zugewiesene Reihe öffnen.
-- [ ] Termin und Protokoll öffnen.
-- [ ] Thema und Tagesordnung öffnen.
-- [ ] Kommentar-, Bearbeitungs-, Lösch- und Abschlussaktionen versuchen.
-- [ ] Direkte schreibende URLs der Testreihe aufrufen.
+- Zugewiesene Reihe öffnen.
+- Termin und Protokoll öffnen.
+- Thema und Tagesordnung öffnen.
+- Kommentar-, Bearbeitungs-, Lösch- und Abschlussaktionen versuchen.
+- Direkte schreibende URLs der Testreihe aufrufen.
 
 **Ergebnisprüfung**
 
@@ -454,14 +454,14 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.2 Teilnehmer*in – fachliche Bearbeitung ohne Reihenverwaltung
 
-- [ ] Zugewiesene Reihe öffnen.
-- [ ] Thema und Tagesordnung bearbeiten.
-- [ ] Zuständigkeit setzen.
-- [ ] Kommentar und Anlage hinzufügen.
-- [ ] Wiedervorlage anlegen.
-- [ ] Teilnehmerliste bearbeiten.
-- [ ] Besprechung abschließen.
-- [ ] Serienverwaltung und Wiederöffnung eines abgeschlossenen Termins versuchen.
+- Zugewiesene Reihe öffnen.
+- Thema und Tagesordnung bearbeiten.
+- Zuständigkeit setzen.
+- Kommentar und Anlage hinzufügen.
+- Wiedervorlage anlegen.
+- Teilnehmerliste bearbeiten.
+- Besprechung abschließen.
+- Serienverwaltung und Wiederöffnung eines abgeschlossenen Termins versuchen.
 
 **Ergebnisprüfung**
 
@@ -473,14 +473,14 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.3 Moderator*in – Verwaltung nur der eigenen Reihe
 
-- [ ] Eigene Reihe öffnen.
-- [ ] Reihe bearbeiten.
-- [ ] Termine verwalten.
-- [ ] Themen archivieren und wieder öffnen.
-- [ ] Abgeschlossenen Termin wieder öffnen.
-- [ ] Serienmitglieder verwalten.
-- [ ] Fremde Reihe direkt aufrufen.
-- [ ] Eigene Moderatorzuweisung zu ändern oder zu entfernen versuchen.
+- Eigene Reihe öffnen.
+- Reihe bearbeiten.
+- Termine verwalten.
+- Themen archivieren und wieder öffnen.
+- Abgeschlossenen Termin wieder öffnen.
+- Serienmitglieder verwalten.
+- Fremde Reihe direkt aufrufen.
+- Eigene Moderatorzuweisung zu ändern oder zu entfernen versuchen.
 
 **Ergebnisprüfung**
 
@@ -492,12 +492,12 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.4 Admin – globale Verwaltung ohne automatische Fachberechtigung
 
-- [ ] Benutzerverwaltung öffnen.
-- [ ] Organisationseinstellungen öffnen.
-- [ ] Serienzuweisungen verwalten.
-- [ ] Eine fachliche Reihe ohne eigene Serienzuweisung direkt aufrufen.
-- [ ] Ein Thema dieser Reihe direkt aufrufen.
-- [ ] Einen fachlichen Schreibvorgang versuchen.
+- Benutzerverwaltung öffnen.
+- Organisationseinstellungen öffnen.
+- Serienzuweisungen verwalten.
+- Eine fachliche Reihe ohne eigene Serienzuweisung direkt aufrufen.
+- Ein Thema dieser Reihe direkt aufrufen.
+- Einen fachlichen Schreibvorgang versuchen.
 
 **Ergebnisprüfung**
 
@@ -509,12 +509,12 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 #### 2.4.5 Auditor*in – ausschließlich administrative Leserechte
 
-- [ ] Auditor*innenübersicht öffnen.
-- [ ] Benutzer- und Rolleninformationen lesen.
-- [ ] Organisationseinstellungen lesen.
-- [ ] Systemänderungsverlauf lesen.
-- [ ] Fachliche Reihe und Thema direkt aufrufen.
-- [ ] Administrative Schreibaktionen versuchen.
+- Auditor*innenübersicht öffnen.
+- Benutzer- und Rolleninformationen lesen.
+- Organisationseinstellungen lesen.
+- Systemänderungsverlauf lesen.
+- Fachliche Reihe und Thema direkt aufrufen.
+- Administrative Schreibaktionen versuchen.
 
 **Ergebnisprüfung**
 
@@ -536,9 +536,9 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.1 TESTING-Kennzeichnung prüfen – Rolle: Admin auf isolierter Testinstallation
 
-- [ ] TESTING-Modus in der Testinstallation aktivieren.- [ ] Dashboard öffnen.- [ ] Browser-Tab bzw. Seitentitel prüfen.- [ ] Django-Administrationspfad aufrufen.
-- [ ] TESTING-Modus deaktivieren.
-- [ ] Dieselben Bereiche erneut aufrufen.
+- TESTING-Modus in der Testinstallation aktivieren.- [ ] Dashboard öffnen.- [ ] Browser-Tab bzw. Seitentitel prüfen.- [ ] Django-Administrationspfad aufrufen.
+- TESTING-Modus deaktivieren.
+- Dieselben Bereiche erneut aufrufen.
 
 **Ergebnisprüfung**
 
@@ -550,12 +550,12 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.2 Testnutzer erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
-- [ ] **Verwaltung** öffnen.
-- [ ] **Beispielkonfiguration** öffnen.
-- [ ] Bereich zum Erzeugen zufälliger Testnutzer aufrufen.
-- [ ] Eine kleine Anzahl Testnutzer auswählen.
-- [ ] Erzeugung starten.
-- [ ] Benutzerübersicht öffnen.
+- **Verwaltung** öffnen.
+- **Beispielkonfiguration** öffnen.
+- Bereich zum Erzeugen zufälliger Testnutzer aufrufen.
+- Eine kleine Anzahl Testnutzer auswählen.
+- Erzeugung starten.
+- Benutzerübersicht öffnen.
 
 **Ergebnisprüfung**
 
@@ -568,11 +568,11 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.3 Testbesprechungsreihen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
-- [ ] Eine kleine Anzahl Reihen auswählen.
-- [ ] Erzeugung starten.
-- [ ] Serienübersicht öffnen.
+- Beispielkonfiguration öffnen.
+- Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
+- Eine kleine Anzahl Reihen auswählen.
+- Erzeugung starten.
+- Serienübersicht öffnen.
 
 **Ergebnisprüfung**
 
@@ -584,11 +584,11 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.4 Termine für Testreihen generieren – Rolle: globale Adminrolle im TESTING-Modus
 
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Eine Testreihe auswählen.
-- [ ] Funktion zum Generieren der Termine öffnen.
-- [ ] Generierung starten.
-- [ ] Terminübersicht der Testreihe öffnen.
+- Beispielkonfiguration öffnen.
+- Eine Testreihe auswählen.
+- Funktion zum Generieren der Termine öffnen.
+- Generierung starten.
+- Terminübersicht der Testreihe öffnen.
 
 **Ergebnisprüfung**
 
@@ -601,12 +601,12 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.5 Testthemen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Eine Testreihe auswählen.
-- [ ] Bereich zum Erzeugen von Testthemen öffnen.
-- [ ] Eine kleine Anzahl Themen festlegen.
-- [ ] Erzeugung starten.
-- [ ] Themenübersicht der Testreihe öffnen.
+- Beispielkonfiguration öffnen.
+- Eine Testreihe auswählen.
+- Bereich zum Erzeugen von Testthemen öffnen.
+- Eine kleine Anzahl Themen festlegen.
+- Erzeugung starten.
+- Themenübersicht der Testreihe öffnen.
 
 **Ergebnisprüfung**
 
@@ -618,12 +618,12 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.6 Tagesordnungspunkte und Wiedervorlagen erzeugen – Rolle: globale Adminrolle im TESTING-Modus
 
-- [ ] Beispielkonfiguration öffnen.
-- [ ] Ein Testthema auswählen.
-- [ ] Bereich zum Erzeugen von Tagesordnungspunkten öffnen.
-- [ ] Eine kleine Anzahl Punkte festlegen.
-- [ ] Erzeugung starten.
-- [ ] Zugehörige Testtermine öffnen.
+- Beispielkonfiguration öffnen.
+- Ein Testthema auswählen.
+- Bereich zum Erzeugen von Tagesordnungspunkten öffnen.
+- Eine kleine Anzahl Punkte festlegen.
+- Erzeugung starten.
+- Zugehörige Testtermine öffnen.
 
 **Ergebnisprüfung**
 
@@ -636,11 +636,11 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.1.7 Testdaten zurücksetzen – Rolle: globale Adminrolle im TESTING-Modus
 
-- [ ] Vorhandene Testdaten in der Testinstallation prüfen.
-- [ ] Funktion **TEST-Daten zurücksetzen** öffnen.
-- [ ] Angezeigte Auswahl und Folgen prüfen.
-- [ ] Zurücksetzen bestätigen.
-- [ ] Benutzer-, Reihen-, Termin- und Themenübersichten öffnen.
+- Vorhandene Testdaten in der Testinstallation prüfen.
+- Funktion **TEST-Daten zurücksetzen** öffnen.
+- Angezeigte Auswahl und Folgen prüfen.
+- Zurücksetzen bestätigen.
+- Benutzer-, Reihen-, Termin- und Themenübersichten öffnen.
 
 **Ergebnisprüfung**
 
@@ -657,10 +657,10 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.2.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
 
-- [ ] Menüpunkt **Hilfe** öffnen.
-- [ ] Benutzerhilfe aufrufen.
-- [ ] Inhaltsübersicht und Verweise prüfen.
-- [ ] Zur Anwendung zurückkehren.
+- Menüpunkt **Hilfe** öffnen.
+- Benutzerhilfe aufrufen.
+- Inhaltsübersicht und Verweise prüfen.
+- Zur Anwendung zurückkehren.
 
 **Ergebnisprüfung**
 
@@ -672,10 +672,10 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.2.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
 
-- [ ] Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
-- [ ] Dokument in der Anwendung anzeigen.
-- [ ] PDF-Version öffnen.
-- [ ] PDF-Datei speichern und öffnen.
+- Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
+- Dokument in der Anwendung anzeigen.
+- PDF-Version öffnen.
+- PDF-Datei speichern und öffnen.
 
 **Ergebnisprüfung**
 
@@ -688,22 +688,22 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.2.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
 
-- [ ] Mit einem angemeldeten Testkonto anmelden.
-- [ ] **Hilfe & Anleitung** öffnen.
-- [ ] Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
-- [ ] Prüfen, ob die Testdokumentation vollständig angezeigt wird.
-- [ ] TESTING-Modus aktivieren und einen Testblock aufrufen.
-- [ ] Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
-- [ ] Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
-- [ ] Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
-- [ ] Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach 15 Sekunden aktualisiert wird, ohne die Seite neu zu laden.
-- [ ] In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
-- [ ] Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
-- [ ] **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
-- [ ] Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
-- [ ] TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
-- [ ] Die Testcheckliste ohne Anmeldung direkt aufrufen.
-- [ ] Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
+- Mit einem angemeldeten Testkonto anmelden.
+- **Hilfe & Anleitung** öffnen.
+- Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
+- Prüfen, ob die Testdokumentation vollständig angezeigt wird.
+- TESTING-Modus aktivieren und einen Testblock aufrufen.
+- Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
+- Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
+- Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
+- Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach 15 Sekunden aktualisiert wird, ohne die Seite neu zu laden.
+- In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
+- Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
+- **Aktuellen Test als .md herunterladen** auswählen und die heruntergeladene vollständige Markdown-Datei öffnen.
+- Prüfen, ob sämtliche gesetzten und entfernten Haken im Download enthalten sind.
+- TESTING-Modus deaktivieren und Bearbeitbarkeit sowie Download erneut prüfen.
+- Die Testcheckliste ohne Anmeldung direkt aufrufen.
+- Über den Rücklink wieder **Hilfe & Anleitung** öffnen.
 
 **Ergebnisprüfung**
 
@@ -730,18 +730,18 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 #### 3.3.1 Vollständigkeit und Nachprüfung
 
-- [ ] Alle für die Installation relevanten Testblöcke wurden durchgeführt.
-- [ ] Alle Rollen wurden mit getrennten Testkonten geprüft.
-- [ ] Direkte URL-Aufrufe wurden bei den Berechtigungstests berücksichtigt.
-- [ ] Abweichungen wurden dokumentiert und nicht als erfolgreich abgehakt.
-- [ ] Kritische Fehler wurden nach Korrektur erneut geprüft.
-- [ ] Testdaten wurden nach Abschluss entsprechend den Testumgebungsregeln zurückgesetzt.
+- Alle für die Installation relevanten Testblöcke wurden durchgeführt.
+- Alle Rollen wurden mit getrennten Testkonten geprüft.
+- Direkte URL-Aufrufe wurden bei den Berechtigungstests berücksichtigt.
+- Abweichungen wurden dokumentiert und nicht als erfolgreich abgehakt.
+- Kritische Fehler wurden nach Korrektur erneut geprüft.
+- Testdaten wurden nach Abschluss entsprechend den Testumgebungsregeln zurückgesetzt.
 
 #### 3.3.2 Ergebnis der Gesamtprüfung
 
-- [ ] Alle durchgeführten und relevanten Testfälle erfolgreich.
-- [ ] Keine offenen kritischen oder hohen Fehler.
-- [ ] Abweichungen und nicht durchgeführte Tests sind separat dokumentiert.
+- Alle durchgeführten und relevanten Testfälle erfolgreich.
+- Keine offenen kritischen oder hohen Fehler.
+- Abweichungen und nicht durchgeführte Tests sind separat dokumentiert.
 
 **Prüfdatum:** ____________________  
 **Geprüfte Version / Commit:** ____________________  
@@ -774,9 +774,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -792,9 +792,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -814,9 +814,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -831,9 +831,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -853,9 +853,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Nutzerkonto anmelden, das in mindestens einer bestehenden Besprechungsreihe ausdrücklich als Moderator*in zugewiesen ist.
-- [ ] Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit einem globalen Nutzerkonto anmelden, das in mindestens einer bestehenden Besprechungsreihe ausdrücklich als Moderator*in zugewiesen ist.
+- Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -872,9 +872,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -890,9 +890,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -908,9 +908,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -926,9 +926,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -944,9 +944,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -963,10 +963,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Nutzerkonto anmelden, das in einer anderen Besprechungsreihe Moderator ist, für die geprüfte Zielreihe aber keine Serienzuweisung besitzt.
-- [ ] Die Zielreihe, einen zugehörigen Termin und ein zugehöriges Thema über die vorgesehenen direkten URLs aufrufen.
-- [ ] Zusätzlich versuchen, die Zielreihe zu bearbeiten und ihre Serienmitglieder zu verwalten.
-- [ ] Anschließend dieselben fachlichen Ansichten der tatsächlich zugewiesenen Reihe aufrufen.
+- Mit einem globalen Nutzerkonto anmelden, das in einer anderen Besprechungsreihe Moderator ist, für die geprüfte Zielreihe aber keine Serienzuweisung besitzt.
+- Die Zielreihe, einen zugehörigen Termin und ein zugehöriges Thema über die vorgesehenen direkten URLs aufrufen.
+- Zusätzlich versuchen, die Zielreihe zu bearbeiten und ihre Serienmitglieder zu verwalten.
+- Anschließend dieselben fachlichen Ansichten der tatsächlich zugewiesenen Reihe aufrufen.
 
 **Ergebnisprüfung**
 
@@ -987,9 +987,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1005,9 +1005,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1023,9 +1023,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1041,9 +1041,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1058,9 +1058,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
-- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
+- Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Termin kann mit dem für diesen Testfall verwendeten Leserkonto weiterhin geöffnet werden.
@@ -1075,9 +1075,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1094,9 +1094,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1112,9 +1112,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1130,9 +1130,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1147,9 +1147,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1165,9 +1165,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1184,9 +1184,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1205,9 +1205,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1223,9 +1223,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1240,9 +1240,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1257,9 +1257,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1275,9 +1275,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1293,9 +1293,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1314,9 +1314,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1332,9 +1332,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1350,9 +1350,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1368,9 +1368,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1385,9 +1385,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1402,9 +1402,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1424,9 +1424,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1442,9 +1442,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1459,9 +1459,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1478,9 +1478,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1496,9 +1496,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1517,9 +1517,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1534,9 +1534,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1551,9 +1551,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1572,9 +1572,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Auch ohne Serienzuweisung darf das Konto einen Antrag für eine Besprechungsreihe stellen; der Antrag selbst gewährt noch keinen Zugriff auf Reiheninhalte.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
-- [ ] Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
-- [ ] Nach dem Absenden die Antragsübersicht neu laden und den gespeicherten Antrag prüfen.
+- Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
+- Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
+- Nach dem Absenden die Antragsübersicht neu laden und den gespeicherten Antrag prüfen.
 
 **Ergebnisprüfung**
 
@@ -1590,11 +1590,11 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt für Anträge der eigenen moderierten Reihe; Zugriff verweigert für fremde Reihen.**
 
 **Prüfschritt**
-- [ ] Mit einem globalen Nutzerkonto anmelden, das für Testreihe A ausdrücklich als Moderator*in zugewiesen ist.
-- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für Testreihe A vorbereiten.
-- [ ] Den Antrag für Testreihe A öffnen und einmal genehmigen oder ablehnen.
-- [ ] Zusätzlich einen offenen Antrag für Testreihe B vorbereiten, für die keine Moderatorzuweisung besteht, und versuchen, diesen zu entscheiden.
-- [ ] Die Antragsliste und die Serienzuweisungen beider Testkonten neu laden.
+- Mit einem globalen Nutzerkonto anmelden, das für Testreihe A ausdrücklich als Moderator*in zugewiesen ist.
+- Für ein separates Testkonto einen offenen Berechtigungsantrag für Testreihe A vorbereiten.
+- Den Antrag für Testreihe A öffnen und einmal genehmigen oder ablehnen.
+- Zusätzlich einen offenen Antrag für Testreihe B vorbereiten, für die keine Moderatorzuweisung besteht, und versuchen, diesen zu entscheiden.
+- Die Antragsliste und die Serienzuweisungen beider Testkonten neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Antrag für die eigene moderierte Testreihe A wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
@@ -1609,9 +1609,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Auch ohne Serienzuweisung darf das Konto einen Antrag für eine Besprechungsreihe stellen; der Antrag selbst gewährt noch keinen Zugriff auf Reiheninhalte.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
-- [ ] Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
-- [ ] Nach dem Absenden die Antragsübersicht neu laden und den gespeicherten Antrag prüfen.
+- Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
+- Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
+- Nach dem Absenden die Antragsübersicht neu laden und den gespeicherten Antrag prüfen.
 
 **Ergebnisprüfung**
 
@@ -1629,10 +1629,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -1645,10 +1645,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -1662,9 +1662,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1679,9 +1679,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1701,9 +1701,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1718,10 +1718,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Das globale Nutzerkonto mit Moderatorzuweisung sieht ausschließlich Ereignisse seiner eigenen moderierten Reihe; systembezogene Ereignisse bleiben ausgeblendet.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -1735,9 +1735,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1756,10 +1756,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -1773,9 +1773,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
-- [ ] Das Archiv öffnen, bei einem vorbereiteten archivierten Testthema die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; nach einem separat durchgeführten Retention-Lauf den Eintrag erneut prüfen.
-- [ ] Die Anzeige vor und nach dem Retention-Lauf vergleichen und die nachfolgenden Ergebnisprüfungen anhand des tatsächlichen Bestands durchführen.
+- Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
+- Das Archiv öffnen, bei einem vorbereiteten archivierten Testthema die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; nach einem separat durchgeführten Retention-Lauf den Eintrag erneut prüfen.
+- Die Anzeige vor und nach dem Retention-Lauf vergleichen und die nachfolgenden Ergebnisprüfungen anhand des tatsächlichen Bestands durchführen.
 
 **Ergebnisprüfung**
 
@@ -1790,10 +1790,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -1808,10 +1808,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -1824,10 +1824,10 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -1854,9 +1854,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1872,9 +1872,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1894,9 +1894,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1911,9 +1911,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -1934,10 +1934,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 **Prüfschritt**
 
-- [ ] Mit einem Testkonto anmelden, dem für die geprüfte Besprechungsreihe ausdrücklich keine Serienzuweisung erteilt wurde.
-- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
-- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
-- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
+- Mit einem Testkonto anmelden, dem für die geprüfte Besprechungsreihe ausdrücklich keine Serienzuweisung erteilt wurde.
+- Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
@@ -1956,9 +1956,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Terminübersicht ist auch ohne Serienzuweisung erreichbar. Sie enthält in diesem Testkonto keine Termine.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Die Terminübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Die Terminübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
 - [ ] Die Terminübersicht wird ohne Zugriffsfehler geöffnet.
@@ -1970,10 +1970,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -1986,10 +1986,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2002,10 +2002,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2018,10 +2018,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2036,10 +2036,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2052,10 +2052,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2068,10 +2068,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2084,10 +2084,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2100,10 +2100,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2116,10 +2116,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2132,9 +2132,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
-- [ ] Die JSON-Antwort und das Feld `results` prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
+- Die JSON-Antwort und das Feld `results` prüfen.
 
 **Ergebnisprüfung**
 - [ ] Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
@@ -2148,10 +2148,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2164,10 +2164,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2180,10 +2180,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2196,10 +2196,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2212,10 +2212,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2228,10 +2228,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2246,10 +2246,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2262,10 +2262,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2278,10 +2278,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2294,10 +2294,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2310,10 +2310,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2326,10 +2326,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2344,10 +2344,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2360,10 +2360,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2376,10 +2376,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2392,10 +2392,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2408,10 +2408,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2426,10 +2426,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2442,9 +2442,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Das Archiv ist erreichbar. Ohne Serienzuweisung werden keine archivierten Themen angezeigt.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Das Archiv über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Das Archiv über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
 - [ ] Das Archiv wird ohne Zugriffsfehler geöffnet.
@@ -2457,9 +2457,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine eigens dafür vorgesehene Testreihe mit archivierten Inhalten verwenden, die vorgesehene Reihenlöschung durchführen bzw. den vorbereiteten Löschzustand nutzen und anschließend den historischen Zugriff prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2478,9 +2478,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Funktion zum Beantragen einer Serienberechtigung öffnen, eine Testreihe und die gewünschte Rolle auswählen und den Antrag absenden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2495,10 +2495,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2512,9 +2512,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2532,10 +2532,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2548,10 +2548,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2564,10 +2564,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2580,10 +2580,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2598,10 +2598,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar, zeigt ohne Serienzuweisung aber keine serienbezogenen Ereignisse.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -2613,10 +2613,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Nutzer*innen ohne globale Admin- oder Auditorrolle nicht sichtbar.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -2628,10 +2628,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2646,10 +2646,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2662,9 +2662,9 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff erlaubt.** Die Archivansicht ist erreichbar. Ohne Serienzuweisung werden jedoch keine archivierten Themen oder deren Aufbewahrungsdaten angezeigt.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
-- [ ] Das Archiv über die Navigation oder die vorgesehene direkte URL öffnen.
-- [ ] Die Archivliste laden und prüfen, ob archivierte Themen bzw. Aufbewahrungsdaten angezeigt werden.
+- Mit einem globalen Nutzerkonto anmelden, dem für keine Besprechungsreihe eine Serienrolle zugewiesen ist.
+- Das Archiv über die Navigation oder die vorgesehene direkte URL öffnen.
+- Die Archivliste laden und prüfen, ob archivierte Themen bzw. Aufbewahrungsdaten angezeigt werden.
 
 **Ergebnisprüfung**
 - [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
@@ -2676,10 +2676,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2694,10 +2694,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2710,10 +2710,10 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 **Berechtigungserwartung für Ohne Berechtigungen: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2740,9 +2740,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2758,9 +2758,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2780,9 +2780,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2796,9 +2796,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Aufgabenübersicht ist für Leser*innen erreichbar. Angezeigt werden ausschließlich eigene Aufgaben aus ausdrücklich zugänglichen Reihen; bei fehlenden Aufgaben erscheint ein Leerzustand.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Die eigene Aufgabenübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Die eigene Aufgabenübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
 - [ ] Die Aufgabenübersicht wird ohne Zugriffsfehler geöffnet.
@@ -2814,10 +2814,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Prüfschritt**
 
-- [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Leser*in zugewiesen ist.
-- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
-- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
-- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
+- Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Leser*in zugewiesen ist.
+- Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
@@ -2837,9 +2837,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -2854,10 +2854,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2870,10 +2870,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2886,10 +2886,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2902,9 +2902,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
-- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
+- Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Termin kann mit dem für diesen Testfall verwendeten Konto weiterhin geöffnet werden.
@@ -2918,10 +2918,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2934,10 +2934,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2950,10 +2950,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2966,10 +2966,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2982,10 +2982,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -2998,10 +2998,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3014,10 +3014,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themenvorschlags-Endpunkt bzw. die Vorschlagsfunktion in einem Testformular aufrufen und versuchen, einen Vorschlag zu übernehmen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den Themenvorschlags-Endpunkt bzw. die Vorschlagsfunktion in einem Testformular aufrufen und versuchen, einen Vorschlag zu übernehmen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3032,10 +3032,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3048,10 +3048,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3064,10 +3064,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3080,10 +3080,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3096,10 +3096,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3113,9 +3113,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3133,10 +3133,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3149,10 +3149,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3165,10 +3165,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3182,9 +3182,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3198,10 +3198,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3214,10 +3214,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3232,10 +3232,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3249,9 +3249,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3266,9 +3266,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3284,10 +3284,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3301,9 +3301,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3322,9 +3322,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3339,9 +3339,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3355,10 +3355,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3374,9 +3374,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Leser*innen dürfen für eine ihnen zugewiesene Reihe eine höhere Serienrolle beantragen; die höhere Berechtigung entsteht erst nach Genehmigung.
 
 **Prüfschritt**
-- [ ] Mit einem Leser-Konto anmelden, das der geprüften Testreihe ausdrücklich als Leser*in zugewiesen ist.
-- [ ] Die persönliche Benutzerübersicht öffnen und bei dieser Reihe eine höhere Rolle (Teilnehmer*in oder Moderator*in) auswählen.
-- [ ] Den Antrag absenden und anschließend die Benutzerübersicht neu laden.
+- Mit einem Leser-Konto anmelden, das der geprüften Testreihe ausdrücklich als Leser*in zugewiesen ist.
+- Die persönliche Benutzerübersicht öffnen und bei dieser Reihe eine höhere Rolle (Teilnehmer*in oder Moderator*in) auswählen.
+- Den Antrag absenden und anschließend die Benutzerübersicht neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Antrag wird der richtigen Person und Testreihe zugeordnet und als offen angezeigt.
@@ -3389,10 +3389,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3406,10 +3406,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Die persönliche Benutzerübersicht ist erreichbar. Ein bereits offener Antrag darf jedoch nicht doppelt angelegt werden.
 
 **Prüfschritt**
-- [ ] Mit einem Leser-Konto anmelden, das der Testreihe ausdrücklich als Leser*in zugewiesen ist.
-- [ ] Für dieses Konto und dieselbe Testreihe einen offenen Antrag vorbereiten.
-- [ ] Die persönliche Benutzerübersicht öffnen; da der offene Antrag das Formular ausblendet, den entsprechenden POST-Aufruf mit denselben Daten direkt wiederholen.
-- [ ] Anschließend die Antragsliste und die Serienzuweisung neu laden.
+- Mit einem Leser-Konto anmelden, das der Testreihe ausdrücklich als Leser*in zugewiesen ist.
+- Für dieses Konto und dieselbe Testreihe einen offenen Antrag vorbereiten.
+- Die persönliche Benutzerübersicht öffnen; da der offene Antrag das Formular ausblendet, den entsprechenden POST-Aufruf mit denselben Daten direkt wiederholen.
+- Anschließend die Antragsliste und die Serienzuweisung neu laden.
 
 **Ergebnisprüfung**
 - [ ] Die Benutzerübersicht und die Antragsfunktion sind erreichbar.
@@ -3424,10 +3424,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3440,10 +3440,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3456,10 +3456,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3472,10 +3472,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3490,10 +3490,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Leser*innen erhalten jedoch keinen Zugriff auf serienbezogene Änderungsereignisse, da hierfür eine Moderatorzuweisung erforderlich ist.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -3505,10 +3505,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Leser*innen nicht sichtbar.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -3520,10 +3520,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3538,10 +3538,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3554,9 +3554,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff erlaubt.** Leser*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; administrative Aufbewahrungseinstellungen bleiben ihnen verborgen.
 
 **Prüfschritt**
-- [ ] Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Leser*in zugewiesen ist.
-- [ ] Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
-- [ ] Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; anschließend prüfen, dass keine administrative Änderungsfunktion angeboten wird.
+- Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Leser*in zugewiesen ist.
+- Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
+- Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; anschließend prüfen, dass keine administrative Änderungsfunktion angeboten wird.
 
 **Ergebnisprüfung**
 - [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
@@ -3569,10 +3569,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3587,10 +3587,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3603,10 +3603,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 **Berechtigungserwartung für Leser: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3633,9 +3633,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3651,9 +3651,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3673,9 +3673,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3690,9 +3690,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3713,10 +3713,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Prüfschritt**
 
-- [ ] Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
-- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
-- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
-- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
+- Mit einem Testkonto anmelden, das der geprüften Besprechungsreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
+- Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
@@ -3736,9 +3736,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3753,10 +3753,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3769,10 +3769,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3786,9 +3786,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3803,9 +3803,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
-- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
+- Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- Eine schreibende Aktion am abgeschlossenen Termin versuchen; falls die Oberfläche keine Aktion anbietet, den vorgesehenen Direktaufruf mit unveränderten Testdaten prüfen und anschließend den Termin neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Termin kann mit dem für diesen Testfall verwendeten Konto weiterhin geöffnet werden.
@@ -3820,9 +3820,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3839,9 +3839,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3857,9 +3857,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3875,9 +3875,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3891,10 +3891,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -3908,9 +3908,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3927,9 +3927,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3948,9 +3948,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3966,9 +3966,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -3983,9 +3983,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4000,9 +4000,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4018,9 +4018,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4036,9 +4036,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4057,9 +4057,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4075,9 +4075,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4093,9 +4093,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4111,9 +4111,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4128,9 +4128,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4145,9 +4145,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4167,9 +4167,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4185,9 +4185,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4202,9 +4202,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4220,10 +4220,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4237,9 +4237,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4258,9 +4258,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4275,9 +4275,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4291,10 +4291,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4310,9 +4310,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Teilnehmer*innen dürfen für eine ihnen zugewiesene Reihe eine höhere Serienrolle beantragen; Moderatorrechte entstehen erst nach Genehmigung.
 
 **Prüfschritt**
-- [ ] Mit einem Teilnehmer-Konto anmelden, das der geprüften Testreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
-- [ ] Die persönliche Benutzerübersicht öffnen und für diese Reihe Moderator*in als gewünschte Rolle auswählen.
-- [ ] Den Antrag absenden und anschließend die Benutzerübersicht neu laden.
+- Mit einem Teilnehmer-Konto anmelden, das der geprüften Testreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
+- Die persönliche Benutzerübersicht öffnen und für diese Reihe Moderator*in als gewünschte Rolle auswählen.
+- Den Antrag absenden und anschließend die Benutzerübersicht neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Antrag wird der richtigen Person und Testreihe zugeordnet und als offen angezeigt.
@@ -4325,10 +4325,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4342,10 +4342,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die persönliche Benutzerübersicht ist erreichbar. Ein bereits offener Antrag darf jedoch nicht doppelt angelegt werden.
 
 **Prüfschritt**
-- [ ] Mit einem Teilnehmer-Konto anmelden, das der Testreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
-- [ ] Für dieses Konto und dieselbe Testreihe einen offenen Antrag vorbereiten.
-- [ ] Die persönliche Benutzerübersicht öffnen; da der offene Antrag das Formular ausblendet, den entsprechenden POST-Aufruf mit denselben Daten direkt wiederholen.
-- [ ] Anschließend die Antragsliste und die Serienzuweisung neu laden.
+- Mit einem Teilnehmer-Konto anmelden, das der Testreihe ausdrücklich als Teilnehmer*in zugewiesen ist.
+- Für dieses Konto und dieselbe Testreihe einen offenen Antrag vorbereiten.
+- Die persönliche Benutzerübersicht öffnen; da der offene Antrag das Formular ausblendet, den entsprechenden POST-Aufruf mit denselben Daten direkt wiederholen.
+- Anschließend die Antragsliste und die Serienzuweisung neu laden.
 
 **Ergebnisprüfung**
 - [ ] Die Benutzerübersicht und die Antragsfunktion sind erreichbar.
@@ -4360,10 +4360,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4376,10 +4376,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4392,10 +4392,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4408,10 +4408,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4426,10 +4426,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Teilnehmer*innen erhalten jedoch keinen Zugriff auf serienbezogene Änderungsereignisse, da hierfür eine Moderatorzuweisung erforderlich ist.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -4441,10 +4441,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar; systembezogene Ereignisse sind für Teilnehmer*innen nicht sichtbar.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -4456,10 +4456,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den CSV-Export des Änderungsverlaufs über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4474,10 +4474,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4490,9 +4490,9 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Teilnehmer*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; administrative Aufbewahrungseinstellungen bleiben ihnen verborgen.
 
 **Prüfschritt**
-- [ ] Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Teilnehmer*in zugewiesen ist.
-- [ ] Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
-- [ ] Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; anschließend prüfen, dass keine administrative Änderungsfunktion angeboten wird.
+- Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Teilnehmer*in zugewiesen ist.
+- Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
+- Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; anschließend prüfen, dass keine administrative Änderungsfunktion angeboten wird.
 
 **Ergebnisprüfung**
 - [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
@@ -4505,10 +4505,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4523,10 +4523,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4539,10 +4539,10 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 **Berechtigungserwartung für Teilnehmer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -4569,9 +4569,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4587,9 +4587,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4609,9 +4609,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4626,9 +4626,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönliche Aufgabenübersicht öffnen, vorhandene eigene Aufgaben durchgehen und – falls keine vorhanden sind – den vorgesehenen Leerzustand prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4648,9 +4648,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4667,9 +4667,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine der Rolle zugewiesene Testreihe öffnen, ein unkritisches Feld (z. B. Beschreibung) ändern, speichern und die Reihe erneut laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4685,9 +4685,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine zugewiesene Testreihe öffnen, das Enddatum um mindestens einen Serientermin verlängern und die Änderung speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4703,9 +4703,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4721,9 +4721,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4739,9 +4739,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4758,10 +4758,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt auf die eigene Reihe, Zugriff verweigert auf nicht zugewiesene Reihen.** Die Moderatorrolle gilt ausschließlich für die ausdrücklich zugewiesene Reihe.
 
 **Prüfschritt**
-- [ ] Mit einem Moderator-Konto anmelden, das für Testreihe A als Moderator zugewiesen ist.
-- [ ] Sicherstellen, dass für Testreihe B keine Serienzuweisung besteht.
-- [ ] Einen Termin und ein Thema aus Testreihe A über die vorgesehenen Ansichten öffnen.
-- [ ] Die bekannten direkten URLs eines Termins und eines Themas aus Testreihe B aufrufen.
+- Mit einem Moderator-Konto anmelden, das für Testreihe A als Moderator zugewiesen ist.
+- Sicherstellen, dass für Testreihe B keine Serienzuweisung besteht.
+- Einen Termin und ein Thema aus Testreihe A über die vorgesehenen Ansichten öffnen.
+- Die bekannten direkten URLs eines Termins und eines Themas aus Testreihe B aufrufen.
 
 **Ergebnisprüfung**
 - [ ] Inhalte und Termine aus Testreihe A sind entsprechend der Moderatorrolle erreichbar.
@@ -4776,11 +4776,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
 
-- [ ] Ein Moderator-Konto für Testreihe A verwenden.
-- [ ] Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
-- [ ] Testreihe A über die Serienverwaltung öffnen.
-- [ ] Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
-- [ ] Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+- Ein Moderator-Konto für Testreihe A verwenden.
+- Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
+- Testreihe A über die Serienverwaltung öffnen.
+- Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
+- Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
 
 **Ergebnisprüfung**
 
@@ -4798,9 +4798,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Terminübersicht über die Navigation öffnen, die für das Testkonto verfügbaren Reihen bzw. Termine laden und den angezeigten Umfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4816,9 +4816,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugewiesenen Testtermin öffnen, Datum oder Uhrzeit auf einen freien Testzeitpunkt ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4834,9 +4834,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4852,9 +4852,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Teilnehmerliste eines zugewiesenen Testtermins öffnen, ein separates Testkonto hinzufügen oder entfernen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4869,10 +4869,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
-- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
-- [ ] Vor dem Wiederöffnen eine schreibende Aktion am abgeschlossenen Termin versuchen und anschließend prüfen, dass der Abschlussstatus bestehen bleibt.
-- [ ] Den Termin über die gesonderte Moderatorfunktion wieder öffnen, eine zulässige Änderung durchführen und den Termin erneut abschließen.
+- Mit dem im Testfall genannten Konto und der exakt beschriebenen Serienrolle anmelden.
+- Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und den Protokoll-/Tagesordnungsstand dokumentieren.
+- Vor dem Wiederöffnen eine schreibende Aktion am abgeschlossenen Termin versuchen und anschließend prüfen, dass der Abschlussstatus bestehen bleibt.
+- Den Termin über die gesonderte Moderatorfunktion wieder öffnen, eine zulässige Änderung durchführen und den Termin erneut abschließen.
 
 **Ergebnisprüfung**
 - [ ] Der Moderator kann den abgeschlossenen Termin seiner zugewiesenen Reihe öffnen und den gespeicherten Protokollstand einsehen.
@@ -4887,9 +4887,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Im Dashboard die Funktion zum Anlegen eines Themas öffnen, ein eindeutig erkennbares Testthema mit Pflichtangaben erfassen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4906,9 +4906,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen Testtermin öffnen, dort ein neues Testthema mit eindeutiger Bezeichnung und Pflichtangaben anlegen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4924,9 +4924,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, ein unkritisches Feld ändern, speichern und die Detailansicht erneut laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4942,9 +4942,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, den Status über die vorgesehene Statusaktion ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4959,9 +4959,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein entbehrliches Testthema archivieren, die Archivansicht öffnen und das Thema anschließend über die vorgesehene Funktion wieder öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4977,9 +4977,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -4996,9 +4996,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Themenvorschläge im vorgesehenen Eingabebereich öffnen, einen passenden Vorschlag auswählen und dessen Übernahme auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5017,9 +5017,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen Testtermin mit Tagesordnung öffnen, einen vorhandenen Test-Tagesordnungspunkt ändern und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5035,9 +5035,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Bei einem Testtermin mindestens zwei Tagesordnungspunkte in eine andere Reihenfolge bringen, die Sortierung speichern und die Seite neu laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5052,9 +5052,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5069,9 +5069,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Bei einem Testthema eine Wiedervorlage mit einem konkreten Folgetermin setzen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5087,9 +5087,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine Wiedervorlage für ein Testthema anlegen, den ersten Folgetermin bearbeiten bzw. abschließen und den nächsten vorgesehenen Termin auf die fortgeführte Wiedervorlage prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5105,9 +5105,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen Termin mit bereits abgeschlossenen bzw. historischen Tagesordnungseinträgen öffnen und den historischen Eintrag gezielt auswählen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5126,9 +5126,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, einen eindeutig als Test erkennbaren Kommentar hinzufügen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5144,9 +5144,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5162,9 +5162,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Bei einem zugänglichen Testthema einen dafür vorgesehenen Test-Netzwerkpfad oder eine unkritische Test-URL hinterlegen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5180,9 +5180,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit einer bekannten Testdatei öffnen, die Anlage herunterladen und den Dateiinhalt mit der hochgeladenen Testdatei vergleichen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5197,9 +5197,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit einer entbehrlichen Testanlage öffnen, die Anlage löschen und die Rückfrage bestätigen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5214,9 +5214,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Für ein zugängliches Testthema eine Testdatei unterhalb und eine oberhalb der konfigurierten Upload-Grenze verwenden und beide Uploadversuche getrennt ausführen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5236,9 +5236,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen dafür vorgesehenen Testtermin öffnen, die Abschlussfunktion auslösen und die Bestätigung durchführen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5254,9 +5254,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen zugänglichen abgeschlossenen Testtermin öffnen und das gespeicherte Protokoll aufrufen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5271,9 +5271,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Protokoll eines zugänglichen Testtermins öffnen, die Druckansicht aufrufen und zusätzlich den PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5290,9 +5290,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5308,9 +5308,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Ein zugängliches Testthema mit Protokolleinträgen öffnen und den Themenprotokoll-PDF-Export auslösen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5329,9 +5329,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Übersicht der offenen Themen öffnen und die angezeigten Themen anhand der zugewiesenen Reihen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5346,9 +5346,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Archiv über die Navigation öffnen, die Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5362,10 +5362,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5381,10 +5381,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Eine Moderatorin bzw. ein Moderator kann für die bereits moderierte Reihe keinen weiteren Berechtigungsantrag stellen oder die eigene Moderatorrolle selbst herabstufen.
 
 **Prüfschritt**
-- [ ] Mit einem Moderator-Konto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
-- [ ] Die persönliche Benutzerübersicht öffnen und prüfen, dass die Rollenwahl für diese Reihe gesperrt ist.
-- [ ] Einen direkten POST-Aufruf für einen Berechtigungsantrag zu genau dieser Reihe versuchen.
-- [ ] Die Benutzerübersicht und die Serienzuweisung neu laden.
+- Mit einem Moderator-Konto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
+- Die persönliche Benutzerübersicht öffnen und prüfen, dass die Rollenwahl für diese Reihe gesperrt ist.
+- Einen direkten POST-Aufruf für einen Berechtigungsantrag zu genau dieser Reihe versuchen.
+- Die Benutzerübersicht und die Serienzuweisung neu laden.
 
 **Ergebnisprüfung**
 - [ ] Für die bereits moderierte Reihe kann kein neuer Berechtigungsantrag erstellt werden.
@@ -5398,11 +5398,11 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt für Anträge der eigenen moderierten Reihe; Zugriff verweigert für fremde Reihen.**
 
 **Prüfschritt**
-- [ ] Mit einem Moderator-Konto anmelden, das für Testreihe A ausdrücklich als Moderator*in zugewiesen ist.
-- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für Testreihe A vorbereiten.
-- [ ] Den Antrag für Testreihe A öffnen und einmal genehmigen oder ablehnen.
-- [ ] Zusätzlich einen offenen Antrag für Testreihe B vorbereiten, für die keine Moderatorzuweisung besteht, und versuchen, diesen zu entscheiden.
-- [ ] Die Antragsliste und die Serienzuweisungen beider Testkonten neu laden.
+- Mit einem Moderator-Konto anmelden, das für Testreihe A ausdrücklich als Moderator*in zugewiesen ist.
+- Für ein separates Testkonto einen offenen Berechtigungsantrag für Testreihe A vorbereiten.
+- Den Antrag für Testreihe A öffnen und einmal genehmigen oder ablehnen.
+- Zusätzlich einen offenen Antrag für Testreihe B vorbereiten, für die keine Moderatorzuweisung besteht, und versuchen, diesen zu entscheiden.
+- Die Antragsliste und die Serienzuweisungen beider Testkonten neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Antrag für die eigene moderierte Testreihe A wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
@@ -5417,10 +5417,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Für eine Reihe, in der das Konto bereits Moderator*in ist, ist die erneute Beantragung oder Bearbeitung eines eigenen Berechtigungsantrags gesperrt.
 
 **Prüfschritt**
-- [ ] Mit einem Moderator-Konto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
-- [ ] Einen vorhandenen offenen Antrag dieses Kontos für dieselbe Reihe vorbereiten, sofern der Testbestand einen solchen Altantrag enthält.
-- [ ] Die persönliche Benutzerübersicht öffnen und den direkten POST-Aufruf für dieselbe Reihe erneut versuchen.
-- [ ] Die Antragsliste und die Serienzuweisung neu laden.
+- Mit einem Moderator-Konto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
+- Einen vorhandenen offenen Antrag dieses Kontos für dieselbe Reihe vorbereiten, sofern der Testbestand einen solchen Altantrag enthält.
+- Die persönliche Benutzerübersicht öffnen und den direkten POST-Aufruf für dieselbe Reihe erneut versuchen.
+- Die Antragsliste und die Serienzuweisung neu laden.
 
 **Ergebnisprüfung**
 - [ ] Die Moderatorrolle kann für dieselbe Reihe nicht erneut beantragt oder geändert werden.
@@ -5435,10 +5435,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5451,10 +5451,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5468,9 +5468,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Themen-CSV-Funktion für eine zugängliche Testreihe aufrufen, den Export starten und die heruntergeladene Datei öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5485,9 +5485,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5507,9 +5507,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5524,10 +5524,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse eingeschränkt.** Die Änderungsverlaufseite ist erreichbar. Moderator*innen sehen die Ereignisse ihrer eigenen moderierten Reihen, aber keine systembezogenen Ereignisse.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Systemereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -5541,9 +5541,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5562,10 +5562,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5578,9 +5578,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Moderator*innen dürfen archivierte Themen ihrer zugewiesenen Reihe und die dort angezeigte Aufbewahrungsfrist bzw. das Löschdatum einsehen; die globalen Aufbewahrungseinstellungen werden in diesem Test nicht verändert.
 
 **Prüfschritt**
-- [ ] Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
-- [ ] Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
-- [ ] Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen.
+- Mit einem Testkonto anmelden, das der geprüften Reihe ausdrücklich als Moderator*in zugewiesen ist.
+- Das Archiv über die Navigation öffnen und ein vorbereitetes archiviertes Thema aus der zugewiesenen Reihe auswählen.
+- Die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen.
 
 **Ergebnisprüfung**
 - [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
@@ -5593,10 +5593,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5611,10 +5611,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5627,10 +5627,10 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 **Berechtigungserwartung für Moderator: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5657,9 +5657,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Das Dashboard über die Hauptnavigation öffnen und vollständig laden lassen. Die angezeigten Kacheln, Kennzahlen und Verknüpfungen prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5675,9 +5675,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5697,9 +5697,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5713,10 +5713,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die persönliche Aufgabenübersicht über Navigation und direkte URL öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die persönliche Aufgabenübersicht über Navigation und direkte URL öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5732,9 +5732,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Serienverwaltung öffnen und eine eindeutig benannte Testreihe mit Testbeschreibung, Startdatum, Rhythmus und Enddatum anlegen. Die vorgesehene Moderatorzuweisung setzen und speichern.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -5750,10 +5750,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Bearbeitung einer Bestandsreihe ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
-- [ ] Die Serienverwaltung öffnen und die Bearbeitungsseite einer Bestandsreihe ohne Moderatorzuweisung über die Oberfläche und direkt aufrufen.
-- [ ] Eine Änderung an einem unkritischen Feld der Bestandsreihe versuchen, ohne sie bei unerwarteter Freigabe endgültig zu speichern.
-- [ ] Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
+- Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
+- Die Serienverwaltung öffnen und die Bearbeitungsseite einer Bestandsreihe ohne Moderatorzuweisung über die Oberfläche und direkt aufrufen.
+- Eine Änderung an einem unkritischen Feld der Bestandsreihe versuchen, ohne sie bei unerwarteter Freigabe endgültig zu speichern.
+- Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
@@ -5765,10 +5765,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, das Enddatum einer Bestandsreihe ohne Moderatorzuweisung zu verlängern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, das Enddatum einer Bestandsreihe ohne Moderatorzuweisung zu verlängern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5781,10 +5781,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, die Terminfolge einer Bestandsreihe ohne Moderatorzuweisung neu aufzusetzen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, die Terminfolge einer Bestandsreihe ohne Moderatorzuweisung neu aufzusetzen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5797,10 +5797,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, eine Bestandsreihe ohne Moderatorzuweisung zu löschen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Serienverwaltung öffnen und versuchen, eine Bestandsreihe ohne Moderatorzuweisung zu löschen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5813,10 +5813,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Berechtigungsverwaltung einer bekannten Bestandsreihe öffnen und versuchen, die Rolle eines separaten Testkontos zu ändern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Berechtigungsverwaltung einer bekannten Bestandsreihe öffnen und versuchen, die Rolle eines separaten Testkontos zu ändern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5830,10 +5830,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt auf die administrative Serienverwaltung, Zugriff verweigert auf fachliche Reiheninhalte ohne Moderatorzuweisung.** Die globale Adminrolle verleiht keinen automatischen Zugriff auf bestehende Termine oder Themen.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für Testreihe A anmelden.
-- [ ] Die administrative Serienverwaltungsübersicht öffnen.
-- [ ] Einen Termin und ein Thema aus Testreihe A über deren bekannte direkte URLs aufrufen.
-- [ ] Keine fachlichen Änderungen vornehmen.
+- Mit einem globalen Admin-Konto ohne Moderatorzuweisung für Testreihe A anmelden.
+- Die administrative Serienverwaltungsübersicht öffnen.
+- Einen Termin und ein Thema aus Testreihe A über deren bekannte direkte URLs aufrufen.
+- Keine fachlichen Änderungen vornehmen.
 
 **Ergebnisprüfung**
 - [ ] Die administrative Serienverwaltungsübersicht ist erreichbar.
@@ -5848,11 +5848,11 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 **Prüfschritt**
 
-- [ ] Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
-- [ ] Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
-- [ ] Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
-- [ ] Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
-- [ ] Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
+- Ein globales Admin-Konto verwenden und es für Testreihe A ausdrücklich als Moderator zuweisen.
+- Für Testreihe B keine Serienzuweisung für dieses Konto vergeben.
+- Testreihe A über die Serienverwaltung öffnen und eine zulässige Verwaltungsaktion ausführen.
+- Dieselbe Verwaltungsseite für Testreihe B über die direkte URL aufrufen.
+- Prüfen, ob die globale Adminrolle ohne Serienzuweisung den Zugriff auf Testreihe B erweitert.
 
 **Ergebnisprüfung**
 
@@ -5867,10 +5867,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsübersicht und Bearbeitungsseite einer Reihe ohne Moderatorzuweisung direkt aufrufen und eine schreibende Aktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsübersicht und Bearbeitungsseite einer Reihe ohne Moderatorzuweisung direkt aufrufen und eine schreibende Aktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5885,9 +5885,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Terminübersicht ist für den globalen Admin ohne Serienzuweisung erreichbar. Es werden keine fachlichen Termine angezeigt.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Die Terminübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Die Terminübersicht über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
 - [ ] Die Terminübersicht wird ohne Zugriffsfehler geöffnet.
@@ -5899,10 +5899,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5915,10 +5915,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5931,10 +5931,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5947,10 +5947,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5965,10 +5965,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5981,10 +5981,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -5997,10 +5997,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6013,10 +6013,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6029,10 +6029,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6045,10 +6045,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6061,9 +6061,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert aber ausschließlich Themen aus zugänglichen Reihen. Ohne Serienzuweisung ist die Ergebnisliste leer.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
-- [ ] Die JSON-Antwort und das Feld `results` prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
+- Die JSON-Antwort und das Feld `results` prüfen.
 
 **Ergebnisprüfung**
 - [ ] Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
@@ -6077,10 +6077,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6093,10 +6093,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6109,10 +6109,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6125,10 +6125,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6141,10 +6141,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6157,10 +6157,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6175,10 +6175,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6191,10 +6191,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6207,10 +6207,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6223,10 +6223,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6239,10 +6239,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6255,10 +6255,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6273,10 +6273,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6289,10 +6289,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6305,10 +6305,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6321,10 +6321,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Ein abgeschlossener Termin kann ohne Moderatorrolle für diese Reihe nicht wieder geöffnet werden.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
-- [ ] Einen abgeschlossenen Termin einer Reihe ohne Moderatorzuweisung über die direkte URL aufrufen und die Funktion zum Wiederöffnen suchen.
-- [ ] Die Wiederöffnen-Aktion über die Oberfläche und – soweit möglich – über den vorgesehenen Direktaufruf auslösen.
-- [ ] Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
+- Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
+- Einen abgeschlossenen Termin einer Reihe ohne Moderatorzuweisung über die direkte URL aufrufen und die Funktion zum Wiederöffnen suchen.
+- Die Wiederöffnen-Aktion über die Oberfläche und – soweit möglich – über den vorgesehenen Direktaufruf auslösen.
+- Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
@@ -6336,10 +6336,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6354,10 +6354,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6370,9 +6370,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Das Archiv ist für den globalen Admin erreichbar. Ohne eigene Serienzuweisung werden keine fachlichen archivierten Themen angezeigt.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Das Archiv über die Navigation bzw. den vorgesehenen Aufruf öffnen.
-- [ ] Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Das Archiv über die Navigation bzw. den vorgesehenen Aufruf öffnen.
+- Die Ansicht bzw. Ergebnisliste laden und den angezeigten Datenumfang prüfen.
 
 **Ergebnisprüfung**
 - [ ] Das Archiv wird ohne Zugriffsfehler geöffnet.
@@ -6384,10 +6384,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6403,9 +6403,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Auch ein globaler Admin ohne eigene Serienzuweisung kann über die persönliche Benutzerübersicht eine Serienberechtigung beantragen. Die Adminrolle ersetzt die beantragte Serienzuweisung nicht.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die Testreihe anmelden.
-- [ ] Die persönliche Benutzerübersicht öffnen und für eine Testreihe eine gewünschte Serienrolle auswählen.
-- [ ] Den Antrag absenden und anschließend die Benutzerübersicht neu laden.
+- Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die Testreihe anmelden.
+- Die persönliche Benutzerübersicht öffnen und für eine Testreihe eine gewünschte Serienrolle auswählen.
+- Den Antrag absenden und anschließend die Benutzerübersicht neu laden.
 
 **Ergebnisprüfung**
 - [ ] Der Antrag wird der richtigen Person und Testreihe zugeordnet und als offen angezeigt.
@@ -6418,10 +6418,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Admin-Konto anmelden.
-- [ ] Für ein separates Testkonto einen offenen Berechtigungsantrag für eine Testreihe vorbereiten.
-- [ ] Die Liste offener Anträge öffnen, den vorbereiteten Antrag auswählen und einmal genehmigen oder ablehnen.
-- [ ] Die Liste und den Berechtigungsstatus des antragstellenden Testkontos erneut laden.
+- Mit einem globalen Admin-Konto anmelden.
+- Für ein separates Testkonto einen offenen Berechtigungsantrag für eine Testreihe vorbereiten.
+- Die Liste offener Anträge öffnen, den vorbereiteten Antrag auswählen und einmal genehmigen oder ablehnen.
+- Die Liste und den Berechtigungsstatus des antragstellenden Testkontos erneut laden.
 
 **Ergebnisprüfung**
 - [ ] Der Antrag wird aus der Liste offener Anträge entfernt bzw. als entschieden gekennzeichnet.
@@ -6435,9 +6435,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Für dasselbe Testkonto einen bereits offenen Antrag für dieselbe Testreihe vorbereiten und den Antrag erneut absenden; falls die Oberfläche das Formular ausblendet, den entsprechenden POST-Aufruf direkt wiederholen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6456,9 +6456,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Benutzerverwaltung öffnen, den Benutzer-CSV-Export auslösen und die heruntergeladene Datei auf Umfang und Inhalt prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Benutzerverwaltung öffnen, den Benutzer-CSV-Export auslösen und die heruntergeladene Datei auf Umfang und Inhalt prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6473,9 +6473,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Eine vorbereitete CSV-Datei mit separaten Testkonten verwenden, den Benutzerimport starten und die Import-Rückmeldung prüfen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Eine vorbereitete CSV-Datei mit separaten Testkonten verwenden, den Benutzerimport starten und die Import-Rückmeldung prüfen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6490,10 +6490,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6506,10 +6506,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6524,10 +6524,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist für den globalen Admin erreichbar und kann systembezogene Ereignisse anzeigen. Ohne Moderatorzuweisung für eine Reihe werden jedoch keine serienbezogenen Ereignisse dieser Reihe angezeigt.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -6541,9 +6541,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6559,9 +6559,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6581,9 +6581,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Aufbewahrungseinstellungen für Termine und Protokolle öffnen und die konfigurierten Fristen dokumentieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Aufbewahrungseinstellungen für Termine und Protokolle öffnen und die konfigurierten Fristen dokumentieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6598,9 +6598,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Archivansicht ist für den globalen Admin erreichbar. Ohne Moderatorzuweisung für eine Reihe werden jedoch keine archivierten Themen oder deren Aufbewahrungsdaten angezeigt.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Bestandsreihe anmelden.
-- [ ] Das Archiv über die Navigation oder die vorgesehene direkte URL öffnen.
-- [ ] Die Archivliste laden und prüfen, ob archivierte Themen bzw. Aufbewahrungsdaten angezeigt werden.
+- Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Bestandsreihe anmelden.
+- Das Archiv über die Navigation oder die vorgesehene direkte URL öffnen.
+- Die Archivliste laden und prüfen, ob archivierte Themen bzw. Aufbewahrungsdaten angezeigt werden.
 
 **Ergebnisprüfung**
 - [ ] Die Archivansicht wird ohne Zugriffsfehler geöffnet.
@@ -6613,9 +6613,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Den Retention-Lauf ausschließlich mit vorbereiteten Testdaten bzw. in einer dafür vorgesehenen Testumgebung wiederholt ausführen und die resultierenden Statuswerte kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Den Retention-Lauf ausschließlich mit vorbereiteten Testdaten bzw. in einer dafür vorgesehenen Testumgebung wiederholt ausführen und die resultierenden Statuswerte kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6633,10 +6633,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Auditor*innenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6649,10 +6649,10 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die im Testfall aufgeführten Auditor*innen-URLs einzeln direkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6679,9 +6679,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert (Weiterleitung).** Das allgemeine Dashboard wird für Auditor*innen nicht angezeigt; der Aufruf leitet zur Auditor*innenübersicht weiter.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Das Dashboard über die Navigation und zusätzlich über seine direkte URL aufrufen.
-- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
+- Mit einem globalen Auditor-Konto anmelden.
+- Das Dashboard über die Navigation und zusätzlich über seine direkte URL aufrufen.
+- Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
 - [ ] Das allgemeine Dashboard wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
@@ -6694,9 +6694,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die Hauptnavigation auf Desktop und mobiler Ansicht öffnen. Menüpunkte, Untermenüs und Darstellungsvarianten durchgehen; nicht angebotene Funktionen nicht über fremde Konten simulieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6716,9 +6716,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die persönlichen Kontoeinstellungen öffnen, ein unkritisches Testfeld ändern und speichern. Die Seite neu laden und den gespeicherten Wert kontrollieren.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -6733,9 +6733,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert (Weiterleitung).** Die Aufgabenübersicht leitet globale Auditor*innen zur Auditor*innenübersicht weiter; eigene fachliche Aufgaben sind nicht zugänglich.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Die Aufgabenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
-- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
+- Mit einem globalen Auditor-Konto anmelden.
+- Die Aufgabenübersicht über die Navigation und zusätzlich über ihre direkte URL aufrufen.
+- Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
 - [ ] Die Aufgabenübersicht wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
@@ -6751,10 +6751,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 **Prüfschritt**
 
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
-- [ ] Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
-- [ ] Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
+- Mit einem globalen Auditor-Konto anmelden.
+- Prüfen, ob die Serienverwaltung in der Navigation angeboten wird.
+- Die Seite der Serienverwaltung zusätzlich über ihre direkte URL aufrufen.
+- Feststellen, dass der Zugriff verweigert wird und keine Serienverwaltungsseite mit Reihen oder Verwaltungsfunktionen angezeigt wird.
 
 **Ergebnisprüfung**
 
@@ -6773,9 +6773,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Terminübersicht leitet globale Auditor*innen zur Auditor*innenübersicht weiter; fachliche Termine sind nicht zugänglich.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Die Terminübersicht über die Navigation öffnen und zusätzlich ihre direkte URL aufrufen.
-- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
+- Mit einem globalen Auditor-Konto anmelden.
+- Die Terminübersicht über die Navigation öffnen und zusätzlich ihre direkte URL aufrufen.
+- Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
 - [ ] Die Terminübersicht wird nicht als fachliche Terminansicht angezeigt, sondern leitet zur Auditor*innenübersicht weiter.
@@ -6787,10 +6787,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin der nicht zugewiesenen bzw. nicht berechtigten Reihe direkt aufrufen und versuchen, Datum oder Uhrzeit zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6803,10 +6803,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten entbehrlichen Testtermin der betroffenen Reihe aufrufen und die Löschaktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6819,10 +6819,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmerliste eines bekannten Testtermins öffnen und versuchen, ein separates Testkonto hinzuzufügen oder zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6835,10 +6835,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin öffnen und versuchen, einen Tagesordnungspunkt oder ein anderes gespeichertes Protokollmerkmal zu ändern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6853,10 +6853,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Im Dashboard die Funktion zum Anlegen eines Themas aufrufen und ein eindeutig markiertes Testthema mit Pflichtangaben zu speichern versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6869,10 +6869,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Testtermin aufrufen und dort versuchen, ein neues Testthema mit eindeutiger Bezeichnung anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6885,10 +6885,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen, ein unkritisches Feld ändern und die Änderung speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6901,10 +6901,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, dessen Status zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6917,10 +6917,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema aufrufen und die Archivierungs- sowie – falls bereits archiviert – die Wiederöffnen-Aktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6933,10 +6933,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema auswählen und versuchen, es in eine andere Testreihe zu übertragen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6949,9 +6949,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Der Vorschlags-Endpunkt ist erreichbar, liefert für die globale Auditorrolle wegen fehlenden fachlichen Zugriffs keine Themen.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden.
-- [ ] Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
-- [ ] Die JSON-Antwort und das Feld `results` prüfen.
+- Mit dem im Testfall genannten Konto anmelden.
+- Den direkten Endpunkt `/topics/suggestions/?q=te` mit einem Suchbegriff von mindestens zwei Zeichen aufrufen.
+- Die JSON-Antwort und das Feld `results` prüfen.
 
 **Ergebnisprüfung**
 - [ ] Der Themenvorschlags-Endpunkt wird ohne Zugriffsfehler geöffnet.
@@ -6965,10 +6965,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt eines Testtermins öffnen, ein Feld ändern und speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6981,10 +6981,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen Testtermin mit mindestens zwei Tagesordnungspunkten öffnen und versuchen, deren Reihenfolge zu ändern und zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -6997,10 +6997,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten Tagesordnungspunkt auswählen und versuchen, ihn über die Oberfläche oder den vorgesehenen POST-Aufruf zu entfernen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7013,10 +7013,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, eine Wiedervorlage für einen Folgetermin anzulegen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7029,10 +7029,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete Wiedervorlage öffnen und versuchen, sie auf den nächsten Termin fortzuführen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7045,10 +7045,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Historie eines bekannten Termins bzw. Themas über die vorgesehene Seite und die direkte URL aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7063,10 +7063,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und einen eindeutig als Test erkennbaren Kommentar absenden.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7079,10 +7079,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und eine harmlose Testdatei als Anlage hochzuladen versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7095,10 +7095,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und versuchen, einen Test-Netzwerkpfad oder eine unkritische Test-URL als Anlage zu speichern.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7111,10 +7111,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage direkt über den Download-Link bzw. den vorgesehenen Download-Endpunkt aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7127,10 +7127,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine bekannte Testanlage auswählen und versuchen, sie zu löschen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7143,10 +7143,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Bei einem bekannten Testthema den Upload einer harmlosen Testdatei über die vorgesehene Upload-Funktion versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7161,10 +7161,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten noch offenen Testtermin öffnen und versuchen, ihn über die Abschlussfunktion abzuschließen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7177,10 +7177,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines bekannten abgeschlossenen Testtermins bzw. dessen Protokollansicht aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7193,10 +7193,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Druckansicht eines bekannten Testprotokolls aufrufen und den PDF-Export versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7209,10 +7209,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen bekannten abgeschlossenen Testtermin aufrufen und die Wiederöffnen-Aktion über Oberfläche bzw. POST-Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7225,10 +7225,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Ein bekanntes Testthema öffnen und den Export des Themenprotokolls als PDF versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7243,10 +7243,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Übersicht offener Themen über die Navigation und die direkte URL öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7260,9 +7260,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert (Weiterleitung).** Das fachliche Archiv wird für Auditor*innen nicht angezeigt; der Aufruf leitet zur Auditor*innenübersicht weiter.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Das Archiv über die Navigation und zusätzlich über seine direkte URL aufrufen.
-- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
+- Mit einem globalen Auditor-Konto anmelden.
+- Das Archiv über die Navigation und zusätzlich über seine direkte URL aufrufen.
+- Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
 - [ ] Das fachliche Archiv wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
@@ -7274,10 +7274,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die direkte URL eines vorbereiteten historischen Eintrags aus einer gelöschten bzw. nicht zugänglichen Reihe aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7293,10 +7293,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Auditor*innen haben ausschließlich lesenden Zugriff und dürfen keine Serienberechtigungsanträge stellen.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Die persönliche Benutzerübersicht öffnen und prüfen, dass keine Funktion zum Beantragen einer Serienberechtigung angeboten wird.
-- [ ] Einen direkten POST-Aufruf zum Beantragen einer Leser- oder Teilnehmerrolle für eine Testreihe versuchen.
-- [ ] Die Antragsliste und Serienzuweisungen des Kontos neu laden.
+- Mit einem globalen Auditor-Konto anmelden.
+- Die persönliche Benutzerübersicht öffnen und prüfen, dass keine Funktion zum Beantragen einer Serienberechtigung angeboten wird.
+- Einen direkten POST-Aufruf zum Beantragen einer Leser- oder Teilnehmerrolle für eine Testreihe versuchen.
+- Die Antragsliste und Serienzuweisungen des Kontos neu laden.
 
 **Ergebnisprüfung**
 - [ ] Die Benutzerübersicht bietet keine Antragsfunktion für Auditor*innen an.
@@ -7309,10 +7309,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Einen offenen Test-Berechtigungsantrag öffnen und versuchen, ihn zu genehmigen oder abzulehnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7326,11 +7326,11 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Auditor*innen dürfen bestehende Serienberechtigungsanträge nicht ändern oder erneut absenden.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Für das Testkonto einen bestehenden offenen Antrag in der Testdatenbank vorbereiten.
-- [ ] Die persönliche Benutzerübersicht öffnen und versuchen, den vorhandenen Antrag erneut abzusenden bzw. zu bearbeiten.
-- [ ] Zusätzlich den direkten POST-Aufruf mit der Antrags-ID versuchen.
-- [ ] Den Status und die Anzahl der Anträge sowie die Serienzuweisungen erneut prüfen.
+- Mit einem globalen Auditor-Konto anmelden.
+- Für das Testkonto einen bestehenden offenen Antrag in der Testdatenbank vorbereiten.
+- Die persönliche Benutzerübersicht öffnen und versuchen, den vorhandenen Antrag erneut abzusenden bzw. zu bearbeiten.
+- Zusätzlich den direkten POST-Aufruf mit der Antrags-ID versuchen.
+- Den Status und die Anzahl der Anträge sowie die Serienzuweisungen erneut prüfen.
 
 **Ergebnisprüfung**
 - [ ] Die Antragsfunktion wird für Auditor*innen nicht angeboten.
@@ -7345,10 +7345,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Benutzerverwaltung bzw. den Benutzerexport öffnen und den CSV-Export über die Oberfläche oder den vorgesehenen Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7361,10 +7361,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine CSV-Datei mit ausschließlich separaten Testkonten vorbereiten und den Import über die Oberfläche bzw. den vorgesehenen Direktaufruf versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7377,10 +7377,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den Themen-CSV-Export für eine bekannte Reihe über Oberfläche oder Direktaufruf starten.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7393,10 +7393,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Eine vorbereitete CSV-Datei mit eindeutig markierten Testthemen auswählen und den Import versuchen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7411,10 +7411,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist für globale Auditor*innen erreichbar und zeigt systembezogene Ereignisse. Serienbezogene Ereignisse sind nicht zugänglich.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
-- [ ] Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
-- [ ] Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+- Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+- Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
+- Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
+- Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
@@ -7428,9 +7428,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -7446,9 +7446,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Den für die Rolle zugänglichen Änderungsverlauf öffnen, den CSV-Export auslösen und die Datei öffnen.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -7467,10 +7467,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Die Verwaltungsseite für Aufbewahrungsfristen direkt und über die Navigation öffnen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7483,9 +7483,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff auf die Auditor*innenübersicht erlaubt; Zugriff auf das Serienarchiv nicht erlaubt.** Der Archivaufruf leitet globale Auditor*innen zur Auditor*innenübersicht weiter und gibt keine archivierten Reiheninhalte aus.
 
 **Prüfschritt**
-- [ ] Mit einem globalen Auditor-Konto anmelden.
-- [ ] Das Archiv über die Navigation öffnen und zusätzlich die direkte URL aufrufen.
-- [ ] Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
+- Mit einem globalen Auditor-Konto anmelden.
+- Das Archiv über die Navigation öffnen und zusätzlich die direkte URL aufrufen.
+- Prüfen, ob die Anwendung zur Auditor*innenübersicht weiterleitet.
 
 **Ergebnisprüfung**
 - [ ] Das Serienarchiv wird nicht angezeigt; stattdessen erfolgt die vorgesehene Weiterleitung zur Auditor*innenübersicht.
@@ -7497,10 +7497,10 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
-- [ ] Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
-- [ ] Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
+- Mit dem im Testfall genannten Konto und der beschriebenen globalen Rolle bzw. Serienzuweisung anmelden.
+- Zuerst die übergeordnete Seite des Funktionsbereichs über die Navigation und – soweit sinnvoll – über die direkte URL öffnen. Ist die Seite gesperrt, die Prüfung dieses Funktionsbereichs für diese Rolle beenden und keine nachgelagerte Aktion aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist: Den vorgesehenen Retention-Auslöser bzw. den direkten Ausführungsendpunkt mit vorbereiteten Testdaten aufrufen.
+- Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
 - [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
@@ -7516,9 +7516,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
@@ -7534,9 +7534,9 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
-- [ ] Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
-- [ ] Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
-- [ ] Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
+- Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
+- Die im Testfall bezeichnete Funktion über die Oberfläche aufrufen, die erforderliche Aktion mit geeigneten Testdaten ausführen und anschließend die Ansicht neu laden.
+- Vor der Änderung den Ausgangszustand der betroffenen Testdaten festhalten; nach dem Speichern bzw. Aufruf die betroffene Ansicht erneut laden und mit den nachfolgenden Ergebnisprüfungen abgleichen.
 
 **Ergebnisprüfung**
 
