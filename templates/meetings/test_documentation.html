@@ -101,16 +101,20 @@
       item.classList.toggle("is-current", i === currentChapter);
     });
 
-    let currentSubchapter = -1;
-    subchapterSections.forEach((section, i) => {
-      if (section && section.getBoundingClientRect().top <= 150) currentSubchapter = i;
-    });
     const activeChapter = currentChapter >= 0 ? chapterItems[currentChapter] : null;
-    subchapterItems.forEach((item, i) => {
-      const active = activeChapter && activeChapter.contains(item) &&
-        subchapterSections[i] && subchapterItems[i] === item &&
-        i === currentSubchapter;
-      item.classList.toggle("is-current", Boolean(active));
+    let currentSubchapterItem = null;
+    if (activeChapter) {
+      subchapterItems.forEach((item, i) => {
+        const section = subchapterSections[i];
+        if (activeChapter.contains(item) && section &&
+            section.getBoundingClientRect().top <= 150) {
+          currentSubchapterItem = item;
+        }
+      });
+    }
+    subchapterItems.forEach(item => {
+      const active = item === currentSubchapterItem;
+      item.classList.toggle("is-current", active);
       const link = item.querySelector(":scope > a");
       if (link) {
         if (active) link.setAttribute("aria-current", "location");
