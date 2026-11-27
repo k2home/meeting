@@ -76,7 +76,6 @@ fi
 CHECKLIST_RELATIVE="docs/Pruefung-des-Verfahrens-Testdokumentation.md"
 CHECKLIST_FILE="$APP_DIR/$CHECKLIST_RELATIVE"
 CHECKLIST_LOCK_FILE="${TEST_DOCUMENTATION_LOCK_PATH:-/var/lib/meeting-manager-updater/test-documentation.lock}"
-CHECKLIST_BACKUP=""
 # Lock the shared parent directory instead of a lock file. This deliberately
 # avoids stale lock-file ownership, ACLs, immutable attributes, or bad modes
 # from older deployments. Both the app and updater flock this directory FD.
@@ -87,8 +86,13 @@ chmod 0750 "$CHECKLIST_LOCK_DIR"
 exec 9<"$CHECKLIST_LOCK_DIR"
 flock -x 9
 
-if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md' \
-  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env' ':(exclude)docs/Pruefung-des-Verfahrens-Testdokumentation.md'; then
+# The repository version is authoritative: discard the server-local checklist state
+# while holding the same lock used by the application before switching revisions.
+git -C "$APP_DIR" reset -q HEAD -- "$CHECKLIST_RELATIVE"
+git -C "$APP_DIR" checkout -- "$CHECKLIST_RELATIVE"
+
+if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env'; then
   echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env und der Testcheckliste." >&2
   git -C "$APP_DIR" status --short
   exit 1
@@ -99,18 +103,6 @@ if [[ -n "$UNTRACKED_FILES" ]]; then
   printf '%s\n' "$UNTRACKED_FILES" >&2
   exit 1
 fi
-if ! git -C "$APP_DIR" diff --cached --quiet -- "$CHECKLIST_RELATIVE"; then
-  echo "Update abgebrochen: Die lokale Testcheckliste ist vorgemerkt. Bitte zuerst den Git-Index bereinigen." >&2
-  exit 1
-fi
-if ! git -C "$APP_DIR" diff --quiet -- "$CHECKLIST_RELATIVE"; then
-  CHECKLIST_BACKUP="$(mktemp /root/meeting-manager-checklist.XXXXXX)"
-  cp -a "$CHECKLIST_FILE" "$CHECKLIST_BACKUP"
-  # Clean only the backed-up checklist so Git can switch branches safely.
-  git -C "$APP_DIR" checkout -- "$CHECKLIST_RELATIVE"
-  echo "Lokaler Prüfstand wird über das Update hinweg gesichert."
-fi
-
 # Keep enough information to restore the previous source revision if the
 # checkout itself succeeded but a later pre-installation step fails. Once
 # dependency installation or migrations begin, automatic code rollback is
@@ -172,11 +164,6 @@ handle_update_exit() {
     fi
   fi
 
-  if [[ -n "$CHECKLIST_BACKUP" && -f "$CHECKLIST_BACKUP" ]]; then
-    install -o meetingapp -g www-data -m 0660 "$CHECKLIST_BACKUP" "$CHECKLIST_FILE"
-    rm -f "$CHECKLIST_BACKUP"
-    CHECKLIST_BACKUP=""
-  fi
   if [[ -f "$CHECKLIST_FILE" ]]; then
     chown meetingapp:www-data "$CHECKLIST_FILE"
     chmod 660 "$CHECKLIST_FILE"
@@ -208,11 +195,6 @@ if [[ -n "$TARGET_BRANCH" ]]; then
 else
   CODE_SWITCHED=1
   git -C "$APP_DIR" pull --ff-only
-fi
-if [[ -n "$CHECKLIST_BACKUP" && -f "$CHECKLIST_BACKUP" ]]; then
-  install -o meetingapp -g www-data -m 0660 "$CHECKLIST_BACKUP" "$CHECKLIST_FILE"
-  rm -f "$CHECKLIST_BACKUP"
-  CHECKLIST_BACKUP=""
 fi
 # Re-apply local write permissions after Git replaces the checklist during checkout.
 chown meetingapp:www-data "$CHECKLIST_FILE"
