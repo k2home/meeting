@@ -335,6 +335,18 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, reverse("test_documentation"))
         self.assertContains(response, "Prüfung des Verfahrens – Testcheckliste")
 
+    def test_checklist_structure_revision_ignores_checkbox_state_but_detects_content_changes(self):
+        from meetings.guide_views import _checklist_structure_revision
+
+        self.assertEqual(
+            _checklist_structure_revision("- [ ] Offener Punkt\\n"),
+            _checklist_structure_revision("- [x] Offener Punkt\\n"),
+        )
+        self.assertNotEqual(
+            _checklist_structure_revision("- [ ] Offener Punkt\\n"),
+            _checklist_structure_revision("- [ ] Neuer Punkt\\n"),
+        )
+
     def test_markdown_checkbox_rendering_respects_existing_status_and_edit_mode(self):
         from meetings.guide_views import _render_test_documentation_markers
 
