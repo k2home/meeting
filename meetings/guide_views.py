@@ -111,7 +111,7 @@ def _checklist_revision(content):
 
 def _checklist_structure_revision(content):
     """Ignore checkbox state so live clients can detect a changed document layout."""
-    normalized = re.sub(r"\[([ xX])\], "[ ]", content)
+    normalized = re.sub(r"\[([ xX])\]", "[ ]", content)
     return _checklist_revision(normalized)
 
 
