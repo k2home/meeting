@@ -49,7 +49,7 @@ class DeploymentUpdaterTests(SimpleTestCase):
         self.assertLess(persist_index, checklist_index)
         checklist_command = events[checklist_index][1][-1]
         self.assertIn("install -m 0660", checklist_command)
-        self.assertIn(".checklist-update.$", checklist_command)
+        self.assertIn("mktemp /app/local-test-docs/.checklist-update.XXXXXX", checklist_command)
         self.assertIn("mv -f", checklist_command)
         self.assertIn("/app/docs/Pruefung-des-Verfahrens-Testdokumentation.md", checklist_command)
         self.assertIn("/app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md", checklist_command)
