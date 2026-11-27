@@ -101,9 +101,9 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 **Ergebnisprüfung**
 
-- [ ] Import wird entsprechend dem vorgesehenen Format verarbeitet.
-- [ ] Fehlerhafte oder ungeeignete Dateien werden nachvollziehbar abgewiesen.
-- [ ] Datenbestand entspricht nach dem Import dem vorgesehenen Sicherungsstand.
+- [ ] Die Daten aus der ausgewählten Sicherungsdatei werden ohne Importfehler eingelesen und in den zugehörigen Übersichten angezeigt.
+- [ ] Eine Sicherungsdatei mit ungültiger Struktur oder fehlenden Pflichtbestandteilen wird mit einer Fehlermeldung abgewiesen; der vorhandene Datenbestand bleibt unverändert.
+- [ ] Konten, Reihen, Termine, Themen und Berechtigungen stimmen nach dem Import mit dem zuvor erstellten Sicherungsstand überein.
 - [ ] Keine produktiven Daten werden berührt.
 
 - **Test erfolgreich:** [ ]
@@ -339,7 +339,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 - [ ] Deaktiviertes Konto kann sich nicht anmelden.
 - [ ] Reaktiviertes Konto kann sich gemäß Passwortstatus anmelden.
-- [ ] Serienzuweisungen werden durch die Statusänderung nicht unbeabsichtigt gelöscht.
+- [ ] Alle vor der Deaktivierung vorhandenen Serienzuweisungen sind nach der Reaktivierung weiterhin demselben Konto, derselben Reihe und derselben Rolle zugeordnet.
 
 - **Test erfolgreich:** [ ]
 
@@ -484,7 +484,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 - [ ] Die angezeigte Aufbewahrungsfrist entspricht dem gespeicherten Wert.
 - [ ] Das angezeigte Uploadlimit entspricht dem gespeicherten Wert; Dateien oberhalb dieses Limits werden abgewiesen.
 - [ ] Ungültige Werte werden abgewiesen.
-- [ ] Bestehende Themen- bzw. Terminfristen werden nicht unbeabsichtigt überschrieben.
+- [ ] Bereits explizit gesetzte individuelle Themen-Aufbewahrungsfristen bleiben unverändert; Themen ohne individuelle Frist verwenden den neu gespeicherten zentralen Wert.
 
 - **Test erfolgreich:** [ ]
 
@@ -673,7 +673,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 **Ergebnisprüfung**
 
 - [ ] Termine entsprechen dem Rhythmus der ausgewählten Testreihe.
-- [ ] Vergangene und zukünftige Termine werden entsprechend dem Generator berücksichtigt.
+- [ ] Die Terminübersicht enthält die generierten vergangenen und zukünftigen Termine mit den in der Testreihe festgelegten Wochentagen und Abständen.
 - [ ] Bestehende Serienrollen werden nicht überschrieben.
 - [ ] Es entstehen keine doppelten Termine.
 
@@ -971,9 +971,9 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
 - [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
-- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Jeder erzeugte Termin liegt innerhalb des festgelegten Start- und Enddatums und folgt dem gespeicherten Rhythmus und Intervall.
 - [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
-- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+- [ ] Serienzuweisungen außerhalb der neu angelegten Testreihe sind nach dem Speichern unverändert; insbesondere werden keine zusätzlichen Rollen in anderen Reihen angelegt.
 
 - **Test erfolgreich:** [ ]
 
@@ -1063,7 +1063,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
 - [ ] Die gespeicherte Serienrolle entspricht der im Prüfschritt ausgewählten Rolle.
 - [ ] Änderungen betreffen nur die ausgewählte Reihe.
-- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Der Versuch, die eigene Moderatorzuweisung zu entfernen oder auf eine niedrigere Rolle zu setzen, wird abgewiesen; die Moderatorzuweisung bleibt bestehen.
 - [ ] Zuweisungen in anderen Reihen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -1107,7 +1107,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Termine der berechtigten Reihen werden angezeigt.
 - [ ] Datum und Reihenbezeichnung stimmen.
-- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Vergangene Termine sind als vergangen bzw. abgeschlossen und zukünftige Termine als anstehend erkennbar; beide gehören zur zugewiesenen Besprechungsreihe.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
 - **Test erfolgreich:** [ ]
@@ -1143,7 +1143,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Der ausgewählte Termin ist nach dem Löschen weder in der Terminübersicht noch in der Terminliste der Reihe vorhanden.
 - [ ] Nicht ausgewählte Termine bleiben erhalten.
-- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Der gelöschte Termin ist entfernt; seine Tagesordnungspunkte und Teilnehmenden sind dem nächsten nicht abgeschlossenen Termin derselben Reihe zugeordnet. Die zugehörigen Themen bleiben erhalten.
 - [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
 
 - **Test erfolgreich:** [ ]
@@ -1250,7 +1250,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
 - [ ] Die Übersicht zeigt denselben Statuswert wie die Themendetailansicht.
-- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+- [ ] Der Status des Tagesordnungspunkts bleibt unverändert; geändert wird ausschließlich der Status des übergeordneten Themas.
 
 - **Test erfolgreich:** [ ]
 
@@ -1286,7 +1286,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
 - [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
 - [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
-- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Die Serienzuweisungen der beteiligten Konten in Quell- und Zielreihe bleiben unverändert; die Themenübertragung erzeugt keine zusätzliche Serienberechtigung.
 - [ ] Andere Themen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -1411,7 +1411,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Ergebnisprüfung**
 
-- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit stimmen mit den im historischen Tagesordnungseintrag gespeicherten Werten überein.
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
@@ -1671,7 +1671,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
 - [ ] Das unbeteiligte Konto erhält keinen Zugriff.
-- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+- [ ] Die gelöschte Reihe erscheint nicht mehr in den aktiven Reihenlisten; aus dem historischen Zugriff entsteht keine aktive Serienzuweisung und keine Berechtigung zur Reihenverwaltung.
 
 - **Test erfolgreich:** [ ]
 
@@ -2610,7 +2610,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 - [ ] Der vorgesehene historische Lesezugriff des früheren Reihenmitglieds bleibt bestehen.
 - [ ] Das unbeteiligte Konto erhält keinen Zugriff.
-- [ ] Gelöschte aktive Reihenfunktionen werden nicht unbeabsichtigt wieder verfügbar.
+- [ ] Die gelöschte Reihe erscheint nicht mehr in den aktiven Reihenlisten; aus dem historischen Zugriff entsteht keine aktive Serienzuweisung und keine Berechtigung zur Reihenverwaltung.
 
 - **Test erfolgreich:** [ ]
 
@@ -2666,7 +2666,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 - [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
 - [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
-- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+- [ ] Die Serienzuweisungen des Testkontos bleiben unverändert; das erneute Absenden eines bereits offenen Antrags legt keine zusätzliche Zuweisung an.
 
 - **Test erfolgreich:** [ ]
 
@@ -3000,7 +3000,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 - [ ] Termine der berechtigten Reihen werden angezeigt.
 - [ ] Datum und Reihenbezeichnung stimmen.
-- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Vergangene Termine sind als vergangen bzw. abgeschlossen und zukünftige Termine als anstehend erkennbar; beide gehören zur zugewiesenen Besprechungsreihe.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
 - **Test erfolgreich:** [ ]
@@ -3289,7 +3289,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 **Ergebnisprüfung**
 
-- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit stimmen mit den im historischen Tagesordnungseintrag gespeicherten Werten überein.
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
@@ -3932,7 +3932,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 - [ ] Termine der berechtigten Reihen werden angezeigt.
 - [ ] Datum und Reihenbezeichnung stimmen.
-- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Vergangene Termine sind als vergangen bzw. abgeschlossen und zukünftige Termine als anstehend erkennbar; beide gehören zur zugewiesenen Besprechungsreihe.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
 - **Test erfolgreich:** [ ]
@@ -4073,7 +4073,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
 - [ ] Die Übersicht zeigt denselben Statuswert wie die Themendetailansicht.
-- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+- [ ] Der Status des Tagesordnungspunkts bleibt unverändert; geändert wird ausschließlich der Status des übergeordneten Themas.
 
 - **Test erfolgreich:** [ ]
 
@@ -4108,7 +4108,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
 - [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
 - [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
-- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Die Serienzuweisungen der beteiligten Konten in Quell- und Zielreihe bleiben unverändert; die Themenübertragung erzeugt keine zusätzliche Serienberechtigung.
 - [ ] Andere Themen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -4233,7 +4233,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Ergebnisprüfung**
 
-- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit stimmen mit den im historischen Tagesordnungseintrag gespeicherten Werten überein.
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
@@ -4859,9 +4859,9 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
 - [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
-- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Jeder erzeugte Termin liegt innerhalb des festgelegten Start- und Enddatums und folgt dem gespeicherten Rhythmus und Intervall.
 - [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
-- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+- [ ] Serienzuweisungen außerhalb der neu angelegten Testreihe sind nach dem Speichern unverändert; insbesondere werden keine zusätzlichen Rollen in anderen Reihen angelegt.
 
 - **Test erfolgreich:** [ ]
 
@@ -4951,7 +4951,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Das Testkonto ist der richtigen Reihe zugeordnet.
 - [ ] Die gespeicherte Serienrolle entspricht der im Prüfschritt ausgewählten Rolle.
 - [ ] Änderungen betreffen nur die ausgewählte Reihe.
-- [ ] Die eigene Moderatorzuweisung lässt sich nicht unzulässig selbst entfernen oder herabstufen.
+- [ ] Der Versuch, die eigene Moderatorzuweisung zu entfernen oder auf eine niedrigere Rolle zu setzen, wird abgewiesen; die Moderatorzuweisung bleibt bestehen.
 - [ ] Zuweisungen in anderen Reihen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -5009,7 +5009,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - [ ] Termine der berechtigten Reihen werden angezeigt.
 - [ ] Datum und Reihenbezeichnung stimmen.
-- [ ] Vergangene und zukünftige Termine sind entsprechend gekennzeichnet bzw. erreichbar.
+- [ ] Vergangene Termine sind als vergangen bzw. abgeschlossen und zukünftige Termine als anstehend erkennbar; beide gehören zur zugewiesenen Besprechungsreihe.
 - [ ] Termine nicht zugewiesener Reihen werden nicht angezeigt.
 
 - **Test erfolgreich:** [ ]
@@ -5045,7 +5045,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - [ ] Der ausgewählte Termin ist nach dem Löschen weder in der Terminübersicht noch in der Terminliste der Reihe vorhanden.
 - [ ] Nicht ausgewählte Termine bleiben erhalten.
-- [ ] Themen und historische Inhalte werden entsprechend den vorgesehenen Regeln behandelt.
+- [ ] Der gelöschte Termin ist entfernt; seine Tagesordnungspunkte und Teilnehmenden sind dem nächsten nicht abgeschlossenen Termin derselben Reihe zugeordnet. Die zugehörigen Themen bleiben erhalten.
 - [ ] Es bleiben keine ungewollten Zuordnungen oder doppelten Einträge zurück.
 
 - **Test erfolgreich:** [ ]
@@ -5153,7 +5153,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - [ ] Der neue Status wird in der Detailansicht angezeigt.
 - [ ] Die Übersicht zeigt denselben Statuswert wie die Themendetailansicht.
-- [ ] Der Status eines einzelnen Tagesordnungspunkts wird nicht unbeabsichtigt mitgeändert.
+- [ ] Der Status des Tagesordnungspunkts bleibt unverändert; geändert wird ausschließlich der Status des übergeordneten Themas.
 
 - **Test erfolgreich:** [ ]
 
@@ -5189,7 +5189,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
 - [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
 - [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
-- [ ] Quell- und Zielberechtigungen werden nicht unbeabsichtigt ausgeweitet.
+- [ ] Die Serienzuweisungen der beteiligten Konten in Quell- und Zielreihe bleiben unverändert; die Themenübertragung erzeugt keine zusätzliche Serienberechtigung.
 - [ ] Andere Themen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -5314,7 +5314,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 
-- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit werden dem historischen Eintrag entsprechend angezeigt.
+- [ ] Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit stimmen mit den im historischen Tagesordnungseintrag gespeicherten Werten überein.
 - [ ] Historische Einträge lassen sich nicht unberechtigt verändern.
 - [ ] Zugriff ist auf berechtigte Konten begrenzt.
 
@@ -5951,9 +5951,9 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 - [ ] Die neue Besprechungsreihe erscheint in der Übersicht.
 - [ ] Bezeichnung, Beschreibung und Wiederholungseinstellungen entsprechen den Eingaben.
-- [ ] Zugehörige Termine werden entsprechend Startdatum, Rhythmus, Intervall und Enddatum erzeugt.
+- [ ] Jeder erzeugte Termin liegt innerhalb des festgelegten Start- und Enddatums und folgt dem gespeicherten Rhythmus und Intervall.
 - [ ] Die erstellende Moderatorin bzw. der erstellende Moderator besitzt die vorgesehene Serienzuweisung.
-- [ ] Andere Serienzuweisungen wurden nicht unbeabsichtigt verändert.
+- [ ] Serienzuweisungen außerhalb der neu angelegten Testreihe sind nach dem Speichern unverändert; insbesondere werden keine zusätzlichen Rollen in anderen Reihen angelegt.
 
 - **Test erfolgreich:** [ ]
 
@@ -6687,7 +6687,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 - [ ] Es entstehen keine unzulässigen doppelten offenen Anträge.
 - [ ] Bereits entschiedene Anträge werden nicht irrtümlich als offen behandelt.
-- [ ] Die bestehende Serienzuweisung wird nicht unbeabsichtigt verändert.
+- [ ] Die Serienzuweisungen des Testkontos bleiben unverändert; das erneute Absenden eines bereits offenen Antrags legt keine zusätzliche Zuweisung an.
 
 - **Test erfolgreich:** [ ]
 
@@ -6726,7 +6726,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Jede gültige CSV-Zeile legt das zugehörige Testkonto mit den enthaltenen Stammdaten an oder aktualisiert es; ungültige Zeilen legen kein Konto an.
 - [ ] Fehlerhafte Zeilen werden nachvollziehbar ausgewiesen.
 - [ ] Vorhandene Konten werden nicht ungewollt überschrieben.
-- [ ] Serienzuweisungen werden nicht unbeabsichtigt verändert.
+- [ ] Bestehende Serienzuweisungen aller vorhandenen Konten bleiben nach dem CSV-Import unverändert; aus den importierten Stammdaten werden keine zusätzlichen Serienzuweisungen erzeugt.
 
 - **Test erfolgreich:** [ ]
 
