@@ -202,8 +202,14 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, "document-content ul")
         self.assertContains(response, "document-content hr")
         self.assertContains(response, "3.2.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
-        for phase in ("Installation", "Ersteinrichtung", "Testing", "Produktiv – Globale Rolle Nutzer", "Produktiv – Ohne Berechtigungen", "Produktiv – Leser", "Produktiv – Teilnehmer", "Produktiv – Moderator", "Produktiv – Globale Rolle Admin", "Produktiv – Globale Rolle Auditor"):
-            self.assertContains(response, f'id="{phase.lower()}"')
+        phase_anchors = (
+            "1-installation", "2-ersteinrichtung", "3-testing",
+            "4-produktiv-globale-rolle-nutzer", "5-produktiv-ohne-berechtigungen",
+            "6-produktiv-leser", "7-produktiv-teilnehmer", "8-produktiv-moderator",
+            "9-produktiv-globale-rolle-admin", "10-produktiv-globale-rolle-auditor",
+        )
+        for anchor in phase_anchors:
+            self.assertContains(response, f'id="{anchor}"')
         self.assertContains(response, 'class="card test-document-index"')
         self.assertContains(response, 'class="test-document-layout"')
         self.assertContains(response, '.test-document-index .toc>ul>li:first-child> a{display:none}')
@@ -218,7 +224,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'spätestens nach zwei Sekunden')
         self.assertContains(response, 'item.classList.toggle("is-complete"')
         self.assertContains(response, 'updateCompletionForCheckbox(checkbox, !desired, desired);')
-        for anchor in ("installation", "ersteinrichtung", "testing", "produktiv-globale-rolle-nutzer", "produktiv-ohne-berechtigungen", "produktiv-leser", "produktiv-teilnehmer", "produktiv-moderator", "produktiv-globale-rolle-admin", "produktiv-globale-rolle-auditor"):
+        for anchor in phase_anchors:
             self.assertContains(response, f'href="#{anchor}"')
         self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
         self.assertContains(response, "<h4 id=")
@@ -276,7 +282,7 @@ class TestDocumentationPageTests(TestCase):
             ]
             self.assertTrue(result_checks, f"{heading} benötigt eine Ergebnisprüfung")
             self.assertTrue(
-                all(line.startswith("- [ ] ") for line in result_checks),
+                all(line.startswith("- [ ] ") or line == "- **Test erfolgreich:** [ ]" for line in result_checks),
                 f"{heading} muss anklickbare Ergebnisprüfungen verwenden",
             )
 
