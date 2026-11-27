@@ -198,5 +198,6 @@ class PermissionMatrixDocumentationTests(SimpleTestCase):
         self.assertIn("| Funktion | Leser*in | Teilnehmer*in | Moderator*in |", series_matrix)
         self.assertNotIn("| Admin |", series_matrix)
         self.assertIn("| Globale Funktion | Nutzer | Admin | Auditor |", global_matrix)
+        self.assertIn("Neue Besprechungsreihe anlegen und ersten Moderator zuweisen | Nein | Ja | Nein", normalized)
         self.assertIn("Eine globale Adminrolle ersetzt keine Serienzuweisung", normalized)
         self.assertIn("Globale Auditoren sehen ausschließlich den System-Änderungsverlauf", normalized)
