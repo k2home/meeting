@@ -1033,32 +1033,39 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
+ 1. Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene zukünftige Termine, Teilnehmende, Tagesordnungspunkte, Texte, Statuswerte, Zuständigkeiten und Wiedervorlageverknüpfungen dokumentieren.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
 - [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
 - [ ] Es entstehen keine doppelten Termine.
-- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Vergangene und bereits abgeschlossene Termine bleiben unverändert.
+- [ ] Tagesordnungspunkte aus den ersetzten zukünftigen Terminen werden den zeitlich nächstliegenden neu erzeugten Terminen zugeordnet; Text, Status, Zuständigkeit und Wiedervorlageverknüpfungen bleiben erhalten.
+- [ ] Teilnehmende werden den zeitlich nächstliegenden neu erzeugten Terminen zugeordnet.
+- [ ] Serienberechtigungen bleiben unverändert.
 - [ ] Nicht ausgewählte Reihen sind unverändert.
 
 - **Test erfolgreich:** [ ]
 
 #### 4.3.5 Besprechungsreihe löschen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die vollständige Löschung einer eigenen moderierten Testreihe ist erlaubt.
 
 **Prüfschritt**
- 1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
- 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
+ 1. Mit dem im Testfall genannten Konto anmelden und die Moderatorzuweisung für die zu löschende Testreihe sicherstellen.
+ 1. Ausschließlich eine entbehrliche Testreihe für die vollständige Reihenlöschung verwenden (nicht nur zukünftige Termine löschen), die Löschbestätigung prüfen und den Löschvorgang bestätigen.
+ 1. Vor der Löschung die zugehörigen Themen, Termine, Protokollstände, Serienmitglieder und deren Rollen dokumentieren.
+ 1. Nach der Löschung die aktive Reihenübersicht und das Archiv öffnen.
+ 1. Mit einem ehemaligen Reihenmitglied einen archivierten Termin aufrufen und mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+ 1. Eine andere, nicht zu löschende Testreihe und deren Berechtigungen erneut öffnen.
 
 **Ergebnisprüfung**
 
 - [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte entsprechen nach dem Löschen genau der im Prüfschritt gewählten Löschvariante; Inhalte außerhalb ihres Löschumfangs bleiben erhalten.
-- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Alle Themen der gelöschten Reihe sind archiviert und keiner aktiven Reihe mehr zugeordnet.
+- [ ] Die Termine bleiben mit dem Namen der gelöschten Reihe im historischen Bereich erhalten; vorhandene Protokoll-Snapshots bleiben bis zum Ablauf ihrer Aufbewahrungsfrist verfügbar.
+- [ ] Ehemalige Reihenmitglieder behalten den für sie vorgesehenen historischen Lesezugriff; unbeteiligte Konten erhalten keinen Zugriff.
 - [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -1069,7 +1076,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
+ 1. Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern. Anschließend versuchen, die eigene Moderatorzuweisung zu entfernen oder auf eine niedrigere Rolle zu setzen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
@@ -4921,32 +4928,39 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene Termine und Zuordnungen dokumentieren.
+ 1. Eine eigens dafür angelegte Testreihe verwenden, den Wiederholungsrhythmus kontrolliert ändern und das Neuaufsetzen der Terminfolge auslösen. Vorher vorhandene zukünftige Termine, Teilnehmende, Tagesordnungspunkte, Texte, Statuswerte, Zuständigkeiten und Wiedervorlageverknüpfungen dokumentieren.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
 - [ ] Die Terminfolge entspricht den eingestellten Seriendaten.
 - [ ] Es entstehen keine doppelten Termine.
-- [ ] Bestehende Themen, Tagesordnungspunkte und Serienberechtigungen entsprechen den vorgesehenen Regeln.
+- [ ] Vergangene und bereits abgeschlossene Termine bleiben unverändert.
+- [ ] Tagesordnungspunkte aus den ersetzten zukünftigen Terminen werden den zeitlich nächstliegenden neu erzeugten Terminen zugeordnet; Text, Status, Zuständigkeit und Wiedervorlageverknüpfungen bleiben erhalten.
+- [ ] Teilnehmende werden den zeitlich nächstliegenden neu erzeugten Terminen zugeordnet.
+- [ ] Serienberechtigungen bleiben unverändert.
 - [ ] Nicht ausgewählte Reihen sind unverändert.
 
 - **Test erfolgreich:** [ ]
 
 #### 8.3.5 Besprechungsreihe löschen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
-**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die vollständige Löschung einer eigenen moderierten Testreihe ist erlaubt.
 
 **Prüfschritt**
- 1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Ausschließlich eine entbehrliche Testreihe verwenden, die vorgesehene Löschvariante auswählen und den Löschvorgang bestätigen.
- 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
+ 1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Moderatorzuweisung der Rollenbeschreibung entsprechen.
+ 1. Ausschließlich eine entbehrliche Testreihe für die vollständige Reihenlöschung verwenden (nicht nur zukünftige Termine löschen), die Löschbestätigung prüfen und den Löschvorgang bestätigen.
+ 1. Vor der Löschung die zugehörigen Themen, Termine, Protokollstände, Serienmitglieder und deren Rollen dokumentieren.
+ 1. Nach der Löschung die aktive Reihenübersicht und das Archiv öffnen.
+ 1. Mit einem ehemaligen Reihenmitglied einen archivierten Termin aufrufen und mit einem unbeteiligten Konto denselben Direktaufruf versuchen.
+ 1. Eine andere, nicht zu löschende Testreihe und deren Berechtigungen erneut öffnen.
 
 **Ergebnisprüfung**
 
 - [ ] Die Reihe wird nicht mehr als aktive Reihe angeboten.
-- [ ] Historische Inhalte entsprechen nach dem Löschen genau der im Prüfschritt gewählten Löschvariante; Inhalte außerhalb ihres Löschumfangs bleiben erhalten.
-- [ ] Vorgesehene historische Lesezugriffe bleiben erhalten.
+- [ ] Alle Themen der gelöschten Reihe sind archiviert und keiner aktiven Reihe mehr zugeordnet.
+- [ ] Die Termine bleiben mit dem Namen der gelöschten Reihe im historischen Bereich erhalten; vorhandene Protokoll-Snapshots bleiben bis zum Ablauf ihrer Aufbewahrungsfrist verfügbar.
+- [ ] Ehemalige Reihenmitglieder behalten den für sie vorgesehenen historischen Lesezugriff; unbeteiligte Konten erhalten keinen Zugriff.
 - [ ] Andere Reihen und deren Berechtigungen bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -4957,7 +4971,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern.
+ 1. Die Berechtigungsverwaltung einer zugewiesenen Testreihe öffnen, ein separates Testkonto hinzufügen oder dessen Rolle ändern und die Änderung speichern. Anschließend versuchen, die eigene Moderatorzuweisung zu entfernen oder auf eine niedrigere Rolle zu setzen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
