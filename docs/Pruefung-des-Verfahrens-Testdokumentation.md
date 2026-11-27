@@ -6829,7 +6829,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit einem globalen Admin-Konto ohne Serienzuweisung anmelden.
  1. Die Aufbewahrungseinstellungen öffnen und die globale Frist für Termine und Protokolle dokumentieren.
- 1. In einer isolierten Testinstallation Testdaten vorbereiten: einen abgeschlossenen Termin vor Ablauf der globalen globalen Frist mit einem Thema, dessen individuelle Themenfrist davon abweicht, einen abgeschlossenen Termin innerhalb der Frist sowie einen nicht abgeschlossenen Termin ohne Wiederöffnungsereignis. Die zugehörigen Tagesordnungspunkte und Protokoll-Snapshots dokumentieren.
+ 1. In einer isolierten Testinstallation Testdaten vorbereiten: einen abgeschlossenen Termin vor Ablauf der globalen Frist mit einem Thema, dessen individuelle Themenfrist davon abweicht, einen abgeschlossenen Termin innerhalb der Frist sowie einen nicht abgeschlossenen Termin ohne Wiederöffnungsereignis. Die zugehörigen Tagesordnungspunkte und Protokoll-Snapshots dokumentieren.
  1. Den Retention-Lauf mit dem vorgesehenen Management-Befehl `python manage.py purge_expired_data` ausführen.
  1. Terminübersicht, Protokollansicht und historische Tagesordnung der Testdaten erneut öffnen und die vorhandenen Datensätze vergleichen.
 
