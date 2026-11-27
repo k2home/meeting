@@ -187,9 +187,9 @@ def run_update(branch):
         # checkbox progress from the previous release.
         checklist_copy = compose(
             "exec", "-T", "app", "sh", "-c",
-            "install -m 0660 "
+            "flock -x /app/local-test-docs sh -c 'install -m 0660 "
             "/app/docs/Pruefung-des-Verfahrens-Testdokumentation.md "
-            "/app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md",
+            "/app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md'",
             timeout=30,
         )
         log.append(checklist_copy.stdout + checklist_copy.stderr)
