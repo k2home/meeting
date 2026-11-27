@@ -1913,7 +1913,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Das Archiv öffnen, bei einem vorbereiteten archivierten Testthema die angezeigte Aufbewahrungsfrist und das vorgesehene Löschdatum ablesen; nach einem separat durchgeführten Retention-Lauf den Eintrag erneut prüfen.
+ 1. Das Archiv öffnen und drei Testfälle vorbereiten bzw. auswählen: ein archiviertes Thema mit abgelaufener Frist, ein archiviertes Thema mit noch laufender Frist und ein nicht archiviertes Thema mit altem Erstellungsdatum. Die angezeigten Aufbewahrungsfristen und Löschdaten dokumentieren; nach einem separat durchgeführten Retention-Lauf alle drei Einträge erneut prüfen.
  1. Die Anzeige vor und nach dem Retention-Lauf vergleichen und die nachfolgenden Ergebnisprüfungen anhand des tatsächlichen Bestands durchführen.
 
 **Ergebnisprüfung**
