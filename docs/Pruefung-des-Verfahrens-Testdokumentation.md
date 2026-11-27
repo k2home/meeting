@@ -1296,20 +1296,20 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - **Test erfolgreich:** [ ]
 
-#### 4.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in der geprüften Reihe
+#### 4.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: globale Nutzerrolle + Teilnehmer*in in Quell- und Zielreihe
 
 **Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+ 1. Ein Testkonto verwenden, das in Testreihe A und Testreihe B die im Testfall genannte Serienrolle besitzt. In A einen zukünftigen Tagesordnungspunkt für ein Testthema anlegen und sicherstellen, dass B einen nicht abgeschlossenen zukünftigen Termin am oder nach diesem Datum enthält. Das Thema aus A auswählen, B als Zielreihe festlegen, eine eindeutige Übertragungsnotiz eintragen und die Übertragung bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
-- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
-- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
-- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Das Thema ist nach der Übertragung der Testreihe B zugeordnet und nicht mehr der aktiven Themenliste von A.
+- [ ] Jeder zukünftige Tagesordnungspunkt aus A ist dem ersten nicht abgeschlossenen Termin in B am oder nach seinem ursprünglichen Datum zugeordnet.
+- [ ] Die Übertragungsnotiz und der Übertragungsverlauf enthalten Quellreihe A, Zielreihe B, ausführendes Konto, Zeitpunkt und die eingetragene Notiz.
 - [ ] Die Serienzuweisungen der beteiligten Konten in Quell- und Zielreihe bleiben unverändert; die Themenübertragung erzeugt keine zusätzliche Serienberechtigung.
 - [ ] Andere Themen bleiben unverändert.
 
@@ -1623,7 +1623,6 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 - [ ] Der Termin ist nach dem Wiederöffnen bearbeitbar.
 - [ ] Der vorherige Protokollstand bleibt als historischer Stand nachvollziehbar.
 - [ ] Die erneute Bearbeitung und der erneute Abschluss funktionieren.
-- [ ] Teilnehmer*innen ohne Moderatorrechte können den Termin nicht wieder öffnen.
 
 - **Test erfolgreich:** [ ]
 
@@ -1817,7 +1816,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
+ 1. Eine vorbereitete CSV-Datei mit eindeutig markierten gültigen Testdatensätzen und mindestens einer absichtlich ungültigen Zeile auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
@@ -1835,19 +1834,21 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 #### 4.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Nutzerrolle + Moderator*in der geprüften Reihe
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff erlaubt in der eigenen moderierten Reihe; fremde Reihen bleiben gesperrt.**
 
 **Prüfschritt**
- 1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Den Änderungsverlauf einer zugewiesenen Testreihe öffnen und die serienbezogenen Ereignisse aufrufen.
- 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
+ 1. Mit einem globalen Nutzerkonto anmelden, das Testreihe A moderiert und für Testreihe B keine Serienzuweisung besitzt.
+ 1. Für A und B jeweils ein eindeutiges Testereignis vorbereiten und die direkten URLs der jeweiligen Änderungsverläufe notieren.
+ 1. Den Änderungsverlauf von A öffnen und die serienbezogenen Ereignisse prüfen.
+ 1. Den direkten Aufruf des Änderungsverlaufs von B versuchen.
+ 1. Mit einem zweiten Konto ohne Serienzuweisung den direkten Aufruf des Änderungsverlaufs von A versuchen.
 
 **Ergebnisprüfung**
 
-- [ ] Moderator*in sieht die Ereignisse der eigenen moderierten Reihe.
-- [ ] Ereignisse anderer Reihen werden nicht offengelegt.
-- [ ] Akteur, Zeitpunkt und Aktion sind nachvollziehbar.
-- [ ] Unberechtigte Konten erhalten keinen Zugriff.
+- [ ] Das Moderator-Konto sieht die Ereignisse der eigenen moderierten Reihe A.
+- [ ] Ereignisse der fremden Reihe B werden weder in der Ansicht noch über den direkten Aufruf offengelegt.
+- [ ] Akteur, Zeitpunkt und Aktion der Ereignisse aus A sind nachvollziehbar.
+- [ ] Das Konto ohne Serienzuweisung erhält keinen Zugriff auf den Änderungsverlauf von A.
 
 - **Test erfolgreich:** [ ]
 
@@ -4118,20 +4119,20 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Status, Archivierungsdatum und bisherige Themeninhalte bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
-#### 7.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Teilnehmer*in (Serienrolle)
+#### 7.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Teilnehmer*in in Quell- und Zielreihe
 
 **Berechtigungserwartung für Teilnehmer: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+ 1. Ein Testkonto verwenden, das in Testreihe A und Testreihe B die im Testfall genannte Serienrolle besitzt. In A einen zukünftigen Tagesordnungspunkt für ein Testthema anlegen und sicherstellen, dass B einen nicht abgeschlossenen zukünftigen Termin am oder nach diesem Datum enthält. Das Thema aus A auswählen, B als Zielreihe festlegen, eine eindeutige Übertragungsnotiz eintragen und die Übertragung bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
-- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
-- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
-- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Das Thema ist nach der Übertragung der Testreihe B zugeordnet und nicht mehr der aktiven Themenliste von A.
+- [ ] Jeder zukünftige Tagesordnungspunkt aus A ist dem ersten nicht abgeschlossenen Termin in B am oder nach seinem ursprünglichen Datum zugeordnet.
+- [ ] Die Übertragungsnotiz und der Übertragungsverlauf enthalten Quellreihe A, Zielreihe B, ausführendes Konto, Zeitpunkt und die eingetragene Notiz.
 - [ ] Die Serienzuweisungen der beteiligten Konten in Quell- und Zielreihe bleiben unverändert; die Themenübertragung erzeugt keine zusätzliche Serienberechtigung.
 - [ ] Andere Themen bleiben unverändert.
 
@@ -5206,20 +5207,20 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - **Test erfolgreich:** [ ]
 
-#### 8.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
+#### 8.5.6 Thema in eine andere Besprechungsreihe übertragen – Prüfrolle: Moderator*in in Quell- und Zielreihe
 
 **Berechtigungserwartung für Moderator: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Ein entbehrliches Testthema aus Testreihe A auswählen, die ausdrücklich als Ziel vorgesehene Testreihe B wählen und den Übertragungsvorgang bestätigen.
+ 1. Ein Testkonto verwenden, das in Testreihe A und Testreihe B die im Testfall genannte Serienrolle besitzt. In A einen zukünftigen Tagesordnungspunkt für ein Testthema anlegen und sicherstellen, dass B einen nicht abgeschlossenen zukünftigen Termin am oder nach diesem Datum enthält. Das Thema aus A auswählen, B als Zielreihe festlegen, eine eindeutige Übertragungsnotiz eintragen und die Übertragung bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
-- [ ] Das Thema ist der vorgesehenen Zielreihe zugeordnet.
-- [ ] Der vorgesehene Zieltermin enthält den Tagesordnungspunkt.
-- [ ] Übertragungsnotiz und Übertragungsverlauf sind nachvollziehbar.
+- [ ] Das Thema ist nach der Übertragung der Testreihe B zugeordnet und nicht mehr der aktiven Themenliste von A.
+- [ ] Jeder zukünftige Tagesordnungspunkt aus A ist dem ersten nicht abgeschlossenen Termin in B am oder nach seinem ursprünglichen Datum zugeordnet.
+- [ ] Die Übertragungsnotiz und der Übertragungsverlauf enthalten Quellreihe A, Zielreihe B, ausführendes Konto, Zeitpunkt und die eingetragene Notiz.
 - [ ] Die Serienzuweisungen der beteiligten Konten in Quell- und Zielreihe bleiben unverändert; die Themenübertragung erzeugt keine zusätzliche Serienberechtigung.
 - [ ] Andere Themen bleiben unverändert.
 
@@ -5723,7 +5724,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Eine vorbereitete CSV-Datei mit eindeutig markierten Testdatensätzen auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
+ 1. Eine vorbereitete CSV-Datei mit eindeutig markierten gültigen Testdatensätzen und mindestens einer absichtlich ungültigen Zeile auswählen, den Import starten und die Rückmeldung der Anwendung prüfen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
