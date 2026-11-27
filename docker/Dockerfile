@@ -14,6 +14,7 @@ RUN apt-get update \
         libcairo2 \
         postgresql-client \
         python3.13 \
+        util-linux \
         python3.13-venv \
     && rm -rf /var/lib/apt/lists/*
 
