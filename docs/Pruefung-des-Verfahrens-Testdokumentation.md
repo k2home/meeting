@@ -7613,7 +7613,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - **Test erfolgreich:** [ ]
 ### 10.10 Berechtigungsanträge
 
-#### 10.10.1 Serienberechtigung beantragen – Prüfrolle: globale Auditor*in
+#### 10.10.1 Serienberechtigung beantragen – Prüfrolle: globale Auditor*in – **PR-Test erforderlich (#531)**
 
 **Berechtigungserwartung für Globale Rolle Auditor: Zugriff verweigert.** Auditor*innen haben ausschließlich lesenden Zugriff und dürfen keine Serienberechtigungsanträge stellen.
 
