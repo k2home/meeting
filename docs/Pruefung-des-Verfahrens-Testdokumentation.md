@@ -6991,7 +6991,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Ergebnisprüfung**
 - [ ] Die Aufgabenübersicht wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
 - [ ] Es werden keine persönlichen Aufgaben aus fachlichen Besprechungsreihen offengelegt.
-- [ ] Die Prüfung dieses Funktionsbereichs endet nach dem nachgewiesenen Redirect.
+
 
 - **Test erfolgreich:** [ ]
 ### 10.3 Besprechungsreihen verwalten
@@ -7031,7 +7031,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Ergebnisprüfung**
 - [ ] Die Terminübersicht wird nicht als fachliche Terminansicht angezeigt, sondern leitet zur Auditor*innenübersicht weiter.
 - [ ] Weder Termine noch Tagesordnungspunkte oder Teilnehmerdaten werden offengelegt.
-- [ ] Nach diesem Nachweis werden keine nachgelagerten Funktionen des Terminbereichs für diese Rolle getestet.
+
 
 - **Test erfolgreich:** [ ]
 #### 10.4.2 Einzelnen Termin verschieben – Prüfrolle: globale Auditor*in
@@ -7546,7 +7546,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Ergebnisprüfung**
 - [ ] Das fachliche Archiv wird nicht angezeigt; stattdessen wird die Auditor*innenübersicht geöffnet.
 - [ ] Archivierte Themen und zugehörige fachliche Inhalte werden nicht offengelegt.
-- [ ] Die Prüfung dieses Funktionsbereichs endet nach dem nachgewiesenen Redirect.
+
 
 - **Test erfolgreich:** [ ]
 #### 10.9.3 Zugriff auf historische Inhalte nach Reihenlöschung – Prüfrolle: globale Auditor*in
