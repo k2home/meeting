@@ -151,11 +151,20 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 ### 2.1 Anmeldung und Sitzung
 
-#### 2.1.1 Anmeldung mit gültigem Konto – Rolle: alle Rollen
+#### 2.1.1 Anmeldung mit gültigem Konto – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, Serienleser*in, Serienteilnehmer*in, Serienmoderator*in, globaler Admin und globale Auditor*in
 
+Für die Prüfung getrennte Konten bzw. Rollenkonstellationen verwenden:
+- Globale Nutzer*in ohne Serienzuweisung.
+- Globale Nutzer*in mit Serienrolle Leser*in.
+- Globale Nutzer*in mit Serienrolle Teilnehmer*in.
+- Globale Nutzer*in mit Serienrolle Moderator*in.
+- Globaler Admin ohne Serienzuweisung.
+- Globaler Admin mit zusätzlicher Serienrolle Moderator*in.
+- Globale Auditor*in.
+
+Für jedes Konto:
 - Anmeldeseite öffnen.
-- Gültigen Benutzernamen eingeben.
-- Gültiges Passwort eingeben.
+- Gültigen Benutzernamen und das zugehörige gültige Passwort eingeben.
 - Anmelden anklicken.
 
 **Ergebnisprüfung**
@@ -166,7 +175,9 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 2.1.2 Anmeldung mit ungültigen Zugangsdaten – Rolle: alle Rollen
+#### 2.1.2 Anmeldung mit ungültigen Zugangsdaten – rollenunabhängig; Referenzkonto: globale Nutzer*in ohne Serienzuweisung
+
+Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine Wiederholung für jede Serienrolle sowie für Admin und Auditor ist nicht erforderlich.
 
 - Anmeldeseite öffnen.
 - Einen nicht vorhandenen Benutzernamen eingeben.
@@ -199,10 +210,20 @@ Prüfungen zur ersten Konfiguration, zu Konten, Organisation und initialen Berec
 
 **Test erfolgreich:** [ ]
 
-#### 2.1.4 Abmeldung und Sitzungsschutz – Rolle: alle Rollen
+#### 2.1.4 Abmeldung und Sitzungsschutz – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, Serienleser*in, Serienmoderator*in, globaler Admin und globale Auditor*in
 
-- Mit einem Testkonto anmelden.
-- Eine geschützte Seite öffnen.
+Die Sitzungssperre wird mit getrennten Konten für die unterschiedlichen Berechtigungsbereiche geprüft:
+- Globale Nutzer*in ohne Serienzuweisung.
+- Globale Nutzer*in mit Serienrolle Leser*in.
+- Globale Nutzer*in mit Serienrolle Moderator*in.
+- Globaler Admin ohne Serienzuweisung.
+- Globaler Admin mit zusätzlicher Serienrolle Moderator*in.
+- Globale Auditor*in.
+
+Die Serienrolle Teilnehmer*in wird hier nicht zusätzlich benötigt: Die Sitzungssperre ist rollenunabhängig; Leser*in und Moderator*in decken den lesenden bzw. verwaltenden Serienzugriff ab.
+
+Für jedes aufgeführte Konto:
+- Anmelden und eine für dieses Konto tatsächlich erreichbare geschützte Seite öffnen.
 - Abmelden anklicken.
 - Die zuvor geöffnete geschützte URL erneut aufrufen.
 - Im Browser zurück navigieren und die Seite neu laden.
@@ -655,8 +676,11 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 ### 3.2 Hilfe und Dokumentation
 
-#### 3.2.1 Benutzerhilfe aufrufen – Rolle: alle Rollen – **PR-Test erforderlich (#531)**
+#### 3.2.1 Benutzerhilfe aufrufen – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, globaler Admin und globale Auditor*in – **PR-Test erforderlich (#531)**
 
+Die allgemeine Benutzerhilfe ist nicht von einer Serienzuweisung abhängig. Die Serienrollen Leser*in, Teilnehmer*in und Moderator*in müssen daher nicht zusätzlich einzeln geprüft werden; sie verwenden dieselbe globale Hilfefunktion.
+
+Für jedes der drei Konten:
 - Menüpunkt **Hilfe** öffnen.
 - Benutzerhilfe aufrufen.
 - Inhaltsübersicht und Verweise prüfen.
@@ -670,8 +694,11 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 3.2.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Rolle: alle Rollen gemäß Sichtbarkeit
+#### 3.2.2 IT-Sicherheits- und Funktionsbeschreibung aufrufen – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, globaler Admin und globale Auditor*in
 
+Das Dokument wird im allgemeinen Hilfebereich bereitgestellt. Die Sichtbarkeit hängt nicht von einer Serienrolle ab; Leser*in, Teilnehmer*in und Moderator*in müssen deshalb nicht zusätzlich einzeln geprüft werden.
+
+Für jedes der drei Konten:
 - Bereich **Hilfe → IT, Informationssicherheit und Datenschutz** öffnen.
 - Dokument in der Anwendung anzeigen.
 - PDF-Version öffnen.
@@ -686,9 +713,14 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Test erfolgreich:** [ ]
 
-#### 3.2.3 Testcheckliste aus Hilfe & Anleitung öffnen – Rolle: alle angemeldeten Rollen – **PR-Test erforderlich (#531)**
+#### 3.2.3 Testcheckliste aus Hilfe & Anleitung öffnen – Prüfrollen: globale Nutzer*in ohne Serienzuweisung, globaler Admin und globale Auditor*in – **PR-Test erforderlich (#531)**
 
-- Mit einem angemeldeten Testkonto anmelden.
+Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer Serienzuweisung abhängig. Die Serienrollen Leser*in, Teilnehmer*in und Moderator*in müssen nicht zusätzlich einzeln geprüft werden. Die Funktionsprüfung erfolgt mit einem Konto je globaler Rolle.
+
+- Mit einer globalen Nutzer*in ohne Serienzuweisung anmelden und den Link sowie die Lesbarkeit prüfen.
+- Die Prüfung des Linkzugriffs und der Anzeige mit einem globalen Admin-Konto wiederholen.
+- Die Prüfung des Linkzugriffs und der Anzeige mit einem globalen Auditor-Konto wiederholen.
+- Für die nachfolgenden parallelen Bearbeitungsschritte zwei Konten unterschiedlicher globaler Rollen verwenden, vorzugsweise globale Nutzer*in und globaler Admin.
 - **Hilfe & Anleitung** öffnen.
 - Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
 - Prüfen, ob die Testdokumentation vollständig angezeigt wird.
@@ -731,7 +763,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 #### 3.3.1 Vollständigkeit und Nachprüfung
 
 - Alle für die Installation relevanten Testblöcke wurden durchgeführt.
-- Alle Rollen wurden mit getrennten Testkonten geprüft.
+- Alle in den jeweiligen Testfällen ausdrücklich genannten globalen Rollen und Serienrollen wurden mit getrennten Testkonten geprüft; nicht erforderliche Rollenwiederholungen wurden entsprechend der Testfallbeschreibung ausgelassen.
 - Direkte URL-Aufrufe wurden bei den Berechtigungstests berücksichtigt.
 - Abweichungen wurden dokumentiert und nicht als erfolgreich abgehakt.
 - Kritische Fehler wurden nach Korrektur erneut geprüft.
