@@ -997,21 +997,23 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 #### 4.3.7 Fehlende Serienberechtigung prüfen – Prüfrolle: globale Nutzerrolle + Moderator*in ausschließlich in einer anderen Reihe
 
-**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Die Funktion darf mit dieser Rolle nicht erfolgreich ausgeführt werden. Direkte URL- und Aktionsaufrufe müssen ebenfalls scheitern; Daten und Berechtigungen müssen unverändert bleiben.
+**Berechtigungserwartung für Globale Rolle Nutzer: Zugriff verweigert.** Eine Moderatorzuweisung gilt ausschließlich für die ausdrücklich zugewiesene Reihe. Für die nicht zugewiesene Zielreihe dürfen weder Reihenverwaltung noch fachliche Inhalte zugänglich sein.
 
 **Prüfschritt**
- 1. Mit einem globalen Nutzerkonto anmelden, das in einer anderen Besprechungsreihe Moderator ist, für die geprüfte Zielreihe aber keine Serienzuweisung besitzt.
- 1. Die Zielreihe, einen zugehörigen Termin und ein zugehöriges Thema über die vorgesehenen direkten URLs aufrufen.
- 1. Zusätzlich versuchen, die Zielreihe zu bearbeiten und ihre Serienmitglieder zu verwalten.
- 1. Anschließend dieselben fachlichen Ansichten der tatsächlich zugewiesenen Reihe aufrufen.
+ 1. Mit einem globalen Nutzerkonto anmelden, das in Testreihe B Moderator*in ist, für die geprüfte Zielreihe A aber keine Serienzuweisung besitzt.
+ 1. Die Verwaltungsseite von Testreihe A über Navigation und direkte URL aufrufen. Ist die Seite nicht erreichbar, keine Bearbeitungs- oder Mitgliederverwaltungsaktion für A versuchen; die Prüfung der Reihenverwaltung für A hier beenden.
+ 1. Nur wenn die Verwaltungsseite von A erreichbar ist: Eine Bearbeitung der Reihe und die Verwaltung ihrer Serienmitglieder über die Oberfläche bzw. vorgesehene Direktaufrufe versuchen.
+ 1. Die Terminseite eines Termins aus A direkt aufrufen. Ist sie nicht erreichbar, keine nachgelagerte Terminaktion für A ausführen.
+ 1. Die Themenseite eines Themas aus A direkt aufrufen. Ist sie nicht erreichbar, keine nachgelagerte Themenaktion für A ausführen.
+ 1. Anschließend die Verwaltungs- und fachlichen Ansichten der tatsächlich zugewiesenen Testreihe B aufrufen.
 
 **Ergebnisprüfung**
 
-- [ ] Fachliche Inhalte der nicht zugewiesenen Reihe werden nicht offengelegt.
-- [ ] Direkte URL-Aufrufe zu Terminen und Themen gewähren keinen unberechtigten Zugriff.
-- [ ] Eine Moderatorzuweisung in einer anderen Reihe gewährt keine Rechte für die geprüfte Testreihe.
-- [ ] Reihenbearbeitung und Verwaltung der Serienmitglieder werden ohne Moderatorzuweisung für genau diese Reihe verweigert.
-- [ ] Die zugewiesene andere Testreihe bleibt für das Testkonto gemäß seiner dortigen Moderatorrolle erreichbar.
+- [ ] Die Verwaltungsseite von Testreihe A ist nicht erreichbar; falls sie erreichbar ist, werden Reihenbearbeitung und Mitgliederverwaltung verweigert.
+- [ ] Die direkten URL-Aufrufe zu Terminen und Themen aus A geben keine fachlichen Inhalte frei.
+- [ ] Eine Moderatorzuweisung in Testreihe B gewährt keine Rechte für Testreihe A.
+- [ ] Daten und Berechtigungen von Testreihe A bleiben unverändert.
+- [ ] Testreihe B bleibt für das Konto gemäß seiner dortigen Moderatorrolle erreichbar.
 
 - **Test erfolgreich:** [ ]
 
@@ -1985,8 +1987,8 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
 
 - [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
 - [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
-- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
-- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
+
+
 
 - **Test erfolgreich:** [ ]
 
@@ -2903,8 +2905,8 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
 
 - [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
 - [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
-- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
-- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
+
+
 
 - **Test erfolgreich:** [ ]
 
@@ -3835,8 +3837,8 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 - [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
 - [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
-- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
-- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
+
+
 
 - **Test erfolgreich:** [ ]
 
@@ -4900,21 +4902,21 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 - **Test erfolgreich:** [ ]
 #### 8.3.8 Moderatorzugriff auf eine fremde Reihe verweigern – Prüfrolle: Moderator*in (Serienrolle der geprüften Reihe)
 
-**Berechtigungserwartung für Moderator: Zugriff erlaubt auf die eigene Reihe, Zugriff verweigert auf fremde Reihen.** Mit dem Testkonto muss die eigene zugewiesene Reihe verwaltbar sein. Für die fremde Reihe müssen Navigation, direkte URLs und schreibende Aktionen gesperrt bleiben; Daten und Berechtigungen bleiben unverändert.
+**Berechtigungserwartung für Moderator: Zugriff erlaubt auf die eigene Reihe, Zugriff verweigert auf fremde Reihen.** Mit dem Testkonto muss Testreihe A verwaltbar sein. Für Testreihe B darf keine Moderatorzuweisung bestehen; bei erreichbarer Verwaltungsseite müssen schreibende Aktionen trotzdem verweigert werden.
 
 **Prüfschritt**
 
  1. Ein Moderator-Konto für Testreihe A verwenden.
  1. Sicherstellen, dass für Testreihe B keine Zuweisung besteht.
- 1. Testreihe A über die Serienverwaltung öffnen.
- 1. Die Verwaltungsübersicht und Bearbeitungsseite von Testreihe B über direkte URLs aufrufen.
- 1. Eine schreibende Aktion für Testreihe B über die direkte URL bzw. POST-Anfrage versuchen.
+ 1. Testreihe A über die Serienverwaltung öffnen und eine vorhandene Einstellung der Reihe aufrufen.
+ 1. Die Verwaltungsübersicht bzw. Bearbeitungsseite von Testreihe B über Navigation und direkte URL aufrufen. Ist die Seite nicht erreichbar, keine schreibende Aktion für B versuchen und die Prüfung der Reihenverwaltung für B beenden.
+ 1. Nur wenn die Verwaltungsseite von B erreichbar ist: Eine schreibende Aktion für Testreihe B über die Oberfläche bzw. den vorgesehenen POST-Direktaufruf versuchen.
+ 1. Den Daten- und Berechtigungsstand von Testreihe B nur dann vor und nach dem Versuch vergleichen, wenn eine schreibende Aktion tatsächlich versucht wurde.
 
 **Ergebnisprüfung**
 
-- [ ] Testreihe A kann verwaltet werden.
-- [ ] Testreihe B ist weder über die Navigation noch über direkte URLs erreichbar.
-- [ ] Schreibende Aktionen für Testreihe B werden verweigert.
+- [ ] Testreihe A kann entsprechend der Moderatorrolle verwaltet werden.
+- [ ] Die Verwaltungsseite von Testreihe B ist nicht erreichbar; falls sie erreichbar ist, werden schreibende Aktionen verweigert.
 - [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
@@ -5882,19 +5884,19 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 - **Test erfolgreich:** [ ]
 
-#### 9.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Die Bearbeitung einer Bestandsreihe ist ohne Moderatorrolle für diese Reihe nicht ausführbar.
+#### 9.3.2 Besprechungsreihe bearbeiten – Prüfrolle: globaler Admin (ohne Moderatorzuweisung in der geprüften Reihe; Moderator*in in einer anderen Reihe)
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe ersetzen keine Moderatorzuweisung für die konkret geprüfte Bestandsreihe.
 
 **Prüfschritt**
- 1. Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
- 1. Die Serienverwaltung öffnen und die Bearbeitungsseite einer Bestandsreihe ohne Moderatorzuweisung über die Oberfläche und direkt aufrufen.
- 1. Eine Änderung an einem unkritischen Feld der Bestandsreihe versuchen, ohne sie bei unerwarteter Freigabe endgültig zu speichern.
- 1. Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
+ 1. Mit einem globalen Admin-Konto anmelden, das für Testreihe B Moderator*in, für die geprüfte Bestandsreihe A aber nicht als Moderator*in zugewiesen ist.
+ 1. Die Bearbeitungsseite von Testreihe A über die Serienverwaltung und zusätzlich über die direkte URL aufrufen. Ist die Bearbeitungsseite nicht erreichbar, keine Änderungsaktion versuchen und die Prüfung dieses Funktionsbereichs beenden.
+ 1. Nur wenn die Bearbeitungsseite von A erreichbar ist: Eine Änderung an einem unkritischen Feld versuchen, ohne sie bei unerwarteter Freigabe endgültig zu speichern.
+ 1. Den Daten- bzw. Protokollstand von A nur dann vor und nach dem Versuch vergleichen, wenn eine Änderungsaktion tatsächlich versucht wurde.
 
 **Ergebnisprüfung**
-- [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
-- [ ] Die Bestandsreihe bleibt unverändert; ihre Bezeichnung, Beschreibung, Wiederholungseinstellungen und Moderatorzuweisungen werden nicht geändert.
-- [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
+- [ ] Die Bearbeitungsseite von Testreihe A ist nicht erreichbar; falls sie erreichbar ist, wird die Änderungsaktion ohne Moderatorzuweisung für A verweigert.
+- [ ] Testreihe A bleibt unverändert; Bezeichnung, Beschreibung, Wiederholungseinstellungen und Moderatorzuweisungen werden nicht geändert.
+- [ ] Die Moderatorzuweisung in Testreihe B erweitert die Rechte für Testreihe A nicht.
 
 - **Test erfolgreich:** [ ]
 #### 9.3.3 Besprechungsreihe verlängern – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6483,19 +6485,19 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Protokoll-PDF-Datei erzeugt oder heruntergeladen.
 
 - **Test erfolgreich:** [ ]
-#### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Die globale Adminrolle ersetzt keine Moderatorzuweisung für die konkrete Reihe. Ein abgeschlossener Termin kann ohne Moderatorrolle für diese Reihe nicht wieder geöffnet werden.
+#### 9.8.4 Abgeschlossene Besprechung wieder öffnen – Prüfrolle: globaler Admin (ohne Moderatorzuweisung in der geprüften Reihe; Moderator*in in einer anderen Reihe)
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff verweigert.** Eine globale Adminrolle und eine Moderatorzuweisung in einer anderen Reihe berechtigen nicht dazu, einen abgeschlossenen Termin der geprüften Reihe wieder zu öffnen.
 
 **Prüfschritt**
- 1. Mit einem globalen Admin-Konto ohne Moderatorzuweisung für die geprüfte Reihe anmelden.
- 1. Einen abgeschlossenen Termin einer Reihe ohne Moderatorzuweisung über die direkte URL aufrufen und die Funktion zum Wiederöffnen suchen.
- 1. Die Wiederöffnen-Aktion über die Oberfläche und – soweit möglich – über den vorgesehenen Direktaufruf auslösen.
- 1. Den Daten- bzw. Protokollstand vor und nach dem Versuch vergleichen.
+ 1. Mit einem globalen Admin-Konto anmelden, das für Testreihe B Moderator*in, für die geprüfte Testreihe A aber nicht als Moderator*in zugewiesen ist.
+ 1. Einen abgeschlossenen Termin aus Testreihe A über die vorgesehene Terminansicht und zusätzlich über die direkte URL aufrufen. Ist die Terminseite nicht erreichbar, keine Wiederöffnen-Aktion versuchen und die Prüfung dieses Funktionsbereichs beenden.
+ 1. Nur wenn die Terminseite von A erreichbar ist: Die Wiederöffnen-Aktion über die Oberfläche und – soweit vorgesehen – über den POST-Direktaufruf versuchen.
+ 1. Den Daten- bzw. Protokollstand von A nur dann vor und nach dem Versuch vergleichen, wenn die Wiederöffnen-Aktion tatsächlich versucht wurde.
 
 **Ergebnisprüfung**
-- [ ] Die Funktion wird mit der globalen Adminrolle allein nicht freigegeben; erforderlich ist eine Moderatorzuweisung für genau diese Reihe.
-- [ ] Der abgeschlossene Termin bleibt unverändert und behält seinen bisherigen Abschlussstatus sowie seinen gespeicherten Protokollstand.
-- [ ] Eine Moderatorzuweisung in einer anderen Reihe erweitert die Rechte für diese Reihe nicht.
+- [ ] Die Terminseite von Testreihe A ist nicht erreichbar; falls sie erreichbar ist, wird die Wiederöffnen-Aktion ohne Moderatorzuweisung für A verweigert.
+- [ ] Der abgeschlossene Termin in A bleibt unverändert und behält seinen bisherigen Abschlussstatus sowie seinen gespeicherten Protokollstand.
+- [ ] Die Moderatorzuweisung in Testreihe B erweitert die Rechte zum Wiederöffnen eines Termins in Testreihe A nicht.
 
 - **Test erfolgreich:** [ ]
 #### 9.8.5 Themenprotokoll als PDF exportieren – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
@@ -6933,8 +6935,8 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 
 - [ ] Die Serienverwaltung ist für diese Rolle weder über die Navigation noch über die direkte URL erreichbar.
 - [ ] Es werden keine Reihen oder Verwaltungsfunktionen offengelegt.
-- [ ] Die Zugriffsverweigerung ist damit nachgewiesen; die Prüfung dieses Funktionsbereichs endet hier.
-- [ ] Die nachfolgenden Funktionen zum Anlegen, Bearbeiten, Verlängern, Neuaufsetzen, Löschen oder Verwalten von Serienberechtigungen werden für diese Rolle nicht getestet.
+
+
 
 - **Test erfolgreich:** [ ]
 
