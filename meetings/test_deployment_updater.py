@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from django.conf import settings
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 
 
 class DeploymentUpdaterTests(SimpleTestCase):
@@ -111,6 +111,16 @@ class DeploymentUpdaterTests(SimpleTestCase):
             and "Testdokumentation" in event[1].get("message", "")
             for event in events
         ))
+
+    def test_debian_app_lock_default_matches_updater_default(self):
+        from meetings.guide_views import _test_documentation_lock_path
+
+        with patch.dict("os.environ", {"TEST_DOCUMENTATION_LOCK_PATH": ""}):
+            with override_settings(BASE_DIR=Path("/opt/meeting-manager")):
+                self.assertEqual(
+                    _test_documentation_lock_path(),
+                    Path("/var/lib/meeting-manager-updater/test-documentation.lock"),
+                )
 
     def test_debian_update_checks_worktree_and_fetch_before_discarding_checklist(self):
         script = (Path(settings.BASE_DIR) / "deploy" / "update.sh").read_text(encoding="utf-8")
