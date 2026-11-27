@@ -303,10 +303,11 @@ Auch in der Django-Administration bleiben Serieninhalte auf ausdrücklich zugewi
 
 **Admin**
 
-- Hat Zugriff auf alle Besprechungsreihen und deren Inhalte.
-- Kann Besprechungsreihen, Benutzerkonten, Gruppen, Serienzuweisungen und globale Organisationseinstellungen verwalten.
-- Kann alle Besprechungen abschließen und wieder öffnen sowie alle Änderungsverläufe einsehen.
-- Die Admin-Rolle wird über die Gruppe **Admin** vergeben. Django-Superuser haben ebenfalls globalen Zugriff.
+- Verfügt über globale Verwaltungsrechte für Benutzerkonten, globale Rollen, Serienzuweisungen und Organisationseinstellungen.
+- Die globale Admin-Rolle gewährt allein keinen Zugriff auf Reiheninhalte. Dafür ist eine ausdrückliche Serienzuweisung mit passender Serienrolle erforderlich.
+- Kann Besprechungen nur innerhalb der ausdrücklich zugewiesenen Reihen gemäß der jeweiligen Serienrolle bearbeiten, abschließen oder wieder öffnen.
+- Sieht Systemereignisse sowie serienbezogene Änderungsverläufe nur für Reihen, in denen das Konto selbst Moderator*in ist.
+- Die Admin-Rolle wird über die Gruppe **Admin** vergeben. Django-Superuser haben ebenfalls globale Adminrechte.
 
 ### Rollen gelten je Besprechungsreihe
 
@@ -367,7 +368,7 @@ sudo bash /opt/meeting-manager/deploy/update.sh
 
 Das Skript:
 
-1. Sichert die lokale `.env`, holt Änderungen des aktuell ausgecheckten Git-Branches mit `git pull --ff-only` und stellt die `.env` anschließend wieder her. So funktioniert das Update auch beim Übergang von älteren Versionen, in denen `.env` noch versioniert war.
+1. Sichert die lokale `.env`, ruft den Remote-Stand mit `git fetch` ab und aktualisiert den ausgecheckten Branch per Fast-Forward-Merge (`git merge --ff-only '@{u}'`). Anschließend wird die `.env` wiederhergestellt. So funktioniert das Update auch beim Übergang von älteren Versionen, in denen `.env` noch versioniert war.
 2. Installiert bzw. aktualisiert Python-Abhängigkeiten.
 3. Führt ausstehende Datenbankmigrationen aus.
 4. Sammelt statische Dateien für Nginx.
