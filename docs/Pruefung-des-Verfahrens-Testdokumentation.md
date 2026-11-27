@@ -6784,19 +6784,19 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 - **Test erfolgreich:** [ ]
 #### 9.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die systembezogene Historie ist für den globalen Admin lesbar; die Einträge sind nicht bearbeitbar.
 
 **Prüfschritt**
- 1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
- 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
+ 1. Mit einem globalen Admin-Konto ohne Serienzuweisung anmelden.
+ 1. Den systembezogenen Änderungsverlauf öffnen und die angezeigten Ereignisse prüfen.
+ 1. Prüfen, dass für die Ereignisse keine Bearbeitungs- oder Löschaktion angeboten wird.
+ 1. Einen direkten Aufruf einer nicht angebotenen Änderungsaktion versuchen, sofern dafür eine Route vorhanden ist.
 
 **Ergebnisprüfung**
 
-- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
-- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
-- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
-- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+- [ ] Die systembezogene Historie wird für das globale Admin-Konto geöffnet und zeigt Systemereignisse.
+- [ ] Für Systemereignisse werden keine Bearbeitungs- oder Löschfunktionen angeboten.
+- [ ] Ein direkter Änderungs- oder Löschaufruf wird abgewiesen; die protokollierten Ereignisse bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
 
@@ -6824,19 +6824,22 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 
 #### 9.13.1 Aufbewahrungsfristen für Termine und Protokolle prüfen – Prüfrolle: globaler Admin (ohne Serienzuweisung, sofern nicht ausdrücklich genannt)
 
-**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Admin: Zugriff erlaubt.** Die Fristen sind für den globalen Admin einsehbar; die eigentliche Bereinigung wird durch den vorgesehenen Retention-Lauf ausgeführt.
 
 **Prüfschritt**
- 1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Die Aufbewahrungseinstellungen für Termine und Protokolle öffnen und die konfigurierten Fristen dokumentieren.
- 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
+ 1. Mit einem globalen Admin-Konto ohne Serienzuweisung anmelden.
+ 1. Die Aufbewahrungseinstellungen öffnen und die globale Frist für Termine und Protokolle dokumentieren.
+ 1. In einer isolierten Testinstallation Testdaten vorbereiten: einen abgeschlossenen Termin vor Ablauf der globalen Frist, einen abgeschlossenen Termin nach Ablauf der Frist sowie einen nicht abgeschlossenen Termin ohne Wiederöffnungsereignis. Die zugehörigen Tagesordnungspunkte und Protokoll-Snapshots dokumentieren.
+ 1. Den Retention-Lauf mit dem vorgesehenen Management-Befehl `python manage.py purge_expired_data` ausführen.
+ 1. Terminübersicht, Protokollansicht und historische Tagesordnung der Testdaten erneut öffnen und die vorhandenen Datensätze vergleichen.
 
 **Ergebnisprüfung**
 
-- [ ] Nicht abgelaufene Termine und Protokolle bleiben erhalten.
-- [ ] Abgelaufene abgeschlossene Termine und Protokolle werden gemäß der Frist entfernt.
-- [ ] Die historische Tagesordnung bleibt nach der Retention-Löschung von Termin- und Protokolldaten weiterhin am zugehörigen Thema verfügbar.
-- [ ] Nicht abgeschlossene bzw. wieder geöffnete Termine werden nicht unberechtigt gelöscht.
+- [ ] Die angezeigte globale Aufbewahrungsfrist entspricht dem gespeicherten Wert in den Organisationseinstellungen.
+- [ ] Der abgeschlossene Termin mit überschrittener globaler Frist und sein Protokoll-Snapshot werden durch den Retention-Lauf gelöscht.
+- [ ] Der abgeschlossene Termin innerhalb der globalen Frist und sein Protokoll-Snapshot bleiben erhalten.
+- [ ] Die historische Tagesordnung des gelöschten Termins bleibt mit ursprünglichem Datum, Reihenbezeichnung, Text, Status und Verantwortlichkeit für die zuvor berechtigten Konten verfügbar.
+- [ ] Nicht abgeschlossene Termine ohne Wiederöffnungsereignis bleiben erhalten.
 
 - **Test erfolgreich:** [ ]
 
@@ -7708,19 +7711,20 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 - **Test erfolgreich:** [ ]
 #### 10.12.2 Systembezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
 
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die Funktion muss mit diesem Konto und der für den Testfall vorausgesetzten Serienzuweisung erreichbar und ausführbar sein.
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff erlaubt.** Die systembezogene Historie ist für die globale Auditor*in lesbar; die Einträge sind nicht bearbeitbar.
 
 **Prüfschritt**
- 1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Den systembezogenen Änderungsverlauf öffnen und die für die Rolle freigegebenen Systemereignisse anzeigen lassen.
- 1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
+ 1. Mit einem globalen Auditor-Konto anmelden.
+ 1. Den systembezogenen Änderungsverlauf öffnen und die angezeigten Ereignisse prüfen.
+ 1. Prüfen, dass für die Ereignisse keine Bearbeitungs- oder Löschaktion angeboten wird.
+ 1. Einen direkten Aufruf einer nicht angebotenen Änderungsaktion versuchen, sofern dafür eine Route vorhanden ist.
 
 **Ergebnisprüfung**
 
-- [ ] Admin und Auditor*in können die vorgesehenen Systemereignisse einsehen.
-- [ ] Auditor*in kann keine Änderungsaktionen ausführen.
-- [ ] Normale Nutzerkonten erhalten keinen unberechtigten Systemzugriff.
-- [ ] Fachliche Reihenereignisse werden nicht unberechtigt in der Systemhistorie offengelegt.
+- [ ] Die systembezogene Historie wird für das globale Auditor-Konto geöffnet und zeigt Systemereignisse.
+- [ ] Serienbezogene Ereignisse und fachliche Inhalte nicht zugewiesener Reihen bleiben verborgen.
+- [ ] Für Systemereignisse werden keine Bearbeitungs- oder Löschfunktionen angeboten.
+- [ ] Ein direkter Änderungs- oder Löschaufruf wird abgewiesen; die protokollierten Ereignisse bleiben unverändert.
 
 - **Test erfolgreich:** [ ]
 
@@ -7774,7 +7778,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 **Ergebnisprüfung**
 - [ ] Das Serienarchiv wird nicht angezeigt; stattdessen erfolgt die vorgesehene Weiterleitung zur Auditor*innenübersicht.
 - [ ] Es werden keine archivierten Themen, Aufbewahrungsfristen oder Löschdaten aus Serien angezeigt.
-- [ ] Nach diesem Nachweis werden keine nachgelagerten Funktionen des Archivbereichs für diese Rolle getestet.
+
 
 - **Test erfolgreich:** [ ]
 #### 10.13.3 Retention wiederholt ausführen – Prüfrolle: globale Auditor*in
