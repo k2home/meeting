@@ -162,6 +162,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TESTING-Modus ist aktiv")
         self.assertContains(response, 'data-save-url="' + reverse("test_documentation_toggle") + '"')
+        self.assertContains(response, 'data-structure-revision="')
         self.assertContains(response, reverse("test_documentation_status"))
         self.assertContains(response, reverse("test_documentation_download"))
         self.assertContains(response, "spätestens nach zwei Sekunden")
@@ -390,6 +391,10 @@ class TestDocumentationPageTests(TestCase):
                 status = self.client.get(reverse("test_documentation_status"))
                 self.assertEqual(status.status_code, 200)
                 self.assertTrue(status.json()["statuses"]["line-1-1"])
+                self.assertEqual(
+                    status.json()["structure_revision"],
+                    _checklist_structure_revision(source.read_text(encoding="utf-8")),
+                )
 
                 download = self.client.get(reverse("test_documentation_download"))
                 self.assertEqual(download.status_code, 200)
