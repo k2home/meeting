@@ -223,6 +223,7 @@ def test_documentation_toggle(request):
             return JsonResponse({
                 "error": "Die Checkliste wurde zwischenzeitlich geändert.",
                 "revision": current_revision,
+                "structure_revision": _checklist_structure_revision(content),
                 "statuses": _checklist_status(content),
             }, status=409)
 
