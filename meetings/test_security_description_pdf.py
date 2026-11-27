@@ -365,7 +365,7 @@ class TestDocumentationPageTests(TestCase):
 
     @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
     def test_checkbox_is_saved_to_local_markdown_and_visible_in_status_and_download(self, _testing_mode):
-        from meetings.guide_views import _checklist_revision
+        from meetings.guide_views import _checklist_revision, _checklist_structure_revision
 
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "checklist.md"
@@ -403,7 +403,7 @@ class TestDocumentationPageTests(TestCase):
 
     @patch("meetings.guide_views._test_documentation_testing_mode_enabled", return_value=True)
     def test_stale_revision_is_rejected_without_overwriting_other_users_change(self, _testing_mode):
-        from meetings.guide_views import _checklist_revision
+        from meetings.guide_views import _checklist_revision, _checklist_structure_revision
 
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "checklist.md"
