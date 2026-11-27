@@ -717,14 +717,16 @@ Für jedes der drei Konten:
 
 Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer Serienzuweisung abhängig. Die Serienrollen Leser*in, Teilnehmer*in und Moderator*in müssen nicht zusätzlich einzeln geprüft werden. Die Funktionsprüfung erfolgt mit einem Konto je globaler Rolle.
 
-- Mit einer globalen Nutzer*in ohne Serienzuweisung anmelden und den Link sowie die Lesbarkeit prüfen.
-- Die Prüfung des Linkzugriffs und der Anzeige mit einem globalen Admin-Konto wiederholen.
-- Die Prüfung des Linkzugriffs und der Anzeige mit einem globalen Auditor-Konto wiederholen.
-- Für die nachfolgenden parallelen Bearbeitungsschritte zwei Konten unterschiedlicher globaler Rollen verwenden, vorzugsweise globale Nutzer*in und globaler Admin.
+Für jedes der drei Konten (globale Nutzer*in ohne Serienzuweisung, globaler Admin, globale Auditor*in):
+- Anmelden.
 - **Hilfe & Anleitung** öffnen.
 - Den Link **Prüfung des Verfahrens – Testcheckliste** im Inhaltsbereich anklicken.
 - Prüfen, ob die Testdokumentation vollständig angezeigt wird.
-- TESTING-Modus aktivieren und einen Testblock aufrufen.
+- Abmelden.
+
+Die folgenden Funktionsprüfungen einmal mit einer globalen Nutzer*in ohne Serienzuweisung durchführen. Für die parallelen Bearbeitungsschritte zusätzlich ein zweites Konto anderer globaler Rolle (vorzugsweise globaler Admin) verwenden:
+- Erneut anmelden und TESTING-Modus aktivieren.
+- Einen Testblock aufrufen.
 - Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
 - Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
 - Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
