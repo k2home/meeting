@@ -1374,14 +1374,14 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+ 1. Einen entbehrlichen mittleren Tagesordnungspunkt aus einer vorbereiteten Wiedervorlagekette auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
 - [ ] Das zugrunde liegende Thema bleibt in der Themenübersicht erhalten; entfernt wird ausschließlich der ausgewählte Tagesordnungspunkt.
-- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+- [ ] Andere Tagesordnungspunkte behalten ihre Reihenfolge und Themenzuordnung; Vorgänger und Nachfolger des entfernten Punkts werden direkt miteinander verknüpft.
 
 - **Test erfolgreich:** [ ]
 
@@ -4196,14 +4196,14 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+ 1. Einen entbehrlichen mittleren Tagesordnungspunkt aus einer vorbereiteten Wiedervorlagekette auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
 - [ ] Das zugrunde liegende Thema bleibt in der Themenübersicht erhalten; entfernt wird ausschließlich der ausgewählte Tagesordnungspunkt.
-- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+- [ ] Andere Tagesordnungspunkte behalten ihre Reihenfolge und Themenzuordnung; Vorgänger und Nachfolger des entfernten Punkts werden direkt miteinander verknüpft.
 
 - **Test erfolgreich:** [ ]
 
@@ -5284,14 +5284,14 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Einen entbehrlichen Test-Tagesordnungspunkt auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
+ 1. Einen entbehrlichen mittleren Tagesordnungspunkt aus einer vorbereiteten Wiedervorlagekette auswählen, die Entfernen-Funktion auslösen und die Änderung bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
 
 - [ ] Der Punkt ist aus dem ausgewählten Termin entfernt.
 - [ ] Das zugrunde liegende Thema bleibt in der Themenübersicht erhalten; entfernt wird ausschließlich der ausgewählte Tagesordnungspunkt.
-- [ ] Andere Tagesordnungspunkte bleiben unverändert.
+- [ ] Andere Tagesordnungspunkte behalten ihre Reihenfolge und Themenzuordnung; Vorgänger und Nachfolger des entfernten Punkts werden direkt miteinander verknüpft.
 
 - **Test erfolgreich:** [ ]
 
