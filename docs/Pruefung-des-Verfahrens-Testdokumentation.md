@@ -51,20 +51,21 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 ### 1.1 Datenverwaltung und Sicherung
 
-#### 1.1.1 Datenverwaltungsbereich aufrufen – Rolle: Admin
+#### 1.1.1 Datenverwaltungsbereich aufrufen – Prüfrollen: globaler Admin, globale Nutzer*in ohne Adminrechte und globale Auditor*in
 
 **Prüfschritt**
 
- 1. **Verwaltung** öffnen.
- 1. **Daten** öffnen.
- 1. Verfügbare Datenverwaltungsfunktionen prüfen.
- 1. Zur Verwaltungsübersicht zurückkehren.
+ 1. Mit einem globalen Admin-Konto anmelden und **Verwaltung → Daten** über die Navigation öffnen.
+ 1. Die verfügbaren Datenverwaltungsfunktionen und die vollständige URL des Bereichs prüfen.
+ 1. Mit einem globalen Nutzerkonto ohne Adminrechte anmelden und dieselbe URL direkt aufrufen.
+ 1. Mit einem globalen Auditor-Konto anmelden und dieselbe URL direkt aufrufen.
+ 1. Mit dem globalen Admin-Konto erneut anmelden und zur Verwaltungsübersicht zurückkehren.
 
 **Ergebnisprüfung**
 
-- [ ] Datenverwaltungsbereich wird angezeigt.
-- [ ] Nur berechtigte Admin-Konten können die Funktionen aufrufen.
-- [ ] Andere Rollen erhalten keinen Zugriff.
+- [ ] Der globale Admin kann den Datenverwaltungsbereich öffnen und die verfügbaren Funktionen sehen.
+- [ ] Das globale Nutzerkonto ohne Adminrechte erhält beim direkten Aufruf keinen Zugriff auf den Datenverwaltungsbereich.
+- [ ] Das globale Auditor-Konto erhält beim direkten Aufruf keinen Zugriff auf den Datenverwaltungsbereich.
 
 - **Test erfolgreich:** [ ]
 
@@ -1801,7 +1802,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 - [ ] Jede gültige CSV-Zeile legt genau das zugehörige Testthema an oder aktualisiert es; ungültige Zeilen werden nicht teilweise gespeichert.
 - [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Jeder importierte Datensatz ist der in der CSV-Zeile angegebenen Besprechungsreihe zugeordnet; die Zuständigkeit entspricht dem dort angegebenen Konto.
 - [ ] Es entstehen keine unbeabsichtigten Duplikate.
 
 - **Test erfolgreich:** [ ]
@@ -4968,7 +4969,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Die bekannten direkten URLs eines Termins und eines Themas aus Testreihe B aufrufen.
 
 **Ergebnisprüfung**
-- [ ] Inhalte und Termine aus Testreihe A sind entsprechend der Moderatorrolle erreichbar.
+- [ ] Das Moderator-Konto kann Termine und Themen aus Testreihe A über die fachlichen Ansichten öffnen; Inhalte aus Testreihe B bleiben unzugänglich.
 - [ ] Die direkten URLs zu Terminen und Themen aus Testreihe B liefern keinen fachlichen Inhalt.
 - [ ] Es werden keine Daten oder Anlagen aus Testreihe B offengelegt.
 - [ ] Die Serienzuweisung und Inhalte beider Testreihen bleiben unverändert.
@@ -4989,7 +4990,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Ergebnisprüfung**
 
-- [ ] Testreihe A kann entsprechend der Moderatorrolle verwaltet werden.
+- [ ] Die Verwaltungsübersicht von Testreihe A ist erreichbar; Bearbeitungs- und Mitgliederverwaltungsfunktionen werden für die eigene Moderatorreihe angeboten.
 - [ ] Die Verwaltungsseite von Testreihe B ist nicht erreichbar; falls sie erreichbar ist, werden schreibende Aktionen verweigert.
 - [ ] Daten und Berechtigungen von Testreihe B bleiben unverändert.
 
@@ -5700,7 +5701,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 - [ ] Jede gültige CSV-Zeile legt genau das zugehörige Testthema an oder aktualisiert es; ungültige Zeilen werden nicht teilweise gespeichert.
 - [ ] Ungültige Zeilen werden nachvollziehbar ausgewiesen.
-- [ ] Reihenbezüge und Zuständigkeiten sind korrekt.
+- [ ] Jeder importierte Datensatz ist der in der CSV-Zeile angegebenen Besprechungsreihe zugeordnet; die Zuständigkeit entspricht dem dort angegebenen Konto.
 - [ ] Es entstehen keine unbeabsichtigten Duplikate.
 
 - **Test erfolgreich:** [ ]
@@ -7691,17 +7692,18 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
 ### 10.12 Änderungsverlauf und Audit
 
 #### 10.12.1 Serienbezogenen Änderungsverlauf anzeigen – Prüfrolle: globale Auditor*in
-**Berechtigungserwartung für Globale Rolle Auditor: Zugriff auf die Änderungsverlaufseite erlaubt; Serienereignisse eingeschränkt.** Die Änderungsverlaufseite ist für globale Auditor*innen erreichbar und zeigt systembezogene Ereignisse. Serienbezogene Ereignisse sind nicht zugänglich.
+**Berechtigungserwartung für Globale Rolle Auditor: Zugriff auf die Änderungsverlaufseite erlaubt; Systemereignisse sind lesbar, Serienereignisse und fachliche Reiheninhalte bleiben verborgen.**
 
 **Prüfschritt**
- 1. Mit dem im Testfall genannten Konto und der beschriebenen Rolle bzw. Serienzuweisung anmelden.
+ 1. Mit einem globalen Auditor-Konto anmelden.
  1. Die Seite **Änderungsverlauf** über die Navigation oder direkt öffnen.
- 1. Den Bereich für Serienereignisse aufrufen bzw. den passenden Filter verwenden.
- 1. Prüfen, welche Ereignisse tatsächlich angezeigt werden; bei Bedarf die Seite neu laden und einen direkten Filteraufruf testen.
+ 1. Den Filter für systembezogene Ereignisse auswählen und die angezeigten Einträge prüfen.
+ 1. Den Filter für serienbezogene Ereignisse auswählen und die angezeigten Einträge prüfen.
+ 1. Einen direkten Aufruf des Serienereignis-Filters testen und die Seite neu laden.
 
 **Ergebnisprüfung**
 - [ ] Die Änderungsverlaufseite wird geöffnet.
-- [ ] Systembezogene Ereignisse werden entsprechend der Auditorrolle angezeigt.
+- [ ] Systembezogene Ereignisse sind für das Auditor-Konto lesbar; serienbezogene Ereignisse und fachliche Reiheninhalte bleiben verborgen.
 - [ ] Serienbezogene Ereignisse werden nicht angezeigt.
 - [ ] Fachliche Inhalte anderer Reihen werden nicht offengelegt.
 
