@@ -169,7 +169,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
 - Moderator*innen verwalten ausschließlich die ihnen zugewiesenen Besprechungsreihen. Admins können neue Reihen anlegen und dabei einen ersten Moderator festlegen; die laufende fachliche Verwaltung einer bestehenden Reihe setzt eine eigene Moderatorzuweisung voraus.
-- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder bis zum Ablauf ihrer Aufbewahrungsfrist lesbar; danach werden Protokoll-Snapshots automatisch gelöscht. Admins behalten den globalen Zugriff auf noch vorhandene Inhalte.
+- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder mit gültiger Serienzuweisung bis zum Ablauf ihrer Aufbewahrungsfrist lesbar; danach werden Protokoll-Snapshots automatisch gelöscht. Globale Adminrechte allein gewähren keinen Zugriff auf diese Reiheninhalte.
 
 ### Themen und Aufgaben
 
@@ -178,7 +178,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 - Abweichende Zuständigkeiten können einzelnen Tagesordnungspunkten zugewiesen werden.
 - Suche über Thementitel, Tagesordnungstexte, Besprechungsreihe und Zuständigkeit; Filter nach Status, Reihe und Zuständigkeit.
 - Themen können zwischen zugänglichen Besprechungsreihen übertragen werden. Übertragungen erscheinen im Änderungsverlauf der Ursprungs- und Zielreihe.
-- Moderator*innen und Admins können Themen archivieren und wieder öffnen. Archivierte Themen bleiben erhalten, werden aus den aktiven Übersichten ausgeblendet und sind im Archiv erreichbar; beim Wiederöffnen wird der vorherige Themenstatus wiederhergestellt.
+- Moderator*innen der jeweiligen Reihe sowie globale Admins mit zusätzlicher Moderatorzuweisung können Themen archivieren und wieder öffnen. Archivierte Themen bleiben erhalten, werden aus den aktiven Übersichten ausgeblendet und sind im Archiv erreichbar; beim Wiederöffnen wird der vorherige Themenstatus wiederhergestellt.
 - Kommentare und nächste Schritte werden chronologisch am Thema gesammelt.
 - „Meine Aufgaben“ trennt die Hauptzuständigkeit für Themen von ausdrücklich zugewiesenen Tagesordnungspunkten zukünftiger Termine.
 - Anlagen können als Datei oder als Netzwerkpfad bzw. Link hinterlegt werden.
@@ -338,7 +338,7 @@ Unter **Verwaltung → Nutzerverwaltung** können Benutzerkonten angelegt und be
 
 Im Bereich **Gruppenverwaltung** können Benutzer und Besprechungsreihen gesucht und gefiltert sowie Rollen zugewiesen werden. Alternativ können die Zuordnungen direkt aus dem jeweiligen Nutzerprofil bearbeitet werden. Beide Ansichten verwalten dieselben Serienberechtigungen.
 
-Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** gelten jeweils nur innerhalb der zugewiesenen Besprechungsreihe. Die globale Gruppe **Admin** gewährt Zugriff auf alle Reihen und Verwaltungsfunktionen.
+Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** gelten jeweils nur innerhalb der zugewiesenen Besprechungsreihe. Die globale Gruppe **Admin** gewährt globale Verwaltungsrechte; der Zugriff auf Reiheninhalte setzt weiterhin eine ausdrückliche Serienzuweisung voraus.
 
 ### CSV-Import und -Export
 
@@ -520,7 +520,7 @@ In der Übersicht einen Termin öffnen. Dort können Teilnehmende ausgewählt un
 
 Mit **Besprechung abschließen & Protokollstand sichern** wird ein Snapshot des aktuellen Protokollstands erstellt. Danach sind Teilnehmerliste und Tagesordnungstexte gesperrt. Das Protokoll kann angezeigt, gedruckt oder als PDF exportiert werden.
 
-Nur Moderator*innen und Admins können eine abgeschlossene Besprechung wieder öffnen. Nach dem Wiederöffnen kann sie erneut bearbeitet und abgeschlossen werden.
+Nur Moderator*innen der jeweiligen Reihe sowie globale Admins mit zusätzlicher Moderatorzuweisung können eine abgeschlossene Besprechung wieder öffnen. Nach dem Wiederöffnen kann sie erneut bearbeitet und abgeschlossen werden.
 
 ### 5. Aufgaben nachverfolgen
 
