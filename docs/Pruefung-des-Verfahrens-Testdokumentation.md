@@ -436,11 +436,12 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 **Prüfschritt**
 
- 1. Organisationseinstellungen öffnen.
- 1. Ein zulässiges Testlogo auswählen.
- 1. Logo hochladen bzw. speichern.
- 1. Dashboard und Protokoll-PDF öffnen.
- 1. Falls vorgesehen, Logo entfernen bzw. durch ein anderes Testlogo ersetzen.
+ 1. Organisationseinstellungen öffnen und die übrigen Organisationseinstellungen als Ausgangszustand festhalten.
+ 1. Eine nicht unterstützte Testdatei als Logo auszuwählen und den Upload versuchen.
+ 1. Ein zulässiges Testlogo auswählen und hochladen bzw. speichern.
+ 1. Dashboard und Protokoll-PDF öffnen und die Logoanzeige prüfen.
+ 1. Organisationseinstellungen erneut öffnen und die übrigen Werte mit dem Ausgangszustand vergleichen.
+ 1. Das Testlogo entfernen bzw. durch ein anderes Testlogo ersetzen.
 
 **Ergebnisprüfung**
 
@@ -455,10 +456,9 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 **Prüfschritt**
 
  1. Organisationseinstellungen öffnen.
- 1. Primärfarbe ändern.
- 1. Sekundärfarbe ändern.
- 1. Tertiärfarbe ändern.
- 1. Optionale Hell- und Dunkelmodus-Farbwerte ändern, sofern angeboten.
+ 1. Einen ungültigen Farbwert eintragen und versuchen, die Einstellung zu speichern.
+ 1. Gültige Primär-, Sekundär- und Tertiärfarben eintragen.
+ 1. Optionale Hell- und Dunkelmodus-Farbwerte zunächst leer lassen, sofern diese Felder angeboten werden.
  1. Speichern.
  1. Anwendung in Hell- und Dunkelmodus neu laden.
 
@@ -476,10 +476,9 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 **Prüfschritt**
 
  1. Organisationseinstellungen öffnen.
- 1. Zentrale Aufbewahrungsfrist ändern.
- 1. Maximale Dateigröße für Anlagen ändern.
- 1. Speichern.
- 1. Einstellungen erneut öffnen.
+ 1. Einen ungültigen Wert für die zentrale Aufbewahrungsfrist und einen ungültigen Wert für die maximale Dateigröße eintragen und versuchen, zu speichern.
+ 1. Gültige Werte für Aufbewahrungsfrist und maximale Dateigröße eintragen und speichern.
+ 1. Einstellungen erneut öffnen und die gespeicherten Werte kontrollieren.
  1. Upload mit einer Datei innerhalb und außerhalb des eingestellten Limits testen.
 
 **Ergebnisprüfung**
