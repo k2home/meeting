@@ -182,9 +182,11 @@ def run_update(branch):
         if not healthy:
             raise RuntimeError("Die Django-Prüfung war nach dem Update nicht erfolgreich.")
 
+        environment_backup = persist_selected_image(target_image)
+
         # The repository checklist is authoritative. Replace the persistent
-        # volume copy after the new container is healthy; do not retain local
-        # checkbox progress from the previous release.
+        # volume copy only after the new container is healthy and its image
+        # selection has been persisted; local checkbox progress is discarded.
         checklist_copy = compose(
             "exec", "-T", "app", "sh", "-c",
             "flock -x /app/local-test-docs sh -c 'install -m 0660 "
@@ -195,8 +197,6 @@ def run_update(branch):
         log.append(checklist_copy.stdout + checklist_copy.stderr)
         if checklist_copy.returncode:
             raise RuntimeError("Die aktualisierte Testdokumentation konnte nicht in das persistente Volume übernommen werden.")
-
-        environment_backup = persist_selected_image(target_image)
         write_state(status="success", branch=branch, started_at=started, finished_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), message=f"Update auf {branch} erfolgreich.", log="\n".join(log)[-16000:])
         if environment_backup:
             try:
