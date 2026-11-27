@@ -1,6 +1,7 @@
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
 from types import SimpleNamespace
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 from django.conf import settings
@@ -58,7 +59,7 @@ class DeploymentUpdaterTests(SimpleTestCase):
             for event in events
         ))
 
-    def test_docker_checklist_copy_failure_rolls_back_without_persisting_new_image(self):
+    def test_docker_checklist_copy_failure_rolls_back_image_and_environment(self):
         events = []
 
         def compose(*args, image=None, timeout=180):
@@ -73,16 +74,32 @@ class DeploymentUpdaterTests(SimpleTestCase):
         def write_state(**changes):
             events.append(("state", changes))
 
-        with (
-            patch.object(self.docker_agent, "compose", side_effect=compose),
-            patch.object(self.docker_agent, "preserve_running_image", return_value="rollback-image"),
-            patch.object(self.docker_agent, "persist_selected_image") as persist,
-            patch.object(self.docker_agent, "write_state", side_effect=write_state),
-            patch.object(self.docker_agent, "remove_rollback_image"),
-        ):
-            self.docker_agent.run_update("beta")
+        with TemporaryDirectory() as temporary_directory:
+            app_dir = Path(temporary_directory)
+            env_file = app_dir / ".env"
+            backup = app_dir / ".env.backup"
+            env_file.write_text("MEETING_IMAGE=old\n", encoding="utf-8")
 
-        persist.assert_not_called()
+            def persist(image):
+                backup.write_text("MEETING_IMAGE=old\n", encoding="utf-8")
+                env_file.write_text("MEETING_IMAGE=new\n", encoding="utf-8")
+                events.append(("persist", image))
+                return backup
+
+            with (
+                patch.object(self.docker_agent, "APP_DIR", app_dir),
+                patch.object(self.docker_agent, "compose", side_effect=compose),
+                patch.object(self.docker_agent, "preserve_running_image", return_value="rollback-image"),
+                patch.object(self.docker_agent, "persist_selected_image", side_effect=persist) as persist_mock,
+                patch.object(self.docker_agent, "write_state", side_effect=write_state),
+                patch.object(self.docker_agent, "remove_rollback_image"),
+            ):
+                self.docker_agent.run_update("beta")
+
+            persist_mock.assert_called_once()
+            self.assertEqual(env_file.read_text(encoding="utf-8"), "MEETING_IMAGE=old\n")
+            self.assertFalse(backup.exists())
+
         self.assertTrue(any(
             event[0] == "compose"
             and event[1][0:4] == ("up", "-d", "--no-deps", "app")
