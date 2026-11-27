@@ -169,7 +169,7 @@ Vor dem produktiven Zugriff muss ein gültiges TLS-Zertifikat eingerichtet und d
 - Einzelne noch nicht abgeschlossene Termine können verschoben werden.
 - Einzelne offene Termine können gelöscht werden. Enthaltene Tagesordnungspunkte und Teilnehmende werden auf den nächsten offenen Termin übertragen; falls nötig wird ein Folgetermin erzeugt. Bei doppelten Tagesordnungspunkten werden Inhalte zusammengeführt.
 - Moderator*innen verwalten ausschließlich die ihnen zugewiesenen Besprechungsreihen. Admins können neue Reihen anlegen und dabei einen ersten Moderator festlegen; die laufende fachliche Verwaltung einer bestehenden Reihe setzt eine eigene Moderatorzuweisung voraus.
-- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben für die bisherigen Serienmitglieder mit gültiger Serienzuweisung bis zum Ablauf ihrer Aufbewahrungsfrist lesbar; danach werden Protokoll-Snapshots automatisch gelöscht. Globale Adminrechte allein gewähren keinen Zugriff auf diese Reiheninhalte.
+- Beim Löschen einer Reihe werden zukünftige Entwurfstermine entfernt. Erhaltene historische Termine und Protokolle bleiben den bisherigen Serienmitgliedern über einen gesonderten historischen Lesezugriff bis zum Ablauf ihrer Aufbewahrungsfrist zugänglich; danach werden Protokoll-Snapshots automatisch gelöscht. Globale Adminrechte allein gewähren keinen Zugriff auf diese Reiheninhalte.
 
 ### Themen und Aufgaben
 
