@@ -276,6 +276,7 @@ Die globale Rolle **Nutzer**, **Admin** oder **Auditor** wird unabhängig von de
 | Benutzerkonten anlegen, bearbeiten und aktivieren/deaktivieren | Nein | Ja | Nein |
 | Globale Adminrechte vergeben oder entziehen | Nein | Ja | Nein |
 | Serienzuweisungen und Serienrollen anderer Benutzer verwalten | Nein | Ja | Ja, lesend |
+| Neue Besprechungsreihe anlegen und ersten Moderator zuweisen | Nein | Ja | Nein |
 | Benutzer-CSV importieren und exportieren | Nein | Ja | Nein |
 | Globale Organisationseinstellungen ansehen | Nein | Ja | Ja, lesend |
 | Globale Organisationseinstellungen ändern | Nein | Ja | Nein |
