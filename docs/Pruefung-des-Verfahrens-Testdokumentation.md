@@ -287,6 +287,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
  1. Vorname und Nachname eintragen.
  1. E-Mail-Adresse eintragen.
  1. Organisationskennzeichen eintragen.
+ 1. Passwortfelder leer lassen, damit das konfigurierte Startpasswort verwendet wird.
  1. Aktivstatus festlegen.
  1. Angezeigte Rollen- bzw. Kontoeinstellungen prüfen.
  1. Speichern anklicken.
@@ -296,8 +297,8 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 - [ ] Neues Konto erscheint in der Benutzerübersicht.
 - [ ] Stammdaten und Aktivstatus entsprechen den Eingaben.
-- [ ] Konto erhält keine unbeabsichtigten Serienberechtigungen.
-- [ ] Passwortbereitstellung bzw. erforderlicher Passwortwechsel entspricht der vorgesehenen Einrichtung.
+- [ ] Dem neu angelegten Konto ist keine Serienrolle zugeordnet.
+- [ ] Da kein individuelles Passwort eingetragen wurde, wird das konfigurierte Startpasswort gesetzt; beim ersten Login muss innerhalb von 24 Stunden ein persönliches Passwort festgelegt werden.
 
 - **Test erfolgreich:** [ ]
 
@@ -338,7 +339,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 **Ergebnisprüfung**
 
 - [ ] Deaktiviertes Konto kann sich nicht anmelden.
-- [ ] Reaktiviertes Konto kann sich gemäß Passwortstatus anmelden.
+- [ ] Nach der Reaktivierung gilt das konfigurierte Startpasswort; beim nächsten Login muss innerhalb von 24 Stunden ein persönliches Passwort festgelegt werden.
 - [ ] Alle vor der Deaktivierung vorhandenen Serienzuweisungen sind nach der Reaktivierung weiterhin demselben Konto, derselben Reihe und derselben Rolle zugeordnet.
 
 - **Test erfolgreich:** [ ]
@@ -397,7 +398,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 **Ergebnisprüfung**
 
-- [ ] Passwort wird gemäß dem vorgesehenen Rücksetzverfahren zurückgesetzt.
+- [ ] Nach dem Zurücksetzen gilt das konfigurierte Startpasswort; das Testkonto muss sich innerhalb von 24 Stunden anmelden und ein persönliches Passwort festlegen.
 - [ ] Erforderlicher Passwortwechsel wird durchgesetzt.
 - [ ] Andere Konten bleiben unverändert.
 
@@ -440,8 +441,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 **Ergebnisprüfung**
 
-- [ ] Logo wird in den vorgesehenen Bereichen angezeigt.
-- [ ] Protokoll-PDF verwendet die vorgesehene Logo-Darstellung.
+- [ ] Das hochgeladene Logo wird auf dem Dashboard und im Protokoll-PDF angezeigt; seine Seitenverhältnisse bleiben erhalten.
 - [ ] Nicht unterstützte Dateien werden abgewiesen.
 - [ ] Andere Organisationseinstellungen bleiben unverändert.
 
@@ -711,7 +711,7 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
 **Ergebnisprüfung**
 
-- [ ] Tagesordnungspunkte werden den vorgesehenen Terminen zugeordnet.
+- [ ] Jeder generierte Tagesordnungspunkt ist genau einem Termin der ausgewählten Testreihe zugeordnet.
 - [ ] Status und Zuständigkeiten sind gesetzt.
 - [ ] Wiedervorlagekette ist chronologisch verknüpft.
 - [ ] Reguläre Themen und Termine bleiben unverändert.
@@ -777,7 +777,7 @@ Für jedes der drei Konten:
 
 - [ ] Dokument wird angezeigt.
 - [ ] PDF lässt sich öffnen.
-- [ ] Angezeigtes Dokument und PDF beziehen sich auf die vorgesehene Fassung.
+- [ ] Die in der Anwendung angezeigte Dokumentfassung und die gespeicherte PDF-Datei enthalten denselben aktuellen Dokumentstand.
 - [ ] Es werden keine unberechtigten internen Daten offengelegt.
 
 - **Test erfolgreich:** [ ]
@@ -6829,7 +6829,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
 **Prüfschritt**
  1. Mit einem globalen Admin-Konto ohne Serienzuweisung anmelden.
  1. Die Aufbewahrungseinstellungen öffnen und die globale Frist für Termine und Protokolle dokumentieren.
- 1. In einer isolierten Testinstallation Testdaten vorbereiten: einen abgeschlossenen Termin vor Ablauf der globalen Frist mit einem Thema, dessen individuelle Themenfrist davon abweicht, einen abgeschlossenen Termin innerhalb der Frist sowie einen nicht abgeschlossenen Termin ohne Wiederöffnungsereignis. Die zugehörigen Tagesordnungspunkte und Protokoll-Snapshots dokumentieren.
+ 1. In einer isolierten Testinstallation Testdaten vorbereiten: einen abgeschlossenen Termin, dessen globale Aufbewahrungsfrist bereits abgelaufen ist und der ein Thema mit abweichender individueller Themenfrist enthält, einen abgeschlossenen Termin, dessen globale Aufbewahrungsfrist noch nicht abgelaufen ist, sowie einen nicht abgeschlossenen Termin ohne Wiederöffnungsereignis. Die zugehörigen Tagesordnungspunkte und Protokoll-Snapshots dokumentieren.
  1. Den Retention-Lauf mit dem vorgesehenen Management-Befehl `python manage.py purge_expired_data` ausführen.
  1. Terminübersicht, Protokollansicht und historische Tagesordnung der Testdaten erneut öffnen und die vorhandenen Datensätze vergleichen.
 
