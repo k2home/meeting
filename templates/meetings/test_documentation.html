@@ -259,6 +259,10 @@
             body: JSON.stringify(payload)
           });
           data = await response.json();
+          if (response.status === 409 && data.structure_revision !== structureRevision) {
+            window.location.reload();
+            return;
+          }
           if (response.status !== 409 || attempt === 4) break;
           applyStatuses(data);
           payload.revision = revision;
