@@ -164,7 +164,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'data-save-url="' + reverse("test_documentation_toggle") + '"')
         self.assertContains(response, reverse("test_documentation_status"))
         self.assertContains(response, reverse("test_documentation_download"))
-        self.assertContains(response, "spätestens nach 15 Sekunden")
+        self.assertContains(response, "spätestens nach zwei Sekunden")
         self.assertNotContains(response, 'localStorage.setItem("test-documentation')
 
     def test_markdown_checklist_keeps_lists_and_result_sections_separate(self):
@@ -213,8 +213,8 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, ':root[data-theme="dark"] .test-document-index .toc li.is-complete>a{background:hsl(120,25%,24%)}')
         self.assertContains(response, 'const completionByCheckbox = new WeakMap()')
         self.assertContains(response, 'window.updateTestDocumentationCompletionForCheckbox = updateCompletionForCheckbox;')
-        self.assertContains(response, 'setInterval(refresh, 15000)')
-        self.assertContains(response, 'spätestens nach 15 Sekunden')
+        self.assertContains(response, 'setInterval(refresh, 2000)')
+        self.assertContains(response, 'spätestens nach zwei Sekunden')
         self.assertContains(response, 'item.classList.toggle("is-complete"')
         self.assertContains(response, 'updateCompletionForCheckbox(checkbox, !desired, desired);')
         for anchor in ("installation", "ersteinrichtung", "testing", "produktiv-globale-rolle-nutzer", "produktiv-ohne-berechtigungen", "produktiv-leser", "produktiv-teilnehmer", "produktiv-moderator", "produktiv-globale-rolle-admin", "produktiv-globale-rolle-auditor"):
