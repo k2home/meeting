@@ -113,14 +113,15 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 ### 1.2 Administration und Software-Updates
 
-#### 1.2.1 Updatebereich aufrufen – Rolle: Admin
+#### 1.2.1 Updatebereich aufrufen – Prüfrollen: globaler Admin, globale Nutzer*in ohne Adminrechte und globale Auditor*in
 
 **Prüfschritt**
 
- 1. Administrationsbereich für Software-Updates öffnen.
- 1. Angezeigte Versions- und Branchinformationen prüfen.
- 1. Verfügbare Updateinformationen aufrufen.
- 1. Ohne Ausführung eines Updates zur Übersicht zurückkehren.
+ 1. Mit einem globalen Admin-Konto anmelden und den Administrationsbereich für Software-Updates öffnen.
+ 1. Die angezeigten Versions- und Branchinformationen sowie die verfügbaren Updateinformationen prüfen.
+ 1. Die vollständige URL des Updatebereichs notieren und ohne Ausführung eines Updates zur Übersicht zurückkehren.
+ 1. Mit einem globalen Nutzerkonto ohne Adminrechte anmelden und die notierte URL direkt aufrufen.
+ 1. Mit einem globalen Auditor-Konto anmelden und dieselbe URL direkt aufrufen.
 
 **Ergebnisprüfung**
 
@@ -207,16 +208,17 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 - **Test erfolgreich:** [ ]
 
-#### 2.1.3 Erzwungener Passwortwechsel – Rolle: Nutzer*in, Admin
+#### 2.1.3 Erzwungener Passwortwechsel – Prüfrollen: globale Nutzer*in und globaler Admin
 
 **Prüfschritt**
 
- 1. Mit einem Konto anmelden, für das ein Passwortwechsel erforderlich ist.
- 1. Angezeigtes Formular zum Passwortwechsel öffnen.
- 1. Neues Passwort eingeben.
- 1. Neues Passwort wiederholen.
- 1. Speichern bzw. Passwort ändern anklicken.
- 1. Abmelden und erneut mit dem neuen Passwort anmelden.
+ 1. Ein globales Nutzerkonto und ein separates globales Admin-Konto vorbereiten, für die jeweils ein Passwortwechsel erforderlich ist.
+ 1. Für jedes der beiden Konten die folgenden Schritte ausführen:
+    1. Mit dem Konto anmelden.
+    1. Das angezeigte Formular zum Passwortwechsel öffnen.
+    1. Ein neues Passwort eingeben und wiederholen.
+    1. Speichern bzw. **Passwort ändern** anklicken.
+    1. Abmelden und erneut mit dem neuen Passwort anmelden.
 
 **Ergebnisprüfung**
 
@@ -252,16 +254,17 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 - **Test erfolgreich:** [ ]
 
-#### 2.1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Rolle: Nutzer*in, Admin
+#### 2.1.5 Passwort-Zurücksetzen über den bereitgestellten Link – Prüfrollen: globale Nutzer*in und globaler Admin
 
 **Prüfschritt**
 
- 1. Einen gültigen Passwort-Zurücksetzen-Link für ein Testkonto öffnen.
- 1. Neues Passwort eingeben.
- 1. Passwort wiederholen.
- 1. Änderung bestätigen.
- 1. Den Link erneut öffnen.
- 1. Mit dem neuen Passwort anmelden.
+ 1. Für ein globales Nutzerkonto und ein separates globales Admin-Konto jeweils einen gültigen Passwort-Zurücksetzen-Link bereitstellen.
+ 1. Für jeden Link die folgenden Schritte ausführen:
+    1. Den Link öffnen.
+    1. Ein neues Passwort eingeben und wiederholen.
+    1. Die Änderung bestätigen.
+    1. Den bereits verwendeten Link erneut öffnen.
+    1. Mit dem neuen Passwort anmelden.
 
 **Ergebnisprüfung**
 
@@ -499,11 +502,12 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
 
 **Prüfschritt**
 
- 1. Zugewiesene Reihe öffnen.
+ 1. Die ausdrücklich zugewiesene Reihe öffnen.
  1. Termin und Protokoll öffnen.
  1. Thema und Tagesordnung öffnen.
  1. Kommentar-, Bearbeitungs-, Lösch- und Abschlussaktionen versuchen.
- 1. Direkte schreibende URLs der Testreihe aufrufen.
+ 1. Direkte schreibende URLs der zugewiesenen Testreihe aufrufen.
+ 1. Eine zweite, nicht zugewiesene Testreihe über Navigation und direkte URL aufrufen.
 
 **Ergebnisprüfung**
 
@@ -525,6 +529,7 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
  1. Teilnehmerliste bearbeiten.
  1. Besprechung abschließen.
  1. Serienverwaltung und Wiederöffnung eines abgeschlossenen Termins versuchen.
+ 1. Eine zweite, nicht zugewiesene Testreihe über Navigation und direkte URL aufrufen.
 
 **Ergebnisprüfung**
 
@@ -565,12 +570,14 @@ Die folgenden Kurzprüfungen ergänzen die fachlichen Testfälle. Sie sind mit g
  1. Eine fachliche Reihe ohne eigene Serienzuweisung direkt aufrufen.
  1. Ein Thema dieser Reihe direkt aufrufen.
  1. Einen fachlichen Schreibvorgang versuchen.
+ 1. Dem Admin-Konto ausdrücklich eine Serienrolle in genau einer Testreihe zuweisen und diese Reihe erneut öffnen.
+ 1. Eine zweite, nicht zugewiesene Testreihe direkt aufrufen.
 
 **Ergebnisprüfung**
 
 - [ ] Globale Verwaltungsfunktionen sind verfügbar.
-- [ ] Fachliche Reiheninhalte bleiben ohne passende Serienzuweisung unzugänglich.
-- [ ] Eine ausdrückliche Serienzuweisung ermöglicht nur die zugewiesene Rolle und Reihe.
+- [ ] Fachliche Reiheninhalte bleiben ohne Serienzuweisung unzugänglich.
+- [ ] Nach der ausdrücklichen Zuweisung ist ausschließlich die zugewiesene Rolle in der ausgewählten Testreihe wirksam; die zweite Reihe bleibt unzugänglich.
 
 - **Test erfolgreich:** [ ]
 
