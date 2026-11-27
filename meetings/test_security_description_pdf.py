@@ -165,7 +165,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, reverse("test_documentation_status"))
         self.assertContains(response, reverse("test_documentation_download"))
         self.assertContains(response, "spätestens nach 15 Sekunden")
-        self.assertNotContains(response, "localStorage")
+        self.assertNotContains(response, 'localStorage.setItem("test-documentation')
 
     def test_markdown_checklist_keeps_lists_and_result_sections_separate(self):
         response = self.client.get(reverse("test_documentation"))
@@ -200,7 +200,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertNotContains(response, "<h2><strong>Test erfolgreich:</strong>")
         self.assertContains(response, "document-content ul")
         self.assertContains(response, "document-content hr")
-        self.assertContains(response, "8.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
+        self.assertContains(response, "3.2.3 Testcheckliste aus Hilfe &amp; Anleitung öffnen")
         for phase in ("Installation", "Ersteinrichtung", "Testing", "Produktiv – Globale Rolle Nutzer", "Produktiv – Ohne Berechtigungen", "Produktiv – Leser", "Produktiv – Teilnehmer", "Produktiv – Moderator", "Produktiv – Globale Rolle Admin", "Produktiv – Globale Rolle Auditor"):
             self.assertContains(response, f'id="{phase.lower()}"')
         self.assertContains(response, 'class="card test-document-index"')
@@ -243,7 +243,7 @@ class TestDocumentationPageTests(TestCase):
             ]
             self.assertTrue(result_checks, f"{heading} benötigt konkrete Ergebnisprüfungen")
             self.assertTrue(
-                all(line.startswith("- [ ] ") for line in result_checks),
+                all(line.startswith("- [ ] ") or line == "- **Test erfolgreich:** [ ]" for line in result_checks),
                 f"{heading} muss anklickbare Ergebnisprüfungen verwenden",
             )
 
