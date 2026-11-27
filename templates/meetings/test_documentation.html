@@ -73,7 +73,7 @@
   </div>
   {% if test_documentation_editable %}
   <form hidden>{% csrf_token %}</form>
-  <span id="test-documentation-config" data-revision="{{ test_documentation_revision }}" data-save-url="{% url 'test_documentation_toggle' %}" data-status-url="{% url 'test_documentation_status' %}"></span>
+  <span id="test-documentation-config" data-revision="{{ test_documentation_revision }}" data-structure-revision="{{ test_documentation_structure_revision }}" data-save-url="{% url 'test_documentation_toggle' %}" data-status-url="{% url 'test_documentation_status' %}"></span>
   {% endif %}
 </div>
 <script>
@@ -187,6 +187,7 @@
   if (!root || !config || !status || !csrf) return;
 
   let revision = config.dataset.revision;
+  const structureRevision = config.dataset.structureRevision;
   let refreshing = false;
   let pendingSaves = 0;
   const checkboxes = () => root.querySelectorAll(
@@ -217,6 +218,10 @@
       });
       if (response.ok) {
         const data = await response.json();
+        if (pendingSaves === 0 && data.structure_revision !== structureRevision) {
+          window.location.reload();
+          return;
+        }
         if (pendingSaves === 0 && data.revision !== revision) applyStatuses(data);
       }
     } catch (_) {
