@@ -189,7 +189,7 @@ def run_update(branch):
         # selection has been persisted; local checkbox progress is discarded.
         checklist_copy = compose(
             "exec", "-T", "app", "sh", "-c",
-            "flock -x /app/local-test-docs sh -c 'tmp=\"/app/local-test-docs/.checklist-update.$\"; "
+            "flock -x /app/local-test-docs sh -c 'tmp=\"$(mktemp /app/local-test-docs/.checklist-update.XXXXXX)\"; "
             "if ! install -m 0660 /app/docs/Pruefung-des-Verfahrens-Testdokumentation.md \"$tmp\"; "
             "then rm -f \"$tmp\"; exit 1; fi; "
             "if ! mv -f \"$tmp\" /app/local-test-docs/Pruefung-des-Verfahrens-Testdokumentation.md; "
