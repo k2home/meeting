@@ -69,7 +69,6 @@ Docker ist eine alternative Bereitstellungsvariante. Beide Installationsarten ve
 
 5. Beim ersten Aufruf im Browser startet automatisch der Ersteinrichtungsassistent. Dort wird das erste Administratorkonto angelegt, anschließend werden Organisation und Systemstatus eingerichtet. Ein manueller Django- oder Shell-Befehl ist nicht erforderlich.
 
-
 **Daten und Persistenz**
 
 - PostgreSQL-Daten liegen im benannten Volume `postgres_data`.
@@ -214,71 +213,76 @@ Die Anwendung unterscheidet drei globale Benutzerrollen und drei Serienrollen. *
 - **Admin:** Globale Verwaltungsrechte; fachliche Inhalte nur entsprechend eigener Serienberechtigungen.
 - **Auditor:** Lesender Zugriff auf System-Änderungsprotokolle, Benutzer und deren globale Rollen/Serienberechtigungen sowie Organisationseinstellungen. Kein Zugriff auf Besprechungsinhalte und keine Änderungsrechte.
 
-### Berechtigungsmatrix nach Funktionsbereichen
+### Serienberechtigungsmatrix
 
-Die Matrix beschreibt die Berechtigungen in der Weboberfläche. „Zugewiesen“ bedeutet: nur innerhalb der Besprechungsreihen, denen das Konto zugeordnet ist. Moderatorrechte gelten ebenfalls nur in Reihen mit Moderatorzuweisung.
+Die folgende Matrix beschreibt ausschließlich die fachlichen Berechtigungen innerhalb einer Besprechungsreihe. Die Rollen **Leser*in**, **Teilnehmer*in** und **Moderator*in** werden je Reihe vergeben. Alle Rechte gelten nur in Reihen, denen das Konto ausdrücklich zugewiesen ist. Eine globale Adminrolle ersetzt keine Serienzuweisung und verleiht keine serienbezogenen Bearbeitungsrechte.
 
 #### 1. Inhalte und Besprechungen
 
-| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
-|---|:---:|:---:|:---:|:---:|
-| Zugewiesene Reihen, Themen und Termine ansehen | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
-| Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
-| Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
-| Einzelne Besprechungstermine verschieben oder löschen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in |
+|---|:---:|:---:|:---:|
+| Zugewiesene Reihen, Themen und Termine ansehen | Ja | Ja | Ja |
+| Protokolle abgeschlossener Termine ansehen und exportieren | Ja | Ja | Ja |
+| Tagesordnungstexte bearbeiten und Punkte sortieren | Nein | Ja | Ja |
+| Tagesordnungspunkte in offenen Terminen ergänzen oder aus der Themenübersicht entfernen | Nein | Ja | Ja |
+| Zuständigkeiten für Tagesordnungspunkte pflegen | Nein | Ja | Ja |
+| Teilnehmerliste eines offenen Termins bearbeiten | Nein | Ja | Ja |
+| Besprechung abschließen und Protokollstand sichern | Nein | Ja | Ja |
+| Abgeschlossene Besprechung wieder öffnen | Nein | Nein | Ja |
+| Einzelne Besprechungstermine verschieben oder löschen | Nein | Nein | Ja |
 
 #### 2. Themen und Zusammenarbeit
 
-| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
-|---|:---:|:---:|:---:|:---:|
-| Themenübersicht und Themenhistorie ansehen | Ja | Ja | Ja | Ja, nur bei eigener Zuweisung |
-| Themen anlegen und Titel bearbeiten | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Kommentare hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Anlagen und Verweise hinzufügen | Nein | Ja | Ja | Ja, bei Teilnehmer- oder Moderatorzuweisung |
-| Themen archivieren oder wieder öffnen | Nein | Nein | Ja | Ja, bei Moderatorzuweisung |
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in |
+|---|:---:|:---:|:---:|
+| Themenübersicht und Themenhistorie ansehen | Ja | Ja | Ja |
+| Themen anlegen und Titel bearbeiten | Nein | Ja | Ja |
+| Themen zwischen zugänglichen, beschreibbaren Reihen übertragen | Nein | Ja | Ja |
+| Kommentare hinzufügen | Nein | Ja | Ja |
+| Anlagen und Verweise hinzufügen | Nein | Ja | Ja |
+| Themen archivieren oder wieder öffnen | Nein | Nein | Ja |
+| Themen- und Tagesordnungspunkt-CSV importieren und exportieren | Nein | Nein | Ja |
 
 **Themenarchiv und Aufbewahrung:** Archivieren und Wiederöffnen ist ausschließlich Moderator*innen der jeweiligen Reihe vorbehalten. Die Archivierung blendet das Thema aus den aktiven Übersichten aus; das Thema und seine Protokollhistorie bleiben bis zum berechneten Löschdatum erhalten. Die globale Aufbewahrungsfrist aus den Organisationseinstellungen gilt einheitlich für abgeschlossene Besprechungstermine und Protokolle, unabhängig von den enthaltenen Themen. Der Standard für archivierte Themen kann je Thema überschrieben werden. Abgelaufene Besprechungstermine und Protokolle werden unabhängig von den Themenfristen gelöscht. Die Tagesordnungstexte bleiben im jeweiligen Thema erhalten; der historische Eintrag kennzeichnet den gelöschten Termin. Abgelaufene archivierte Themen werden einschließlich ihrer Inhalte vollständig gelöscht. Beim Wiederöffnen wird der vorherige Status wiederhergestellt.
 
 #### 3. Besprechungsreihen verwalten
 
-| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
-|---|:---:|:---:|:---:|:---:|
-| Eigene zugewiesene Reihen verwalten | Nein | Nein | Ja | Ja, wenn Moderator*in |
-| Reihen anlegen und Termine erzeugen | Nein | Nein | Ja | Ja |
-| Reihen ändern und verlängern | Nein | Nein | Ja | Ja, wenn Moderator*in |
-| Zukünftige Entwurfstermine einer Reihe neu aufsetzen | Nein | Nein | Ja | Ja, wenn Moderator*in |
-| Reihen löschen | Nein | Nein | Ja | Ja, wenn Moderator*in |
-| Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein | Nein |
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in |
+|---|:---:|:---:|:---:|
+| Eigene zugewiesene Reihen verwalten | Nein | Nein | Ja |
+| Reihen anlegen und Termine erzeugen | Nein | Nein | Ja |
+| Reihen ändern und verlängern | Nein | Nein | Ja |
+| Zukünftige Entwurfstermine einer Reihe neu aufsetzen | Nein | Nein | Ja |
+| Reihen löschen | Nein | Nein | Ja |
+| Fremde, nicht zugewiesene Reihen verwalten | Nein | Nein | Nein |
 
 Moderator*innen können ausschließlich Reihen verwalten, in denen sie ausdrücklich die Rolle Moderator*in besitzen. Eine von ihnen neu angelegte Reihe wird automatisch der erstellenden Person als Moderator*in zugewiesen.
 
 #### 4. Änderungsverlauf
 
-| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
-|---|:---:|:---:|:---:|:---:|
-| Änderungsverlauf ansehen | Nein | Nein | Ja, eigene moderierte Reihen | Systemereignisse und eigene moderierte Reihen |
+| Funktion | Leser*in | Teilnehmer*in | Moderator*in |
+|---|:---:|:---:|:---:|
+| Änderungsverlauf der Reihe ansehen | Nein | Nein | Ja, eigene moderierte Reihen |
 
-Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Admins sehen Systemereignisse sowie Serienereignisse nur für Reihen, in denen sie selbst Moderator*innenrechte besitzen. Auditoren sehen ausschließlich den System-Änderungsverlauf und können ihn exportieren. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins zugänglich.
+Der serienbezogene Änderungsverlauf ist ausschließlich für Moderator*innen der jeweiligen Reihe sichtbar. Eine Teilnehmer- oder Leserzuweisung allein berechtigt nicht zur Einsicht. Globale Auditoren sehen ausschließlich den System-Änderungsverlauf; globale Admins sehen Systemereignisse sowie Serienereignisse nur für Reihen, in denen sie selbst Moderator*innenrechte besitzen. Ereignisse gelöschter Reihen, die keiner Reihe mehr zugeordnet werden können, sind globalen Admins zugänglich.
 
-#### 5. Benutzer- und Systemverwaltung
+### Globale Berechtigungsmatrix
 
-| Funktion | Leser*in | Teilnehmer*in | Moderator*in | Admin |
-|---|:---:|:---:|:---:|:---:|
-| Benutzerkonten anlegen und bearbeiten | Nein | Nein | Nein | Ja |
-| Globale Benutzerrolle vergeben oder entziehen | Nein | Nein | Nein | Ja |
-| Serienzuweisungen und Rollen anderer Benutzer verwalten | Nein | Nein | Nein | Ja |
-| Benutzer-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
-| Themen- und Tagesordnungspunkt-CSV importieren und exportieren | Nein | Nein | Nein | Ja |
-| Globale Organisationseinstellungen ändern | Nein | Nein | Nein | Ja |
-| Django-Administration öffnen | Nein | Nein | Nein | Ja |
+Die globale Rolle **Nutzer**, **Admin** oder **Auditor** wird unabhängig von den Serienrollen vergeben. Diese Matrix beschreibt ausschließlich globale Verwaltungs- und Prüfrechte; sie erweitert nicht automatisch die fachlichen Serienberechtigungen.
 
-Auch in der Django-Administration bleiben Serieninhalte auf ausdrücklich zugewiesene Reihen begrenzt. Serienbezogene Änderungen und CSV-Importe/-Exporte setzen eigene Moderatorrechte voraus; globale Adminrechte allein reichen dafür nicht.
+| Globale Funktion | Nutzer | Admin | Auditor |
+|---|:---:|:---:|:---:|
+| Benutzerkonten und globale Benutzerrollen ansehen | Nein | Ja | Ja, lesend |
+| Benutzerkonten anlegen, bearbeiten und aktivieren/deaktivieren | Nein | Ja | Nein |
+| Globale Adminrechte vergeben oder entziehen | Nein | Ja | Nein |
+| Serienzuweisungen und Serienrollen anderer Benutzer verwalten | Nein | Ja | Ja, lesend |
+| Benutzer-CSV importieren und exportieren | Nein | Ja | Nein |
+| Globale Organisationseinstellungen ansehen | Nein | Ja | Ja, lesend |
+| Globale Organisationseinstellungen ändern | Nein | Ja | Nein |
+| System-Änderungsprotokoll ansehen und exportieren | Nein | Ja | Ja, lesend |
+| Django-Administration öffnen | Nein | Ja, nur im TESTING-Modus | Nein |
+
+Globale Administrator*innen verwalten Benutzerkonten, globale Rollen, Serienzuweisungen und Organisationseinstellungen. Auditoren besitzen ausschließlich lesenden Zugriff auf System-Änderungsprotokolle, Benutzerkonten samt globalen Rollen und Serienberechtigungen sowie Organisationseinstellungen. Sie sehen keine Besprechungsreihen oder fachlichen Besprechungsinhalte. Themen- und Tagesordnungspunkt-CSV-Importe/-Exporte sind dagegen serienbezogene Funktionen und setzen ausdrücklich Moderatorrechte in der jeweiligen Reihe voraus; globale Adminrechte allein reichen dafür nicht.
 
 ### Was die Rollen im Alltag bedeuten
 
@@ -303,10 +307,9 @@ Auch in der Django-Administration bleiben Serieninhalte auf ausdrücklich zugewi
 
 **Admin**
 
-- Verfügt über globale Verwaltungsrechte für Benutzerkonten, globale Rollen, Serienzuweisungen und Organisationseinstellungen.
-- Die globale Admin-Rolle gewährt allein keinen Zugriff auf Reiheninhalte. Dafür ist eine ausdrückliche Serienzuweisung mit passender Serienrolle erforderlich.
-- Kann Besprechungen nur innerhalb der ausdrücklich zugewiesenen Reihen gemäß der jeweiligen Serienrolle bearbeiten, abschließen oder wieder öffnen.
-- Sieht Systemereignisse sowie serienbezogene Änderungsverläufe nur für Reihen, in denen das Konto selbst Moderator*in ist.
+- Besitzt globale Verwaltungsrechte für Benutzerkonten, globale Rollen, Serienzuweisungen und Organisationseinstellungen.
+- Fachliche Inhalte und Aktionen innerhalb einer Besprechungsreihe richten sich weiterhin nach der eigenen Serienzuweisung. Für serienbezogene Moderatorfunktionen, insbesondere den Themen-CSV-Import/-Export und den serienbezogenen Änderungsverlauf, ist eine eigene Moderatorzuweisung erforderlich.
+- Kann Systemereignisse einsehen; Serienereignisse sieht ein Admin nur in Reihen, in denen er selbst Moderatorrechte besitzt.
 - Die Admin-Rolle wird über die Gruppe **Admin** vergeben. Django-Superuser haben ebenfalls globale Adminrechte.
 
 ### Rollen gelten je Besprechungsreihe
@@ -433,7 +436,6 @@ Dasselbe Muster gilt für weitere `manage.py`-Befehle, zum Beispiel `check` oder
 
 Der TESTING-Modus stellt zusätzliche Werkzeuge für Entwicklung, Abnahme und manuelle Funktionstests bereit. Er ist ausschließlich für **isolierte Testinstallationen** vorgesehen und darf nicht auf einem produktiv genutzten System aktiviert werden. Insbesondere werden zusätzliche Git-Branches freigegeben, die Django-Administration eingeblendet und bei der manuellen Nutzeranlage die üblichen Passwort-Komplexitätsprüfungen umgangen.
 
-
 Der Modus wird auf Debian-/Ubuntu-Installationen mit systemd beim Update aktiviert:
 
 ```bash
@@ -497,10 +499,9 @@ Die Funktion **TEST-Daten zurücksetzen** entfernt die von der Beispielkonfigura
 - Die Django-Administration und die vereinfachte Passwortprüfung vergrößern die Angriffsfläche. Den Zugriff auf die Testinstallation deshalb auf ein vertrauenswürdiges Netz und berechtigte Personen beschränken.
 - Testdaten möglichst vor der Übernahme oder Wiederverwendung der Installation zurücksetzen und den TESTING-Modus anschließend beenden.
 
-
 ### 6. Manuelle Testcheckliste bearbeiten und exportieren
 
-Die interaktive Bearbeitung der Testcheckliste unter **Hilfe & Anleitung → Prüfung des Verfahrens** ist ausschließlich im aktivierten TESTING-Modus verfügbar. Außerhalb des Modus wird die Checkliste schreibgeschützt angezeigt. Im TESTING-Modus werden gesetzte oder entfernte Prüfhaken unmittelbar in `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem lokalen Anwendungsserver geschrieben. Andere Nutzer derselben Serverinstallation sehen Änderungen automatisch spätestens nach zwei Sekunden. Dateisperre, Versionsprüfung und atomisches Schreiben schützen vor konkurrierenden Änderungen und unvollständigen Dateien. Der vollständige aktuelle Stand kann jederzeit über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell nach GitHub übernommen werden. Es gibt keine Datenbank- oder GitHub-API-Speicherung. Jede weitere Serverinstallation führt ihre eigene lokale Checkliste; eine Synchronisierung zwischen Servern findet nicht statt. Bei Docker-Installationen hält dafür das eigene persistente Volume `docs_data` ausschließlich die bearbeitbare Checkliste unter `/app/local-test-docs/` über Container-Neuerstellungen hinweg fest. Die übrigen Dokumente unter `docs/` bleiben Bestandteil des Images und werden mit Updates aktualisiert. Die Debian-Installation gibt dem Dienstkonto gezielt Schreibzugriff auf die Checklisten-Datei; der Updateprozess verwirft den lokalen Prüfstand unter gemeinsamer Schreibsperre und übernimmt die Version aus dem aktualisierten Git-Branch. Der lokale Testfortschritt wird bei erfolgreichen Updates nicht erhalten.
+Die interaktive Bearbeitung der Testcheckliste unter **Hilfe & Anleitung → Prüfung des Verfahrens** ist ausschließlich im aktivierten TESTING-Modus verfügbar. Außerhalb des Modus wird die Checkliste schreibgeschützt angezeigt. Im TESTING-Modus werden gesetzte oder entfernte Prüfhaken unmittelbar in `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem lokalen Anwendungsserver geschrieben. Andere Nutzer derselben Serverinstallation sehen Änderungen automatisch spätestens nach zwei Sekunden. Dateisperre, Versionsprüfung und atomisches Schreiben schützen vor konkurrierenden Änderungen und unvollständigen Dateien. Bereits geöffnete Checklistenansichten werden bei strukturellen Änderungen automatisch neu geladen. Der vollständige aktuelle Stand kann jederzeit über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell nach GitHub übernommen werden. Es gibt keine Datenbank- oder GitHub-API-Speicherung. Jede weitere Serverinstallation führt ihre eigene lokale Checkliste; eine Synchronisierung zwischen Servern findet nicht statt. Bei Docker-Installationen hält dafür das eigene persistente Volume `docs_data` ausschließlich die bearbeitbare Checkliste unter `/app/local-test-docs/` über Container-Neuerstellungen hinweg fest. Die übrigen Dokumente unter `docs/` bleiben Bestandteil des Images und werden mit Updates aktualisiert. Die Debian-Installation gibt dem Dienstkonto gezielt Schreibzugriff auf die Checklisten-Datei; der Updateprozess verwirft den lokalen Prüfstand unter gemeinsamer Schreibsperre und übernimmt die Version aus dem aktualisierten Git-Branch. Der lokale Testfortschritt wird bei erfolgreichen Updates nicht erhalten.
 
 ## Arbeitsabläufe in der Anwendung
 
