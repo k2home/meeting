@@ -25,6 +25,8 @@
 :root[data-theme="dark"] .test-document-index .toc li.is-complete>a{background:hsl(120,25%,24%)}
 .test-document-index .toc>ul>li:first-child> a{display:none}
 .test-document-index .toc>ul>li:first-child>ul{padding-left:0}
+.test-document-index .toc>ul>li>ul>li>ul{display:none}
+.test-document-index .toc>ul>li>ul>li.is-current>ul{display:block}
 .test-document-index .toc>ul>li>ul>li>ul>li>ul{display:none}
 .test-document-index .toc>ul>li>ul>li>ul>li.is-current>ul{display:block}
 .test-document-index .toc a[aria-current="location"]{font-weight:700;color:var(--hagen-blue)}
@@ -78,22 +80,47 @@
 (() => {
   const index = document.querySelector(".test-document-index .toc");
   if (!index) return;
-  const items = Array.from(index.querySelectorAll(":scope > ul > li > ul > li > ul > li"));
-  const sections = items.map(item => {
+  const chapterItems = Array.from(index.querySelectorAll(":scope > ul > li > ul > li"));
+  const chapterSections = chapterItems.map(item => {
+    const link = item.querySelector(":scope > a");
+    return link ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
+  });
+  const subchapterItems = chapterItems.flatMap(item =>
+    Array.from(item.querySelectorAll(":scope > ul > li"))
+  );
+  const subchapterSections = subchapterItems.map(item => {
     const link = item.querySelector(":scope > a");
     return link ? document.getElementById(decodeURIComponent(link.hash.slice(1))) : null;
   });
   const updateCurrentSection = () => {
-    let current = -1;
-    sections.forEach((section, i) => {
-      if (section && section.getBoundingClientRect().top <= 150) current = i;
+    let currentChapter = -1;
+    chapterSections.forEach((section, i) => {
+      if (section && section.getBoundingClientRect().top <= 150) currentChapter = i;
     });
-    items.forEach((item, i) => {
-      const active = i === current;
-      item.classList.toggle("is-current", active);
+    chapterItems.forEach((item, i) => {
+      item.classList.toggle("is-current", i === currentChapter);
+    });
+
+    let currentSubchapter = -1;
+    subchapterSections.forEach((section, i) => {
+      if (section && section.getBoundingClientRect().top <= 150) currentSubchapter = i;
+    });
+    const activeChapter = currentChapter >= 0 ? chapterItems[currentChapter] : null;
+    subchapterItems.forEach((item, i) => {
+      const active = activeChapter && activeChapter.contains(item) &&
+        subchapterSections[i] && subchapterItems[i] === item &&
+        i === currentSubchapter;
+      item.classList.toggle("is-current", Boolean(active));
       const link = item.querySelector(":scope > a");
       if (link) {
         if (active) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      }
+    });
+    chapterItems.forEach((item, i) => {
+      const link = item.querySelector(":scope > a");
+      if (link) {
+        if (i === currentChapter) link.setAttribute("aria-current", "location");
         else link.removeAttribute("aria-current");
       }
     });
