@@ -86,13 +86,8 @@ chmod 0750 "$CHECKLIST_LOCK_DIR"
 exec 9<"$CHECKLIST_LOCK_DIR"
 flock -x 9
 
-# The repository version is authoritative: discard the server-local checklist state
-# while holding the same lock used by the application before switching revisions.
-git -C "$APP_DIR" reset -q HEAD -- "$CHECKLIST_RELATIVE"
-git -C "$APP_DIR" checkout -- "$CHECKLIST_RELATIVE"
-
-if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' \
-  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env'; then
+if ! git -C "$APP_DIR" diff --quiet -- . ':(exclude).env' ":(exclude)$CHECKLIST_RELATIVE" \
+  || ! git -C "$APP_DIR" diff --cached --quiet -- . ':(exclude).env' ":(exclude)$CHECKLIST_RELATIVE"; then
   echo "Update abgebrochen: Es gibt lokale Änderungen an versionierten Dateien außerhalb von .env und der Testcheckliste." >&2
   git -C "$APP_DIR" status --short
   exit 1
@@ -190,11 +185,21 @@ fi
 if [[ -n "$TARGET_BRANCH" ]]; then
   echo "==> Aktualisiere Quellcode aus Branch $TARGET_BRANCH"
   git -C "$APP_DIR" fetch --prune origin "$TARGET_BRANCH"
+else
+  git -C "$APP_DIR" fetch --prune
+fi
+
+# Only discard the local checklist after all preflight checks and the remote
+# fetch have succeeded. The repository version becomes authoritative on update.
+git -C "$APP_DIR" reset -q HEAD -- "$CHECKLIST_RELATIVE"
+git -C "$APP_DIR" checkout -- "$CHECKLIST_RELATIVE"
+
+if [[ -n "$TARGET_BRANCH" ]]; then
   CODE_SWITCHED=1
   git -C "$APP_DIR" switch --force-create "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
 else
   CODE_SWITCHED=1
-  git -C "$APP_DIR" pull --ff-only
+  git -C "$APP_DIR" merge --ff-only '@{u}'
 fi
 # Re-apply local write permissions after Git replaces the checklist during checkout.
 chown meetingapp:www-data "$CHECKLIST_FILE"
