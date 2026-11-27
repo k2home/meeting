@@ -109,6 +109,12 @@ def _checklist_revision(content):
     return hashlib.sha256(content.encode("utf-8")).hexdigest()
 
 
+def _checklist_structure_revision(content):
+    """Ignore checkbox state so live clients can detect a changed document layout."""
+    normalized = re.sub(r"\\[([ xX])\\]", "[ ]", content)
+    return _checklist_revision(normalized)
+
+
 def _checklist_status(content):
     statuses = {}
     for line_number, line in enumerate(content.splitlines(), start=1):
@@ -158,6 +164,7 @@ def test_documentation(request):
         "test_documentation_html": mark_safe(content),
         "test_documentation_toc_html": mark_safe(parser.toc),
         "test_documentation_revision": _checklist_revision(markdown_source),
+        "test_documentation_structure_revision": _checklist_structure_revision(markdown_source),
         "test_documentation_editable": testing_mode,
     })
 
@@ -174,6 +181,7 @@ def test_documentation_status(request):
     content = source.read_text(encoding="utf-8")
     return JsonResponse({
         "revision": _checklist_revision(content),
+        "structure_revision": _checklist_structure_revision(content),
         "statuses": _checklist_status(content),
     })
 
