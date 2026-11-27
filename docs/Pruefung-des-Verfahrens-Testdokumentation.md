@@ -131,7 +131,7 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 
 - **Test erfolgreich:** [ ]
 
-#### 1.2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb
+#### 1.2.2 Update auf einer isolierten Testinstallation ausführen – Rolle: Admin bzw. Betrieb – **PR-Test erforderlich (#531)**
 
 **Prüfschritt**
 
@@ -143,6 +143,9 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
  1. Nach Abschluss die Anwendung neu laden.
  1. Anmeldung durchführen.
  1. Besprechungsübersicht, Themen, Protokoll und Anlagen öffnen.
+ 1. Vor dem Update in der lokalen Testcheckliste mindestens einen bislang offenen Erfolgs-Haken setzen und den dadurch gespeicherten Stand dokumentieren.
+ 1. Das Update sowohl auf einer Debian-Testinstallation als auch auf einer Docker-Testinstallation durchführen.
+ 1. Nach erfolgreichem Update die lokale Testcheckliste erneut öffnen und mit der Checklisten-Datei des aktualisierten Branches bzw. der Datei aus dem neuen Docker-Image vergleichen.
 
 **Ergebnisprüfung**
 
@@ -151,6 +154,9 @@ Prüfungen zur Installation, Aktualisierung sowie Sicherung und Wiederherstellun
 - [ ] Anwendung ist erreichbar.
 - [ ] Vorhandene Testdaten und Serienberechtigungen bleiben erhalten.
 - [ ] Login, fachliche Ansichten und Dateizugriffe funktionieren.
+- [ ] Die lokale Testcheckliste entspricht nach dem Update exakt der Version aus dem aktualisierten Branch bzw. Docker-Image.
+- [ ] Vorher lokal gesetzte Prüfhaken bzw. der lokale Testfortschritt wurden überschrieben und nicht wiederhergestellt.
+- [ ] Die Checklisten-Dateisperre blockiert den Updatevorgang nicht und parallele Schreibvorgänge führen nicht zu einer beschädigten Datei.
 
 - **Test erfolgreich:** [ ]
 
