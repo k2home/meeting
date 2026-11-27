@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - beta
+      - docs/testdokumentation-funktionsbereiche
   schedule:
     - cron: "23 4 * * 1"
 
