@@ -1469,7 +1469,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+ 1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen. Die Anlage mit demselben berechtigten Konto herunterladen und öffnen; anschließend den Änderungsverlauf des Themas aufrufen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
@@ -1615,7 +1615,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
+ 1. Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen. Danach ein unkritisches Feld eines Tagesordnungspunkts bearbeiten, speichern und den Termin erneut abschließen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
@@ -4292,7 +4292,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+ 1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen. Die Anlage mit demselben berechtigten Konto herunterladen und öffnen; anschließend den Änderungsverlauf des Themas aufrufen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
@@ -5380,7 +5380,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen.
+ 1. Ein zugängliches Testthema öffnen, eine harmlose Testdatei als Anlage auswählen und hochladen. Die Anlage mit demselben berechtigten Konto herunterladen und öffnen; anschließend den Änderungsverlauf des Themas aufrufen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
@@ -5526,7 +5526,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen.
+ 1. Einen abgeschlossenen Testtermin der zugewiesenen Reihe öffnen und die Funktion zum Wiederöffnen auslösen. Danach ein unkritisches Feld eines Tagesordnungspunkts bearbeiten, speichern und den Termin erneut abschließen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
