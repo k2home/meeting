@@ -1160,7 +1160,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und die für die Zielreihe ausdrücklich vorgesehene Serienrolle sicherstellen.
- 1. Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
+ 1. Einen entbehrlichen Testtermin mit mindestens einem Tagesordnungspunkt und Teilnehmenden vorbereiten; sicherstellen, dass derselben Reihe ein späterer nicht abgeschlossener Termin zugeordnet ist. Den Ausgangsinhalt dokumentieren, den ersten Termin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
@@ -5070,7 +5070,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
 
 **Prüfschritt**
  1. Mit dem im Testfall genannten Konto anmelden und kontrollieren, dass die globale Rolle sowie die Serienzuweisung der Rollenbeschreibung entsprechen.
- 1. Einen eigens angelegten entbehrlichen Testtermin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
+ 1. Einen entbehrlichen Testtermin mit mindestens einem Tagesordnungspunkt und Teilnehmenden vorbereiten; sicherstellen, dass derselben Reihe ein späterer nicht abgeschlossener Termin zugeordnet ist. Den Ausgangsinhalt dokumentieren, den ersten Termin öffnen, den Löschvorgang auslösen und die Rückfrage bestätigen.
  1. Vor einer schreibenden Aktion den Ausgangszustand der betroffenen Testdaten festhalten. Nach dem Aufruf die betroffene Ansicht neu laden und den tatsächlichen Zustand mit den nachfolgenden Ergebnisprüfungen vergleichen. Bei reinen Lese- oder Zugriffsprüfungen entfällt der Zustandsvergleich.
 
 **Ergebnisprüfung**
