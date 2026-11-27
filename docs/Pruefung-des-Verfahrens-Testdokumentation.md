@@ -356,6 +356,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
  1. Angezeigte Folgen prüfen.
  1. Löschung bestätigen.
  1. Benutzerübersicht und betroffene Serienzuweisungen prüfen.
+ 1. Ein zweites, nicht zu löschendes Testkonto öffnen und dessen Stammdaten sowie Serienzuweisungen mit dem Ausgangszustand vergleichen.
 
 **Ergebnisprüfung**
 
@@ -378,6 +379,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
  1. Weitere Reihe mit abweichender Rolle zuweisen.
  1. Speichern.
  1. Benutzeransicht erneut öffnen.
+ 1. Das eigene globale Admin-Konto in der Benutzerverwaltung öffnen und kontrollieren, dass dessen Serienzuweisungen unverändert sind.
 
 **Ergebnisprüfung**
 
@@ -398,12 +400,13 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
  1. Vorgang bestätigen.
  1. Mit dem Testkonto anmelden.
  1. Passwortwechsel durchführen.
+ 1. Mit einem zweiten Testkonto anmelden und prüfen, dass dessen bisheriges Passwort weiterhin funktioniert.
 
 **Ergebnisprüfung**
 
 - [ ] Nach dem Zurücksetzen gilt das konfigurierte Startpasswort; das Testkonto muss sich innerhalb von 24 Stunden anmelden und ein persönliches Passwort festlegen.
 - [ ] Erforderlicher Passwortwechsel wird durchgesetzt.
-- [ ] Andere Konten bleiben unverändert.
+- [ ] Das zweite Testkonto kann sich weiterhin mit seinem unveränderten Passwort anmelden.
 
 - **Test erfolgreich:** [ ]
 
@@ -475,7 +478,7 @@ Die Authentifizierungsprüfung ist nicht von einer Serienrolle abhängig. Eine W
 
 **Prüfschritt**
 
- 1. Organisationseinstellungen öffnen.
+ 1. Organisationseinstellungen öffnen und die individuellen Aufbewahrungsfristen vorhandener Testthemen dokumentieren.
  1. Einen ungültigen Wert für die zentrale Aufbewahrungsfrist und einen ungültigen Wert für die maximale Dateigröße eintragen und versuchen, zu speichern.
  1. Gültige Werte für Aufbewahrungsfrist und maximale Dateigröße eintragen und speichern.
  1. Einstellungen erneut öffnen und die gespeicherten Werte kontrollieren.
@@ -635,9 +638,10 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
  1. **Verwaltung** öffnen.
  1. **Beispielkonfiguration** öffnen.
  1. Bereich zum Erzeugen zufälliger Testnutzer aufrufen.
+ 1. Die vorhandenen regulären Benutzerkonten als Ausgangszustand dokumentieren.
  1. Eine kleine Anzahl Testnutzer auswählen.
  1. Erzeugung starten.
- 1. Benutzerübersicht öffnen.
+ 1. Benutzerübersicht öffnen und die regulären Konten mit dem dokumentierten Ausgangszustand vergleichen.
 
 **Ergebnisprüfung**
 
@@ -654,9 +658,10 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
  1. Beispielkonfiguration öffnen.
  1. Bereich zum Erzeugen von Testbesprechungsreihen aufrufen.
+ 1. Die vorhandenen regulären Besprechungsreihen als Ausgangszustand dokumentieren.
  1. Eine kleine Anzahl Reihen auswählen.
  1. Erzeugung starten.
- 1. Serienübersicht öffnen.
+ 1. Serienübersicht öffnen und die regulären Reihen mit dem dokumentierten Ausgangszustand vergleichen.
 
 **Ergebnisprüfung**
 
@@ -671,10 +676,10 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 **Prüfschritt**
 
  1. Beispielkonfiguration öffnen.
- 1. Eine Testreihe auswählen.
+ 1. Eine Testreihe auswählen und ihre vorhandenen Serienrollen dokumentieren.
  1. Funktion zum Generieren der Termine öffnen.
  1. Generierung starten.
- 1. Terminübersicht der Testreihe öffnen.
+ 1. Terminübersicht der Testreihe öffnen und die Serienrollen mit dem dokumentierten Ausgangszustand vergleichen.
 
 **Ergebnisprüfung**
 
@@ -691,10 +696,11 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 
  1. Beispielkonfiguration öffnen.
  1. Eine Testreihe auswählen.
+ 1. Die vorhandenen regulären Themen als Ausgangszustand dokumentieren.
  1. Bereich zum Erzeugen von Testthemen öffnen.
  1. Eine kleine Anzahl Themen festlegen.
  1. Erzeugung starten.
- 1. Themenübersicht der Testreihe öffnen.
+ 1. Themenübersicht der Testreihe öffnen und reguläre Themen mit dem dokumentierten Ausgangszustand vergleichen.
 
 **Ergebnisprüfung**
 
@@ -709,11 +715,13 @@ Prüfungen der isolierten Testumgebung, Testdaten, Hilfedokumentation und des ab
 **Prüfschritt**
 
  1. Beispielkonfiguration öffnen.
+ 1. Vorhandene reguläre Themen und Termine als Ausgangszustand dokumentieren.
  1. Ein Testthema auswählen.
  1. Bereich zum Erzeugen von Tagesordnungspunkten öffnen.
  1. Eine kleine Anzahl Punkte festlegen.
  1. Erzeugung starten.
- 1. Zugehörige Testtermine öffnen.
+ 1. Zugehörige Testtermine öffnen und Zuordnung, Status, Zuständigkeit sowie die chronologische Verknüpfung der Wiedervorlagen prüfen.
+ 1. Reguläre Themen und Termine mit dem dokumentierten Ausgangszustand vergleichen.
 
 **Ergebnisprüfung**
 
