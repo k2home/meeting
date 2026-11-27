@@ -9,7 +9,7 @@
 - Die Testfälle in einer geeigneten Testinstallation mit vorbereiteten Testkonten durchführen.
 - Testblöcke mit **PR-Test erforderlich** sind durch die Änderungen des aktuellen Pull Requests betroffen und müssen in diesem PR erneut ausgeführt werden.
 - Ein PR-Test-Marker ist kein Erfolgsnachweis. Die zugehörigen Kästchen bleiben bis zur tatsächlichen erfolgreichen Prüfung leer.
-- Für jeden Testfall die nummerierten Prüfschritte der Reihe nach ausführen. Im aktivierten TESTING-Modus ausschließlich die Kästchen unter **Ergebnisprüfung** abhaken; die Durchführungsschritte selbst werden ohne Checkboxen angezeigt. Jeder Klick wird unmittelbar in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen Änderungen automatisch spätestens nach 15 Sekunden. Der vollständige Prüfstand kann über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell in GitHub hochgeladen oder in den gewünschten Branch übernommen werden. Außerhalb des TESTING-Modus ist die Checkliste schreibgeschützt. Die Speicherung erfolgt weder in einer Datenbank noch automatisch in GitHub. Mehrere Serverinstallationen führen unabhängige lokale Checklisten ohne Synchronisierung.
+- Für jeden Testfall die nummerierten Prüfschritte der Reihe nach ausführen. Im aktivierten TESTING-Modus ausschließlich die Kästchen unter **Ergebnisprüfung** abhaken; die Durchführungsschritte selbst werden ohne Checkboxen angezeigt. Jeder Klick wird unmittelbar in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver gespeichert. Andere Nutzer derselben Installation sehen Änderungen automatisch spätestens nach zwei Sekunden. Der vollständige Prüfstand kann über **Aktuellen Test als .md herunterladen** exportiert und anschließend manuell in GitHub hochgeladen oder in den gewünschten Branch übernommen werden. Außerhalb des TESTING-Modus ist die Checkliste schreibgeschützt. Die Speicherung erfolgt weder in einer Datenbank noch automatisch in GitHub. Mehrere Serverinstallationen führen unabhängige lokale Checklisten ohne Synchronisierung.
 - Am Ende jedes Testfalls den angezeigten Systemstand mit den erwarteten Ergebnissen vergleichen.
 - Den Erfolgs-Haken nur setzen, wenn alle Prüfpunkte erfüllt sind. Bei Abweichungen den Test nicht als erfolgreich markieren und die Abweichung separat dokumentieren.
 - Rollenprüfungen mit getrennten Konten durchführen. Eine globale Administratorrolle ersetzt keine Serienzuweisung und gewährt nicht automatisch Zugriff auf fachliche Reiheninhalte.
@@ -825,7 +825,7 @@ Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer 
     1. Ein Kontrollkästchen anklicken und die unmittelbare Speicherbestätigung abwarten.
     1. Prüfen, ob der entsprechende Marker in der lokalen Datei `docs/Pruefung-des-Verfahrens-Testdokumentation.md` auf dem Anwendungsserver geändert wurde.
     1. Dieselbe Checkliste in einem zweiten Browserfenster mit einem weiteren angemeldeten Nutzer öffnen.
-    1. Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach 15 Sekunden aktualisiert wird, ohne die Seite neu zu laden.
+    1. Im ersten Fenster einen weiteren Haken setzen und prüfen, ob das zweite Fenster spätestens nach zwei Sekunden aktualisiert wird, ohne die Seite neu zu laden.
     1. In beiden Fenstern gleichzeitig unterschiedliche Haken ändern und prüfen, ob beide Änderungen erhalten bleiben.
     1. Während der parallelen Änderungen die lokale Markdown-Datei wiederholt herunterladen und öffnen; jede Datei auf vollständige Struktur und beide gespeicherten Änderungen prüfen.
     1. Einen Haken wieder entfernen und prüfen, ob auch das Entfernen unmittelbar gespeichert und live übertragen wird.
@@ -844,7 +844,7 @@ Der Zugriff auf die allgemeine Hilfe und die Testcheckliste ist nicht von einer 
 - [ ] Die Checkliste wird vollständig und ohne Darstellungsfehler angezeigt.
 - [ ] Bearbeitung und Download sind ausschließlich im TESTING-Modus verfügbar.
 - [ ] Jeder Klick wird direkt in der lokalen Markdown-Datei auf dem Anwendungsserver gespeichert.
-- [ ] Andere Nutzer derselben Serverinstallation sehen Änderungen spätestens nach 15 Sekunden ohne Neuladen.
+- [ ] Andere Nutzer derselben Serverinstallation sehen Änderungen spätestens nach zwei Sekunden ohne Neuladen.
 - [ ] Gleichzeitige Änderungen überschreiben einander nicht unbemerkt.
 - [ ] Die Datei wird atomar geschrieben und bleibt auch bei parallelen Zugriffen vollständig lesbar.
 - [ ] Der Download enthält den vollständigen aktuellen Stand als `.md`-Datei.
