@@ -1688,7 +1688,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
@@ -1800,7 +1800,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
@@ -1835,7 +1835,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
@@ -1854,7 +1854,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
@@ -1871,7 +1871,7 @@ Ein normales Benutzerkonto ohne globale Admin- oder Auditorrolle verwenden. Für
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
@@ -2018,7 +2018,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
@@ -2035,7 +2035,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
@@ -2052,7 +2052,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
@@ -2069,7 +2069,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
@@ -2088,7 +2088,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -2105,7 +2105,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -2122,7 +2122,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
@@ -2139,7 +2139,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
@@ -2156,7 +2156,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
@@ -2173,7 +2173,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
@@ -2206,7 +2206,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
@@ -2223,7 +2223,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
@@ -2240,7 +2240,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
@@ -2257,7 +2257,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
@@ -2274,7 +2274,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
@@ -2291,7 +2291,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
@@ -2310,7 +2310,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
@@ -2327,7 +2327,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
@@ -2344,7 +2344,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
@@ -2361,7 +2361,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
@@ -2378,7 +2378,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
@@ -2395,7 +2395,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
@@ -2414,7 +2414,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
@@ -2431,7 +2431,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
@@ -2448,7 +2448,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
@@ -2465,7 +2465,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
@@ -2482,7 +2482,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
@@ -2501,7 +2501,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
@@ -2571,7 +2571,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
@@ -2609,7 +2609,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
@@ -2626,7 +2626,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
@@ -2643,7 +2643,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
@@ -2660,7 +2660,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
@@ -2709,7 +2709,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
@@ -2728,7 +2728,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
@@ -2759,7 +2759,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
@@ -2778,7 +2778,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
@@ -2795,7 +2795,7 @@ Ein angemeldetes normales Benutzerkonto ohne Serienzuweisung verwenden. Es darf 
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
@@ -2940,7 +2940,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
@@ -2957,7 +2957,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
@@ -2974,7 +2974,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
@@ -3007,7 +3007,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -3024,7 +3024,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -3041,7 +3041,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
@@ -3058,7 +3058,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
@@ -3075,7 +3075,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
@@ -3092,7 +3092,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
@@ -3109,7 +3109,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Themenvorschläge aus nicht zugänglichen Reihen ausgegeben.
@@ -3128,7 +3128,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
@@ -3145,7 +3145,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
@@ -3162,7 +3162,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
@@ -3179,7 +3179,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
@@ -3196,7 +3196,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
@@ -3234,7 +3234,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
@@ -3251,7 +3251,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
@@ -3268,7 +3268,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
@@ -3302,7 +3302,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
@@ -3319,7 +3319,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
@@ -3338,7 +3338,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
@@ -3391,7 +3391,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
@@ -3463,7 +3463,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
@@ -3498,7 +3498,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
@@ -3534,7 +3534,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
@@ -3551,7 +3551,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
@@ -3568,7 +3568,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
@@ -3585,7 +3585,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
@@ -3634,7 +3634,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
@@ -3653,7 +3653,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
@@ -3685,7 +3685,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
@@ -3704,7 +3704,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
@@ -3721,7 +3721,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Leser der jeweilig
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
@@ -3872,7 +3872,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
@@ -3889,7 +3889,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
@@ -4012,7 +4012,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
@@ -4342,7 +4342,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
@@ -4414,7 +4414,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
@@ -4449,7 +4449,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
@@ -4485,7 +4485,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
@@ -4502,7 +4502,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
@@ -4519,7 +4519,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
@@ -4536,7 +4536,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
@@ -4585,7 +4585,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Audit-CSV-Datei ausgegeben oder heruntergeladen.
@@ -4604,7 +4604,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
@@ -4636,7 +4636,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
@@ -4655,7 +4655,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
@@ -4672,7 +4672,7 @@ Ein normales Benutzerkonto verwenden, das als Teilnehmer der jeweiligen Testreih
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
@@ -5496,7 +5496,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
@@ -5570,7 +5570,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
@@ -5587,7 +5587,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
@@ -5699,7 +5699,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
@@ -5731,7 +5731,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
@@ -5750,7 +5750,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
@@ -5767,7 +5767,7 @@ Ein normales Benutzerkonto verwenden, das ausschließlich als Moderator der jewe
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
@@ -5854,7 +5854,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine Aufgaben aus nicht zugewiesenen Reihen angezeigt.
@@ -5907,7 +5907,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Verlängerung wird verweigert oder ist nicht verfügbar.
@@ -5924,7 +5924,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Neuaufsetzen wird verweigert oder ist nicht verfügbar.
@@ -5941,7 +5941,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung wird verweigert oder ist nicht verfügbar.
@@ -5958,7 +5958,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Berechtigungsänderung wird verweigert oder ist nicht verfügbar.
@@ -6013,7 +6013,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die fremde Reihe wird nicht zur Verwaltung freigegeben.
@@ -6046,7 +6046,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
@@ -6063,7 +6063,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
@@ -6080,7 +6080,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
@@ -6097,7 +6097,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
@@ -6116,7 +6116,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -6133,7 +6133,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -6150,7 +6150,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
@@ -6167,7 +6167,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
@@ -6184,7 +6184,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
@@ -6201,7 +6201,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
@@ -6234,7 +6234,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
@@ -6251,7 +6251,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
@@ -6268,7 +6268,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
@@ -6285,7 +6285,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
@@ -6302,7 +6302,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
@@ -6319,7 +6319,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
@@ -6338,7 +6338,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
@@ -6355,7 +6355,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
@@ -6372,7 +6372,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
@@ -6389,7 +6389,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
@@ -6406,7 +6406,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
@@ -6423,7 +6423,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
@@ -6442,7 +6442,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
@@ -6459,7 +6459,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
@@ -6476,7 +6476,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
@@ -6508,7 +6508,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
@@ -6527,7 +6527,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
@@ -6558,7 +6558,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
@@ -6665,7 +6665,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
@@ -6682,7 +6682,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
@@ -6810,7 +6810,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Rolle erhält keine Auditor*innenübersicht; die Anwendung verweigert den Zugriff oder leitet zur regulären Startseite weiter.
@@ -6827,7 +6827,7 @@ Ein globales Admin-Konto verwenden, dem für die geprüfte Bestandsreihe ausdrü
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Jeder geschützte Auditor*innen-Endpunkt verweigert den Zugriff oder leitet auf eine reguläre, für die Rolle zulässige Seite um.
@@ -6966,7 +6966,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Terminänderung wird verweigert oder die Aktion ist nicht verfügbar.
@@ -6983,7 +6983,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Termin wird nicht gelöscht.
@@ -7000,7 +7000,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Teilnehmeränderung wird verweigert oder ist nicht verfügbar.
@@ -7017,7 +7017,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die schreibende Aktion am abgeschlossenen Termin wird verweigert oder ist nicht verfügbar.
@@ -7036,7 +7036,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -7053,7 +7053,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Testthema wird nicht angelegt.
@@ -7070,7 +7070,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Themenänderung wird verweigert oder ist nicht verfügbar.
@@ -7087,7 +7087,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Statusänderung wird verweigert oder ist nicht verfügbar.
@@ -7104,7 +7104,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Archivieren bzw. Wiederöffnen wird verweigert oder ist nicht verfügbar.
@@ -7121,7 +7121,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Übertragung wird verweigert oder ist nicht verfügbar.
@@ -7154,7 +7154,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Bearbeitung wird verweigert oder ist nicht verfügbar.
@@ -7171,7 +7171,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Sortierung wird verweigert oder ist nicht verfügbar.
@@ -7188,7 +7188,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Tagesordnungspunkt wird nicht entfernt.
@@ -7205,7 +7205,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiedervorlage wird nicht angelegt.
@@ -7222,7 +7222,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Fortführung wird verweigert oder ist nicht verfügbar.
@@ -7239,7 +7239,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Tagesordnungseinträge werden für diese Rolle nicht angezeigt oder ausgegeben.
@@ -7258,7 +7258,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Kommentar wird nicht gespeichert.
@@ -7275,7 +7275,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird verweigert oder ist nicht verfügbar.
@@ -7292,7 +7292,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Hinterlegen des Pfads bzw. Links wird verweigert oder ist nicht verfügbar.
@@ -7309,7 +7309,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Download wird verweigert oder liefert keine geschützte Datei aus.
@@ -7326,7 +7326,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Löschung der Anlage wird verweigert oder ist nicht verfügbar.
@@ -7343,7 +7343,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Upload wird wegen fehlender Berechtigung verweigert; eine Größenprüfung darf nicht zu einem erfolgreichen Upload führen.
@@ -7362,7 +7362,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Abschlussvorgang wird verweigert oder ist nicht verfügbar.
@@ -7379,7 +7379,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Das Protokoll wird nicht angezeigt oder ausgegeben.
@@ -7396,7 +7396,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Druckansicht und PDF-Export werden verweigert oder sind nicht verfügbar.
@@ -7413,7 +7413,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Wiederöffnung wird verweigert oder ist nicht verfügbar.
@@ -7430,7 +7430,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der PDF-Export wird verweigert oder ist nicht verfügbar.
@@ -7449,7 +7449,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es werden keine offenen Themen aus nicht zugewiesenen Reihen angezeigt.
@@ -7481,7 +7481,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Historische Inhalte werden nicht angezeigt oder heruntergeladen.
@@ -7517,7 +7517,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die Entscheidung wird verweigert oder ist nicht verfügbar.
@@ -7554,7 +7554,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Benutzer-CSV-Datei ausgegeben oder heruntergeladen.
@@ -7571,7 +7571,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird abgewiesen; es werden keine Testkonten angelegt oder bestehende Konten verändert.
@@ -7588,7 +7588,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Es wird keine Themen-CSV-Datei ausgegeben oder heruntergeladen.
@@ -7605,7 +7605,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Import wird verweigert.
@@ -7680,7 +7680,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Die administrativen Aufbewahrungseinstellungen werden nicht angezeigt und der Zugriff wird verweigert bzw. zur berechtigten Ansicht umgeleitet.
@@ -7711,7 +7711,7 @@ Ein globales Auditor-Konto verwenden. Auch bei vorhandener zusätzlicher Serienz
  1. Nur wenn die übergeordnete Seite erreichbar ist und ein konkreter Aktionsversuch erfolgt: Den Zustand der betroffenen Testdaten vor und nach dem Versuch vergleichen.
 
 **Ergebnisprüfung**
-- [ ] Ist die übergeordnete Seite nicht erreichbar, wird ausschließlich diese Zugriffsverweigerung dokumentiert; die Prüfung des Funktionsbereichs endet hier. Alle nachfolgenden Ergebnisprüfungen entfallen.
+
 - [ ] Falls die übergeordnete Seite nicht erreichbar ist: Die Zugriffsverweigerung ist nachgewiesen; der Funktionsbereich ist für diese Rolle nicht zugänglich.
 - [ ] Die konkrete Aktion wird nur bei erreichbarer übergeordneter Seite geprüft und für diese Rolle verweigert oder nicht angeboten.
 - [ ] Nur wenn die übergeordnete Seite erreichbar ist: Der Retention-Lauf wird nicht gestartet bzw. die Aktion wird abgewiesen.
