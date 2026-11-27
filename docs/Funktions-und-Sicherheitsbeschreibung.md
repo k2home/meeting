@@ -82,7 +82,7 @@ Das Modell ist damit auf das Need-to-know-Prinzip ausgerichtet. Kritisch bleibt 
 - **Anwendungsframework:** Django (Python 3.13 im Docker-Image).
 - **Datenbank:** PostgreSQL 16 im Docker-Betrieb; PostgreSQL auch für die Debian-Installation.
 - **Webserver / Prozess:** Nginx und Gunicorn.
-- **Dateien:** separates Medienverzeichnis bzw. Docker-Volume; statische Dateien werden separat bereitgestellt.
+- **Dateien:** separates Medienverzeichnis bzw. Docker-Volume; statische Dateien werden separat bereitgestellt. Zusätzlich wird die manuelle Testcheckliste im TESTING-Modus als Markdown-Datei auf dem Anwendungsserver gepflegt (Debian: `docs/Pruefung-des-Verfahrens-Testdokumentation.md`; Docker: separates persistentes Volume `docs_data`). Der Prüfstand liegt nicht in PostgreSQL. Schreibzugriff erfolgt nur über angemeldete, serverseitig auf den TESTING-Modus geprüfte POST-Endpunkte mit CSRF-Schutz; der Markdown-Export ist ebenfalls auf angemeldete Nutzer im TESTING-Modus beschränkt. Pro Installation besteht ein unabhängiger Prüfstand.
 - **Container:** App-Prozess läuft als nicht privilegierter Benutzer. PostgreSQL ist im Compose-Netz erreichbar und erhält keinen veröffentlichten Host-Port. Der App-Container veröffentlicht Port 8000 nur intern; der Nginx-Container veröffentlicht den konfigurierten Web-Port.
 - **Konfiguration:** Umgebungsvariablen und lokale `.env`-Datei. `SECRET_KEY` und Datenbankzugangsdaten sind vertraulich zu behandeln.
 
