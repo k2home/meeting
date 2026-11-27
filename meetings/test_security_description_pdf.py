@@ -227,7 +227,7 @@ class TestDocumentationPageTests(TestCase):
         self.assertContains(response, 'window.updateTestDocumentationCompletionForCheckbox?.(checkbox, !desired, desired);')
         for anchor in phase_anchors:
             self.assertContains(response, f'href="#{anchor}"')
-        self.assertContains(response, '<h3 id="1-anmeldung-und-sitzung">1. Anmeldung und Sitzung</h3>')
+        self.assertContains(response, '<h3 id="21-anmeldung-und-sitzung">2.1 Anmeldung und Sitzung</h3>')
         self.assertContains(response, "<h4 id=")
         self.assertContains(response, "1.1 Anmeldung mit gültigem Konto")
 
