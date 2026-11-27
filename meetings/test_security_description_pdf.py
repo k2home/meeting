@@ -339,12 +339,12 @@ class TestDocumentationPageTests(TestCase):
         from meetings.guide_views import _checklist_structure_revision
 
         self.assertEqual(
-            _checklist_structure_revision("- [ ] Offener Punkt\\n"),
-            _checklist_structure_revision("- [x] Offener Punkt\\n"),
+            _checklist_structure_revision("- [ ] Offener Punkt\n"),
+            _checklist_structure_revision("- [x] Offener Punkt\n"),
         )
         self.assertNotEqual(
-            _checklist_structure_revision("- [ ] Offener Punkt\\n"),
-            _checklist_structure_revision("- [ ] Neuer Punkt\\n"),
+            _checklist_structure_revision("- [ ] Offener Punkt\n"),
+            _checklist_structure_revision("- [ ] Neuer Punkt\n"),
         )
 
     def test_markdown_checkbox_rendering_respects_existing_status_and_edit_mode(self):
