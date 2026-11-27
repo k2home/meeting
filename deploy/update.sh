@@ -185,8 +185,13 @@ fi
 if [[ -n "$TARGET_BRANCH" ]]; then
   echo "==> Aktualisiere Quellcode aus Branch $TARGET_BRANCH"
   git -C "$APP_DIR" fetch --prune origin "$TARGET_BRANCH"
+  git -C "$APP_DIR" rev-parse --verify "origin/$TARGET_BRANCH^{commit}" >/dev/null
 else
   git -C "$APP_DIR" fetch --prune
+  if ! git -C "$APP_DIR" merge-base --is-ancestor HEAD '@{u}'; then
+    echo "Update abgebrochen: Der aktuelle Branch kann nicht per Fast-Forward aktualisiert werden." >&2
+    exit 1
+  fi
 fi
 
 # Only discard the local checklist after all preflight checks and the remote
@@ -195,12 +200,11 @@ git -C "$APP_DIR" reset -q HEAD -- "$CHECKLIST_RELATIVE"
 git -C "$APP_DIR" checkout -- "$CHECKLIST_RELATIVE"
 
 if [[ -n "$TARGET_BRANCH" ]]; then
-  CODE_SWITCHED=1
   git -C "$APP_DIR" switch --force-create "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
 else
-  CODE_SWITCHED=1
   git -C "$APP_DIR" merge --ff-only '@{u}'
 fi
+CODE_SWITCHED=1
 # Re-apply local write permissions after Git replaces the checklist during checkout.
 chown meetingapp:www-data "$CHECKLIST_FILE"
 chmod 660 "$CHECKLIST_FILE"
